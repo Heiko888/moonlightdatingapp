@@ -1,0 +1,3 @@
+// ...existing code...
+// TypeScript Migration: checkBrackets.js
+// TODO: Typen ergänzen und ggf. refaktorieren

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hd-app
+  labels:
+    name: hd-app
+    app: human-design
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hd-app-monitoring
+  labels:
+    name: hd-app-monitoring
+    app: monitoring

@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hd-app-backend
+  namespace: hd-app
+  labels:
+    app: hd-app-backend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hd-app-backend
+  template:
+    metadata:
+      labels:
+        app: hd-app-backend
+        version: v1
+    spec:
+      containers:
+      - name: backend
+        image: hd-app-backend:latest
+        ports:
+        - containerPort: 4001
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-config
+              key: NODE_ENV
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-config
+              key: PORT
+        - name: DATABASE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-config
+              key: DATABASE_PATH
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: JWT_SECRET
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: OPENAI_API_KEY
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: SUPABASE_ANON_KEY
+        - name: NASA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: NASA_API_KEY
+        - name: EMAIL_PROVIDER
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: EMAIL_PROVIDER
+        - name: EMAIL_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: EMAIL_API_KEY
+        - name: MAILCHIMP_LIST_ID
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: MAILCHIMP_LIST_ID
+        - name: HUBSPOT_PORTAL_ID
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: HUBSPOT_PORTAL_ID
+        - name: FROM_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: FROM_EMAIL
+        - name: FRONTEND_URL
+          valueFrom:
+            secretKeyRef:
+              name: hd-app-secrets
+              key: FRONTEND_URL
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        imagePullPolicy: Never
+        # volumeMounts:
+        # - name: data-volume
+        #   mountPath: /app/data
+      # volumes:
+      # - name: data-volume
+      #   persistentVolumeClaim:
+      #     claimName: hd-app-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hd-app-backend
+  namespace: hd-app
+  labels:
+    app: hd-app-backend
+spec:
+  selector:
+    app: hd-app-backend
+  ports:
+  - name: http
+    port: 4001
+    targetPort: 4001
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  type: ClusterIP

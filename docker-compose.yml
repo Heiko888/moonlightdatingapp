@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # HD App Backend
+  hd-backend:
+    build: ./backend
+    ports:
+      - "4001:4001"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/hdapp
+      - PORT=4001
+    depends_on:
+      - mongo
+    networks:
+      - hd-network
+
+  # HD App Frontend
+  hd-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4001
+    depends_on:
+      - hd-backend
+    networks:
+      - hd-network
+
+  # MongoDB
+  mongo:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - hd-network
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - hd-network
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_FEATURE_TOGGLES_ENABLE=publicDashboards
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    networks:
+      - hd-network
+
+  # Node Exporter (System Metriken)
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - hd-network
+
+volumes:
+  mongo_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  hd-network:
+    driver: bridge

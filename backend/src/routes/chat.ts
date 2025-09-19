@@ -1,0 +1,467 @@
+import express, { Request, Response } from 'express';
+import { Server as SocketIOServer } from 'socket.io';
+import { createServer } from 'http';
+import { supabase } from '../lib/supabase';
+import fs from 'fs';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
+const router = express.Router();
+
+// WebSocket-Server für Echtzeit-Chat
+let io: SocketIOServer | null = null;
+
+// Chat-Datenbank (JSON-basiert für lokale Entwicklung)
+const chatDbPath = path.join(__dirname, '../../data/chat.json');
+const messagesDbPath = path.join(__dirname, '../../data/messages.json');
+
+// Initialisiere Chat-Datenbank
+function initChatDb() {
+  const dir = path.dirname(chatDbPath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  
+  if (!fs.existsSync(chatDbPath)) {
+    fs.writeFileSync(chatDbPath, JSON.stringify([], null, 2));
+  }
+  
+  if (!fs.existsSync(messagesDbPath)) {
+    fs.writeFileSync(messagesDbPath, JSON.stringify([], null, 2));
+  }
+}
+
+// Lade Chat-Daten
+function loadChats(): Chat[] {
+  try {
+    if (!fs.existsSync(chatDbPath)) {
+      initChatDb();
+    }
+    const data = fs.readFileSync(chatDbPath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Fehler beim Laden der Chat-Daten:', error);
+    return mockChats;
+  }
+}
+
+// Speichere Chat-Daten
+function saveChats(chats: Chat[]): void {
+  try {
+    fs.writeFileSync(chatDbPath, JSON.stringify(chats, null, 2));
+  } catch (error) {
+    console.error('Fehler beim Speichern der Chat-Daten:', error);
+  }
+}
+
+// Lade Nachrichten
+function loadMessages(): Message[] {
+  try {
+    if (!fs.existsSync(messagesDbPath)) {
+      initChatDb();
+    }
+    const data = fs.readFileSync(messagesDbPath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Fehler beim Laden der Nachrichten:', error);
+    return mockMessages;
+  }
+}
+
+// Speichere Nachrichten
+function saveMessages(messages: Message[]): void {
+  try {
+    fs.writeFileSync(messagesDbPath, JSON.stringify(messages, null, 2));
+  } catch (error) {
+    console.error('Fehler beim Speichern der Nachrichten:', error);
+  }
+}
+
+// WebSocket-Setup
+export function setupChatWebSocket(server: any) {
+  io = new SocketIOServer(server, {
+    cors: {
+      origin: ["http://localhost:3000", "http://localhost:3002", "http://localhost:3004"],
+      methods: ["GET", "POST"]
+    }
+  });
+
+  io.on('connection', (socket) => {
+    console.log('🔌 Chat-WebSocket verbunden:', socket.id);
+
+    // Benutzer einem Raum beitreten
+    socket.on('join_chat', (data: { userId: string, chatId: string }) => {
+      socket.join(`chat_${data.chatId}`);
+      socket.join(`user_${data.userId}`);
+      console.log(`👤 Benutzer ${data.userId} ist Chat ${data.chatId} beigetreten`);
+    });
+
+    // Nachricht senden
+    socket.on('send_message', async (data: { chatId: string, senderId: string, receiverId: string, text: string }) => {
+      try {
+        const message: Message = {
+          id: uuidv4(),
+          chat_id: data.chatId,
+          sender_id: data.senderId,
+          receiver_id: data.receiverId,
+          text: data.text,
+          created_at: new Date().toISOString(),
+          is_read: false
+        };
+
+        // Nachricht speichern
+        const messages = loadMessages();
+        messages.push(message);
+        saveMessages(messages);
+
+        // Chat aktualisieren
+        const chats = loadChats();
+        const chatIndex = chats.findIndex(chat => chat.id === data.chatId);
+        if (chatIndex !== -1) {
+          chats[chatIndex].last_message = data.text;
+          chats[chatIndex].last_message_at = message.created_at;
+          chats[chatIndex].updated_at = new Date().toISOString();
+          saveChats(chats);
+        }
+
+        // Nachricht an alle Teilnehmer des Chats senden
+        io?.to(`chat_${data.chatId}`).emit('new_message', message);
+        
+        // Benachrichtigung an Empfänger senden
+        io?.to(`user_${data.receiverId}`).emit('message_notification', {
+          chatId: data.chatId,
+          senderId: data.senderId,
+          text: data.text,
+          timestamp: message.created_at
+        });
+
+        console.log(`💬 Nachricht gesendet in Chat ${data.chatId}`);
+      } catch (error) {
+        console.error('Fehler beim Senden der Nachricht:', error);
+        socket.emit('error', { message: 'Fehler beim Senden der Nachricht' });
+      }
+    });
+
+    // Nachricht als gelesen markieren
+    socket.on('mark_read', (data: { messageId: string, userId: string }) => {
+      try {
+        const messages = loadMessages();
+        const messageIndex = messages.findIndex(msg => msg.id === data.messageId);
+        if (messageIndex !== -1) {
+          messages[messageIndex].is_read = true;
+          saveMessages(messages);
+          
+          // Bestätigung senden
+          socket.emit('message_read', { messageId: data.messageId });
+        }
+      } catch (error) {
+        console.error('Fehler beim Markieren als gelesen:', error);
+      }
+    });
+
+    // Typing-Status
+    socket.on('typing', (data: { chatId: string, userId: string, isTyping: boolean }) => {
+      socket.to(`chat_${data.chatId}`).emit('user_typing', {
+        userId: data.userId,
+        isTyping: data.isTyping
+      });
+    });
+
+    socket.on('disconnect', () => {
+      console.log('🔌 Chat-WebSocket getrennt:', socket.id);
+    });
+  });
+
+  // Initialisiere Datenbank
+  initChatDb();
+}
+
+interface Message {
+  id: string;
+  chat_id: string;
+  sender_id: string;
+  receiver_id: string;
+  text: string;
+  created_at: string;
+  is_read: boolean;
+}
+
+interface Chat {
+  id: string;
+  user1_id: string;
+  user2_id: string;
+  created_at: string;
+  updated_at: string;
+  last_message?: string;
+  last_message_at?: string;
+}
+
+// Mock-Daten für Fallback (falls Supabase nicht verfügbar)
+const mockChats: Chat[] = [
+  {
+    id: '1',
+    user1_id: 'user1',
+    user2_id: 'coach1',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    last_message: 'Hallo! Wie kann ich dir helfen?',
+    last_message_at: new Date().toISOString()
+  }
+];
+
+const mockMessages: Message[] = [
+  {
+    id: '1',
+    chat_id: '1',
+    sender_id: 'coach1',
+    receiver_id: 'user1',
+    text: 'Hallo! Wie kann ich dir helfen?',
+    created_at: new Date().toISOString(),
+    is_read: false
+  },
+  {
+    id: '2',
+    chat_id: '1',
+    sender_id: 'user1',
+    receiver_id: 'coach1',
+    text: 'Ich hätte gerne eine Coaching-Session.',
+    created_at: new Date().toISOString(),
+    is_read: true
+  }
+];
+
+// GET /chat/conversations/:userId - Alle Chats eines Nutzers
+router.get('/conversations/:userId', async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    
+    // Verwende lokale JSON-Datenbank
+    const chats = loadChats();
+    const userChats = chats.filter(chat => 
+      chat.user1_id === userId || chat.user2_id === userId
+    );
+
+    res.json({
+      success: true,
+      chats: userChats
+    });
+  } catch (error) {
+    console.error('Fehler beim Laden der Chats:', error);
+    res.status(500).json({ error: 'Fehler beim Laden der Chats' });
+  }
+});
+
+// GET /chat/messages/:chatId - Nachrichtenverlauf eines Chats
+router.get('/messages/:chatId', async (req: Request, res: Response) => {
+  try {
+    const { chatId } = req.params;
+    
+    // Verwende lokale JSON-Datenbank
+    const messages = loadMessages();
+    const chatMessages = messages.filter(msg => msg.chat_id === chatId);
+
+    res.json({
+      success: true,
+      messages: chatMessages
+    });
+  } catch (error) {
+    console.error('Fehler beim Laden der Nachrichten:', error);
+    res.status(500).json({ error: 'Fehler beim Laden der Nachrichten' });
+  }
+});
+
+// POST /chat/messages - Neue Nachricht senden
+router.post('/messages', async (req: Request, res: Response) => {
+  try {
+    const { chat_id, sender_id, receiver_id, text } = req.body;
+    
+    if (!chat_id || !sender_id || !receiver_id || !text) {
+      return res.status(400).json({ error: 'Alle Felder sind erforderlich' });
+    }
+
+    const newMessage = {
+      chat_id,
+      sender_id,
+      receiver_id,
+      text,
+      created_at: new Date().toISOString(),
+      is_read: false
+    };
+
+    // Versuche Supabase zu verwenden
+    if (supabase) {
+      const { data, error } = await supabase
+        .from('messages')
+        .insert([newMessage])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      // Update chat updated_at
+      await supabase
+        .from('chats')
+        .update({ 
+          updated_at: new Date().toISOString(),
+          last_message: text,
+          last_message_at: new Date().toISOString()
+        })
+        .eq('id', chat_id);
+
+      return res.status(201).json(data);
+    }
+
+    // Fallback: Mock-Daten
+    const mockMessage: Message = {
+      id: Date.now().toString(),
+      ...newMessage
+    };
+    mockMessages.push(mockMessage);
+    res.status(201).json(mockMessage);
+  } catch (error) {
+    console.error('Fehler beim Senden der Nachricht:', error);
+    res.status(500).json({ error: 'Fehler beim Senden der Nachricht' });
+  }
+});
+
+// POST /chat/create - Neuen Chat erstellen
+router.post('/create', async (req: Request, res: Response) => {
+  try {
+    const { user1_id, user2_id } = req.body;
+    
+    if (!user1_id || !user2_id) {
+      return res.status(400).json({ error: 'user1_id und user2_id sind erforderlich' });
+    }
+
+    const newChat = {
+      user1_id,
+      user2_id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    // Versuche Supabase zu verwenden
+    if (supabase) {
+      // Prüfe, ob Chat bereits existiert
+      const { data: existingChat } = await supabase
+        .from('chats')
+        .select('*')
+        .or(`and(user1_id.eq.${user1_id},user2_id.eq.${user2_id}),and(user1_id.eq.${user2_id},user2_id.eq.${user1_id})`)
+        .single();
+
+      if (existingChat) {
+        return res.json(existingChat);
+      }
+
+      const { data, error } = await supabase
+        .from('chats')
+        .insert([newChat])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return res.status(201).json(data);
+    }
+
+    // Fallback: Mock-Daten
+    const mockChat: Chat = {
+      id: Date.now().toString(),
+      ...newChat
+    };
+    mockChats.push(mockChat);
+    res.status(201).json(mockChat);
+  } catch (error) {
+    console.error('Fehler beim Erstellen des Chats:', error);
+    res.status(500).json({ error: 'Fehler beim Erstellen des Chats' });
+  }
+});
+
+// PUT /chat/:chatId/read - Nachrichten als gelesen markieren
+router.put('/:chatId/read', async (req: Request, res: Response) => {
+  try {
+    const { chatId } = req.params;
+    const { user_id } = req.body;
+
+    if (!user_id) {
+      return res.status(400).json({ error: 'user_id ist erforderlich' });
+    }
+
+    // Versuche Supabase zu verwenden
+    if (supabase) {
+      const { error } = await supabase
+        .from('messages')
+        .update({ is_read: true })
+        .eq('chat_id', chatId)
+        .eq('receiver_id', user_id)
+        .eq('is_read', false);
+
+      if (error) throw error;
+      return res.json({ success: true });
+    }
+
+    // Fallback: Mock-Daten
+    mockMessages.forEach(msg => {
+      if (msg.chat_id === chatId && msg.receiver_id === user_id) {
+        msg.is_read = true;
+      }
+    });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Fehler beim Markieren als gelesen:', error);
+    res.status(500).json({ error: 'Fehler beim Markieren als gelesen' });
+  }
+});
+
+// POST /chat/create - Neuen Chat erstellen
+router.post('/create', async (req: Request, res: Response) => {
+  try {
+    const { user1_id, user2_id } = req.body;
+    
+    if (!user1_id || !user2_id) {
+      return res.status(400).json({
+        success: false,
+        error: 'user1_id und user2_id sind erforderlich'
+      });
+    }
+
+    // Prüfe ob Chat bereits existiert
+    const chats = loadChats();
+    const existingChat = chats.find(chat => 
+      (chat.user1_id === user1_id && chat.user2_id === user2_id) ||
+      (chat.user1_id === user2_id && chat.user2_id === user1_id)
+    );
+
+    if (existingChat) {
+      return res.json({
+        success: true,
+        chat: existingChat,
+        message: 'Chat bereits vorhanden'
+      });
+    }
+
+    // Erstelle neuen Chat
+    const newChat: Chat = {
+      id: uuidv4(),
+      user1_id,
+      user2_id,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    chats.push(newChat);
+    saveChats(chats);
+
+    res.json({
+      success: true,
+      chat: newChat
+    });
+  } catch (error) {
+    console.error('Fehler beim Erstellen des Chats:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Fehler beim Erstellen des Chats'
+    });
+  }
+});
+
+export default router;

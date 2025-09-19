@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Backend-API-Tests",
+			"type": "shell",
+			"command": "npx jest --detectOpenHandles --runInBand backend/routes/admin.js",
+			"group": "test"
+		}
+	]
+}

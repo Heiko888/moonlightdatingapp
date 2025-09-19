@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HD App API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; cursor: pointer; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; }
+        .result { background: #f8f9fa; padding: 10px; margin: 10px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>HD App API Test</h1>
+    
+    <div class="section">
+        <h2>1. Registrierung</h2>
+        <input type="text" id="regUsername" placeholder="Benutzername" value="testuser">
+        <input type="email" id="regEmail" placeholder="E-Mail" value="test@example.com">
+        <input type="password" id="regPassword" placeholder="Passwort" value="password123">
+        <button onclick="register()">Registrieren</button>
+        <div id="registerResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>2. Login</h2>
+        <input type="email" id="loginEmail" placeholder="E-Mail" value="test@example.com">
+        <input type="password" id="loginPassword" placeholder="Passwort" value="password123">
+        <button onclick="login()">Anmelden</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>3. Reading erstellen</h2>
+        <input type="text" id="chartName" placeholder="Name" value="Max Mustermann">
+        <input type="date" id="birthDate" value="1990-05-15">
+        <input type="time" id="birthTime" value="14:30">
+        <input type="text" id="birthPlace" placeholder="Geburtsort" value="Berlin, Deutschland">
+        <select id="scope">
+            <option value="Persönlichkeit">Persönlichkeit</option>
+            <option value="Beziehungen">Beziehungen</option>
+            <option value="Karriere">Karriere</option>
+            <option value="Gesundheit">Gesundheit</option>
+            <option value="Spiritualität">Spiritualität</option>
+        </select>
+        <button onclick="createReading()">Reading erstellen</button>
+        <div id="readingResult" class="result"></div>
+    </div>
+
+    <script>
+        let authToken = '';
+
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const response = await fetch('http://localhost:4001/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const result = await response.json();
+                document.getElementById('registerResult').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br>
+                     <strong>Antwort:</strong> <pre>${JSON.stringify(result, null, 2)}</pre>`;
+                
+                if (result.token) {
+                    authToken = result.token;
+                    document.getElementById('loginResult').innerHTML = 
+                        '<strong>Token erhalten!</strong> Sie können sich jetzt anmelden.';
+                }
+            } catch (error) {
+                document.getElementById('registerResult').innerHTML = 
+                    `<strong>Fehler:</strong> ${error.message}`;
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('http://localhost:4001/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+                document.getElementById('loginResult').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br>
+                     <strong>Antwort:</strong> <pre>${JSON.stringify(result, null, 2)}</pre>`;
+                
+                if (result.token) {
+                    authToken = result.token;
+                }
+            } catch (error) {
+                document.getElementById('loginResult').innerHTML = 
+                    `<strong>Fehler:</strong> ${error.message}`;
+            }
+        }
+
+        async function createReading() {
+            if (!authToken) {
+                document.getElementById('readingResult').innerHTML = 
+                    '<strong>Fehler:</strong> Bitte zuerst anmelden!';
+                return;
+            }
+
+            const chartData = {
+                name: document.getElementById('chartName').value,
+                birthDate: document.getElementById('birthDate').value,
+                birthTime: document.getElementById('birthTime').value,
+                birthPlace: document.getElementById('birthPlace').value
+            };
+            const scope = document.getElementById('scope').value;
+
+            try {
+                const response = await fetch('http://localhost:4001/readings', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ chartData, scope })
+                });
+
+                const result = await response.json();
+                document.getElementById('readingResult').innerHTML = 
+                    `<strong>Status:</strong> ${response.status}<br>
+                     <strong>Antwort:</strong> <pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('readingResult').innerHTML = 
+                    `<strong>Fehler:</strong> ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+// ...existing code...
+// TypeScript Migration: importMarkdownToMongo.js
+// TODO: Typen ergänzen und ggf. refaktorieren

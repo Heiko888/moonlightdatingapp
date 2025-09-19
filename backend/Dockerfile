@@ -1,0 +1,21 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Installiere Build-Dependencies für better-sqlite3
+RUN apk add --no-cache python3 make g++
+
+# Kopiere package.json und package-lock.json
+COPY package*.json ./
+
+# Installiere Abhängigkeiten
+RUN npm install --legacy-peer-deps
+
+# Kopiere den Quellcode
+COPY . .
+
+# Exponiere Port 4001
+EXPOSE 4001
+
+# Starte den Entwicklungsserver
+CMD ["npm", "run", "dev"]

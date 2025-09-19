@@ -1,0 +1,3 @@
+// ...existing code...
+// TypeScript Migration: hd-data.js
+// TODO: Typen ergänzen und ggf. refaktorieren

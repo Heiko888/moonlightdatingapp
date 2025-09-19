@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Adminbereich</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body { background: linear-gradient(135deg, #1e1b4b 0%, #7c3aed 100%); min-height: 100vh; }
+    .container { max-width: 950px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 32px #7c3aed44; padding: 40px; }
+    h1 { color: #7c3aed; text-align: center; font-weight: 700; letter-spacing: 1px; }
+    h2 { color: #312e81; margin-top: 32px; font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 32px; background: #f3f0ff; border-radius: 8px; overflow: hidden; }
+    th, td { padding: 12px 16px; border-bottom: 1px solid #e0c3fc; }
+    th { background: #e0c3fc; color: #7c3aed; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .delete-btn { color: #fff; background: linear-gradient(90deg,#eab308 0%,#7c3aed 100%); border: none; border-radius: 6px; padding: 6px 16px; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+    .delete-btn:hover { background: linear-gradient(90deg,#7c3aed 0%,#eab308 100%); }
+    .section { margin-bottom: 48px; }
+    .bi { font-size: 1.2em; vertical-align: middle; margin-right: 6px; }
+    .table-responsive { border-radius: 8px; overflow: hidden; }
+    @media (max-width: 700px) { .container { padding: 10px; } th, td { padding: 8px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-header" style="background:linear-gradient(90deg,#7c3aed 0%,#8ec5fc 100%);padding:32px 0 24px 0;border-radius:18px 18px 0 0;box-shadow:0 4px 24px #7c3aed44;text-align:center;">
+      <img src="https://cdn.jsdelivr.net/gh/lucide-icons/lucide/icons/shield.svg" style="height:48px;margin-bottom:12px;">
+      <h1 style="color:#fff;font-size:2.6em;font-weight:800;letter-spacing:2px;">HD Admin Dashboard</h1>
+      <p style="color:#ede9fe;font-size:1.2em;">Willkommen im Human Design Adminbereich – Übersicht, Kontrolle & Inspiration!</p>
+    </div>
+    <div style="display:flex;gap:24px;justify-content:center;margin:32px 0;flex-wrap:wrap;">
+      <div class="stat-card" style="background:#7c3aed;color:#fff;padding:24px 32px;border-radius:16px;box-shadow:0 2px 12px #7c3aed44;flex:1;text-align:center;min-width:180px;">
+        <i class="bi bi-person-circle" style="font-size:2em;"></i>
+        <div style="font-size:2em;font-weight:700;"><%= users.length %></div>
+        <div style="font-size:1.1em;">User</div>
+      </div>
+      <div class="stat-card" style="background:#8ec5fc;color:#312e81;padding:24px 32px;border-radius:16px;box-shadow:0 2px 12px #8ec5fc44;flex:1;text-align:center;min-width:180px;">
+        <i class="bi bi-stars" style="font-size:2em;"></i>
+        <div style="font-size:2em;font-weight:700;"><%= readings.length %></div>
+        <div style="font-size:1.1em;">Readings</div>
+      </div>
+      <div class="stat-card" style="background:#e0c3fc;color:#7c3aed;padding:24px 32px;border-radius:16px;box-shadow:0 2px 12px #e0c3fc44;flex:1;text-align:center;min-width:180px;">
+        <i class="bi bi-journal-text" style="font-size:2em;"></i>
+        <div style="font-size:2em;font-weight:700;"><%= journals.length %></div>
+        <div style="font-size:1.1em;">Journals</div>
+      </div>
+      <div class="stat-card" style="background:#312e81;color:#fff;padding:24px 32px;border-radius:16px;box-shadow:0 2px 12px #312e8144;flex:1;text-align:center;min-width:180px;">
+        <i class="bi bi-diagram-3" style="font-size:2em;"></i>
+        <div style="font-size:2em;font-weight:700;"><%= charts.length %></div>
+        <div style="font-size:1.1em;">Charts</div>
+      </div>
+    </div>
+    <div class="section" style="margin-bottom:32px;">
+      <style>
+        .api-status-green { color: #16a34a; }
+        .api-status-red { color: #dc2626; }
+      </style>
+      <h2 style="font-size:1.2em;color:#312e81;margin-bottom:12px;"><i class="bi bi-plug"></i> API-Status</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
+        <% apiList.forEach(function(api){ %>
+          <div style="background:#f3f0ff;border-radius:8px;padding:18px;box-shadow:0 2px 8px #e0c3fc;display:flex;flex-direction:column;align-items:center;">
+            <i class="bi bi-server" style="font-size:2em;color:#7c3aed;margin-bottom:8px;"></i>
+            <span style="font-weight:600;color:#312e81;"><%= api.name %></span>
+            <span class="<%= api.status ? 'api-status-green' : 'api-status-red' %>" style="margin-top:8px;">
+              <i class="bi <%= api.status ? 'bi-check-circle-fill' : 'bi-x-circle-fill' %>"></i>
+              <%= api.status ? 'verbunden' : 'nicht verbunden' %>
+            </span>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+    <div class="section">
+      <h2><i class="bi bi-person-circle"></i> User</h2>
+      <div class="table-responsive">
+      <table class="table table-hover">
+        <tr><th>Name</th><th>Email</th><th>Aktion</th></tr>
+        <% users.forEach(function(u){ %>
+          <tr>
+            <td><%= u.username %></td>
+            <td><%= u.email %></td>
+            <td>
+              <form method="POST" action="/admin/user/<%= u._id %>?_method=DELETE" style="display:inline;">
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i> Löschen</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+      </div>
+    </div>
+    <div class="section">
+      <h2><i class="bi bi-stars"></i> Readings</h2>
+      <div class="table-responsive">
+      <table class="table table-hover">
+        <tr><th>User</th><th>Chart</th><th>Text</th><th>Aktion</th></tr>
+        <% readings.forEach(function(r){ %>
+          <tr>
+            <td><%= r.userId %></td>
+            <td><%= r.chartId %></td>
+            <td><%= r.text.slice(0,80) %>...</td>
+            <td>
+              <form method="POST" action="/admin/reading/<%= r._id %>?_method=DELETE" style="display:inline;">
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i> Löschen</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+      </div>
+    </div>
+    <div class="section">
+      <h2><i class="bi bi-journal-text"></i> Journal</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+        <% journals.forEach(function(j){ %>
+          <div style="background: linear-gradient(135deg,#e0c3fc 0%,#8ec5fc 100%); border-radius: 14px; box-shadow: 0 2px 12px #e0c3fc88; padding: 22px; min-width: 260px; flex: 1 1 320px; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+              <i class="bi bi-person-circle" style="font-size:1.3em;color:#7c3aed;margin-right:8px;"></i>
+              <span style="font-weight:600;color:#312e81;">User:</span>
+              <span style="margin-left:6px;color:#7c3aed;"> <%= j.userId %></span>
+            </div>
+            <div style="font-size:1.08em;color:#312e81;margin-bottom:12px;line-height:1.5;font-weight:500;">
+              <i class="bi bi-pencil"></i> <%= j.entry.length > 120 ? j.entry.slice(0,120)+"..." : j.entry %>
+            </div>
+            <form method="POST" action="/admin/journal/<%= j._id %>?_method=DELETE" style="display:inline;">
+              <button type="submit" class="delete-btn"><i class="bi bi-trash"></i> Löschen</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+    <div class="section">
+      <h2><i class="bi bi-diagram-3"></i> Charts</h2>
+      <div class="table-responsive">
+      <table class="table table-hover">
+        <tr><th>User</th><th>Typ</th><th>Strategie</th><th>Aktion</th></tr>
+        <% charts.forEach(function(c){ %>
+          <tr>
+            <td><%= c.userId %></td>
+            <td><%= c.type %></td>
+            <td><%= c.strategy %></td>
+            <td>
+              <form method="POST" action="/admin/chart/<%= c._id %>?_method=DELETE" style="display:inline;">
+                <button type="submit" class="delete-btn"><i class="bi bi-trash"></i> Löschen</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

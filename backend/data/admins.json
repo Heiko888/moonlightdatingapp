@@ -1,0 +1,10 @@
+[
+  {
+    "id": "1",
+    "username": "admin",
+    "email": "admin@hdapp.com",
+    "password": "$2b$12$kpsGs6whIvWOli5d5IQf0eEpxAQ7V81mqyvy4I0J12UGa/zpJXM/u",
+    "role": "admin",
+    "created_at": "2025-09-06T00:05:56.396Z"
+  }
+]

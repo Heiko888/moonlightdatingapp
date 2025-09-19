@@ -1,0 +1,78 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hd-app-ingress
+  namespace: hd-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: hd-app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hd-app-frontend
+            port:
+              number: 3000
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: hd-app-backend
+            port:
+              number: 4001
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-ingress
+  namespace: hd-app-monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: monitoring-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Monitoring Access'
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: monitoring.local
+    http:
+      paths:
+      - path: /grafana
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 3000
+      - path: /prometheus
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus
+            port:
+              number: 9090
+      - path: /alertmanager
+        pathType: Prefix
+        backend:
+          service:
+            name: alertmanager
+            port:
+              number: 9093
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: monitoring-auth
+  namespace: hd-app-monitoring
+type: Opaque
+data:
+  # admin:admin (base64 encoded)
+  auth: YWRtaW46JGFwcjEkSDh2TjVYVjEkL1F6VjJ2VzF1VjF2VjF2VjE=

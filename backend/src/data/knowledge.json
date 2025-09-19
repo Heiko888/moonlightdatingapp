@@ -1,0 +1,110 @@
+[
+  {
+    "id": "a952973d-f185-4a1e-a667-d06d365c0e7d",
+    "title": "Grundlagen des Human Design",
+    "content": "Human Design ist ein System, das Astrologie, I-Ching, Kabbalah und Chakren kombiniert, um deine einzigartige energetische Blaupause zu enthüllen. Es wurde 1987 von Ra Uru Hu entwickelt und bietet eine praktische Anleitung für das Leben nach deiner wahren Natur.",
+    "category": "Grundlagen",
+    "tags": [
+      "Human Design",
+      "Energetik",
+      "Persönlichkeit",
+      "Astrologie"
+    ],
+    "isFavorite": false,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T03:00:20.485Z",
+    "author": "System",
+    "readTime": "5 Min",
+    "difficulty": "Anfänger"
+  },
+  {
+    "id": "0e6193cb-95a3-4300-82a9-ff775909353e",
+    "title": "Die vier Human Design Typen",
+    "content": "Es gibt vier Haupttypen: Manifestoren (8% der Bevölkerung), Generatoren (70%), Projektoren (20%) und Reflektoren (1%). Jeder Typ hat eine spezifische Strategie und Autorität, die als Leitfaden für Entscheidungen dient. Generatoren warten auf die Antwort, Projektoren warten auf die Einladung, Manifestoren informieren und Reflektoren warten einen Mondzyklus ab.",
+    "category": "Typen",
+    "tags": [
+      "Typen",
+      "Strategie",
+      "Autorität",
+      "Entscheidungen"
+    ],
+    "isFavorite": false,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T02:59:16.857Z",
+    "author": "System",
+    "readTime": "8 Min",
+    "difficulty": "Anfänger"
+  },
+  {
+    "id": "951bf569-5ee3-44a4-8ed1-05584ae29eaa",
+    "title": "Mondphasen und Energie",
+    "content": "Die verschiedenen Mondphasen beeinflussen unsere Energie und unser Wohlbefinden. Neumond ist ideal für neue Projekte, zunehmender Mond für Wachstum, Vollmond für Höhepunkte und abnehmender Mond für Loslassen. Lerne, wie du mit den Mondzyklen im Einklang leben und deine Energie optimal nutzen kannst.",
+    "category": "Mondkalender",
+    "tags": [
+      "Mond",
+      "Energie",
+      "Zyklus",
+      "Astrologie"
+    ],
+    "isFavorite": true,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T02:59:16.857Z",
+    "author": "System",
+    "readTime": "6 Min",
+    "difficulty": "Mittel"
+  },
+  {
+    "id": "8f99d4d9-4b96-402b-88c9-83d564323521",
+    "title": "Chakren und Human Design",
+    "content": "Die neun Zentren im Human Design entsprechen den traditionellen Chakren und zeigen, wo du definiert oder offen bist. Definierte Zentren sind deine Stärken, offene Zentren zeigen, wo du von anderen beeinflusst wirst. Das Verständnis deiner Zentren hilft dir, authentisch zu leben und Manipulation zu vermeiden.",
+    "category": "Chakren",
+    "tags": [
+      "Chakren",
+      "Zentren",
+      "Energie",
+      "Authentizität"
+    ],
+    "isFavorite": false,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T02:59:16.857Z",
+    "author": "System",
+    "readTime": "7 Min",
+    "difficulty": "Mittel"
+  },
+  {
+    "id": "16775289-849f-4938-8ce1-47bdc72fec40",
+    "title": "Profile im Human Design",
+    "content": "Die Profile (1/3, 1/4, 2/4, 2/5, 3/5, 3/6, 4/6, 4/1, 5/1, 5/2, 6/2, 6/3) zeigen deine Lebensaufgabe und wie du am besten mit anderen interagierst. Jedes Profil hat spezifische Eigenschaften: 1/3 ist der Forscher, 2/4 der Hermit, 3/5 der Märtyrer, 4/6 der Opportunist, 5/1 der Generalist und 6/3 das Vorbild.",
+    "category": "Profile",
+    "tags": [
+      "Profile",
+      "Lebensaufgabe",
+      "Interaktion",
+      "Persönlichkeit"
+    ],
+    "isFavorite": true,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T02:59:16.857Z",
+    "author": "System",
+    "readTime": "10 Min",
+    "difficulty": "Fortgeschritten"
+  },
+  {
+    "id": "8270cac6-4394-4d19-85cc-128cc50ef5f8",
+    "title": "Autoritäten verstehen",
+    "content": "Die Autorität ist dein innerer Kompass für Entscheidungen. Es gibt verschiedene Autoritäten: Sakrale (für Generatoren), Splenische (für Projektoren), Solar Plexus (emotional), Ego (willensbasiert), G-Zentrum (magnetisch), Kehle (projiziert) und Keine (für Reflektoren). Lerne, deiner Autorität zu vertrauen.",
+    "category": "Autorität",
+    "tags": [
+      "Autorität",
+      "Entscheidungen",
+      "Intuition",
+      "Strategie"
+    ],
+    "isFavorite": false,
+    "createdAt": "2025-09-07T02:59:16.857Z",
+    "updatedAt": "2025-09-07T02:59:16.857Z",
+    "author": "System",
+    "readTime": "9 Min",
+    "difficulty": "Fortgeschritten"
+  }
+]

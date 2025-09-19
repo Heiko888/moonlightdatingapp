@@ -1,0 +1,3 @@
+// ...existing code...
+// TypeScript Migration: testAdmins.js
+// TODO: Typen ergänzen und ggf. refaktorieren

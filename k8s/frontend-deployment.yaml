@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hd-app-frontend
+  namespace: hd-app
+  labels:
+    app: hd-app-frontend
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hd-app-frontend
+  template:
+    metadata:
+      labels:
+        app: hd-app-frontend
+        version: v1
+    spec:
+      containers:
+      - name: frontend
+        image: hd-app-frontend:latest
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: NEXT_PUBLIC_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-frontend-config
+              key: NEXT_PUBLIC_API_URL
+        - name: NEXT_PUBLIC_APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-frontend-config
+              key: NEXT_PUBLIC_APP_NAME
+        - name: NEXT_PUBLIC_VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: hd-app-frontend-config
+              key: NEXT_PUBLIC_VERSION
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hd-app-frontend
+  namespace: hd-app
+  labels:
+    app: hd-app-frontend
+spec:
+  selector:
+    app: hd-app-frontend
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  type: ClusterIP

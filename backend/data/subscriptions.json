@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "userId": "1",
+    "packageId": "vip",
+    "status": "active",
+    "startDate": "2025-09-07T18:48:56.774Z",
+    "endDate": "2025-10-07T23:18:37.962Z",
+    "autoRenew": true,
+    "paymentMethod": "credit_card",
+    "billingCycle": "on",
+    "createdAt": "2025-09-07T18:48:56.774Z",
+    "updatedAt": "2025-09-07T23:18:37.962Z"
+  },
+  {
+    "id": "8fbe1926-c67d-4dec-93c0-b96a081805f1",
+    "userId": "1757272698184",
+    "packageId": "vip",
+    "status": "active",
+    "startDate": "2025-09-07T19:18:24.441Z",
+    "endDate": "2025-10-07T19:43:15.051Z",
+    "autoRenew": true,
+    "paymentMethod": "credit_card",
+    "billingCycle": "monthly",
+    "createdAt": "2025-09-07T19:18:24.441Z",
+    "updatedAt": "2025-09-07T19:43:15.051Z"
+  },
+  {
+    "id": "dce66199-6e39-4aed-84a8-8c1748accca0",
+    "userId": "1757279617733",
+    "packageId": "basic",
+    "status": "active",
+    "startDate": "2025-09-07T23:19:11.812Z",
+    "endDate": "2025-10-07T23:56:08.700Z",
+    "autoRenew": true,
+    "paymentMethod": "credit_card",
+    "billingCycle": "monthly",
+    "createdAt": "2025-09-07T23:19:11.812Z",
+    "updatedAt": "2025-09-07T23:56:08.700Z"
+  },
+  {
+    "id": "e36a4c8b-fd0f-4892-8a0a-01f24d9b6ac2",
+    "userId": "1757466114397",
+    "packageId": "basic",
+    "status": "active",
+    "startDate": "2025-09-10T01:07:50.037Z",
+    "endDate": "2025-10-10T01:07:50.037Z",
+    "autoRenew": true,
+    "paymentMethod": "credit_card",
+    "billingCycle": "monthly",
+    "createdAt": "2025-09-10T01:07:50.037Z",
+    "updatedAt": "2025-09-10T01:07:50.037Z"
+  },
+  {
+    "id": "b720bee0-fbbb-43e0-ad25-e0f9093f993d",
+    "userId": "1757590492207",
+    "packageId": "basic",
+    "status": "active",
+    "startDate": "2025-09-12T01:17:45.302Z",
+    "endDate": "2025-10-12T01:17:45.302Z",
+    "autoRenew": true,
+    "paymentMethod": "credit_card",
+    "billingCycle": "monthly",
+    "createdAt": "2025-09-12T01:17:45.302Z",
+    "updatedAt": "2025-09-12T01:17:45.302Z"
+  }
+]

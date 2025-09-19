@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1",
+    "username": "testuser",
+    "email": "test@hdapp.com",
+    "password_hash": "$2b$10$VTw83epJERlda7BPnmB0j.qOLRyVXG.Gz9BgoNzqaloRBQ24AYb2a",
+    "name": "Test User",
+    "firstName": "Test",
+    "lastName": "User",
+    "subscriptionPlan": "basic",
+    "subscriptionStatus": "active",
+    "created_at": "2025-09-13T23:23:58.923Z",
+    "updated_at": "2025-09-13T23:23:58.928Z"
+  },
+  {
+    "id": "2",
+    "username": "premiumuser",
+    "email": "premium@hdapp.com",
+    "password_hash": "$2b$10$4yvkrDYjEUbr9xjkAdQ6z.DVDjgkWYUt2vAqoiE7483bGHS7VJ6aO",
+    "name": "Premium User",
+    "firstName": "Premium",
+    "lastName": "User",
+    "subscriptionPlan": "premium",
+    "subscriptionStatus": "active",
+    "created_at": "2025-09-13T23:23:59.282Z",
+    "updated_at": "2025-09-13T23:23:59.282Z"
+  },
+  {
+    "id": "3",
+    "username": "vipuser",
+    "email": "vip@hdapp.com",
+    "password_hash": "$2b$10$z6O80sd9R37s9TJEhY8L.efu26EmtmSDaMcU8lbIn/EJSpNj/mnmy",
+    "name": "VIP User",
+    "firstName": "VIP",
+    "lastName": "User",
+    "subscriptionPlan": "vip",
+    "subscriptionStatus": "active",
+    "created_at": "2025-09-13T23:23:59.655Z",
+    "updated_at": "2025-09-13T23:23:59.655Z"
+  }
+]

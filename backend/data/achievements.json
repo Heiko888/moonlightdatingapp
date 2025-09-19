@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "userId": "user1",
+    "name": "Chart-Meister",
+    "description": "Vollständige Chart-Analyse abgeschlossen",
+    "icon": "BarChart3",
+    "tier": "basic",
+    "earned": true,
+    "earnedDate": "2024-11-15T00:00:00Z",
+    "progress": 100,
+    "maxProgress": 100
+  },
+  {
+    "id": "2",
+    "userId": "user1",
+    "name": "Mond-Experte",
+    "description": "30 Tage Mondkalender-Tracking",
+    "icon": "Moon",
+    "tier": "basic",
+    "earned": true,
+    "earnedDate": "2024-12-01T00:00:00Z",
+    "progress": 100,
+    "maxProgress": 100
+  },
+  {
+    "id": "3",
+    "userId": "user1",
+    "name": "Community-Star",
+    "description": "50 Community-Beiträge",
+    "icon": "Users",
+    "tier": "premium",
+    "earned": true,
+    "earnedDate": "2024-11-20T00:00:00Z",
+    "progress": 100,
+    "maxProgress": 100
+  },
+  {
+    "id": "4",
+    "userId": "user1",
+    "name": "VIP-Pionier",
+    "description": "Erste VIP-Features genutzt",
+    "icon": "Crown",
+    "tier": "vip",
+    "earned": true,
+    "earnedDate": "2024-10-01T00:00:00Z",
+    "progress": 100,
+    "maxProgress": 100
+  },
+  {
+    "id": "5",
+    "userId": "user1",
+    "name": "Coaching-Profi",
+    "description": "10 Coaching-Sessions",
+    "icon": "MessageCircle",
+    "tier": "vip",
+    "earned": false,
+    "progress": 5,
+    "maxProgress": 10
+  },
+  {
+    "id": "6",
+    "userId": "user1",
+    "name": "Analytics-Guru",
+    "description": "100 Chart-Analysen",
+    "icon": "TrendingUp",
+    "tier": "premium",
+    "earned": false,
+    "progress": 67,
+    "maxProgress": 100
+  }
+]

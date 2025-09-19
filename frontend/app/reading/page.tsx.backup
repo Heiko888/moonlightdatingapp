@@ -1,0 +1,1487 @@
+"use client";
+import React, { useState, useEffect } from 'react';
+import { 
+  Container, 
+  Typography, 
+  Card, 
+  CardContent, 
+  Box, 
+  Button, 
+  Paper, 
+  Chip, 
+  Grid,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  CircularProgress,
+  Alert,
+  Tabs,
+  Tab,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormLabel,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon
+} from '@mui/material';
+import { motion } from 'framer-motion';
+import { 
+  BookOpen, 
+  Sparkles, 
+  Star, 
+  ArrowRight, 
+  ArrowLeft,
+  CheckCircle, 
+  Brain, 
+  Heart, 
+  Zap, 
+  Eye,
+  Loader2,
+  FileText,
+  User,
+  Calendar,
+  Target,
+  Lightbulb,
+  TrendingUp,
+  Shield,
+  Users,
+  Briefcase,
+  Home
+} from 'lucide-react';
+
+// Einfache AnimatedStars Komponente ohne styled-jsx
+const AnimatedStars = () => {
+  const positions = [
+    { left: '10%', top: '15%' }, { left: '85%', top: '25%' }, { left: '45%', top: '35%' },
+    { left: '75%', top: '45%' }, { left: '20%', top: '55%' }, { left: '90%', top: '65%' },
+    { left: '30%', top: '75%' }, { left: '60%', top: '85%' }, { left: '15%', top: '95%' },
+    { left: '80%', top: '5%' }, { left: '50%', top: '15%' }, { left: '25%', top: '25%' },
+    { left: '70%', top: '35%' }, { left: '40%', top: '45%' }, { left: '95%', top: '55%' },
+    { left: '35%', top: '65%' }, { left: '65%', top: '75%' }, { left: '10%', top: '85%' },
+    { left: '55%', top: '95%' }, { left: '20%', top: '5%' }
+  ];
+
+  return (
+    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+      {positions.map((pos, i) => (
+        <Box
+          key={i}
+          sx={{
+            position: 'absolute',
+            width: '3px',
+            height: '3px',
+            background: '#FFD700',
+            borderRadius: '50%',
+            boxShadow: '0 0 8px #FFD700',
+            left: pos.left,
+            top: pos.top,
+            opacity: 0.8,
+            transform: 'scale(1)',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              opacity: 1,
+              transform: 'scale(1.2)',
+            }
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
+
+import Link from 'next/link';
+
+interface ReadingForm {
+  type: string;
+  focus: string;
+  question: string;
+  currentChallenge: string;
+  goal: string;
+}
+
+interface ChartData {
+  id: string;
+  type: string;
+  profile: string;
+  authority: string;
+  strategy: string;
+  centers: Record<string, unknown>[];
+  channels: Record<string, unknown>[];
+  gates: Record<string, unknown>[];
+  planets: Record<string, unknown>[];
+  customSvg?: string; // Neue Eigenschaft für hochgeladene SVG
+}
+
+interface GeneratedReading {
+  summary: string;
+  insights: string[];
+  recommendations: string[];
+  energyTips: string[];
+  nextSteps: string[];
+}
+
+export default function ReadingPage() {
+  const [activeSection, setActiveSection] = useState(0);
+  const [showReadingForm, setShowReadingForm] = useState(false);
+  const [readingForm, setReadingForm] = useState<ReadingForm>({
+    type: '',
+    focus: '',
+    question: '',
+    currentChallenge: '',
+    goal: ''
+  });
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedReading, setGeneratedReading] = useState<GeneratedReading | null>(null);
+  const [userChartData, setUserChartData] = useState<ChartData | null>(null);
+  const [uploadedSvg, setUploadedSvg] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const readingTypes = [
+    {
+      id: 'general',
+      icon: <Brain size={32} />,
+      title: "Allgemeines Reading",
+      description: "Eine umfassende Analyse deines Human Design Charts",
+      color: "#8b5cf6"
+    },
+    {
+      id: 'relationships',
+      icon: <Heart size={32} />,
+      title: "Beziehungs-Reading",
+      description: "Fokus auf Partnerschaft, Familie und soziale Verbindungen",
+      color: "#ef4444"
+    },
+    {
+      id: 'career',
+      icon: <Briefcase size={32} />,
+      title: "Karriere-Reading",
+      description: "Berufliche Entwicklung und Arbeitsenergie",
+      color: "#f59e0b"
+    },
+    {
+      id: 'life-purpose',
+      icon: <Target size={32} />,
+      title: "Lebenszweck-Reading",
+      description: "Deine Mission und höchstes Potenzial",
+      color: "#10b981"
+    },
+    {
+      id: 'energy',
+      icon: <Zap size={32} />,
+      title: "Energie-Reading",
+      description: "Optimierung deiner Energie und Strategie",
+      color: "#06b6d4"
+    },
+    {
+      id: 'challenge',
+      icon: <Shield size={32} />,
+      title: "Herausforderungs-Reading",
+      description: "Umgang mit schwierigen Situationen",
+      color: "#8b5a2b"
+    }
+  ];
+
+  const focusAreas = {
+    general: ['Energie & Vitalität', 'Entscheidungsfindung', 'Persönliche Entwicklung', 'Authentizität'],
+    relationships: ['Partnerschaft', 'Familie', 'Freundschaften', 'Soziale Interaktionen'],
+    career: ['Berufliche Entwicklung', 'Arbeitsumgebung', 'Talente & Fähigkeiten', 'Führung'],
+    'life-purpose': ['Lebensmission', 'Höchstes Potenzial', 'Persönliche Entwicklung', 'Spiritualität'],
+    energy: ['Energie-Management', 'Strategie', 'Autorität', 'Zentren'],
+    challenge: ['Aktuelle Herausforderungen', 'Stress-Management', 'Wachstum', 'Transformation']
+  };
+
+  const readingBenefits = [
+    "Erhalte klare Antworten auf deine wichtigsten Lebensfragen",
+    "Verstehe deine natürlichen Talente und wie du sie entwickelst",
+    "Lerne deine optimalen Entscheidungsmethoden kennen",
+    "Entdecke deine Beziehungsdynamiken und Kompatibilität",
+    "Finde deine Berufung und deinen Lebenszweck",
+    "Optimiere deine Energie und dein Wohlbefinden"
+  ];
+
+  // Lade Chart-Daten beim Start
+  useEffect(() => {
+    loadUserChartData();
+  }, []);
+
+  const loadUserChartData = async () => {
+    try {
+      const response = await fetch('http://localhost:4001/charts');
+      if (response.ok) {
+        const charts = await response.json();
+        if (charts.length > 0) {
+          setUserChartData(charts[charts.length - 1]);
+        }
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden der Chart-Daten:', error);
+    }
+  };
+
+  const handleReadingFormChange = (field: keyof ReadingForm, value: string) => {
+    setReadingForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const generateReading = async () => {
+    if (!userChartData && !uploadedSvg) {
+      alert('Bitte erstelle zuerst dein Human Design Chart im Profil-Bereich oder lade eine SVG-Datei hoch.');
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    try {
+      const response = await fetch('http://localhost:4001/reading/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chartData: userChartData,
+          readingForm: readingForm
+        }),
+      });
+
+      if (response.ok) {
+        const reading = await response.json();
+        setGeneratedReading(reading);
+        setShowReadingForm(false);
+      } else {
+        // Fallback: Mock-Reading generieren
+        const mockReading = generateMockReading();
+        setGeneratedReading(mockReading);
+        setShowReadingForm(false);
+      }
+    } catch (error) {
+      console.error('Fehler beim Generieren des Readings:', error);
+      // Fallback: Mock-Reading generieren
+      const mockReading = generateMockReading();
+      setGeneratedReading(mockReading);
+      setShowReadingForm(false);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const generateMockReading = (): GeneratedReading => {
+    const type = readingForm.type;
+    const mockReadings = {
+      general: {
+        summary: "Basierend auf deinem Human Design Chart bist du ein energetisch reicher Mensch mit großem Potenzial für persönliches Wachstum und Transformation.",
+        insights: [
+          "Deine definierten Zentren geben dir eine stabile energetische Grundlage",
+          "Du hast natürliche Talente in der Kommunikation und Führung",
+          "Deine Strategie 'Warten und Reagieren' ist dein Schlüssel zum Erfolg"
+        ],
+        recommendations: [
+          "Vertraue deiner inneren Autorität bei Entscheidungen",
+          "Nutze deine natürlichen Talente bewusst",
+          "Lebe deine Strategie konsequent"
+        ],
+        energyTips: [
+          "Beginne den Tag mit 20 Minuten Meditation",
+          "Achte auf deine energetischen Grenzen",
+          "Nutze die Mondphasen für wichtige Entscheidungen"
+        ],
+        nextSteps: [
+          "Erstelle ein tägliches Ritual basierend auf deiner Strategie",
+          "Identifiziere deine wichtigsten Talente und entwickle sie weiter",
+          "Lerne deine energetischen Zyklen kennen"
+        ]
+      },
+      relationships: {
+        summary: "Dein Human Design zeigt eine natürliche Fähigkeit für tiefe, bedeutungsvolle Beziehungen und authentische Verbindungen.",
+        insights: [
+          "Du bist ein natürlicher Magnet für die richtigen Menschen",
+          "Deine emotionale Autorität hilft dir, echte Verbindungen zu erkennen",
+          "Du brauchst Zeit, um Beziehungen zu entwickeln"
+        ],
+        recommendations: [
+          "Vertraue deinem Bauchgefühl bei neuen Bekanntschaften",
+          "Gib Beziehungen Zeit, sich natürlich zu entwickeln",
+          "Sei authentisch in deinen Interaktionen"
+        ],
+        energyTips: [
+          "Umgebe dich mit Menschen, die deine Energie respektieren",
+          "Lerne, energetische Grenzen zu setzen",
+          "Nutze deine natürliche Fähigkeit zur Empathie"
+        ],
+        nextSteps: [
+          "Identifiziere die Menschen, die deine Energie unterstützen",
+          "Entwickle gesunde Grenzen in Beziehungen",
+          "Lerne, deine emotionale Autorität zu nutzen"
+        ]
+      },
+      career: {
+        summary: "Dein Human Design offenbart einzigartige Talente und Fähigkeiten, die perfekt für deine berufliche Entwicklung geeignet sind.",
+        insights: [
+          "Du hast natürliche Führungsqualitäten",
+          "Deine Kommunikationsfähigkeiten sind eine deiner Stärken",
+          "Du brauchst Autonomie und kreative Freiheit"
+        ],
+        recommendations: [
+          "Suche nach Rollen, die deine Talente nutzen",
+          "Entwickle deine Führungsfähigkeiten weiter",
+          "Schaffe dir Raum für kreative Entfaltung"
+        ],
+        energyTips: [
+          "Arbeite in Umgebungen, die deine Energie unterstützen",
+          "Nutze deine natürlichen Talente bewusst",
+          "Achte auf deine energetischen Grenzen"
+        ],
+        nextSteps: [
+          "Identifiziere deine wichtigsten beruflichen Talente",
+          "Suche nach Mentoren, die deine Entwicklung unterstützen",
+          "Entwickle eine klare berufliche Vision"
+        ]
+      }
+    };
+
+    return mockReadings[type as keyof typeof mockReadings] || mockReadings.general;
+  };
+
+  const resetReading = () => {
+    setGeneratedReading(null);
+    setReadingForm({
+      type: '',
+      focus: '',
+      question: '',
+      currentChallenge: '',
+      goal: ''
+    });
+  };
+
+  const handleSvgUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      const svgContent = e.target?.result as string;
+      setUploadedSvg(svgContent);
+      setIsUploading(false);
+      
+      // Aktualisiere userChartData mit der hochgeladenen SVG
+      if (userChartData) {
+        setUserChartData({
+          ...userChartData,
+          customSvg: svgContent
+        });
+      }
+    };
+    
+    reader.readAsText(file);
+  };
+
+  const removeUploadedSvg = () => {
+    setUploadedSvg(null);
+    if (userChartData) {
+      setUserChartData({
+        ...userChartData,
+        customSvg: undefined
+      });
+    }
+  };
+
+  return (
+    <Box sx={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <AnimatedStars />
+      
+      <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Box sx={{
+            position: 'relative',
+            textAlign: 'center',
+            mb: 10,
+            p: { xs: 4, md: 8 },
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px)',
+            borderRadius: 16,
+            border: '1px solid rgba(255,255,255,0.2)',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+            overflow: 'hidden'
+          }}>
+            {/* Floating Elements */}
+            <Box sx={{
+              position: 'absolute',
+              top: '20%',
+              left: '10%',
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1))',
+              animation: 'float 6s ease-in-out infinite',
+              '@keyframes float': {
+                '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                '50%': { transform: 'translateY(-20px) rotate(180deg)' }
+              }
+            }} />
+            <Box sx={{
+              position: 'absolute',
+              top: '60%',
+              right: '15%',
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(139,92,246,0.1))',
+              animation: 'float 8s ease-in-out infinite reverse',
+              '@keyframes float': {
+                '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                '50%': { transform: 'translateY(-15px) rotate(-180deg)' }
+              }
+            }} />
+            
+            <Box sx={{ position: 'relative', zIndex: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3, mb: 4 }}>
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1))',
+                  border: '2px solid rgba(255,215,0,0.5)',
+                  animation: 'pulse 2s ease-in-out infinite'
+                }}>
+                  <Sparkles size={40} color="#FFD700" />
+                </Box>
+                <Typography variant="h1" sx={{
+                  fontWeight: 900,
+                  textShadow: '0 4px 20px rgba(0,0,0,0.6)',
+                  fontSize: { xs: '2.5rem', md: '4rem' },
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  ✨ Dein Reading
+                </Typography>
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 80,
+                  height: 80,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1))',
+                  border: '2px solid rgba(255,215,0,0.5)',
+                  animation: 'pulse 2s ease-in-out infinite 1s'
+                }}>
+                  <Sparkles size={40} color="#FFD700" />
+                </Box>
+              </Box>
+              
+              <Typography variant="h3" sx={{
+                color: '#ffffff',
+                fontWeight: 600,
+                maxWidth: 900,
+                mx: 'auto',
+                lineHeight: 1.4,
+                mb: 4,
+                fontSize: { xs: '1.5rem', md: '2rem' }
+              }}>
+                Entdecke die Magie deiner energetischen Blaupause
+              </Typography>
+              
+              <Typography variant="h6" sx={{
+                color: 'rgba(255,255,255,0.9)',
+                fontWeight: 400,
+                maxWidth: 700,
+                mx: 'auto',
+                lineHeight: 1.6,
+                fontSize: { xs: '1rem', md: '1.2rem' }
+              }}>
+                Tauche ein in die Tiefen deines Human Design und erhalte transformative Einblicke, die dein Leben verändern werden
+              </Typography>
+              
+              <Box sx={{ mt: 6 }}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => setShowReadingForm(true)}
+                  sx={{
+                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                    color: '#1f2937',
+                    px: 6,
+                    py: 2,
+                    borderRadius: 8,
+                    fontWeight: 700,
+                    fontSize: '1.2rem',
+                    boxShadow: '0 8px 25px rgba(255,215,0,0.4)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+                      transform: 'translateY(-3px)',
+                      boxShadow: '0 12px 35px rgba(255,215,0,0.6)'
+                    }
+                  }}
+                >
+                  <Sparkles size={24} style={{ marginRight: 12 }} />
+                  Reading starten
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </motion.div>
+
+        {/* Reading Types */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Typography variant="h2" sx={{ 
+              background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 800, 
+              mb: 3,
+              fontSize: { xs: '2rem', md: '3rem' }
+            }}>
+              🎯 Wähle dein Reading
+            </Typography>
+            <Typography variant="h6" sx={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              fontWeight: 400,
+              maxWidth: 600,
+              mx: 'auto'
+            }}>
+              Jedes Reading ist ein einzigartiger Schlüssel zu deiner inneren Weisheit
+            </Typography>
+          </Box>
+          
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
+            gap: 4, 
+            mb: 8 
+          }}>
+            {readingTypes.map((reading, index) => (
+              <Box key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                >
+                  <Card sx={{
+                    position: 'relative',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: 8,
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+                    height: '100%',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                    '&:hover': {
+                      transform: 'translateY(-12px) scale(1.02)',
+                      boxShadow: '0 25px 50px rgba(255,215,0,0.3)',
+                      borderColor: '#FFD700',
+                      background: 'rgba(255, 255, 255, 0.15)'
+                    }
+                  }} onClick={() => {
+                    setReadingForm(prev => ({ ...prev, type: reading.id }));
+                    setShowReadingForm(true);
+                  }}>
+                    <CardContent sx={{ p: 5, textAlign: 'center', position: 'relative' }}>
+                      <Box sx={{ position: 'relative', zIndex: 1 }}>
+                        <Box sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: 100,
+                          height: 100,
+                          borderRadius: '50%',
+                          background: 'rgba(255,215,0,0.2)',
+                          border: '3px solid rgba(255,215,0,0.3)',
+                          margin: '0 auto 24px',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            transform: 'scale(1.1) rotate(5deg)',
+                            background: 'rgba(255,215,0,0.3)'
+                          }
+                        }}>
+                          <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 70,
+                            height: 70,
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                            color: '#1f2937',
+                            boxShadow: '0 8px 25px rgba(255,215,0,0.4)'
+                          }}>
+                            {reading.icon}
+                          </Box>
+                        </Box>
+                        
+                        <Typography variant="h4" sx={{
+                          color: '#ffffff',
+                          fontWeight: 700,
+                          mb: 3,
+                          fontSize: { xs: '1.5rem', md: '1.8rem' }
+                        }}>
+                          {reading.title}
+                        </Typography>
+                        
+                        <Typography sx={{
+                          color: 'rgba(255,255,255,0.9)',
+                          lineHeight: 1.7,
+                          mb: 4,
+                          fontSize: '1rem',
+                          fontWeight: 500
+                        }}>
+                          {reading.description}
+                        </Typography>
+                        
+                        <Button
+                          variant="contained"
+                          size="large"
+                          sx={{
+                            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                            color: '#1f2937',
+                            px: 4,
+                            py: 1.5,
+                            borderRadius: 8,
+                            fontWeight: 600,
+                            fontSize: '1rem',
+                            boxShadow: '0 8px 25px rgba(255,215,0,0.3)',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              background: `linear-gradient(135deg, ${reading.color}80, ${reading.color})`,
+                              transform: 'translateY(-2px)',
+                              boxShadow: `0 12px 35px ${reading.color}50`
+                            }
+                          }}
+                        >
+                          <Sparkles size={20} style={{ marginRight: 8 }} />
+                          Starten
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Box>
+            ))}
+          </Box>
+        </motion.div>
+
+        {/* Benefits */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          <Card sx={{
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px)',
+            borderRadius: 8,
+            border: '1px solid rgba(255,255,255,0.2)',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+            mb: 6
+          }}>
+            <CardContent sx={{ p: 6 }}>
+              <Typography variant="h3" sx={{ 
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textAlign: 'center', 
+                fontWeight: 700, 
+                mb: 4 
+              }}>
+                Was du von einem Reading erhältst
+              </Typography>
+
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 3 }}>
+                {readingBenefits.map((benefit, index) => (
+                  <Box key={index}>
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                        <CheckCircle size={24} color="#FFD700" />
+                        <Typography sx={{
+                          color: 'rgba(255,255,255,0.9)',
+                          fontSize: '1.1rem'
+                        }}>
+                          {benefit}
+                        </Typography>
+                      </Box>
+                    </motion.div>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Reading Form Dialog */}
+        <Dialog 
+          open={showReadingForm} 
+          onClose={() => setShowReadingForm(false)}
+          maxWidth="lg"
+          fullWidth
+          PaperProps={{
+            sx: {
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: 16,
+              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+              overflow: 'hidden'
+            }
+          }}
+        >
+          <DialogTitle sx={{ 
+            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+            color: '#1f2937', 
+            fontWeight: 700, 
+            textAlign: 'center',
+            borderBottom: 'none',
+            pb: 4,
+            pt: 4
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3, mb: 2 }}>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 70,
+                height: 70,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.3)',
+                border: '2px solid rgba(255,255,255,0.4)',
+                boxShadow: '0 8px 25px rgba(0,0,0,0.2)'
+              }}>
+                <FileText size={32} color="#1f2937" />
+              </Box>
+              <Typography variant="h3" sx={{ 
+                color: '#1f2937',
+                fontWeight: 800,
+                fontSize: { xs: '1.8rem', md: '2.2rem' }
+              }}>
+                ✨ {readingTypes.find(r => r.id === readingForm.type)?.title}
+              </Typography>
+            </Box>
+            <Typography variant="body1" sx={{ 
+              color: 'rgba(31,41,55,0.9)', 
+              fontWeight: 400,
+              fontSize: { xs: '1rem', md: '1.2rem' }
+            }}>
+              Personalisiere dein Reading für maximale Relevanz
+            </Typography>
+          </DialogTitle>
+          
+          <DialogContent sx={{ pt: 6, pb: 6 }}>
+            <Box sx={{
+              background: 'linear-gradient(135deg, rgba(118,75,162,0.05) 0%, rgba(102,126,234,0.03) 100%)',
+              borderRadius: 4,
+              p: 4,
+              mb: 4,
+              border: '1px solid rgba(118,75,162,0.1)'
+            }}>
+              <Typography variant="h5" sx={{ 
+                color: '#1f2937', 
+                mb: 2, 
+                textAlign: 'center',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2
+              }}>
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #7c3aed, #6366f1)',
+                  color: '#fff'
+                }}>
+                  <Target size={20} />
+                </Box>
+                Deine persönlichen Details
+              </Typography>
+              <Typography variant="body1" sx={{ 
+                color: '#6b7280', 
+                textAlign: 'center',
+                fontWeight: 500
+              }}>
+                Je mehr du uns erzählst, desto personalisierter und relevanter wird dein Reading
+              </Typography>
+            </Box>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <Box>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <FormLabel sx={{ 
+                    color: '#1f2937', 
+                    mb: 2, 
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5
+                  }}>
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #7c3aed, #6366f1)',
+                      color: '#fff'
+                    }}>
+                      <Target size={16} />
+                    </Box>
+                    Fokus-Bereich
+                  </FormLabel>
+                  <Select
+                    value={readingForm.focus}
+                    onChange={(e) => handleReadingFormChange('focus', e.target.value)}
+                    sx={{
+                      bgcolor: '#ffffff',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: 3,
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                      transition: 'all 0.3s ease',
+                      '& .MuiSelect-select': {
+                        color: '#1f2937',
+                        fontWeight: 600,
+                        py: 2,
+                        px: 3
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        border: 'none'
+                      },
+                      '&:hover': {
+                        borderColor: '#7c3aed',
+                        boxShadow: '0 8px 25px rgba(124,58,237,0.15)'
+                      },
+                      '&.Mui-focused': {
+                        borderColor: '#7c3aed',
+                        boxShadow: '0 8px 25px rgba(124,58,237,0.25)'
+                      }
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          bgcolor: '#ffffff',
+                          border: '2px solid #e5e7eb',
+                          borderRadius: 3,
+                          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                          mt: 1
+                        }
+                      }
+                    }}
+                  >
+                    {readingForm.type && focusAreas[readingForm.type as keyof typeof focusAreas]?.map((area) => (
+                      <MenuItem key={area} value={area} sx={{ 
+                        color: '#1f2937',
+                        fontWeight: 500,
+                        py: 1.5,
+                        '&:hover': {
+                          bgcolor: '#f3f4f6'
+                        }
+                      }}>
+                        {area}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              
+              <Box>
+                <TextField
+                    fullWidth
+                    label="Deine wichtigste Frage"
+                    value={readingForm.question}
+                    onChange={(e) => handleReadingFormChange('question', e.target.value)}
+                    multiline
+                    rows={4}
+                    placeholder="Was möchtest du über dich selbst erfahren?"
+                    sx={{ 
+                      mb: 4,
+                      '& .MuiOutlinedInput-root': {
+                        bgcolor: '#ffffff',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: 3,
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                        transition: 'all 0.3s ease',
+                        '& fieldset': {
+                          border: 'none'
+                        },
+                        '&:hover': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.15)'
+                        },
+                        '&.Mui-focused': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.25)'
+                        }
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: '#6b7280',
+                        fontWeight: 600,
+                        fontSize: '1rem'
+                      },
+                      '& .MuiInputBase-input': {
+                        color: '#1f2937',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                        '&::placeholder': {
+                          color: '#9ca3af',
+                          opacity: 1
+                        }
+                      }
+                    }}
+                  />
+                </Box>
+              </Grid>
+              
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    fullWidth
+                    label="Deine größte Herausforderung"
+                    value={readingForm.currentChallenge}
+                    onChange={(e) => handleReadingFormChange('currentChallenge', e.target.value)}
+                    multiline
+                    rows={4}
+                    placeholder="Was ist deine größte Herausforderung im Moment?"
+                    sx={{ 
+                      mb: 4,
+                      '& .MuiOutlinedInput-root': {
+                        bgcolor: '#ffffff',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: 3,
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                        transition: 'all 0.3s ease',
+                        '& fieldset': {
+                          border: 'none'
+                        },
+                        '&:hover': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.15)'
+                        },
+                        '&.Mui-focused': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.25)'
+                        }
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: '#6b7280',
+                        fontWeight: 600,
+                        fontSize: '1rem'
+                      },
+                      '& .MuiInputBase-input': {
+                        color: '#1f2937',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                        '&::placeholder': {
+                          color: '#9ca3af',
+                          opacity: 1
+                        }
+                      }
+                    }}
+                  />
+                </Box>
+              </Grid>
+              
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    fullWidth
+                    label="Dein Ziel"
+                    value={readingForm.goal}
+                    onChange={(e) => handleReadingFormChange('goal', e.target.value)}
+                    multiline
+                    rows={4}
+                    placeholder="Was ist dein wichtigstes Ziel?"
+                    sx={{ 
+                      mb: 4,
+                      '& .MuiOutlinedInput-root': {
+                        bgcolor: '#ffffff',
+                        border: '2px solid #e5e7eb',
+                        borderRadius: 3,
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                        transition: 'all 0.3s ease',
+                        '& fieldset': {
+                          border: 'none'
+                        },
+                        '&:hover': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.15)'
+                        },
+                        '&.Mui-focused': {
+                          borderColor: '#7c3aed',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.25)'
+                        }
+                      },
+                      '& .MuiInputLabel-root': {
+                        color: '#6b7280',
+                        fontWeight: 600,
+                        fontSize: '1rem'
+                      },
+                      '& .MuiInputBase-input': {
+                        color: '#1f2937',
+                        fontWeight: 500,
+                        fontSize: '1rem',
+                        '&::placeholder': {
+                          color: '#9ca3af',
+                          opacity: 1
+                        }
+                      }
+                    }}
+                  />
+                </Box>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <FormLabel sx={{ 
+                    color: '#1f2937', 
+                    mb: 2, 
+                    fontSize: '1.1rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5
+                  }}>
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #7c3aed, #6366f1)',
+                      color: '#fff'
+                    }}>
+                      <FileText size={16} />
+                    </Box>
+                    Dein Human Design Chart (SVG)
+                  </FormLabel>
+                  <input
+                    type="file"
+                    accept="image/svg+xml"
+                    onChange={handleSvgUpload}
+                    style={{ display: 'none' }}
+                    id="svg-upload-input"
+                  />
+                  <label htmlFor="svg-upload-input">
+                    <Button
+                      variant="outlined"
+                      component="span"
+                      sx={{
+                        borderColor: '#7c3aed',
+                        color: '#7c3aed',
+                        px: 4,
+                        py: 1.5,
+                        borderRadius: 3,
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        borderWidth: 2,
+                        transition: 'all 0.3s ease',
+                        '&:hover': { 
+                          borderColor: '#6366f1', 
+                          bgcolor: 'rgba(124,58,237,0.05)',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 8px 25px rgba(124,58,237,0.2)'
+                        }
+                      }}
+                    >
+                      {uploadedSvg ? 'SVG hochgeladen' : 'SVG hochladen'}
+                      {isUploading && (
+                        <CircularProgress size={20} sx={{ ml: 2 }} />
+                      )}
+                    </Button>
+                  </label>
+                                     {uploadedSvg && (
+                     <Box sx={{ mt: 2 }}>
+                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#7c3aed', mb: 2 }}>
+                         <CheckCircle size={20} />
+                         <Typography variant="body2">SVG hochgeladen</Typography>
+                         <Button
+                           size="small"
+                           onClick={removeUploadedSvg}
+                           sx={{
+                             ml: 1,
+                             color: '#7c3aed',
+                             '&:hover': {
+                               bgcolor: 'rgba(124,58,237,0.05)'
+                             }
+                           }}
+                         >
+                           Entfernen
+                         </Button>
+                       </Box>
+                       
+                       {/* SVG Vorschau */}
+                       <Box sx={{
+                         border: '2px solid rgba(124,58,237,0.2)',
+                         borderRadius: 2,
+                         p: 2,
+                         bgcolor: 'rgba(124,58,237,0.02)',
+                         maxHeight: 200,
+                         overflow: 'auto'
+                       }}>
+                         <Typography variant="caption" sx={{ color: '#6b7280', mb: 1, display: 'block' }}>
+                           Vorschau deines Human Design Charts:
+                         </Typography>
+                         <div 
+                           dangerouslySetInnerHTML={{ __html: uploadedSvg }}
+                           style={{
+                             width: '100%',
+                             height: 'auto',
+                             maxWidth: '100%'
+                           }}
+                         />
+                       </Box>
+                     </Box>
+                   )}
+                </FormControl>
+              </Grid>
+            </Grid>
+          </DialogContent>
+          
+          <DialogActions sx={{ p: 6, gap: 4, justifyContent: 'center' }}>
+            <Button 
+              onClick={() => setShowReadingForm(false)}
+              variant="outlined"
+              size="large"
+              sx={{ 
+                borderColor: '#7c3aed', 
+                color: '#7c3aed',
+                px: 6,
+                py: 2,
+                borderRadius: 4,
+                fontWeight: 600,
+                fontSize: '1.1rem',
+                borderWidth: 2,
+                transition: 'all 0.3s ease',
+                '&:hover': { 
+                  borderColor: '#6366f1', 
+                  bgcolor: 'rgba(124,58,237,0.05)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(124,58,237,0.2)'
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <ArrowLeft size={20} />
+                Abbrechen
+              </Box>
+            </Button>
+            <Button 
+              onClick={generateReading}
+              disabled={!readingForm.focus || !readingForm.question || isGenerating}
+              variant="contained"
+              size="large"
+              sx={{
+                background: 'linear-gradient(135deg, #7c3aed 0%, #6366f1 100%)',
+                color: '#ffffff',
+                px: 8,
+                py: 2,
+                borderRadius: 4,
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                boxShadow: '0 8px 25px rgba(124,58,237,0.3)',
+                transition: 'all 0.3s ease',
+                '&:hover': { 
+                  background: 'linear-gradient(135deg, #6366f1 0%, #7c3aed 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 35px rgba(124,58,237,0.4)'
+                },
+                '&:disabled': { 
+                  background: 'rgba(156,163,175,0.5)',
+                  color: 'rgba(31,41,55,0.5)',
+                  transform: 'none',
+                  boxShadow: 'none'
+                }
+              }}
+            >
+              {isGenerating ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Loader2 size={24} style={{ animation: 'spin 1s linear infinite' }} />
+                  <span>Reading generieren...</span>
+                </Box>
+              ) : (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Sparkles size={24} />
+                  <span>✨ Reading generieren</span>
+                </Box>
+              )}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Generated Reading Dialog */}
+        <Dialog 
+          open={!!generatedReading} 
+          onClose={() => setGeneratedReading(null)}
+          maxWidth="lg"
+          fullWidth
+          PaperProps={{
+            sx: {
+              background: 'linear-gradient(135deg, rgba(118,75,162,0.95) 0%, rgba(102,126,234,0.9) 100%)',
+              borderRadius: 4,
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(254,243,199,0.2)',
+              boxShadow: '0 25px 50px rgba(0,0,0,0.3)',
+              maxHeight: '90vh'
+            }
+          }}
+        >
+          <DialogTitle sx={{ 
+            color: '#fef3c7', 
+            fontWeight: 700, 
+            textAlign: 'center',
+            borderBottom: '2px solid rgba(254,243,199,0.2)',
+            pb: 3
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 60,
+                height: 60,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(254,243,199,0.2) 0%, rgba(254,243,199,0.1) 100%)',
+                border: '2px solid rgba(254,243,199,0.3)'
+              }}>
+                <Lightbulb size={28} color="#fef3c7" />
+              </Box>
+              <Typography variant="h4" sx={{ color: '#fef3c7' }}>
+                Dein persönliches Reading
+              </Typography>
+            </Box>
+          </DialogTitle>
+          
+          <DialogContent sx={{ pt: 3 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
+              <Box>
+                <Card sx={{
+                  bgcolor: 'rgba(254,243,199,0.1)',
+                  border: '1px solid rgba(254,243,199,0.2)',
+                  borderRadius: 2,
+                  backdropFilter: 'blur(10px)',
+                  p: 3
+                }}>
+                  <Typography variant="h6" sx={{ color: '#fef3c7', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Eye size={20} />
+                    Zusammenfassung
+                  </Typography>
+                  <Typography sx={{ color: 'rgba(254,243,199,0.9)', lineHeight: 1.6 }}>
+                    {generatedReading?.summary}
+                  </Typography>
+                </Card>
+              </Box>
+              
+              <Box>
+                <Card sx={{
+                  bgcolor: 'rgba(254,243,199,0.1)',
+                  border: '1px solid rgba(254,243,199,0.2)',
+                  borderRadius: 2,
+                  backdropFilter: 'blur(10px)',
+                  p: 3
+                }}>
+                  <Typography variant="h6" sx={{ color: '#fef3c7', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Target size={20} />
+                    Empfehlungen
+                  </Typography>
+                  <List dense>
+                    {generatedReading?.recommendations.map((rec, index) => (
+                      <ListItem key={index} sx={{ px: 0 }}>
+                        <ListItemIcon sx={{ minWidth: 32 }}>
+                          <CheckCircle size={16} color="#fef3c7" />
+                        </ListItemIcon>
+                        <ListItemText 
+                          primary={rec} 
+                          sx={{ color: 'rgba(254,243,199,0.9)' }}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Card>
+              </Box>
+              
+              <Box>
+                <Card sx={{
+                  bgcolor: 'rgba(254,243,199,0.1)',
+                  border: '1px solid rgba(254,243,199,0.2)',
+                  borderRadius: 2,
+                  backdropFilter: 'blur(10px)',
+                  p: 3
+                }}>
+                  <Typography variant="h6" sx={{ color: '#fef3c7', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Zap size={20} />
+                    Energie-Tipps
+                  </Typography>
+                  <List dense>
+                    {generatedReading?.energyTips.map((tip, index) => (
+                      <ListItem key={index} sx={{ px: 0 }}>
+                        <ListItemIcon sx={{ minWidth: 32 }}>
+                          <Sparkles size={16} color="#fef3c7" />
+                        </ListItemIcon>
+                        <ListItemText 
+                          primary={tip} 
+                          sx={{ color: 'rgba(254,243,199,0.9)' }}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Card>
+              </Box>
+              
+              <Box>
+                <Card sx={{
+                  bgcolor: 'rgba(254,243,199,0.1)',
+                  border: '1px solid rgba(254,243,199,0.2)',
+                  borderRadius: 2,
+                  backdropFilter: 'blur(10px)',
+                  p: 3
+                }}>
+                  <Typography variant="h6" sx={{ color: '#fef3c7', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TrendingUp size={20} />
+                    Nächste Schritte
+                  </Typography>
+                  <List dense>
+                    {generatedReading?.nextSteps.map((step, index) => (
+                      <ListItem key={index} sx={{ px: 0 }}>
+                        <ListItemIcon sx={{ minWidth: 32 }}>
+                          <ArrowRight size={16} color="#fef3c7" />
+                        </ListItemIcon>
+                        <ListItemText 
+                          primary={step} 
+                          sx={{ color: 'rgba(254,243,199,0.9)' }}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Card>
+              </Box>
+            </Box>
+          </DialogContent>
+          
+          <DialogActions sx={{ p: 4, gap: 3, justifyContent: 'center' }}>
+            <Button 
+              onClick={resetReading}
+              variant="outlined"
+              size="large"
+              sx={{ 
+                borderColor: 'rgba(254,243,199,0.5)', 
+                color: '#fef3c7',
+                px: 4,
+                py: 1.5,
+                borderRadius: 3,
+                fontWeight: 600,
+                '&:hover': { 
+                  borderColor: '#fef3c7', 
+                  bgcolor: 'rgba(254,243,199,0.1)',
+                  transform: 'translateY(-2px)'
+                }
+              }}
+            >
+              Neues Reading
+            </Button>
+            <Button 
+              onClick={() => setGeneratedReading(null)}
+              variant="contained"
+              size="large"
+              sx={{
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                color: '#1f2937',
+                px: 6,
+                py: 1.5,
+                borderRadius: 3,
+                fontWeight: 700,
+                boxShadow: '0 8px 25px rgba(254,243,199,0.3)',
+                '&:hover': { 
+                  background: 'linear-gradient(135deg, #fde68a 0%, #fef3c7 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 30px rgba(254,243,199,0.4)'
+                }
+              }}
+            >
+              Schließen
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h4" sx={{ 
+              color: '#fef3c7', 
+              fontWeight: 700, 
+              mb: 4 
+            }}>
+              Bereit für dein persönliches Reading?
+            </Typography>
+            <Button
+              onClick={() => setShowReadingForm(true)}
+              variant="contained"
+              size="large"
+              sx={{
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                color: '#1f2937',
+                fontWeight: 700,
+                px: 6,
+                py: 2,
+                borderRadius: 3,
+                fontSize: '1.2rem',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #fde68a 0%, #fef3c7 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 30px rgba(254,243,199,0.3)'
+                }
+              }}
+            >
+              Reading starten <ArrowRight size={24} style={{ marginLeft: 8 }} />
+            </Button>
+          </Box>
+        </motion.div>
+      </Container>
+    </Box>
+  );
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1",
+    "userId": "user1",
+    "type": "vip_exclusive",
+    "title": "VIP-Exklusiv Event",
+    "description": "Teilnahme am exklusiven Human Design Workshop",
+    "timestamp": "2024-12-10T14:30:00Z",
+    "icon": "Crown",
+    "tier": "vip",
+    "points": 50
+  },
+  {
+    "id": "2",
+    "userId": "user1",
+    "type": "coaching_session",
+    "title": "1:1 Coaching Session",
+    "description": "Persönliche Beratung mit Britta Müller",
+    "timestamp": "2024-12-09T10:00:00Z",
+    "icon": "Users",
+    "tier": "vip",
+    "points": 25
+  },
+  {
+    "id": "3",
+    "userId": "user1",
+    "type": "advanced_analysis",
+    "title": "Erweiterte Chart-Analyse",
+    "description": "Tiefe Analyse deines Human Design Charts",
+    "timestamp": "2024-12-08T16:45:00Z",
+    "icon": "BarChart3",
+    "tier": "premium",
+    "points": 15
+  },
+  {
+    "id": "4",
+    "userId": "user1",
+    "type": "moon_tracking",
+    "title": "Mondkalender-Eintrag",
+    "description": "Neuer Eintrag im VIP-Mondkalender",
+    "timestamp": "2024-12-07T20:15:00Z",
+    "icon": "Moon",
+    "tier": "basic",
+    "points": 5
+  }
+]

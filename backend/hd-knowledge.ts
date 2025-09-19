@@ -1,0 +1,3 @@
+// ...existing code...
+// TypeScript Migration: hd-knowledge.js
+// TODO: Typen ergänzen und ggf. refaktorieren

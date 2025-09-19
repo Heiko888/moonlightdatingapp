@@ -1,0 +1,34 @@
+# Grafana Cloud Stack Configuration
+# Human Design App - Moonlight App
+
+# Prometheus Configuration
+prometheus:
+  url: "https://prometheus-prod-24-prod-eu-west-2.grafana.net"
+  username: "your-prometheus-username"
+  password: "your-prometheus-password"
+  remote_write:
+    url: "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"
+    basic_auth:
+      username: "your-prometheus-username"
+      password: "your-prometheus-password"
+
+# Loki Configuration
+loki:
+  url: "https://logs-prod-012.grafana.net"
+  username: "your-loki-username"
+  password: "your-loki-password"
+  push_url: "https://logs-prod-012.grafana.net/loki/api/v1/push"
+
+# Tempo Configuration
+tempo:
+  url: "https://tempo-prod-10-prod-eu-west-2.grafana.net"
+  username: "your-tempo-username"
+  password: "your-tempo-password"
+  otlp_endpoint: "https://otlp-gateway-prod-eu-west-2.grafana.net"
+
+# Application Configuration
+app:
+  name: "human-design-app"
+  environment: "production"
+  version: "1.0.0"
+  instance: "moonlight-app"
