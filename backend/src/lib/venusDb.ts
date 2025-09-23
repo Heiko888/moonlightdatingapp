@@ -1,12 +1,13 @@
-import Database from 'better-sqlite3';
+// import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.join(process.cwd(), 'data', 'venus.db');
-const db = new Database(dbPath);
+// const dbPath = path.join(process.cwd(), 'data', 'venus.db');
+// const db = new Database(dbPath);
 
 // Venus-Datenbank initialisieren
 export function initVenusDatabase() {
-  console.log('[VENUS-DB] Initialisiere Venus-Datenbank...');
+  console.log('[VENUS-DB] SQLite deaktiviert - verwende nur Supabase');
+  return; // Früher beenden
   
   try {
     // Venus-Grundinformationen Tabelle

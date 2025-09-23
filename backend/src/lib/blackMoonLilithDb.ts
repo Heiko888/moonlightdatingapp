@@ -1,12 +1,12 @@
-import Database from 'better-sqlite3';
+// import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.join(process.cwd(), 'blackMoonLilith.db');
-let db: Database.Database;
+// const dbPath = path.join(process.cwd(), 'blackMoonLilith.db');
+// let db: Database.Database;
 
 export function initBlackMoonLilithDatabase() {
-  try {
-    console.log('[BML-DB] Initialisiere Black Moon Lilith Datenbank...');
+  console.log('[BML-DB] SQLite deaktiviert - verwende nur Supabase');
+  return; // Früher beenden
     
     db = new Database(dbPath);
     

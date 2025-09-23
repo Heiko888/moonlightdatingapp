@@ -1,12 +1,14 @@
-import Database from 'better-sqlite3';
+// import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.join(__dirname, '../../data/hd-app.db');
-const db = new Database(dbPath);
+// SQLite deaktiviert für ARM64-Kompatibilität
+// const dbPath = path.join(__dirname, '../../data/hd-app.db');
+// const db = new Database(dbPath);
 
 // Datenbank initialisieren
 export function initLocalDatabase() {
-  console.log('[LOCAL-DB] Initialisiere lokale SQLite-Datenbank...');
+  console.log('[LOCAL-DB] SQLite deaktiviert - verwende nur Supabase');
+  return; // Früher beenden
   
   // Users Table
   db.exec(`

@@ -1,12 +1,13 @@
-import Database from 'better-sqlite3';
+// import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.join(__dirname, '../../data/lilith.db');
-const db = new Database(dbPath);
+// const dbPath = path.join(__dirname, '../../data/lilith.db');
+// const db = new Database(dbPath);
 
 // Lilith-Datenbank initialisieren
 export function initLilithDatabase() {
-  console.log('[LILITH-DB] Initialisiere Lilith-Datenbank...');
+  console.log('[LILITH-DB] SQLite deaktiviert - verwende nur Supabase');
+  return; // Früher beenden
   
   // Lilith Info Table - Grundinformationen
   db.exec(`
