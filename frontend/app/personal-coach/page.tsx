@@ -72,7 +72,7 @@ import {
   VideoOff,
   Settings
 } from 'lucide-react';
-import AccessControl from '@/lib/subscription/accessControl';
+import AccessControl from '@/components/AccessControl';
 
 interface Coach {
   id: string;
@@ -371,7 +371,7 @@ export default function PersonalCoachPage() {
   };
 
   return (
-    <AccessControl requiredPackage="vip">
+    <AccessControl path="/personal-coach">
       <Box sx={{ 
         minHeight: '100vh', 
         background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',

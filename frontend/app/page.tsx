@@ -2468,7 +2468,7 @@ Magische Beziehungen
           
           <Button
             component={Link}
-            href="/chart"
+            href="/register"
             variant="contained"
             size="large"
             endIcon={<ArrowRight />}

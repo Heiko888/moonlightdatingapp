@@ -25,7 +25,7 @@ import testDataRoutes from './routes/test-data';
 import geocodingRoutes from './routes/geocoding';
 import dashboardRoutes from './routes/dashboard';
 import lilithRoutes from './routes/lilith';
-import { prometheusMiddleware } from './monitoring/prometheus';
+import { prometheusMiddleware, getMetrics } from './monitoring/prometheus';
 import register from './monitoring/prometheus';
 import { supabase } from './lib/supabase';
 import { initLocalDatabase, localDb } from './lib/localDb';
@@ -75,28 +75,8 @@ async function main() {
   // Prometheus Metriken-Endpoint
   app.get('/metrics', async (_req, res) => {
     try {
-      res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
-      
-      // Einfache Metriken für HD App
-      const metrics = [
-        '# HELP http_requests_total Total number of HTTP requests',
-        '# TYPE http_requests_total counter',
-        'http_requests_total{method="GET",route="/",status="200"} 1',
-        'http_requests_total{method="GET",route="/health",status="200"} 1',
-        '',
-        '# HELP hd_app_users_total Total number of registered users',
-        '# TYPE hd_app_users_total gauge',
-        'hd_app_users_total 0',
-        '',
-        '# HELP hd_app_charts_generated_total Total number of charts generated',
-        '# TYPE hd_app_charts_generated_total counter',
-        'hd_app_charts_generated_total 0',
-        '',
-        '# HELP hd_app_matches_total Total number of matches',
-        '# TYPE hd_app_matches_total counter',
-        'hd_app_matches_total 0'
-      ].join('\n');
-      
+      res.set('Content-Type', register.contentType);
+      const metrics = await getMetrics();
       res.end(metrics);
     } catch (error) {
       console.error('Fehler beim Abrufen der Metriken:', error);
@@ -114,19 +94,29 @@ async function main() {
   });
 
   // Health Check
+  // Health Check Route
   app.get('/health', async (_req, res) => {
     try {
-      res.json({
+      const healthStatus = {
         status: 'healthy',
-        database: 'sqlite-local',
-        timestamp: new Date().toISOString()
-      });
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        version: process.env.npm_package_version || '1.0.0',
+        environment: process.env.NODE_ENV || 'development',
+        services: {
+          database: 'sqlite-local',
+          memory: {
+            heapUsed: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
+            heapTotal: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`
+          }
+        }
+      };
+      res.status(200).json(healthStatus);
     } catch (error) {
-      res.status(500).json({
+      res.status(503).json({
         status: 'unhealthy',
-        database: 'error',
-        error: (error as Error).message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });

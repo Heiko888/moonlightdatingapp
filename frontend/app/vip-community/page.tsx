@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { 
   Box, 
   Container,
@@ -12,14 +13,8 @@ import {
   Button,
   Chip,
   Avatar,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Paper,
   IconButton,
-  Badge,
-  Alert,
   Tabs,
   Tab,
   Dialog,
@@ -27,9 +22,7 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Divider,
-  Fab,
-  Tooltip
+  Fab
 } from '@mui/material';
 import { 
   Crown, 
@@ -38,28 +31,16 @@ import {
   Calendar,
   MessageCircle, 
   Plus,
-  Bell,
   Award,
   Heart,
   Share2,
-  Filter,
-  Search,
   Clock,
-  CheckCircle,
-  AlertCircle,
-  Info,
   TrendingUp,
-  Eye,
   ThumbsUp,
-  Comment,
-  Send,
-  MoreVert,
   Bookmark,
-  Flag,
-  UserPlus,
   Settings
 } from 'lucide-react';
-import AccessControl from '@/lib/subscription/accessControl';
+import AccessControl from '@/components/AccessControl';
 
 interface VIPPost {
   id: string;
@@ -117,7 +98,11 @@ export default function VIPCommunityPage() {
   const [events, setEvents] = useState<VIPEvent[]>([]);
   const [groups, setGroups] = useState<VIPGroup[]>([]);
   const [showCreatePost, setShowCreatePost] = useState(false);
-  const [newPost, setNewPost] = useState({
+  const [newPost, setNewPost] = useState<{
+    content: string;
+    category: 'business' | 'dating' | 'spiritual' | 'general';
+    tags: string;
+  }>({
     content: '',
     category: 'general',
     tags: ''
@@ -332,7 +317,7 @@ export default function VIPCommunityPage() {
       likes: 0,
       comments: 0,
       shares: 0,
-      category: newPost.category as any,
+      category: newPost.category,
       tags: newPost.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
       isLiked: false,
       isBookmarked: false
@@ -364,7 +349,7 @@ export default function VIPCommunityPage() {
   };
 
   return (
-    <AccessControl requiredPackage="vip">
+    <AccessControl path="/vip-community">
     <Box sx={{ 
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
@@ -498,7 +483,7 @@ export default function VIPCommunityPage() {
                                 </Typography>
                               </Box>
                               <IconButton sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                                <MoreVert size={20} />
+                                <Settings size={20} />
                               </IconButton>
                             </Box>
 
@@ -507,11 +492,12 @@ export default function VIPCommunityPage() {
                             </Typography>
 
                             {post.image && (
-                              <Box sx={{ mb: 2, borderRadius: 2, overflow: 'hidden' }}>
-                                <img 
+                              <Box sx={{ mb: 2, borderRadius: 2, overflow: 'hidden', position: 'relative', width: '100%', height: '200px' }}>
+                                <Image 
                                   src={post.image} 
                                   alt="Post" 
-                                  style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                                  fill
+                                  style={{ objectFit: 'cover' }}
                                 />
                               </Box>
                             )}
@@ -543,7 +529,7 @@ export default function VIPCommunityPage() {
                               </Typography>
 
                               <IconButton sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                                <Comment size={20} />
+                                <MessageCircle size={20} />
                               </IconButton>
                               <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                                 {post.comments}
@@ -593,11 +579,12 @@ export default function VIPCommunityPage() {
                             boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)'
                           }
                         }}>
-                          <Box sx={{ position: 'relative' }}>
-                            <img 
+                          <Box sx={{ position: 'relative', width: '100%', height: '200px' }}>
+                            <Image 
                               src={event.image} 
                               alt={event.title}
-                              style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                              fill
+                              style={{ objectFit: 'cover' }}
                             />
                             <Chip 
                               label={event.category.toUpperCase()} 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { Box, Container, Typography, TextField, Button, Card, CardContent, Alert, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
 import { UserPlus, User, Lock, Mail, Crown, Zap, Star } from 'lucide-react';
@@ -8,7 +8,7 @@ import AnimatedStars from '../../components/AnimatedStars';
 import AnimatedMoon from '../../components/AnimatedMoon';
 import { smartRedirect } from '../../lib/utils/navigation';
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
@@ -639,5 +639,24 @@ export default function RegisterPage() {
         </motion.div>
       </Container>
     </Box>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <Box sx={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white'
+      }}>
+        <Typography variant="h4">Lade...</Typography>
+      </Box>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 }

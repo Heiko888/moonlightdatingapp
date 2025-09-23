@@ -1,263 +1,206 @@
 "use client";
 import React, { useState } from 'react';
-import { Box, Container, Typography, Button, Grid, Card, CardContent, Switch, FormControlLabel, TextField, Tabs, Tab } from '@mui/material';
+import { 
+  Box, 
+  Container, 
+  Typography, 
+  Button, 
+  Grid, 
+  Card, 
+  CardContent, 
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Alert,
+  Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField
+} from '@mui/material';
 import { motion } from 'framer-motion';
-import { Star, User, Heart, Brain, Crown, Target, Eye, Save, Download } from 'lucide-react';
+import { 
+  Star, 
+  User, 
+  Heart, 
+  Brain, 
+  Crown, 
+  Target, 
+  Eye, 
+  Save, 
+  Download, 
+  Play,
+  Info,
+  CheckCircle,
+  ArrowRight,
+  Sparkles,
+  BookOpen,
+  Settings
+} from 'lucide-react';
 
-interface CenterData {
-  defined: boolean;
-  color: string;
-  gates: string[];
-}
-
-interface ChartData {
-  hdType: string;
+interface ChartTemplate {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
   profile: string;
   authority: string;
   strategy: string;
-  centers: {
-    [key: string]: CenterData;
-  };
-  channels: {
-    [key: string]: {
-      active: boolean;
-      from: string;
-      to: string;
-      description: string;
+  definedCenters: string[];
+  activeChannels: string[];
       color: string;
-    };
-  };
-  gates: {
-    [key: string]: {
-      active: boolean;
-      center: string;
-      description: string;
-      color: string;
-    };
-  };
-  planets: {
-    [key: string]: {
-      name: string;
-      symbol: string;
-      position: number;
-      gate: string;
-      line: number;
-      color: string;
-      description: string;
-    };
-  };
 }
 
-export default function ChartEditorPage() {
-  const [activeTab, setActiveTab] = useState(0);
-  const [chartData, setChartData] = useState<ChartData>({
-    hdType: 'Manifesting Generator',
-    profile: '5/1',
+const chartTemplates: ChartTemplate[] = [
+  {
+    id: 'manifestor',
+    name: 'Manifestor',
+    description: 'Der Initiator - bringt Dinge in Bewegung',
+    type: 'Manifestor',
+    profile: '4/1',
+    authority: 'Splenic',
+    strategy: 'Inform',
+    definedCenters: ['head', 'ajna', 'throat', 'g', 'spleen', 'root'],
+    activeChannels: ['1-8', '2-14', '10-20', '20-34'],
+    color: '#ef4444'
+  },
+  {
+    id: 'generator',
+    name: 'Generator',
+    description: 'Der Lebenskraft - antwortet und manifestiert',
+    type: 'Generator',
+    profile: '2/4',
     authority: 'Sacral',
     strategy: 'Wait to Respond',
-    centers: {
-      head: { defined: true, color: '#fbbf24', gates: ['1', '2', '3'] },
-      ajna: { defined: true, color: '#8b5cf6', gates: ['4', '5', '6'] },
-      throat: { defined: false, color: '#06b6d4', gates: [] },
-      g: { defined: true, color: '#10b981', gates: ['7', '8', '9'] },
-      heart: { defined: false, color: '#ef4444', gates: [] },
-      spleen: { defined: true, color: '#f59e0b', gates: ['10', '11', '12'] },
-      sacral: { defined: true, color: '#ec4899', gates: ['13', '14', '15'] },
-      solar: { defined: false, color: '#f97316', gates: [] },
-      root: { defined: true, color: '#84cc16', gates: ['16', '17', '18'] }
-    },
-    channels: {
-      // Kopf-Zentrum Kanäle
-      '1-8': { active: true, from: 'head', to: 'throat', description: 'Inspiration & Expression', color: '#fbbf24' },
-      '2-14': { active: true, from: 'ajna', to: 'g', description: 'The Higher Mind & Direction', color: '#8b5cf6' },
-      '4-63': { active: false, from: 'ajna', to: 'head', description: 'Mental Pressure & Doubt', color: '#8b5cf6' },
-      '11-56': { active: false, from: 'ajna', to: 'throat', description: 'Curiosity & Discovery', color: '#8b5cf6' },
-      '17-62': { active: false, from: 'ajna', to: 'throat', description: 'Acceptance & Organization', color: '#8b5cf6' },
-      '24-61': { active: false, from: 'ajna', to: 'head', description: 'Awareness & Mystery', color: '#8b5cf6' },
-      '47-64': { active: false, from: 'ajna', to: 'head', description: 'Abstraction & Confusion', color: '#8b5cf6' },
-      
-      // Ajna-Zentrum Kanäle
-      '3-60': { active: false, from: 'sacral', to: 'root', description: 'Mutation & Innovation', color: '#ec4899' },
-      '5-15': { active: false, from: 'g', to: 'throat', description: 'Rhythm & Timing', color: '#10b981' },
-      '9-52': { active: false, from: 'sacral', to: 'root', description: 'Focus & Concentration', color: '#ec4899' },
-      '16-48': { active: false, from: 'throat', to: 'spleen', description: 'The Wave Length & Depth', color: '#06b6d4' },
-      '20-34': { active: true, from: 'throat', to: 'sacral', description: 'Charisma & Exploration', color: '#06b6d4' },
-      '23-43': { active: false, from: 'throat', to: 'ajna', description: 'Structuring & Individuality', color: '#06b6d4' },
-      '35-36': { active: false, from: 'throat', to: 'spleen', description: 'Transitoriness & Crisis', color: '#06b6d4' },
-      
-      // Kehlkopf-Zentrum Kanäle
-      '6-59': { active: false, from: 'sacral', to: 'heart', description: 'Intimacy & Reproduction', color: '#ec4899' },
-      '7-31': { active: false, from: 'throat', to: 'g', description: 'Leadership & Recognition', color: '#06b6d4' },
-      '10-20': { active: true, from: 'g', to: 'throat', description: 'Self-Expression & Awakening', color: '#10b981' },
-      '12-22': { active: false, from: 'throat', to: 'heart', description: 'Openness & Social Being', color: '#06b6d4' },
-      '13-33': { active: false, from: 'throat', to: 'g', description: 'The Prodigal', color: '#06b6d4' },
-      '14-2': { active: false, from: 'throat', to: 'g', description: 'The Beat', color: '#06b6d4' },
-      '18-58': { active: false, from: 'throat', to: 'root', description: 'Judgment & Criticism', color: '#06b6d4' },
-      '21-45': { active: false, from: 'throat', to: 'heart', description: 'The Money Line', color: '#06b6d4' },
-      '25-51': { active: false, from: 'throat', to: 'heart', description: 'Initiation & Competition', color: '#06b6d4' },
-      '26-44': { active: false, from: 'throat', to: 'spleen', description: 'Surrender & Acceptance', color: '#06b6d4' },
-      '27-50': { active: false, from: 'throat', to: 'spleen', description: 'Custodianship & Preservation', color: '#06b6d4' },
-      '28-38': { active: false, from: 'throat', to: 'root', description: 'Struggle & Purpose', color: '#06b6d4' },
-      '29-46': { active: false, from: 'throat', to: 'g', description: 'Discovery & Success', color: '#06b6d4' },
-      '30-41': { active: false, from: 'throat', to: 'root', description: 'Recognition & Fantasy', color: '#06b6d4' },
-      '32-54': { active: false, from: 'throat', to: 'root', description: 'Transformation & Ambition', color: '#06b6d4' },
-      '37-40': { active: false, from: 'throat', to: 'heart', description: 'Community & Aloneness', color: '#06b6d4' },
-      '39-55': { active: false, from: 'throat', to: 'root', description: 'Emotion & Spirit', color: '#06b6d4' },
-      '42-53': { active: false, from: 'throat', to: 'root', description: 'Maturation & Beginnings', color: '#06b6d4' },
-      '48-16': { active: false, from: 'throat', to: 'spleen', description: 'The Wave Length & Depth', color: '#06b6d4' },
-      '49-19': { active: false, from: 'throat', to: 'root', description: 'Synthesis & Sensitivity', color: '#06b6d4' },
-      '57-20': { active: false, from: 'throat', to: 'spleen', description: 'Intuitive Insight & The Now', color: '#06b6d4' },
-      '61-24': { active: false, from: 'head', to: 'ajna', description: 'Awareness & Mystery', color: '#fbbf24' },
-      '62-17': { active: false, from: 'throat', to: 'ajna', description: 'Acceptance & Organization', color: '#06b6d4' },
-      '63-4': { active: false, from: 'head', to: 'ajna', description: 'Mental Pressure & Doubt', color: '#fbbf24' },
-      '64-47': { active: false, from: 'head', to: 'ajna', description: 'Abstraction & Confusion', color: '#fbbf24' }
-    },
-    gates: {
-      // Kopf-Zentrum Tore
-      '1': { active: true, center: 'head', description: 'The Creative', color: '#fbbf24' },
-      '2': { active: true, center: 'head', description: 'The Receptive', color: '#fbbf24' },
-      '3': { active: true, center: 'head', description: 'Ordering', color: '#fbbf24' },
-      '4': { active: true, center: 'ajna', description: 'Formulization', color: '#8b5cf6' },
-      '5': { active: true, center: 'ajna', description: 'Fixed Rhythms', color: '#8b5cf6' },
-      '6': { active: true, center: 'ajna', description: 'Friction', color: '#8b5cf6' },
-      '7': { active: true, center: 'g', description: 'The Role of the Self', color: '#10b981' },
-      '8': { active: true, center: 'g', description: 'Contribution', color: '#10b981' },
-      '9': { active: true, center: 'g', description: 'Focus', color: '#10b981' },
-      '10': { active: true, center: 'spleen', description: 'Self-Love', color: '#f59e0b' },
-      '11': { active: true, center: 'spleen', description: 'Ideas', color: '#f59e0b' },
-      '12': { active: true, center: 'spleen', description: 'Caution', color: '#f59e0b' },
-      '13': { active: true, center: 'sacral', description: 'The Listener', color: '#ec4899' },
-      '14': { active: true, center: 'sacral', description: 'Power Skills', color: '#ec4899' },
-      '15': { active: true, center: 'sacral', description: 'Modesty', color: '#ec4899' },
-      '16': { active: true, center: 'root', description: 'Enthusiasm', color: '#84cc16' },
-      '17': { active: true, center: 'root', description: 'Opinions', color: '#84cc16' },
-      '18': { active: true, center: 'root', description: 'Correction', color: '#84cc16' },
-      '19': { active: false, center: 'root', description: 'Approach', color: '#84cc16' },
-      '20': { active: true, center: 'throat', description: 'The Now', color: '#06b6d4' },
-      '21': { active: false, center: 'throat', description: 'The Hunter/Huntress', color: '#06b6d4' },
-      '22': { active: false, center: 'throat', description: 'Grace', color: '#06b6d4' },
-      '23': { active: false, center: 'throat', description: 'Assimilation', color: '#06b6d4' },
-      '24': { active: false, center: 'ajna', description: 'Rationalization', color: '#8b5cf6' },
-      '25': { active: false, center: 'throat', description: 'Innocence', color: '#06b6d4' },
-      '26': { active: false, center: 'throat', description: 'The Egoist', color: '#06b6d4' },
-      '27': { active: false, center: 'throat', description: 'Caring', color: '#06b6d4' },
-      '28': { active: false, center: 'throat', description: 'The Game Player', color: '#06b6d4' },
-      '29': { active: false, center: 'throat', description: 'Saying Yes', color: '#06b6d4' },
-      '30': { active: false, center: 'throat', description: 'Recognition', color: '#06b6d4' },
-      '31': { active: false, center: 'throat', description: 'Influence', color: '#06b6d4' },
-      '32': { active: false, center: 'throat', description: 'Continuity', color: '#06b6d4' },
-      '33': { active: false, center: 'throat', description: 'Privacy', color: '#06b6d4' },
-      '34': { active: true, center: 'sacral', description: 'Power', color: '#ec4899' },
-      '35': { active: false, center: 'throat', description: 'Change', color: '#06b6d4' },
-      '36': { active: false, center: 'throat', description: 'Crisis', color: '#06b6d4' },
-      '37': { active: false, center: 'throat', description: 'Friendship', color: '#06b6d4' },
-      '38': { active: false, center: 'root', description: 'The Fighter', color: '#84cc16' },
-      '39': { active: false, center: 'throat', description: 'The Provocateur', color: '#06b6d4' },
-      '40': { active: false, center: 'heart', description: 'Deliverance', color: '#ef4444' },
-      '41': { active: false, center: 'root', description: 'Contraction', color: '#84cc16' },
-      '42': { active: false, center: 'throat', description: 'Growth', color: '#06b6d4' },
-      '43': { active: false, center: 'ajna', description: 'Insight', color: '#8b5cf6' },
-      '44': { active: false, center: 'spleen', description: 'Alertness', color: '#f59e0b' },
-      '45': { active: false, center: 'heart', description: 'Gathering Together', color: '#ef4444' },
-      '46': { active: false, center: 'g', description: 'Determination of the Self', color: '#10b981' },
-      '47': { active: false, center: 'ajna', description: 'Realizing', color: '#8b5cf6' },
-      '48': { active: false, center: 'spleen', description: 'The Well', color: '#f59e0b' },
-      '49': { active: false, center: 'throat', description: 'Revolution', color: '#06b6d4' },
-      '50': { active: false, center: 'spleen', description: 'Values', color: '#f59e0b' },
-      '51': { active: false, center: 'heart', description: 'Shock', color: '#ef4444' },
-      '52': { active: false, center: 'root', description: 'Stillness', color: '#84cc16' },
-      '53': { active: false, center: 'root', description: 'Beginnings', color: '#84cc16' },
-      '54': { active: false, center: 'root', description: 'Ambition', color: '#84cc16' },
-      '55': { active: false, center: 'root', description: 'Spirit', color: '#84cc16' },
-      '56': { active: false, center: 'throat', description: 'The Wanderer', color: '#06b6d4' },
-      '57': { active: false, center: 'spleen', description: 'Intuitive Insight', color: '#f59e0b' },
-      '58': { active: false, center: 'root', description: 'Joy', color: '#84cc16' },
-      '59': { active: false, center: 'heart', description: 'Intimacy', color: '#ef4444' },
-      '60': { active: false, center: 'root', description: 'Limitation', color: '#84cc16' },
-      '61': { active: false, center: 'head', description: 'Mystery', color: '#fbbf24' },
-      '62': { active: false, center: 'throat', description: 'Detail', color: '#06b6d4' },
-      '63': { active: false, center: 'head', description: 'Doubt', color: '#fbbf24' },
-      '64': { active: false, center: 'head', description: 'Confusion', color: '#fbbf24' }
-    },
-    planets: {
-      sun: { name: 'Sun', symbol: '☉', position: 1, gate: '1', line: 1, color: '#FFD700', description: 'Consciousness' },
-      earth: { name: 'Earth', symbol: '⊕', position: 2, gate: '2', line: 1, color: '#8B4513', description: 'Unconsciousness' },
-      moon: { name: 'Moon', symbol: '☽', position: 3, gate: '3', line: 1, color: '#C0C0C0', description: 'Personality' },
-      northNode: { name: 'North Node', symbol: '☊', position: 4, gate: '4', line: 1, color: '#FF6B6B', description: 'Direction' },
-      southNode: { name: 'South Node', symbol: '☋', position: 5, gate: '5', line: 1, color: '#4ECDC4', description: 'Past' },
-      mercury: { name: 'Mercury', symbol: '☿', position: 6, gate: '6', line: 1, color: '#45B7D1', description: 'Communication' },
-      venus: { name: 'Venus', symbol: '♀', position: 7, gate: '7', line: 1, color: '#96CEB4', description: 'Values' },
-      mars: { name: 'Mars', symbol: '♂', position: 8, gate: '8', line: 1, color: '#FFEAA7', description: 'Action' },
-      jupiter: { name: 'Jupiter', symbol: '♃', position: 9, gate: '9', line: 1, color: '#DDA0DD', description: 'Expansion' },
-      saturn: { name: 'Saturn', symbol: '♄', position: 10, gate: '10', line: 1, color: '#98D8C8', description: 'Structure' },
-      uranus: { name: 'Uranus', symbol: '♅', position: 11, gate: '11', line: 1, color: '#F7DC6F', description: 'Revolution' },
-      neptune: { name: 'Neptune', symbol: '♆', position: 12, gate: '12', line: 1, color: '#BB8FCE', description: 'Illusion' },
-      pluto: { name: 'Pluto', symbol: '♇', position: 13, gate: '13', line: 1, color: '#85C1E9', description: 'Transformation' }
-    }
+    definedCenters: ['sacral', 'spleen', 'root'],
+    activeChannels: ['2-14', '10-20', '20-34'],
+    color: '#f59e0b'
+  },
+  {
+    id: 'projector',
+    name: 'Projector',
+    description: 'Der Führer - erkennt und leitet andere',
+    type: 'Projector',
+    profile: '5/1',
+    authority: 'Splenic',
+    strategy: 'Wait for Invitation',
+    definedCenters: ['head', 'ajna', 'throat', 'g', 'spleen'],
+    activeChannels: ['1-8', '2-14', '10-20'],
+    color: '#8b5cf6'
+  },
+  {
+    id: 'reflector',
+    name: 'Reflector',
+    description: 'Der Spiegel - reflektiert die Umgebung',
+    type: 'Reflector',
+    profile: '6/2',
+    authority: 'Lunar',
+    strategy: 'Wait a Lunar Cycle',
+    definedCenters: [],
+    activeChannels: [],
+    color: '#06b6d4'
+  }
+];
+
+export default function ChartEditorPage() {
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedTemplate, setSelectedTemplate] = useState<ChartTemplate | null>(null);
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [customChart, setCustomChart] = useState({
+    name: '',
+    birthDate: '',
+    birthTime: '',
+    birthPlace: '',
+    type: '',
+    profile: '',
+    authority: '',
+    strategy: ''
   });
+  const [isCalculating, setIsCalculating] = useState(false);
 
-  const handleCenterToggle = (centerId: string) => {
-    setChartData(prev => ({
+  const steps = [
+    {
+      label: 'Willkommen',
+      description: 'Lerne den Chart-Editor kennen'
+    },
+    {
+      label: 'Template wählen',
+      description: 'Wähle einen vorgefertigten Chart-Typ'
+    },
+    {
+      label: 'Anpassen',
+      description: 'Personalisiere deinen Chart'
+    },
+    {
+      label: 'Fertig',
+      description: 'Speichere und teile deinen Chart'
+    }
+  ];
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleTemplateSelect = (template: ChartTemplate) => {
+    setSelectedTemplate(template);
+    setCustomChart(prev => ({
       ...prev,
-      centers: {
-        ...prev.centers,
-        [centerId]: {
-          ...prev.centers[centerId],
-          defined: !prev.centers[centerId].defined
-        }
-      }
+      type: template.type,
+      profile: template.profile,
+      authority: template.authority,
+      strategy: template.strategy
     }));
   };
 
-  const handleColorChange = (centerId: string, color: string) => {
-    setChartData(prev => ({
-      ...prev,
-      centers: {
-        ...prev.centers,
-        [centerId]: {
-          ...prev.centers[centerId],
-          color
-        }
-      }
-    }));
-  };
+  const handleGenerateChart = async () => {
+    setIsCalculating(true);
+    try {
+      // Echte Chart-Berechnung mit Backend API
+      const response = await fetch('http://localhost:4001/charts/calculate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          birth_date: customChart.birthDate,
+          birth_time: customChart.birthTime,
+          birth_place: customChart.birthPlace,
+          name: customChart.name
+        })
+      });
 
-  const handleChannelToggle = (channelId: string) => {
-    setChartData(prev => ({
+      if (response.ok) {
+        const calculatedChart = await response.json();
+        console.log('✅ Echter Chart berechnet:', calculatedChart);
+        
+        // Aktualisiere die Chart-Daten mit den echten Berechnungen
+        setCustomChart(prev => ({
       ...prev,
-      channels: {
-        ...prev.channels,
-        [channelId]: {
-          ...prev.channels[channelId],
-          active: !prev.channels[channelId].active
-        }
+          type: calculatedChart.chartData?.metadata?.type || selectedTemplate?.type,
+          profile: calculatedChart.chartData?.metadata?.profile || selectedTemplate?.profile,
+          authority: calculatedChart.chartData?.metadata?.authority || selectedTemplate?.authority,
+          strategy: calculatedChart.chartData?.metadata?.strategy || selectedTemplate?.strategy
+        }));
+        
+        setActiveStep(3);
+      } else {
+        console.error('❌ Chart-Berechnung fehlgeschlagen:', response.statusText);
+        // Fallback: Verwende Template-Daten
+        setActiveStep(3);
       }
-    }));
-  };
-
-  const handleGateToggle = (gateId: string) => {
-    setChartData(prev => ({
-      ...prev,
-      gates: {
-        ...prev.gates,
-        [gateId]: {
-          ...prev.gates[gateId],
-          active: !prev.gates[gateId].active
-        }
-      }
-    }));
-  };
-
-  const centerIcons: { [key: string]: React.ReactElement } = {
-    head: <Brain size={24} />,
-    ajna: <Eye size={24} />,
-    throat: <Target size={24} />,
-    g: <Heart size={24} />,
-    heart: <Heart size={24} />,
-    spleen: <Star size={24} />,
-    sacral: <User size={24} />,
-    solar: <Crown size={24} />,
-    root: <Target size={24} />
+    } catch (error) {
+      console.error('❌ Fehler bei Chart-Berechnung:', error);
+      // Fallback: Verwende Template-Daten
+      setActiveStep(3);
+    } finally {
+      setIsCalculating(false);
+    }
   };
 
   return (
@@ -271,6 +214,7 @@ export default function ChartEditorPage() {
       py: 4
     }}>
       <Container maxWidth="lg">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -282,326 +226,641 @@ export default function ChartEditorPage() {
               sx={{ 
                 color: 'white', 
                 fontWeight: 900,
-                mb: 4,
+                mb: 2,
                 fontSize: { xs: '2.5rem', md: '4rem' },
                 textShadow: '0 0 20px rgba(255, 255, 255, 0.5)'
               }}
             >
+              <Sparkles size={48} style={{ marginRight: '16px', display: 'inline' }} />
               Chart Editor
             </Typography>
             <Typography 
-              variant="h4" 
+              variant="h5" 
               sx={{ 
                 color: 'rgba(255,255,255,0.9)', 
-                mb: 6,
-                maxWidth: 800,
+                mb: 4,
+                maxWidth: 600,
                 mx: 'auto'
               }}
             >
-              Erstelle und bearbeite deine Human Design Charts
+              Erstelle deinen persönlichen Human Design Chart
             </Typography>
+            
+            {/* Quick Actions */}
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Button
+                variant="outlined"
+                startIcon={<BookOpen size={20} />}
+                onClick={() => setShowTutorial(true)}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  '&:hover': { borderColor: 'white' }
+                }}
+              >
+                Tutorial anzeigen
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<Play size={20} />}
+                onClick={() => setActiveStep(1)}
+                sx={{
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  color: '#1f2937',
+                  fontWeight: 700
+                }}
+              >
+                Jetzt starten
+              </Button>
+            </Box>
           </Box>
         </motion.div>
 
+        {/* Tutorial Dialog */}
+        <Dialog 
+          open={showTutorial} 
+          onClose={() => setShowTutorial(false)}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+            color: '#1f2937',
+            fontWeight: 700
+          }}>
+            <BookOpen size={24} style={{ marginRight: '12px', display: 'inline' }} />
+            Chart Editor Tutorial
+          </DialogTitle>
+          <DialogContent sx={{ p: 3 }}>
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+              So funktioniert der Chart Editor:
+            </Typography>
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                <strong>1. Template wählen:</strong> Wähle einen vorgefertigten Human Design Typ
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                <strong>2. Anpassen:</strong> Personalisiere deinen Chart mit deinen Daten
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                <strong>3. Generieren:</strong> Erstelle deinen persönlichen Chart
+              </Typography>
+              <Typography variant="body1">
+                <strong>4. Speichern:</strong> Exportiere oder teile deinen Chart
+              </Typography>
+            </Box>
+            <Alert severity="info" sx={{ mb: 2 }}>
+              <strong>Tipp:</strong> Du kannst jederzeit zwischen den Schritten wechseln und deine Einstellungen anpassen.
+            </Alert>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowTutorial(false)}>
+              Verstanden
+            </Button>
+            <Button 
+              variant="contained" 
+              onClick={() => {
+                setShowTutorial(false);
+                setActiveStep(1);
+              }}
+              sx={{
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                color: '#1f2937',
+                fontWeight: 700
+              }}
+            >
+              Jetzt starten
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Main Content */}
         <Grid container spacing={4}>
-          {/* Editor Panel */}
-          <Grid item xs={12} lg={3}>
-            <Card sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
-            }}>
-              <CardContent sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
-                  Chart-Einstellungen
-                </Typography>
-
-                {/* Basic Info */}
-                <TextField
-                  fullWidth
-                  label="HD Type"
-                  value={chartData.hdType}
-                  onChange={(e) => setChartData(prev => ({ ...prev, hdType: e.target.value }))}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  fullWidth
-                  label="Profile"
-                  value={chartData.profile}
-                  onChange={(e) => setChartData(prev => ({ ...prev, profile: e.target.value }))}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  fullWidth
-                  label="Authority"
-                  value={chartData.authority}
-                  onChange={(e) => setChartData(prev => ({ ...prev, authority: e.target.value }))}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  fullWidth
-                  label="Strategy"
-                  value={chartData.strategy}
-                  onChange={(e) => setChartData(prev => ({ ...prev, strategy: e.target.value }))}
-                  sx={{ mb: 3 }}
-                />
-
-                {/* Tabs für verschiedene Chart-Elemente */}
-                <Tabs
-                  value={activeTab}
-                  onChange={(e, newValue) => setActiveTab(newValue)}
-                  sx={{ mb: 3 }}
-                >
-                  <Tab label="Zentren" sx={{ color: 'white' }} />
-                  <Tab label="Kanäle" sx={{ color: 'white' }} />
-                  <Tab label="Tore" sx={{ color: 'white' }} />
-                </Tabs>
-
-                {/* Tab Content */}
-                {activeTab === 0 && (
-                  <Box>
-                    <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
-                      Zentren
-                    </Typography>
-                    {Object.entries(chartData.centers).map(([centerId, center]) => (
-                      <Box key={centerId} sx={{ mb: 2, p: 2, bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-                          {centerIcons[centerId]}
-                          <Typography sx={{ color: 'white', textTransform: 'capitalize' }}>
-                            {centerId}
-                          </Typography>
-                          <FormControlLabel
-                            control={
-                              <Switch
-                                checked={center.defined}
-                                onChange={() => handleCenterToggle(centerId)}
-                                sx={{ '& .MuiSwitch-thumb': { bgcolor: center.defined ? center.color : '#666' } }}
-                              />
-                            }
-                            label=""
-                          />
-                        </Box>
-                        <TextField
-                          size="small"
-                          type="color"
-                          value={center.color}
-                          onChange={(e) => handleColorChange(centerId, e.target.value)}
-                          sx={{ width: '100%' }}
-                        />
-                      </Box>
-                    ))}
-                  </Box>
-                )}
-
-                {activeTab === 1 && (
-                  <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
-                        Kanäle ({Object.values(chartData.channels).filter(c => c.active).length}/36)
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => {
-                            const newChannels = { ...chartData.channels };
-                            Object.keys(newChannels).forEach(key => {
-                              newChannels[key].active = true;
-                            });
-                            setChartData(prev => ({ ...prev, channels: newChannels }));
-                          }}
-                          sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}
-                        >
-                          Alle an
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => {
-                            const newChannels = { ...chartData.channels };
-                            Object.keys(newChannels).forEach(key => {
-                              newChannels[key].active = false;
-                            });
-                            setChartData(prev => ({ ...prev, channels: newChannels }));
-                          }}
-                          sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}
-                        >
-                          Alle aus
-                        </Button>
-                      </Box>
-                    </Box>
-                    <Box sx={{ maxHeight: 400, overflowY: 'auto' }}>
-                      {Object.entries(chartData.channels).map(([channelId, channel]) => (
-                        <Box key={channelId} sx={{ mb: 1, p: 1.5, bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 0.5 }}>
-                            <Typography sx={{ color: 'white', fontWeight: 600, fontSize: '0.9rem' }}>
-                              {channelId}
-                            </Typography>
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  size="small"
-                                  checked={channel.active}
-                                  onChange={() => handleChannelToggle(channelId)}
-                                  sx={{ '& .MuiSwitch-thumb': { bgcolor: channel.active ? channel.color : '#666' } }}
-                                />
-                              }
-                              label=""
-                            />
-                          </Box>
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
-                            {channel.description}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-
-                {activeTab === 2 && (
-                  <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                      <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
-                        Tore ({Object.values(chartData.gates).filter(g => g.active).length}/64)
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => {
-                            const newGates = { ...chartData.gates };
-                            Object.keys(newGates).forEach(key => {
-                              newGates[key].active = true;
-                            });
-                            setChartData(prev => ({ ...prev, gates: newGates }));
-                          }}
-                          sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}
-                        >
-                          Alle an
-                        </Button>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => {
-                            const newGates = { ...chartData.gates };
-                            Object.keys(newGates).forEach(key => {
-                              newGates[key].active = false;
-                            });
-                            setChartData(prev => ({ ...prev, gates: newGates }));
-                          }}
-                          sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', fontSize: '0.7rem' }}
-                        >
-                          Alle aus
-                        </Button>
-                      </Box>
-                    </Box>
-                    <Box sx={{ maxHeight: 400, overflowY: 'auto' }}>
-                      {Object.entries(chartData.gates).map(([gateId, gate]) => (
-                        <Box key={gateId} sx={{ mb: 1, p: 1.5, bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 0.5 }}>
-                            <Typography sx={{ color: 'white', fontWeight: 600, fontSize: '0.9rem' }}>
-                              Tor {gateId}
-                            </Typography>
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  size="small"
-                                  checked={gate.active}
-                                  onChange={() => handleGateToggle(gateId)}
-                                  sx={{ '& .MuiSwitch-thumb': { bgcolor: gate.active ? gate.color : '#666' } }}
-                                />
-                              }
-                              label=""
-                            />
-                          </Box>
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
-                            {gate.description}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                )}
-
-                {/* Actions */}
-                <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    startIcon={<Save size={20} />}
-                    sx={{
-                      background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                      color: '#1f2937',
-                      fontWeight: 700,
-                      flex: 1
-                    }}
-                  >
-                    Speichern
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    startIcon={<Download size={20} />}
-                    sx={{
-                      borderColor: 'rgba(255,255,255,0.3)',
-                      color: 'white',
-                      flex: 1
-                    }}
-                  >
-                    Export
-                  </Button>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Chart Preview */}
-          <Grid item xs={12} lg={9}>
+          {/* Stepper */}
+          <Grid item xs={12} md={4}>
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
               boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-              height: '100vh',
-              minHeight: 1200
+              position: 'sticky',
+              top: 20
             }}>
-              <CardContent sx={{ p: 3, height: '100%' }}>
+              <CardContent sx={{ p: 3 }}>
                 <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
-                  Chart Vorschau
+                  <Settings size={24} style={{ marginRight: '12px', display: 'inline' }} />
+                  Chart Erstellung
+                </Typography>
+
+                <Stepper activeStep={activeStep} orientation="vertical">
+                  {steps.map((step, index) => (
+                    <Step key={step.label}>
+                      <StepLabel
+                        sx={{
+                          '& .MuiStepLabel-label': {
+                            color: 'white',
+                            fontWeight: activeStep === index ? 600 : 400
+                          },
+                          '& .MuiStepIcon-root': {
+                            color: activeStep === index ? '#FFD700' : 'rgba(255,255,255,0.3)'
+                          }
+                        }}
+                      >
+                        {step.label}
+                      </StepLabel>
+                      <StepContent>
+                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                          {step.description}
+                        </Typography>
+                        {index < steps.length - 1 && (
+                          <Button
+                            size="small"
+                            onClick={handleNext}
+                            sx={{
+                              color: '#FFD700',
+                              '&:hover': { backgroundColor: 'rgba(255, 215, 0, 0.1)' }
+                            }}
+                          >
+                            Weiter
+                            <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                          </Button>
+                        )}
+                      </StepContent>
+                    </Step>
+                  ))}
+                </Stepper>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          {/* Content Area */}
+          <Grid item xs={12} md={8}>
+            <Card sx={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+              minHeight: 600
+            }}>
+              <CardContent sx={{ p: 4 }}>
+                {/* Step 0: Welcome */}
+                {activeStep === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
+                      Willkommen im Chart Editor! 🎉
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6 }}>
+                      Hier kannst du deinen persönlichen Human Design Chart erstellen und anpassen. 
+                      Wir führen dich Schritt für Schritt durch den Prozess.
+                          </Typography>
+                    
+                    <Alert severity="success" sx={{ mb: 3 }}>
+                      <strong>Neu hier?</strong> Kein Problem! Klicke auf "Tutorial anzeigen" für eine detaillierte Anleitung.
+                    </Alert>
+
+                    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                      <Chip 
+                        icon={<Star size={16} />} 
+                        label="Einfach zu bedienen" 
+                        sx={{ backgroundColor: 'rgba(255, 215, 0, 0.2)', color: '#FFD700' }}
+                      />
+                      <Chip 
+                        icon={<Brain size={16} />} 
+                        label="Vollständig anpassbar" 
+                        sx={{ backgroundColor: 'rgba(139, 92, 246, 0.2)', color: '#8b5cf6' }}
+                      />
+                      <Chip 
+                        icon={<Download size={16} />} 
+                        label="Exportierbar" 
+                        sx={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#10b981' }}
+                        />
+                      </Box>
+
+                    <Box sx={{ mt: 4, textAlign: 'center' }}>
+                        <Button
+                        variant="contained"
+                        size="large"
+                        startIcon={<ArrowRight size={24} />}
+                        onClick={handleNext}
+                        sx={{
+                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                          color: '#1f2937',
+                          fontWeight: 700,
+                          px: 4,
+                          py: 1.5
+                        }}
+                      >
+                        Los geht's!
+                        </Button>
+                    </Box>
+                  </motion.div>
+                )}
+
+                {/* Step 1: Template Selection */}
+                {activeStep === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
+                      Wähle deinen Human Design Typ
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6 }}>
+                      Wähle einen vorgefertigten Typ aus oder erstelle einen benutzerdefinierten Chart.
+                            </Typography>
+
+                    <Grid container spacing={3}>
+                      {chartTemplates.map((template) => (
+                        <Grid item xs={12} sm={6} key={template.id}>
+                          <Card 
+                            sx={{
+                              background: selectedTemplate?.id === template.id 
+                                ? `linear-gradient(135deg, ${template.color}20 0%, ${template.color}10 100%)`
+                                : 'rgba(255, 255, 255, 0.05)',
+                              border: selectedTemplate?.id === template.id 
+                                ? `2px solid ${template.color}` 
+                                : '1px solid rgba(255, 255, 255, 0.1)',
+                              cursor: 'pointer',
+                              transition: 'all 0.3s ease',
+                              '&:hover': {
+                                transform: 'translateY(-4px)',
+                                boxShadow: `0 8px 25px ${template.color}40`
+                              }
+                            }}
+                            onClick={() => handleTemplateSelect(template)}
+                          >
+                            <CardContent sx={{ p: 3 }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                <Box sx={{
+                                  width: 12,
+                                  height: 12,
+                                  borderRadius: '50%',
+                                  backgroundColor: template.color,
+                                  mr: 2
+                                }} />
+                                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                                  {template.name}
+                          </Typography>
+                        </Box>
+                              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                                {template.description}
+                              </Typography>
+                              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                                <Chip label={template.profile} size="small" sx={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white' }} />
+                                <Chip label={template.authority} size="small" sx={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white' }} />
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+
+                    {selectedTemplate && (
+                      <Alert severity="success" sx={{ mt: 3 }}>
+                        <strong>{selectedTemplate.name} ausgewählt!</strong> Du kannst jetzt mit der Anpassung fortfahren.
+                      </Alert>
+                    )}
+
+                    <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'space-between' }}>
+                      <Button onClick={handleBack} sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Zurück
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        disabled={!selectedTemplate}
+                        sx={{
+                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                          color: '#1f2937',
+                          fontWeight: 700
+                        }}
+                      >
+                        Weiter
+                        <ArrowRight size={20} style={{ marginLeft: '8px' }} />
+                      </Button>
+                    </Box>
+                  </motion.div>
+                )}
+
+                {/* Step 2: Customization */}
+                {activeStep === 2 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
+                      Personalisiere deinen Chart
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6 }}>
+                      Gib deine persönlichen Daten ein, um einen maßgeschneiderten Chart zu erstellen.
+                      </Typography>
+
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Name"
+                          value={customChart.name}
+                          onChange={(e) => setCustomChart(prev => ({ ...prev, name: e.target.value }))}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.5)' },
+                              '&.Mui-focused fieldset': { borderColor: '#FFD700' }
+                            },
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Geburtsdatum"
+                          type="date"
+                          value={customChart.birthDate}
+                          onChange={(e) => setCustomChart(prev => ({ ...prev, birthDate: e.target.value }))}
+                          InputLabelProps={{ shrink: true }}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.5)' },
+                              '&.Mui-focused fieldset': { borderColor: '#FFD700' }
+                            },
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Geburtszeit"
+                          type="time"
+                          value={customChart.birthTime}
+                          onChange={(e) => setCustomChart(prev => ({ ...prev, birthTime: e.target.value }))}
+                          InputLabelProps={{ shrink: true }}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.5)' },
+                              '&.Mui-focused fieldset': { borderColor: '#FFD700' }
+                            },
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Geburtsort"
+                          value={customChart.birthPlace}
+                          onChange={(e) => setCustomChart(prev => ({ ...prev, birthPlace: e.target.value }))}
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.5)' },
+                              '&.Mui-focused fieldset': { borderColor: '#FFD700' }
+                            },
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    {selectedTemplate && (
+                      <Alert severity="info" sx={{ mt: 3 }}>
+                        <strong>Ausgewählter Typ:</strong> {selectedTemplate.name} - {selectedTemplate.description}
+                      </Alert>
+                    )}
+
+                    <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'space-between' }}>
+                      <Button onClick={handleBack} sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Zurück
+                      </Button>
+                  <Button
+                    variant="contained"
+                        onClick={handleGenerateChart}
+                        disabled={isCalculating}
+                    sx={{
+                      background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                      color: '#1f2937',
+                          fontWeight: 700
+                    }}
+                  >
+                        {isCalculating ? 'Berechne Chart...' : 'Chart generieren'}
+                        <Sparkles size={20} style={{ marginLeft: '8px' }} />
+                  </Button>
+                    </Box>
+                  </motion.div>
+                )}
+
+                {/* Step 3: Chart Display */}
+                {activeStep === 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
+                      Dein Human Design Chart
+                    </Typography>
+                    
+                    {/* Chart Info */}
+                    <Alert severity="success" sx={{ mb: 3 }}>
+                      <strong>Chart generiert für:</strong> {customChart.name || 'Unbekannt'} - {customChart.type || selectedTemplate?.name} ({customChart.profile || selectedTemplate?.profile})
+                    </Alert>
+
+                    {/* Chart Display */}
+            <Card sx={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      mb: 4
+                    }}>
+                      <CardContent sx={{ p: 3 }}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
+                          📊 Chart Vorschau
                 </Typography>
                 
-                {/* Human Design Chart */}
+                        {/* Chart Container */}
                 <Box sx={{
                   width: '100%',
-                  height: 'calc(100vh - 200px)',
-                  background: 'rgba(255,255,255,0.05)',
+                          height: 600,
+                          background: 'rgba(255,255,255,0.02)',
                   borderRadius: 2,
-                  overflow: 'visible',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  position: 'relative'
+                          position: 'relative',
+                          border: '2px dashed rgba(255,255,255,0.2)',
+                          overflow: 'hidden'
                 }}>
+                          {/* Human Design Bodygraph */}
                   <Box sx={{
                     width: '100%',
                     height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transform: 'scale(1.5)',
-                    transformOrigin: 'center'
+                            position: 'relative'
                   }}>
-                    {/* SVG Bodchart.svg verwenden */}
                     <img 
                       src="/SVG Bodchart.svg" 
-                      alt="Human Design Bodygraph Editor"
+                              alt="Human Design Bodygraph"
                       style={{ 
-                        maxWidth: '100%', 
-                        maxHeight: '100%',
-                        objectFit: 'contain'
-                      }}
-                    />
+                                maxWidth: '90%', 
+                                maxHeight: '90%',
+                                objectFit: 'contain',
+                                filter: 'brightness(1.2) contrast(1.1)'
+                              }}
+                            />
+                            
+                            {/* Overlay mit Chart-Info */}
+                            <Box sx={{
+                              position: 'absolute',
+                              top: 20,
+                              left: 20,
+                              background: 'rgba(0,0,0,0.8)',
+                              backdropFilter: 'blur(10px)',
+                              borderRadius: 2,
+                              p: 2,
+                              border: `2px solid ${selectedTemplate?.color || '#FFD700'}`
+                            }}>
+                              <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 1 }}>
+                                {customChart.type || selectedTemplate?.name || 'Chart'}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                {customChart.type || selectedTemplate?.type} • {customChart.profile || selectedTemplate?.profile}
+                              </Typography>
+                            </Box>
+
+                            {/* Template-spezifische Farben als Overlay */}
+                            {selectedTemplate && (
+                              <Box sx={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: `linear-gradient(135deg, ${selectedTemplate.color}10 0%, transparent 50%)`,
+                                pointerEvents: 'none'
+                              }} />
+                            )}
+                          </Box>
+                        </Box>
+
+                        {/* Chart Summary */}
+                        <Box sx={{ mt: 3, textAlign: 'center' }}>
+                          <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                            {customChart.type || selectedTemplate?.type || 'Human Design Chart'}
+                          </Typography>
+                          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                            {selectedTemplate?.description || 'Dein persönlicher Chart'}
+                          </Typography>
+                          <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+                            <Chip 
+                              label={`Profil: ${customChart.profile || selectedTemplate?.profile || 'N/A'}`} 
+                              sx={{ backgroundColor: 'rgba(255, 215, 0, 0.2)', color: '#FFD700' }}
+                            />
+                            <Chip 
+                              label={`Autorität: ${customChart.authority || selectedTemplate?.authority || 'N/A'}`} 
+                              sx={{ backgroundColor: 'rgba(139, 92, 246, 0.2)', color: '#8b5cf6' }}
+                            />
+                            <Chip 
+                              label={`Strategie: ${customChart.strategy || selectedTemplate?.strategy || 'N/A'}`} 
+                              sx={{ backgroundColor: 'rgba(16, 185, 129, 0.2)', color: '#10b981' }}
+                            />
                   </Box>
                 </Box>
+
+                        {/* Chart Details */}
+                        {selectedTemplate && (
+                          <Box sx={{ mt: 3 }}>
+                            <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
+                              Chart Details
+                            </Typography>
+                            <Grid container spacing={2}>
+                              <Grid item xs={12} sm={6}>
+                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                                  <strong>Definierte Zentren:</strong> {selectedTemplate.definedCenters.length}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} sm={6}>
+                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                                  <strong>Aktive Kanäle:</strong> {selectedTemplate.activeChannels.length}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                                  <strong>Geburtsdaten:</strong> {customChart.birthDate} {customChart.birthTime} in {customChart.birthPlace}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </Box>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    {/* Action Buttons */}
+                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mb: 4 }}>
+                      <Button
+                        variant="contained"
+                        startIcon={<Save size={20} />}
+                        sx={{
+                          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                          color: 'white',
+                          fontWeight: 700
+                        }}
+                      >
+                        Chart speichern
+                      </Button>
+                      <Button
+                        variant="contained"
+                        startIcon={<Download size={20} />}
+                        sx={{
+                          background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                          color: 'white',
+                          fontWeight: 700
+                        }}
+                      >
+                        Als PDF exportieren
+                      </Button>
+                      <Button
+                        variant="contained"
+                        startIcon={<Eye size={20} />}
+                        sx={{
+                          background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+                          color: 'white',
+                          fontWeight: 700
+                        }}
+                      >
+                        Vollbild anzeigen
+                      </Button>
+                    </Box>
+
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => setActiveStep(0)}
+                        sx={{
+                          borderColor: 'rgba(255,255,255,0.3)',
+                          color: 'white',
+                          '&:hover': { borderColor: 'white' }
+                        }}
+                      >
+                        Neuen Chart erstellen
+                      </Button>
+                    </Box>
+                  </motion.div>
+                )}
               </CardContent>
             </Card>
           </Grid>

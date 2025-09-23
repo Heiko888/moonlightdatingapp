@@ -44,7 +44,6 @@ import {
   Monitor,
   Smartphone,
   Cloud,
-  Wifi
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -75,6 +74,8 @@ function SeitenanzeigePage() {
     // Lade Benutzerpaket aus localStorage oder API
     const storedPackage = localStorage.getItem('userPackage') || 'free';
     setUserPackage(storedPackage);
+    // Stelle sicher, dass der erste Tab ausgewählt ist
+    setSelectedTab(0);
   }, []);
 
   // Paket-Hierarchie für Zugriffsrechte
@@ -95,16 +96,26 @@ function SeitenanzeigePage() {
   // Kategorien mit Zugriffsrechten
   const frontendPages: Category[] = [
     {
-      category: "Hauptseiten",
-      icon: <Home size={20} />,
+      category: "Öffentliche Seiten",
+      icon: <Globe size={20} />,
       requiredPackage: 'free',
       pages: [
         { name: "Startseite", path: "/", description: "Hauptseite der Anwendung", requiredPackage: 'free' },
         { name: "Chart", path: "/chart", description: "Human Design Chart berechnen", requiredPackage: 'free' },
         { name: "Mondkalender", path: "/mondkalender", description: "Mondphasen und Tracking", requiredPackage: 'free' },
         { name: "Mondkalender Info", path: "/mondkalender-info", description: "Alle Mondkalender-Funktionen erklärt", requiredPackage: 'free' },
+        { name: "Sales", path: "/sales", description: "Verkaufsseite", requiredPackage: 'free' },
+        { name: "Admin Public", path: "/admin-public", description: "Öffentliche Admin-Übersicht", requiredPackage: 'free' },
+        { name: "Seitenanzeige", path: "/seitenanzeige", description: "Übersicht aller verfügbaren Seiten", requiredPackage: 'free' }
+      ]
+    },
+    {
+      category: "Hauptseiten",
+      icon: <Home size={20} />,
+      requiredPackage: 'basic',
+      pages: [
         { name: "Dashboard", path: "/dashboard", description: "Benutzer-Dashboard", requiredPackage: 'basic' },
-        { name: "Sales", path: "/sales", description: "Verkaufsseite", requiredPackage: 'free' }
+        { name: "Premium Dashboard", path: "/premium-dashboard", description: "Premium Benutzer-Dashboard", requiredPackage: 'premium' }
       ]
     },
     {
@@ -212,6 +223,7 @@ function SeitenanzeigePage() {
         { name: "Admin Register", path: "/admin/register", description: "Admin-Registrierung" },
         { name: "Admin Dashboard", path: "/admin/dashboard", description: "Admin-Dashboard" },
         { name: "Admin Users", path: "/admin/users", description: "Benutzerverwaltung" },
+        { name: "Admin Readings", path: "/admin/readings", description: "Reading-Management für Coach" },
         { name: "Admin Upload", path: "/admin/upload", description: "Datei-Upload" },
         { name: "Admin Uploads", path: "/admin/uploads", description: "Upload-Verwaltung" }
       ]
@@ -382,6 +394,12 @@ function SeitenanzeigePage() {
     }
   ];
 
+  // Filtere nur öffentliche Seiten
+  const getPublicPages = () => {
+    const publicCategory = frontendPages.find(cat => cat.category === "Öffentliche Seiten");
+    return publicCategory?.pages || [];
+  };
+
   const backendRoutes = [
     {
       category: "Backend APIs",
@@ -407,6 +425,7 @@ function SeitenanzeigePage() {
         { name: "Admin Coaching", path: "/api/admin/coaching", description: "Coaching-Verwaltung" },
         { name: "Admin Knowledge", path: "/api/admin/knowledge", description: "Wissensverwaltung" },
         { name: "Admin Upload", path: "/api/admin/upload", description: "Upload-Verwaltung" },
+        { name: "Admin Readings", path: "/api/admin/readings", description: "Reading-Management für Admin" },
         { name: "Health", path: "/api/health", description: "System-Gesundheit" },
         { name: "Status", path: "/api/status", description: "System-Status" },
         { name: "Metrics", path: "/api/metrics", description: "System-Metriken" },
@@ -664,7 +683,106 @@ function SeitenanzeigePage() {
                   border: '1px solid rgba(255, 119, 198, 0.3)'
                 }} 
               />
+              <Chip 
+                label={`Öffentliche Seiten: ${getPublicPages().length}`} 
+                sx={{ 
+                  background: 'rgba(34, 197, 94, 0.2)', 
+                  color: '#22c55e', 
+                  fontWeight: 600,
+                  border: '1px solid rgba(34, 197, 94, 0.3)'
+                }} 
+              />
             </Box>
+          </Card>
+        </Box>
+
+        {/* Öffentliche Seiten - Prominent angezeigt */}
+        <Box sx={{ mb: 4 }}>
+          <Card sx={{ 
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1))',
+            backdropFilter: 'blur(20px)',
+            borderRadius: 4, 
+            border: '2px solid rgba(34, 197, 94, 0.3)',
+            boxShadow: '0 8px 32px rgba(34, 197, 94, 0.2)'
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                <Globe size={28} style={{ color: '#22c55e' }} />
+                <Typography variant="h5" sx={{ color: 'white', fontWeight: 700 }}>
+                  🌐 Öffentliche Seiten
+                </Typography>
+                <Chip 
+                  label="Für alle zugänglich" 
+                  sx={{ 
+                    background: 'rgba(34, 197, 94, 0.2)', 
+                    color: '#22c55e', 
+                    fontWeight: 600,
+                    border: '1px solid rgba(34, 197, 94, 0.3)'
+                  }} 
+                />
+              </Box>
+              
+              <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
+                Diese Seiten sind für alle Benutzer ohne Anmeldung oder Premium-Account zugänglich:
+              </Typography>
+              
+              <Grid container spacing={2}>
+                {getPublicPages().map((page, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card sx={{ 
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(34, 197, 94, 0.2)',
+                        borderRadius: 3,
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                          boxShadow: '0 8px 25px rgba(34, 197, 94, 0.3)',
+                          border: '1px solid rgba(34, 197, 94, 0.5)'
+                        }
+                      }}>
+                        <CardContent sx={{ p: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                            <Globe size={16} style={{ color: '#22c55e' }} />
+                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, fontSize: '1rem' }}>
+                              {page.name}
+                            </Typography>
+                          </Box>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2, fontSize: '0.85rem' }}>
+                            {page.description}
+                          </Typography>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Chip 
+                              label={page.path} 
+                              size="small"
+                              sx={{ 
+                                background: 'rgba(34, 197, 94, 0.1)', 
+                                color: '#22c55e', 
+                                fontSize: '0.7rem',
+                                fontFamily: 'monospace'
+                              }} 
+                            />
+                            <Link href={page.path} style={{ textDecoration: 'none' }}>
+                              <Chip 
+                                label="Besuchen" 
+                                size="small"
+                                sx={{ 
+                                  background: 'rgba(34, 197, 94, 0.2)', 
+                                  color: '#22c55e', 
+                                  fontSize: '0.7rem',
+                                  cursor: 'pointer',
+                                  '&:hover': {
+                                    background: 'rgba(34, 197, 94, 0.3)'
+                                  }
+                                }} 
+                              />
+                            </Link>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+              </Grid>
+            </CardContent>
           </Card>
         </Box>
 
@@ -678,13 +796,18 @@ function SeitenanzeigePage() {
           }}>
             <Tabs
               value={selectedTab}
-              onChange={(e, newValue) => setSelectedTab(newValue)}
+              onChange={(e, newValue) => {
+                setSelectedTab(newValue);
+              }}
+              variant="scrollable"
+              scrollButtons="auto"
               sx={{
                 '& .MuiTab-root': { color: 'rgba(255,255,255,0.7)' },
                 '& .Mui-selected': { color: '#FFD700 !important' },
                 '& .MuiTabs-indicator': { backgroundColor: '#FFD700' }
               }}
             >
+              <Tab label="🌐 Öffentliche Seiten" />
               <Tab label="📱 Frontend Seiten" />
               <Tab label="🔧 Backend APIs" />
               <Tab label="📁 Verzeichnisse" />
@@ -695,6 +818,102 @@ function SeitenanzeigePage() {
 
         {/* Tab Content */}
         {selectedTab === 0 && (
+          <Box sx={{ py: 4 }}>
+            <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 4, textAlign: 'center' }}>
+              🌐 Öffentliche Seiten
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, textAlign: 'center', maxWidth: '800px', mx: 'auto' }}>
+              Diese Seiten sind für alle Benutzer ohne Anmeldung oder Premium-Account zugänglich. 
+              Sie bieten grundlegende Funktionen und Informationen über Human Design.
+            </Typography>
+            
+            <Grid container spacing={3}>
+              {getPublicPages().length > 0 ? getPublicPages().map((page, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card sx={{ 
+                    background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1))',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: 4, 
+                    border: '2px solid rgba(34, 197, 94, 0.3)',
+                    boxShadow: '0 8px 32px rgba(34, 197, 94, 0.2)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-8px)',
+                      boxShadow: '0 16px 40px rgba(34, 197, 94, 0.4)',
+                      border: '2px solid rgba(34, 197, 94, 0.6)'
+                    }
+                  }}>
+                    <CardContent sx={{ p: 3 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                        <Globe size={24} style={{ color: '#22c55e' }} />
+                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 700 }}>
+                          {page.name}
+                        </Typography>
+                      </Box>
+                      
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3, lineHeight: 1.6 }}>
+                        {page.description}
+                      </Typography>
+                      
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                        <Chip 
+                          label={page.path} 
+                          size="small"
+                          sx={{ 
+                            background: 'rgba(34, 197, 94, 0.2)', 
+                            color: '#22c55e', 
+                            fontSize: '0.75rem',
+                            fontFamily: 'monospace',
+                            fontWeight: 600
+                          }} 
+                        />
+                        <Chip 
+                          label="Kostenlos" 
+                          size="small"
+                          sx={{ 
+                            background: 'rgba(34, 197, 94, 0.3)', 
+                            color: '#22c55e', 
+                            fontSize: '0.75rem',
+                            fontWeight: 600
+                          }} 
+                        />
+                      </Box>
+                      
+                      <Link href={page.path} style={{ textDecoration: 'none' }}>
+                        <Box sx={{
+                          background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                          color: 'white',
+                          p: 1.5,
+                          borderRadius: 2,
+                          textAlign: 'center',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            background: 'linear-gradient(135deg, #16a34a, #15803d)',
+                            transform: 'scale(1.02)'
+                          }
+                        }}>
+                          Seite besuchen →
+                        </Box>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              )) : (
+                <Grid item xs={12}>
+                  <Box sx={{ textAlign: 'center', py: 4 }}>
+                    <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                      Keine öffentlichen Seiten gefunden
+                    </Typography>
+                  </Box>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+        )}
+        
+        {selectedTab === 1 && (
           <Box sx={{ py: 6 }}>
             <Box>
               <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -1128,7 +1347,7 @@ function SeitenanzeigePage() {
                     📋 Paket-Übersicht
                   </Typography>
                   <Grid container spacing={2}>
-                    {['free', 'basic', 'premium', 'vip', 'admin'].map((pkg, index) => {
+                    {['free', 'basic', 'premium', 'vip', 'admin'].map((pkg) => {
                       const isCurrent = pkg === userPackage;
                       const packageCount = frontendPages.filter(cat => 
                         packageHierarchy[cat.requiredPackage || 'free'] <= packageHierarchy[pkg]

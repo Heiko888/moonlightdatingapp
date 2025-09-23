@@ -520,7 +520,7 @@ export default function BlackMoonLilithPage() {
                     }
                   }}>
                     <AccordionSummary
-                      expandIcon={<ChevronDown sx={{ color: '#2D1B69' }} />}
+                      expandIcon={<ChevronDown style={{ color: '#2D1B69' }} />}
                       sx={{
                         '& .MuiAccordionSummary-content': {
                           alignItems: 'center'

@@ -6,6 +6,7 @@ import adminAuthRoutes from './routes/adminAuth';
 import adminUploadRoutes from './routes/admin-upload';
 import adminCoachingRoutes from './routes/admin-coaching';
 import adminKnowledgeRoutes from './routes/admin-knowledge';
+import adminReadingsRoutes from './routes/admin-readings';
 import emailTestRoutes from './routes/email-test';
 import matchingRoutes from './routes/matching-supabase';
 import swipeRoutes from './routes/swipe-supabase';
@@ -202,6 +203,7 @@ async function main() {
   app.use('/admin', adminUploadRoutes); // POST /admin/upload, GET /admin/upload
   app.use('/admin/coaching', adminCoachingRoutes); // GET/POST /admin/coaching/coaches, GET/POST /admin/coaching/sessions
   app.use('/admin/knowledge', adminKnowledgeRoutes); // GET/POST/PUT/DELETE /admin/knowledge
+  app.use('/admin/readings', adminReadingsRoutes); // GET/PUT/DELETE /admin/readings, Reading-Management für Admin
   app.use('/email', emailTestRoutes);  // POST /email/test, GET /email/status
   app.use('/matching', matchingRoutes); // GET /matching/profile/:userId, POST /matching/analyze, POST /matching/like, POST /matching/message
   app.use('/swipe', swipeRoutes);      // GET /swipe/profiles/:userId, POST /swipe, GET /swipe/matches/:userId

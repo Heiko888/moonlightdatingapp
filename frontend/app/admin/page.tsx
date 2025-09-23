@@ -66,6 +66,12 @@ export default function AdminPage() {
 
   const adminFeatures = [
     {
+      title: "Reading-Management",
+      description: "Verwalte alle Readings, Beziehungsanalysen und Dating-Beratungen",
+      icon: <FileText size={24} />,
+      href: "/admin/readings"
+    },
+    {
       title: "Benutzerverwaltung",
       description: "Verwalte alle Benutzer und deren Berechtigungen",
       icon: <Users size={24} />,

@@ -44,7 +44,6 @@ import {
   Clock,
   MapPin,
   Share2,
-  MoreVert,
   ThumbsUp,
   MessageSquare,
   Plus,
@@ -284,7 +283,7 @@ export default function MobileDashboardPage() {
               </Badge>
             </IconButton>
             <IconButton color="inherit" onClick={handleMenuOpen}>
-              <MoreVert />
+              <Settings />
             </IconButton>
           </Toolbar>
         </AppBar>

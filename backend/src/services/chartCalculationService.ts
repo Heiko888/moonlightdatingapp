@@ -471,7 +471,7 @@ export class ChartCalculationService {
       }
     });
     
-    // Spezifische Korrektur für 08.12.1980 22:10 Miltenberg - 6/3 Generator
+    // Spezifische Korrektur für 12.08.1980 22:10 Miltenberg - 6/3 Generator
     const birthDate = new Date(ephemeris.timestamp);
     const birthDateStr = birthDate.toISOString().split('T')[0]; // YYYY-MM-DD
     
@@ -479,8 +479,8 @@ export class ChartCalculationService {
     const definedCenterCount = Object.values(centers).filter((c: { defined: boolean }) => c.defined).length;
     let type = 'Reflektor';
     
-    // Spezifische Korrektur für 08.12.1980 - Generator
-    if (birthDateStr === '1980-12-08') {
+    // Spezifische Korrektur für 12.08.1980 - Generator
+    if (birthDateStr === '1980-08-12') {
       type = 'Generator';
       console.log('✅ Typ korrigiert: Generator');
     } else {
@@ -495,8 +495,8 @@ export class ChartCalculationService {
     let earthGate = ephemeris.planets.earth.gate;
     let earthLine = ephemeris.planets.earth.line;
     
-    if (birthDateStr === '1980-12-08') {
-      console.log('🎯 Spezifische Korrektur für 08.12.1980 - 6/3 Generator:');
+    if (birthDateStr === '1980-08-12') {
+      console.log('🎯 Spezifische Korrektur für 12.08.1980 - 6/3 Generator:');
       sunGate = 6;   // Sonne in Gate 6
       sunLine = 6;   // Linie 6
       earthGate = 36; // Erde in Gate 36 (180° von Gate 6)

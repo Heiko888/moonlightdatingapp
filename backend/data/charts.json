@@ -11204,5 +11204,842 @@
     "created_at": "2025-09-14T22:36:17.733Z",
     "updated_at": "2025-09-14T22:36:17.733Z",
     "calculation_method": "precise_ephemeris"
+  },
+  {
+    "id": "1758468598962",
+    "user_id": "demo_user",
+    "name": "Heiko",
+    "birth_date": "1980-08-12",
+    "birth_time": "22:10",
+    "birth_place": "Miltenberg",
+    "chart_data": {
+      "centers": {
+        "head": {
+          "defined": true
+        },
+        "ajna": {
+          "defined": true
+        },
+        "throat": {
+          "defined": true
+        },
+        "g": {
+          "defined": true
+        },
+        "heart": {
+          "defined": false
+        },
+        "sacral": {
+          "defined": true
+        },
+        "solar": {
+          "defined": true
+        },
+        "spleen": {
+          "defined": true
+        },
+        "root": {
+          "defined": true
+        }
+      },
+      "channels": [
+        {
+          "from": 1,
+          "to": 8,
+          "active": true
+        },
+        {
+          "from": 2,
+          "to": 14,
+          "active": true
+        },
+        {
+          "from": 3,
+          "to": 60,
+          "active": true
+        },
+        {
+          "from": 4,
+          "to": 63,
+          "active": true
+        },
+        {
+          "from": 5,
+          "to": 15,
+          "active": true
+        },
+        {
+          "from": 6,
+          "to": 59,
+          "active": true
+        },
+        {
+          "from": 7,
+          "to": 31,
+          "active": true
+        },
+        {
+          "from": 9,
+          "to": 52,
+          "active": true
+        },
+        {
+          "from": 10,
+          "to": 20,
+          "active": true
+        },
+        {
+          "from": 11,
+          "to": 56,
+          "active": true
+        },
+        {
+          "from": 12,
+          "to": 22,
+          "active": true
+        },
+        {
+          "from": 13,
+          "to": 33,
+          "active": true
+        },
+        {
+          "from": 16,
+          "to": 48,
+          "active": true
+        },
+        {
+          "from": 17,
+          "to": 62,
+          "active": true
+        },
+        {
+          "from": 18,
+          "to": 58,
+          "active": true
+        },
+        {
+          "from": 19,
+          "to": 49,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 34,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 57,
+          "active": true
+        },
+        {
+          "from": 23,
+          "to": 43,
+          "active": true
+        },
+        {
+          "from": 24,
+          "to": 61,
+          "active": true
+        },
+        {
+          "from": 26,
+          "to": 44,
+          "active": true
+        },
+        {
+          "from": 27,
+          "to": 50,
+          "active": true
+        },
+        {
+          "from": 28,
+          "to": 38,
+          "active": true
+        },
+        {
+          "from": 29,
+          "to": 46,
+          "active": true
+        },
+        {
+          "from": 30,
+          "to": 41,
+          "active": true
+        },
+        {
+          "from": 32,
+          "to": 54,
+          "active": true
+        },
+        {
+          "from": 35,
+          "to": 36,
+          "active": true
+        },
+        {
+          "from": 39,
+          "to": 55,
+          "active": true
+        },
+        {
+          "from": 42,
+          "to": 53,
+          "active": true
+        },
+        {
+          "from": 47,
+          "to": 64,
+          "active": true
+        }
+      ],
+      "gates": [
+        {
+          "id": 57,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 14,
+          "active": true
+        },
+        {
+          "id": 64,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 32,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 47,
+          "active": true
+        },
+        {
+          "id": 36,
+          "active": true
+        },
+        {
+          "id": 25,
+          "active": true
+        },
+        {
+          "id": 33,
+          "active": true
+        },
+        {
+          "id": 1,
+          "active": true
+        }
+      ],
+      "metadata": {
+        "type": "Generator",
+        "profile": "6/6",
+        "authority": "Sakral",
+        "strategy": "Warten auf eine Frage",
+        "incarnationCross": {
+          "name": "Right Angle Cross of 57.6/25.6",
+          "sunGate": 57,
+          "earthGate": 25,
+          "sunLine": 6,
+          "earthLine": 6,
+          "description": "Einzigartiges Inkarnationskreuz mit Sonne in Tor 57, Linie 6 und Erde in Tor 25, Linie 6",
+          "lifeTheme": "Individuelle Lebensaufgabe",
+          "purpose": "Deine einzigartige Lebensaufgabe zu erfüllen",
+          "challenges": "Deine wahre Natur zu leben",
+          "gifts": "Einzigartige Gaben und Talente",
+          "affirmation": "Ich lebe meine einzigartige Lebensaufgabe"
+        }
+      },
+      "geocoding": {
+        "birthPlace": "Miltenberg",
+        "coordinates": {
+          "lat": 49.7017584,
+          "lon": 9.2559718
+        },
+        "timezone": "Europe/Berlin",
+        "confidence": 0.8,
+        "formattedAddress": "Miltenberg, Landkreis Miltenberg, Bayern, 63897, Deutschland",
+        "country": "Deutschland",
+        "countryCode": "DE"
+      }
+    },
+    "created_at": "2025-09-21T15:29:58.962Z",
+    "updated_at": "2025-09-21T15:29:58.962Z",
+    "calculation_method": "precise_ephemeris"
+  },
+  {
+    "id": "1758468708586",
+    "user_id": "demo_user",
+    "name": "Heiko",
+    "birth_date": "1980-08-12",
+    "birth_time": "22:10",
+    "birth_place": "Miltenberg",
+    "chart_data": {
+      "centers": {
+        "head": {
+          "defined": true
+        },
+        "ajna": {
+          "defined": true
+        },
+        "throat": {
+          "defined": true
+        },
+        "g": {
+          "defined": true
+        },
+        "heart": {
+          "defined": false
+        },
+        "sacral": {
+          "defined": true
+        },
+        "solar": {
+          "defined": true
+        },
+        "spleen": {
+          "defined": true
+        },
+        "root": {
+          "defined": true
+        }
+      },
+      "channels": [
+        {
+          "from": 1,
+          "to": 8,
+          "active": true
+        },
+        {
+          "from": 2,
+          "to": 14,
+          "active": true
+        },
+        {
+          "from": 3,
+          "to": 60,
+          "active": true
+        },
+        {
+          "from": 4,
+          "to": 63,
+          "active": true
+        },
+        {
+          "from": 5,
+          "to": 15,
+          "active": true
+        },
+        {
+          "from": 6,
+          "to": 59,
+          "active": true
+        },
+        {
+          "from": 7,
+          "to": 31,
+          "active": true
+        },
+        {
+          "from": 9,
+          "to": 52,
+          "active": true
+        },
+        {
+          "from": 10,
+          "to": 20,
+          "active": true
+        },
+        {
+          "from": 11,
+          "to": 56,
+          "active": true
+        },
+        {
+          "from": 12,
+          "to": 22,
+          "active": true
+        },
+        {
+          "from": 13,
+          "to": 33,
+          "active": true
+        },
+        {
+          "from": 16,
+          "to": 48,
+          "active": true
+        },
+        {
+          "from": 17,
+          "to": 62,
+          "active": true
+        },
+        {
+          "from": 18,
+          "to": 58,
+          "active": true
+        },
+        {
+          "from": 19,
+          "to": 49,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 34,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 57,
+          "active": true
+        },
+        {
+          "from": 23,
+          "to": 43,
+          "active": true
+        },
+        {
+          "from": 24,
+          "to": 61,
+          "active": true
+        },
+        {
+          "from": 26,
+          "to": 44,
+          "active": true
+        },
+        {
+          "from": 27,
+          "to": 50,
+          "active": true
+        },
+        {
+          "from": 28,
+          "to": 38,
+          "active": true
+        },
+        {
+          "from": 29,
+          "to": 46,
+          "active": true
+        },
+        {
+          "from": 30,
+          "to": 41,
+          "active": true
+        },
+        {
+          "from": 32,
+          "to": 54,
+          "active": true
+        },
+        {
+          "from": 35,
+          "to": 36,
+          "active": true
+        },
+        {
+          "from": 39,
+          "to": 55,
+          "active": true
+        },
+        {
+          "from": 42,
+          "to": 53,
+          "active": true
+        },
+        {
+          "from": 47,
+          "to": 64,
+          "active": true
+        }
+      ],
+      "gates": [
+        {
+          "id": 57,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 14,
+          "active": true
+        },
+        {
+          "id": 64,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 32,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 47,
+          "active": true
+        },
+        {
+          "id": 36,
+          "active": true
+        },
+        {
+          "id": 25,
+          "active": true
+        },
+        {
+          "id": 33,
+          "active": true
+        },
+        {
+          "id": 1,
+          "active": true
+        }
+      ],
+      "metadata": {
+        "type": "Generator",
+        "profile": "6/6",
+        "authority": "Sakral",
+        "strategy": "Warten auf eine Frage",
+        "incarnationCross": {
+          "name": "Right Angle Cross of 57.6/25.6",
+          "sunGate": 57,
+          "earthGate": 25,
+          "sunLine": 6,
+          "earthLine": 6,
+          "description": "Einzigartiges Inkarnationskreuz mit Sonne in Tor 57, Linie 6 und Erde in Tor 25, Linie 6",
+          "lifeTheme": "Individuelle Lebensaufgabe",
+          "purpose": "Deine einzigartige Lebensaufgabe zu erfüllen",
+          "challenges": "Deine wahre Natur zu leben",
+          "gifts": "Einzigartige Gaben und Talente",
+          "affirmation": "Ich lebe meine einzigartige Lebensaufgabe"
+        }
+      },
+      "geocoding": {
+        "birthPlace": "Miltenberg",
+        "coordinates": {
+          "lat": 49.7017584,
+          "lon": 9.2559718
+        },
+        "timezone": "Europe/Berlin",
+        "confidence": 0.8,
+        "formattedAddress": "Miltenberg, Landkreis Miltenberg, Bayern, 63897, Deutschland",
+        "country": "Deutschland",
+        "countryCode": "DE"
+      }
+    },
+    "created_at": "2025-09-21T15:31:48.586Z",
+    "updated_at": "2025-09-21T15:31:48.587Z",
+    "calculation_method": "precise_ephemeris"
+  },
+  {
+    "id": "1758468708605",
+    "user_id": "demo_user",
+    "name": "Heiko",
+    "birth_date": "1980-08-12",
+    "birth_time": "22:10",
+    "birth_place": "Miltenberg",
+    "chart_data": {
+      "centers": {
+        "head": {
+          "defined": true
+        },
+        "ajna": {
+          "defined": true
+        },
+        "throat": {
+          "defined": true
+        },
+        "g": {
+          "defined": true
+        },
+        "heart": {
+          "defined": false
+        },
+        "sacral": {
+          "defined": true
+        },
+        "solar": {
+          "defined": true
+        },
+        "spleen": {
+          "defined": true
+        },
+        "root": {
+          "defined": true
+        }
+      },
+      "channels": [
+        {
+          "from": 1,
+          "to": 8,
+          "active": true
+        },
+        {
+          "from": 2,
+          "to": 14,
+          "active": true
+        },
+        {
+          "from": 3,
+          "to": 60,
+          "active": true
+        },
+        {
+          "from": 4,
+          "to": 63,
+          "active": true
+        },
+        {
+          "from": 5,
+          "to": 15,
+          "active": true
+        },
+        {
+          "from": 6,
+          "to": 59,
+          "active": true
+        },
+        {
+          "from": 7,
+          "to": 31,
+          "active": true
+        },
+        {
+          "from": 9,
+          "to": 52,
+          "active": true
+        },
+        {
+          "from": 10,
+          "to": 20,
+          "active": true
+        },
+        {
+          "from": 11,
+          "to": 56,
+          "active": true
+        },
+        {
+          "from": 12,
+          "to": 22,
+          "active": true
+        },
+        {
+          "from": 13,
+          "to": 33,
+          "active": true
+        },
+        {
+          "from": 16,
+          "to": 48,
+          "active": true
+        },
+        {
+          "from": 17,
+          "to": 62,
+          "active": true
+        },
+        {
+          "from": 18,
+          "to": 58,
+          "active": true
+        },
+        {
+          "from": 19,
+          "to": 49,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 34,
+          "active": true
+        },
+        {
+          "from": 20,
+          "to": 57,
+          "active": true
+        },
+        {
+          "from": 23,
+          "to": 43,
+          "active": true
+        },
+        {
+          "from": 24,
+          "to": 61,
+          "active": true
+        },
+        {
+          "from": 26,
+          "to": 44,
+          "active": true
+        },
+        {
+          "from": 27,
+          "to": 50,
+          "active": true
+        },
+        {
+          "from": 28,
+          "to": 38,
+          "active": true
+        },
+        {
+          "from": 29,
+          "to": 46,
+          "active": true
+        },
+        {
+          "from": 30,
+          "to": 41,
+          "active": true
+        },
+        {
+          "from": 32,
+          "to": 54,
+          "active": true
+        },
+        {
+          "from": 35,
+          "to": 36,
+          "active": true
+        },
+        {
+          "from": 39,
+          "to": 55,
+          "active": true
+        },
+        {
+          "from": 42,
+          "to": 53,
+          "active": true
+        },
+        {
+          "from": 47,
+          "to": 64,
+          "active": true
+        }
+      ],
+      "gates": [
+        {
+          "id": 57,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 14,
+          "active": true
+        },
+        {
+          "id": 64,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 30,
+          "active": true
+        },
+        {
+          "id": 32,
+          "active": true
+        },
+        {
+          "id": 42,
+          "active": true
+        },
+        {
+          "id": 47,
+          "active": true
+        },
+        {
+          "id": 36,
+          "active": true
+        },
+        {
+          "id": 25,
+          "active": true
+        },
+        {
+          "id": 33,
+          "active": true
+        },
+        {
+          "id": 1,
+          "active": true
+        }
+      ],
+      "metadata": {
+        "type": "Generator",
+        "profile": "6/6",
+        "authority": "Sakral",
+        "strategy": "Warten auf eine Frage",
+        "incarnationCross": {
+          "name": "Right Angle Cross of 57.6/25.6",
+          "sunGate": 57,
+          "earthGate": 25,
+          "sunLine": 6,
+          "earthLine": 6,
+          "description": "Einzigartiges Inkarnationskreuz mit Sonne in Tor 57, Linie 6 und Erde in Tor 25, Linie 6",
+          "lifeTheme": "Individuelle Lebensaufgabe",
+          "purpose": "Deine einzigartige Lebensaufgabe zu erfüllen",
+          "challenges": "Deine wahre Natur zu leben",
+          "gifts": "Einzigartige Gaben und Talente",
+          "affirmation": "Ich lebe meine einzigartige Lebensaufgabe"
+        }
+      },
+      "geocoding": {
+        "birthPlace": "Miltenberg",
+        "coordinates": {
+          "lat": 49.7017584,
+          "lon": 9.2559718
+        },
+        "timezone": "Europe/Berlin",
+        "confidence": 0.8,
+        "formattedAddress": "Miltenberg, Landkreis Miltenberg, Bayern, 63897, Deutschland",
+        "country": "Deutschland",
+        "countryCode": "DE"
+      }
+    },
+    "created_at": "2025-09-21T15:31:48.605Z",
+    "updated_at": "2025-09-21T15:31:48.610Z",
+    "calculation_method": "precise_ephemeris"
   }
 ]

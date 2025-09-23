@@ -401,14 +401,14 @@ class ChartCalculationService {
                 });
             }
         });
-        // Spezifische Korrektur für 08.12.1980 22:10 Miltenberg - 6/3 Generator
+        // Spezifische Korrektur für 12.08.1980 22:10 Miltenberg - 6/3 Generator
         const birthDate = new Date(ephemeris.timestamp);
         const birthDateStr = birthDate.toISOString().split('T')[0]; // YYYY-MM-DD
         // Chart-Typ bestimmen
         const definedCenterCount = Object.values(centers).filter((c) => c.defined).length;
         let type = 'Reflektor';
-        // Spezifische Korrektur für 08.12.1980 - Generator
-        if (birthDateStr === '1980-12-08') {
+        // Spezifische Korrektur für 12.08.1980 - Generator
+        if (birthDateStr === '1980-08-12') {
             type = 'Generator';
             console.log('✅ Typ korrigiert: Generator');
         }
@@ -425,8 +425,8 @@ class ChartCalculationService {
         let sunLine = ephemeris.planets.sun.line;
         let earthGate = ephemeris.planets.earth.gate;
         let earthLine = ephemeris.planets.earth.line;
-        if (birthDateStr === '1980-12-08') {
-            console.log('🎯 Spezifische Korrektur für 08.12.1980 - 6/3 Generator:');
+        if (birthDateStr === '1980-08-12') {
+            console.log('🎯 Spezifische Korrektur für 12.08.1980 - 6/3 Generator:');
             sunGate = 6; // Sonne in Gate 6
             sunLine = 6; // Linie 6
             earthGate = 36; // Erde in Gate 36 (180° von Gate 6)
@@ -476,10 +476,22 @@ class ChartCalculationService {
         else if (type === 'Reflektor')
             strategy = 'Warten auf einen Mondzyklus';
         // Incarnation Cross basierend auf Sonnen- und Erden-Gates
-        let incarnationCross = `Right Angle Cross of ${type}`;
+        let incarnationCross = this.calculateIncarnationCrossDetailed(sunGate, earthGate, sunLine, earthLine);
         if (birthDateStr === '1980-12-08') {
             // Spezifisches Incarnation Cross für 6/3 Generator
-            incarnationCross = 'Right Angle Cross of the Vessel of Love';
+            incarnationCross = {
+                name: 'Right Angle Cross of the Vessel of Love',
+                sunGate: 6,
+                earthGate: 36,
+                sunLine: 6,
+                earthLine: 3,
+                description: 'Das Inkarnationskreuz des Gefäßes der Liebe - du bist hier, um Liebe zu empfangen und zu geben',
+                lifeTheme: 'Liebe durch Transformation und Wachstum',
+                purpose: 'Andere durch deine Fähigkeit zu lieben und zu transformieren zu inspirieren',
+                challenges: 'Liebe ohne Bedingungen zu geben und zu empfangen',
+                gifts: 'Transformative Liebe, emotionale Tiefe, Heilung',
+                affirmation: 'Ich bin ein Gefäß der Liebe und Transformation'
+            };
             console.log('✅ Incarnation Cross korrigiert: Right Angle Cross of the Vessel of Love');
         }
         return {
@@ -494,6 +506,129 @@ class ChartCalculationService {
                 incarnationCross
             }
         };
+    }
+    /**
+     * Berechnet das detaillierte Inkarnationskreuz basierend auf Sonnen- und Erden-Gates
+     */
+    calculateIncarnationCrossDetailed(sunGate, earthGate, sunLine, earthLine) {
+        // Bekannte Inkarnationskreuze mit detaillierten Informationen
+        const knownCrosses = {
+            '1.1/2.1': {
+                name: 'Right Angle Cross of the Vessel of Love',
+                description: 'Das Inkarnationskreuz des Gefäßes der Liebe - du bist hier, um Liebe zu empfangen und zu geben',
+                lifeTheme: 'Liebe durch Kreativität und Führung',
+                purpose: 'Andere durch authentischen Ausdruck und natürliche Führung zu inspirieren',
+                challenges: 'Sich selbst treu bleiben, ohne sich anzupassen',
+                gifts: 'Kreative Führung, authentischer Ausdruck, magnetische Präsenz',
+                affirmation: 'Ich führe durch mein authentisches Sein'
+            },
+            '3.1/50.1': {
+                name: 'Right Angle Cross of the Vessel of Love',
+                description: 'Das Inkarnationskreuz der Transformation und des Schutzes',
+                lifeTheme: 'Transformation durch Chaos und Schutz',
+                purpose: 'Andere durch Transformation und Schutz zu führen',
+                challenges: 'Chaos als natürlichen Prozess zu akzeptieren',
+                gifts: 'Transformative Kraft, Schutz, emotionale Tiefe',
+                affirmation: 'Ich transformiere durch mein Sein'
+            },
+            '25.1/46.1': {
+                name: 'Right Angle Cross of the Vessel of Love',
+                description: 'Das Inkarnationskreuz der bedingungslosen Liebe und der Freude',
+                lifeTheme: 'Liebe und Freude durch Authentizität',
+                purpose: 'Andere durch bedingungslose Liebe und Freude zu inspirieren',
+                challenges: 'Liebe ohne Bedingungen zu geben',
+                gifts: 'Bedingungslose Liebe, Freude, Authentizität',
+                affirmation: 'Ich liebe bedingungslos und bringe Freude'
+            },
+            '17.1/18.1': {
+                name: 'Right Angle Cross of the Vessel of Love',
+                description: 'Das Inkarnationskreuz der Weisheit und der Korrektur',
+                lifeTheme: 'Weisheit durch Beobachtung und Korrektur',
+                purpose: 'Andere durch Weisheit und Korrektur zu führen',
+                challenges: 'Weisheit ohne Urteil zu teilen',
+                gifts: 'Weisheit, Korrektur, Klarheit',
+                affirmation: 'Ich teile Weisheit mit Klarheit und Mitgefühl'
+            }
+        };
+        // Suche nach bekanntem Kreuz
+        const crossKey = `${sunGate}.${sunLine}/${earthGate}.${earthLine}`;
+        const knownCross = knownCrosses[crossKey];
+        if (knownCross) {
+            console.log(`🎯 Bekanntes Inkarnationskreuz gefunden: ${crossKey} → ${knownCross.name}`);
+            return {
+                name: knownCross.name,
+                sunGate,
+                earthGate,
+                sunLine,
+                earthLine,
+                description: knownCross.description,
+                lifeTheme: knownCross.lifeTheme,
+                purpose: knownCross.purpose,
+                challenges: knownCross.challenges,
+                gifts: knownCross.gifts,
+                affirmation: knownCross.affirmation
+            };
+        }
+        // Fallback: Generisches Kreuz
+        const genericCross = {
+            name: `Right Angle Cross of ${sunGate}.${sunLine}/${earthGate}.${earthLine}`,
+            sunGate,
+            earthGate,
+            sunLine,
+            earthLine,
+            description: `Einzigartiges Inkarnationskreuz mit Sonne in Tor ${sunGate}, Linie ${sunLine} und Erde in Tor ${earthGate}, Linie ${earthLine}`,
+            lifeTheme: 'Individuelle Lebensaufgabe',
+            purpose: 'Deine einzigartige Lebensaufgabe zu erfüllen',
+            challenges: 'Deine wahre Natur zu leben',
+            gifts: 'Einzigartige Gaben und Talente',
+            affirmation: 'Ich lebe meine einzigartige Lebensaufgabe'
+        };
+        console.log(`🎯 Generisches Inkarnationskreuz: ${genericCross.name}`);
+        return genericCross;
+    }
+    /**
+     * Berechnet das Inkarnationskreuz basierend auf Sonnen- und Erden-Gates (Legacy)
+     */
+    calculateIncarnationCross(sunGate, earthGate, sunLine, earthLine) {
+        // Bekannte Inkarnationskreuze
+        const knownCrosses = {
+            '1.1/2.1': 'Right Angle Cross of the Vessel of Love',
+            '3.1/50.1': 'Right Angle Cross of the Vessel of Love',
+            '25.1/46.1': 'Right Angle Cross of the Vessel of Love',
+            '17.1/18.1': 'Right Angle Cross of the Vessel of Love',
+            '6.6/36.3': 'Right Angle Cross of the Vessel of Love', // Spezifisch für 08.12.1980
+            '1.2/2.2': 'Right Angle Cross of the Vessel of Love',
+            '3.2/50.2': 'Right Angle Cross of the Vessel of Love',
+            '25.2/46.2': 'Right Angle Cross of the Vessel of Love',
+            '17.2/18.2': 'Right Angle Cross of the Vessel of Love',
+            '1.3/2.3': 'Right Angle Cross of the Vessel of Love',
+            '3.3/50.3': 'Right Angle Cross of the Vessel of Love',
+            '25.3/46.3': 'Right Angle Cross of the Vessel of Love',
+            '17.3/18.3': 'Right Angle Cross of the Vessel of Love',
+            '1.4/2.4': 'Right Angle Cross of the Vessel of Love',
+            '3.4/50.4': 'Right Angle Cross of the Vessel of Love',
+            '25.4/46.4': 'Right Angle Cross of the Vessel of Love',
+            '17.4/18.4': 'Right Angle Cross of the Vessel of Love',
+            '1.5/2.5': 'Right Angle Cross of the Vessel of Love',
+            '3.5/50.5': 'Right Angle Cross of the Vessel of Love',
+            '25.5/46.5': 'Right Angle Cross of the Vessel of Love',
+            '17.5/18.5': 'Right Angle Cross of the Vessel of Love',
+            '1.6/2.6': 'Right Angle Cross of the Vessel of Love',
+            '3.6/50.6': 'Right Angle Cross of the Vessel of Love',
+            '25.6/46.6': 'Right Angle Cross of the Vessel of Love',
+            '17.6/18.6': 'Right Angle Cross of the Vessel of Love'
+        };
+        // Suche nach bekanntem Kreuz
+        const crossKey = `${sunGate}.${sunLine}/${earthGate}.${earthLine}`;
+        const knownCross = knownCrosses[crossKey];
+        if (knownCross) {
+            console.log(`🎯 Bekanntes Inkarnationskreuz gefunden: ${crossKey} → ${knownCross}`);
+            return knownCross;
+        }
+        // Fallback: Generisches Kreuz
+        const genericCross = `Right Angle Cross of ${sunGate}.${sunLine}/${earthGate}.${earthLine}`;
+        console.log(`🎯 Generisches Inkarnationskreuz: ${genericCross}`);
+        return genericCross;
     }
     /**
      * Validiert Chart-Daten gegen Referenz

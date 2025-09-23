@@ -1,4 +1,5 @@
 import { checkPageAccess } from '../subscription/accessControl';
+import type { UserSubscription as SubscriptionType } from '../subscription/types';
 
 export interface UserData {
   subscriptionPlan?: string;
@@ -8,10 +9,15 @@ export interface UserData {
 }
 
 export interface UserSubscription {
+  userId?: string;
   packageId?: string;
   plan?: string;
   status?: string;
   startDate?: string;
+  endDate?: string;
+  autoRenew?: boolean;
+  paymentMethod?: string;
+  billingCycle?: string;
   features?: string[];
 }
 
@@ -42,11 +48,15 @@ export const smartRedirect = (targetPath?: string): string => {
   });
   
   // Erstelle UserSubscription-Objekt für AccessControl
-  const subscription = {
-    packageId: currentPlan,
+  const subscription: SubscriptionType = {
+    userId: userData?.id || 'unknown',
+    packageId: currentPlan as 'basic' | 'premium' | 'vip',
     status: 'active',
     startDate: new Date().toISOString(),
-    features: userSubscription?.features || []
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    autoRenew: false,
+    paymentMethod: 'none',
+    billingCycle: 'monthly'
   };
   
   // Wenn eine spezifische Seite gewünscht ist, prüfe die Berechtigung
@@ -82,7 +92,15 @@ export const smartRedirect = (targetPath?: string): string => {
 export const getUserData = (): UserData | null => {
   try {
     const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
+    if (!userData) return null;
+    
+    const parsed = JSON.parse(userData);
+    return {
+      subscriptionPlan: parsed?.subscriptionPlan || 'basic',
+      id: parsed?.id || '',
+      name: parsed?.name || '',
+      email: parsed?.email || ''
+    };
   } catch (error) {
     console.error('Fehler beim Laden der Benutzer-Daten:', error);
     return null;
@@ -106,16 +124,15 @@ export const getUserSubscription = (): UserSubscription | null => {
       });
       
       return {
-        userId: user.id || 'unknown',
-        packageId: user.subscriptionPlan || 'basic', // WICHTIG: subscriptionPlan wird zu packageId
-        status: user.subscriptionStatus || 'active',
-        startDate: user.subscriptionStartDate || new Date().toISOString(),
-        endDate: user.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        autoRenew: user.autoRenew || false,
-        paymentMethod: user.paymentMethod || 'none',
-        billingCycle: user.billingCycle || 'monthly',
-        features: user.features || []
-      };
+        userId: user?.id || 'unknown',
+        packageId: user?.subscriptionPlan || 'basic', // WICHTIG: subscriptionPlan wird zu packageId
+        status: user?.subscriptionStatus || 'active',
+        startDate: user?.subscriptionStartDate || new Date().toISOString(),
+        endDate: user?.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        autoRenew: user?.autoRenew || false,
+        paymentMethod: user?.paymentMethod || 'none',
+        billingCycle: user?.billingCycle || 'monthly',
+      } as SubscriptionType;
     }
     return null;
   } catch (error) {
@@ -160,11 +177,15 @@ export const hasAccess = (path: string): boolean => {
   const userSubscription = getUserSubscription();
   const currentPlan = getCurrentPlan(userData, userSubscription);
   
-  const subscription = {
-    packageId: currentPlan,
+  const subscription: SubscriptionType = {
+    userId: userData?.id || 'unknown',
+    packageId: currentPlan as 'basic' | 'premium' | 'vip',
     status: 'active',
     startDate: new Date().toISOString(),
-    features: userSubscription?.features || []
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    autoRenew: false,
+    paymentMethod: 'none',
+    billingCycle: 'monthly'
   };
   
   const access = checkPageAccess(path, subscription);
@@ -179,11 +200,15 @@ export const getAccessiblePages = (): string[] => {
   const userSubscription = getUserSubscription();
   const currentPlan = getCurrentPlan(userData, userSubscription);
   
-  const subscription = {
-    packageId: currentPlan,
+  const subscription: SubscriptionType = {
+    userId: userData?.id || 'unknown',
+    packageId: currentPlan as 'basic' | 'premium' | 'vip',
     status: 'active',
     startDate: new Date().toISOString(),
-    features: userSubscription?.features || []
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    autoRenew: false,
+    paymentMethod: 'none',
+    billingCycle: 'monthly'
   };
   
   // Liste der wichtigsten Seiten

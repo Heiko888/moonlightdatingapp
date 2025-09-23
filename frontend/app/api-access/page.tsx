@@ -11,15 +11,12 @@ import {
   CardContent,
   Button,
   Chip,
-  Avatar,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Paper,
   IconButton,
-  Badge,
-  Alert,
   Tabs,
   Tab,
   Dialog,
@@ -27,72 +24,41 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  Divider,
   LinearProgress,
-  Rating,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TablePagination,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Code,
-  CopyAll
 } from '@mui/material';
 import {
   Zap,
   Key,
   Code2,
-  Download,
-  Share2,
-  Filter,
-  Search,
-  Award,
-  Target,
-  Heart,
-  Brain,
-  Crown,
-  BookOpen,
-  FileText,
-  Settings,
   Eye,
-  EyeOff,
   Copy,
   Check,
-  AlertCircle,
-  Info,
   Play,
-  Pause,
   RotateCcw,
   Trash2,
   Plus,
-  Edit,
   ExternalLink,
-  Lock,
-  Unlock,
   Activity,
   BarChart3,
   TrendingUp,
   Users,
-  Calendar,
-  MessageCircle,
-  Star,
-  Clock,
-  CheckCircle
+  Heart,
+  BookOpen
 } from 'lucide-react';
-import AccessControl from '@/lib/subscription/accessControl';
+import AccessControl from '@/components/AccessControl';
 
 interface APIKey {
   id: string;
@@ -113,8 +79,8 @@ interface APIEndpoint {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   path: string;
   description: string;
-  parameters: any[];
-  response: any;
+  parameters: unknown[];
+  response: unknown;
   rateLimit: number;
   category: 'charts' | 'compatibility' | 'readings' | 'users';
 }
@@ -268,7 +234,7 @@ export default function APIAccessPage() {
       id: Date.now().toString(),
       name: newKey.name,
       key: `hd_vip_sk_${newKey.type}_${Math.random().toString(36).substr(2, 16)}`,
-      type: newKey.type as any,
+      type: newKey.type as 'production' | 'test',
       status: 'active',
       createdAt: new Date().toISOString().split('T')[0],
       lastUsed: 'Nie',
@@ -331,7 +297,7 @@ export default function APIAccessPage() {
   };
 
   return (
-    <AccessControl requiredPackage="vip">
+    <AccessControl path="/api-access">
       <Box sx={{ 
         minHeight: '100vh', 
         background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
@@ -689,15 +655,16 @@ export default function APIAccessPage() {
                               <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
                                 Endpoint:
                               </Typography>
-                              <Code sx={{ 
+                              <Box sx={{ 
                                 background: 'rgba(0,0,0,0.3)', 
                                 color: '#FFD700', 
                                 p: 1, 
                                 borderRadius: 1,
-                                fontSize: '0.9rem'
+                                fontSize: '0.9rem',
+                                fontFamily: 'monospace'
                               }}>
                                 {endpoint.method} {endpoint.path}
-                              </Code>
+                              </Box>
                             </Box>
                             
                             <Box sx={{ display: 'flex', gap: 1 }}>
@@ -843,13 +810,14 @@ export default function APIAccessPage() {
                               </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                              <Code sx={{ 
+                              <Box sx={{ 
                                 background: 'rgba(0,0,0,0.3)', 
                                 color: '#10b981', 
                                 p: 1, 
                                 borderRadius: 1,
                                 fontSize: '0.8rem',
-                                display: 'block'
+                                display: 'block',
+                                fontFamily: 'monospace'
                               }}>
                                 {`curl -X POST https://api.humandesign.app/v1/charts/calculate \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
@@ -859,7 +827,7 @@ export default function APIAccessPage() {
     "birth_time": "14:30",
     "birth_place": "Berlin, Germany"
   }'`}
-                              </Code>
+                              </Box>
                             </AccordionDetails>
                           </Accordion>
                           
@@ -870,13 +838,14 @@ export default function APIAccessPage() {
                               </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                              <Code sx={{ 
+                              <Box sx={{ 
                                 background: 'rgba(0,0,0,0.3)', 
                                 color: '#10b981', 
                                 p: 1, 
                                 borderRadius: 1,
                                 fontSize: '0.8rem',
-                                display: 'block'
+                                display: 'block',
+                                fontFamily: 'monospace'
                               }}>
                                 {`curl -X POST https://api.humandesign.app/v1/compatibility/calculate \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
@@ -886,7 +855,7 @@ export default function APIAccessPage() {
     "chart2": {...},
     "type": "dating"
   }'`}
-                              </Code>
+                              </Box>
                             </AccordionDetails>
                           </Accordion>
                         </CardContent>
@@ -1002,16 +971,17 @@ export default function APIAccessPage() {
                     <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
                       Endpoint
                     </Typography>
-                    <Code sx={{ 
+                    <Box sx={{ 
                       background: 'rgba(0,0,0,0.3)', 
                       color: '#FFD700', 
                       p: 2, 
                       borderRadius: 1,
                       fontSize: '1rem',
-                      display: 'block'
+                      display: 'block',
+                      fontFamily: 'monospace'
                     }}>
                       {selectedEndpoint.method} {selectedEndpoint.path}
-                    </Code>
+                    </Box>
                   </Box>
                   
                   <Box sx={{ mb: 3 }}>
@@ -1025,10 +995,10 @@ export default function APIAccessPage() {
                             primary={
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Typography variant="body2" sx={{ color: '#fff', fontWeight: 600 }}>
-                                  {param.name}
+                                  {(param as { name: string }).name}
                                 </Typography>
                                 <Chip 
-                                  label={param.type} 
+                                  label={(param as { type: string }).type} 
                                   size="small" 
                                   sx={{ 
                                     background: 'rgba(139, 92, 246, 0.2)',
@@ -1036,7 +1006,7 @@ export default function APIAccessPage() {
                                     fontSize: '0.7rem'
                                   }} 
                                 />
-                                {param.required && (
+                                {(param as { required?: boolean }).required && (
                                   <Chip 
                                     label="Required" 
                                     size="small" 
@@ -1049,7 +1019,7 @@ export default function APIAccessPage() {
                                 )}
                               </Box>
                             }
-                            secondary={param.description}
+                            secondary={(param as { description: string }).description}
                             sx={{ color: 'rgba(255,255,255,0.8)' }}
                           />
                         </ListItem>
@@ -1061,16 +1031,17 @@ export default function APIAccessPage() {
                     <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
                       Response
                     </Typography>
-                    <Code sx={{ 
+                    <Box sx={{ 
                       background: 'rgba(0,0,0,0.3)', 
                       color: '#10b981', 
                       p: 2, 
                       borderRadius: 1,
                       fontSize: '0.9rem',
-                      display: 'block'
+                      display: 'block',
+                      fontFamily: 'monospace'
                     }}>
                       {JSON.stringify(selectedEndpoint.response, null, 2)}
-                    </Code>
+                    </Box>
                   </Box>
                 </Box>
               )}

@@ -1,0 +1,21 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Kopiere package.json
+COPY package*.json ./
+
+# Installiere Abhängigkeiten
+RUN npm install --legacy-peer-deps
+
+# Kopiere den Quellcode
+COPY . .
+
+# Exponiere Port 3000
+EXPOSE 3000
+
+# Starte den Development-Server
+CMD ["npm", "run", "dev"]
+
+
+

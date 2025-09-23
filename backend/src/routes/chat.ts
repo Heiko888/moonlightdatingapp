@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import openaiService from '../services/openaiService';
 
 const router = express.Router();
 
@@ -462,6 +463,126 @@ router.post('/create', async (req: Request, res: Response) => {
       error: 'Fehler beim Erstellen des Chats'
     });
   }
+});
+
+// POST /chat/ai - ChatGPT-ähnlicher Chat mit Human Design Kontext
+router.post('/ai', async (req: Request, res: Response) => {
+  try {
+    const { message, chatHistory = [], userChart, userId } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Nachricht ist erforderlich' 
+      });
+    }
+
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(503).json({ 
+        success: false,
+        error: 'AI-Service nicht verfügbar - API Key fehlt' 
+      });
+    }
+
+    console.log('🤖 AI-Chat Anfrage erhalten:', { message: message.substring(0, 100) + '...', userId });
+
+    // Verwende den OpenAI Service für Chat
+    const aiResponse = await openaiService.chatWithContext(message, chatHistory, userChart);
+
+    // Speichere Chat-Verlauf (optional)
+    const chatEntry = {
+      id: uuidv4(),
+      user_id: userId,
+      message: message,
+      ai_response: aiResponse.response,
+      user_chart: userChart,
+      created_at: new Date().toISOString(),
+      tokens_used: aiResponse.tokens
+    };
+
+    // Hier könnten Sie den Chat-Verlauf in einer Datenbank speichern
+    console.log('💾 Chat-Eintrag erstellt:', chatEntry.id);
+
+    res.json({
+      success: true,
+      response: aiResponse.response,
+      tokens_used: aiResponse.tokens,
+      chat_id: chatEntry.id,
+      timestamp: chatEntry.created_at
+    });
+
+  } catch (error) {
+    console.error('❌ Fehler beim AI-Chat:', error);
+    res.status(500).json({ 
+      success: false,
+      error: 'Fehler beim Verarbeiten der AI-Anfrage',
+      details: error instanceof Error ? error.message : 'Unbekannter Fehler'
+    });
+  }
+});
+
+// POST /chat/ai/question - Spezielle Human Design Fragen
+router.post('/ai/question', async (req: Request, res: Response) => {
+  try {
+    const { question, context, userId } = req.body;
+    
+    if (!question) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Frage ist erforderlich' 
+      });
+    }
+
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(503).json({ 
+        success: false,
+        error: 'AI-Service nicht verfügbar - API Key fehlt' 
+      });
+    }
+
+    console.log('❓ HD-Frage erhalten:', { question: question.substring(0, 100) + '...', userId });
+
+    // Verwende den OpenAI Service für HD-Fragen
+    const aiResponse = await openaiService.answerHDQuestion(question, context);
+
+    res.json({
+      success: true,
+      answer: aiResponse.answer,
+      question: aiResponse.question,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('❌ Fehler bei der HD-Frage:', error);
+    res.status(500).json({ 
+      success: false,
+      error: 'Fehler beim Beantworten der Frage',
+      details: error instanceof Error ? error.message : 'Unbekannter Fehler'
+    });
+  }
+});
+
+// GET /chat/ai/status - AI-Service Status prüfen
+router.get('/ai/status', (req: Request, res: Response) => {
+  const status = {
+    aiAvailable: !!process.env.OPENAI_API_KEY,
+    features: [
+      'ChatGPT-ähnlicher Chat',
+      'Human Design Fragen beantworten',
+      'Chart-Kontext Integration',
+      'PDF-Wissen Integration'
+    ],
+    models: {
+      current: 'gpt-4o-mini',
+      maxTokens: 4000,
+      temperature: 0.7
+    }
+  };
+
+  res.json({
+    success: true,
+    status
+  });
 });
 
 export default router;

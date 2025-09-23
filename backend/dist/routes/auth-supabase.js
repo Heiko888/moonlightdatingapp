@@ -31,11 +31,43 @@ function initUserDb() {
             name: 'Test User',
             firstName: 'Test',
             lastName: 'User',
+            subscriptionPlan: 'basic',
+            subscriptionStatus: 'active',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
         };
-        fs_1.default.writeFileSync(userDbPath, JSON.stringify([defaultUser], null, 2));
+        // Premium-User erstellen
+        const premiumUser = {
+            id: '2',
+            username: 'premiumuser',
+            email: 'premium@hdapp.com',
+            password_hash: bcrypt_1.default.hashSync('premium123', 10),
+            name: 'Premium User',
+            firstName: 'Premium',
+            lastName: 'User',
+            subscriptionPlan: 'premium',
+            subscriptionStatus: 'active',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        };
+        // VIP-User erstellen
+        const vipUser = {
+            id: '3',
+            username: 'vipuser',
+            email: 'vip@hdapp.com',
+            password_hash: bcrypt_1.default.hashSync('vip123', 10),
+            name: 'VIP User',
+            firstName: 'VIP',
+            lastName: 'User',
+            subscriptionPlan: 'vip',
+            subscriptionStatus: 'active',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        };
+        fs_1.default.writeFileSync(userDbPath, JSON.stringify([defaultUser, premiumUser, vipUser], null, 2));
         console.log('✅ Standard-User erstellt: test@hdapp.com / test123');
+        console.log('✅ Premium-User erstellt: premium@hdapp.com / premium123');
+        console.log('✅ VIP-User erstellt: vip@hdapp.com / vip123');
     }
 }
 // User-Datenbank laden

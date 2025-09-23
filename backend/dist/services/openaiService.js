@@ -4,15 +4,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const openai_1 = __importDefault(require("openai"));
+const fallbackService_1 = __importDefault(require("./fallbackService"));
+const apiKeyManager_1 = __importDefault(require("../utils/apiKeyManager"));
 class OpenAIService {
     constructor(config) {
-        this.client = new openai_1.default({
-            apiKey: config.apiKey,
-        });
+        this.client = null;
+        this.isAPIKeyValid = false;
         this.config = config;
+        this.initializeClient();
+    }
+    initializeClient() {
+        const keyStatus = apiKeyManager_1.default.getAPIKeyStatus();
+        this.isAPIKeyValid = keyStatus.isValid && !keyStatus.isDemo;
+        if (this.isAPIKeyValid) {
+            this.client = new openai_1.default({
+                apiKey: this.config.apiKey,
+            });
+            console.log('✅ OpenAI Client initialisiert');
+        }
+        else {
+            console.log('⚠️ OpenAI API Key nicht verfügbar - Fallback-Modus aktiviert');
+            console.log(`Status: ${keyStatus.message}`);
+        }
     }
     // Human Design Chart-Berechnung mit PDF-Wissen
     async calculateHumanDesignChartWithPDFs(birthData) {
+        // Fallback wenn API Key nicht verfügbar
+        if (!this.isAPIKeyValid || !this.client) {
+            console.log('🔄 Verwende Fallback für Chart-Berechnung');
+            return fallbackService_1.default.analyzeChartFallback({
+                type: 'Generator',
+                profile: '1/3',
+                authority: 'Sacral',
+                strategy: 'To Respond',
+                notSelf: 'Frustration'
+            });
+        }
         try {
             const systemPrompt = `Du bist ein erfahrener Human Design Experte mit Zugang zu umfangreichen PDF-Dokumenten über Human Design. 
       
@@ -271,6 +298,97 @@ class OpenAIService {
         }
         catch (error) {
             console.error('Fehler bei der Element-Analyse:', error);
+            throw error;
+        }
+    }
+    // ChatGPT-ähnlicher Chat mit Human Design Kontext
+    async chatWithContext(message, chatHistory = [], userChart) {
+        try {
+            const systemPrompt = `Du bist ein freundlicher und hilfsreicher Human Design Coach und Berater. 
+      
+      Du hast Zugang zu umfangreichen PDF-Dokumenten über Human Design und kannst:
+      - Human Design Charts analysieren und interpretieren
+      - Persönliche Fragen zu Human Design beantworten
+      - Coaching und Beratung anbieten
+      - Praktische Tipps für den Alltag geben
+      - Bei Entscheidungen helfen
+      - Beziehungen und Kompatibilität analysieren
+      
+      ${userChart ? `
+      Aktueller Benutzer-Chart:
+      - Typ: ${userChart.type || 'Unbekannt'}
+      - Profil: ${userChart.profile || 'Unbekannt'}
+      - Autorität: ${userChart.authority || 'Unbekannt'}
+      - Strategie: ${userChart.strategy || 'Unbekannt'}
+      ` : ''}
+      
+      Antworte auf Deutsch, sei persönlich, ermutigend und praktisch. 
+      Verwende das PDF-Wissen für fundierte Antworten.`;
+            const messages = [
+                { role: 'system', content: systemPrompt },
+                ...chatHistory,
+                { role: 'user', content: message }
+            ];
+            const response = await this.client.chat.completions.create({
+                model: this.config.model,
+                messages: messages,
+                max_tokens: 1500,
+                temperature: 0.7,
+            });
+            return {
+                success: true,
+                response: response.choices[0].message.content,
+                tokens: response.usage?.total_tokens || 0
+            };
+        }
+        catch (error) {
+            console.error('Fehler beim Chat:', error);
+            throw error;
+        }
+    }
+    // Spezielle Human Design Fragen beantworten
+    async answerHDQuestion(question, context) {
+        // Fallback wenn API Key nicht verfügbar
+        if (!this.isAPIKeyValid || !this.client) {
+            console.log('🔄 Verwende Fallback für Chat-Antwort');
+            return {
+                answer: fallbackService_1.default.getChatFallback(question),
+                sources: ['Human Design Grundprinzipien'],
+                confidence: 0.7
+            };
+        }
+        try {
+            const systemPrompt = `Du bist ein Human Design Experte mit Zugang zu umfangreichen PDF-Dokumenten.
+      
+      Beantworte die Frage präzise und hilfreich basierend auf dem PDF-Wissen.
+      Verwende:
+      - Genaue Definitionen aus den PDFs
+      - Praktische Beispiele
+      - Coaching-Empfehlungen
+      - Aktuelle Entwicklungen im Human Design
+      
+      Sei professionell, aber zugänglich.`;
+            const userPrompt = `Frage: ${question}
+      ${context ? `Kontext: ${JSON.stringify(context)}` : ''}
+      
+      Bitte beantworte basierend auf dem PDF-Wissen.`;
+            const response = await this.client.chat.completions.create({
+                model: this.config.model,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ],
+                max_tokens: 1200,
+                temperature: 0.6,
+            });
+            return {
+                success: true,
+                answer: response.choices[0].message.content,
+                question: question
+            };
+        }
+        catch (error) {
+            console.error('Fehler bei der HD-Frage:', error);
             throw error;
         }
     }

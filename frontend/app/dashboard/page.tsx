@@ -87,7 +87,7 @@ export default function DashboardPage() {
             const userDataStr = localStorage.getItem('userData');
             if (userDataStr && userDataStr !== 'null' && userDataStr !== 'undefined') {
               userData = JSON.parse(userDataStr);
-              userName = (userData && typeof userData === 'object' && userData.name) ? userData.name : 'User';
+              userName = (userData && typeof userData === 'object' && 'name' in userData && typeof userData.name === 'string') ? userData.name : 'User';
             }
           } catch (userDataError) {
             console.warn('Fehler beim Parsen von userData:', userDataError);
@@ -104,9 +104,9 @@ export default function DashboardPage() {
         }
         
         // Plan bestimmen
-        if (userData && typeof userData === 'object' && userData.subscriptionPlan) {
+        if (userData && typeof userData === 'object' && 'subscriptionPlan' in userData && typeof userData.subscriptionPlan === 'string') {
           currentPlan = userData.subscriptionPlan;
-        } else if (userSubscription && typeof userSubscription === 'object' && userSubscription.packageId) {
+        } else if (userSubscription && typeof userSubscription === 'object' && 'packageId' in userSubscription && typeof userSubscription.packageId === 'string') {
           currentPlan = userSubscription.packageId;
         }
 
@@ -114,8 +114,8 @@ export default function DashboardPage() {
         setUsername(userName);
         setUserSubscription({
           packageId: currentPlan,
-          status: (userSubscription && userSubscription.status) ? userSubscription.status : 'active',
-          startDate: (userSubscription && userSubscription.startDate) ? userSubscription.startDate : new Date().toISOString(),
+          status: (userSubscription && typeof userSubscription === 'object' && 'status' in userSubscription && typeof userSubscription.status === 'string') ? userSubscription.status : 'active',
+          startDate: (userSubscription && typeof userSubscription === 'object' && 'startDate' in userSubscription && typeof userSubscription.startDate === 'string') ? userSubscription.startDate : new Date().toISOString(),
         });
 
         // Dashboard-Daten laden

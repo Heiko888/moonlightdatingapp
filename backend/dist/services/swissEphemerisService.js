@@ -205,6 +205,15 @@ class SwissEphemerisAlternative {
                 w: 0.0,
                 M0: 0.0,
                 n: 0.0
+            },
+            blackmoonlilith: {
+                a: 0.0, // Black Moon Lilith ist ein berechneter Punkt
+                e: 0.0,
+                i: 0.0,
+                Omega: 0.0,
+                w: 0.0,
+                M0: 0.0,
+                n: 0.0
             }
         };
         return elements[planet.toLowerCase()];

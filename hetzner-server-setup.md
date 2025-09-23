@@ -105,6 +105,7 @@ nano .env
 ```
 
 **Production .env Konfiguration:**
+
 ```env
 NODE_ENV=production
 PORT=4001
@@ -247,10 +248,10 @@ echo "✅ Deployment abgeschlossen!"
 
 ## 🎯 URLs nach Deployment
 
-- **Frontend**: http://138.199.237.34:3000
-- **Backend API**: http://138.199.237.34:4001
-- **Grafana**: http://138.199.237.34:3001
-- **Prometheus**: http://138.199.237.34:9090
+- **Frontend**: [http://138.199.237.34:3000](http://138.199.237.34:3000)
+- **Backend API**: [http://138.199.237.34:4001](http://138.199.237.34:4001)
+- **Grafana**: [http://138.199.237.34:3001](http://138.199.237.34:3001)
+- **Prometheus**: [http://138.199.237.34:9090](http://138.199.237.34:9090)
 
 ## 🔧 Troubleshooting
 

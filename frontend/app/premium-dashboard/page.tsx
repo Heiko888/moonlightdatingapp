@@ -64,9 +64,9 @@ export default function PremiumDashboardPage() {
   // Hilfsfunktion für Feature-Freischaltung
   const hasAccess = (requiredPlan: string): boolean => {
     if (!mounted) return false; // Verhindert Hydration-Mismatch
-    const planHierarchy = { 'basic': 1, 'premium': 2, 'vip': 3, 'admin': 4 };
-    const userLevel = planHierarchy[userPlan as keyof typeof planHierarchy] || 1;
-    const requiredLevel = planHierarchy[requiredPlan as keyof typeof planHierarchy] || 1;
+    const planHierarchy: Record<string, number> = { 'basic': 1, 'premium': 2, 'vip': 3, 'admin': 4 };
+    const userLevel = planHierarchy[userPlan] || 1;
+    const requiredLevel = planHierarchy[requiredPlan] || 1;
     return userLevel >= requiredLevel;
   };
 

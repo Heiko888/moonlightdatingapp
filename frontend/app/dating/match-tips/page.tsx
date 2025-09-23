@@ -33,7 +33,6 @@ import {
   Coffee,
   Music,
   Camera,
-  Hiking,
   BookOpen,
   Utensils,
   Moon,
@@ -342,7 +341,7 @@ export default function MatchTipsPage() {
           energy: 'low',
           atmosphere: ['entspannend', 'natürlich', 'friedlich'],
           bestFor: ['Spaziergänge', 'Picknick', 'Gespräche'],
-          icon: <Hiking size={24} />,
+          icon: <MapPin size={24} />,
           color: '#10b981'
         }
       );

@@ -44,6 +44,7 @@ const adminAuth_1 = __importDefault(require("./routes/adminAuth"));
 const admin_upload_1 = __importDefault(require("./routes/admin-upload"));
 const admin_coaching_1 = __importDefault(require("./routes/admin-coaching"));
 const admin_knowledge_1 = __importDefault(require("./routes/admin-knowledge"));
+const admin_readings_1 = __importDefault(require("./routes/admin-readings"));
 const email_test_1 = __importDefault(require("./routes/email-test"));
 const matching_supabase_1 = __importDefault(require("./routes/matching-supabase"));
 const swipe_supabase_1 = __importDefault(require("./routes/swipe-supabase"));
@@ -71,10 +72,14 @@ const mercury_admin_1 = __importDefault(require("./routes/mercury-admin"));
 const ai_engine_1 = __importDefault(require("./routes/ai-engine"));
 const chiron_1 = __importDefault(require("./routes/chiron"));
 const lilith_1 = __importDefault(require("./routes/lilith"));
+const blackMoonLilith_1 = __importDefault(require("./routes/blackMoonLilith"));
+const venus_1 = __importDefault(require("./routes/venus"));
 const grafana_cloud_1 = require("./monitoring/grafana-cloud");
 const supabase_1 = require("./lib/supabase");
 const localDb_1 = require("./lib/localDb");
 const lilithDb_1 = require("./lib/lilithDb");
+const blackMoonLilithDb_1 = require("./lib/blackMoonLilithDb");
+const venusDb_1 = require("./lib/venusDb");
 const rateLimit_1 = require("./middleware/rateLimit");
 const realtimeAnalysisWS_1 = __importDefault(require("./websocket/realtimeAnalysisWS"));
 const http_1 = require("http");
@@ -94,6 +99,23 @@ async function main() {
     }
     catch (error) {
         console.error('[LILITH-DB] Fehler beim Initialisieren der Lilith-Datenbank:', error);
+    }
+    // Venus-Datenbank initialisieren
+    try {
+        (0, venusDb_1.initVenusDatabase)();
+        (0, venusDb_1.initVenusData)();
+        console.log('[VENUS-DB] Venus-Datenbank bereit');
+    }
+    catch (error) {
+        console.error('[VENUS-DB] Fehler beim Initialisieren der Venus-Datenbank:', error);
+    }
+    // Black Moon Lilith-Datenbank initialisieren
+    try {
+        (0, blackMoonLilithDb_1.initBlackMoonLilithDatabase)();
+        console.log('[BML-DB] Black Moon Lilith-Datenbank bereit');
+    }
+    catch (error) {
+        console.error('[BML-DB] Fehler beim Initialisieren der Black Moon Lilith-Datenbank:', error);
     }
     // Supabase-Verbindung testen (optional)
     try {
@@ -208,6 +230,7 @@ async function main() {
     app.use('/admin', admin_upload_1.default); // POST /admin/upload, GET /admin/upload
     app.use('/admin/coaching', admin_coaching_1.default); // GET/POST /admin/coaching/coaches, GET/POST /admin/coaching/sessions
     app.use('/admin/knowledge', admin_knowledge_1.default); // GET/POST/PUT/DELETE /admin/knowledge
+    app.use('/admin/readings', admin_readings_1.default); // GET/PUT/DELETE /admin/readings, Reading-Management für Admin
     app.use('/email', email_test_1.default); // POST /email/test, GET /email/status
     app.use('/matching', matching_supabase_1.default); // GET /matching/profile/:userId, POST /matching/analyze, POST /matching/like, POST /matching/message
     app.use('/swipe', swipe_supabase_1.default); // GET /swipe/profiles/:userId, POST /swipe, GET /swipe/matches/:userId
@@ -232,6 +255,8 @@ async function main() {
     app.use('/api/planets', planets_1.default); // GET /api/planets/:planet/info, GET /api/planets/:planet/gates, GET /api/planets/:planet/centers
     app.use('/api/chiron', chiron_1.default); // GET /api/chiron/gates, GET /api/chiron/centers, GET /api/chiron/info
     app.use('/lilith', lilith_1.default); // GET /lilith/info, GET /lilith/centers, GET /lilith/gates - Lilith-Daten
+    app.use('/blackmoonlilith', blackMoonLilith_1.default); // GET /blackmoonlilith/info, GET /blackmoonlilith/centers, GET /blackmoonlilith/gates - Black Moon Lilith-Daten
+    app.use('/venus', venus_1.default); // GET /venus/info, GET /venus/centers, GET /venus/gates - Venus-Daten
     app.use('/api/mercury-admin', mercury_admin_1.default); // Admin-API für Mercury Gate-Bearbeitung
     app.use('/api/ai-engine', ai_engine_1.default); // AI-Engine API für erweiterte Readings, Reflektions-Analyse, Handlungspläne, Coaching
     app.use('/metrics', metrics_supabase_1.default); // GET /metrics/prometheus, GET /metrics/json
