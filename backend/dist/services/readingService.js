@@ -1,7 +1,7 @@
 "use strict";
+// localDb entfernt - verwende nur Supabase
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReadingService = void 0;
-const localDb_1 = require("../lib/localDb");
 // ==================== FIXE MODULE (immer dabei) ====================
 const FIXED_MODULES = [
     {
@@ -267,7 +267,7 @@ class ReadingService {
             throw new Error(`Template mit ID ${request.templateId} nicht gefunden`);
         }
         // Benutzerdaten abrufen
-        const user = localDb_1.localDb.getUserById(request.userId);
+        const user = localDb.getUserById(request.userId);
         if (!user) {
             throw new Error(`Benutzer mit ID ${request.userId} nicht gefunden`);
         }

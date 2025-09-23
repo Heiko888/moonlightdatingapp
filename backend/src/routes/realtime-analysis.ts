@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { localDb } from '../lib/localDb';
+// localDb entfernt - verwende nur Supabase
 
 const router = Router();
 

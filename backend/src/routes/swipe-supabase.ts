@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
-import { localDb } from '../lib/localDb';
+// localDb entfernt - verwende nur Supabase
 
 const router = express.Router();
 

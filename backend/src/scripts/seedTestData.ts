@@ -1,4 +1,4 @@
-import { localDb, initLocalDatabase } from '../lib/localDb';
+import { initLocalDatabase } from '../lib/localDb';
 
 // Test-Daten für das Swipe & Matching System
 const testUsers = [

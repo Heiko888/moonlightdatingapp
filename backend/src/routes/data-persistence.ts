@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/auth';
-import { localDb } from '../lib/localDb';
+// localDb entfernt - verwende nur Supabase
 import { 
   hdTypeDistribution, 
   centerActivationRate, 

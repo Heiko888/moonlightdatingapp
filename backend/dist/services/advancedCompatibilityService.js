@@ -1,7 +1,7 @@
 "use strict";
+// localDb entfernt - verwende nur Supabase
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdvancedCompatibilityService = void 0;
-const localDb_1 = require("../lib/localDb");
 class AdvancedCompatibilityService {
     /**
      * Hauptfunktion für erweiterte Kompatibilitätsanalyse
@@ -59,10 +59,10 @@ class AdvancedCompatibilityService {
      */
     static async getHDProfile(userId) {
         try {
-            if (!localDb_1.localDb.db) {
+            if (!localDb.db) {
                 throw new Error('Datenbank nicht verfügbar');
             }
-            const user = localDb_1.localDb.db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+            const user = localDb.db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
             if (!user) {
                 return null;
             }

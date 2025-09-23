@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_1 = require("../middleware/auth");
-const localDb_1 = require("../lib/localDb");
+// localDb entfernt - verwende nur Supabase
 const prometheus_1 = require("../monitoring/prometheus");
 const router = express_1.default.Router();
 // ==================== USER PROFILE PERSISTENCE ====================
@@ -18,7 +18,7 @@ router.post('/user-profile', auth_1.authenticateToken, async (req, res) => {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
         // Aktualisiere Benutzerprofil in der Datenbank
-        const updateStmt = localDb_1.localDb.db.prepare(`
+        const updateStmt = localDb.db.prepare(`
       UPDATE users SET 
         name = ?, 
         birthdate = ?, 
@@ -65,7 +65,7 @@ router.get('/user-profile', auth_1.authenticateToken, async (req, res) => {
         if (!userId) {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
-        const user = localDb_1.localDb.getUserById(userId);
+        const user = localDb.getUserById(userId);
         if (!user) {
             return res.status(404).json({ error: 'Benutzer nicht gefunden' });
         }
@@ -99,7 +99,7 @@ router.post('/chart', auth_1.authenticateToken, async (req, res) => {
                 error: 'Name, Geburtsdatum und Geburtsort sind erforderlich'
             });
         }
-        const chartId = localDb_1.localDb.createChart({
+        const chartId = localDb.createChart({
             user_id: userId,
             name,
             birth_date,
@@ -138,7 +138,7 @@ router.get('/charts', auth_1.authenticateToken, async (req, res) => {
         if (!userId) {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
-        const charts = localDb_1.localDb.getChartsByUserId(userId);
+        const charts = localDb.getChartsByUserId(userId);
         // Parse JSON-Felder für jeden Chart
         const parsedCharts = charts.map(chart => ({
             ...chart,
@@ -169,7 +169,7 @@ router.post('/moon-tracking', auth_1.authenticateToken, async (req, res) => {
                 error: 'Datum und Mondphase sind erforderlich'
             });
         }
-        const stmt = localDb_1.localDb.db.prepare(`
+        const stmt = localDb.db.prepare(`
       INSERT INTO moon_tracking (
         id, user_id, date, moon_phase, mood, energy, notes, 
         rituals_completed, journal_entry_id, created_at, updated_at
@@ -209,7 +209,7 @@ router.get('/moon-tracking', auth_1.authenticateToken, async (req, res) => {
             params.push(end_date);
         }
         query += ' ORDER BY date DESC';
-        const stmt = localDb_1.localDb.db.prepare(query);
+        const stmt = localDb.db.prepare(query);
         const entries = stmt.all(...params);
         // Parse JSON-Felder
         const parsedEntries = entries.map(entry => ({
@@ -237,7 +237,7 @@ router.post('/journal', auth_1.authenticateToken, async (req, res) => {
                 error: 'Titel und Inhalt sind erforderlich'
             });
         }
-        const stmt = localDb_1.localDb.db.prepare(`
+        const stmt = localDb.db.prepare(`
       INSERT INTO journal_entries (
         id, user_id, title, content, mood, energy_level, tags, 
         created_at, updated_at
@@ -266,7 +266,7 @@ router.get('/journal', auth_1.authenticateToken, async (req, res) => {
         if (!userId) {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
-        const stmt = localDb_1.localDb.db.prepare(`
+        const stmt = localDb.db.prepare(`
       SELECT * FROM journal_entries 
       WHERE user_id = ? 
       ORDER BY created_at DESC 
@@ -294,11 +294,11 @@ router.get('/dashboard', auth_1.authenticateToken, async (req, res) => {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
         // Benutzerdaten
-        const user = localDb_1.localDb.getUserById(userId);
+        const user = localDb.getUserById(userId);
         // Charts
-        const charts = localDb_1.localDb.getChartsByUserId(userId);
+        const charts = localDb.getChartsByUserId(userId);
         // Journal-Einträge (letzte 10)
-        const journalStmt = localDb_1.localDb.db.prepare(`
+        const journalStmt = localDb.db.prepare(`
       SELECT * FROM journal_entries 
       WHERE user_id = ? 
       ORDER BY created_at DESC 
@@ -306,7 +306,7 @@ router.get('/dashboard', auth_1.authenticateToken, async (req, res) => {
     `);
         const journalEntries = journalStmt.all(userId);
         // Mondkalender-Einträge (letzte 30)
-        const moonStmt = localDb_1.localDb.db.prepare(`
+        const moonStmt = localDb.db.prepare(`
       SELECT * FROM moon_tracking 
       WHERE user_id = ? 
       ORDER BY date DESC 
@@ -363,21 +363,21 @@ router.get('/analytics', auth_1.authenticateToken, async (req, res) => {
             return res.status(401).json({ error: 'Benutzer nicht authentifiziert' });
         }
         // Alle Mondkalender-Einträge
-        const moonStmt = localDb_1.localDb.db.prepare(`
+        const moonStmt = localDb.db.prepare(`
       SELECT * FROM moon_tracking 
       WHERE user_id = ? 
       ORDER BY date DESC
     `);
         const moonEntries = moonStmt.all(userId);
         // Alle Journal-Einträge
-        const journalStmt = localDb_1.localDb.db.prepare(`
+        const journalStmt = localDb.db.prepare(`
       SELECT * FROM journal_entries 
       WHERE user_id = ? 
       ORDER BY created_at DESC
     `);
         const journalEntries = journalStmt.all(userId);
         // Charts
-        const charts = localDb_1.localDb.getChartsByUserId(userId);
+        const charts = localDb.getChartsByUserId(userId);
         // Berechne detaillierte Statistiken
         const analytics = calculateUserAnalytics(moonEntries, journalEntries, charts);
         res.json({

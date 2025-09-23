@@ -6,7 +6,7 @@ import path from 'path';
 import emailService from '../services/emailService';
 import { getWelcomeEmailTemplate, getWelcomeEmailSubject } from '../templates/welcomeEmail';
 import { chartCalculationService } from '../services/chartCalculationService';
-import { localDb } from '../lib/localDb';
+// localDb entfernt - verwende nur Supabase
 
 const router = Router();
 

@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const localDb_1 = require("../lib/localDb");
+// localDb entfernt - verwende nur Supabase
 const router = (0, express_1.Router)();
 // Planet Info Endpoint
 router.get('/:planet/info', async (req, res) => {
     try {
         const planetName = req.params.planet.charAt(0).toUpperCase() + req.params.planet.slice(1);
-        const planetInfo = localDb_1.localDb.getPlanetInfo(planetName);
+        const planetInfo = localDb.getPlanetInfo(planetName);
         if (!planetInfo) {
             return res.status(404).json({
                 error: `Planet ${planetName} nicht gefunden`
@@ -26,7 +26,7 @@ router.get('/:planet/info', async (req, res) => {
 router.get('/:planet/gates', async (req, res) => {
     try {
         const planetName = req.params.planet.charAt(0).toUpperCase() + req.params.planet.slice(1);
-        const planetGates = localDb_1.localDb.getAllPlanetGates(planetName);
+        const planetGates = localDb.getAllPlanetGates(planetName);
         if (!planetGates || planetGates.length === 0) {
             return res.status(404).json({
                 error: `Keine Gates für Planet ${planetName} gefunden`
@@ -45,7 +45,7 @@ router.get('/:planet/gates', async (req, res) => {
 router.get('/:planet/centers', async (req, res) => {
     try {
         const planetName = req.params.planet.charAt(0).toUpperCase() + req.params.planet.slice(1);
-        const planetCenters = localDb_1.localDb.getAllPlanetCenters(planetName);
+        const planetCenters = localDb.getAllPlanetCenters(planetName);
         if (!planetCenters || planetCenters.length === 0) {
             return res.status(404).json({
                 error: `Keine Centers für Planet ${planetName} gefunden`

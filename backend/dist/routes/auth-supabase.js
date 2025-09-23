@@ -11,7 +11,7 @@ const path_1 = __importDefault(require("path"));
 const emailService_1 = __importDefault(require("../services/emailService"));
 const welcomeEmail_1 = require("../templates/welcomeEmail");
 const chartCalculationService_1 = require("../services/chartCalculationService");
-const localDb_1 = require("../lib/localDb");
+// localDb entfernt - verwende nur Supabase
 const router = (0, express_1.Router)();
 // Pfad zur User-Datenbank
 const userDbPath = path_1.default.join(__dirname, '../../data/users.json');
@@ -178,7 +178,7 @@ router.post('/register', async (req, res) => {
                 // Chart berechnen
                 const calculatedChart = await chartCalculationService_1.chartCalculationService.calculateChart(fullName, birthDate, birthTime, birthPlace);
                 // Chart in Datenbank speichern
-                const chartId = localDb_1.localDb.createChart({
+                const chartId = localDb.createChart({
                     user_id: newUser.id,
                     name: fullName,
                     birth_date: birthDate,

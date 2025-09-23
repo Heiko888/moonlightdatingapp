@@ -1,4 +1,4 @@
-import { localDb } from '../lib/localDb';
+// localDb entfernt - verwende nur Supabase
 
 // ==================== FRIENDS COMMUNITY SYSTEM ====================
 

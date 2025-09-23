@@ -270,43 +270,43 @@ async function seedTestData() {
         // Initialisiere die Datenbank
         console.log('🗄️ Initialisiere Datenbank...');
         (0, localDb_1.initLocalDatabase)();
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             throw new Error('Datenbank nicht verfügbar');
         }
         // Lösche die alte Tabelle und erstelle sie neu
         console.log('🔄 Erstelle neue Tabellen-Struktur...');
         try {
-            localDb_1.localDb.db.exec('DROP TABLE IF EXISTS users');
+            localDb.db.exec('DROP TABLE IF EXISTS users');
         }
         catch (e) {
             console.log('Tabelle users existiert nicht');
         }
         try {
-            localDb_1.localDb.db.exec('DROP TABLE IF EXISTS swipes');
+            localDb.db.exec('DROP TABLE IF EXISTS swipes');
         }
         catch (e) {
             console.log('Tabelle swipes existiert nicht');
         }
         try {
-            localDb_1.localDb.db.exec('DROP TABLE IF EXISTS matches');
+            localDb.db.exec('DROP TABLE IF EXISTS matches');
         }
         catch (e) {
             console.log('Tabelle matches existiert nicht');
         }
         try {
-            localDb_1.localDb.db.exec('DROP TABLE IF EXISTS compatibility_analysis');
+            localDb.db.exec('DROP TABLE IF EXISTS compatibility_analysis');
         }
         catch (e) {
             console.log('Tabelle compatibility_analysis existiert nicht');
         }
         try {
-            localDb_1.localDb.db.exec('DROP TABLE IF EXISTS match_feedback');
+            localDb.db.exec('DROP TABLE IF EXISTS match_feedback');
         }
         catch (e) {
             console.log('Tabelle match_feedback existiert nicht');
         }
         // Erstelle die Tabellen neu
-        localDb_1.localDb.db.exec(`
+        localDb.db.exec(`
       CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
@@ -336,7 +336,7 @@ async function seedTestData() {
         updated_at TEXT DEFAULT CURRENT_TIMESTAMP
       )
     `);
-        localDb_1.localDb.db.exec(`
+        localDb.db.exec(`
       CREATE TABLE IF NOT EXISTS swipes (
         id TEXT PRIMARY KEY,
         user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
@@ -347,7 +347,7 @@ async function seedTestData() {
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )
     `);
-        localDb_1.localDb.db.exec(`
+        localDb.db.exec(`
       CREATE TABLE IF NOT EXISTS matches (
         id TEXT PRIMARY KEY,
         user_a TEXT REFERENCES users(id) ON DELETE CASCADE,
@@ -359,7 +359,7 @@ async function seedTestData() {
         updated_at TEXT DEFAULT CURRENT_TIMESTAMP
       )
     `);
-        localDb_1.localDb.db.exec(`
+        localDb.db.exec(`
       CREATE TABLE IF NOT EXISTS compatibility_analysis (
         id TEXT PRIMARY KEY,
         user_a TEXT REFERENCES users(id) ON DELETE CASCADE,
@@ -374,7 +374,7 @@ async function seedTestData() {
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )
     `);
-        localDb_1.localDb.db.exec(`
+        localDb.db.exec(`
       CREATE TABLE IF NOT EXISTS match_feedback (
         id TEXT PRIMARY KEY,
         user_id TEXT REFERENCES users(id) ON DELETE CASCADE,
@@ -388,14 +388,14 @@ async function seedTestData() {
     `);
         // Lösche vorhandene Test-Daten
         console.log('🗑️ Lösche vorhandene Test-Daten...');
-        localDb_1.localDb.db?.exec('DELETE FROM swipes WHERE user_id IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
-        localDb_1.localDb.db?.exec('DELETE FROM matches WHERE user_a IN (SELECT id FROM users WHERE email LIKE \'%@example.com\') OR user_b IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
-        localDb_1.localDb.db?.exec('DELETE FROM compatibility_analysis WHERE user_a IN (SELECT id FROM users WHERE email LIKE \'%@example.com\') OR user_b IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
-        localDb_1.localDb.db?.exec('DELETE FROM users WHERE email LIKE \'%@example.com\'');
+        localDb.db?.exec('DELETE FROM swipes WHERE user_id IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
+        localDb.db?.exec('DELETE FROM matches WHERE user_a IN (SELECT id FROM users WHERE email LIKE \'%@example.com\') OR user_b IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
+        localDb.db?.exec('DELETE FROM compatibility_analysis WHERE user_a IN (SELECT id FROM users WHERE email LIKE \'%@example.com\') OR user_b IN (SELECT id FROM users WHERE email LIKE \'%@example.com\')');
+        localDb.db?.exec('DELETE FROM users WHERE email LIKE \'%@example.com\'');
         // Füge Test-Benutzer hinzu
         console.log('👥 Erstelle Test-Benutzer...');
         for (const userData of testUsers) {
-            const stmt = localDb_1.localDb.db.prepare(`
+            const stmt = localDb.db.prepare(`
         INSERT INTO users (id, username, email, password_hash, name, birthdate, birthplace, location, bio, age, hd_type, profile, authority, strategy, centers, channels, gates, planets, chart_data, images, interests, avatar)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
@@ -405,10 +405,10 @@ async function seedTestData() {
         }
         // Erstelle einige Test-Swipes
         console.log('💕 Erstelle Test-Swipes...');
-        const users = localDb_1.localDb.db?.prepare('SELECT id FROM users WHERE email LIKE \'%@example.com\'').all();
+        const users = localDb.db?.prepare('SELECT id FROM users WHERE email LIKE \'%@example.com\'').all();
         if (users.length >= 2) {
             // Sarah liked Marcus
-            localDb_1.localDb.createSwipe({
+            localDb.createSwipe({
                 user_id: users[0].id,
                 target_id: users[1].id,
                 liked: true,
@@ -416,7 +416,7 @@ async function seedTestData() {
                 compatibility_score: 95
             });
             // Marcus liked Sarah back (Match!)
-            localDb_1.localDb.createSwipe({
+            localDb.createSwipe({
                 user_id: users[1].id,
                 target_id: users[0].id,
                 liked: true,
@@ -424,7 +424,7 @@ async function seedTestData() {
                 compatibility_score: 95
             });
             // Lisa liked Alex
-            localDb_1.localDb.createSwipe({
+            localDb.createSwipe({
                 user_id: users[2].id,
                 target_id: users[3].id,
                 liked: true,
@@ -437,7 +437,7 @@ async function seedTestData() {
         console.log('🎉 Erstelle Test-Matches...');
         if (users.length >= 2) {
             // Sarah & Marcus Match
-            localDb_1.localDb.createMatch({
+            localDb.createMatch({
                 user_a: users[0].id,
                 user_b: users[1].id,
                 compatibility_score: 95,
@@ -448,7 +448,7 @@ async function seedTestData() {
         // Erstelle Test-Kompatibilitätsanalysen
         console.log('🧠 Erstelle Test-Kompatibilitätsanalysen...');
         if (users.length >= 2) {
-            localDb_1.localDb.createCompatibilityAnalysis({
+            localDb.createCompatibilityAnalysis({
                 user_a: users[0].id,
                 user_b: users[1].id,
                 overall_score: 95,

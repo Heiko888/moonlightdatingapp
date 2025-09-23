@@ -62,6 +62,7 @@ const geocoding_1 = __importDefault(require("./routes/geocoding"));
 const dashboard_1 = __importDefault(require("./routes/dashboard"));
 const lilith_1 = __importDefault(require("./routes/lilith"));
 const prometheus_1 = require("./monitoring/prometheus");
+const prometheus_2 = __importDefault(require("./monitoring/prometheus"));
 const supabase_1 = require("./lib/supabase");
 const localDb_1 = require("./lib/localDb");
 const lilithDb_1 = require("./lib/lilithDb");
@@ -107,26 +108,8 @@ async function main() {
     // Prometheus Metriken-Endpoint
     app.get('/metrics', async (_req, res) => {
         try {
-            res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
-            // Einfache Metriken für HD App
-            const metrics = [
-                '# HELP http_requests_total Total number of HTTP requests',
-                '# TYPE http_requests_total counter',
-                'http_requests_total{method="GET",route="/",status="200"} 1',
-                'http_requests_total{method="GET",route="/health",status="200"} 1',
-                '',
-                '# HELP hd_app_users_total Total number of registered users',
-                '# TYPE hd_app_users_total gauge',
-                'hd_app_users_total 0',
-                '',
-                '# HELP hd_app_charts_generated_total Total number of charts generated',
-                '# TYPE hd_app_charts_generated_total counter',
-                'hd_app_charts_generated_total 0',
-                '',
-                '# HELP hd_app_matches_total Total number of matches',
-                '# TYPE hd_app_matches_total counter',
-                'hd_app_matches_total 0'
-            ].join('\n');
+            res.set('Content-Type', prometheus_2.default.contentType);
+            const metrics = await (0, prometheus_1.getMetrics)();
             res.end(metrics);
         }
         catch (error) {
@@ -143,20 +126,30 @@ async function main() {
         });
     });
     // Health Check
+    // Health Check Route
     app.get('/health', async (_req, res) => {
         try {
-            res.json({
+            const healthStatus = {
                 status: 'healthy',
-                database: 'sqlite-local',
-                timestamp: new Date().toISOString()
-            });
+                timestamp: new Date().toISOString(),
+                uptime: process.uptime(),
+                version: process.env.npm_package_version || '1.0.0',
+                environment: process.env.NODE_ENV || 'development',
+                services: {
+                    database: 'sqlite-local',
+                    memory: {
+                        heapUsed: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
+                        heapTotal: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)}MB`
+                    }
+                }
+            };
+            res.status(200).json(healthStatus);
         }
         catch (error) {
-            res.status(500).json({
+            res.status(503).json({
                 status: 'unhealthy',
-                database: 'error',
-                error: error.message,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                error: error instanceof Error ? error.message : 'Unknown error'
             });
         }
     });
@@ -215,17 +208,17 @@ async function main() {
     });
     app.get('/test-data/status', async (req, res) => {
         try {
-            if (!localDb_1.localDb.db) {
+            if (!localDb.db) {
                 return res.status(500).json({
                     success: false,
                     error: 'Datenbank nicht verfügbar'
                 });
             }
-            const testUsers = localDb_1.localDb.db.prepare('SELECT COUNT(*) as count FROM users WHERE email LIKE \'%@example.com\'').get();
-            const totalUsers = localDb_1.localDb.db.prepare('SELECT COUNT(*) as count FROM users').get();
-            const totalSwipes = localDb_1.localDb.db.prepare('SELECT COUNT(*) as count FROM swipes').get();
-            const totalMatches = localDb_1.localDb.db.prepare('SELECT COUNT(*) as count FROM matches').get();
-            const totalAnalyses = localDb_1.localDb.db.prepare('SELECT COUNT(*) as count FROM compatibility_analysis').get();
+            const testUsers = localDb.db.prepare('SELECT COUNT(*) as count FROM users WHERE email LIKE \'%@example.com\'').get();
+            const totalUsers = localDb.db.prepare('SELECT COUNT(*) as count FROM users').get();
+            const totalSwipes = localDb.db.prepare('SELECT COUNT(*) as count FROM swipes').get();
+            const totalMatches = localDb.db.prepare('SELECT COUNT(*) as count FROM matches').get();
+            const totalAnalyses = localDb.db.prepare('SELECT COUNT(*) as count FROM compatibility_analysis').get();
             res.json({
                 success: true,
                 data: {
@@ -251,7 +244,7 @@ async function main() {
     app.get('/api/users/:userId', async (req, res) => {
         try {
             const { userId } = req.params;
-            const { localDb } = await Promise.resolve().then(() => __importStar(require('./lib/localDb')));
+            // localDb entfernt - verwende nur Supabase
             if (!localDb.db) {
                 throw new Error('Datenbank nicht verfügbar');
             }
@@ -272,7 +265,7 @@ async function main() {
         try {
             const { userId } = req.params;
             const updateData = req.body;
-            const { localDb } = await Promise.resolve().then(() => __importStar(require('./lib/localDb')));
+            // localDb entfernt - verwende nur Supabase
             if (!localDb.db) {
                 throw new Error('Datenbank nicht verfügbar');
             }

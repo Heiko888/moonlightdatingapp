@@ -1,12 +1,12 @@
 "use strict";
+// localDb entfernt - verwende nur Supabase
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunityService = void 0;
-const localDb_1 = require("../lib/localDb");
 // ==================== COMMUNITY SERVICE ====================
 class CommunityService {
     // ==================== USER PROFILES ====================
     static async updateUserProfile(userId, profileData) {
-        const user = localDb_1.localDb.getUserById(userId);
+        const user = localDb.getUserById(userId);
         if (!user) {
             throw new Error(`Benutzer mit ID ${userId} nicht gefunden`);
         }
@@ -29,7 +29,7 @@ class CommunityService {
         return updatedProfile;
     }
     static async getUserProfile(userId) {
-        const user = localDb_1.localDb.getUserById(userId);
+        const user = localDb.getUserById(userId);
         if (!user)
             return null;
         return {

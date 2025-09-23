@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+// localDb entfernt - verwende nur Supabase
 const router = (0, express_1.Router)();
 // WebSocket-Verbindungen für Live-Analyse
 const activeConnections = new Map();

@@ -28,7 +28,7 @@ import lilithRoutes from './routes/lilith';
 import { prometheusMiddleware, getMetrics } from './monitoring/prometheus';
 import register from './monitoring/prometheus';
 import { supabase } from './lib/supabase';
-import { initLocalDatabase, localDb } from './lib/localDb';
+import { initLocalDatabase } from './lib/localDb';
 import { initLilithDatabase } from './lib/lilithDb';
 import { apiRateLimit, authRateLimit, uploadRateLimit } from './middleware/rateLimit';
 
@@ -215,7 +215,7 @@ async function main() {
   app.get('/api/users/:userId', async (req, res) => {
     try {
       const { userId } = req.params;
-      const { localDb } = await import('./lib/localDb');
+      // localDb entfernt - verwende nur Supabase
       
       if (!localDb.db) {
         throw new Error('Datenbank nicht verfügbar');
@@ -240,7 +240,7 @@ async function main() {
     try {
       const { userId } = req.params;
       const updateData = req.body;
-      const { localDb } = await import('./lib/localDb');
+      // localDb entfernt - verwende nur Supabase
       
       if (!localDb.db) {
         throw new Error('Datenbank nicht verfügbar');

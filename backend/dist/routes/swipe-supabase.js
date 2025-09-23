@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const localDb_1 = require("../lib/localDb");
+// localDb entfernt - verwende nur Supabase
 const router = express_1.default.Router();
 // Mock-Daten für den Fall, dass keine echten Benutzer vorhanden sind
 const getMockSwipeProfiles = () => [
@@ -120,8 +120,8 @@ router.get('/profiles/:userId', async (req, res) => {
             }
         }
         // Fallback: Lokale SQLite-Datenbank
-        if (allUsers.length === 0 && localDb_1.localDb.db) {
-            allUsers = localDb_1.localDb.db.prepare('SELECT * FROM users').all();
+        if (allUsers.length === 0 && localDb.db) {
+            allUsers = localDb.db.prepare('SELECT * FROM users').all();
             console.log(`✅ ${allUsers.length} Benutzer aus SQLite-Datenbank geladen`);
         }
         // Wenn immer noch keine Daten, verwende Mock-Daten
@@ -291,10 +291,10 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Ungültige Daten.' });
         }
         // Speichere Swipe in der Datenbank
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             return res.status(500).json({ error: 'Datenbank nicht verfügbar' });
         }
-        const swipeStmt = localDb_1.localDb.db.prepare(`
+        const swipeStmt = localDb.db.prepare(`
       INSERT INTO swipes (id, user_id, target_id, liked, created_at)
       VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
     `);
@@ -321,21 +321,21 @@ router.post('/', async (req, res) => {
                 match = Math.random() < matchChance;
                 if (match) {
                     // Prüfe ob bereits ein Match existiert
-                    if (!localDb_1.localDb.db) {
+                    if (!localDb.db) {
                         console.error('Datenbank nicht verfügbar für Match-Check');
                         return;
                     }
-                    const existingMatch = localDb_1.localDb.db.prepare(`
+                    const existingMatch = localDb.db.prepare(`
             SELECT * FROM matches 
             WHERE (user_a = ? AND user_b = ?) OR (user_a = ? AND user_b = ?)
           `).get(userId, targetId, targetId, userId);
                     if (!existingMatch) {
                         // Füge Match zur Datenbank hinzu
-                        if (!localDb_1.localDb.db) {
+                        if (!localDb.db) {
                             console.error('Datenbank nicht verfügbar für Match-Insert');
                             return;
                         }
-                        const matchStmt = localDb_1.localDb.db.prepare(`
+                        const matchStmt = localDb.db.prepare(`
               INSERT INTO matches (id, user_a, user_b, compatibility_score, created_at)
               VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
             `);
@@ -427,10 +427,10 @@ router.get('/matches/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
         // Hole Matches aus der Datenbank
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             return res.status(500).json({ error: 'Datenbank nicht verfügbar' });
         }
-        const matches = localDb_1.localDb.db.prepare(`
+        const matches = localDb.db.prepare(`
       SELECT m.*, 
              u1.name as user_a_name, u1.avatar as user_a_avatar,
              u2.name as user_b_name, u2.avatar as user_b_avatar
@@ -468,10 +468,10 @@ router.get('/history/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
         // Hole Swipe-History aus der Datenbank
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             return res.status(500).json({ error: 'Datenbank nicht verfügbar' });
         }
-        const swipes = localDb_1.localDb.db.prepare(`
+        const swipes = localDb.db.prepare(`
       SELECT s.*, u.name as target_name, u.avatar as target_avatar
       FROM swipes s
       LEFT JOIN users u ON s.target_id = u.id
@@ -504,10 +504,10 @@ router.get('/new-matches/:userId/:since', async (req, res) => {
         const userId = req.params.userId;
         const since = new Date(Number(req.params.since));
         // Hole neue Matches seit dem Timestamp
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             return res.status(500).json({ error: 'Datenbank nicht verfügbar' });
         }
-        const newMatches = localDb_1.localDb.db.prepare(`
+        const newMatches = localDb.db.prepare(`
       SELECT m.*, 
              u1.name as user_a_name, u1.avatar as user_a_avatar,
              u2.name as user_b_name, u2.avatar as user_b_avatar
@@ -543,10 +543,10 @@ router.get('/new-matches/:userId/:since', async (req, res) => {
 // Hilfsfunktion für User-Lookup
 function getUserById(userId) {
     try {
-        if (!localDb_1.localDb.db) {
+        if (!localDb.db) {
             return null;
         }
-        const user = localDb_1.localDb.db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+        const user = localDb.db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
         return user || null;
     }
     catch (error) {
