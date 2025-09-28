@@ -1,0 +1,66 @@
+# ===========================================
+# HD APP DEPLOYMENT BEFEHLE
+# ===========================================
+# Führen Sie diese Befehle nacheinander in PowerShell aus
+# Bei jedem Befehl werden Sie nach dem Passwort gefragt
+
+# Schritt 1: SSH-Verbindung testen
+ssh root@138.199.237.34 "echo 'SSH-Verbindung erfolgreich'"
+
+# Schritt 2: Server-Verzeichnis vorbereiten
+ssh root@138.199.237.34 "mkdir -p /opt/hd-app/HD_App_chart"
+
+# Schritt 3: Wichtige Dateien übertragen
+scp docker-compose.supabase.yml root@138.199.237.34:/opt/hd-app/HD_App_chart/
+scp env.supabase root@138.199.237.34:/opt/hd-app/HD_App_chart/
+scp package.json root@138.199.237.34:/opt/hd-app/HD_App_chart/
+
+# Schritt 4: Backend übertragen
+scp -r backend root@138.199.237.34:/opt/hd-app/HD_App_chart/
+
+# Schritt 5: Frontend übertragen
+scp -r frontend root@138.199.237.34:/opt/hd-app/HD_App_chart/
+
+# Schritt 6: Monitoring übertragen
+scp -r grafana root@138.199.237.34:/opt/hd-app/HD_App_chart/
+scp -r prometheus root@138.199.237.34:/opt/hd-app/HD_App_chart/
+
+# Schritt 7: Server vorbereiten
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && chmod +x *.sh 2>/dev/null || true"
+
+# Schritt 8: Laufende Container stoppen (falls vorhanden)
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml down 2>/dev/null || true"
+
+# Schritt 9: Environment-Datei prüfen
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && if [ ! -f .env ]; then cp env.supabase .env; fi"
+
+# Schritt 10: Services starten
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml build --no-cache"
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml up -d"
+
+# Schritt 11: Health Check
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml ps"
+
+# ===========================================
+# NACH DEM DEPLOYMENT
+# ===========================================
+# Ihre Anwendung ist verfügbar unter:
+# • Hauptanwendung: http://138.199.237.34
+# • Backend API: http://138.199.237.34:4001
+# • Grafana: http://138.199.237.34:3001
+# • Prometheus: http://138.199.237.34:9090
+
+# ===========================================
+# NÜTZLICHE BEFEHLE
+# ===========================================
+# Logs anzeigen:
+# ssh root@138.199.237.34 'cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml logs -f'
+
+# Status prüfen:
+# ssh root@138.199.237.34 'cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml ps'
+
+# Services stoppen:
+# ssh root@138.199.237.34 'cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml down'
+
+# Services starten:
+# ssh root@138.199.237.34 'cd /opt/hd-app/HD_App_chart && docker-compose -f docker-compose.supabase.yml up -d'

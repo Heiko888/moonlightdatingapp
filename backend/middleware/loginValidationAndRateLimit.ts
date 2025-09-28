@@ -1,3 +1,0 @@
-// ...existing code...
-// TypeScript Migration: middleware/loginValidationAndRateLimit.js
-// TODO: Typen ergänzen und ggf. refaktorieren

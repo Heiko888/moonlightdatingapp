@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, LinearProgress, Stepper, Step, StepLabel, StepContent, CircularProgress, Alert } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Target, Star, Zap, Eye, Moon, Flame, Users, BookOpen, Heart, Calendar, CheckCircle, ArrowRight, RefreshCw, Share2, Bookmark, TrendingUp, Award, Lightbulb, Brain, Sparkles } from 'lucide-react';
+import { Target, Star, Zap, Eye, Moon, Flame, Users, BookOpen, Heart, Calendar, CheckCircle, ArrowRight, RotateCcw, Share2, Bookmark, TrendingUp, Award, Lightbulb, Brain, Sparkles } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 import AIEngineService from '@/lib/ai/aiEngineService';
 

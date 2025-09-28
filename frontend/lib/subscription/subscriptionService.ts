@@ -49,7 +49,7 @@ export class SubscriptionService {
       return null;
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Abonnements:', error);
-      return this.getMockSubscription(userId, packageId as any);
+      return this.getMockSubscription(userId, packageId as "basic" | "premium" | "vip");
     }
   }
 
@@ -71,7 +71,7 @@ export class SubscriptionService {
   }
 
   // Zahlungsmethoden verwalten
-  static async updatePaymentMethod(userId: string, paymentMethod: any): Promise<boolean> {
+  static async updatePaymentMethod(userId: string, paymentMethod: Record<string, unknown>): Promise<boolean> {
     try {
       const response = await fetch(`${this.API_BASE}/user/${userId}/payment`, {
         method: 'PUT',

@@ -1,190 +1,154 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 import { 
   AppBar, 
   Toolbar, 
   Typography, 
-  Box, 
-  IconButton, 
   Button,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
   useTheme,
   useMediaQuery
-} from "@mui/material";
-import { 
-  User, 
-  Settings
-} from 'lucide-react';
-import Link from "next/link";
+} from '@mui/material';
+import { Menu as MenuIcon, BarChart3, UserPlus, LogIn, Home } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-// Animierte Vollmond-Komponente
-const AnimatedFullMoon = () => (
-  <motion.div
-    style={{
-      width: 24,
-      height: 24,
-      borderRadius: '50%',
-      background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
-      boxShadow: '0 0 20px rgba(255, 255, 255, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.3)',
-      position: 'relative',
-      marginTop: 4
-    }}
-    animate={{
-      rotate: 360,
-    }}
-    transition={{
-      duration: 20,
-      repeat: Infinity,
-      ease: "linear"
-    }}
-  >
-    {/* Mondkrater */}
-    <Box
-      sx={{
-        position: 'absolute',
-        top: '25%',
-        left: '20%',
-        width: 3,
-        height: 3,
-        borderRadius: '50%',
-        background: 'rgba(200, 200, 200, 0.6)',
-        boxShadow: 'inset 0 0 2px rgba(0, 0, 0, 0.3)'
-      }}
-    />
-    <Box
-      sx={{
-        position: 'absolute',
-        top: '60%',
-        left: '70%',
-        width: 2,
-        height: 2,
-        borderRadius: '50%',
-        background: 'rgba(180, 180, 180, 0.5)',
-        boxShadow: 'inset 0 0 1px rgba(0, 0, 0, 0.2)'
-      }}
-    />
-    <Box
-      sx={{
-        position: 'absolute',
-        top: '40%',
-        left: '50%',
-        width: 1.5,
-        height: 1.5,
-        borderRadius: '50%',
-        background: 'rgba(190, 190, 190, 0.4)',
-        boxShadow: 'inset 0 0 1px rgba(0, 0, 0, 0.1)'
-      }}
-    />
-  </motion.div>
-);
-
-export default function AppHeader({ current }: { current?: string }) {
+export default function AppHeader() {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // User aus Token holen
-  const [username, setUsername] = useState<string | null>(null);
-  
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const userData = localStorage.getItem('userData');
-        if (userData) {
-          const user = JSON.parse(userData);
-          setUsername(user.username || user.name);
-        }
-      } catch {}
-    }
-  }, []);
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNavigation = (path: string) => {
+    router.push(path);
+    handleMenuClose();
+  };
+
+  const navigationItems = [
+    { label: 'Startseite', path: '/', icon: <Home size={20} /> },
+    { label: 'Dashboard', path: '/dashboard', icon: <BarChart3 size={20} /> },
+    { label: 'Registrieren', path: '/register', icon: <UserPlus size={20} /> },
+    { label: 'Anmelden', path: '/login', icon: <LogIn size={20} /> }
+  ];
 
   return (
-    <AppBar position="static" sx={{ 
-      background: 'linear-gradient(135deg, #4b2e83 0%, #6b46c1 100%)', 
-      color: '#fff', 
-      boxShadow: '0 2px 12px rgba(75, 46, 131, 0.3)',
-      height: { xs: 65, md: 70 }
-    }}>
-      <Toolbar sx={{ 
-        display: "flex", 
-        alignItems: "center", 
-        justifyContent: "space-between", 
-        height: '100%',
-        px: { xs: 2, md: 3 }
-      }}>
-        {/* Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Image
-            src="/images/ChatGPT Image 25. Aug. 2025, 13_02_47.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            style={{ borderRadius: 8, objectFit: 'contain', background: '#fff' }}
-            priority
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <AppBar 
+      position="fixed" 
+      sx={{ 
+        background: 'rgba(15, 15, 35, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
+        {/* Logo/Brand */}
             <Typography 
               variant="h6" 
+          component="div" 
               sx={{ 
-                fontWeight: 700, 
-                color: '#fff', 
-                lineHeight: 1,
-                fontSize: { xs: '1.1rem', md: '1.25rem' }
-              }}
-            >
-              MOONLIGHT
+            color: '#FFD700',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+          onClick={() => handleNavigation('/')}
+        >
+          🌙 Moonlight App
             </Typography>
-            <AnimatedFullMoon />
-          </Box>
-        </Box>
 
-        {/* Navigation entfernt - nur Logo und User-Bereich */}
-
-        {/* User Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {username ? (
-            <Typography sx={{ 
-              color: '#ffd700', 
-              fontWeight: 600,
-              fontSize: { xs: '0.85rem', md: '0.9rem' }
-            }}>
-              {username}
-            </Typography>
-          ) : (
-            <Link href="/login">
+        {/* Desktop Navigation */}
+        {!isMobile && (
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            {navigationItems.map((item) => (
               <Button
-                variant="outlined"
-                size="small"
-                startIcon={<User size={16} />}
+                key={item.path}
+                color="inherit"
+                startIcon={item.icon}
+                onClick={() => handleNavigation(item.path)}
                 sx={{
-                  color: '#fff',
-                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontWeight: 500,
+                  borderRadius: 2,
+                  px: 2,
+                  py: 1,
                   '&:hover': {
-                    borderColor: '#ffd700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)'
-                  }
+                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    color: '#FFD700',
+                    transform: 'translateY(-1px)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
-                Login
+                {item.label}
               </Button>
-            </Link>
+            ))}
+          </Box>
           )}
           
-          <Link href="/settings">
+        {/* Mobile Menu */}
+        {isMobile && (
+          <>
             <IconButton
-              size="small"
+              color="inherit"
+              onClick={handleMenuOpen}
               sx={{
-                color: '#fff',
+                color: 'rgba(255, 255, 255, 0.9)',
                 '&:hover': {
                   backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                  color: '#ffd700'
+                  color: '#FFD700'
                 }
               }}
             >
-              <Settings size={18} />
+              <MenuIcon size={24} />
             </IconButton>
-          </Link>
-        </Box>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              PaperProps={{
+                sx: {
+                  background: 'rgba(15, 15, 35, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 2,
+                  mt: 1
+                }
+              }}
+            >
+              {navigationItems.map((item) => (
+                <MenuItem
+                  key={item.path}
+                  onClick={() => handleNavigation(item.path)}
+                  sx={{
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                      color: '#FFD700'
+                    },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    px: 2,
+                    py: 1
+                  }}
+                >
+                  {item.icon}
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );

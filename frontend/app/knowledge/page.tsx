@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter, usePathname } from 'next/navigation';
 import AnimatedStars from "../../components/AnimatedStars";
-import AccessControl from "../../components/AccessControl";
-import { UserSubscription } from "../../lib/subscription/types";
-import { SubscriptionService } from "../../lib/subscription/subscriptionService";
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 import { KnowledgeService, KnowledgeEntry } from "../../lib/knowledge/knowledgeService";
 import { 
@@ -23,7 +20,6 @@ import {
   Container,
   Snackbar
 } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { 
   BookOpen, 
   Search, 
@@ -33,66 +29,34 @@ import {
 
 
 
-export default function KnowledgePage() {
-  const router = useRouter();
-  const pathname = usePathname();
+function KnowledgeContent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [knowledgeEntries, setKnowledgeEntries] = useState<KnowledgeEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  // Authentifizierung und Subscription prüfen
+  // Knowledge-Entries laden
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      
-      if (!token || !userId) {
-        setIsAuthenticated(false);
-        router.push('/login?redirect=/knowledge');
-        return;
+    const loadKnowledgeEntries = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const entries = await KnowledgeService.getKnowledgeEntries();
+        setKnowledgeEntries(entries);
+      } catch (err) {
+        console.error('Fehler beim Laden der Knowledge-Entries:', err);
+        setError('Fehler beim Laden der Daten');
+      } finally {
+        setLoading(false);
       }
-      
-      setIsAuthenticated(true);
-      
-      // Daten laden
-      loadUserSubscription();
-      const loadKnowledgeEntries = async () => {
-        try {
-          setLoading(true);
-          setError(null);
-          const entries = await KnowledgeService.getKnowledgeEntries();
-          setKnowledgeEntries(entries);
-        } catch (err) {
-          console.error('Fehler beim Laden der Knowledge-Entries:', err);
-          setError('Fehler beim Laden der Daten');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      loadKnowledgeEntries();
     };
 
-    checkAuth();
-  }, [router]);
+    loadKnowledgeEntries();
+  }, []);
 
-  const loadUserSubscription = async () => {
-    try {
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
-        setUserSubscription(subscription);
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden des Abonnements:', error);
-    }
-  };
 
   const filteredEntries = knowledgeEntries.filter(entry => {
     const matchesSearch = entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -140,11 +104,6 @@ export default function KnowledgePage() {
   }
 
   return (
-    <AccessControl 
-      path={pathname} 
-      userSubscription={userSubscription}
-      onUpgrade={() => router.push('/pricing')}
-    >
     <Box sx={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
@@ -449,6 +408,14 @@ export default function KnowledgePage() {
           }}
         />
       </Box>
-    </AccessControl>
-    );
-  }
+  );
+}
+
+// Hauptkomponente mit ProtectedRoute
+export default function KnowledgePage() {
+  return (
+    <ProtectedRoute requiredRole="basic">
+      <KnowledgeContent />
+    </ProtectedRoute>
+  );
+}

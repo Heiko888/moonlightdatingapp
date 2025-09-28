@@ -57,7 +57,7 @@ export interface TimeSlot {
 }
 
 class CoachingService {
-  private baseUrl = 'http://localhost:4001/coaching';
+  private baseUrl = process.env.NEXT_PUBLIC_API_URL + '/api/coaching' || 'http://localhost:4001/api/coaching';
 
   // Coaches abrufen
   async getCoaches(): Promise<Coach[]> {
@@ -256,27 +256,7 @@ class CoachingService {
   // Mock-Daten als Fallback
   private getMockCoaches(): Coach[] {
     return [
-      {
-        id: '1',
-        name: 'Britta Müller',
-        title: 'Human Design Expertin',
-        avatar: '/images/britta.jpg',
-        rating: 4.9,
-        reviews: 127,
-        experience: '8 Jahre',
-        specializations: ['Human Design', 'Persönlichkeitsentwicklung', 'Coaching'],
-        description: 'Britta ist eine erfahrene Human Design Expertin mit über 8 Jahren Erfahrung.',
-        sessions: [
-          { type: '1:1 Coaching', price: '120€', duration: '60 Min' },
-          { type: 'Chart Reading', price: '80€', duration: '45 Min' }
-        ],
-        availability: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag'],
-        languages: ['Deutsch', 'Englisch'],
-        profileUrl: '/coaching/britta',
-        isOnline: true,
-        hourlyRate: 120,
-        timezone: 'Europe/Berlin'
-      }
+      // Britta Coach entfernt - nicht mehr verfügbar
     ];
   }
 
@@ -323,9 +303,9 @@ class CoachingService {
         updatedAt: new Date().toISOString(),
         paymentStatus: 'paid',
         coach: {
-          name: 'Britta Müller',
-          avatar: '/images/britta.jpg',
-          title: 'Human Design Expertin'
+          name: 'Elisabeth Taeubel',
+          avatar: '/images/elisabeth.jpg',
+          title: 'Spiritual Coach'
         }
       }
     ];

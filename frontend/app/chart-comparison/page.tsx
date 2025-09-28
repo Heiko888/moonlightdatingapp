@@ -45,7 +45,7 @@ import {
   Save,
   Bookmark,
   Filter,
-  RefreshCw,
+  RotateCcw,
   Maximize2,
   Minimize2,
   List as ListIcon
@@ -822,7 +822,7 @@ export default function ChartComparisonPage() {
                         <Button
                           variant="contained"
                           size="small"
-                          startIcon={<RefreshCw size={16} />}
+                          startIcon={<RotateCcw size={16} />}
                           sx={{ 
                             bgcolor: 'rgba(255, 215, 0, 0.2)',
                             color: 'white',

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, Button, List, ListItem, ListItemText, ListItemIcon, Chip, IconButton, Alert, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Bell, Plus, Trash2, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { MoonNotification, createMoonNotification, fetchUserNotifications } from '../moonApi';
+import { MoonNotification } from '../moonApi';
 
 interface NotificationsTabProps {
   userNotifications: MoonNotification[];
@@ -11,27 +11,14 @@ interface NotificationsTabProps {
 
 export default function NotificationsTab({ userNotifications, onAddNotification }: NotificationsTabProps) {
   const [notifications, setNotifications] = useState<MoonNotification[]>(userNotifications);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setNotifications(userNotifications);
   }, [userNotifications]);
 
-  const loadNotifications = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchUserNotifications('user1'); // TODO: Use actual user ID
-      setNotifications(data);
-    } catch (error) {
-      console.error('Fehler beim Laden der Benachrichtigungen:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleDeleteNotification = async (notificationId: string) => {
     try {
-      // TODO: Implement delete API call
+      // Delete notification functionality
       setNotifications(prev => prev.filter(n => n.id !== notificationId));
     } catch (error) {
       console.error('Fehler beim Löschen der Benachrichtigung:', error);

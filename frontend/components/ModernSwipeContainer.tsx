@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Box, Typography, Button, CircularProgress, Alert, Snackbar } from '@mui/material';
-import { RefreshCw, Heart, Star, MessageCircle, Users } from 'lucide-react';
+import { RotateCcw, Heart, Star, MessageCircle, Users } from 'lucide-react';
 import ModernSwipeCard from './ModernSwipeCard';
 
 interface Profile {
@@ -274,7 +274,7 @@ const ModernSwipeContainer: React.FC<ModernSwipeContainerProps> = ({ userId }) =
         <Button
           onClick={handleRefresh}
           variant="contained"
-          startIcon={<RefreshCw size={20} />}
+          startIcon={<RotateCcw size={20} />}
           sx={{
             background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
             '&:hover': {
@@ -307,7 +307,7 @@ const ModernSwipeContainer: React.FC<ModernSwipeContainerProps> = ({ userId }) =
         <Button
           onClick={handleRefresh}
           variant="contained"
-          startIcon={<RefreshCw size={20} />}
+          startIcon={<RotateCcw size={20} />}
           sx={{
             background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
             '&:hover': {

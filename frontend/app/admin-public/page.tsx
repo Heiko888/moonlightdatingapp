@@ -183,38 +183,38 @@ export default function AdminPublicPage() {
       color: '#3b82f6'
     },
     {
-      title: 'System-Monitoring',
-      description: 'Überwache System-Performance und Logs',
+      title: 'Coaching-Management',
+      description: 'Verwalte Coaching-Sessions und Coaches',
       icon: <Activity size={24} />,
-      path: '/admin/monitoring',
+      path: '/admin/coaching',
       color: '#10b981'
     },
     {
-      title: 'Datenbank-Verwaltung',
-      description: 'Verwalte Datenbanken und Backups',
+      title: 'Reading-Management',
+      description: 'Verwalte Readings und Beratungen',
       icon: <Database size={24} />,
-      path: '/admin/database',
+      path: '/admin/readings',
       color: '#f59e0b'
     },
     {
-      title: 'API-Verwaltung',
-      description: 'Verwalte API-Keys und Endpoints',
+      title: 'Content-Management',
+      description: 'Verwalte Inhalte und Wissensdatenbank',
       icon: <Server size={24} />,
-      path: '/admin/api',
+      path: '/admin/content',
       color: '#8b5cf6'
     },
     {
-      title: 'Content-Management',
-      description: 'Verwalte Inhalte und Readings',
+      title: 'Upload-Management',
+      description: 'Verwalte Datei-Uploads und Medien',
       icon: <BarChart3 size={24} />,
-      path: '/admin/content',
+      path: '/admin/upload',
       color: '#ef4444'
     },
     {
-      title: 'System-Einstellungen',
-      description: 'Konfiguriere System-Parameter',
+      title: 'Admin-Dashboard',
+      description: 'Hauptdashboard mit allen Funktionen',
       icon: <Settings size={24} />,
-      path: '/admin/settings',
+      path: '/admin',
       color: '#6b7280'
     }
   ];
@@ -265,7 +265,7 @@ export default function AdminPublicPage() {
                 variant="contained"
                 startIcon={<LogIn size={20} />}
                 component={Link}
-                href="/admin/login"
+                href="/admin"
                 sx={{
                   background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
                   '&:hover': {

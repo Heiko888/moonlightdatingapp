@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { Box, Paper, Typography, Button, Container } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Paper, Typography, Button, Container, Tabs, Tab } from '@mui/material';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
-import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import ProtectedRoute from '@/components/ProtectedRoute';
+// useAuth nicht verwendet - entfernt
+import AdminAuditDashboard from '@/components/AdminAuditDashboard';
+import { logAdminEvent } from '@/lib/audit/auditLogger';
 import { 
   Settings, 
   Users, 
@@ -25,43 +25,23 @@ import {
 } from 'lucide-react';
 import AnimatedStars from '../../components/AnimatedStars';
 
-export default function AdminPage() {
-  const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+function AdminContent() {
+  const [activeTab, setActiveTab] = useState(0);
 
-  // Authentifizierung und Subscription prüfen
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      
-      if (!token || !userId) {
-        setIsAuthenticated(false);
-        router.push('/login?redirect=/admin');
-        return;
-      }
-      
-      setIsAuthenticated(true);
-      
-      // Subscription laden
-      await loadUserSubscription();
-    };
+  // Audit-Log für Admin-Zugriff
+  React.useEffect(() => {
+    logAdminEvent('admin_dashboard_access', 'admin_dashboard', undefined, {
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent
+    });
+  }, []);
 
-    checkAuth();
-  }, [router]);
-
-  const loadUserSubscription = async () => {
-    try {
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
-        setUserSubscription(subscription);
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden der Subscription:', error);
-    }
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+    logAdminEvent('admin_tab_change', 'admin_dashboard', undefined, {
+      tabIndex: newValue,
+      tabName: newValue === 0 ? 'dashboard' : newValue === 1 ? 'audit' : 'unknown'
+    });
   };
 
   const adminFeatures = [
@@ -146,11 +126,6 @@ export default function AdminPage() {
   ];
 
   return (
-    <AccessControl 
-      path="/admin" 
-      userSubscription={userSubscription}
-      onUpgrade={() => router.push('/pricing')}
-    >
     <Box sx={{ 
       minHeight: '100vh',
       background: `
@@ -169,7 +144,7 @@ export default function AdminPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Box textAlign="center" mb={8}>
+          <Box textAlign="center" mb={6}>
             <motion.div
               animate={{
                 textShadow: [
@@ -216,10 +191,33 @@ export default function AdminPage() {
             </Typography>
           </Box>
 
-          <Box sx={{ 
-            display: 'grid', 
-            gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, 
-            gap: 4,
+          <Box sx={{ borderBottom: 1, borderColor: 'rgba(255,255,255,0.2)', mb: 4 }}>
+            <Tabs 
+              value={activeTab} 
+              onChange={handleTabChange} 
+              aria-label="admin tabs"
+              sx={{
+                '& .MuiTab-root': {
+                  color: 'rgba(255,255,255,0.7)',
+                  '&.Mui-selected': {
+                    color: '#FFD700'
+                  }
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: '#FFD700'
+                }
+              }}
+            >
+              <Tab label="Dashboard" />
+              <Tab label="Audit-Logs" />
+            </Tabs>
+          </Box>
+
+          {activeTab === 0 && (
+            <Box sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, 
+              gap: 4,
             maxWidth: '1400px',
             mx: 'auto',
             px: 2
@@ -296,7 +294,12 @@ export default function AdminPage() {
                 </Paper>
               </motion.div>
             ))}
-          </Box>
+            </Box>
+          )}
+
+          {activeTab === 1 && (
+            <AdminAuditDashboard />
+          )}
 
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <Button 
@@ -327,6 +330,14 @@ export default function AdminPage() {
         </motion.div>
       </Container>
     </Box>
-    </AccessControl>
+  );
+}
+
+// Hauptkomponente mit ProtectedRoute
+export default function AdminPage() {
+  return (
+    <ProtectedRoute requiredRole="admin">
+      <AdminContent />
+    </ProtectedRoute>
   );
 }

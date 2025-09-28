@@ -213,7 +213,7 @@ export default function JournalPage() {
       
       if (!token || !userId) {
         setIsAuthenticated(false);
-        router.push('/login?redirect=/journal');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       

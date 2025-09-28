@@ -79,7 +79,7 @@ export interface Recommendation extends DatingProfile {
 }
 
 class DatingService {
-  private baseUrl = 'http://localhost:4001/dating';
+  private baseUrl = process.env.NEXT_PUBLIC_API_URL + '/api/dating' || 'http://localhost:4001/api/dating';
 
   // Profile abrufen
   async getProfiles(userId: string, limit: number = 20, offset: number = 0): Promise<{ profiles: DatingProfile[], total: number }> {

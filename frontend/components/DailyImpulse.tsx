@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Button, Chip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Sparkles, Heart, Moon, Sun, Zap, RefreshCw, Share2, Bookmark } from 'lucide-react';
+import { Star, Sparkles, Heart, Moon, Sun, Zap, RotateCcw, Share2, Bookmark } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface DailyImpulse {
@@ -250,7 +250,7 @@ const DailyImpulse: React.FC<DailyImpulseProps> = ({ userHdType, userMoonPhase }
                   size="small"
                   sx={{ color: 'text.secondary' }}
                 >
-                  <RefreshCw size={16} />
+                  <RotateCcw size={16} />
                 </IconButton>
                 <IconButton
                   onClick={handleSave}

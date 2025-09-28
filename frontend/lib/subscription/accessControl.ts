@@ -24,7 +24,7 @@ export const pageAccessConfig: PageAccess[] = [
   { path: '/chart-comparison', name: 'Chart-Vergleich', requiredPackage: 'premium', description: 'Chart-Vergleichs-Tool', category: 'Premium' },
   { path: '/bodygraph-advanced', name: 'Bodygraph Advanced', requiredPackage: 'premium', description: 'Erweiterte Chart-Analyse', category: 'Premium' },
   { path: '/coaching-new', name: 'Coaching', requiredPackage: 'premium', description: 'Coaching-System', category: 'Premium' },
-  { path: '/coaching/britta/reiki', name: 'Reiki-Sessions', requiredPackage: 'premium', description: 'Reiki-Behandlungen und Einweihungen', category: 'Premium' },
+  // Britta Reiki-Sessions entfernt
   { path: '/dating', name: 'Dating', requiredPackage: 'free', description: 'Dating-System', category: 'Öffentlich' },
   { path: '/dating-new', name: 'Dating New', requiredPackage: 'basic', description: 'Dating-System (New)', category: 'Basic' },
   { path: '/knowledge', name: 'Knowledge', requiredPackage: 'premium', description: 'Wissensdatenbank', category: 'Premium' },
@@ -90,14 +90,14 @@ export const checkPageAccess = (
     };
   }
 
-  // Kein Login = kein Zugang zu geschützten Seiten
+  // Kein Login = trotzdem Zugang (App ist öffentlich)
   if (!userSubscription) {
     return {
-      canAccess: false,
+      canAccess: true,
       requiredPackage: pageConfig.requiredPackage,
-      currentPackage: 'none',
-      upgradeRequired: true,
-      message: 'Bitte melden Sie sich an'
+      currentPackage: 'free',
+      upgradeRequired: false,
+      message: 'Öffentlich zugänglich'
     };
   }
 

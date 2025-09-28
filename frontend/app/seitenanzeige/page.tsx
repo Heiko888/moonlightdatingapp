@@ -37,7 +37,6 @@ import {
   Code,
   Settings,
   User,
-  LogIn,
   Home,
   Folder,
   ExternalLink,
@@ -119,16 +118,6 @@ function SeitenanzeigePage() {
       ]
     },
     {
-      category: "Authentifizierung",
-      icon: <LogIn size={20} />,
-      requiredPackage: 'free',
-      pages: [
-        { name: "Login", path: "/login", description: "Benutzer anmelden", requiredPackage: 'free' },
-        { name: "Registrierung", path: "/register", description: "Neuen Account erstellen", requiredPackage: 'free' },
-        { name: "Logout", path: "/logout", description: "Benutzer abmelden", requiredPackage: 'free' }
-      ]
-    },
-    {
       category: 'Human Design',
       icon: <Brain size={20} />,
       requiredPackage: 'free',
@@ -154,7 +143,7 @@ function SeitenanzeigePage() {
         { name: "Coaching", path: "/coaching", description: "Coaching-Übersicht", requiredPackage: 'basic' },
         { name: "Info Hub", path: "/info-hub", description: "Alle Informationsseiten im Überblick", requiredPackage: 'free' },
         { name: "Coaching Info", path: "/coaching-info", description: "Coaching-Informationen", requiredPackage: 'free' },
-        { name: "Britta", path: "/coaching/britta", description: "Coach Britta", requiredPackage: 'basic' },
+        // Britta-Seite entfernt
         { name: "Elisabeth", path: "/coaching/elisabeth", description: "Coach Elisabeth", requiredPackage: 'basic' },
         { name: "Heiko", path: "/coaching/heiko", description: "Coach Heiko", requiredPackage: 'basic' },
         { name: "Janine", path: "/coaching/janine", description: "Coach Janine", requiredPackage: 'basic' },
@@ -167,7 +156,7 @@ function SeitenanzeigePage() {
       requiredPackage: 'basic',
       pages: [
         { name: "Dating", path: "/dating", description: "Dating-Übersicht (Basic) - Emotionale Landingpage", requiredPackage: 'free' },
-        { name: "Dating Info", path: "/dating-info", description: "Dating-Informationen", requiredPackage: 'free' },
+        { name: "Dating Info", path: "/dating-info", description: "Dating-Informationen (→ /dating)", requiredPackage: 'free' },
         { name: "Match Tipps", path: "/dating/match-tips", description: "Personalisierte Dating-Tipps und Orte", requiredPackage: 'basic' },
         { name: "Swipe", path: "/swipe", description: "Swipe-Funktion", requiredPackage: 'basic' },
         { name: "Matching", path: "/matching", description: "Matching-System", requiredPackage: 'basic' },
@@ -219,8 +208,6 @@ function SeitenanzeigePage() {
       requiredPackage: 'admin',
       pages: [
         { name: "Admin", path: "/admin", description: "Admin-Dashboard" },
-        { name: "Admin Login", path: "/admin/login", description: "Admin-Anmeldung" },
-        { name: "Admin Register", path: "/admin/register", description: "Admin-Registrierung" },
         { name: "Admin Dashboard", path: "/admin/dashboard", description: "Admin-Dashboard" },
         { name: "Admin Users", path: "/admin/users", description: "Benutzerverwaltung" },
         { name: "Admin Readings", path: "/admin/readings", description: "Reading-Management für Coach" },
@@ -311,21 +298,6 @@ function SeitenanzeigePage() {
         { name: "Offline Mode", path: "/offline-mode", description: "Offline-Modus" },
         { name: "Push Notifications", path: "/push-notifications", description: "Push-Benachrichtigungen" },
         { name: "Mobile Sync", path: "/mobile-sync", description: "Mobile Synchronisation" }
-      ]
-    },
-    {
-      category: 'Reiki & Energiearbeit',
-      icon: <Sparkles size={20} />,
-      requiredPackage: 'basic',
-      pages: [
-        { name: "Reiki Übersicht", path: "/reiki", description: "Reiki-Symbole und Analysen", requiredPackage: 'basic' },
-        { name: "Reiki API Test", path: "/reiki-api-test", description: "Reiki-API Test Center", requiredPackage: 'basic' },
-        { name: "Reiki Symbole", path: "/reiki/symbols", description: "Reiki-Symbole abrufen", requiredPackage: 'basic' },
-        { name: "Reiki Analyse", path: "/reiki/analysis", description: "Reiki-Analyse basierend auf HD", requiredPackage: 'basic' },
-        { name: "Reiki Session Plan", path: "/reiki/session-plan", description: "Reiki-Session-Plan erstellen", requiredPackage: 'basic' },
-        { name: "Reiki Vorteile", path: "/reiki/benefits", description: "Reiki-Vorteile und Wirkungen", requiredPackage: 'basic' },
-        { name: "Reiki Selbstbehandlung", path: "/reiki/self-treatment", description: "Reiki-Selbstbehandlung", requiredPackage: 'basic' },
-        { name: "Reiki Meditation", path: "/reiki/meditation-guides", description: "Reiki-Meditations-Anleitungen", requiredPackage: 'basic' }
       ]
     },
     {
@@ -461,12 +433,6 @@ function SeitenanzeigePage() {
         { name: "Offline Data", path: "/api/offline", description: "Offline-Daten" },
         { name: "Device Management", path: "/api/devices", description: "Geräte-Verwaltung" },
         { name: "App Settings", path: "/api/app-settings", description: "App-Einstellungen" },
-        { name: "Reiki Symbols", path: "/reiki/symbols", description: "Reiki-Symbole abrufen" },
-        { name: "Reiki Analysis", path: "/reiki/analysis", description: "Reiki-Analyse basierend auf HD" },
-        { name: "Reiki Session Plan", path: "/reiki/session-plan", description: "Reiki-Session-Plan erstellen" },
-        { name: "Reiki Benefits", path: "/reiki/benefits", description: "Reiki-Vorteile und Wirkungen" },
-        { name: "Reiki Self Treatment", path: "/reiki/self-treatment", description: "Reiki-Selbstbehandlung" },
-        { name: "Reiki Meditation", path: "/reiki/meditation-guides", description: "Reiki-Meditations-Anleitungen" }
       ]
     }
   ];

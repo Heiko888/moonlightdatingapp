@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { 
+  Reading
+} from '@/types/common.types';
 import {
   Container,
   Typography,
@@ -30,24 +33,22 @@ import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 
-export default function ReadingPage() {
+interface ReadingExtended extends Reading {
+  question: string;
+  status: string;
+  datingType?: string;
+}
+
+
+const ReadingPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const [activeTab, setActiveTab] = useState(0);
-  const [isClient, setIsClient] = useState(false);
-  const [readings, setReadings] = useState<Array<{
-    id: string;
-    title: string;
-    question: string;
-    content: string;
-    created_at: string;
-    status: string;
-    category?: string;
-    datingType?: string;
-  }>>([]);
-  const [loading, setLoading] = useState(false);
-  const [newReadingDialog, setNewReadingDialog] = useState(false);
+  const [activeTab, setActiveTab] = useState<number>(0);
+  // isClient State entfernt für bessere Performance
+  const [readings, setReadings] = useState<ReadingExtended[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [newReadingDialog, setNewReadingDialog] = useState<boolean>(false);
   const [newReadingTitle, setNewReadingTitle] = useState('');
   const [newReadingQuestion, setNewReadingQuestion] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -60,11 +61,11 @@ export default function ReadingPage() {
       const userId = localStorage.getItem('userId');
       
       if (!token || !userId) {
-        router.push('/login?redirect=/reading');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
-      setIsClient(true);
+      // isClient State entfernt
       
       // Daten laden
       loadReadings();
@@ -90,9 +91,11 @@ export default function ReadingPage() {
   const loadReadings = async () => {
     try {
       setLoading(true);
-      // Lade aus localStorage (da Backend nicht verfügbar)
-      const localReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
-      setReadings(localReadings);
+      // SSR-sicherer localStorage Zugriff
+      if (typeof window !== 'undefined') {
+        const localReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
+        setReadings(localReadings);
+      }
     } catch (error) {
       console.error('Fehler beim Laden der Readings:', error);
     } finally {
@@ -123,10 +126,12 @@ export default function ReadingPage() {
         status: 'completed'
       };
 
-      // Speichere lokal (da Backend nicht verfügbar)
-      const existingReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
-      existingReadings.push(newReading);
-      localStorage.setItem('userReadings', JSON.stringify(existingReadings));
+      // SSR-sicherer localStorage Zugriff
+      if (typeof window !== 'undefined') {
+        const existingReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
+        existingReadings.push(newReading);
+        localStorage.setItem('userReadings', JSON.stringify(existingReadings));
+      }
 
       // Aktualisiere State
       setReadings(existingReadings);
@@ -692,13 +697,7 @@ export default function ReadingPage() {
     }
   };
 
-  if (!isClient) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  // isClient Check entfernt - Seite lädt sofort
 
   return (
     <AccessControl 
@@ -1414,3 +1413,5 @@ export default function ReadingPage() {
     </AccessControl>
   );
 }
+
+export default ReadingPage;

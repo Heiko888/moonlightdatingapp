@@ -1,3 +1,0 @@
-// ...existing code...
-// TypeScript Migration: inferCategoryFromTitle.js
-// TODO: Typen ergänzen und ggf. refaktorieren

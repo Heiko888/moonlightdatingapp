@@ -2,6 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
+  DashboardStats, 
+  BaseComponentProps 
+} from '@/types/common.types';
+import { apiService } from '@/lib/services/apiService';
+import { useLoadingState } from '@/lib/services/loadingService';
+import { 
   Box, 
   Container, 
   Typography, 
@@ -9,7 +15,6 @@ import {
   CardContent, 
   Grid, 
   Chip, 
-  Avatar,
   List,
   ListItem,
   ListItemAvatar,
@@ -41,7 +46,6 @@ import {
   BookOpen,
   ChevronRight,
   Bell,
-  Clock,
   MapPin,
   Share2,
   ThumbsUp,
@@ -49,50 +53,33 @@ import {
   Plus,
   Activity
 } from 'lucide-react';
-import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
-export default function MobileDashboardPage() {
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState(0);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
-  const [notifications, setNotifications] = useState(3);
-
-  // Authentifizierung und Subscription prüfen
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      
-      if (!token || !userId) {
-        setIsAuthenticated(false);
-        router.push('/login?redirect=/mobile-dashboard');
-        return;
-      }
-      
-      setIsAuthenticated(true);
-      await loadUserSubscription();
-    };
-
-    checkAuth();
-  }, [router]);
-
-  const loadUserSubscription = async () => {
-    try {
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
-        setUserSubscription(subscription);
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden der Subscription:', error);
-    }
+interface MobileDashboardContentProps extends BaseComponentProps {
+  user?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
   };
+}
+
+interface QuickStat {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+  color: string;
+}
+
+// QuickAccessItem interface entfernt da nicht verwendet
+
+const MobileDashboardContent: React.FC<MobileDashboardContentProps> = () => {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
+  const [notifications] = useState<number>(3);
+
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -107,7 +94,8 @@ export default function MobileDashboardPage() {
   };
 
   // Dashboard-Daten laden
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardStats | null>(null);
+  const { setLoading, setError } = useLoadingState('mobile-dashboard');
 
   useEffect(() => {
     const loadDashboardData = async () => {
@@ -115,27 +103,29 @@ export default function MobileDashboardPage() {
         const userId = localStorage.getItem('userId');
         if (!userId) return;
 
-        const response = await fetch(`http://localhost:4001/dashboard/${userId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setDashboardData(data);
-        }
+        setLoading(true);
+        setError('');
+
+        const data = await apiService.getDashboardData(userId);
+        setDashboardData(data);
+
       } catch (error) {
         console.error('Fehler beim Laden der Dashboard-Daten:', error);
+        setError('Fehler beim Laden der Dashboard-Daten');
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (isAuthenticated) {
-      loadDashboardData();
-    }
-  }, [isAuthenticated]);
+    loadDashboardData();
+  }, [setLoading, setError]);
 
   // Quick Stats aus echten Daten oder Fallback
-  const quickStats = dashboardData ? [
+  const quickStats: QuickStat[] = dashboardData ? [
     { label: "Energie Level", value: "85%", icon: <Zap size={24} />, color: "#10b981" },
-    { label: "Matches", value: dashboardData.statistics?.totalMatches?.toString() || "0", icon: <Heart size={24} />, color: "#ef4444" },
+    { label: "Matches", value: dashboardData.matches?.toString() || "0", icon: <Heart size={24} />, color: "#ef4444" },
     { label: "Events", value: "3", icon: <Calendar size={24} />, color: "#3b82f6" },
-    { label: "Posts", value: dashboardData.statistics?.communityActivity?.toString() || "0", icon: <MessageSquare size={24} />, color: "#f59e0b" }
+    { label: "Posts", value: dashboardData.communityActivity?.toString() || "0", icon: <MessageSquare size={24} />, color: "#f59e0b" }
   ] : [
     { label: "Energie Level", value: "85%", icon: <Zap size={24} />, color: "#10b981" },
     { label: "Matches", value: "12", icon: <Heart size={24} />, color: "#ef4444" },
@@ -144,7 +134,24 @@ export default function MobileDashboardPage() {
   ];
 
   // Recent Activity aus echten Daten oder Fallback
-  const recentActivity = dashboardData?.recentActivity?.map((activity: any) => ({
+  interface ActivityData {
+    id: string;
+    type: string;
+    message: string;
+    time: string;
+  }
+
+  interface ProcessedActivity {
+    id: string;
+    type: string;
+    title: string;
+    description: string;
+    timestamp: string;
+    icon: React.ReactNode;
+    color: string;
+  }
+
+  const recentActivity: ProcessedActivity[] = (dashboardData as { recentActivity?: ActivityData[] })?.recentActivity?.map((activity: ActivityData) => ({
     id: activity.id,
     type: activity.type,
     title: activity.message,
@@ -160,7 +167,7 @@ export default function MobileDashboardPage() {
            activity.type === 'match' ? "#ef4444" : "#10b981"
   })) || [
     {
-      id: 1,
+      id: "1",
       type: "match",
       title: "Neuer Match mit Sarah",
       description: "Ihr seid 89% kompatibel",
@@ -169,7 +176,7 @@ export default function MobileDashboardPage() {
       color: "#ef4444"
     },
     {
-      id: 2,
+      id: "2",
       type: "event",
       title: "Human Design Stammtisch",
       description: "Berlin, 15. Januar 2025",
@@ -178,7 +185,7 @@ export default function MobileDashboardPage() {
       color: "#3b82f6"
     },
     {
-      id: 3,
+      id: "3",
       type: "post",
       title: "Dein Post wurde geliked",
       description: "5 neue Likes erhalten",
@@ -187,7 +194,7 @@ export default function MobileDashboardPage() {
       color: "#f59e0b"
     },
     {
-      id: 4,
+      id: "4",
       type: "energy",
       title: "Energie-Update",
       description: "Dein Energie-Level ist gestiegen",
@@ -199,7 +206,7 @@ export default function MobileDashboardPage() {
 
   const upcomingEvents = [
     {
-      id: 1,
+      id: "1",
       title: "Human Design Stammtisch",
       date: "15. Jan",
       time: "19:00",
@@ -208,7 +215,7 @@ export default function MobileDashboardPage() {
       type: "Meetup"
     },
     {
-      id: 2,
+      id: "2",
       title: "Chart-Analyse Workshop",
       date: "22. Jan",
       time: "14:00",
@@ -227,28 +234,8 @@ export default function MobileDashboardPage() {
     { label: "Coaching", icon: <Star size={24} />, action: () => router.push('/coaching') }
   ];
 
-  if (!isAuthenticated) {
-    return (
-      <Box sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <Typography variant="h6" sx={{ color: 'white' }}>
-          Lade Mobile Dashboard...
-        </Typography>
-      </Box>
-    );
-  }
 
   return (
-    <AccessControl
-      path="/mobile-dashboard"
-      userSubscription={userSubscription}
-      onUpgrade={() => router.push('/pricing')}
-    >
       <Box sx={{ 
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
@@ -382,7 +369,7 @@ export default function MobileDashboardPage() {
             border: '1px solid rgba(255,255,255,0.2)'
           }}>
             <List>
-              {recentActivity.map((activity, index) => (
+              {recentActivity.map((activity: ProcessedActivity, index: number) => (
                 <React.Fragment key={activity.id}>
                   <ListItem sx={{ py: 1.5 }}>
                     <ListItemAvatar>
@@ -432,7 +419,7 @@ export default function MobileDashboardPage() {
           <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2, mt: 3 }}>
             Kommende Events
           </Typography>
-          {upcomingEvents.map((event, index) => (
+          {upcomingEvents.map((event) => (
             <Card key={event.id} sx={{
               background: 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)',
@@ -603,6 +590,16 @@ export default function MobileDashboardPage() {
           <Plus size={24} />
         </Fab>
       </Box>
-    </AccessControl>
   );
 }
+
+// Hauptkomponente mit ProtectedRoute
+const MobileDashboardPage: React.FC = () => {
+  return (
+    <ProtectedRoute requiredRole="basic">
+      <MobileDashboardContent />
+    </ProtectedRoute>
+  );
+};
+
+export default MobileDashboardPage;

@@ -62,7 +62,7 @@ export default function ProfileSetupPage() {
     const userData = localStorage.getItem('userData');
     
     if (!token || !userData) {
-      router.push('/login');
+      // Keine Authentifizierung erforderlich - App ist öffentlich
       return;
     }
 
@@ -135,17 +135,25 @@ export default function ProfileSetupPage() {
       localStorage.setItem('userData', JSON.stringify(updatedUserData));
       localStorage.setItem('profileSetupCompleted', 'true');
 
-      // Optional: Sende Daten an Backend
+      // Optional: Sende Daten an Backend über Supabase
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch('http://localhost:4001/api/user/profile', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(profileData)
-        });
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001'}/api/user/profile`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(profileData)
+          });
+          
+          if (!response.ok) {
+            console.warn('Profil-Update fehlgeschlagen, aber Setup wird fortgesetzt');
+          }
+        } catch (error) {
+          console.warn('Profil-Update fehlgeschlagen:', error);
+        }
       }
 
       console.log('✅ Profileinrichtung abgeschlossen');

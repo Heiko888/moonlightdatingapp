@@ -39,7 +39,7 @@ import {
   BarChart3,
   PieChart,
   LineChart,
-  RefreshCw,
+  RotateCcw,
   Download,
   Filter,
   Eye,
@@ -291,7 +291,7 @@ export default function KPIDashboard() {
               </FormControl>
               
               <IconButton onClick={fetchKPIData} disabled={loading} sx={{ color: '#FFD700' }}>
-                <RefreshCw size={20} />
+                <RotateCcw size={20} />
               </IconButton>
               
               <Button

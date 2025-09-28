@@ -109,8 +109,7 @@ export default function AppNavigation({ currentPath = '/' }: AppNavigationProps)
   };
 
   const handleLogout = () => {
-    // Logout-Logik hier implementieren
-    router.push('/login');
+    // Kein Logout erforderlich - App ist öffentlich
     handleProfileMenuClose();
   };
 
@@ -197,24 +196,15 @@ export default function AppNavigation({ currentPath = '/' }: AppNavigationProps)
         ))}
       </Box>
 
-      {/* Footer */}
+      {/* Footer - Kein Logout erforderlich */}
       <Box sx={{ p: 2, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          startIcon={<Logout />}
-          onClick={handleLogout}
-          sx={{
-            color: 'rgba(255,255,255,0.7)',
-            borderColor: 'rgba(255,255,255,0.2)',
-            '&:hover': {
-              borderColor: '#FFD700',
-              color: '#FFD700'
-            }
-          }}
-        >
-          Abmelden
-        </Button>
+        <Typography variant="body2" sx={{ 
+          color: 'rgba(255,255,255,0.6)', 
+          textAlign: 'center',
+          fontSize: '0.75rem'
+        }}>
+          🧬 HD App - Öffentlich zugänglich
+        </Typography>
       </Box>
     </Box>
   );
@@ -304,9 +294,9 @@ export default function AppNavigation({ currentPath = '/' }: AppNavigationProps)
               Einstellungen
             </MenuItem>
             <Divider sx={{ borderColor: 'rgba(255,255,255,0.1)' }} />
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon><Logout fontSize="small" /></ListItemIcon>
-              Abmelden
+            <MenuItem onClick={handleProfileMenuClose}>
+              <ListItemIcon><AccountCircle fontSize="small" /></ListItemIcon>
+              Öffentliche App
             </MenuItem>
           </Menu>
         </Toolbar>

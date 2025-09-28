@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, LinearProgress, Avatar, Badge } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Star, Zap, Heart, Target, BookOpen, Users, Calendar, Award, Crown, Medal, Gem, Flame, Eye, Moon, RefreshCw, Share2, Bookmark, TrendingUp, CheckCircle } from 'lucide-react';
+import { Trophy, Star, Zap, Heart, Target, BookOpen, Users, Calendar, Award, Crown, Medal, Gem, Flame, Eye, Moon, RotateCcw, Share2, Bookmark, TrendingUp, CheckCircle } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface Badge {
@@ -323,10 +322,12 @@ export default function GamificationSystem() {
   return (
     <Box>
       {/* User Stats Overview */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <Box
+        sx={{
+          opacity: 1,
+          transform: 'translateY(0)',
+          transition: 'all 0.5s ease'
+        }}
       >
         <Card
           sx={{
@@ -419,7 +420,7 @@ export default function GamificationSystem() {
             <Box sx={{ mb: 3 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Level-Fortschritt
+                  Level Fortschritt
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   {userStats.experience}/{userStats.experience + userStats.experienceToNext} XP
@@ -431,9 +432,9 @@ export default function GamificationSystem() {
                 sx={{
                   height: 8,
                   borderRadius: 4,
-                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   '& .MuiLinearProgress-bar': {
-                    backgroundColor: rankInfo.color,
+                    backgroundColor: '#8B5CF6',
                     borderRadius: 4,
                   },
                 }}
@@ -445,35 +446,38 @@ export default function GamificationSystem() {
             </Typography>
           </CardContent>
         </Card>
-      </motion.div>
+      </Box>
 
       {/* Badges and Achievements */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+      <Box
+        sx={{
+          opacity: 1,
+          transform: 'translateY(0)',
+          transition: 'all 0.5s ease'
+        }}
       >
         <Grid container spacing={3}>
           {/* Badges */}
           <Grid item xs={12} md={6}>
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.2)',
               p: 3
             }}>
               <Typography variant="h5" sx={{ color: 'text.primary', mb: 3, fontWeight: 600 }}>
-                🎖️ Badges
+                🏅 Badges
               </Typography>
               
               <Grid container spacing={2}>
                 {badges.map((badge, index) => (
                   <Grid item xs={12} sm={6} key={badge.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    <Box
+                      sx={{
+                        opacity: 1,
+                        transform: 'translateY(0)',
+                        transition: 'all 0.5s ease'
+                      }}
                     >
                       <Card
                         sx={{
@@ -492,72 +496,57 @@ export default function GamificationSystem() {
                         }}
                         onClick={() => handleBadgeSelect(badge)}
                       >
-                        <CardContent sx={{ p: 2, textAlign: 'center' }}>
-                          <Box sx={{ position: 'relative', mb: 1 }}>
-                            <Typography variant="h4" sx={{ opacity: badge.unlocked ? 1 : 0.5 }}>
+                        <CardContent sx={{ p: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                            <Typography variant="h4">
                               {badge.icon}
                             </Typography>
-                            {badge.unlocked && (
-                              <CheckCircle 
-                                size={16} 
-                                color="#22c55e" 
-                                style={{ 
-                                  position: 'absolute', 
-                                  top: -5, 
-                                  right: -5,
-                                  backgroundColor: 'white',
-                                  borderRadius: '50%'
-                                }} 
-                              />
-                            )}
+                            <Box sx={{ flex: 1 }}>
+                              <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
+                                {badge.name}
+                              </Typography>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                {getRarityIcon(badge.rarity)}
+                                <Typography variant="caption" sx={{ color: getRarityColor(badge.rarity) }}>
+                                  {badge.rarity}
+                                </Typography>
+                              </Box>
+                            </Box>
                           </Box>
                           
-                          <Typography variant="body2" sx={{ 
-                            fontWeight: 600, 
-                            color: 'text.primary',
-                            mb: 0.5,
-                            opacity: badge.unlocked ? 1 : 0.7
-                          }}>
-                            {badge.name}
+                          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                            {badge.description}
                           </Typography>
                           
-                          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5, mb: 1 }}>
-                            {getRarityIcon(badge.rarity)}
-                            <Typography variant="caption" sx={{ 
-                              color: getRarityColor(badge.rarity),
-                              fontWeight: 600
-                            }}>
-                              {badge.rarity}
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                            {getCategoryIcon(badge.category)}
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                              {badge.category}
                             </Typography>
                           </Box>
                           
-                          {!badge.unlocked && (
-                            <Box sx={{ mb: 1 }}>
-                              <LinearProgress
-                                variant="determinate"
-                                value={(badge.progress / badge.maxProgress) * 100}
-                                sx={{
-                                  height: 4,
+                          <Box sx={{ mb: 1 }}>
+                            <LinearProgress
+                              variant="determinate"
+                              value={(badge.progress / badge.maxProgress) * 100}
+                              sx={{
+                                height: 4,
+                                borderRadius: 2,
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                '& .MuiLinearProgress-bar': {
+                                  backgroundColor: badge.color,
                                   borderRadius: 2,
-                                  backgroundColor: 'rgba(255,255,255,0.1)',
-                                  '& .MuiLinearProgress-bar': {
-                                    backgroundColor: badge.color,
-                                    borderRadius: 2,
-                                  },
-                                }}
-                              />
-                              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                                {badge.progress}/{badge.maxProgress}
-                              </Typography>
-                            </Box>
-                          )}
+                                },
+                              }}
+                            />
+                          </Box>
                           
                           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                             {badge.points} Punkte
                           </Typography>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </Box>
                   </Grid>
                 ))}
               </Grid>
@@ -568,9 +557,8 @@ export default function GamificationSystem() {
           <Grid item xs={12} md={6}>
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.2)',
               p: 3
             }}>
               <Typography variant="h5" sx={{ color: 'text.primary', mb: 3, fontWeight: 600 }}>
@@ -579,11 +567,13 @@ export default function GamificationSystem() {
               
               <List>
                 {achievements.map((achievement, index) => (
-                  <motion.div
+                  <Box
                     key={achievement.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    sx={{
+                      opacity: 1,
+                      transform: 'translateX(0)',
+                      transition: 'all 0.5s ease'
+                    }}
                   >
                     <ListItem
                       sx={{
@@ -597,58 +587,48 @@ export default function GamificationSystem() {
                       }}
                     >
                       <ListItemIcon>
-                        <Box sx={{ position: 'relative' }}>
-                          <Typography variant="h5" sx={{ opacity: achievement.unlocked ? 1 : 0.5 }}>
+                        <Avatar
+                          sx={{
+                            backgroundColor: achievement.unlocked ? achievement.color : 'rgba(255,255,255,0.1)',
+                            width: 40,
+                            height: 40,
+                          }}
+                        >
+                          <Typography variant="h6">
                             {achievement.icon}
                           </Typography>
-                          {achievement.unlocked && (
-                            <CheckCircle 
-                              size={12} 
-                              color="#22c55e" 
-                              style={{ 
-                                position: 'absolute', 
-                                top: -3, 
-                                right: -3,
-                                backgroundColor: 'white',
-                                borderRadius: '50%'
-                              }} 
-                            />
-                          )}
-                        </Box>
+                        </Avatar>
                       </ListItemIcon>
                       <ListItemText
                         primary={
-                          <Typography variant="body2" sx={{ 
-                            fontWeight: 600, 
-                            color: 'text.primary',
-                            opacity: achievement.unlocked ? 1 : 0.7
-                          }}>
+                          <Typography variant="h6" sx={{ fontWeight: 600 }}>
                             {achievement.title}
                           </Typography>
                         }
                         secondary={
                           <Box>
-                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
                               {achievement.description}
                             </Typography>
-                            <Typography variant="caption" sx={{ 
-                              color: achievement.color,
-                              fontWeight: 600,
-                              display: 'block'
-                            }}>
-                              {achievement.points} Punkte
-                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Typography variant="caption" sx={{ color: achievement.color }}>
+                                {achievement.points} Punkte
+                              </Typography>
+                              {achievement.unlocked && (
+                                <CheckCircle size={16} color={achievement.color} />
+                              )}
+                            </Box>
                           </Box>
                         }
                       />
                     </ListItem>
-                  </motion.div>
+                  </Box>
                 ))}
               </List>
             </Card>
           </Grid>
         </Grid>
-      </motion.div>
+      </Box>
 
       {/* Badge Details Dialog */}
       <Dialog
@@ -659,84 +639,61 @@ export default function GamificationSystem() {
       >
         <DialogTitle sx={{ textAlign: 'center', pb: 1 }}>
           <Typography variant="h4" sx={{ mb: 1 }}>
-            {selectedBadge?.icon} {selectedBadge?.name}
+            {selectedBadge?.icon}
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, alignItems: 'center' }}>
-            {getRarityIcon(selectedBadge?.rarity || 'common')}
-            <Typography variant="body2" sx={{ 
-              color: getRarityColor(selectedBadge?.rarity || 'common'),
-              fontWeight: 600,
-              textTransform: 'capitalize'
-            }}>
-              {selectedBadge?.rarity}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              • {selectedBadge?.points} Punkte
-            </Typography>
-          </Box>
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            {selectedBadge?.name}
+          </Typography>
         </DialogTitle>
-        
         <DialogContent>
-          <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.6, textAlign: 'center' }}>
+          <Typography variant="body1" sx={{ mb: 2 }}>
             {selectedBadge?.description}
           </Typography>
-
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>
-              📋 Anforderungen:
+          
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Anforderungen:
             </Typography>
-            <List dense>
-              {selectedBadge?.requirements.map((req, index) => (
-                <ListItem key={index} sx={{ px: 0 }}>
-                  <ListItemIcon>
-                    <Target size={16} color="#8B5CF6" />
-                  </ListItemIcon>
-                  <ListItemText primary={req} />
-                </ListItem>
-              ))}
-            </List>
+            {selectedBadge?.requirements.map((req, index) => (
+              <Typography key={index} variant="body2" sx={{ color: 'text.secondary' }}>
+                • {req}
+              </Typography>
+            ))}
           </Box>
-
-          {!selectedBadge?.unlocked && (
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2, color: 'warning.main' }}>
-                📊 Fortschritt:
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {selectedBadge?.progress}/{selectedBadge?.maxProgress}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {Math.round((selectedBadge?.progress || 0) / (selectedBadge?.maxProgress || 1) * 100)}%
-                </Typography>
-              </Box>
-              <LinearProgress
-                variant="determinate"
-                value={(selectedBadge?.progress || 0) / (selectedBadge?.maxProgress || 1) * 100}
-                sx={{
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  '& .MuiLinearProgress-bar': {
-                    backgroundColor: selectedBadge?.color,
-                    borderRadius: 4,
-                  },
-                }}
-              />
-            </Box>
-          )}
-
-          {selectedBadge?.unlocked && selectedBadge.unlockedAt && (
-            <Box sx={{ p: 2, backgroundColor: 'rgba(34, 197, 94, 0.1)', borderRadius: 2, textAlign: 'center' }}>
-              <Typography variant="body2" sx={{ color: 'success.main', fontWeight: 600 }}>
-                ✅ Freigeschaltet am {selectedBadge.unlockedAt.toLocaleDateString('de-DE')}
-              </Typography>
-            </Box>
-          )}
+          
+          <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+            <Chip
+              icon={getRarityIcon(selectedBadge?.rarity || 'common')}
+              label={selectedBadge?.rarity}
+              sx={{ backgroundColor: getRarityColor(selectedBadge?.rarity || 'common') + '20' }}
+            />
+            <Chip
+              icon={getCategoryIcon(selectedBadge?.category || 'energy')}
+              label={selectedBadge?.category}
+            />
+          </Box>
+          
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Fortschritt: {selectedBadge?.progress}/{selectedBadge?.maxProgress}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={selectedBadge ? (selectedBadge.progress / selectedBadge.maxProgress) * 100 : 0}
+              sx={{
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                '& .MuiLinearProgress-bar': {
+                  backgroundColor: selectedBadge?.color || '#8B5CF6',
+                  borderRadius: 3,
+                },
+              }}
+            />
+          </Box>
         </DialogContent>
-        
-        <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => setSelectedBadge(null)} variant="contained">
+        <DialogActions>
+          <Button onClick={() => setSelectedBadge(null)}>
             Schließen
           </Button>
         </DialogActions>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, Avatar, Badge, LinearProgress, Slider } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Volume2, VolumeX, Download, Bookmark, Share2, Star, Clock, Users, Award, CheckCircle, ArrowRight, RefreshCw, Settings, Maximize2, Minimize2, SkipBack, SkipForward, RotateCcw } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Download, Bookmark, Share2, Star, Clock, Users, Award, CheckCircle, ArrowRight, RotateCcw, Settings, Maximize2, Minimize2, SkipBack, SkipForward, RotateCcw } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface MiniCourse {

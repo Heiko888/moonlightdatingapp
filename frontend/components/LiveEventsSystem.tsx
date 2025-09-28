@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, Avatar, Badge, LinearProgress } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Users, Clock, Video, Mic, Heart, Star, Zap, Eye, Moon, Flame, RefreshCw, Share2, Bookmark, Play, Pause, Volume2, VolumeX, Settings, MessageCircle, ThumbsUp, ThumbsDown, Send } from 'lucide-react';
+import { Calendar, Users, Clock, Video, Mic, Heart, Star, Zap, Eye, Moon, Flame, RotateCcw, Share2, Bookmark, Play, Pause, Volume2, VolumeX, Settings, MessageCircle, ThumbsUp, ThumbsDown, Send } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface LiveEvent {

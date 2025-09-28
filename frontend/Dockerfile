@@ -1,49 +1,32 @@
-FROM node:20-alpine AS builder
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Kopiere package.json und package-lock.json
+# Build arguments
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG SUPABASE_SERVICE_ROLE_KEY
+ARG STRIPE_SECRET_KEY
+ARG STRIPE_WEBHOOK_SECRET
+
+# Set environment variables
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY
+ENV STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
+ENV STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET
+
+# Copy package files
 COPY package*.json ./
 
-# Installiere Abhängigkeiten
-RUN npm install --legacy-peer-deps
+# Install all dependencies (including dev)
+RUN npm install
 
-# Kopiere den Quellcode
+# Copy source code
 COPY . .
 
-# Baue die Anwendung
-RUN npm run build
-
-# Production Stage
-FROM node:20-alpine AS production
-
-WORKDIR /app
-
-# Kopiere package.json und package-lock.json
-COPY package*.json ./
-
-# Installiere nur Production-Abhängigkeiten
-RUN npm install --only=production --legacy-peer-deps && npm cache clean --force
-
-# Kopiere gebauten Code vom Builder
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.ts ./
-
-# Erstelle non-root User
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
-# Ändere Ownership
-RUN chown -R nextjs:nodejs /app
-USER nextjs
-
-# Exponiere Port 3000
+# Expose port
 EXPOSE 3000
 
-# Health Check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
-
-# Starte den Production-Server
-CMD ["npm", "start"]
+# Start in development mode
+CMD ["npm", "run", "dev"]

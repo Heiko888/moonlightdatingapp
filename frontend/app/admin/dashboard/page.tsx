@@ -4,17 +4,31 @@ import { Box, Typography, Paper, Button, Grid, Card, CardContent, Alert, Contain
 import { motion } from 'framer-motion';
 import { Shield, Users, Settings, LogOut, Crown, BarChart3, Activity, Database, Server } from "lucide-react";
 import AnimatedStars from '@/components/AnimatedStars';
+import { 
+  AdminUser, 
+  AdminStats, 
+  AdminAuditLog,
+  BaseComponentProps 
+} from '@/types/common.types';
 
-export default function AdminDashboard() {
-  const [adminUser, setAdminUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+interface AdminStatCard {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  color: string;
+  gradient: string;
+}
+
+const AdminDashboard: React.FC = () => {
+  const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const adminToken = localStorage.getItem("adminToken");
     const adminUserData = localStorage.getItem("adminUser");
 
     if (!adminToken) {
-      window.location.href = "/admin/login";
+      // Keine Weiterleitung - App ist öffentlich
       return;
     }
 

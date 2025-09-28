@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button, Card, CardContent, Grid, Alert, CircularProgress, Chip, List, ListItem, ListItemText, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Play, BarChart3, Activity, Zap, RefreshCw, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { Play, BarChart3, Activity, Zap, RotateCcw, CheckCircle, AlertCircle, Clock } from 'lucide-react';
 import AnimatedStars from '@/components/AnimatedStars';
 
 interface TestResult {
@@ -178,7 +178,7 @@ export default function TestMetricsPage() {
                 variant="outlined"
                 onClick={checkStatus}
                 disabled={loading}
-                startIcon={loading ? <CircularProgress size={16} /> : <RefreshCw size={16} />}
+                startIcon={loading ? <CircularProgress size={16} /> : <RotateCcw size={16} />}
               >
                 Status prüfen
               </Button>
@@ -341,7 +341,7 @@ export default function TestMetricsPage() {
                     onClick={generateTestLog}
                     disabled={loading}
                     fullWidth
-                    startIcon={loading ? <CircularProgress size={16} /> : <RefreshCw size={16} />}
+                    startIcon={loading ? <CircularProgress size={16} /> : <RotateCcw size={16} />}
                     sx={{
                       backgroundColor: '#F59E0B',
                       '&:hover': { backgroundColor: '#F59E0B', opacity: 0.9 }

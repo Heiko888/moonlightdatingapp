@@ -85,7 +85,7 @@ export default function PricingPage() {
     try {
       const userData = localStorage.getItem('userData');
       if (!userData) {
-        router.push('/login');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
 

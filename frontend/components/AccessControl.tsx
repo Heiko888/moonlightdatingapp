@@ -193,7 +193,7 @@ export default function AccessControl({
                 <Button
                   variant="contained"
                   size="large"
-                  href="/login"
+                  href="#"
                   sx={{
                     background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                     fontWeight: 'bold',

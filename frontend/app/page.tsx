@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+// import ProtectedRoute from "@/components/ProtectedRoute"; // Removed - app is now public
 import {
   Box,
   Typography,
@@ -9,8 +10,11 @@ import {
   Container,
   Grid,
   Card,
-  CardContent
+  CardContent,
+  AppBar,
+  Toolbar
 } from "@mui/material";
+import BuildInfo from "@/components/BuildInfo";
 import {
   Heart,
   Users,
@@ -20,7 +24,11 @@ import {
   Check,
   Crown,
   Zap,
-  Shield
+  Shield,
+  Menu,
+  Home,
+  UserPlus,
+  LogIn
 } from "lucide-react";
 import { motion } from "framer-motion";
 // Temporarily removed problematic components
@@ -128,32 +136,8 @@ const pricingPlans = [
 ];
 
 export default function HomePage() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Hydration Safety Check
-  if (!isMounted) {
-    return (
-      <Box sx={{
-        minHeight: '100vh',
-        background: `
-          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-        `,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <Typography variant="h4" sx={{ color: 'white' }}>
-          Lade...
-        </Typography>
-      </Box>
-    );
-  }
+  // Entferne den isMounted State komplett für bessere Performance
+  // Die Seite soll sofort laden ohne Hydration-Delay
 
   return (
     <>
@@ -171,6 +155,76 @@ export default function HomePage() {
         <meta name="twitter:description" content="Entdecke dein Human Design Profil, finde energetische Kompatibilität und verbinde dich mit Gleichgesinnten." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      {/* Navigation Header */}
+      <AppBar position="static" sx={{ 
+        background: 'rgba(0, 0, 0, 0.3)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#FFD700', fontWeight: 'bold' }}>
+            🌙 Human Design App
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Button
+              component={Link}
+              href="/"
+              startIcon={<Home size={20} />}
+              sx={{ 
+                color: 'white',
+                '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+              }}
+            >
+              Startseite
+            </Button>
+            <Button
+              component={Link}
+              href="/dashboard"
+              startIcon={<Menu size={20} />}
+              sx={{ 
+                color: 'white',
+                '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+              }}
+            >
+              Dashboard
+            </Button>
+            <Button
+              component={Link}
+              href="/register"
+              startIcon={<UserPlus size={20} />}
+              variant="outlined"
+              sx={{ 
+                color: '#FFD700',
+                borderColor: '#FFD700',
+                '&:hover': { 
+                  borderColor: '#FFA500',
+                  backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                }
+              }}
+            >
+              Registrieren
+            </Button>
+            <Button
+              component={Link}
+              href="/login"
+              startIcon={<LogIn size={20} />}
+              variant="contained"
+              sx={{ 
+                background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                color: 'black',
+                fontWeight: 'bold',
+                '&:hover': { 
+                  background: 'linear-gradient(45deg, #FFA500, #FFD700)'
+                }
+              }}
+            >
+              Anmelden
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
       <Box sx={{
       minHeight: '100%',
       background: `
@@ -229,11 +283,35 @@ export default function HomePage() {
             MOONLIGHT
           </Typography>
           
-          {/* Login/Registrieren Buttons */}
+          {/* App direkt nutzen - Kein Login erforderlich */}
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
               component={Link}
-              href="/login"
+              href="/chart"
+              variant="contained"
+              size="medium"
+              sx={{
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                color: '#000',
+                fontWeight: 'bold',
+                px: 3,
+                py: 1,
+                borderRadius: 2,
+                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #FFA500, #FFD700)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              🚀 Jetzt starten
+            </Button>
+            
+            <Button
+              component={Link}
+              href="/dashboard"
               variant="outlined"
               size="medium"
               sx={{
@@ -255,31 +333,7 @@ export default function HomePage() {
                 transition: 'all 0.3s ease'
               }}
             >
-              Login
-            </Button>
-            
-            <Button
-              component={Link}
-              href="/register"
-              variant="contained"
-              size="medium"
-              sx={{
-                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                color: '#000',
-                fontWeight: 'bold',
-                px: 3,
-                py: 1,
-                borderRadius: 2,
-                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #FFA500, #FFD700)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Registrieren
+              📊 Dashboard
             </Button>
           </Box>
         </Box>
@@ -1079,6 +1133,26 @@ Magische Beziehungen
               }}>
                 <Button
                   component={Link}
+                  href="/dashboard"
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    borderColor: '#FFD700',
+                    color: '#FFD700',
+                    fontWeight: 700,
+                    px: 6,
+                    py: 2,
+                    mr: 2,
+                    '&:hover': {
+                      borderColor: '#FFA500',
+                      backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                    }
+                  }}
+                >
+                  📊 Dashboard
+                </Button>
+                <Button
+                  component={Link}
                   href="/register"
                   variant="contained"
                   size="large"
@@ -1099,7 +1173,29 @@ Magische Beziehungen
                   }}
                 >
                   <Star size={24} style={{ marginRight: 8 }} />
-                  Jetzt kostenlos starten
+                  🚀 Jetzt kostenlos starten
+                </Button>
+                
+                <Button
+                  component={Link}
+                  href="/login"
+                  variant="outlined"
+                  size="large"
+                  sx={{
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    color: 'white',
+                    fontWeight: 700,
+                    px: 6,
+                    py: 2,
+                    ml: 2,
+                    '&:hover': {
+                      borderColor: '#FFD700',
+                      backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                      color: '#FFD700'
+                    }
+                  }}
+                >
+                  🔐 Anmelden
                 </Button>
                 
                 <Button
@@ -2494,6 +2590,7 @@ Magische Beziehungen
         </Box>
       </Container>
     </Box>
+    <BuildInfo />
     </>
   );
 }

@@ -7,23 +7,15 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Disable all dev tools to prevent webpack errors
+  // Einfache Konfiguration für Development
   experimental: {
     reactCompiler: false,
   },
-  // Disable Next.js DevTools to prevent webpack errors
   devIndicators: false,
-  // Disable dev overlay
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-  // API Routes benötigen Server-Side Rendering
-  // output: 'export', // Entfernt für API-Routes
-  trailingSlash: true,
+  trailingSlash: false,
   images: {
     unoptimized: true
-  }
+  },
 };
 
 export default nextConfig;

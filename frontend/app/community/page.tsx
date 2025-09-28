@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import ProtectedRoute from '@/components/ProtectedRoute';
+// Ungenutzte Imports entfernt
 import { 
   Box, 
   Container, 
@@ -77,7 +79,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-export default function CommunityPage() {
+function CommunityContent() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(0);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
@@ -97,7 +99,7 @@ export default function CommunityPage() {
       
       if (!token || !userId) {
         setIsAuthenticated(false);
-        router.push('/login?redirect=/community');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
@@ -1534,5 +1536,14 @@ export default function CommunityPage() {
         </Dialog>
       </Box>
     </AccessControl>
+  );
+}
+
+// Hauptkomponente mit ProtectedRoute
+export default function CommunityPage() {
+  return (
+    <ProtectedRoute requiredRole="basic">
+      <CommunityContent />
+    </ProtectedRoute>
   );
 }

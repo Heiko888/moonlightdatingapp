@@ -40,3 +40,8 @@ coverage/
 
 # Misc
 *.swp
+
+# Deploy organization
+# Keep organized deploy structure
+!deploy/
+!deploy/**/*

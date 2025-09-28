@@ -1,3 +1,0 @@
-// ...existing code...
-// TypeScript Migration: fixUserIndex.js
-// TODO: Typen ergänzen und ggf. refaktorieren

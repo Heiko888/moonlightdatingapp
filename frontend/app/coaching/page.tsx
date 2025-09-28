@@ -1,14 +1,16 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Avatar, Rating, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Tabs, Tab, IconButton, ListItemAvatar, Divider, Alert, CircularProgress, MenuItem } from '@mui/material';
+import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Avatar, Rating, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Tabs, Tab, IconButton, Divider, Alert, CircularProgress, MenuItem } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Users, MessageCircle, Calendar, Star, ArrowRight, Clock, MapPin, Phone, Mail, BookOpen, User, Send, X, MessageSquare } from 'lucide-react';
+import { Users, Calendar, ArrowRight, Clock, MapPin, Phone, Mail, BookOpen, User, Send, X, MessageSquare } from 'lucide-react';
 import AnimatedStars from '@/components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { apiService } from '@/lib/services/apiService';
+import { useLoadingState } from '@/lib/services/loadingService';
 
 interface Message {
   id: string;
@@ -17,7 +19,7 @@ interface Message {
   timestamp: Date;
 }
 
-interface Coach {
+interface CoachExtended {
   id: number;
   name: string;
   title: string;
@@ -35,19 +37,29 @@ interface Coach {
   lastSeen?: string;
 }
 
+interface BookingData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  sessionType: string;
+  date: string;
+  time: string;
+}
+
 export default function CoachingPage() {
   const router = useRouter();
-  const [selectedCoach, setSelectedCoach] = useState<Coach | null>(null);
-  const [bookingDialog, setBookingDialog] = useState(false);
-  const [chatDialog, setChatDialog] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
-  const [newMessage, setNewMessage] = useState('');
+  const [selectedCoach, setSelectedCoach] = useState<CoachExtended | null>(null);
+  const [bookingDialog, setBookingDialog] = useState<boolean>(false);
+  const [chatDialog, setChatDialog] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const [newMessage, setNewMessage] = useState<string>('');
   const [messages, setMessages] = useState<{ [coachId: number]: Message[] }>({});
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [bookingData, setBookingData] = useState({
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [bookingData, setBookingData] = useState<BookingData>({
     name: '',
     email: '',
     phone: '',
@@ -71,7 +83,7 @@ export default function CoachingPage() {
   
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   // Authentifizierung prüfen
   useEffect(() => {
@@ -81,7 +93,7 @@ export default function CoachingPage() {
 
       if (!token || !userId) {
         setIsAuthenticated(false);
-        router.push('/login?redirect=/coaching');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
 
@@ -130,21 +142,22 @@ export default function CoachingPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const { setLoading: setSubmitting } = useLoadingState('coaching-booking');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setSubmitting(true);
     setSuccess(null);
     setError(null);
     
     try {
-      const res = await fetch("http://localhost:4001/sessionrequest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, coach: "Allgemeine Anfrage" })
+      const response = await apiService.bookCoachingSession({
+        ...form,
+        coachId: "general-coach",
+        sessionType: form.sessionType as "Workshop" | "1:1 Coaching" | "Group Session"
       });
-      const data = await res.json();
       
-      if (data.success) {
+      if (response.success) {
         setSuccess("Session-Anfrage erfolgreich versendet! Wir melden uns bald bei dir. ✨");
         setForm({ name: "", email: "", phone: "", sessionType: "", date: "", time: "", message: "" });
         setTimeout(() => {
@@ -152,15 +165,16 @@ export default function CoachingPage() {
           setSuccess(null);
         }, 3000);
       } else {
-        setError(data.error || "Fehler beim Senden der Anfrage. Bitte versuche es erneut.");
+        setError(response.error?.message || "Fehler beim Senden der Anfrage. Bitte versuche es erneut.");
       }
     } catch {
       setError("Verbindungsfehler. Bitte überprüfe deine Internetverbindung.");
+    } finally {
+      setSubmitting(false);
     }
-    setLoading(false);
   };
 
-  const coaches: Coach[] = [
+  const coaches: CoachExtended[] = [
     {
       id: 1,
       name: "Louisa",
@@ -241,27 +255,6 @@ export default function CoachingPage() {
       languages: ["Deutsch", "Englisch"],
       profileUrl: "/coaching/janine",
       isOnline: true
-    },
-    {
-      id: 5,
-      name: "Britta",
-      title: "Human Design & Spiritual Coach",
-      avatar: "/api/placeholder/150/150",
-      rating: 4.9,
-      reviews: 98,
-      experience: "7+ Jahre",
-      specializations: ["Generator", "Sacral Authority", "Spiritualität"],
-      description: "Britta ist eine spirituelle Coachin, die sich auf Generators und spirituelle Entwicklung spezialisiert hat. Sie begleitet Menschen auf ihrem Weg zur inneren Erfüllung.",
-      sessions: [
-        { type: "1:1 Coaching", price: "€105", duration: "60 Min" },
-        { type: "Spiritual Coaching", price: "€145", duration: "75 Min" },
-        { type: "Meditation & Achtsamkeit", price: "€125", duration: "60 Min" }
-      ],
-      availability: ["Montag", "Donnerstag", "Freitag"],
-      languages: ["Deutsch", "Englisch"],
-      profileUrl: "/coaching/britta",
-      isOnline: false,
-      lastSeen: "vor 2 Stunden"
     }
   ];
 
@@ -302,7 +295,7 @@ export default function CoachingPage() {
   }, [messages, selectedCoach]);
 
   // Initialize chat with welcome message
-  const initializeChat = (coach: Coach) => {
+  const initializeChat = (coach: CoachExtended) => {
     if (!messages[coach.id]) {
       const welcomeMessages: Message[] = [
         {
@@ -319,7 +312,7 @@ export default function CoachingPage() {
     }
   };
 
-  const handleChat = (coach: Coach) => {
+  const handleChat = (coach: CoachExtended) => {
     setSelectedCoach(coach);
     initializeChat(coach);
     setChatDialog(true);
@@ -382,10 +375,6 @@ export default function CoachingPage() {
     }
   };
 
-  const handleBooking = (coach: Coach) => {
-    setSelectedCoach(coach);
-    setBookingDialog(true);
-  };
 
   const handleBookingSubmit = () => {
     console.log('Buchung:', { coach: selectedCoach, data: bookingData });

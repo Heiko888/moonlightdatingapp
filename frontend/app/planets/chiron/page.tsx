@@ -33,7 +33,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useChironData } from '../../../hooks/useChironData';
+// import { useChironData } from '../../../hooks/useChironData'; // Hook wurde entfernt
 
 interface ChironGate {
   gate_number?: number;
@@ -58,7 +58,12 @@ export default function ChironPage() {
   const [expandedGate, setExpandedGate] = useState<number | false>(false);
   
   // Verwende den usePlanetData Hook für alle 64 Gates
-  const { chironInfo, chironGates, chironCenters, loading, error } = useChironData();
+  // const { chironInfo, chironGates, chironCenters, loading, error } = useChironData(); // Hook wurde entfernt
+  const chironInfo = null;
+  const chironGates = [];
+  const chironCenters = [];
+  const loading = false;
+  const error = null;
 
   // Loading und Error States
   if (loading) {

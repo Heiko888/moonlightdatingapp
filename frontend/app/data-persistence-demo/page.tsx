@@ -30,7 +30,7 @@ import {
   Cloud, 
   Wifi, 
   WifiOff, 
-  RefreshCw, 
+  RotateCcw, 
   CheckCircle, 
   XCircle, 
   AlertCircle,
@@ -232,7 +232,7 @@ export default function DataPersistenceDemo() {
                   />
                   <Button
                     variant="contained"
-                    startIcon={<RefreshCw size={20} />}
+                    startIcon={<RotateCcw size={20} />}
                     onClick={handleFullSync}
                     disabled={!isAuthenticated || loading}
                     sx={{ 

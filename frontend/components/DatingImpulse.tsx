@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Users, MapPin, Clock, Star, Zap, Eye, Moon, Flame, RefreshCw, Share2, Bookmark, Calendar, Target, MessageCircle } from 'lucide-react';
+import { Heart, Users, MapPin, Clock, Star, Zap, Eye, Moon, Flame, RotateCcw, Share2, Bookmark, Calendar, Target, MessageCircle } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface DatingImpulse {
@@ -318,7 +318,7 @@ export default function DatingImpulse() {
                   size="small"
                   sx={{ color: 'text.secondary' }}
                 >
-                  <RefreshCw size={16} />
+                  <RotateCcw size={16} />
                 </IconButton>
                 <IconButton
                   onClick={handleSave}

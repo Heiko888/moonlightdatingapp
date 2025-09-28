@@ -2,7 +2,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, Avatar, Badge, LinearProgress, Switch, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, CheckCircle, Star, RefreshCw, Share2, Bookmark, Settings, Download, Upload, Languages, Flag, MessageCircle, BookOpen, Users, Award } from 'lucide-react';
+import { Globe, CheckCircle, Star, RotateCcw, Share2, Bookmark, Settings, Download, Upload, Languages, Flag, MessageCircle, BookOpen, Users, Award } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface Language {
@@ -239,7 +239,7 @@ const getStatusIcon = (status: Language['status']) => {
     case 'complete':
       return <CheckCircle size={16} />;
     case 'in_progress':
-      return <RefreshCw size={16} />;
+      return <RotateCcw size={16} />;
     case 'planned':
       return <Star size={16} />;
     case 'needs_review':

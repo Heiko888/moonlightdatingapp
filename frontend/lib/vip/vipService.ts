@@ -364,7 +364,7 @@ class VIPService {
         userId,
         type: 'coaching_session',
         title: '1:1 Coaching Session',
-        description: 'Persönliche Beratung mit Britta Müller',
+        description: 'Persönliche Beratung mit Elisabeth Taeubel',
         timestamp: '2024-12-09T10:00:00Z',
         icon: 'Users',
         tier: 'vip',

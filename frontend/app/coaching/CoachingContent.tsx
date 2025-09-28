@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaInstagram, FaStar } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Box, Typography, Card, CardContent, Button, Chip } from "@mui/material";
 import { Sparkles, Users, User, Calendar, Clock, Star } from 'lucide-react';
 import Link from "next/link";
+import Image from "next/image";
 
 // Animierte Sterne Komponente
 const AnimatedStars = () => {
@@ -109,20 +110,6 @@ const coachingSessions: CoachingSession[] = [
     coachSocial: "instagram.com/janine.herz",
   },
   {
-    id: "britta-schuhmann",
-    title: "Gesundheit & Wohlbefinden",
-    description:
-      "Ganzheitliches Coaching für Gesundheit und Wohlbefinden. Human Design als Schlüssel zu deiner natürlichen Vitalität.",
-    duration: "90 Minuten",
-    price: "160€",
-    type: "individual",
-    coachName: "Britta",
-    coachImage: "/coaches/britta.jpg",
-    coachFocus: "Gesundheit, Wohlbefinden, Ernährung, Lifestyle",
-    coachBio: "Britta hilft dir, deine natürliche Gesundheit zu entdecken.",
-    coachSocial: "instagram.com/britta.health",
-  },
-  {
     id: "elisabeth-taeubel",
     title: "Spiritualität & Bewusstsein",
     description:
@@ -178,9 +165,6 @@ const coachReviews: Record<string, Array<{ name: string; rating: number; text: s
   "janine-christ": [
     { name: "Lisa", rating: 5, text: "Hat unsere Beziehung auf ein neues Level gebracht." },
     { name: "Markus", rating: 4, text: "Sehr hilfreich für die Partnerschaft." },
-  ],
-  "britta-schuhmann": [
-    { name: "Claudia", rating: 5, text: "Tolle Unterstützung für meine Gesundheit!" },
   ],
   "elisabeth-taeubel": [
     { name: "Petra", rating: 5, text: "Wundervolle spirituelle Begleitung." },
@@ -254,7 +238,7 @@ const CoachingContent: React.FC = () => {
                 Wie buche ich eine Coaching-Session?
               </Typography>
               <Typography variant="body2" sx={{ color: '#666' }}>
-                Über den Button „Session anfragen" kannst du direkt Kontakt aufnehmen und einen Termin vereinbaren.
+                Über den Button &ldquo;Session anfragen&rdquo; kannst du direkt Kontakt aufnehmen und einen Termin vereinbaren.
               </Typography>
             </Box>
             <Box>
@@ -357,10 +341,12 @@ const CoachingContent: React.FC = () => {
                         boxShadow: '0 6px 20px rgba(245, 158, 11, 0.3)',
                         background: 'linear-gradient(135deg, #fef3c7, #fde68a)'
                       }}>
-                        <img
+                        <Image
                           src={session.coachImage}
-                          alt={session.coachName}
-            style={{
+                          alt={session.coachName || 'Coach'}
+                          width={300}
+                          height={200}
+                          style={{
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover'
@@ -507,7 +493,7 @@ const CoachingContent: React.FC = () => {
                   {/* Action Buttons */}
                   <Box sx={{ display: 'flex', gap: 1.5 }}>
                     {/* Profile Link for specific coaches */}
-                         {["Louisa", "Heiko", "Janine", "Britta", "Elisabeth"].includes(
+                         {["Louisa", "Heiko", "Janine", "Elisabeth"].includes(
               session.coachName || ""
             ) && (
                       <Button
@@ -534,9 +520,7 @@ const CoachingContent: React.FC = () => {
                     ? "/coaching/heiko"
                                          : session.coachName === "Janine"
                     ? "/coaching/janine"
-                                         : session.coachName === "Britta"
-                    ? "/coaching/britta"
-                    : "/coaching/elisabeth"
+                                         : "/coaching/elisabeth"
                 }
                       >
                         Profil ansehen

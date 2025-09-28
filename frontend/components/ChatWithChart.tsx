@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Box, Typography, TextField, IconButton, Paper, Avatar, Chip, Dialog, DialogTitle, DialogContent, DialogActions, Button, Grid, Card, CardContent, Divider } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Paperclip, Smile, BarChart3, Heart, Users, Zap, Eye, Moon, Flame, RefreshCw, X } from 'lucide-react';
+import { Send, Paperclip, Smile, BarChart3, Heart, Users, Zap, Eye, Moon, Flame, RotateCcw, X } from 'lucide-react';
 
 interface Message {
   id: string;

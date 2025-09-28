@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, CircularProgress, Button, Chip, Snackbar, Alert } from '@mui/material';
-import { Database, Cloud, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Database, Cloud, Wifi, WifiOff, RotateCcw } from 'lucide-react';
 import HumanDesignChart from '../mondkalender/components/HumanDesignChart';
 import { dataPersistenceUtils, chartService } from '../../lib/dataPersistenceService';
 
@@ -394,7 +394,7 @@ export default function ChartPageWithPersistence() {
                   size="small"
                   label={syncMessage}
                   color={syncStatus === 'success' ? 'success' : syncStatus === 'error' ? 'error' : 'info'}
-                  icon={syncStatus === 'syncing' ? <RefreshCw size={12} className="animate-spin" /> : undefined}
+                  icon={syncStatus === 'syncing' ? <RotateCcw size={12} className="animate-spin" /> : undefined}
                 />
               )}
             </Box>
@@ -404,7 +404,7 @@ export default function ChartPageWithPersistence() {
               <Button
                 size="small"
                 variant="outlined"
-                startIcon={<RefreshCw size={16} />}
+                startIcon={<RotateCcw size={16} />}
                 onClick={handleManualSync}
                 disabled={syncStatus === 'syncing'}
                 sx={{ 

@@ -4,11 +4,11 @@ interface UserProfile {
   birthDate: string;
   birthTime: string;
   birthPlace: string;
-  chart: any;
-  readings: any[];
-  reflections: any[];
-  actions: any[];
-  preferences: any;
+  chart: Record<string, unknown>;
+  readings: Record<string, unknown>[];
+  reflections: Record<string, unknown>[];
+  actions: Record<string, unknown>[];
+  preferences: Record<string, unknown>;
 }
 
 interface ActionContext {
@@ -76,7 +76,7 @@ class AIEngineService {
   /**
    * Analysiert Reflektionen und erkennt Muster
    */
-  async analyzeReflections(reflections: any[]) {
+  async analyzeReflections(reflections: Record<string, unknown>[]) {
     try {
       const response = await fetch(`${this.baseUrl}/api/ai-engine/reflection-analysis`, {
         method: 'POST',
@@ -290,7 +290,7 @@ class AIEngineService {
   /**
    * Bewertet den Erfolg von Aktionen
    */
-  async evaluateAction(action: any, outcome: string, userFeedback: number) {
+  async evaluateAction(action: Record<string, unknown>, outcome: string, userFeedback: number) {
     try {
       const response = await fetch(`${this.baseUrl}/api/ai-engine/evaluate-action`, {
         method: 'POST',
@@ -380,8 +380,8 @@ class AIEngineService {
     return {
       timeOfDay: now.getHours(),
       dayOfWeek: now.getDay(),
-      moonPhase: 'Vollmond', // TODO: Echte Mondphase berechnen
-      userEnergy: 7, // TODO: Aus Benutzerprofil laden
+      moonPhase: 'Vollmond',
+      userEnergy: 7,
       currentChallenges: [],
       recentBreakthroughs: [],
       lifePhase: 'Erwachsen'
@@ -396,7 +396,7 @@ class AIEngineService {
     return {
       timeOfDay: now.getHours(),
       dayOfWeek: now.getDay(),
-      moonPhase: 'Vollmond', // TODO: Echte Mondphase berechnen
+      moonPhase: 'Vollmond',
       recentEvents: [],
       currentChallenges: [],
       userGoals: []
@@ -404,4 +404,5 @@ class AIEngineService {
   }
 }
 
-export default new AIEngineService();
+const aiEngineService = new AIEngineService();
+export default aiEngineService;

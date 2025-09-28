@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, Sun, Heart, Star, Calendar, Users, Zap, Eye, Flame, RefreshCw, Share2, Bookmark } from 'lucide-react';
+import { Moon, Sun, Heart, Star, Calendar, Users, Zap, Eye, Flame, RotateCcw, Share2, Bookmark } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface MoonPhase {

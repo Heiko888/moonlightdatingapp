@@ -1,6 +1,14 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import { 
+  User, 
+  BaseComponentProps,
+  FormState 
+} from '@/types/common.types';
+import { apiService } from '@/lib/services/apiService';
+import { useLoadingState } from '@/lib/services/loadingService';
 import { 
   Box, 
   Typography, 
@@ -114,10 +122,10 @@ interface ProfileData {
   };
 }
 
-export default function ProfilPage() {
+function ProfilContent() {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
   const [message, setMessage] = useState('');
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
@@ -149,49 +157,42 @@ export default function ProfilPage() {
 
   const [formData, setFormData] = useState(profile);
 
+  const { isLoading, error, setLoading, setError } = useLoadingState('profile');
+
   // Profil-Daten aus der SQLite-Datenbank laden
   const loadProfileData = React.useCallback(async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       
-      if (!token || !userId) {
-        console.log('Kein Token oder UserId gefunden');
+      if (!userId) {
         setLoading(false);
         return;
       }
 
-      // Versuche echte Daten aus der SQLite-Datenbank zu laden
-      const response = await fetch(`http://localhost:4001/api/users/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        console.log('Echte Benutzerdaten geladen:', userData);
+      // Verwende den zentralen API-Service
+      const userData = await apiService.getUserProfile(userId);
+      
+      if (userData) {
         
         // Profil-Daten aus den echten API-Daten extrahieren
         setProfile(prev => ({
           ...prev,
-          name: userData.name || userData.username || 'Unbekannter Benutzer',
+          name: userData.firstName + ' ' + userData.lastName || 'Unbekannter Benutzer',
           email: userData.email || '',
           phone: userData.phone || '',
           location: userData.location || '',
-          birthDate: userData.birthdate || '',
+          birthDate: userData.birthDate || '',
           birthTime: userData.birthTime || '',
-          birthPlace: userData.birthplace || '',
+          birthPlace: userData.birthPlace || '',
           description: userData.bio || '',
-          interests: userData.interests ? JSON.parse(userData.interests) : [],
+          interests: userData.interests || [],
           website: userData.website || '',
           bio: userData.bio || '',
-          hdType: userData.hd_type || '',
-          hdProfile: userData.profile || '',
-          hdStrategy: userData.strategy || '',
-          hdAuthority: userData.authority || ''
+          hdType: userData.hdType || '',
+          hdProfile: userData.hdProfile || '',
+          hdStrategy: userData.hdStrategy || '',
+          hdAuthority: userData.hdAuthority || ''
         }));
 
         // Statistiken aus echten Daten berechnen
@@ -200,15 +201,14 @@ export default function ProfilPage() {
           return {
             ...prev,
             statistics: {
-              totalMoonEntries: 0, // TODO: Aus Mondkalender-Daten berechnen
-              totalMatchingAnalyses: 0, // TODO: Aus Matching-Daten berechnen
-              totalCoachingSessions: 0, // TODO: Aus Coaching-Daten berechnen
-              lastActivity: userData.updated_at || userData.created_at || new Date().toISOString()
+              totalMoonEntries: 0,
+              totalMatchingAnalyses: 0,
+              totalCoachingSessions: 0,
+              lastActivity: userData.updatedAt || userData.createdAt || new Date().toISOString()
             }
           };
         });
       } else {
-        console.log('API nicht verfügbar, verwende Test-Daten');
         // Fallback auf Test-Daten aus der Datenbank
         await loadTestData();
       }
@@ -229,7 +229,7 @@ export default function ProfilPage() {
       
       if (!token || !userId) {
         setIsAuthenticated(false);
-        router.push('/login?redirect=/profil');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
@@ -263,9 +263,9 @@ export default function ProfilPage() {
   // Test-Daten aus der Datenbank laden
   const loadTestData = async () => {
     try {
-      const response = await fetch('http://localhost:4001/test-data/status');
-      if (response.ok) {
-        const testData = await response.json();
+      const response = await apiService.getTestStatus();
+      if (response.success) {
+        const testData = response.data;
         if (testData.users && testData.users.length > 0) {
           const firstUser = testData.users[0];
           setProfile(prev => ({
@@ -335,17 +335,10 @@ export default function ProfilPage() {
         website: formData.website
       };
 
-      const response = await fetch(`http://localhost:4001/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updateData)
-      });
+      const response = await apiService.updateUserProfile(userId, updateData);
 
-      if (response.ok) {
-        const updatedUser = await response.json();
+      if (response.success) {
+        const updatedUser = response.data;
         console.log('Profil erfolgreich aktualisiert:', updatedUser);
         
         // Aktualisiere lokalen State
@@ -479,7 +472,7 @@ export default function ProfilPage() {
                       variant="outlined"
                       startIcon={isEditing ? <Save /> : <Edit />}
                       onClick={isEditing ? handleSave : () => setIsEditing(true)}
-                      disabled={loading}
+                      disabled={isLoading}
                       sx={{
                         borderColor: '#FFD700',
                         color: '#FFD700',
@@ -916,5 +909,14 @@ export default function ProfilPage() {
       </Container>
     </Box>
     </AccessControl>
+  );
+}
+
+// Hauptkomponente mit ProtectedRoute
+export default function ProfilPage() {
+  return (
+    <ProtectedRoute requiredRole="basic">
+      <ProfilContent />
+    </ProtectedRoute>
   );
 }

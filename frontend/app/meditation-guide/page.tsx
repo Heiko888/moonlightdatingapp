@@ -241,7 +241,7 @@ export default function MeditationGuidePage() {
       const user = JSON.parse(userData);
       setUserId(user.id);
     } else {
-      router.push('/login');
+      // Keine Authentifizierung erforderlich - App ist öffentlich
     }
     
     setTimeout(() => setLoading(false), 1000);

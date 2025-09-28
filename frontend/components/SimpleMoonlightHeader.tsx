@@ -316,7 +316,7 @@ export default function SimpleMoonlightHeader({ current }: { current?: string })
               <>
                 <Button 
                   component={Link} 
-                  href="/login" 
+                  href="#" 
                   variant="outlined" 
                   size="small"
                   sx={{ 
@@ -333,7 +333,7 @@ export default function SimpleMoonlightHeader({ current }: { current?: string })
                 </Button>
                 <Button 
                   component={Link} 
-                  href="/login" 
+                  href="#" 
                   variant="contained" 
                   size="small"
                   sx={{ 

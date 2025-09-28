@@ -48,7 +48,7 @@ import {
   Delete,
   Plus,
   Download,
-  RefreshCw,
+  RotateCcw,
   Eye,
   Filter,
   Calendar,
@@ -328,7 +328,7 @@ export default function AdminKPIPanel() {
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
                 variant="outlined"
-                startIcon={<RefreshCw size={20} />}
+                startIcon={<RotateCcw size={20} />}
                 onClick={fetchData}
                 disabled={loading}
                 sx={{

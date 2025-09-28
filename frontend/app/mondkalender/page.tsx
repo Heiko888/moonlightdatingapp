@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
+// Unused imports removed
+import { apiService } from '@/lib/services/apiService';
+import { MoonTracking } from '@/types/common.types';
 import { 
   Box, 
   Typography, 
@@ -28,19 +31,14 @@ import {
   Slider
 } from '@mui/material';
 import { 
-  Moon, 
   Plus, 
   Star,
   Activity,
-  TrendingUp,
   Bell,
   BookOpen,
-  Leaf,
   Heart,
   Calendar,
-  Sparkles,
-  Flower2,
-  Zap
+  Flower2
 } from 'lucide-react';
 // import AppHeader from '../../components/AppHeader';
 import AnimatedStars from '../../components/AnimatedStars';
@@ -61,17 +59,7 @@ interface MoonPhase {
   humanDesignConnection: string;
 }
 
-interface MoonTracking {
-  id: string;
-  user_id: string;
-  date: string;
-  mood: number;
-  energy_level: number;
-  sleep_quality: number;
-  notes: string;
-  moon_phase: string;
-  created_at: string;
-}
+// MoonTracking Interface aus common.types.ts verwenden
 
 interface TrackingStats {
   totalEntries: number;
@@ -118,23 +106,11 @@ interface HealthGuidance {
   supplements: string[];
 }
 
-interface GateDetails {
-  id: number;
-  name: string;
-  status: 'active' | 'inactive';
-  description: string;
-  keywords: string[];
-  center: string;
-  meaning: string;
-  expression: string;
-  shadow: string;
-  gift: string;
-}
+// GateDetails interface entfernt - nicht verwendet
 
 // Hilfsfunktionen für den Mondkalender
 function generateCalendarDays(year: number, month: number) {
   const firstDay = new Date(year, month - 1, 1);
-  const lastDay = new Date(year, month, 0);
   const startDate = new Date(firstDay);
   startDate.setDate(startDate.getDate() - firstDay.getDay() + 1); // Montag als Start
   
@@ -195,9 +171,6 @@ function getMoonPhaseIcon(date: Date): string {
   return getMoonPhase(date).icon;
 }
 
-function getMoonPhaseName(date: Date): string {
-  return getMoonPhase(date).name;
-}
 
 export default function MondkalenderPage() {
   const router = useRouter();
@@ -206,7 +179,7 @@ export default function MondkalenderPage() {
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
   const [currentPhase, setCurrentPhase] = useState<MoonPhase | null>(null);
   const [loading, setLoading] = useState(true);
-  const [trackingData, setTrackingData] = useState<MoonTracking[]>([]);
+  const [, setTrackingData] = useState<MoonTracking[]>([]);
   const [stats, setStats] = useState<TrackingStats>({
     totalEntries: 0,
     averageMood: 0,
@@ -233,7 +206,7 @@ export default function MondkalenderPage() {
       if (!token || !userId) {
         setIsAuthenticated(false);
         setLoading(false);
-        router.push('/login?redirect=/mondkalender');
+        // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
@@ -315,12 +288,17 @@ export default function MondkalenderPage() {
             const subscription = await SubscriptionService.getUserSubscription(user.id);
             setUserSubscription(subscription);
             console.log('✅ Subscription aus Service geladen:', subscription?.packageId);
-          } catch (serviceError) {
+          } catch {
             console.log('⚠️ SubscriptionService nicht verfügbar, verwende Basic-Plan');
             setUserSubscription({
+              userId: user.id,
               packageId: 'basic',
               status: 'active',
               startDate: new Date().toISOString(),
+              endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+              autoRenew: true,
+              paymentMethod: 'free',
+              billingCycle: 'monthly'
             });
           }
         }
@@ -328,9 +306,14 @@ export default function MondkalenderPage() {
         console.error('Fehler beim Laden des Abonnements:', error);
         // Fallback: Basic-Plan
         setUserSubscription({
+          userId: 'fallback-user',
           packageId: 'basic',
           status: 'active',
           startDate: new Date().toISOString(),
+          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          autoRenew: true,
+          paymentMethod: 'free',
+          billingCycle: 'monthly'
         });
       }
     };
@@ -345,18 +328,16 @@ export default function MondkalenderPage() {
   const [moonStories, setMoonStories] = useState<MoonStory[]>([]);
   const [plantRituals, setPlantRituals] = useState<PlantRitual[]>([]);
   const [healthGuidance, setHealthGuidance] = useState<HealthGuidance[]>([]);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [yearlyCalendar, setYearlyCalendar] = useState<any[]>([]);
-  const [gateDetails, setGateDetails] = useState<GateDetails[]>([]);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<Record<string, unknown> | null>(null);
 
   // Lade User-Profil beim Start
   useEffect(() => {
     loadUserProfile();
   }, []);
 
-  const moonPhases: MoonPhase[] = [
+  const moonPhases: MoonPhase[] = useMemo(() => [
     {
       name: "Neumond",
       description: "Zeit für Neuanfänge und Intentionen",
@@ -449,19 +430,9 @@ export default function MondkalenderPage() {
       ],
       humanDesignConnection: "🌱 Wurzel-Zentrum Reinigung: Der abnehmende Mond unterstützt dein Wurzel-Zentrum - das Zentrum des Drucks und der Adrenalin-Energie. Nutze diese Zeit, um Druck abzubauen und Stress zu reduzieren. Für definierte Wurzel-Zentren: Lass den Druck los, der nicht deiner ist. Für undefinierte: Entferne dich von stressigen Situationen. Diese Phase ist ideal, um Konditionierungen zu erkennen und loszulassen, die nicht zu deinem authentischen Human Design gehören. Perfekt für innere Reinigung und Vorbereitung auf den nächsten Zyklus."
     }
-  ];
+  ], []);
 
-  useEffect(() => {
-    loadCurrentMoonPhase();
-    loadUserData();
-    loadMoonStories();
-    loadPlantRituals();
-    loadHealthGuidance();
-    loadYearlyCalendar();
-    loadGateDetails();
-  }, [selectedYear]);
-
-  const loadCurrentMoonPhase = async () => {
+  const loadCurrentMoonPhase = useCallback(async () => {
     try {
       console.log('Lade echte Mondphase-Daten...');
       
@@ -500,38 +471,28 @@ export default function MondkalenderPage() {
       };
       
       setCurrentPhase(currentPhaseData);
-      console.log('Echte Mondphase geladen:', moonPhaseData.name);
       
       // Versuche optional API-Aufruf im Hintergrund für zusätzliche Daten
       try {
-        const response = await fetch('http://localhost:4001/moon-calendar/current', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+        const apiPhase = await apiService.getCurrentMoonPhase();
         
-        if (response.ok) {
-          const data = await response.json();
-          if (data.current && data.current.phase) {
-            const apiPhase = data.current.phase;
-            const convertedPhase: MoonPhase = {
-              name: apiPhase.name || moonPhaseData.name,
-              description: apiPhase.description || currentPhaseData.description,
-              icon: apiPhase.icon || moonPhaseData.icon,
-              energy: apiPhase.energy || currentPhaseData.energy,
-              color: apiPhase.color || currentPhaseData.color,
-              advice: apiPhase.advice || currentPhaseData.advice,
-              explanation: apiPhase.explanation || currentPhaseData.explanation,
-              reflectionExercises: apiPhase.reflectionExercises || currentPhaseData.reflectionExercises,
-              moonRituals: apiPhase.moonRituals || currentPhaseData.moonRituals,
-              humanDesignConnection: apiPhase.humanDesignConnection || currentPhaseData.humanDesignConnection
-            };
-            setCurrentPhase(convertedPhase);
-            console.log('API-Daten erfolgreich geladen und mit echten Monddaten kombiniert');
-          }
+        if (apiPhase) {
+          const convertedPhase: MoonPhase = {
+            name: apiPhase.name || moonPhaseData.name,
+            description: apiPhase.description || currentPhaseData.description,
+            icon: apiPhase.emoji || moonPhaseData.icon,
+            energy: apiPhase.energy === 'high' ? 'Hoch' : apiPhase.energy === 'medium' ? 'Mittel' : 'Niedrig',
+            color: currentPhaseData.color,
+            advice: currentPhaseData.advice,
+            explanation: apiPhase.description || currentPhaseData.explanation,
+            reflectionExercises: currentPhaseData.reflectionExercises,
+            moonRituals: currentPhaseData.moonRituals,
+            humanDesignConnection: apiPhase.humanDesignConnection || currentPhaseData.humanDesignConnection
+          };
+          setCurrentPhase(convertedPhase);
         }
-      } catch (apiError) {
-        console.log('API nicht verfügbar, verwende berechnete Monddaten:', apiError);
+      } catch {
+        // API-Fehler ignorieren, lokale Daten verwenden
       }
     } catch (err) {
       console.error('Fehler beim Laden der Mondphase:', err);
@@ -540,30 +501,35 @@ export default function MondkalenderPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [moonPhases]);
 
-  const loadUserData = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const response = await fetch('http://localhost:4001/data-persistence/moon-tracking', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setTrackingData(data.data || []);
-        calculateStats(data.data || []);
+  const calculateStreak = useCallback((data: MoonTracking[]) => {
+    if (data.length === 0) return 0;
+    
+    const sortedDates = data
+      .map(entry => new Date(entry.date))
+      .sort((a, b) => b.getTime() - a.getTime());
+    
+    let streak = 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    for (let i = 0; i < sortedDates.length; i++) {
+      const entryDate = new Date(sortedDates[i]);
+      entryDate.setHours(0, 0, 0, 0);
+      const daysDiff = Math.floor((today.getTime() - entryDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      if (daysDiff === i) {
+        streak++;
+      } else {
+        break;
       }
-    } catch (error) {
-      console.error('Fehler beim Laden der Daten:', error);
     }
-  };
+    
+    return streak;
+  }, []);
 
-  const calculateStats = (data: MoonTracking[]) => {
+  const calculateStats = useCallback((data: MoonTracking[]) => {
     if (data.length === 0) {
       setStats({
         totalEntries: 0,
@@ -597,49 +563,53 @@ export default function MondkalenderPage() {
       mostFrequentPhase,
       streakDays: calculateStreak(data)
     });
-  };
+  }, [calculateStreak]);
 
-  const calculateStreak = (data: MoonTracking[]) => {
-    if (data.length === 0) return 0;
-    
-    const sortedDates = data
-      .map(entry => new Date(entry.date))
-      .sort((a, b) => b.getTime() - a.getTime());
-    
-    let streak = 0;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    for (let i = 0; i < sortedDates.length; i++) {
-      const entryDate = new Date(sortedDates[i]);
-      entryDate.setHours(0, 0, 0, 0);
-      const daysDiff = Math.floor((today.getTime() - entryDate.getTime()) / (1000 * 60 * 60 * 24));
+  const loadUserData = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const data = await apiService.getMoonTracking(localStorage.getItem('userId') || '');
       
-      if (daysDiff === i) {
-        streak++;
-      } else {
-        break;
+      if (data) {
+        setTrackingData(data);
+        calculateStats(data);
       }
+    } catch (error) {
+      console.error('Fehler beim Laden der Daten:', error);
     }
-    
-    return streak;
-  };
+  }, [calculateStats]);
+
+  useEffect(() => {
+    loadCurrentMoonPhase();
+    loadUserData();
+    loadMoonStories();
+    loadPlantRituals();
+    loadHealthGuidance();
+  }, [loadCurrentMoonPhase, loadUserData]);
+
+  // Alte calculateStats und calculateStreak Funktionen entfernt - jetzt mit useCallback definiert
 
   const loadUserProfile = async () => {
     try {
-      const userData = localStorage.getItem('userData');
-      if (userData) {
-        const user = JSON.parse(userData);
-        setUserProfile(user);
-      } else {
-        // Fallback zu Mock-Daten
-        setUserProfile({
-          hdType: 'Generator',
-          hdStrategy: 'Auf Sacral-Antworten warten',
-          hdAuthority: 'Sacral-Autorität',
-          hdProfile: '3/5 Profil'
-        });
+      // SSR-sicherer localStorage Zugriff
+      if (typeof window !== 'undefined') {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          const user = JSON.parse(userData);
+          setUserProfile(user);
+          return;
+        }
       }
+      
+      // Fallback zu Mock-Daten
+      setUserProfile({
+        hdType: 'Generator',
+        hdStrategy: 'Auf Sacral-Antworten warten',
+        hdAuthority: 'Sacral-Autorität',
+        hdProfile: '3/5 Profil'
+      });
     } catch (error) {
       console.error('Fehler beim Laden des User-Profils:', error);
       // Fallback zu Mock-Daten
@@ -654,11 +624,10 @@ export default function MondkalenderPage() {
 
   const loadMoonStories = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/stories');
-      if (response.ok) {
-        const data = await response.json();
-        setMoonStories(data.stories || []);
-        }
+      const stories = await apiService.getMoonStories();
+      if (stories) {
+        setMoonStories(stories);
+      }
       } catch (error) {
       console.error('Fehler beim Laden der Mond-Geschichten:', error);
       // Fallback zu Mock-Daten
@@ -723,11 +692,10 @@ export default function MondkalenderPage() {
 
   const loadPlantRituals = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/plant-rituals');
-      if (response.ok) {
-        const data = await response.json();
-        setPlantRituals(data.rituals || []);
-        }
+      const rituals = await apiService.getPlantRituals();
+      if (rituals) {
+        setPlantRituals(rituals);
+      }
       } catch (error) {
       console.error('Fehler beim Laden der Pflanzen-Rituale:', error);
       // Fallback zu Mock-Daten
@@ -752,10 +720,9 @@ export default function MondkalenderPage() {
 
   const loadHealthGuidance = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/health-guidance');
-      if (response.ok) {
-        const data = await response.json();
-        setHealthGuidance(data.guidance || []);
+      const guidance = await apiService.getHealthGuidance();
+      if (guidance) {
+        setHealthGuidance(guidance);
       }
     } catch (error) {
       console.error('Fehler beim Laden der Gesundheits-Empfehlungen:', error);
@@ -780,68 +747,30 @@ export default function MondkalenderPage() {
     }
   };
 
-  const loadYearlyCalendar = async () => {
-    try {
-      const response = await fetch(`http://localhost:4001/moon-calendar/yearly/${selectedYear}`);
-      if (response.ok) {
-        const data = await response.json();
-        setYearlyCalendar(data.calendar || []);
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden des Jahreskalenders:', error);
-      // Fallback zu Mock-Daten
-      setYearlyCalendar([]);
-    }
-  };
-
-  const loadGateDetails = async () => {
-    try {
-      const response = await fetch('http://localhost:4001/moon-calendar/gate-details');
-      if (response.ok) {
-        const data = await response.json();
-        setGateDetails(data.gates || []);
-      }
-    } catch (error) {
-      console.error('Fehler beim Laden der Gate-Details:', error);
-      // Fallback zu Mock-Daten
-      setGateDetails([
-        {
-          id: 1,
-          name: "Self-Expression",
-          status: "active",
-          description: "Das Tor der Kreativität und des Selbstausdrucks",
-          keywords: ["Kreativität", "Selbstausdruck", "Inspiration"],
-          center: "Kopf-Zentrum",
-          meaning: "Das Tor der Kreativität und des Selbstausdrucks. Es repräsentiert die Fähigkeit, neue Ideen zu generieren und diese kreativ auszudrücken.",
-          expression: "Du bist ein natürlicher Kreativer, der neue Wege findet, um Ideen auszudrücken. Deine Kreativität fließt durch dich und inspiriert andere.",
-          shadow: "Kreative Blockaden, Angst vor Urteilen, Perfektionismus, der den Ausdruck hemmt.",
-          gift: "Die Gabe, neue Formen des Ausdrucks zu schaffen und andere zu inspirieren."
-        }
-      ]);
-    }
-  };
+  // Removed unused functions
 
   const handleSaveEntry = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const entryData = {
-        ...newEntry,
+      const entryData: MoonTracking = {
+        id: Date.now().toString(),
+        user_id: localStorage.getItem('userId') || '',
+        date: new Date().toISOString().split('T')[0],
+        mood: newEntry.mood,
+        energy_level: newEntry.energy_level,
+        sleep_quality: newEntry.sleep_quality,
+        notes: newEntry.notes,
         moon_phase: currentPhase?.name || 'Unbekannt',
-        date: new Date().toISOString().split('T')[0]
+        created_at: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
 
-      const response = await fetch('http://localhost:4001/data-persistence/moon-tracking', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(entryData)
-      });
+      const response = await apiService.saveMoonTrackingData(entryData);
 
-      if (response.ok) {
+      if (response.success) {
         setNewEntry({
           mood: 5,
           energy_level: 5,
@@ -1115,7 +1044,7 @@ export default function MondkalenderPage() {
                       🧬
                     </Typography>
                     <Typography variant="h6" sx={{ color: '#fff', mb: 1 }}>
-                      {userProfile?.hdType || 'Generator'}
+                      {String(userProfile?.hdType || 'Generator')}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                       Dein Human Design Typ
@@ -1132,7 +1061,7 @@ export default function MondkalenderPage() {
                       Strategie
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                      {userProfile?.hdStrategy || 'Auf Sacral-Antworten warten'}
+                      {String(userProfile?.hdStrategy || 'Auf Sacral-Antworten warten')}
                     </Typography>
                   </Box>
                 </Grid>
@@ -1146,7 +1075,7 @@ export default function MondkalenderPage() {
                       Autorität
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                      {userProfile?.hdAuthority || 'Sacral-Autorität'}
+                      {String(userProfile?.hdAuthority || 'Sacral-Autorität')}
                     </Typography>
                   </Box>
                 </Grid>
@@ -1157,7 +1086,7 @@ export default function MondkalenderPage() {
                       📊
                     </Typography>
                     <Typography variant="h6" sx={{ color: '#fff', mb: 1 }}>
-                      {userProfile?.hdProfile || '3/5 Profil'}
+                      {String(userProfile?.hdProfile || '3/5 Profil')}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                       Martyrer-Heretiker
@@ -1409,7 +1338,7 @@ export default function MondkalenderPage() {
                                   lineHeight: 1,
                                   textAlign: 'center'
                                 }}>
-                                  {getMoonPhaseName(day.date)}
+                                  {getMoonPhase(day.date)?.name || 'Mond'}
                                 </Typography>
                               </Box>
                             )}
@@ -2015,6 +1944,8 @@ export default function MondkalenderPage() {
                 </Box>
               )}
 
+              </Card>
+
               {/* Dating-Tipps Widget - nach den Tabs */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -2245,7 +2176,6 @@ export default function MondkalenderPage() {
                   </CardContent>
                 </Card>
               </motion.div>
-                </Card>
           </motion.div>
 
       </Container>

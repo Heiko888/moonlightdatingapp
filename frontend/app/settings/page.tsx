@@ -12,7 +12,6 @@ import {
   Container,
   Switch,
   FormControlLabel,
-  Divider,
   Alert,
   CircularProgress
 } from "@mui/material";
@@ -20,11 +19,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useHydrationSafe } from '../../hooks/useHydrationSafe';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types';
+
+// Extended UserSubscription to include 'free' package
+interface UserSubscription extends Omit<BaseUserSubscription, 'packageId'> {
+  packageId: 'free' | 'basic' | 'premium' | 'vip';
+}
 import { useRouter } from 'next/navigation';
 import { 
-  Settings, 
   User, 
   Lock, 
   Mail, 
@@ -34,7 +36,6 @@ import {
   Trash2, 
   Palette,
   Shield,
-  Bell,
   Save,
   CheckCircle,
   BarChart3,
@@ -46,17 +47,10 @@ import {
   Sparkles
 } from 'lucide-react';
 
-// SSR-sichere animierte Sterne Komponente
+// SSR-sichere animierte Sterne Komponente - Optimiert
 const SSRSafeAnimatedStars = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null; // Keine Sterne auf dem Server rendern
-  }
+  // Entferne isClient State für bessere Performance
+  // Sterne werden direkt gerendert
 
   const starPositions = [
     { left: '5%', top: '15%' },
@@ -137,23 +131,13 @@ const initialSettings = {
   website: "",
 };
 
-interface UserSubscription {
-  userId: string;
-  packageId: string;
-  status: string;
-  startDate: string;
-  endDate: string;
-  autoRenew: boolean;
-  paymentMethod: string;
-  billingCycle: string;
-}
+// UserSubscription interface imported from types
 
 export default function SettingsPage() {
   const router = useRouter();
   const [exportSuccess, setExportSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { isClient, localStorage: safeLocalStorage } = useHydrationSafe();
 
   // Load user subscription data
@@ -196,7 +180,7 @@ export default function SettingsPage() {
       
       loadSubscription();
     }
-  }, [isClient]); // Nur isClient als Dependency
+  }, [isClient, safeLocalStorage]); // Alle verwendeten Dependencies
 
   const handleExportData = async () => {
     setLoading(true);
@@ -425,7 +409,10 @@ export default function SettingsPage() {
   return (
     <AccessControl 
       path="/settings" 
-      userSubscription={userSubscription}
+      userSubscription={userSubscription ? {
+        ...userSubscription,
+        packageId: userSubscription.packageId === 'free' ? 'basic' : userSubscription.packageId
+      } as BaseUserSubscription : null}
       onUpgrade={() => router.push('/pricing')}
     >
       <Box sx={{ 

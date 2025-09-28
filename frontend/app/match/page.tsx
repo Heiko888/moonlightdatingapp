@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+// Ungenutzte Imports entfernt für bessere Performance
 import { 
   Box, 
   Container, 
@@ -24,37 +26,42 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Tabs,
-  Tab,
+  // Tabs und Tab entfernt - nicht verwendet
   TextField,
   InputAdornment,
-  Fab
+  // Fab entfernt - nicht verwendet
 } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Heart,
   MessageCircle,
-  Star,
+  // Star entfernt - nicht verwendet
   Filter,
   Search,
   Users,
-  Zap,
-  Eye,
+  // Zap und Eye entfernt - nicht verwendet
   Send,
-  MoreVert,
+  // MoreVertical entfernt - nicht verwendet
   Phone,
   Video,
   MapPin,
-  Calendar,
-  Clock,
+  // Calendar und Clock entfernt - nicht verwendet
   ChevronRight,
   Sparkles,
   Target,
-  TrendingUp,
-  Award,
+  // TrendingUp und Award entfernt - nicht verwendet
   Crown,
-  Flame
+  // Flame entfernt - nicht verwendet
 } from 'lucide-react';
+
+interface ProfileImage {
+  id: string;
+  url: string;
+  is_primary: boolean;
+  uploaded_at: string;
+  order: number;
+  alt_text?: string;
+}
 
 interface Match {
   id: string;
@@ -63,6 +70,7 @@ interface Match {
   age: number;
   location: string;
   avatar: string;
+  profile_images?: ProfileImage[]; // Neue: Mehrere Profilbilder
   hdType: string;
   compatibility: number;
   lastMessage?: string;
@@ -96,9 +104,9 @@ interface MatchStats {
 export default function MatchingPage() {
   const router = useRouter();
   const [userId, setUserId] = useState<string>('');
-  const [isClient, setIsClient] = useState(false);
+  // isClient State entfernt für bessere Performance
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(0);
+  // activeTab und setActiveTab entfernt - nicht verwendet
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
   const [showMatchDialog, setShowMatchDialog] = useState(false);
@@ -114,6 +122,32 @@ export default function MatchingPage() {
       age: 28,
       location: 'Berlin',
       avatar: '/api/placeholder/60/60',
+      profile_images: [
+        {
+          id: '1',
+          url: '/api/placeholder/400/600',
+          is_primary: true,
+          uploaded_at: '2024-01-15T10:00:00Z',
+          order: 0,
+          alt_text: 'Sarah am Strand'
+        },
+        {
+          id: '2',
+          url: '/api/placeholder/400/600',
+          is_primary: false,
+          uploaded_at: '2024-01-16T14:30:00Z',
+          order: 1,
+          alt_text: 'Sarah beim Yoga'
+        },
+        {
+          id: '3',
+          url: '/api/placeholder/400/600',
+          is_primary: false,
+          uploaded_at: '2024-01-17T18:45:00Z',
+          order: 2,
+          alt_text: 'Sarah in der Natur'
+        }
+      ],
       hdType: 'Generator',
       compatibility: 92,
       lastMessage: 'Hey! Wie war dein Tag?',
@@ -135,6 +169,24 @@ export default function MatchingPage() {
       age: 32,
       location: 'München',
       avatar: '/api/placeholder/60/60',
+      profile_images: [
+        {
+          id: '4',
+          url: '/api/placeholder/400/600',
+          is_primary: true,
+          uploaded_at: '2024-01-18T09:15:00Z',
+          order: 0,
+          alt_text: 'Michael beim Coaching'
+        },
+        {
+          id: '5',
+          url: '/api/placeholder/400/600',
+          is_primary: false,
+          uploaded_at: '2024-01-19T16:20:00Z',
+          order: 1,
+          alt_text: 'Michael in der Natur'
+        }
+      ],
       hdType: 'Projector',
       compatibility: 87,
       lastMessage: 'Das klingt interessant! Erzähl mir mehr.',
@@ -178,8 +230,6 @@ export default function MatchingPage() {
       location: 'Köln',
       avatar: '/api/placeholder/60/60',
       hdType: 'Reflector',
-      avatar: '/api/placeholder/60/60',
-      hdType: 'Reflector',
       compatibility: 85,
       lastMessage: 'Danke für das schöne Gespräch!',
       lastMessageTime: 'vor 3 Std',
@@ -195,7 +245,7 @@ export default function MatchingPage() {
     }
   ]);
 
-  const [matchStats, setMatchStats] = useState<MatchStats>({
+  const [matchStats] = useState<MatchStats>({
     totalMatches: 24,
     newMatches: 3,
     conversations: 8,
@@ -203,13 +253,15 @@ export default function MatchingPage() {
   });
 
   useEffect(() => {
-    setIsClient(true);
-    const userData = localStorage.getItem('userData');
-    if (userData) {
-      const user = JSON.parse(userData);
-      setUserId(user.id);
-    } else {
-      router.push('/login');
+    // SSR-sicherer localStorage Zugriff
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        const user = JSON.parse(userData);
+        setUserId(user.id);
+      } else {
+        // Keine Authentifizierung erforderlich - App ist öffentlich
+      }
     }
     
     setTimeout(() => setLoading(false), 1000);
@@ -289,7 +341,7 @@ export default function MatchingPage() {
     return colors[type as keyof typeof colors] || '#FFD700';
   };
 
-  if (!isClient || loading) {
+  if (loading) {
     return (
       <Box sx={{ 
         minHeight: '100vh',
@@ -603,12 +655,38 @@ export default function MatchingPage() {
                                 sx={{ 
                                   width: 60, 
                                   height: 60,
-                                  border: match.isNewMatch ? '3px solid #FFD700' : '2px solid #4ECDC4'
+                                  border: match.isNewMatch ? '3px solid #FFD700' : '2px solid #4ECDC4',
+                                  position: 'relative'
                                 }}
-                                src={match.avatar}
+                                src={
+                                  match.profile_images && match.profile_images.length > 0 
+                                    ? match.profile_images.find(img => img.is_primary)?.url || match.profile_images[0].url
+                                    : match.avatar
+                                }
                               >
                                 <Users size={30} />
                               </Avatar>
+                              {/* Bildergalerie-Indikator */}
+                              {match.profile_images && match.profile_images.length > 1 && (
+                                <Box sx={{
+                                  position: 'absolute',
+                                  bottom: -2,
+                                  right: -2,
+                                  background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
+                                  borderRadius: '50%',
+                                  width: 20,
+                                  height: 20,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '10px',
+                                  fontWeight: 'bold',
+                                  color: '#1a1a2e',
+                                  border: '2px solid #1a1a2e'
+                                }}>
+                                  {match.profile_images.length}
+                                </Box>
+                              )}
                             </Badge>
                           </ListItemAvatar>
                           <ListItemText
@@ -738,7 +816,11 @@ export default function MatchingPage() {
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
                 <Avatar 
-                  src={selectedMatch.avatar}
+                  src={
+                    selectedMatch.profile_images && selectedMatch.profile_images.length > 0 
+                      ? selectedMatch.profile_images.find(img => img.is_primary)?.url || selectedMatch.profile_images[0].url
+                      : selectedMatch.avatar
+                  }
                   sx={{ width: 50, height: 50, border: '2px solid #4ECDC4' }}
                 />
                 <Box>
@@ -746,10 +828,84 @@ export default function MatchingPage() {
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     {selectedMatch.location} • {selectedMatch.hdType}
                   </Typography>
+                  {/* Bildergalerie-Indikator */}
+                  {selectedMatch.profile_images && selectedMatch.profile_images.length > 1 && (
+                    <Chip 
+                      label={`${selectedMatch.profile_images.length} Bilder`}
+                      size="small"
+                      sx={{
+                        background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
+                        color: '#1a1a2e',
+                        fontWeight: 'bold',
+                        mt: 0.5
+                      }}
+                    />
+                  )}
                 </Box>
               </Box>
             </DialogTitle>
             <DialogContent sx={{ p: 0, display: 'flex', flexDirection: 'column' }}>
+              {/* Profilbilder-Galerie */}
+              {selectedMatch.profile_images && selectedMatch.profile_images.length > 0 && (
+                <Box sx={{ p: 3, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <Typography variant="h6" sx={{ color: '#4ECDC4', mb: 2, fontWeight: 600 }}>
+                    📸 Profilbilder
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 2, overflow: 'auto', pb: 1 }}>
+                    {selectedMatch.profile_images.map((image, index) => (
+                      <Box
+                        key={image.id}
+                        sx={{
+                          minWidth: 120,
+                          height: 120,
+                          borderRadius: 2,
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          border: image.is_primary ? '3px solid #FFD700' : '2px solid rgba(255,255,255,0.2)',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                            boxShadow: '0 8px 25px rgba(0,0,0,0.3)'
+                          }
+                        }}
+                        onClick={() => window.open(image.url, '_blank')}
+                      >
+                        <Image
+                          src={image.url}
+                          alt={image.alt_text || `Bild ${index + 1}`}
+                          width={120}
+                          height={120}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                        {image.is_primary && (
+                          <Box sx={{
+                            position: 'absolute',
+                            top: 4,
+                            right: 4,
+                            background: '#FFD700',
+                            color: '#1a1a2e',
+                            borderRadius: '50%',
+                            width: 20,
+                            height: 20,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '10px',
+                            fontWeight: 'bold'
+                          }}>
+                            ⭐
+                          </Box>
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              )}
+              
               {/* Chat Messages */}
               <Box sx={{ flex: 1, p: 3, overflow: 'auto' }}>
                 {messages.map((message) => (

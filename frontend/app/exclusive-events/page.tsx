@@ -140,7 +140,7 @@ export default function ExclusiveEventsPage() {
       attendees: 10,
       maxAttendees: 15,
       price: 'Kostenlos',
-      host: 'Britta Schmidt',
+      host: 'Elisabeth Taeubel',
       hostAvatar: '🧘‍♀️',
       features: ['Reiki-Heilung', 'Meditation', 'Energetische Reinigung', 'Gruppenarbeit'],
       status: 'available',

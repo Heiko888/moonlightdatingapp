@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, Avatar, Badge, LinearProgress, Switch, FormControlLabel, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Users, Star, Zap, Eye, Moon, Flame, RefreshCw, Share2, Bookmark, Plus, Edit, Trash2, Download, Upload, Settings, Bell, AlertCircle, CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Calendar, Clock, Users, Star, Zap, Eye, Moon, Flame, RotateCcw, Share2, Bookmark, Plus, Edit, Trash2, Download, Upload, Settings, Bell, AlertCircle, CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface CalendarEvent {
@@ -442,7 +442,7 @@ export default function CalendarSyncSystem() {
                       onClick={() => handleSyncCalendar('Google Calendar')}
                       sx={{ ml: 2 }}
                     >
-                      <RefreshCw size={16} />
+                      <RotateCcw size={16} />
                     </Button>
                   )}
                 </ListItem>
@@ -462,7 +462,7 @@ export default function CalendarSyncSystem() {
                       onClick={() => handleSyncCalendar('Outlook Calendar')}
                       sx={{ ml: 2 }}
                     >
-                      <RefreshCw size={16} />
+                      <RotateCcw size={16} />
                     </Button>
                   )}
                 </ListItem>
@@ -482,7 +482,7 @@ export default function CalendarSyncSystem() {
                       onClick={() => handleSyncCalendar('Apple Calendar')}
                       sx={{ ml: 2 }}
                     >
-                      <RefreshCw size={16} />
+                      <RotateCcw size={16} />
                     </Button>
                   )}
                 </ListItem>
