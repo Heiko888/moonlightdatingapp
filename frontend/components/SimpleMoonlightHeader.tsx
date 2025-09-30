@@ -140,7 +140,7 @@ export default function SimpleMoonlightHeader({ current }: { current?: string })
         />
         <Box sx={{ ml: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography variant="h6" sx={{ fontWeight: 700, color: '#4b2e83', lineHeight: 1 }}>
-            Moonlight
+            Kosmische Verbindungen
           </Typography>
           <StaticFullMoon />
         </Box>
@@ -250,7 +250,7 @@ export default function SimpleMoonlightHeader({ current }: { current?: string })
                   lineHeight: 1
                 }}
               >
-                Moonlight
+                Kosmische Verbindungen
               </Typography>
               <StaticFullMoon />
             </Box>

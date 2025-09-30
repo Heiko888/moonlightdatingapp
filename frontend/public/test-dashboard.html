@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🏠 Dashboard Test</h1>
+    <p>Teste die Dashboard-Funktionalität:</p>
+    
+    <div class="card">
+        <h3>🔐 Aktueller Login-Status:</h3>
+        <div id="loginStatus">Lade...</div>
+    </div>
+    
+    <div class="card">
+        <h3>🎯 Dashboard-Aktionen:</h3>
+        <button onclick="testDashboard()">Dashboard testen</button>
+        <button onclick="setProfileCompleted()">Profil als abgeschlossen markieren</button>
+        <button onclick="clearAllData()">Alle Daten löschen</button>
+        <button onclick="goToLogin()">Zurück zum Login</button>
+    </div>
+    
+    <div class="card">
+        <h3>📊 LocalStorage Daten:</h3>
+        <div id="localStorageData">Lade...</div>
+    </div>
+    
+    <div id="result" class="card" style="display: none;"></div>
+    
+    <script>
+        // Aktuellen Status anzeigen
+        function updateStatus() {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            const userData = localStorage.getItem('userData');
+            const profileCompleted = localStorage.getItem('profileSetupCompleted');
+            
+            document.getElementById('loginStatus').innerHTML = `
+                <p><strong>Token:</strong> ${token ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                <p><strong>User ID:</strong> ${userId || '❌ Fehlt'}</p>
+                <p><strong>User Data:</strong> ${userData ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                <p><strong>Profil abgeschlossen:</strong> ${profileCompleted || '❌ Nein'}</p>
+            `;
+            
+            document.getElementById('localStorageData').innerHTML = `
+                <p><strong>Alle Keys:</strong> ${Object.keys(localStorage).join(', ')}</p>
+                <p><strong>Token (erste 20 Zeichen):</strong> ${token ? token.substring(0, 20) + '...' : 'Kein Token'}</p>
+            `;
+        }
+        
+        function testDashboard() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    resultDiv.className = 'card error';
+                    resultDiv.innerHTML = '<h3>❌ Kein Token gefunden</h3><p>Bitte loggen Sie sich zuerst ein.</p>';
+                    return;
+                }
+                
+                // Teste Dashboard API
+                fetch('/api/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultDiv.className = 'card success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Dashboard API erfolgreich!</h3>
+                        <p><strong>Response:</strong> ${JSON.stringify(data, null, 2)}</p>
+                    `;
+                })
+                .catch(error => {
+                    resultDiv.className = 'card error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Dashboard API Fehler</h3>
+                        <p><strong>Fehler:</strong> ${error.message}</p>
+                    `;
+                });
+                
+            } catch (error) {
+                resultDiv.className = 'card error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Test Fehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+            }
+        }
+        
+        function setProfileCompleted() {
+            localStorage.setItem('profileSetupCompleted', 'true');
+            updateStatus();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'card success';
+            resultDiv.innerHTML = '<h3>✅ Profil als abgeschlossen markiert!</h3><p>Jetzt sollte der Login direkt zum Dashboard weiterleiten.</p>';
+        }
+        
+        function clearAllData() {
+            localStorage.clear();
+            updateStatus();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'card info';
+            resultDiv.innerHTML = '<h3>🗑️ Alle Daten gelöscht!</h3><p>LocalStorage wurde geleert.</p>';
+        }
+        
+        function goToLogin() {
+            window.location.href = '/login';
+        }
+        
+        // Initial load
+        updateStatus();
+    </script>
+</body>
+</html>

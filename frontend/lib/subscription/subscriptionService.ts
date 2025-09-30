@@ -1,5 +1,6 @@
 import { UserSubscription, SubscriptionPackage } from './types';
 import { subscriptionPackages } from './packages';
+import { supabase } from '@/lib/supabase/client';
 
 export class SubscriptionService {
   private static readonly API_BASE = 'http://localhost:4001/subscription';
@@ -7,15 +8,34 @@ export class SubscriptionService {
   // Benutzer-Abonnement abrufen
   static async getUserSubscription(userId: string): Promise<UserSubscription | null> {
     try {
-      const response = await fetch(`${this.API_BASE}/user/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
-      });
-
-      if (response.ok) {
-        return await response.json();
+      // Verwende Supabase statt Backend-Server
+      const { data, error } = await supabase
+        .from('user_subscriptions')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+      
+      if (error) {
+        console.error('Fehler beim Laden des Abonnements:', error);
+        return this.getMockSubscription(userId);
       }
+      
+      if (data) {
+        return {
+          id: data.id,
+          userId: data.user_id,
+          packageId: data.package_id,
+          status: data.status,
+          startDate: data.start_date,
+          endDate: data.end_date,
+          billingCycle: data.billing_cycle,
+          autoRenew: data.auto_renew,
+          paymentMethod: data.payment_method || 'credit_card', // Fallback für fehlende Daten
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+      }
+      
       return null;
     } catch (error) {
       console.error('Fehler beim Laden des Abonnements:', error);
@@ -30,22 +50,47 @@ export class SubscriptionService {
     billingCycle: 'monthly' | 'yearly' = 'monthly'
   ): Promise<UserSubscription | null> {
     try {
-      const response = await fetch(`${this.API_BASE}/user/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        },
-        body: JSON.stringify({
-          packageId,
-          billingCycle,
-          autoRenew: true
-        })
-      });
+      // Verwende Supabase statt Backend-Server
+      const subscriptionData = {
+        user_id: userId,
+        package_id: packageId,
+        status: 'active',
+        billing_cycle: billingCycle,
+        auto_renew: true,
+        start_date: new Date().toISOString(),
+        end_date: new Date(Date.now() + (billingCycle === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toISOString()
+      };
 
-      if (response.ok) {
-        return await response.json();
+      const { data, error } = await supabase
+        .from('user_subscriptions')
+        .upsert(subscriptionData, { 
+          onConflict: 'user_id',
+          ignoreDuplicates: false 
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Fehler beim Aktualisieren des Abonnements:', error);
+        return this.getMockSubscription(userId, packageId as "basic" | "premium" | "vip");
       }
+
+      if (data) {
+        return {
+          id: data.id,
+          userId: data.user_id,
+          packageId: data.package_id,
+          status: data.status,
+          startDate: data.start_date,
+          endDate: data.end_date,
+          billingCycle: data.billing_cycle,
+          autoRenew: data.auto_renew,
+          paymentMethod: data.payment_method || 'credit_card', // Fallback für fehlende Daten
+          createdAt: data.created_at,
+          updatedAt: data.updated_at
+        };
+      }
+
       return null;
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Abonnements:', error);
@@ -56,14 +101,22 @@ export class SubscriptionService {
   // Abonnement kündigen
   static async cancelSubscription(userId: string): Promise<boolean> {
     try {
-      const response = await fetch(`${this.API_BASE}/user/${userId}/cancel`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
-      });
+      // Verwende Supabase statt Backend-Server
+      const { error } = await supabase
+        .from('user_subscriptions')
+        .update({ 
+          status: 'cancelled',
+          auto_renew: false,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', userId);
 
-      return response.ok;
+      if (error) {
+        console.error('Fehler beim Kündigen des Abonnements:', error);
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Fehler beim Kündigen des Abonnements:', error);
       return false;

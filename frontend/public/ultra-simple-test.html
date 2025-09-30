@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultra Simple Login Test</title>
+</head>
+<body>
+    <h1>🔧 Ultra Simple Login Test</h1>
+    
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="E-Mail" value="test@example.com" required><br><br>
+        <input type="password" id="password" placeholder="Passwort" value="TestPass123" required><br><br>
+        <button type="submit">LOGIN TESTEN</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.innerHTML = '<p>🔄 Teste Login...</p>';
+            
+            try {
+                console.log('🚀 Starte Login Test...');
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                console.log('📊 Response Status:', response.status);
+                const data = await response.json();
+                console.log('📊 Response Data:', data);
+                
+                if (data.success) {
+                    resultDiv.innerHTML = '<p style="color: green;">✅ LOGIN ERFOLGREICH!</p>';
+                    console.log('✅ Login erfolgreich!');
+                } else {
+                    resultDiv.innerHTML = `<p style="color: red;">❌ FEHLER: ${data.error?.message || 'Unbekannter Fehler'}</p>`;
+                    console.error('❌ Login fehlgeschlagen:', data.error);
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">❌ NETZWERK-FEHLER: ${error.message}</p>`;
+                console.error('❌ Netzwerk-Fehler:', error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Datenbank-Check</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .warning { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🔍 DATENBANK-CHECK</h1>
+    
+    <div id="status"></div>
+    <div id="users"></div>
+    <div id="sessions"></div>
+
+    <script>
+        document.getElementById('status').innerHTML = '<p>🔄 Prüfe Datenbank-Verbindung...</p>';
+        
+        async function checkDatabase() {
+            try {
+                console.log('🔍 Starte Datenbank-Check...');
+                
+                // Test 1: API-Verbindung testen
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: 'test@example.com', 
+                        password: 'TestPass123' 
+                    })
+                });
+                
+                console.log('📊 API Response Status:', response.status);
+                const data = await response.json();
+                console.log('📊 API Response Data:', data);
+                
+                if (response.status === 200) {
+                    document.getElementById('status').innerHTML = '<p class="success">✅ API funktioniert!</p>';
+                } else {
+                    document.getElementById('status').innerHTML = '<p class="error">❌ API-Fehler: ' + data.error?.message + '</p>';
+                }
+                
+                // Test 2: LocalStorage prüfen
+                const token = localStorage.getItem('token');
+                const userId = localStorage.getItem('userId');
+                const userData = localStorage.getItem('userData');
+                
+                console.log('🔑 LocalStorage Token:', token);
+                console.log('👤 LocalStorage UserId:', userId);
+                console.log('📊 LocalStorage UserData:', userData);
+                
+                document.getElementById('users').innerHTML = `
+                    <h3>LocalStorage Status:</h3>
+                    <p><strong>Token:</strong> ${token ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                    <p><strong>UserId:</strong> ${userId ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                    <p><strong>UserData:</strong> ${userData ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                `;
+                
+                // Test 3: Session-Cookies prüfen
+                const cookies = document.cookie;
+                console.log('🍪 Cookies:', cookies);
+                
+                document.getElementById('sessions').innerHTML = `
+                    <h3>Session Status:</h3>
+                    <p><strong>Cookies:</strong> ${cookies ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                    <p><strong>Session Storage:</strong> ${sessionStorage.length > 0 ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                `;
+                
+                // Test 4: Mehrfache Datenbanken prüfen
+                if (token && userId) {
+                    document.getElementById('status').innerHTML += '<p class="warning">⚠️ MÖGLICHE DOPPELTE DATENBANK: Session vorhanden, aber Weiterleitung zur Login-Seite!</p>';
+                }
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = '<p class="error">❌ FEHLER: ' + error.message + '</p>';
+                console.error('❌ Datenbank-Check Fehler:', error);
+            }
+        }
+        
+        checkDatabase();
+    </script>
+</body>
+</html>

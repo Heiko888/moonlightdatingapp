@@ -246,17 +246,294 @@ export default function HomePage() {
       
       {/* Animated Moon */}
       <Box sx={{ position: 'absolute', top: '1%', left: '11%', zIndex: 1 }}>
-        <Box
-          sx={{
-            width: 200,
-            height: 200,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, rgba(240,240,240,0.4) 40%, rgba(224,224,224,0.3) 60%, rgba(208,208,208,0.2) 100%)',
-            boxShadow: '0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.3)',
-            margin: '0 auto',
-            opacity: 0.8
+        <motion.div
+          animate={{
+            y: [0, -10, 0],
+            opacity: [0.8, 1, 0.8],
           }}
-        />
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 200,
+              height: 200,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, rgba(240,240,240,0.4) 40%, rgba(224,224,224,0.3) 60%, rgba(208,208,208,0.2) 100%)',
+              boxShadow: '0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.3)',
+              margin: '0 auto',
+              opacity: 0.8
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Neptune */}
+      <Box sx={{ position: 'absolute', top: '15%', right: '8%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 360],
+            opacity: [0.7, 1, 0.7],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 150,
+              height: 150,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(65,105,225,0.6) 0%, rgba(30,144,255,0.4) 40%, rgba(0,100,200,0.3) 60%, rgba(0,50,150,0.2) 100%)',
+              boxShadow: '0 0 30px rgba(65, 105, 225, 0.8), 0 0 60px rgba(30, 144, 255, 0.4), inset 0 0 20px rgba(65, 105, 225, 0.3)',
+              margin: '0 auto',
+              opacity: 0.7
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Saturn */}
+      <Box sx={{ position: 'absolute', bottom: '20%', left: '5%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, -180],
+            opacity: [0.6, 0.9, 0.6],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 180,
+              height: 180,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(192,192,192,0.5) 0%, rgba(169,169,169,0.4) 40%, rgba(128,128,128,0.3) 60%, rgba(105,105,105,0.2) 100%)',
+              boxShadow: '0 0 35px rgba(192, 192, 192, 0.7), 0 0 70px rgba(169, 169, 169, 0.4), inset 0 0 25px rgba(192, 192, 192, 0.3)',
+              margin: '0 auto',
+              opacity: 0.6,
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '120%',
+                height: '8px',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(192,192,192,0.3) 20%, rgba(192,192,192,0.5) 50%, rgba(192,192,192,0.3) 80%, transparent 100%)',
+                borderRadius: '4px',
+                boxShadow: '0 0 10px rgba(192, 192, 192, 0.4)'
+              }
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Jupiter */}
+      <Box sx={{ position: 'absolute', top: '25%', left: '3%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -12, 0],
+            rotate: [0, 90],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 120,
+              height: 120,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(255,140,0,0.4) 0%, rgba(255,165,0,0.3) 40%, rgba(255,69,0,0.2) 60%, rgba(255,0,0,0.1) 100%)',
+              boxShadow: '0 0 25px rgba(255, 140, 0, 0.6), 0 0 50px rgba(255, 165, 0, 0.3)',
+              margin: '0 auto',
+              opacity: 0.5
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Mars */}
+      <Box sx={{ position: 'absolute', bottom: '35%', right: '12%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -8, 0],
+            rotate: [0, -90],
+            opacity: [0.6, 0.9, 0.6],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 100,
+              height: 100,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(255,69,0,0.5) 0%, rgba(255,99,71,0.4) 40%, rgba(220,20,60,0.3) 60%, rgba(139,0,0,0.2) 100%)',
+              boxShadow: '0 0 20px rgba(255, 69, 0, 0.7), 0 0 40px rgba(255, 99, 71, 0.4)',
+              margin: '0 auto',
+              opacity: 0.6
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Mercury */}
+      <Box sx={{ position: 'absolute', top: '40%', left: '15%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -6, 0],
+            rotate: [0, 180],
+            opacity: [0.4, 0.7, 0.4],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 80,
+              height: 80,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(169,169,169,0.4) 0%, rgba(128,128,128,0.3) 40%, rgba(105,105,105,0.2) 60%, rgba(64,64,64,0.1) 100%)',
+              boxShadow: '0 0 15px rgba(169, 169, 169, 0.5), 0 0 30px rgba(128, 128, 128, 0.3)',
+              margin: '0 auto',
+              opacity: 0.4
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Venus */}
+      <Box sx={{ position: 'absolute', bottom: '45%', right: '20%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -10, 0],
+            rotate: [0, 270],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 90,
+              height: 90,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(255,228,196,0.5) 0%, rgba(255,218,185,0.4) 40%, rgba(255,192,203,0.3) 60%, rgba(255,182,193,0.2) 100%)',
+              boxShadow: '0 0 18px rgba(255, 228, 196, 0.6), 0 0 36px rgba(255, 218, 185, 0.3)',
+              margin: '0 auto',
+              opacity: 0.5
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Uranus */}
+      <Box sx={{ position: 'absolute', top: '60%', right: '5%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -14, 0],
+            rotate: [0, 120],
+            opacity: [0.4, 0.7, 0.4],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 110,
+              height: 110,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(0,191,255,0.4) 0%, rgba(30,144,255,0.3) 40%, rgba(0,100,200,0.2) 60%, rgba(0,50,150,0.1) 100%)',
+              boxShadow: '0 0 22px rgba(0, 191, 255, 0.6), 0 0 44px rgba(30, 144, 255, 0.3)',
+              margin: '0 auto',
+              opacity: 0.4
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Pluto */}
+      <Box sx={{ position: 'absolute', bottom: '10%', right: '25%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -5, 0],
+            rotate: [0, -270],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(75,0,130,0.4) 0%, rgba(138,43,226,0.3) 40%, rgba(72,61,139,0.2) 60%, rgba(25,25,112,0.1) 100%)',
+              boxShadow: '0 0 12px rgba(75, 0, 130, 0.5), 0 0 24px rgba(138, 43, 226, 0.3)',
+              margin: '0 auto',
+              opacity: 0.3
+            }}
+          />
+        </motion.div>
+      </Box>
+
+      {/* Animated Chiron */}
+      <Box sx={{ position: 'absolute', top: '70%', left: '8%', zIndex: 1 }}>
+        <motion.div
+          animate={{
+            y: [0, -7, 0],
+            rotate: [0, 150],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 11,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Box
+            sx={{
+              width: 70,
+              height: 70,
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 30% 30%, rgba(255,107,107,0.4) 0%, rgba(255,69,0,0.3) 40%, rgba(255,0,0,0.2) 60%, rgba(139,0,0,0.1) 100%)',
+              boxShadow: '0 0 14px rgba(255, 107, 107, 0.5), 0 0 28px rgba(255, 69, 0, 0.3)',
+              margin: '0 auto',
+              opacity: 0.3
+            }}
+          />
+        </motion.div>
       </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
@@ -280,7 +557,7 @@ export default function HomePage() {
               textShadow: '0 0 20px rgba(255, 255, 255, 0.6)'
             }}
           >
-            MOONLIGHT
+            KOSMISCHE VERBINDUNGEN
           </Typography>
           
           {/* App direkt nutzen - Kein Login erforderlich */}
@@ -359,7 +636,7 @@ export default function HomePage() {
               filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.6))'
             }}
           >
-Magische Beziehungen
+Kosmische Verbindungen
           </Typography>
           
           <Typography 
@@ -518,6 +795,169 @@ Magische Beziehungen
               🌙 Mondkalender
             </Button>
           </Box>
+        </Box>
+
+        {/* Friends Community Widget */}
+        <Box sx={{ py: 8, mb: 4 }}>
+          <Container maxWidth="lg">
+            <Card sx={{
+              background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+              backdropFilter: 'blur(15px)',
+              border: '1px solid rgba(78, 205, 196, 0.4)',
+              borderRadius: 4,
+              overflow: 'hidden',
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.3) 0%, transparent 70%)',
+                opacity: 0.6
+              }
+            }}>
+              <CardContent sx={{ p: 6, position: 'relative', zIndex: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                  <Box sx={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mr: 3,
+                    boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+                  }}>
+                    <Users size={40} color="white" />
+                  </Box>
+                  <Box>
+                    <Typography variant="h4" sx={{ 
+                      color: '#4ecdc4', 
+                      fontWeight: 'bold',
+                      mb: 1
+                    }}>
+                      👥 Friends Community
+                    </Typography>
+                    <Typography variant="h6" sx={{ 
+                      color: 'rgba(255,255,255,0.8)',
+                      fontWeight: 300
+                    }}>
+                      Verbinde dich mit Gleichgesinnten
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Typography variant="body1" sx={{ 
+                  color: 'rgba(255,255,255,0.9)', 
+                  mb: 4,
+                  fontSize: '1.1rem',
+                  lineHeight: 1.6
+                }}>
+                  Entdecke eine lebendige Community von Menschen, die Human Design leben und verstehen. 
+                  Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
+                </Typography>
+
+                <Grid container spacing={3} sx={{ mb: 4 }}>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                        2,500+
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Aktive Mitglieder
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                        150+
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Tägliche Posts
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                        25+
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Events pro Monat
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <Box sx={{ textAlign: 'center' }}>
+                      <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                        500+
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Erfolgreiche Matches
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                  <Button
+                    component={Link}
+                    href="/community-info"
+                    variant="contained"
+                    sx={{
+                      background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                      color: 'white',
+                      px: 4,
+                      py: 1.5,
+                      borderRadius: 3,
+                      textTransform: 'none',
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 12px 35px rgba(78, 205, 196, 0.6)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                    endIcon={<ArrowRight size={20} />}
+                  >
+                    Community entdecken
+                  </Button>
+                  
+                  <Button
+                    component={Link}
+                    href="/friends"
+                    variant="outlined"
+                    sx={{
+                      borderColor: '#4ecdc4',
+                      color: '#4ecdc4',
+                      px: 4,
+                      py: 1.5,
+                      borderRadius: 3,
+                      textTransform: 'none',
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      '&:hover': {
+                        borderColor: '#44a08d',
+                        color: '#44a08d',
+                        background: 'rgba(78, 205, 196, 0.1)',
+                        transform: 'translateY(-2px)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Freunde finden
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </Container>
         </Box>
 
         {/* Hauptfunktionen Section */}
@@ -703,7 +1143,7 @@ Magische Beziehungen
               mb: 4
             }}
           >
-            Entdecke alle Tools und Funktionen der Moonlight App
+            Entdecke alle Tools und Funktionen der Kosmische Verbindungen App
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
@@ -1264,7 +1704,7 @@ Magische Beziehungen
               fontStyle: 'italic'
             }}
           >
-            Moonlight revolutioniert das Dating durch Human Design - für tiefere Verbindungen und erfüllendere Beziehungen.
+            Kosmische Verbindungen revolutioniert das Dating durch Human Design - für tiefere Verbindungen und erfüllendere Beziehungen.
           </Typography>
 
           <Grid container spacing={6}>
@@ -1346,7 +1786,7 @@ Magische Beziehungen
                         zIndex: 2
                       }}
                     >
-                      Wir haben Moonlight ins Leben gerufen, weil wir selbst erlebt haben, wie schwer es ist, 
+                      Wir haben Kosmische Verbindungen ins Leben gerufen, weil wir selbst erlebt haben, wie schwer es ist, 
                       echte Verbindungen zu finden. Traditionelle Dating-Apps berücksichtigen nur oberflächliche 
                       Aspekte - aber wahre Kompatibilität liegt tiefer.
                     </Typography>
@@ -1676,7 +2116,7 @@ Magische Beziehungen
                       zIndex: 2
                     }}
                   >
-                    &quot;Durch MOONLIGHT habe ich meine Seelenverwandte gefunden! Die Kompatibilität 
+                    &quot;Durch KOSMISCHE VERBINDUNGEN habe ich meine Seelenverwandte gefunden! Die Kompatibilität 
                     war 98% - beim ersten Date wussten wir beide: Das ist es!&quot;
                   </Typography>
                   <Typography 
@@ -2088,7 +2528,7 @@ Magische Beziehungen
               mx: 'auto'
             }}
           >
-            Alles was du über Human Design und Moonlight wissen musst
+            Alles was du über Human Design und Kosmische Verbindungen wissen musst
           </Typography>
 
           <Grid container spacing={4} sx={{ maxWidth: 1000, mx: 'auto' }}>
@@ -2488,7 +2928,7 @@ Magische Beziehungen
                       lineHeight: 1.6,
                       textShadow: '0 0 5px rgba(255, 255, 255, 0.2)'
                     }}>
-                      Ja! Moonlight ist als Progressive Web App verfügbar und funktioniert perfekt auf allen 
+                      Ja! Kosmische Verbindungen ist als Progressive Web App verfügbar und funktioniert perfekt auf allen 
                       Geräten. Du kannst sie wie eine native App installieren.
                     </Typography>
                   </CardContent>

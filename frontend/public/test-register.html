@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+    </style>
+</head>
+<body>
+    <h1>📝 Registrierung Test</h1>
+    <p>Erstelle einen Test-Benutzer:</p>
+    
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" value="testpass123" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="firstName">Vorname:</label>
+            <input type="text" id="firstName" name="firstName" value="Test" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="lastName">Nachname:</label>
+            <input type="text" id="lastName" name="lastName" value="User" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="birthDate">Geburtsdatum:</label>
+            <input type="date" id="birthDate" name="birthDate" value="1990-01-01" required>
+        </div>
+        
+        <button type="submit">Benutzer registrieren</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('🚀 Teste Registrierung mit:', email);
+                
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email, 
+                        password, 
+                        firstName, 
+                        lastName, 
+                        birthDate 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                console.log('📊 Register Response:', data);
+                console.log('📊 Status Code:', response.status);
+                
+                resultDiv.style.display = 'block';
+                
+                if (data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Registrierung erfolgreich!</h3>
+                        <p><strong>User ID:</strong> ${data.data.user.id}</p>
+                        <p><strong>E-Mail:</strong> ${data.data.user.email}</p>
+                        <p><strong>Name:</strong> ${data.data.user.firstName} ${data.data.user.lastName}</p>
+                        <p><strong>Nachricht:</strong> ${data.data.message}</p>
+                        <p><strong>Nächster Schritt:</strong> <a href="/test-login.html" style="color: #4CAF50;">Jetzt einloggen</a></p>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Registrierung fehlgeschlagen</h3>
+                        <p><strong>Fehler:</strong> ${data.error?.message || 'Unbekannter Fehler'}</p>
+                        <p><strong>Code:</strong> ${data.error?.code || 'UNKNOWN'}</p>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('❌ Register Test Error:', error);
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Netzwerk-Fehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                    <p>Möglicherweise ist der Server nicht erreichbar.</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -58,12 +58,12 @@ export default function PremiumDashboardPage() {
   });
 
   // User Subscription Plan für Feature-Freischaltung
-  const [userPlan, setUserPlan] = useState('basic');
+  const [userPlan, setUserPlan] = useState('premium'); // Standard auf Premium setzen
   const [mounted, setMounted] = useState(false);
 
   // Hilfsfunktion für Feature-Freischaltung
   const hasAccess = (requiredPlan: string): boolean => {
-    if (!mounted) return false; // Verhindert Hydration-Mismatch
+    if (!mounted) return true; // Standardmäßig Zugriff gewähren bis Hydration abgeschlossen
     const planHierarchy: Record<string, number> = { 'basic': 1, 'premium': 2, 'vip': 3, 'admin': 4 };
     const userLevel = planHierarchy[userPlan] || 1;
     const requiredLevel = planHierarchy[requiredPlan] || 1;
@@ -82,7 +82,7 @@ export default function PremiumDashboardPage() {
           console.log('🔍 Premium Dashboard - User-Daten geladen:', user);
           
           // Lade User Plan für Feature-Freischaltung
-          const plan = user.subscriptionPlan || 'basic';
+          const plan = user.subscriptionPlan || 'premium'; // Standard auf Premium
           setUserPlan(plan);
           console.log('💎 User Plan erkannt:', plan);
           
@@ -329,21 +329,19 @@ export default function PremiumDashboardPage() {
             <Typography variant="h5" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2 }}>
               Willkommen in deinem exklusiven Premium-Bereich
             </Typography>
-            {mounted && (
-              <Chip 
-                label={`${userPlan.toUpperCase()} Member`}
-                sx={{ 
-                  background: userPlan === 'vip' ? 'linear-gradient(45deg, #FFD700, #FFA500)' : 
-                             userPlan === 'premium' ? 'linear-gradient(45deg, #8B5CF6, #A78BFA)' :
-                             'linear-gradient(45deg, #10B981, #34D399)',
-                  color: '#1a1a2e',
-                  fontWeight: 600,
-                  fontSize: '1rem',
-                  px: 2,
-                  py: 1
-                }} 
-              />
-            )}
+            <Chip 
+              label={`${userPlan.toUpperCase()} Member`}
+              sx={{ 
+                background: userPlan === 'vip' ? 'linear-gradient(45deg, #FFD700, #FFA500)' : 
+                           userPlan === 'premium' ? 'linear-gradient(45deg, #8B5CF6, #A78BFA)' :
+                           'linear-gradient(45deg, #10B981, #34D399)',
+                color: '#1a1a2e',
+                fontWeight: 600,
+                fontSize: '1rem',
+                px: 2,
+                py: 1
+              }} 
+            />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Chip 
                 icon={<Crown size={16} />} 
@@ -536,7 +534,7 @@ export default function PremiumDashboardPage() {
                 </Box>
                 <Grid container spacing={2}>
                   {premiumFeatures.map((feature) => {
-                    const hasFeatureAccess = mounted ? hasAccess(feature.requiredPlan || 'basic') : false;
+                    const hasFeatureAccess = hasAccess(feature.requiredPlan || 'basic');
                     return (
                       <Grid item xs={12} sm={6} key={feature.id}>
                         <Button

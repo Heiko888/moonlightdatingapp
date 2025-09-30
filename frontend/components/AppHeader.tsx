@@ -63,7 +63,7 @@ export default function AppHeader() {
           }}
           onClick={() => handleNavigation('/')}
         >
-          🌙 Moonlight App
+          🌙 Kosmische Verbindungen App
             </Typography>
 
         {/* Desktop Navigation */}

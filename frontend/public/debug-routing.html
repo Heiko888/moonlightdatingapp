@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routing Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+        .warning { background: rgba(255,193,7,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔍 Routing Debug Tool</h1>
+    <p>Teste alle Routen und finde das Problem:</p>
+    
+    <div class="card">
+        <h3>🌐 Server Status:</h3>
+        <div id="serverStatus">Prüfe...</div>
+    </div>
+    
+    <div class="card">
+        <h3>🔐 Login Test:</h3>
+        <button onclick="testLogin()">Login testen</button>
+        <button onclick="testDashboard()">Dashboard testen</button>
+        <button onclick="testProfileSetup()">Profile Setup testen</button>
+    </div>
+    
+    <div class="card">
+        <h3>📊 LocalStorage Status:</h3>
+        <div id="localStorageStatus">Lade...</div>
+    </div>
+    
+    <div class="card">
+        <h3>🎯 Navigation Test:</h3>
+        <button onclick="navigateToDashboard()">→ Dashboard</button>
+        <button onclick="navigateToProfileSetup()">→ Profile Setup</button>
+        <button onclick="navigateToLogin()">→ Login</button>
+    </div>
+    
+    <div id="result" class="card" style="display: none;"></div>
+    
+    <script>
+        // Server Status prüfen
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    document.getElementById('serverStatus').innerHTML = '<p style="color: #4CAF50;">✅ Server läuft (Port 3000)</p>';
+                } else {
+                    document.getElementById('serverStatus').innerHTML = '<p style="color: #FF9800;">⚠️ Server antwortet, aber mit Fehler</p>';
+                }
+            } catch (error) {
+                document.getElementById('serverStatus').innerHTML = '<p style="color: #F44336;">❌ Server nicht erreichbar</p>';
+            }
+        }
+        
+        // LocalStorage Status
+        function updateLocalStorageStatus() {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            const userData = localStorage.getItem('userData');
+            const profileCompleted = localStorage.getItem('profileSetupCompleted');
+            
+            document.getElementById('localStorageStatus').innerHTML = `
+                <p><strong>Token:</strong> ${token ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                <p><strong>User ID:</strong> ${userId || '❌ Fehlt'}</p>
+                <p><strong>User Data:</strong> ${userData ? '✅ Vorhanden' : '❌ Fehlt'}</p>
+                <p><strong>Profile Completed:</strong> ${profileCompleted || '❌ Nein'}</p>
+            `;
+        }
+        
+        // Login testen
+        async function testLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        password: 'testpass123'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.className = 'card success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Login erfolgreich!</h3>
+                        <p><strong>User ID:</strong> ${data.data.user.id}</p>
+                        <p><strong>E-Mail:</strong> ${data.data.user.email}</p>
+                        <p><strong>Token:</strong> ${data.data.session.access_token.substring(0, 20)}...</p>
+                    `;
+                    
+                    // LocalStorage aktualisieren
+                    localStorage.setItem('token', data.data.session.access_token);
+                    localStorage.setItem('userId', data.data.user.id);
+                    localStorage.setItem('userData', JSON.stringify(data.data.user));
+                    updateLocalStorageStatus();
+                } else {
+                    resultDiv.className = 'card error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Login fehlgeschlagen</h3>
+                        <p><strong>Fehler:</strong> ${data.error?.message || 'Unbekannter Fehler'}</p>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.className = 'card error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Netzwerk-Fehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Dashboard testen
+        async function testDashboard() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/dashboard');
+                if (response.ok) {
+                    resultDiv.className = 'card success';
+                    resultDiv.innerHTML = '<h3>✅ Dashboard Route erreichbar!</h3>';
+                } else {
+                    resultDiv.className = 'card error';
+                    resultDiv.innerHTML = `<h3>❌ Dashboard Route Fehler</h3><p>Status: ${response.status}</p>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'card error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Dashboard Route nicht erreichbar</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Profile Setup testen
+        async function testProfileSetup() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/profile-setup');
+                if (response.ok) {
+                    resultDiv.className = 'card success';
+                    resultDiv.innerHTML = '<h3>✅ Profile Setup Route erreichbar!</h3>';
+                } else {
+                    resultDiv.className = 'card error';
+                    resultDiv.innerHTML = `<h3>❌ Profile Setup Route Fehler</h3><p>Status: ${response.status}</p>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'card error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Profile Setup Route nicht erreichbar</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+            }
+        }
+        
+        // Navigation testen
+        function navigateToDashboard() {
+            window.location.href = '/dashboard';
+        }
+        
+        function navigateToProfileSetup() {
+            window.location.href = '/profile-setup';
+        }
+        
+        function navigateToLogin() {
+            window.location.href = '/login';
+        }
+        
+        // Initial load
+        checkServerStatus();
+        updateLocalStorageStatus();
+    </script>
+</body>
+</html>

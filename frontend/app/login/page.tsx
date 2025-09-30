@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Typography, TextField, Button, Alert, CircularProgress, Container, Paper } from '@mui/material';
 import { useLoadingState } from '@/lib/api/loading';
+// import { supabase } from '@/lib/supabase/client'; // Temporär deaktiviert
 
 interface LoginData {
   email: string;
@@ -13,6 +14,7 @@ interface LoginData {
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const { isLoading, error, setLoading, setError, clearError } = useLoadingState(false);
+  const [success, setSuccess] = useState<string>('');
   
   const [formData, setFormData] = useState<LoginData>({
     email: '',
@@ -30,13 +32,15 @@ const LoginPage: React.FC = () => {
       ...prev,
       [name]: value
     }));
-    // Fehler beim Eingeben zurücksetzen
+    // Fehler und Erfolg beim Eingeben zurücksetzen
     if (error) clearError();
+    if (success) setSuccess('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
+    setSuccess('');
     
     if (!formData.email || !formData.password) {
       setError('Bitte füllen Sie alle Felder aus.');
@@ -46,7 +50,9 @@ const LoginPage: React.FC = () => {
     setLoading(true);
     
     try {
-      // Echte API-Login
+      console.log('🔄 Starte API Login...');
+      
+      // API-basierte Anmeldung (funktioniert)
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -59,19 +65,30 @@ const LoginPage: React.FC = () => {
       });
 
       const result = await response.json();
+      console.log('📊 API Response:', result);
 
       if (result.success) {
-        // Login erfolgreich - Token und Benutzerdaten speichern
+        console.log('✅ API Login erfolgreich:', result.data.user.email);
+
+        // LocalStorage für Kompatibilität
         if (typeof window !== 'undefined') {
           localStorage.setItem('token', result.data.session.access_token);
           localStorage.setItem('userId', result.data.user.id);
           localStorage.setItem('userData', JSON.stringify(result.data.user));
         }
 
-        // Weiterleitung zum Dashboard nach erfolgreichem Login
-        router.push('/dashboard');
+        // Erfolgsmeldung anzeigen
+        setError('');
+        setSuccess('✅ Login erfolgreich!');
+
+        console.log('🔄 Weiterleitung zum Dashboard...');
+        setTimeout(() => {
+          console.log('🚀 Navigiere zu /dashboard');
+          window.location.href = '/dashboard';
+        }, 1000);
       } else {
-        setError(result.error?.message || 'Anmeldung fehlgeschlagen.');
+        console.error('API Login Fehler:', result.error);
+        setError(result.error?.message || 'Anmeldung fehlgeschlagen');
       }
 
     } catch (err) {
@@ -96,6 +113,12 @@ const LoginPage: React.FC = () => {
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
+          </Alert>
+        )}
+
+        {success && (
+          <Alert severity="success" sx={{ mb: 3 }}>
+            {success}
           </Alert>
         )}
 

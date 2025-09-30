@@ -48,6 +48,7 @@ import {
   RotateCcw,
   Maximize2,
   Minimize2,
+  Target,
   List as ListIcon
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
@@ -280,6 +281,14 @@ export default function ChartComparisonPage() {
   const [comparisonHistory, setComparisonHistory] = useState<ComparisonResult[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Geführter Prozess - Wizard States
+  const [wizardStep, setWizardStep] = useState(0);
+  const [showWizard, setShowWizard] = useState(true);
+  const [wizardCompleted, setWizardCompleted] = useState(false);
+  const [analysisType, setAnalysisType] = useState<'basic' | 'detailed' | 'comprehensive'>('basic');
+  const [focusAreas, setFocusAreas] = useState<string[]>([]);
+  const [relationshipContext, setRelationshipContext] = useState<'romantic' | 'friendship' | 'business' | 'family' | 'general'>('general');
+
   useEffect(() => {
     loadUserSubscription();
   }, []);
@@ -409,12 +418,29 @@ export default function ChartComparisonPage() {
       const sharedChannels = chart1.channels.filter(channel => chart2.channels.includes(channel));
       const sharedGates = chart1.gates.filter(gate => chart2.gates.includes(gate));
       
-      const compatibility = Math.min(100, 
+      // Basis-Kompatibilität
+      let compatibility = Math.min(100, 
         (sharedCenters.length * 15) + 
         (sharedChannels.length * 20) + 
         (sharedGates.length * 5) + 
         (chart1.type === chart2.type ? 10 : 0)
       );
+
+      // Wizard-basierte Anpassungen
+      if (analysisType === 'detailed') {
+        compatibility += 5; // Detaillierte Analyse gibt bessere Ergebnisse
+      } else if (analysisType === 'comprehensive') {
+        compatibility += 10; // Komplette Analyse gibt die besten Ergebnisse
+      }
+
+      // Beziehungskontext-Anpassungen
+      if (relationshipContext === 'romantic') {
+        // Romantische Beziehungen haben andere Gewichtungen
+        compatibility = Math.min(100, compatibility + (sharedCenters.length * 5));
+      } else if (relationshipContext === 'business') {
+        // Geschäftliche Beziehungen fokussieren auf Authority und Strategie
+        compatibility = Math.min(100, compatibility + (chart1.authority === chart2.authority ? 15 : 0));
+      }
 
       const differences = [
         `${chart1.type} vs ${chart2.type}`,
@@ -422,12 +448,43 @@ export default function ChartComparisonPage() {
         `${chart1.authority} vs ${chart2.authority}`
       ];
 
-      const recommendations = [
+      // Personalisierte Empfehlungen basierend auf Wizard-Einstellungen
+      const baseRecommendations = [
         `Beide sind ${sharedCenters.length > 0 ? 'sehr' : 'mäßig'} kompatibel`,
         `Gemeinsame Kanäle: ${sharedChannels.join(', ') || 'Keine'}`,
         `Gemeinsame Tore: ${sharedGates.join(', ') || 'Keine'}`,
         `Empfehlung: ${compatibility >= 80 ? 'Sehr harmonische Verbindung' : compatibility >= 60 ? 'Gute Verbindung mit Potenzial' : 'Interessante Herausforderung'}`
       ];
+
+      // Kontext-spezifische Empfehlungen
+      const contextRecommendations = [];
+      if (relationshipContext === 'romantic') {
+        contextRecommendations.push('💕 Romantische Tipps: Respektiert eure unterschiedlichen Authority-Typen');
+        contextRecommendations.push('💕 Kommunikation: Nutzt eure gemeinsamen Zentren für tiefere Verbindung');
+      } else if (relationshipContext === 'business') {
+        contextRecommendations.push('💼 Geschäftlich: Fokussiert auf gemeinsame Strategien und Authority');
+        contextRecommendations.push('💼 Teamwork: Nutzt komplementäre Energien für Projekte');
+      } else if (relationshipContext === 'family') {
+        contextRecommendations.push('👨‍👩‍👧‍👦 Familie: Versteht die unterschiedlichen Bedürfnisse');
+        contextRecommendations.push('👨‍👩‍👧‍👦 Harmonie: Respektiert individuelle Authority-Typen');
+      }
+
+      // Fokus-Bereiche Empfehlungen
+      const focusRecommendations = [];
+      if (focusAreas.includes('communication')) {
+        focusRecommendations.push('💬 Kommunikation: Nutzt eure gemeinsamen Kanäle für besseres Verständnis');
+      }
+      if (focusAreas.includes('energy')) {
+        focusRecommendations.push('⚡ Energie: Achtet auf eure unterschiedlichen Energie-Rhythmen');
+      }
+      if (focusAreas.includes('challenges')) {
+        focusRecommendations.push('⚠️ Herausforderungen: Arbeitet gemeinsam an Konfliktlösungen');
+      }
+      if (focusAreas.includes('growth')) {
+        focusRecommendations.push('🌱 Wachstum: Nutzt eure Unterschiede für gegenseitige Entwicklung');
+      }
+
+      const recommendations = [...baseRecommendations, ...contextRecommendations, ...focusRecommendations];
 
       // Erweiterte Analyse-Features
       const compatibilityMatrix = {
@@ -516,6 +573,326 @@ export default function ChartComparisonPage() {
     }
   };
 
+  // Wizard Steps
+  const wizardSteps = [
+    {
+      title: "Willkommen zum Chart-Vergleich",
+      description: "Lass uns gemeinsam eine tiefgreifende Analyse deiner Human Design Charts erstellen",
+      icon: <Users size={32} />,
+      content: (
+        <Box sx={{ textAlign: 'center', py: 4 }}>
+          <Typography variant="h5" sx={{ color: 'white', mb: 3 }}>
+            🎯 Geführter Chart-Vergleich
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, maxWidth: 600, mx: 'auto' }}>
+            Dieser Wizard führt dich durch einen strukturierten Prozess, um die perfekte Chart-Analyse zu erstellen. 
+            Wir werden gemeinsam die wichtigsten Aspekte deiner Beziehung oder Verbindung analysieren.
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Chip 
+              label="🎯 Zielgerichtete Analyse" 
+              sx={{ bgcolor: 'rgba(255, 215, 0, 0.2)', color: '#FFD700', border: '1px solid rgba(255, 215, 0, 0.3)' }}
+            />
+            <Chip 
+              label="📊 Detaillierte Insights" 
+              sx={{ bgcolor: 'rgba(78, 205, 196, 0.2)', color: '#4ECDC4', border: '1px solid rgba(78, 205, 196, 0.3)' }}
+            />
+            <Chip 
+              label="💡 Praktische Empfehlungen" 
+              sx={{ bgcolor: 'rgba(155, 89, 182, 0.2)', color: '#9B59B6', border: '1px solid rgba(155, 89, 182, 0.3)' }}
+            />
+          </Box>
+        </Box>
+      )
+    },
+    {
+      title: "Analyse-Typ wählen",
+      description: "Welche Art von Analyse möchtest du durchführen?",
+      icon: <BarChart3 size={32} />,
+      content: (
+        <Box sx={{ py: 2 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card 
+                sx={{ 
+                  cursor: 'pointer',
+                  background: analysisType === 'basic' ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                  border: analysisType === 'basic' ? '2px solid #FFD700' : '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { background: 'rgba(255, 215, 0, 0.1)' }
+                }}
+                onClick={() => setAnalysisType('basic')}
+              >
+                <CardContent sx={{ textAlign: 'center', py: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    🚀 Basis-Analyse
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                    Schnelle Übersicht über Kompatibilität und gemeinsame Elemente
+                  </Typography>
+                  <Chip label="5-10 Min" size="small" sx={{ bgcolor: 'rgba(255, 215, 0, 0.2)', color: '#FFD700' }} />
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card 
+                sx={{ 
+                  cursor: 'pointer',
+                  background: analysisType === 'detailed' ? 'rgba(78, 205, 196, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                  border: analysisType === 'detailed' ? '2px solid #4ECDC4' : '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { background: 'rgba(78, 205, 196, 0.1)' }
+                }}
+                onClick={() => setAnalysisType('detailed')}
+              >
+                <CardContent sx={{ textAlign: 'center', py: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    🔍 Detaillierte Analyse
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                    Umfassende Betrachtung aller Aspekte mit praktischen Empfehlungen
+                  </Typography>
+                  <Chip label="15-20 Min" size="small" sx={{ bgcolor: 'rgba(78, 205, 196, 0.2)', color: '#4ECDC4' }} />
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card 
+                sx={{ 
+                  cursor: 'pointer',
+                  background: analysisType === 'comprehensive' ? 'rgba(155, 89, 182, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                  border: analysisType === 'comprehensive' ? '2px solid #9B59B6' : '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { background: 'rgba(155, 89, 182, 0.1)' }
+                }}
+                onClick={() => setAnalysisType('comprehensive')}
+              >
+                <CardContent sx={{ textAlign: 'center', py: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    🌟 Komplette Analyse
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                    Vollständige Analyse mit allen erweiterten Features und Insights
+                  </Typography>
+                  <Chip label="25-30 Min" size="small" sx={{ bgcolor: 'rgba(155, 89, 182, 0.2)', color: '#9B59B6' }} />
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
+      )
+    },
+    {
+      title: "Beziehungskontext",
+      description: "In welchem Kontext möchtest du die Charts vergleichen?",
+      icon: <Heart size={32} />,
+      content: (
+        <Box sx={{ py: 2 }}>
+          <Grid container spacing={2}>
+            {[
+              { value: 'romantic', label: '💕 Romantische Beziehung', description: 'Liebe, Partnerschaft, Dating' },
+              { value: 'friendship', label: '👥 Freundschaft', description: 'Freunde, Bekannte, soziale Verbindungen' },
+              { value: 'business', label: '💼 Geschäftlich', description: 'Arbeitskollegen, Geschäftspartner' },
+              { value: 'family', label: '👨‍👩‍👧‍👦 Familie', description: 'Familienmitglieder, Verwandte' },
+              { value: 'general', label: '🌐 Allgemein', description: 'Allgemeine Kompatibilität' }
+            ].map((context) => (
+              <Grid item xs={12} sm={6} key={context.value}>
+                <Card 
+                  sx={{ 
+                    cursor: 'pointer',
+                    background: relationshipContext === context.value ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                    border: relationshipContext === context.value ? '2px solid #FFD700' : '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': { background: 'rgba(255, 215, 0, 0.1)' }
+                  }}
+                  onClick={() => setRelationshipContext(context.value as 'romantic' | 'friendship' | 'business' | 'family' | 'general')}
+                >
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                      {context.label}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                      {context.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )
+    },
+    {
+      title: "Fokus-Bereiche",
+      description: "Welche Aspekte sind für dich am wichtigsten? (Mehrfachauswahl möglich)",
+      icon: <Target size={32} />,
+      content: (
+        <Box sx={{ py: 2 }}>
+          <Grid container spacing={2}>
+            {[
+              { id: 'communication', label: '💬 Kommunikation', description: 'Wie gut versteht ihr euch?' },
+              { id: 'energy', label: '⚡ Energie-Flow', description: 'Harmonische oder herausfordernde Energien' },
+              { id: 'authority', label: '🎯 Authority & Strategie', description: 'Entscheidungsfindung und Herangehensweise' },
+              { id: 'centers', label: '🔮 Zentren & Kanäle', description: 'Gemeinsame und unterschiedliche Zentren' },
+              { id: 'gates', label: '🚪 Gates & Profile', description: 'Persönlichkeitsprofile und Tore' },
+              { id: 'challenges', label: '⚠️ Herausforderungen', description: 'Potenzielle Konfliktbereiche' },
+              { id: 'growth', label: '🌱 Wachstum', description: 'Entwicklungsmöglichkeiten' },
+              { id: 'compatibility', label: '💫 Kompatibilität', description: 'Gesamte Harmonie der Verbindung' }
+            ].map((area) => (
+              <Grid item xs={12} sm={6} md={4} key={area.id}>
+                <Card 
+                  sx={{ 
+                    cursor: 'pointer',
+                    background: focusAreas.includes(area.id) ? 'rgba(78, 205, 196, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                    border: focusAreas.includes(area.id) ? '2px solid #4ECDC4' : '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': { background: 'rgba(78, 205, 196, 0.1)' }
+                  }}
+                  onClick={() => {
+                    if (focusAreas.includes(area.id)) {
+                      setFocusAreas(focusAreas.filter(f => f !== area.id));
+                    } else {
+                      setFocusAreas([...focusAreas, area.id]);
+                    }
+                  }}
+                >
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 1, fontSize: '1rem' }}>
+                      {area.label}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>
+                      {area.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )
+    },
+    {
+      title: "Chart-Auswahl",
+      description: "Wähle die beiden Charts aus, die du vergleichen möchtest",
+      icon: <GitCompare size={32} />,
+      content: (
+        <Box sx={{ py: 2 }}>
+          <Typography variant="h6" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
+            Verfügbare Charts ({filteredCharts.length})
+          </Typography>
+          <Grid container spacing={2}>
+            {filteredCharts.map((chart) => (
+              <Grid item xs={12} sm={6} md={4} key={chart.id}>
+                <Card 
+                  sx={{ 
+                    cursor: selectedCharts.length < 2 ? 'pointer' : 'default',
+                    background: selectedCharts.some(c => c.id === chart.id) ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                    border: selectedCharts.some(c => c.id === chart.id) ? '2px solid #FFD700' : '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'all 0.3s ease',
+                    opacity: selectedCharts.some(c => c.id === chart.id) ? 1 : selectedCharts.length >= 2 ? 0.5 : 1,
+                    '&:hover': selectedCharts.length < 2 ? { background: 'rgba(255, 215, 0, 0.1)' } : {}
+                  }}
+                  onClick={() => handleChartSelect(chart)}
+                >
+                  <CardContent sx={{ p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Avatar sx={{ 
+                        width: 40, 
+                        height: 40, 
+                        mr: 2,
+                        bgcolor: getTypeColor(chart.type)
+                      }}>
+                        {getTypeIcon(chart.type)}
+                      </Avatar>
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="h6" sx={{ color: 'white', fontSize: '1rem' }}>
+                          {chart.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                          {chart.type} • {chart.profile}
+                        </Typography>
+                      </Box>
+                      {selectedCharts.some(c => c.id === chart.id) && (
+                        <CheckCircle size={20} color="#FFD700" />
+                      )}
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                      <Chip 
+                        label={chart.authority} 
+                        size="small" 
+                        sx={{ 
+                          bgcolor: 'rgba(255, 215, 0, 0.2)', 
+                          color: '#FFD700',
+                          fontSize: '0.7rem'
+                        }} 
+                      />
+                      <Chip 
+                        label={chart.definition} 
+                        size="small" 
+                        sx={{ 
+                          bgcolor: 'rgba(78, 205, 196, 0.2)', 
+                          color: '#4ECDC4',
+                          fontSize: '0.7rem'
+                        }} 
+                      />
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          
+          {selectedCharts.length > 0 && (
+            <Box sx={{ mt: 4, p: 3, background: 'rgba(255, 215, 0, 0.1)', borderRadius: 2, border: '1px solid rgba(255, 215, 0, 0.3)' }}>
+              <Typography variant="h6" sx={{ color: 'white', mb: 2, textAlign: 'center' }}>
+                Ausgewählte Charts ({selectedCharts.length}/2)
+              </Typography>
+              <Grid container spacing={2}>
+                {selectedCharts.map((chart) => (
+                  <Grid item xs={12} sm={6} key={chart.id}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between',
+                      p: 2,
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      borderRadius: 2
+                    }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar sx={{ 
+                          width: 40, 
+                          height: 40, 
+                          mr: 2,
+                          bgcolor: getTypeColor(chart.type)
+                        }}>
+                          {getTypeIcon(chart.type)}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
+                            {chart.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                            {chart.type} • {chart.profile}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <IconButton 
+                        onClick={() => handleChartRemove(chart.id)}
+                        sx={{ color: 'rgba(255,255,255,0.7)' }}
+                      >
+                        <XCircle size={20} />
+                      </IconButton>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+        </Box>
+      )
+    }
+  ];
+
   return (
     <AccessControl 
       path={pathname} 
@@ -563,12 +940,209 @@ export default function ChartComparisonPage() {
           </Box>
         </motion.div>
 
+        {/* Geführter Wizard */}
+        {showWizard && !wizardCompleted && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Card sx={{ 
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: 4,
+              mb: 4
+            }}>
+              <CardContent sx={{ p: 4 }}>
+                {/* Wizard Header */}
+                <Box sx={{ textAlign: 'center', mb: 4 }}>
+                  <Box sx={{ 
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 60,
+                    height: 60,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                    mb: 2
+                  }}>
+                    {wizardSteps[wizardStep].icon}
+                  </Box>
+                  <Typography variant="h4" sx={{ color: 'white', mb: 2, fontWeight: 'bold' }}>
+                    {wizardSteps[wizardStep].title}
+                  </Typography>
+                  <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
+                    {wizardSteps[wizardStep].description}
+                  </Typography>
+                  
+                  {/* Progress Bar */}
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'center', 
+                      alignItems: 'center',
+                      gap: 1,
+                      mb: 2
+                    }}>
+                      {wizardSteps.map((_, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: '50%',
+                            background: index <= wizardStep ? '#FFD700' : 'rgba(255, 255, 255, 0.3)',
+                            transition: 'all 0.3s ease'
+                          }}
+                        />
+                      ))}
+                    </Box>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                      Schritt {wizardStep + 1} von {wizardSteps.length}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* Wizard Content */}
+                {wizardSteps[wizardStep].content}
+
+                {/* Wizard Navigation */}
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  mt: 4,
+                  pt: 3,
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setShowWizard(false)}
+                    sx={{
+                      color: 'rgba(255,255,255,0.7)',
+                      borderColor: 'rgba(255,255,255,0.3)',
+                      '&:hover': { borderColor: 'rgba(255,255,255,0.5)' }
+                    }}
+                  >
+                    Wizard überspringen
+                  </Button>
+                  
+                  <Box sx={{ display: 'flex', gap: 2 }}>
+                    {wizardStep > 0 && (
+                      <Button
+                        variant="outlined"
+                        onClick={() => setWizardStep(wizardStep - 1)}
+                        sx={{
+                          color: 'rgba(255,255,255,0.7)',
+                          borderColor: 'rgba(255,255,255,0.3)',
+                          '&:hover': { borderColor: 'rgba(255,255,255,0.5)' }
+                        }}
+                      >
+                        Zurück
+                      </Button>
+                    )}
+                    
+                    {wizardStep < wizardSteps.length - 1 ? (
+                      <Button
+                        variant="contained"
+                        onClick={() => setWizardStep(wizardStep + 1)}
+                        sx={{
+                          background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                          color: '#1a1a2e',
+                          fontWeight: 'bold',
+                          px: 4
+                        }}
+                      >
+                        Weiter
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          setWizardCompleted(true);
+                          setShowWizard(false);
+                          if (selectedCharts.length === 2) {
+                            compareCharts();
+                          }
+                        }}
+                        disabled={selectedCharts.length < 2}
+                        sx={{
+                          background: 'linear-gradient(45deg, #4ECDC4, #44A08D)',
+                          color: 'white',
+                          fontWeight: 'bold',
+                          px: 4
+                        }}
+                      >
+                        Analyse starten
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {/* Wizard Summary & Restart */}
+        {wizardCompleted && !showWizard && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Card sx={{ 
+              background: 'rgba(78, 205, 196, 0.1)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.3)',
+              borderRadius: 4,
+              mb: 4
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                      🎯 Analyse-Konfiguration
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                      {analysisType === 'basic' ? '🚀 Basis-Analyse' : 
+                       analysisType === 'detailed' ? '🔍 Detaillierte Analyse' : 
+                       '🌟 Komplette Analyse'} • {relationshipContext === 'romantic' ? '💕 Romantisch' :
+                       relationshipContext === 'friendship' ? '👥 Freundschaft' :
+                       relationshipContext === 'business' ? '💼 Geschäftlich' :
+                       relationshipContext === 'family' ? '👨‍👩‍👧‍👦 Familie' : '🌐 Allgemein'} • 
+                      {focusAreas.length} Fokus-Bereiche
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setShowWizard(true);
+                      setWizardCompleted(false);
+                      setWizardStep(0);
+                    }}
+                    startIcon={<RotateCcw size={16} />}
+                    sx={{
+                      borderColor: 'rgba(78, 205, 196, 0.5)',
+                      color: '#4ECDC4',
+                      '&:hover': { borderColor: '#4ECDC4', backgroundColor: 'rgba(78, 205, 196, 0.1)' }
+                    }}
+                  >
+                    Wizard neu starten
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
         {/* Erweiterte Toolbar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
+        {!showWizard && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
           <Card sx={{ 
             mb: 4,
             background: 'rgba(255, 255, 255, 0.1)',
@@ -839,6 +1413,7 @@ export default function ChartComparisonPage() {
             </CardContent>
           </Card>
         </motion.div>
+        )}
 
         {/* Selected Charts */}
         {selectedCharts.length > 0 && (

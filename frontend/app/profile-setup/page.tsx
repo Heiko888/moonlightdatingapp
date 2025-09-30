@@ -55,6 +55,7 @@ export default function ProfileSetupPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     // Prüfe ob User eingeloggt ist
@@ -135,11 +136,11 @@ export default function ProfileSetupPage() {
       localStorage.setItem('userData', JSON.stringify(updatedUserData));
       localStorage.setItem('profileSetupCompleted', 'true');
 
-      // Optional: Sende Daten an Backend über Supabase
+      // Speichere Profildaten in Supabase
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001'}/api/user/profile`, {
+          const response = await fetch('/api/user/profile', {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -157,7 +158,17 @@ export default function ProfileSetupPage() {
       }
 
       console.log('✅ Profileinrichtung abgeschlossen');
-      router.push('/dashboard');
+      console.log('🔄 Weiterleitung zum Dashboard...');
+      
+      // Profil-Setup als abgeschlossen markieren
+      localStorage.setItem('profileSetupCompleted', 'true');
+      
+      // Erfolgsmeldung anzeigen
+      setSuccess('✅ Profil erfolgreich eingerichtet! Weiterleitung zum Dashboard...');
+      
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
     } catch (error) {
       console.error('Fehler beim Speichern der Profildaten:', error);
       setError('Fehler beim Speichern. Bitte versuchen Sie es erneut.');
@@ -461,6 +472,18 @@ export default function ProfileSetupPage() {
                   color: '#ffcdd2'
                 }}>
                   {error}
+                </Alert>
+              )}
+
+              {/* Erfolgs-Anzeige */}
+              {success && (
+                <Alert severity="success" sx={{ 
+                  mb: 3,
+                  background: 'rgba(76, 175, 80, 0.1)',
+                  border: '1px solid rgba(76, 175, 80, 0.3)',
+                  color: '#c8e6c9'
+                }}>
+                  {success}
                 </Alert>
               )}
 

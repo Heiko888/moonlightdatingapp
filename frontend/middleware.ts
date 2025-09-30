@@ -42,9 +42,6 @@ export function middleware(request: NextRequest) {
   response.headers.set('Content-Security-Policy', csp)
 
   // Rate limiting (basic implementation)
-  const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? 'unknown'
-  const rateLimitKey = `rate_limit_${ip}`
-  
   // This is a basic implementation - in production, use Redis or similar
   const rateLimit = request.headers.get('x-rate-limit')
   if (rateLimit && parseInt(rateLimit) > 100) {
@@ -77,7 +74,10 @@ export function middleware(request: NextRequest) {
   )
 
   if (isProtectedRoute) {
-    const token = request.cookies.get('auth-token')?.value
+    // Prüfe Supabase Session Token
+    const supabaseToken = request.cookies.get('sb-njjcywgskzepikyzhihy-auth-token')?.value
+    const authHeader = request.headers.get('authorization')?.replace('Bearer ', '')
+    const token = supabaseToken || authHeader
     
     if (!token) {
       return NextResponse.redirect(new URL('/login', request.url))

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔐 Quick Login Test</h1>
+    
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="E-Mail" value="test@example.com" required>
+        <input type="password" id="password" placeholder="Passwort" value="testpass123" required>
+        <button type="submit">LOGIN & WEITERLEITUNG</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<h3>🔄 Login läuft...</h3>';
+            
+            try {
+                console.log('🚀 Login startet...');
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                console.log('📊 Response:', data);
+                
+                if (data.success) {
+                    // Token speichern
+                    localStorage.setItem('token', data.data.session.access_token);
+                    localStorage.setItem('userId', data.data.user.id);
+                    localStorage.setItem('userData', JSON.stringify(data.data.user));
+                    
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '<h3>✅ Login erfolgreich!</h3><p>Weiterleitung in 2 Sekunden...</p>';
+                    
+                    console.log('✅ Login erfolgreich, warte 2 Sekunden...');
+                    
+                    setTimeout(() => {
+                        console.log('🚀 Weiterleitung zu /dashboard');
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                    
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `<h3>❌ Login fehlgeschlagen</h3><p>${data.error?.message || 'Unbekannter Fehler'}</p>`;
+                }
+                
+            } catch (error) {
+                console.error('❌ Fehler:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `<h3>❌ Netzwerk-Fehler</h3><p>${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FINAL LOGIN TEST</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        input, button { padding: 10px; margin: 5px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 FINAL LOGIN TEST</h1>
+    
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="E-Mail" value="test@example.com" required><br>
+        <input type="password" id="password" placeholder="Passwort" value="TestPass123" required><br>
+        <button type="submit">LOGIN TESTEN</button>
+    </form>
+    
+    <div id="result"></div>
+    <div id="debug"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            const debugDiv = document.getElementById('debug');
+            
+            resultDiv.innerHTML = '<p>🔄 Teste Login...</p>';
+            debugDiv.innerHTML = '';
+            
+            try {
+                console.log('🚀 FINAL LOGIN TEST START');
+                console.log('📧 Email:', email);
+                console.log('🔑 Password:', password);
+                
+                // Test 1: API direkt aufrufen
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                console.log('📊 Response Status:', response.status);
+                console.log('📊 Response Headers:', response.headers);
+                
+                const responseText = await response.text();
+                console.log('📊 Response Text:', responseText);
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('❌ JSON Parse Error:', parseError);
+                    resultDiv.innerHTML = `<p class="error">❌ JSON Parse Error: ${parseError.message}</p>`;
+                    debugDiv.innerHTML = `<pre>Response Text: ${responseText}</pre>`;
+                    return;
+                }
+                
+                console.log('📊 Parsed Data:', data);
+                
+                if (data.success) {
+                    resultDiv.innerHTML = '<p class="success">✅ LOGIN ERFOLGREICH!</p>';
+                    debugDiv.innerHTML = `<pre>User Data: ${JSON.stringify(data.data, null, 2)}</pre>`;
+                    console.log('✅ LOGIN ERFOLGREICH!');
+                    
+                    // Test 2: Dashboard aufrufen
+                    setTimeout(() => {
+                        console.log('🔄 Teste Dashboard-Zugriff...');
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                    
+                } else {
+                    resultDiv.innerHTML = `<p class="error">❌ FEHLER: ${data.error?.message || 'Unbekannter Fehler'}</p>`;
+                    debugDiv.innerHTML = `<pre>Error Details: ${JSON.stringify(data, null, 2)}</pre>`;
+                    console.error('❌ Login fehlgeschlagen:', data.error);
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">❌ NETZWERK-FEHLER: ${error.message}</p>`;
+                debugDiv.innerHTML = `<pre>Error Stack: ${error.stack}</pre>`;
+                console.error('❌ Netzwerk-Fehler:', error);
+            }
+        });
+    </script>
+</body>
+</html>

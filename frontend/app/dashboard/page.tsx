@@ -1,912 +1,1065 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '@/lib/api/auth';
-import { SupabaseService } from '@/lib/services/supabaseService';
-import { supabase } from '@/lib/supabase/client';
-import { useLoadingState } from '@/lib/services/loadingService';
-import { 
-  DashboardData, 
-  Activity, 
-  Notification, 
-  DashboardContentProps,
-  UserProfile
-} from '@/types/dashboard.types';
-import Link from 'next/link';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import InteractiveChart from '@/components/dashboard/InteractiveChart';
-// import DashboardWidget from '@/components/dashboard/DashboardWidget';
-import AchievementSystem from '@/components/dashboard/AchievementSystem';
-import LiveDashboard from '@/components/dashboard/LiveDashboard';
-import AdvancedAnalytics from '@/components/dashboard/AdvancedAnalytics';
-import MobileDashboard from '@/components/dashboard/MobileDashboard';
+import { useRouter } from 'next/navigation';
 import { 
   Box, 
+  Container, 
   Typography, 
-  Grid, 
   Card, 
   CardContent, 
-  Chip, 
-  Avatar, 
-  LinearProgress,
-  IconButton,
-  Tooltip,
-  Slide,
-  Zoom,
-  Badge,
+  Grid, 
   Button,
-  Tabs,
-  Tab,
-  Switch,
-  FormControlLabel
+  Alert,
+  CircularProgress
 } from '@mui/material';
 import { 
-  TrendingUp, 
-  Star, 
-  Moon, 
+  Home, 
   Heart, 
+  Moon, 
   Users, 
-  Calendar,
-  Zap,
-  Crown,
-  Sparkles,
-  Target,
-  Activity as ActivityIcon,
-  Bell,
-  RotateCcw,
-  ArrowRight,
-  ChevronRight,
   Settings,
-  Layout,
-  Trophy,
-  BarChart3,
-  MessageCircle,
-  BookOpen,
-  UserCheck,
-  Globe,
-  Clock,
-  LogOut
+  LogOut,
+  Star,
+  User,
+  Edit,
+  MessageCircle
 } from 'lucide-react';
-import styles from './dashboard.module.css';
+import { supabase } from '@/lib/supabase/client';
 
-const DashboardContent: React.FC<DashboardContentProps> = ({ className = '' }) => {
-  const { user } = useAuth();
-  const { isLoading, error, setLoading, setError } = useLoadingState('dashboard');
+interface DashboardStats {
+  moonEntries: number;
+  readings: number;
+  matches: number;
+  communityActivity: number;
+}
 
-  // Funktion zur Auswahl des passenden Icons basierend auf der Aktivitätskategorie
-  const getActivityIcon = (activity: Activity) => {
-    const category = activity.category || activity.type;
-    
-    switch (category.toLowerCase()) {
-      case 'moon':
-      case 'mondkalender':
-        return <Moon size={16} />;
-      case 'dating':
-      case 'match':
-        return <Heart size={16} />;
-      case 'community':
-      case 'chat':
-        return <MessageCircle size={16} />;
-      case 'reading':
-      case 'coaching':
-        return <BookOpen size={16} />;
-      case 'profile':
-      case 'user':
-        return <UserCheck size={16} />;
-      case 'social':
-      case 'network':
-        return <Globe size={16} />;
-      case 'notification':
-      case 'alert':
-        return <Bell size={16} />;
-      case 'time':
-      case 'schedule':
-        return <Clock size={16} />;
-      case 'system':
-        return <Settings size={16} />;
-      default:
-        return <ActivityIcon size={16} />;
-    }
-  };
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
-  const [activeTab, setActiveTab] = useState(0);
-  const [showAdvancedFeatures, setShowAdvancedFeatures] = useState(false);
-  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+interface Match {
+  id: string;
+  name: string;
+  age: number;
+  profileImage: string;
+  compatibility: number;
+  lastMessage?: string;
+  lastMessageTime?: string;
+}
+
+const DashboardPage: React.FC = () => {
+  const router = useRouter();
+  const [stats, setStats] = useState<DashboardStats>({
+    moonEntries: 0,
+    readings: 0,
+    matches: 0,
+    communityActivity: 0
+  });
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Supabase-Authentifizierung prüfen
+    const initializeAuth = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        if (error || !user) {
+          console.log('Kein authentifizierter Benutzer, weiterleitung zu Login');
+          // Verzögerte Weiterleitung um Loop zu vermeiden
+          setTimeout(() => router.push('/login'), 100);
+          return;
+        }
+        
+        console.log('Benutzer authentifiziert:', user.email);
+        // Dashboard-Daten laden
+        loadDashboardData();
+      } catch (error) {
+        console.error('Auth-Check Fehler:', error);
+        // Verzögerte Weiterleitung um Loop zu vermeiden
+        setTimeout(() => router.push('/login'), 100);
+      }
+    };
+
+    initializeAuth();
+  }, []); // Leere Dependencies verhindert Infinite Loop
+
 
   const loadDashboardData = useCallback(async () => {
-    if (!user?.id || typeof user.id !== 'string') return;
-    
-    setLoading(true);
-    setError('');
-
     try {
-      // Prüfe Supabase-Verbindung zuerst
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      setLoading(true);
       
-      if (sessionError) {
-        console.error('Supabase-Session-Fehler:', sessionError);
-        setError('Verbindungsfehler zur Datenbank. Bitte versuchen Sie es später erneut.');
-        return;
-      }
-      
-      if (!session) {
-        console.warn('Keine aktive Session gefunden');
-        setError('Sie sind nicht angemeldet. Bitte melden Sie sich erneut an.');
-        return;
-      }
-
-      // Echte API-Aufrufe über SupabaseService
-      const dashboardResponse = await SupabaseService.getDashboardData(user.id);
-      
-      if (dashboardResponse.success && dashboardResponse.data) {
-        const data: DashboardData = {
-          stats: {
-            moonEntries: dashboardResponse.data.stats?.moonEntries || 0,
-            readings: dashboardResponse.data.stats?.readings || 0,
-            matches: dashboardResponse.data.stats?.matches || 0,
-            communityActivity: dashboardResponse.data.stats?.communityActivity || 0
-          },
-          recentActivities: dashboardResponse.data.activities || [],
-          notifications: dashboardResponse.data.notifications || [],
-          userProfile: user as unknown as UserProfile,
-          trends: {
-            moonEntries: [],
-            readings: [],
-            matches: [],
-            communityActivity: []
-          }
-        };
-
-        setDashboardData(data);
-        setLastRefresh(new Date());
-      } else {
-        // Fallback bei API-Fehlern
-        const fallbackStats = {
-          moonEntries: 0,
-          readings: 0,
-          matches: 0,
-          communityActivity: 0
-        };
-
-        const data: DashboardData = {
-          stats: fallbackStats,
-          recentActivities: [],
-          notifications: [],
-          userProfile: user as unknown as UserProfile,
-          trends: {
-            moonEntries: [],
-            readings: [],
-            matches: [],
-            communityActivity: []
-          }
-        };
-
-        setDashboardData(data);
-        setLastRefresh(new Date());
-        
-        if (dashboardResponse.error) {
-          console.warn('⚠️ Dashboard-API-Fehler, verwende Fallback-Daten:', dashboardResponse.error);
-        }
-      }
-    } catch (error) {
-      console.error('❌ Fehler beim Laden der Dashboard-Daten:', error);
-      
-      // Spezifische Fehlerbehandlung für NetworkError
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        setError('Netzwerkfehler: Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.');
-      } else if (error instanceof Error && error.message.includes('NetworkError')) {
-        setError('Netzwerkfehler: Die Verbindung zum Server konnte nicht hergestellt werden.');
-      } else if (error instanceof Error && error.message.includes('Failed to fetch')) {
-        setError('Verbindungsfehler: Der Server ist nicht erreichbar. Bitte versuchen Sie es später erneut.');
-      } else {
-        setError('Fehler beim Laden der Dashboard-Daten. Bitte versuche es später erneut.');
-      }
-      
-      // Fallback-Daten bei kritischen Fehlern
-      const fallbackStats = {
-        moonEntries: 0,
-        readings: 0,
-        matches: 0,
-        communityActivity: 0
+      // Simuliere Dashboard-Daten
+      const mockStats: DashboardStats = {
+        moonEntries: 12,
+        readings: 5,
+        matches: 3,
+        communityActivity: 8
       };
-
-      // Beispiel-Aktivitäten für Demo-Zwecke
-      const fallbackActivities: Activity[] = [
+      
+      // Simuliere Matches
+      const mockMatches: Match[] = [
         {
-          id: 'demo-1',
-          type: 'moon',
-          category: 'moon',
-          title: 'Mondkalender-Eintrag erstellt',
-          description: 'Neuer Eintrag im Mondkalender hinzugefügt',
-          timestamp: new Date().toISOString()
+          id: '1',
+          name: 'Sarah',
+          age: 28,
+          profileImage: '/api/placeholder/60/60',
+          compatibility: 87,
+          lastMessage: 'Hey! Wie war dein Tag?',
+          lastMessageTime: '2h'
         },
         {
-          id: 'demo-2',
-          type: 'reading',
-          category: 'reading',
-          title: 'Reading durchgeführt',
-          description: 'Human Design Reading abgeschlossen',
-          timestamp: new Date(Date.now() - 3600000).toISOString()
+          id: '2',
+          name: 'Michael',
+          age: 32,
+          profileImage: '/api/placeholder/60/60',
+          compatibility: 92,
+          lastMessage: 'Lass uns mal treffen!',
+          lastMessageTime: '1d'
+        },
+        {
+          id: '3',
+          name: 'Emma',
+          age: 26,
+          profileImage: '/api/placeholder/60/60',
+          compatibility: 78,
+          lastMessage: 'Dein HD-Chart ist faszinierend!',
+          lastMessageTime: '3d'
         }
       ];
-
-      const data: DashboardData = {
-        stats: fallbackStats,
-        recentActivities: fallbackActivities,
-        notifications: [],
-        userProfile: user as unknown as UserProfile,
-        trends: {
-          moonEntries: [],
-          readings: [],
-          matches: [],
-          communityActivity: []
-        }
-      };
-
-      setDashboardData(data);
-      setLastRefresh(new Date());
-    } finally {
+      
+      // Batch State Updates um Re-Renders zu minimieren
+      setStats(mockStats);
+      setMatches(mockMatches);
+      
+      // Verzögerte Loading-False um State-Updates zu stabilisieren
+      setTimeout(() => setLoading(false), 50);
+    } catch (error) {
+      console.error('Fehler beim Laden der Dashboard-Daten:', error);
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]); // ✅ FIX: Nur user.id als Dependency, um Dauerschleife zu vermeiden
+  }, []); // Leere Dependencies für stabile Funktion
 
-  // Dashboard-Daten laden
-  useEffect(() => {
-    if (user?.id) {
-      loadDashboardData();
+  const handleLogout = useCallback(async () => {
+    try {
+      // Supabase Logout
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('Logout Fehler:', error);
+        setError('Fehler beim Abmelden');
+        return;
+      }
+      
+      // LocalStorage leeren
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('profileSetupCompleted');
+      
+      console.log('Erfolgreich abgemeldet');
+      // Verzögerte Weiterleitung um Loop zu vermeiden
+      setTimeout(() => router.push('/login'), 100);
+    } catch (error) {
+      console.error('Logout Fehler:', error);
+      setError('Fehler beim Abmelden');
     }
-  }, [user?.id, loadDashboardData]); // ✅ FIX: Jetzt ist loadDashboardData stabil
+  }, [router]); // Router als Dependency für stabile Funktion
 
-  // Spektakulärer Loading-Zustand
-  if (isLoading) {
+  if (loading) {
     return (
-      <Box className={styles.loadingContainer}>
-        <Box className={styles.loadingContent}>
-            <div className={styles.loadingSpinner}>
-              <Sparkles className={styles.sparkleIcon} />
-              <div className={styles.spinner}></div>
-      </div>
-            <Typography variant="h4" className={styles.loadingTitle}>
-              Dein Dashboard wird vorbereitet...
-            </Typography>
-            <Typography variant="body1" className={styles.loadingSubtext}>
-              Lade deine persönlichen Human Design Daten
-            </Typography>
-            <LinearProgress 
-              className={styles.loadingProgress} 
-              color="secondary" 
-            />
-          </Box>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+      }}>
+        <CircularProgress size={60} sx={{ color: 'white' }} />
       </Box>
     );
   }
 
   return (
-    <Box className={`${styles.dashboardContainer} ${className}`}>
-      <Box className={styles.container}>
-        {/* Spektakulärer Header */}
-        <Slide direction="down" in={true} timeout={800}>
-          <Box className={styles.header}>
-            <Box className={styles.headerTop}>
-              <Box className={styles.headerLeft}>
-                <Typography variant="h3" className={styles.headerTitle}>
-                  <Crown className={styles.crownIcon} />
-                  Dein Human Design Dashboard
-                </Typography>
-                <Typography variant="h6" className={styles.headerSubtitle}>
-                  Willkommen zurück, <span className={styles.userName}>
-                    {(() => {
-                      const firstName = dashboardData?.userProfile?.firstName || user?.firstName;
-                      if (firstName && typeof firstName === 'string') return firstName;
-                      if (user?.email && typeof user.email === 'string') {
-                        return user.email.split('@')[0];
-                      }
-                      return 'Benutzer';
-                    })()}
-                  </span>! ✨
-                </Typography>
-              </Box>
-              <Box className={styles.headerRight}>
-                <Tooltip title="Dashboard aktualisieren">
-                  <IconButton 
-                    className={styles.refreshButton}
-                    onClick={() => loadDashboardData()}
-                    disabled={isLoading}
-                  >
-                    <RotateCcw className={isLoading ? styles.spinning : ''} />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Abmelden">
-                  <Link href="/logout">
-                    <IconButton 
-                      className={styles.logoutButton}
-                      sx={{ 
-                        ml: 1,
-                        color: '#ff6b6b',
-                        '&:hover': {
-                          backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                          color: '#ff5252'
-                        }
-                      }}
-                    >
-                      <LogOut size={20} />
-                    </IconButton>
-                  </Link>
-                </Tooltip>
-                <Chip 
-                  icon={<Crown size={16} />}
-                  label="Premium"
-                  className={styles.premiumChip}
-                  color="secondary"
-                />
-              </Box>
-            </Box>
-            
-            <Typography variant="body2" className={styles.lastUpdate}>
-            Letzte Aktualisierung: {lastRefresh.toLocaleString('de-DE')}
-            </Typography>
+    <Box sx={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%)',
+      position: 'relative',
+      overflow: 'hidden',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%)',
+        zIndex: 0
+      }
+    }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+        {/* Header */}
+        <Box sx={{ 
+          mb: 6,
+          textAlign: 'center',
+          position: 'relative'
+        }}>
+          <Typography variant="h3" sx={{ 
+            color: 'white', 
+            fontWeight: 'bold',
+            mb: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2,
+            textShadow: '0 0 20px rgba(255,255,255,0.5)',
+            background: 'linear-gradient(45deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>
+            <Home size={40} />
+            🌟 Dashboard
+          </Typography>
+          <Typography variant="h6" sx={{ 
+            color: 'rgba(255,255,255,0.9)',
+            fontWeight: 300,
+            maxWidth: 600,
+            mx: 'auto',
+            lineHeight: 1.6
+          }}>
+            Willkommen zurück! Hier ist dein persönlicher Überblick über deine Human Design Journey.
+          </Typography>
+        </Box>
 
-          {error && (
-            <Card className={styles.errorCard}>
-                  <CardContent>
-                    <Box className={styles.errorContent}>
-                      <Typography variant="h6" color="error">
-                        ⚠️ Fehler beim Laden der Daten
-                      </Typography>
-                      <Typography variant="body2" className={styles.errorText}>
-                        {error}
-                      </Typography>
-                      <Button 
-                        variant="contained" 
-                        color="error"
-                        onClick={() => loadDashboardData()}
-                        disabled={isLoading}
-                        startIcon={<RotateCcw />}
-                      >
-                        {isLoading ? 'Lädt...' : 'Erneut versuchen'}
-                      </Button>
+        {error && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        )}
+
+        {/* Statistik-Karten */}
+        <Grid container spacing={4} sx={{ mb: 6 }}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ 
+              background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.08) 100%)',
+              backdropFilter: 'blur(25px)',
+              border: '1px solid rgba(255, 215, 0, 0.3)',
+              borderRadius: 4,
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-8px) scale(1.02)',
+                boxShadow: '0 20px 40px rgba(255, 215, 0, 0.3)',
+                border: '1px solid rgba(255, 215, 0, 0.5)'
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.2) 0%, transparent 70%)',
+                opacity: 0.6
+              }
+            }}>
+              <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
+                <Box sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mx: 'auto',
+                  mb: 2,
+                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
+                }}>
+                  <Moon size={28} color="white" />
                 </Box>
+                <Typography variant="h3" sx={{ 
+                  color: '#FFD700', 
+                  fontWeight: 'bold',
+                  mb: 1,
+                  textShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
+                }}>
+                  {stats.moonEntries}
+                </Typography>
+                <Typography variant="h6" sx={{ 
+                  color: 'rgba(255,255,255,0.9)',
+                  fontWeight: 500
+                }}>
+                  Mond-Einträge
+                </Typography>
               </CardContent>
             </Card>
-        )}
-          </Box>
-        </Slide>
+          </Grid>
 
-        {/* Spektakuläre Statistik-Karten */}
-        {dashboardData && (
-          <Slide direction="up" in={true} timeout={1000}>
-            <Grid container spacing={3} className={styles.statsGrid}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ 
+              background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 69, 0, 0.08) 100%)',
+              backdropFilter: 'blur(25px)',
+              border: '1px solid rgba(255, 107, 107, 0.3)',
+              borderRadius: 4,
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-8px) scale(1.02)',
+                boxShadow: '0 20px 40px rgba(255, 107, 107, 0.3)',
+                border: '1px solid rgba(255, 107, 107, 0.5)'
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 107, 0.2) 0%, transparent 70%)',
+                opacity: 0.6
+              }
+            }}>
+              <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
+                <Box sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #FF6B6B, #FF4500)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mx: 'auto',
+                  mb: 2,
+                  boxShadow: '0 8px 25px rgba(255, 107, 107, 0.4)'
+                }}>
+                  <Star size={28} color="white" />
+                </Box>
+                <Typography variant="h3" sx={{ 
+                  color: '#FF6B6B', 
+                  fontWeight: 'bold',
+                  mb: 1,
+                  textShadow: '0 0 10px rgba(255, 107, 107, 0.5)'
+                }}>
+                  {stats.readings}
+                </Typography>
+                <Typography variant="h6" sx={{ 
+                  color: 'rgba(255,255,255,0.9)',
+                  fontWeight: 500
+                }}>
+                  Readings
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ 
+              background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+              backdropFilter: 'blur(25px)',
+              border: '1px solid rgba(78, 205, 196, 0.3)',
+              borderRadius: 4,
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-8px) scale(1.02)',
+                boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)',
+                border: '1px solid rgba(78, 205, 196, 0.5)'
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.2) 0%, transparent 70%)',
+                opacity: 0.6
+              }
+            }}>
+              <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
+                <Box sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #4ECDC4, #44A08D)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mx: 'auto',
+                  mb: 2,
+                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+                }}>
+                  <Heart size={28} color="white" />
+                </Box>
+                <Typography variant="h3" sx={{ 
+                  color: '#4ECDC4', 
+                  fontWeight: 'bold',
+                  mb: 1,
+                  textShadow: '0 0 10px rgba(78, 205, 196, 0.5)'
+                }}>
+                  {stats.matches}
+                </Typography>
+                <Typography variant="h6" sx={{ 
+                  color: 'rgba(255,255,255,0.9)',
+                  fontWeight: 500
+                }}>
+                  Matches
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card sx={{ 
+              background: 'linear-gradient(135deg, rgba(155, 89, 182, 0.15) 0%, rgba(142, 68, 173, 0.08) 100%)',
+              backdropFilter: 'blur(25px)',
+              border: '1px solid rgba(155, 89, 182, 0.3)',
+              borderRadius: 4,
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-8px) scale(1.02)',
+                boxShadow: '0 20px 40px rgba(155, 89, 182, 0.3)',
+                border: '1px solid rgba(155, 89, 182, 0.5)'
+              },
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(155, 89, 182, 0.2) 0%, transparent 70%)',
+                opacity: 0.6
+              }
+            }}>
+              <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
+                <Box sx={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #9B59B6, #8E44AD)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mx: 'auto',
+                  mb: 2,
+                  boxShadow: '0 8px 25px rgba(155, 89, 182, 0.4)'
+                }}>
+                  <Users size={28} color="white" />
+                </Box>
+                <Typography variant="h3" sx={{ 
+                  color: '#9B59B6', 
+                  fontWeight: 'bold',
+                  mb: 1,
+                  textShadow: '0 0 10px rgba(155, 89, 182, 0.5)'
+                }}>
+                  {stats.communityActivity}
+                </Typography>
+                <Typography variant="h6" sx={{ 
+                  color: 'rgba(255,255,255,0.9)',
+                  fontWeight: 500
+                }}>
+                  Community
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {/* Quick Actions */}
+        <Card sx={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: 3,
+          mb: 4
+        }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ color: 'white', mb: 3 }}>
+              Schnellzugriff
+            </Typography>
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
-                <Zoom in={true} timeout={1200}>
-                  <Card className={styles.statCard}>
-                    <CardContent className={styles.statContent}>
-                      <Box className={styles.statHeader}>
-                        <Avatar className={styles.statAvatar}>
-                          <Moon className={styles.statIcon} />
-                        </Avatar>
-                        <Box className={styles.statTrend}>
-                          <TrendingUp className={styles.trendIcon} />
-                          <Typography variant="caption">+12%</Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant="h3" className={styles.statNumber}>
-                        {dashboardData.stats.moonEntries}
-                      </Typography>
-                      <Typography variant="body2" className={styles.statLabel}>
-                        Mondkalender-Einträge
-                      </Typography>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={Math.min((dashboardData.stats.moonEntries / 30) * 100, 100)}
-                        className={styles.statProgress}
-                      />
-                    </CardContent>
-                  </Card>
-                </Zoom>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                    color: 'white',
+                    py: 1.5,
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
+                    }
+                  }}
+                  onClick={() => router.push('/planets')}
+                >
+                  Planeten
+                </Button>
               </Grid>
-              
               <Grid item xs={12} sm={6} md={3}>
-                <Zoom in={true} timeout={1400}>
-                  <Card className={styles.statCard}>
-                    <CardContent className={styles.statContent}>
-                      <Box className={styles.statHeader}>
-                        <Avatar className={styles.statAvatar}>
-                          <Star className={styles.statIcon} />
-                        </Avatar>
-                        <Box className={styles.statTrend}>
-                          <TrendingUp className={styles.trendIcon} />
-                          <Typography variant="caption">+8%</Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant="h3" className={styles.statNumber}>
-                        {dashboardData.stats.readings}
-                      </Typography>
-                      <Typography variant="body2" className={styles.statLabel}>
-                        Lesungen
-                      </Typography>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={Math.min((dashboardData.stats.readings / 20) * 100, 100)}
-                        className={styles.statProgress}
-                      />
-                    </CardContent>
-                  </Card>
-                </Zoom>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                    color: 'white',
+                    py: 1.5,
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
+                    }
+                  }}
+                  onClick={() => router.push('/moon-tracking')}
+                >
+                  Mond-Tracking
+                </Button>
               </Grid>
-              
               <Grid item xs={12} sm={6} md={3}>
-                <Zoom in={true} timeout={1600}>
-                  <Card className={styles.statCard}>
-                    <CardContent className={styles.statContent}>
-                      <Box className={styles.statHeader}>
-                        <Avatar className={styles.statAvatar}>
-                          <Heart className={styles.statIcon} />
-                        </Avatar>
-                        <Box className={styles.statTrend}>
-                          <TrendingUp className={styles.trendIcon} />
-                          <Typography variant="caption">+25%</Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant="h3" className={styles.statNumber}>
-                        {dashboardData.stats.matches}
-                      </Typography>
-                      <Typography variant="body2" className={styles.statLabel}>
-                        Matches
-                      </Typography>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={Math.min((dashboardData.stats.matches / 10) * 100, 100)}
-                        className={styles.statProgress}
-                      />
-                    </CardContent>
-                  </Card>
-                </Zoom>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                    color: 'white',
+                    py: 1.5,
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
+                    }
+                  }}
+                  onClick={() => router.push('/reading')}
+                >
+                  Readings
+                </Button>
               </Grid>
-              
               <Grid item xs={12} sm={6} md={3}>
-                <Zoom in={true} timeout={1800}>
-                  <Card className={styles.statCard}>
-                    <CardContent className={styles.statContent}>
-                      <Box className={styles.statHeader}>
-                        <Avatar className={styles.statAvatar}>
-                          <Users className={styles.statIcon} />
-                        </Avatar>
-                        <Box className={styles.statTrend}>
-                          <TrendingUp className={styles.trendIcon} />
-                          <Typography variant="caption">+15%</Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant="h3" className={styles.statNumber}>
-                        {dashboardData.stats.communityActivity}
-                      </Typography>
-                      <Typography variant="body2" className={styles.statLabel}>
-                        Community-Aktivität
-                      </Typography>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={Math.min((dashboardData.stats.communityActivity / 50) * 100, 100)}
-                        className={styles.statProgress}
-                      />
-                    </CardContent>
-                  </Card>
-                </Zoom>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                    color: 'white',
+                    py: 1.5,
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
+                    }
+                  }}
+                  onClick={() => router.push('/swipe')}
+                >
+                  Dating
+                </Button>
               </Grid>
             </Grid>
-          </Slide>
-        )}
+          </CardContent>
+        </Card>
 
-        {/* Spektakulärer Hauptinhalt */}
-        {dashboardData && (
-          <Slide direction="up" in={true} timeout={2000}>
-            <Grid container spacing={3} className={styles.mainContent}>
-              {/* Aktivitäten-Sektion */}
-              <Grid item xs={12} lg={8}>
-                <Card className={styles.activityCard}>
-                    <CardContent>
-                      <Box className={styles.cardHeader}>
-                        <Box className={styles.cardTitle}>
-                          <ActivityIcon className={styles.cardIcon} />
-                          <Typography variant="h5">Letzte Aktivitäten</Typography>
-                        </Box>
-                        <Button 
-                          variant="outlined" 
-                          size="small"
-                          endIcon={<ArrowRight />}
-                          className={styles.viewAllButton}
-                        >
-                          Alle anzeigen
-                        </Button>
-                      </Box>
-                      
-              {dashboardData.recentActivities.length > 0 ? (
-                        <Box className={styles.activitiesList}>
-                          {dashboardData.recentActivities.map((activity: Activity) => (
-                            <Box key={activity.id} className={styles.activityItem}>
-                                <Avatar className={styles.activityAvatar}>
-                                  {getActivityIcon(activity)}
-                                </Avatar>
-                                <Box className={styles.activityContent}>
-                                  <Typography variant="subtitle1" className={styles.activityTitle}>
-                                    {activity.title}
-                                  </Typography>
-                                  <Typography variant="body2" className={styles.activityDescription}>
-                                    {activity.description}
-                                  </Typography>
-                                  <Typography variant="caption" className={styles.activityTime}>
-                                    {activity.timestamp}
-                                  </Typography>
-                                </Box>
-                                <ChevronRight className={styles.activityArrow} />
-                              </Box>
-                          ))}
-                        </Box>
-                      ) : (
-                        <Box className={styles.emptyState}>
-                          <Box className={styles.emptyIcon}>
-                            <Target className={styles.emptyIconSvg} />
-                          </Box>
-                          <Typography variant="h6" className={styles.emptyTitle}>
-                            Beginne deine Human Design Reise!
-                          </Typography>
-                          <Typography variant="body2" className={styles.emptyDescription}>
-                            Erstelle deinen ersten Mondkalender-Eintrag oder führe ein Reading durch.
-                          </Typography>
-                          <Box className={styles.emptyActions}>
-                            <Button 
-                              variant="contained" 
-                              startIcon={<Moon />}
-                              className={styles.emptyActionButton}
-                              component={Link}
-                              href="/mondkalender"
-                            >
-                              Mondkalender starten
-                            </Button>
-                            <Button 
-                              variant="outlined" 
-                              startIcon={<Star />}
-                              className={styles.emptyActionButton}
-                              component={Link}
-                              href="/reading"
-                            >
-                              Reading durchführen
-                            </Button>
-                          </Box>
-                        </Box>
-                      )}
-                    </CardContent>
-                  </Card>
+        {/* Friends Community Widget */}
+        <Card sx={{ 
+          background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(78, 205, 196, 0.4)',
+          borderRadius: 3,
+          mb: 4,
+          overflow: 'hidden',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.3) 0%, transparent 70%)',
+            opacity: 0.6
+          }
+        }}>
+          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{
+                width: 60,
+                height: 60,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mr: 3,
+                boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+              }}>
+                <Users size={30} color="white" />
+              </Box>
+              <Box>
+                <Typography variant="h5" sx={{ 
+                  color: '#4ecdc4', 
+                  fontWeight: 'bold',
+                  mb: 0.5
+                }}>
+                  👥 Friends Community
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.8)'
+                }}>
+                  Verbinde dich mit Gleichgesinnten
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              mb: 3,
+              lineHeight: 1.6
+            }}>
+              Entdecke eine lebendige Community von Menschen, die Human Design leben und verstehen. 
+              Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
+            </Typography>
+
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    2,500+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Mitglieder
+                  </Typography>
+                </Box>
               </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    150+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Posts/Tag
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    25+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Events/Monat
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    500+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Matches
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
 
-              {/* Sidebar */}
-              <Grid item xs={12} lg={4}>
-                <Box className={styles.sidebar}>
-                  {/* Interaktive Charts */}
-                  <InteractiveChart
-                      title="Aktivitäts-Übersicht"
-                      type="bar"
-                      data={[
-                        {
-                          name: 'Mondkalender',
-                          value: dashboardData.stats.moonEntries,
-                          color: '#667eea',
-                          icon: <Moon size={16} />,
-                          trend: 'up',
-                          trendValue: 12
-                        },
-                        {
-                          name: 'Lesungen',
-                          value: dashboardData.stats.readings,
-                          color: '#764ba2',
-                          icon: <Star size={16} />,
-                          trend: 'up',
-                          trendValue: 8
-                        },
-                        {
-                          name: 'Matches',
-                          value: dashboardData.stats.matches,
-                          color: '#f093fb',
-                          icon: <Heart size={16} />,
-                          trend: 'up',
-                          trendValue: 25
-                        },
-                        {
-                          name: 'Community',
-                          value: dashboardData.stats.communityActivity,
-                          color: '#4ecdc4',
-                          icon: <Users size={16} />,
-                          trend: 'up',
-                          trendValue: 15
-                        }
-                      ]}
-                    />
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                startIcon={<Users size={18} />}
+                onClick={() => router.push('/community-info')}
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(78, 205, 196, 0.6)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Community entdecken
+              </Button>
+              
+              <Button
+                variant="outlined"
+                startIcon={<Heart size={18} />}
+                onClick={() => router.push('/friends')}
+                sx={{
+                  borderColor: '#4ecdc4',
+                  color: '#4ecdc4',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  '&:hover': {
+                    borderColor: '#44a08d',
+                    color: '#44a08d',
+                    background: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Freunde finden
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
 
-                  {/* Schnellzugriff */}
-                  <Card className={styles.quickAccessCard}>
-                      <CardContent>
-                        <Box className={styles.cardHeader}>
-                          <Box className={styles.cardTitle}>
-                            <Zap className={styles.cardIcon} />
-                            <Typography variant="h6">Schnellzugriff</Typography>
-                          </Box>
-                        </Box>
-                        
-                        <Box className={styles.quickAccessList}>
-                          <Button 
-                            variant="contained" 
-                            fullWidth
-                            startIcon={<Moon />}
-                            className={styles.quickAccessButton}
-                            component={Link}
-                            href="/mondkalender"
-                          >
-                            Mondkalender
-                          </Button>
-                          <Button 
-                            variant="contained" 
-                            fullWidth
-                            startIcon={<Heart />}
-                            className={styles.quickAccessButton}
-                            component={Link}
-                            href="/dating"
-                          >
-                            Dating
-                          </Button>
-                          <Button 
-                            variant="outlined" 
-                            fullWidth
-                            startIcon={<Users />}
-                            className={styles.quickAccessButton}
-                            component={Link}
-                            href="/community"
-                          >
-                            Community
-                          </Button>
-                          <Button 
-                            variant="outlined" 
-                            fullWidth
-                            startIcon={<Calendar />}
-                            className={styles.quickAccessButton}
-                            component={Link}
-                            href="/coaching"
-                          >
-                            Coaching
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
+        {/* Dating Widget */}
+        <Card sx={{ 
+          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(196, 69, 105, 0.08) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 107, 157, 0.4)',
+          borderRadius: 3,
+          mb: 4,
+          overflow: 'hidden',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 157, 0.3) 0%, transparent 70%)',
+            opacity: 0.6
+          }
+        }}>
+          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{
+                width: 60,
+                height: 60,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mr: 3,
+                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)'
+              }}>
+                <Heart size={30} color="white" />
+              </Box>
+              <Box>
+                <Typography variant="h5" sx={{ 
+                  color: '#ff6b9d', 
+                  fontWeight: 'bold',
+                  mb: 0.5
+                }}>
+                  💕 Dating & Matching
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.8)'
+                }}>
+                  Finde die Liebe, die wirklich zu dir passt
+                </Typography>
+              </Box>
+            </Box>
 
-                  {/* Benachrichtigungen */}
-                  <Card className={styles.notificationsCard}>
-                      <CardContent>
-                        <Box className={styles.cardHeader}>
-                          <Box className={styles.cardTitle}>
-                            <Bell className={styles.cardIcon} />
-                            <Typography variant="h6">Benachrichtigungen</Typography>
-                          </Box>
-                          <Badge badgeContent={dashboardData.notifications.length} color="secondary">
-                            <Bell className={styles.notificationBadge} />
-                          </Badge>
-                        </Box>
-                        
-                        {dashboardData.notifications.length > 0 ? (
-                          <Box className={styles.notificationsList}>
-                            {dashboardData.notifications.map((notification: Notification) => (
-                              <Box key={notification.id} className={styles.notificationItem}>
-                                  <Avatar className={styles.notificationAvatar}>
-                                    <Bell className={styles.notificationIcon} />
-                                  </Avatar>
-                                  <Box className={styles.notificationContent}>
-                                    <Typography variant="subtitle2" className={styles.notificationTitle}>
-                                      {notification.message}
-                                    </Typography>
-                                    <Typography variant="body2" className={styles.notificationMessage}>
-                                      {notification.timestamp}
-                                    </Typography>
-                                    <Typography variant="caption" className={styles.notificationTime}>
-                                      {notification.timestamp}
-                                    </Typography>
-                                </Box>
-                              </Box>
-                          ))}
-                          </Box>
-                        ) : (
-                          <Box className={styles.emptyNotifications}>
-                            <Bell className={styles.emptyNotificationIcon} />
-                            <Typography variant="body2" className={styles.emptyNotificationText}>
-                    Keine neuen Benachrichtigungen
+            <Typography variant="body2" sx={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              mb: 3,
+              lineHeight: 1.6
+            }}>
+              Entdecke Menschen, die energetisch zu deinem Human Design passen. 
+              Basierend auf deinem Typ, Strategie und Autorität findest du authentische Verbindungen.
+            </Typography>
+
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    {stats.matches}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Aktive Matches
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    95%
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Kompatibilität
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    24h
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Neue Matches
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    12
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Likes heute
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                startIcon={<Heart size={18} />}
+                onClick={() => router.push('/dating-info')}
+                sx={{
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #c44569, #ff6b9d)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Dating entdecken
+              </Button>
+              
+              <Button
+                variant="outlined"
+                startIcon={<Star size={18} />}
+                onClick={() => router.push('/matches')}
+                sx={{
+                  borderColor: '#ff6b9d',
+                  color: '#ff6b9d',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  '&:hover': {
+                    borderColor: '#c44569',
+                    color: '#c44569',
+                    background: 'rgba(255, 107, 157, 0.1)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Matches ansehen
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+
+        {/* Dating Matches Section */}
+        <Card sx={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: 3,
+          mb: 3
+        }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Heart size={24} color="#FF69B4" />
+              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                Deine Matches
+              </Typography>
+            </Box>
+            
+            {matches.length > 0 ? (
+              <Grid container spacing={2}>
+                {matches.map((match) => (
+                  <Grid item xs={12} sm={6} md={4} key={match.id}>
+                    <Card sx={{ 
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: 2,
+                      '&:hover': {
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        transform: 'translateY(-2px)',
+                        transition: 'all 0.3s ease'
+                      }
+                    }}>
+                      <CardContent sx={{ p: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <Box sx={{ 
+                            width: 50, 
+                            height: 50, 
+                            borderRadius: '50%', 
+                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            mr: 2
+                          }}>
+                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
+                              {match.name.charAt(0)}
                             </Typography>
-                            <Typography variant="caption" className={styles.emptyNotificationSubtext}>
-                              Du wirst benachrichtigt, wenn es Neuigkeiten gibt
+                          </Box>
+                          <Box>
+                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                              {match.name}, {match.age}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                              {match.compatibility}% Kompatibilität
+                            </Typography>
+                          </Box>
+                        </Box>
+                        
+                        {match.lastMessage && (
+                          <Box sx={{ mb: 2 }}>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                              &ldquo;{match.lastMessage}&rdquo;
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                              {match.lastMessageTime}
                             </Typography>
                           </Box>
                         )}
+                        
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          startIcon={<MessageCircle size={16} />}
+                          sx={{
+                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                            color: 'white',
+                            '&:hover': {
+                              background: 'linear-gradient(45deg, #FF1493, #FF69B4)',
+                            }
+                          }}
+                          onClick={() => router.push(`/dating/chat/${match.id}`)}
+                        >
+                          Nachricht senden
+                        </Button>
                       </CardContent>
                     </Card>
-                </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Heart size={48} color="rgba(255,255,255,0.3)" />
+                <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2 }}>
+                  Noch keine Matches
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mb: 3 }}>
+                  Starte deine Dating-Reise!
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<Heart size={16} />}
+                  sx={{
+                    background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                    color: 'white',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #FF1493, #FF69B4)',
+                    }
+                  }}
+                  onClick={() => router.push('/dating')}
+                >
+                  Dating starten
+                </Button>
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Profile & Settings Section */}
+        <Card sx={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: 3,
+          mb: 3
+        }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <User size={24} color="#4ECDC4" />
+              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                Profil & Einstellungen
+              </Typography>
+            </Box>
+            
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  startIcon={<Edit size={20} />}
+                  sx={{
+                    color: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    py: 2,
+                    '&:hover': {
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    }
+                  }}
+                  onClick={() => router.push('/profile')}
+                >
+                  Profil bearbeiten
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  startIcon={<Settings size={20} />}
+                  sx={{
+                    color: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    py: 2,
+                    '&:hover': {
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    }
+                  }}
+                  onClick={() => router.push('/settings')}
+                >
+                  Einstellungen
+                </Button>
               </Grid>
             </Grid>
-          </Slide>
-        )}
+          </CardContent>
+        </Card>
 
-        {/* Advanced Features Toggle */}
-        <Box className={styles.advancedToggle}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showAdvancedFeatures}
-                onChange={(e) => setShowAdvancedFeatures(e.target.checked)}
-                color="secondary"
-              />
-            }
-            label="Erweiterte Features aktivieren"
-          />
+        {/* Logout Button */}
+        <Box sx={{ textAlign: 'center' }}>
+          <Button
+            variant="outlined"
+            startIcon={<LogOut size={20} />}
+            onClick={handleLogout}
+            sx={{
+              color: 'white',
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+              '&:hover': {
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              }
+            }}
+          >
+            Abmelden
+          </Button>
         </Box>
-
-        {/* Advanced Features */}
-        {showAdvancedFeatures && (
-          <Box className={styles.advancedFeatures}>
-              {/* Navigation Tabs */}
-              <Card className={styles.navigationCard}>
-                <Tabs
-                  value={activeTab}
-                  onChange={(e, newValue) => setActiveTab(newValue)}
-                  className={styles.dashboardTabs}
-                >
-                  <Tab 
-                    label="Dashboard" 
-                    icon={<Layout size={16} />} 
-                    className={styles.dashboardTab}
-                  />
-                  <Tab 
-                    label="Widgets" 
-                    icon={<Settings size={16} />} 
-                    className={styles.dashboardTab}
-                  />
-                  <Tab 
-                    label="Achievements" 
-                    icon={<Trophy size={16} />} 
-                    className={styles.dashboardTab}
-                  />
-                  <Tab 
-                    label="Live Updates" 
-                    icon={<ActivityIcon size={16} />} 
-                    className={styles.dashboardTab}
-                  />
-                  <Tab 
-                    label="Analytics" 
-                    icon={<BarChart3 size={16} />} 
-                    className={styles.dashboardTab}
-                  />
-                </Tabs>
-              </Card>
-
-              {/* Tab Content */}
-              <Box className={styles.tabContent}>
-                {activeTab === 0 && (
-                  <Box className={styles.basicDashboard}>
-                    <Typography variant="h5" className={styles.sectionTitle}>
-                      Standard Dashboard
-                    </Typography>
-                    <Typography variant="body2" className={styles.sectionSubtitle}>
-                      Dein persönliches Human Design Dashboard
-                    </Typography>
-                  </Box>
-                )}
-
-                {activeTab === 1 && (
-                  <Box className={styles.widgetsSection}>
-                    <Typography variant="h5" className={styles.sectionTitle}>
-                      Personalisierte Widgets
-                    </Typography>
-                    <Typography variant="body2" className={styles.sectionSubtitle}>
-                      Erstelle dein individuelles Dashboard
-                    </Typography>
-                    {/* Widget Grid würde hier implementiert werden */}
-                    <Box className={styles.widgetsPlaceholder}>
-                      <Typography variant="body1" className={styles.placeholderText}>
-                        Widget-System wird hier implementiert
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-
-                {activeTab === 2 && (
-                  <AchievementSystem
-                      achievements={[
-                        {
-                          id: 'moon-master',
-                          title: 'Mond-Meister',
-                          description: 'Erstelle 30 Mondkalender-Einträge',
-                          icon: <Moon size={20} />,
-                          category: 'moon',
-                          rarity: 'epic',
-                          points: 100,
-                          progress: 15,
-                          maxProgress: 30,
-                          unlocked: false,
-                          requirements: ['30 Mondkalender-Einträge erstellen']
-                        },
-                        {
-                          id: 'dating-expert',
-                          title: 'Dating-Experte',
-                          description: 'Finde 10 Matches',
-                          icon: <Heart size={20} />,
-                          category: 'dating',
-                          rarity: 'rare',
-                          points: 50,
-                          progress: 3,
-                          maxProgress: 10,
-                          unlocked: false,
-                          requirements: ['10 Matches finden']
-                        }
-                      ]}
-                      userLevel={{
-                        level: 5,
-                        experience: 250,
-                        maxExperience: 500,
-                        title: 'Entdecker',
-                        nextLevelTitle: 'Experte',
-                        progress: 50,
-                        points: 250
-                      }}
-                      onAchievementUnlock={(id) => console.log('Achievement unlocked:', id)}
-                    />
-                )}
-
-                {activeTab === 3 && (
-                  <LiveDashboard
-                    onDataUpdate={(data) => console.log('Live data updated:', data)}
-                    onStatsUpdate={(stats) => console.log('Live stats updated:', stats)}
-                  />
-                )}
-
-                {activeTab === 4 && (
-                  <AdvancedAnalytics
-                    data={{
-                      period: '30d',
-                      metrics: {
-                        totalUsers: 1250,
-                        activeUsers: 890,
-                        newUsers: 45,
-                        retention: 78,
-                        engagement: 65,
-                        revenue: 12500
-                      },
-                      charts: {
-                        userGrowth: [],
-                        engagement: [],
-                        revenue: [],
-                        demographics: []
-                      },
-                      insights: [
-                        {
-                          id: 'insight-1',
-                          title: 'Hohe Engagement-Rate',
-                          description: 'Deine Benutzer sind sehr aktiv in der Community',
-                          impact: 'high',
-                          trend: 'up'
-                        }
-                      ]
-                    }}
-                    onFilterChange={(filters) => console.log('Filters changed:', filters)}
-                    onExport={(format) => console.log('Export requested:', format)}
-                  />
-                )}
-              </Box>
-            </Box>
-        )}
-      </Box>
+      </Container>
     </Box>
   );
 };
 
-// Hauptkomponente - Zugänglich für alle angemeldeten Benutzer
-export default function DashboardPage() {
-  return (
-    <ProtectedRoute requiredPackage="free">
-      <MobileDashboard>
-      <DashboardContent />
-      </MobileDashboard>
-    </ProtectedRoute>
-  );
-}
+export default DashboardPage;

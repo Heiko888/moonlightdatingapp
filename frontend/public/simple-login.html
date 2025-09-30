@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔐 Simple Login Test</h1>
+    <p>Teste Login und Weiterleitung direkt:</p>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" value="testpass123" required>
+        </div>
+        
+        <button type="submit">Login & Weiterleitung testen</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('🚀 Teste Login mit:', email);
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                console.log('📊 Login Response:', data);
+                
+                resultDiv.style.display = 'block';
+                
+                if (data.success) {
+                    // Token speichern
+                    localStorage.setItem('token', data.data.session.access_token);
+                    localStorage.setItem('userId', data.data.user.id);
+                    localStorage.setItem('userData', JSON.stringify(data.data.user));
+                    
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Login erfolgreich!</h3>
+                        <p><strong>User ID:</strong> ${data.data.user.id}</p>
+                        <p><strong>E-Mail:</strong> ${data.data.user.email}</p>
+                        <p><strong>Token gespeichert!</strong></p>
+                        <p><strong>Nächster Schritt:</strong> Weiterleitung testen...</p>
+                    `;
+                    
+                    // Weiterleitung testen
+                    setTimeout(() => {
+                        testNavigation();
+                    }, 1000);
+                    
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Login fehlgeschlagen</h3>
+                        <p><strong>Fehler:</strong> ${data.error?.message || 'Unbekannter Fehler'}</p>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('❌ Login Test Error:', error);
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Netzwerk-Fehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                `;
+            }
+        });
+        
+        async function testNavigation() {
+            const resultDiv = document.getElementById('result');
+            
+            // Teste Dashboard
+            try {
+                console.log('🧪 Teste Dashboard Route...');
+                const dashboardResponse = await fetch('/dashboard');
+                console.log('Dashboard Status:', dashboardResponse.status);
+                
+                if (dashboardResponse.ok) {
+                    resultDiv.innerHTML += '<p style="color: #4CAF50;">✅ Dashboard Route: OK</p>';
+                } else {
+                    resultDiv.innerHTML += `<p style="color: #F44336;">❌ Dashboard Route: ${dashboardResponse.status}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += `<p style="color: #F44336;">❌ Dashboard Route: ${error.message}</p>`;
+            }
+            
+            // Teste Profile Setup
+            try {
+                console.log('🧪 Teste Profile Setup Route...');
+                const profileResponse = await fetch('/profile-setup');
+                console.log('Profile Setup Status:', profileResponse.status);
+                
+                if (profileResponse.ok) {
+                    resultDiv.innerHTML += '<p style="color: #4CAF50;">✅ Profile Setup Route: OK</p>';
+                } else {
+                    resultDiv.innerHTML += `<p style="color: #F44336;">❌ Profile Setup Route: ${profileResponse.status}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += `<p style="color: #F44336;">❌ Profile Setup Route: ${error.message}</p>`;
+            }
+            
+            // Teste Navigation
+            resultDiv.innerHTML += '<p><strong>🧪 Teste Navigation...</strong></p>';
+            
+            // Simuliere die Login-Logik
+            const profileSetupCompleted = localStorage.getItem('profileSetupCompleted');
+            console.log('ProfileSetupCompleted:', profileSetupCompleted);
+            
+            if (profileSetupCompleted === 'true') {
+                resultDiv.innerHTML += '<p style="color: #4CAF50;">✅ Weiterleitung zu Dashboard (Profil abgeschlossen)</p>';
+                resultDiv.innerHTML += '<p><a href="/dashboard" style="color: #4CAF50;">→ Dashboard öffnen</a></p>';
+            } else {
+                resultDiv.innerHTML += '<p style="color: #FF9800;">⚠️ Weiterleitung zu Profile Setup (Profil nicht abgeschlossen)</p>';
+                resultDiv.innerHTML += '<p><a href="/profile-setup" style="color: #FF9800;">→ Profile Setup öffnen</a></p>';
+            }
+        }
+    </script>
+</body>
+</html>

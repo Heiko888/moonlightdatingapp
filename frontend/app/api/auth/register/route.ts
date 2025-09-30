@@ -74,18 +74,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Passwort-Komplexität prüfen
-    const hasUpperCase = /[A-Z]/.test(password);
+    // Passwort-Komplexität prüfen (lockerer)
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
     
-    if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
+    if (!hasLowerCase || !hasNumbers) {
       return NextResponse.json(
         {
           success: false,
           error: {
             code: 'WEAK_PASSWORD',
-            message: 'Passwort muss Großbuchstaben, Kleinbuchstaben und Zahlen enthalten'
+            message: 'Passwort muss Kleinbuchstaben und Zahlen enthalten'
           }
         },
         { status: 400 }

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+        .log {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Simple Debug</h1>
+    <p>Teste die grundlegende Funktionalität:</p>
+    
+    <div class="card">
+        <h3>1. JavaScript Test</h3>
+        <button onclick="testJS()">JavaScript funktioniert?</button>
+    </div>
+    
+    <div class="card">
+        <h3>2. Supabase Test</h3>
+        <button onclick="testSupabase()">Supabase laden?</button>
+    </div>
+    
+    <div class="card">
+        <h3>3. Login Test</h3>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="E-Mail" value="test@example.com" required>
+            <input type="password" id="password" placeholder="Passwort" value="TestPass123" required>
+            <button type="submit">Login testen</button>
+        </form>
+    </div>
+    
+    <div id="result" class="card" style="display: none;"></div>
+    <div id="log" class="log">Debug Log:<br></div>
+    
+    <script>
+        let logCount = 0;
+        
+        function addLog(message) {
+            logCount++;
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML += `[${timestamp}] ${logCount}. ${message}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = `card ${type}`;
+            resultDiv.innerHTML = `<h3>${message}</h3>`;
+        }
+        
+        function testJS() {
+            addLog('✅ JavaScript funktioniert!');
+            showResult('✅ JavaScript funktioniert!', 'success');
+        }
+        
+        function testSupabase() {
+            addLog('🔄 Lade Supabase...');
+            
+            // Supabase CDN laden
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+            script.onload = function() {
+                addLog('✅ Supabase CDN geladen');
+                
+                try {
+                    const supabaseUrl = 'https://njjcywgskzepikyzhihy.supabase.co';
+                    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qamN5d2dza3plcGlreXpoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjYxNTYsImV4cCI6MjA3MTkwMjE1Nn0.5eyIEMHJr10PjNbNyDokqqcvycgEUIgyHkjB5puQOFs';
+                    
+                    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                    addLog('✅ Supabase Client erstellt');
+                    
+                    showResult('✅ Supabase funktioniert!', 'success');
+                } catch (error) {
+                    addLog(`❌ Supabase Fehler: ${error.message}`);
+                    showResult(`❌ Supabase Fehler: ${error.message}`, 'error');
+                }
+            };
+            script.onerror = function() {
+                addLog('❌ Supabase CDN konnte nicht geladen werden');
+                showResult('❌ Supabase CDN Fehler', 'error');
+            };
+            document.head.appendChild(script);
+        }
+        
+        // Login Test
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            addLog(`🔄 Teste Login: ${email}`);
+            
+            try {
+                // Teste API-Route
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                addLog(`📊 API Response Status: ${response.status}`);
+                
+                const data = await response.json();
+                addLog(`📋 API Response: ${JSON.stringify(data, null, 2)}`);
+                
+                if (data.success) {
+                    addLog('✅ API Login erfolgreich!');
+                    showResult('✅ API Login funktioniert!', 'success');
+                } else {
+                    addLog(`❌ API Login Fehler: ${data.error?.message}`);
+                    showResult(`❌ API Login Fehler: ${data.error?.message}`, 'error');
+                }
+                
+            } catch (error) {
+                addLog(`❌ Netzwerk Fehler: ${error.message}`);
+                showResult(`❌ Netzwerk Fehler: ${error.message}`, 'error');
+            }
+        });
+        
+        // Initial log
+        addLog('🔧 Debug Tool bereit');
+    </script>
+</body>
+</html>

@@ -96,7 +96,7 @@ const mockUsers: User[] = [
   {
     id: 4,
     username: 'admin',
-    email: 'admin@moonlight.com',
+    email: 'admin@kosmische-verbindungen.com',
     firstName: 'Admin',
     lastName: 'User',
     role: 'admin',

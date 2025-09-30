@@ -106,8 +106,24 @@ const MobileDashboardContent: React.FC<MobileDashboardContentProps> = () => {
         setLoading(true);
         setError('');
 
-        const data = await apiService.getDashboardData(userId);
-        setDashboardData(data);
+        const response = await apiService.getDashboardData(userId);
+        if (response.success && response.data && response.data.stats) {
+          // Sicherstellen, dass alle Stats Properties definiert sind
+          const stats = {
+            moonEntries: response.data.stats.moonEntries ?? 0,
+            readings: response.data.stats.readings ?? 0,
+            matches: response.data.stats.matches ?? 0,
+            communityActivity: response.data.stats.communityActivity ?? 0,
+            totalUsers: 0, // Fallback-Wert
+            activeUsers: 0, // Fallback-Wert
+            revenue: 0, // Fallback-Wert
+            growth: 0 // Fallback-Wert
+          };
+          setDashboardData(stats);
+        } else {
+          console.error('Fehler beim Laden der Dashboard-Daten:', response.error);
+          setError('Fehler beim Laden der Dashboard-Daten');
+        }
 
       } catch (error) {
         console.error('Fehler beim Laden der Dashboard-Daten:', error);
@@ -262,7 +278,7 @@ const MobileDashboardContent: React.FC<MobileDashboardContentProps> = () => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1, color: 'white', fontWeight: 600 }}>
-              Moonlight
+              Kosmische Verbindungen
             </Typography>
             <IconButton color="inherit" sx={{ mr: 1 }}>
               <Badge badgeContent={notifications} color="error">
@@ -596,7 +612,7 @@ const MobileDashboardContent: React.FC<MobileDashboardContentProps> = () => {
 // Hauptkomponente mit ProtectedRoute
 const MobileDashboardPage: React.FC = () => {
   return (
-    <ProtectedRoute requiredRole="basic">
+    <ProtectedRoute requiredPackage="basic">
       <MobileDashboardContent />
     </ProtectedRoute>
   );

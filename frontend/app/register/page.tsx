@@ -100,9 +100,9 @@ const RegisterPage: React.FC = () => {
         // Registrierung erfolgreich
         setSuccess(true);
         
-        // Nach 2 Sekunden zum Dashboard weiterleiten
+        // Nach 2 Sekunden zur Profil-Einrichtung weiterleiten
         setTimeout(() => {
-          router.push('/dashboard');
+          router.push('/profile-setup');
         }, 2000);
       } else {
         // Fehler bei der Registrierung

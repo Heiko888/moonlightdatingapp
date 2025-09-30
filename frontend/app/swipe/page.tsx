@@ -11,29 +11,20 @@ import {
   Avatar, 
   Chip,
   Grid,
-  Divider,
   LinearProgress,
   IconButton,
-  Tooltip,
   Container
 } from "@mui/material";
 import {
   Heart, 
   X, 
   Users, 
-  Star, 
   MessageCircle, 
   Eye, 
   Zap, 
-  Shield, 
-  Target,
-  Sparkles,
-  Moon,
-  Sun,
-  Activity,
-  TrendingUp,
-  AlertTriangle
+  Sparkles
 } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 import ProfileImageCarousel from '../../components/ProfileImageCarousel';
 
 interface ProfileImage {
@@ -76,6 +67,7 @@ interface EnergeticCompatibility {
 
 interface Match {
   _id: string;
+  id?: string; // Für Kompatibilität mit verschiedenen Datenquellen
   userA: { _id: string; name: string; image?: string };
   userB: { _id: string; name: string; image?: string };
   createdAt: string;
@@ -242,7 +234,7 @@ export default function SwipePage() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null); // Temporarily disabled
   const [matches, setMatches] = useState<Match[]>([]);
   const [showMatches, setShowMatches] = useState(false);
   const [swipeAnim, setSwipeAnim] = useState<'none' | 'left' | 'right'>('none');
@@ -253,7 +245,7 @@ export default function SwipePage() {
   const [dataSource, setDataSource] = useState<'real' | 'mock' | 'unknown'>('unknown');
 
   // Mock-Daten für den Fall, dass der Backend-Server nicht läuft
-  const mockProfiles: Profile[] = [
+  const mockProfiles: Profile[] = React.useMemo(() => [
     {
       _id: '1',
       name: 'Sarah',
@@ -378,7 +370,7 @@ export default function SwipePage() {
       birthPlace: 'Frankfurt',
       image: '/api/placeholder/400/400'
     }
-  ];
+  ], []); // useMemo dependency array
 
   // Mock-Benutzer-Daten (würde normalerweise aus der API kommen)
   const currentUserProfile: Profile = {
@@ -404,43 +396,41 @@ export default function SwipePage() {
   useEffect(() => {
     if (!mounted) return;
     
-    // Versuche echte Daten zu laden, falls der Backend-Server läuft
+    // Lade Profile von Supabase
     const loadProfiles = async () => {
       try {
         setLoading(true);
-      const response = await fetch(`http://localhost:4001/swipe/profiles/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
         
-        // Neue API-Antwort-Struktur verarbeiten
-        if (data.success && data.profiles) {
-          setProfiles(data.profiles);
-          setDataSource(data.source === 'real_users' ? 'real' : 'mock');
-          console.log(`✅ ${data.profiles.length} Profile geladen (Quelle: ${data.source})`);
-          if (data.message) {
-            console.log(`📝 ${data.message}`);
-          }
-        } else if (Array.isArray(data)) {
-          // Fallback für alte API-Struktur
-          setProfiles(data);
-          setDataSource('unknown');
-          console.log(`✅ ${data.length} Profile geladen (alte API-Struktur)`);
-        } else {
+        // Verwende Supabase statt Backend-Server
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .neq('user_id', userId); // Alle Profile außer dem aktuellen Benutzer
+        
+        if (error) {
+          console.error('Fehler beim Laden der Profile:', error);
           // Fallback zu Mock-Daten
           setProfiles(mockProfiles);
           setDataSource('mock');
-          console.log('⚠️ Fallback zu Mock-Daten');
+          console.log('⚠️ Supabase-Fehler, verwende Mock-Daten');
+        } else {
+          if (data && data.length > 0) {
+            setProfiles(data);
+            setDataSource('real');
+            console.log(`✅ ${data.length} Profile von Supabase geladen`);
+          } else {
+            // Fallback zu Mock-Daten wenn keine echten Profile vorhanden
+            setProfiles(mockProfiles);
+            setDataSource('mock');
+            console.log('⚠️ Keine Profile in Supabase, verwende Mock-Daten');
+          }
         }
-      } else {
-        // Fallback zu Mock-Daten
-        setProfiles(mockProfiles);
-        setDataSource('mock');
-        console.log('⚠️ API-Fehler, verwende Mock-Daten');
-      }
       } catch (error) {
+        console.error('Fehler beim Laden der Profile:', error);
         // Fallback zu Mock-Daten bei Verbindungsfehler
         setProfiles(mockProfiles);
         setDataSource('mock');
+        console.log('⚠️ Verbindungsfehler, verwende Mock-Daten');
       } finally {
         setLoading(false);
       }
@@ -449,19 +439,59 @@ export default function SwipePage() {
     // Lade auch Matches
     const loadMatches = async () => {
       try {
-        const response = await fetch(`http://localhost:4001/swipe/matches/${userId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setMatches(data);
+        // Verwende Supabase statt Backend-Server
+        const { data, error } = await supabase
+          .from('dating_matches')
+          .select('*')
+          .eq('user_id', userId);
+        
+        if (error) {
+          console.error('Fehler beim Laden der Matches:', error);
+          // Fallback zu Mock-Matches
+          setMatches([
+            {
+              _id: '1',
+              id: '1',
+              userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+              userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
+              createdAt: new Date().toISOString()
+            },
+            {
+              _id: '2',
+              id: '2',
+              userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+              userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
+              createdAt: new Date().toISOString()
+            }
+          ]);
+        } else {
+          setMatches(data || []);
         }
       } catch (error) {
         console.error('Fehler beim Laden der Matches:', error);
+        // Fallback zu Mock-Matches
+        setMatches([
+          {
+            _id: '1',
+            id: '1',
+            userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+            userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
+            createdAt: new Date().toISOString()
+          },
+          {
+            _id: '2',
+            id: '2',
+            userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+            userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
+            createdAt: new Date().toISOString()
+          }
+        ]);
       }
     };
 
     loadProfiles();
     loadMatches();
-  }, [mounted, userId]);
+  }, [mounted, userId, mockProfiles]);
 
   // Energetische Kompatibilität berechnen
   const calculateCompatibility = (user1: Profile, user2: Profile): EnergeticCompatibility => {

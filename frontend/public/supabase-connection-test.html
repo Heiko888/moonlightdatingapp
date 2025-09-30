@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Verbindungstest</title>
+</head>
+<body>
+    <h1>🔍 Supabase Verbindungstest</h1>
+    
+    <div id="status"></div>
+    <div id="users"></div>
+
+    <script>
+        // Supabase CDN direkt laden
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/main.min.js';
+        script.onload = async () => {
+            const { createClient } = window.supabase;
+            
+            const supabaseUrl = 'https://njjcywgskzepikyzhihy.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qamN5d2dza3plcGlreXpoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjYxNTYsImV4cCI6MjA3MTkwMjE1Nn0.5eyIEMHJr10PjNbNyDokqqcvycgEUIgyHkjB5puQOFs';
+            
+            const supabase = createClient(supabaseUrl, supabaseKey);
+        
+            document.getElementById('status').innerHTML = '<p>🔄 Teste Supabase-Verbindung...</p>';
+            
+            try {
+                // Test 1: Verbindung testen
+                console.log('🔍 Teste Supabase-Verbindung...');
+                
+                // Test 2: Normale Tabelle abfragen (ohne Admin-Rechte)
+                const { data: users, error: usersError } = await supabase
+                    .from('users')
+                    .select('*')
+                    .limit(5);
+                
+                if (usersError) {
+                    document.getElementById('status').innerHTML = `<p style="color: red;">❌ FEHLER: ${usersError.message}</p>`;
+                    console.error('❌ Supabase-Fehler:', usersError);
+                } else {
+                    document.getElementById('status').innerHTML = '<p style="color: green;">✅ Supabase-Verbindung erfolgreich!</p>';
+                    document.getElementById('users').innerHTML = `<h3>Benutzer in der Datenbank:</h3><pre>${JSON.stringify(users, null, 2)}</pre>`;
+                    console.log('✅ Supabase-Verbindung erfolgreich!');
+                    console.log('📊 Benutzer:', users);
+                }
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `<p style="color: red;">❌ VERBINDUNGSFEHLER: ${error.message}</p>`;
+                console.error('❌ Verbindungsfehler:', error);
+            }
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

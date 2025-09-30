@@ -133,7 +133,7 @@ const AppFunctionsSection = () => {
             WebkitTextFillColor: 'transparent'
           }}
         >
-          🌟 Alle App-Funktionen in MOONLIGHT
+          🌟 Alle App-Funktionen in KOSMISCHE VERBINDUNGEN
         </Typography>
         
         <Grid container spacing={4} sx={{ mb: 8 }}>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔐 Login Test</h1>
+    <p>Teste die Login-Funktionalität direkt:</p>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">E-Mail:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Passwort:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit">Login testen</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('🚀 Teste Login mit:', email);
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                console.log('📊 Login Response:', data);
+                console.log('📊 Status Code:', response.status);
+                
+                resultDiv.style.display = 'block';
+                
+                if (data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Login erfolgreich!</h3>
+                        <p><strong>User ID:</strong> ${data.data.user.id}</p>
+                        <p><strong>E-Mail:</strong> ${data.data.user.email}</p>
+                        <p><strong>Token:</strong> ${data.data.session.access_token.substring(0, 20)}...</p>
+                        <p><strong>Session expires:</strong> ${new Date(data.data.session.expires_at).toLocaleString()}</p>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Login fehlgeschlagen</h3>
+                        <p><strong>Fehler:</strong> ${data.error?.message || 'Unbekannter Fehler'}</p>
+                        <p><strong>Code:</strong> ${data.error?.code || 'UNKNOWN'}</p>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('❌ Login Test Error:', error);
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Netzwerk-Fehler</h3>
+                    <p><strong>Fehler:</strong> ${error.message}</p>
+                    <p>Möglicherweise ist der Server nicht erreichbar.</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

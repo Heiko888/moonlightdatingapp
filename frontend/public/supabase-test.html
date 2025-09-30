@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .success { background: rgba(76,175,80,0.3); }
+        .error { background: rgba(244,67,54,0.3); }
+        .info { background: rgba(33,150,243,0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔧 Supabase Test</h1>
+    <p>Teste die Supabase-Integration direkt:</p>
+    
+    <div class="card">
+        <h3>1. Registrierung (ohne E-Mail-Bestätigung)</h3>
+        <form id="registerForm">
+            <input type="email" id="email" placeholder="E-Mail" value="test@example.com" required>
+            <input type="password" id="password" placeholder="Passwort" value="TestPass123" required>
+            <input type="text" id="firstName" placeholder="Vorname" value="Test" required>
+            <input type="text" id="lastName" placeholder="Nachname" value="User" required>
+            <button type="submit">Registrieren</button>
+        </form>
+    </div>
+    
+    <div class="card">
+        <h3>2. Login</h3>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="E-Mail" value="test@example.com" required>
+            <input type="password" id="loginPassword" placeholder="Passwort" value="TestPass123" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div class="card">
+        <h3>3. Session prüfen</h3>
+        <button onclick="checkSession()">Session prüfen</button>
+        <button onclick="logout()">Logout</button>
+    </div>
+    
+    <div id="result" class="card" style="display: none;"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Client direkt im Browser
+        const supabaseUrl = 'https://njjcywgskzepikyzhihy.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qamN5d2dza3plcGlreXpoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjYxNTYsImV4cCI6MjA3MTkwMjE1Nn0.5eyIEMHJr10PjNbNyDokqqcvycgEUIgyHkjB5puQOFs';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        function showResult(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = `card ${type}`;
+            resultDiv.innerHTML = `<h3>${message}</h3>`;
+        }
+        
+        // Registrierung
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            
+            try {
+                showResult('🔄 Registrierung läuft...', 'info');
+                
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            first_name: firstName,
+                            last_name: lastName
+                        }
+                    }
+                });
+                
+                if (error) {
+                    showResult(`❌ Registrierung fehlgeschlagen: ${error.message}`, 'error');
+                } else {
+                    showResult(`✅ Registrierung erfolgreich!<br>User ID: ${data.user?.id}<br>E-Mail bestätigt: ${data.user?.email_confirmed_at ? 'Ja' : 'Nein'}`, 'success');
+                }
+            } catch (error) {
+                showResult(`❌ Fehler: ${error.message}`, 'error');
+            }
+        });
+        
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                showResult('🔄 Login läuft...', 'info');
+                
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                
+                if (error) {
+                    showResult(`❌ Login fehlgeschlagen: ${error.message}`, 'error');
+                } else {
+                    showResult(`✅ Login erfolgreich!<br>User ID: ${data.user?.id}<br>E-Mail: ${data.user?.email}<br>Session: ${data.session ? 'Aktiv' : 'Inaktiv'}`, 'success');
+                }
+            } catch (error) {
+                showResult(`❌ Fehler: ${error.message}`, 'error');
+            }
+        });
+        
+        // Session prüfen
+        async function checkSession() {
+            try {
+                const { data: { user }, error } = await supabase.auth.getUser();
+                
+                if (error || !user) {
+                    showResult('❌ Keine aktive Session', 'error');
+                } else {
+                    showResult(`✅ Session aktiv<br>User: ${user.email}<br>ID: ${user.id}`, 'success');
+                }
+            } catch (error) {
+                showResult(`❌ Fehler: ${error.message}`, 'error');
+            }
+        }
+        
+        // Logout
+        async function logout() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                
+                if (error) {
+                    showResult(`❌ Logout fehlgeschlagen: ${error.message}`, 'error');
+                } else {
+                    showResult('✅ Erfolgreich abgemeldet', 'success');
+                }
+            } catch (error) {
+                showResult(`❌ Fehler: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

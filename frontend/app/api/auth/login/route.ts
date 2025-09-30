@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Erfolgreiche Anmeldung
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       data: {
         user: {
@@ -101,6 +101,25 @@ export async function POST(request: NextRequest) {
         }
       }
     });
+
+    // Supabase Session Cookie setzen (wie Supabase es macht)
+    response.cookies.set('sb-njjcywgskzepikyzhihy-auth-token', JSON.stringify({
+      access_token: data.session.access_token,
+      refresh_token: data.session.refresh_token,
+      expires_at: data.session.expires_at,
+      token_type: 'bearer',
+      user: {
+        id: data.user.id,
+        email: data.user.email
+      }
+    }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 Tage
+    });
+
+    return response;
 
   } catch (error) {
     console.error('Login API Error:', error);

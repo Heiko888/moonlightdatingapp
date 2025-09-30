@@ -20,6 +20,7 @@ export interface SubscriptionPackage {
 }
 
 export interface UserSubscription {
+  id?: string; // Optional für Kompatibilität mit verschiedenen Datenquellen
   userId: string;
   packageId: 'basic' | 'premium' | 'vip';
   status: 'active' | 'expired' | 'cancelled' | 'trial';
@@ -28,6 +29,8 @@ export interface UserSubscription {
   autoRenew: boolean;
   paymentMethod: string;
   billingCycle: 'monthly' | 'yearly';
+  createdAt?: string; // Optional für Supabase Kompatibilität
+  updatedAt?: string; // Optional für Supabase Kompatibilität
 }
 
 export interface PageAccess {

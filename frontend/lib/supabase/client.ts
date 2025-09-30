@@ -6,8 +6,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase-Konfiguration mit Validierung
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-anon-key';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://njjcywgskzepikyzhihy.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qamN5d2dza3plcGlreXpoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjYxNTYsImV4cCI6MjA3MTkwMjE1Nn0.5eyIEMHJr10PjNbNyDokqqcvycgEUIgyHkjB5puQOFs';
 
 // Kritische Validierung der Umgebungsvariablen
 if (supabaseUrl === 'https://your-project.supabase.co') {
@@ -21,6 +21,9 @@ if (supabaseAnonKey === 'your-anon-key') {
   console.warn('⚠️ Verwende Fallback-Modus ohne Supabase-Verbindung');
   // Nicht mehr werfen, sondern Fallback-Modus aktivieren
 }
+
+// Erfolgreiche Konfiguration bestätigen
+console.log('✅ Supabase-Client konfiguriert:', supabaseUrl);
 
 // Supabase-Client erstellen
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {

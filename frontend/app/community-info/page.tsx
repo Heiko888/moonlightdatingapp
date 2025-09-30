@@ -138,7 +138,7 @@ export default function CommunityInfoPage() {
               fontWeight: 800,
               mb: 3
             }}>
-              🌟 Moonlight Community
+              🌟 Kosmische Verbindungen Community
             </Typography>
             <Typography variant="h5" sx={{
               color: 'rgba(255,255,255,0.8)',
