@@ -12,7 +12,7 @@ Write-Host ""
 
 # Alle Befehle in einem Array
 $commands = @(
-    "ssh $Username@$ServerIP 'echo \"SSH-Verbindung erfolgreich\"'",
+    "ssh $Username@$ServerIP 'echo SSH-Verbindung erfolgreich'",
     "ssh $Username@$ServerIP 'mkdir -p $ServerPath'",
     "scp docker-compose.supabase.yml $Username@$ServerIP`:$ServerPath/",
     "scp env.supabase $Username@$ServerIP`:$ServerPath/",

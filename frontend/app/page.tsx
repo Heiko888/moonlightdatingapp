@@ -164,7 +164,7 @@ export default function HomePage() {
       }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: '#FFD700', fontWeight: 'bold' }}>
-            🌙 Human Design App
+            🌙 Human Design App 🚀 LIVE-TEST
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button

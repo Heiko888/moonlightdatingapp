@@ -3,7 +3,23 @@ import { supabase } from '@/lib/supabase/client';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    // JSON-Parsing mit Fehlerbehandlung
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('JSON Parse Error:', parseError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'INVALID_JSON',
+            message: 'Ungültiges JSON-Format'
+          }
+        },
+        { status: 400 }
+      );
+    }
     const { email, password } = body;
 
     // Input-Validierung

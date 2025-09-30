@@ -42,14 +42,14 @@ import {
   Zap
 } from 'lucide-react';
 
-interface AnalyticsData {
+interface HDAnalyticsData {
   overview: {
     totalUsers: number;
     activeUsers: number;
-    totalMessages: number;
-    totalMatches: number;
-    totalSessions: number;
-    engagementRate: number;
+    totalCharts: number;
+    totalReadings: number;
+    totalGates: number;
+    totalCenters: number;
   };
   userGrowth: Array<{
     date: string;
@@ -57,25 +57,40 @@ interface AnalyticsData {
     newUsers: number;
     activeUsers: number;
   }>;
-  engagement: Array<{
-    date: string;
-    messages: number;
-    matches: number;
-    sessions: number;
-  }>;
-  userTypes: Array<{
+  chartTypes: Array<{
     type: string;
     count: number;
     percentage: number;
   }>;
-  featureUsage: Array<{
-    feature: string;
-    usage: number;
-    satisfaction: number;
+  planetActivity: Array<{
+    planet: string;
+    views: number;
+    interactions: number;
+  }>;
+  gateActivity: Array<{
+    gate: number;
+    activations: number;
+    percentage: number;
+  }>;
+  centerActivity: Array<{
+    center: string;
+    defined: number;
+    undefined: number;
+  }>;
+  readingEngagement: Array<{
+    date: string;
+    readings: number;
+    shares: number;
+    favorites: number;
+  }>;
+  userProfiles: Array<{
+    type: string;
+    count: number;
+    percentage: number;
   }>;
   monthlyTrends: Array<{
     month: string;
-    revenue: number;
+    readings: number;
     users: number;
     engagement: number;
   }>;
@@ -86,7 +101,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 export default function AnalyticsPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
+  const [analyticsData, setAnalyticsData] = useState<HDAnalyticsData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -98,15 +113,15 @@ export default function AnalyticsPage() {
       setIsLoading(true);
       setError(null);
 
-      // Mock-Daten für Demo
-      const mockData: AnalyticsData = {
+      // Human Design Analytics Mock-Daten
+      const mockData: HDAnalyticsData = {
         overview: {
           totalUsers: 1250,
           activeUsers: 890,
-          totalMessages: 15600,
-          totalMatches: 340,
-          totalSessions: 1200,
-          engagementRate: 78.5
+          totalCharts: 3400,
+          totalReadings: 15600,
+          totalGates: 64,
+          totalCenters: 9
         },
         userGrowth: [
           { date: '2024-01', users: 100, newUsers: 20, activeUsers: 80 },
@@ -116,35 +131,68 @@ export default function AnalyticsPage() {
           { date: '2024-05', users: 350, newUsers: 35, activeUsers: 280 },
           { date: '2024-06', users: 450, newUsers: 50, activeUsers: 360 }
         ],
-        engagement: [
-          { date: '2024-01', messages: 1200, matches: 25, sessions: 180 },
-          { date: '2024-02', messages: 1500, matches: 30, sessions: 220 },
-          { date: '2024-03', messages: 1800, matches: 35, sessions: 260 },
-          { date: '2024-04', messages: 2200, matches: 40, sessions: 320 },
-          { date: '2024-05', messages: 2800, matches: 45, sessions: 380 },
-          { date: '2024-06', messages: 3500, matches: 50, sessions: 450 }
+        chartTypes: [
+          { type: 'Geburtschart', count: 2800, percentage: 82 },
+          { type: 'Transit-Chart', count: 450, percentage: 13 },
+          { type: 'Synastrie-Chart', count: 150, percentage: 5 }
         ],
-        userTypes: [
+        planetActivity: [
+          { planet: 'Sonne', views: 12500, interactions: 3200 },
+          { planet: 'Mond', views: 11200, interactions: 2800 },
+          { planet: 'Merkur', views: 9800, interactions: 2400 },
+          { planet: 'Venus', views: 8900, interactions: 2100 },
+          { planet: 'Mars', views: 7600, interactions: 1800 },
+          { planet: 'Jupiter', views: 6800, interactions: 1600 },
+          { planet: 'Saturn', views: 6200, interactions: 1400 },
+          { planet: 'Uranus', views: 5400, interactions: 1200 },
+          { planet: 'Neptun', views: 4800, interactions: 1000 },
+          { planet: 'Pluto', views: 4200, interactions: 900 }
+        ],
+        gateActivity: [
+          { gate: 1, activations: 450, percentage: 8.2 },
+          { gate: 2, activations: 420, percentage: 7.6 },
+          { gate: 3, activations: 380, percentage: 6.9 },
+          { gate: 4, activations: 360, percentage: 6.5 },
+          { gate: 5, activations: 340, percentage: 6.2 },
+          { gate: 6, activations: 320, percentage: 5.8 },
+          { gate: 7, activations: 300, percentage: 5.4 },
+          { gate: 8, activations: 280, percentage: 5.1 },
+          { gate: 9, activations: 260, percentage: 4.7 },
+          { gate: 10, activations: 240, percentage: 4.4 }
+        ],
+        centerActivity: [
+          { center: 'Kopf', defined: 320, undefined: 930 },
+          { center: 'Ajna', defined: 280, undefined: 970 },
+          { center: 'Hals', defined: 250, undefined: 1000 },
+          { center: 'G', defined: 200, undefined: 1050 },
+          { center: 'Herz', defined: 180, undefined: 1070 },
+          { center: 'Solarplexus', defined: 160, undefined: 1090 },
+          { center: 'Sakral', defined: 140, undefined: 1110 },
+          { center: 'Wurzel', defined: 120, undefined: 1130 },
+          { center: 'Milz', defined: 100, undefined: 1150 }
+        ],
+        readingEngagement: [
+          { date: '2024-01', readings: 1200, shares: 180, favorites: 95 },
+          { date: '2024-02', readings: 1500, shares: 220, favorites: 120 },
+          { date: '2024-03', readings: 1800, shares: 260, favorites: 145 },
+          { date: '2024-04', readings: 2200, shares: 320, favorites: 170 },
+          { date: '2024-05', readings: 2800, shares: 380, favorites: 195 },
+          { date: '2024-06', readings: 3500, shares: 450, favorites: 220 }
+        ],
+        userProfiles: [
           { type: 'Generator', count: 450, percentage: 36 },
           { type: 'Manifestor', count: 200, percentage: 16 },
           { type: 'Projector', count: 300, percentage: 24 },
           { type: 'Reflector', count: 150, percentage: 12 },
           { type: 'Manifesting Generator', count: 150, percentage: 12 }
         ],
-        featureUsage: [
-          { feature: 'Dashboard', usage: 95, satisfaction: 4.2 },
-          { feature: 'Chat', usage: 78, satisfaction: 4.5 },
-          { feature: 'Dating', usage: 65, satisfaction: 4.1 },
-          { feature: 'Mondkalender', usage: 45, satisfaction: 4.3 },
-          { feature: 'Coaching', usage: 30, satisfaction: 4.7 }
-        ],
         monthlyTrends: [
-          { month: 'Jan', revenue: 2500, users: 100, engagement: 65 },
-          { month: 'Feb', revenue: 3200, users: 150, engagement: 70 },
-          { month: 'Mär', revenue: 4100, users: 200, engagement: 75 },
-          { month: 'Apr', revenue: 5200, users: 280, engagement: 78 },
-          { month: 'Mai', revenue: 6800, users: 350, engagement: 82 },
-          { month: 'Jun', revenue: 8500, users: 450, engagement: 85 }
+          { month: 'Jan', readings: 1200, users: 100, engagement: 65 },
+          { month: 'Feb', readings: 1500, users: 150, engagement: 70 },
+          { month: 'Mär', readings: 1800, users: 200, engagement: 75 },
+          { month: 'Apr', readings: 2200, users: 280, engagement: 78 },
+          { month: 'Mai', readings: 2800, users: 350, engagement: 82 },
+          { month: 'Jun', readings: 3500, users: 450, engagement: 85 }
         ]
       };
 
@@ -191,14 +239,14 @@ export default function AnalyticsPage() {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom>
-        📊 Analytics Dashboard
+        📊 Human Design Analytics
       </Typography>
 
       <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 3 }}>
         <Tab label="Übersicht" />
-        <Tab label="Benutzer" />
-        <Tab label="Engagement" />
-        <Tab label="Features" />
+        <Tab label="Charts & Readings" />
+        <Tab label="Planeten & Gates" />
+        <Tab label="User Types" />
         <Tab label="Trends" />
       </Tabs>
 
@@ -241,13 +289,13 @@ export default function AnalyticsPage() {
             <Card>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <MessageCircle size={24} color="#f59e0b" />
+                  <Target size={24} color="#f59e0b" />
                   <Typography variant="h6" sx={{ ml: 1 }}>
-                    Nachrichten
+                    Charts erstellt
                   </Typography>
                 </Box>
                 <Typography variant="h3" color="warning.main">
-                  {analyticsData.overview.totalMessages.toLocaleString()}
+                  {analyticsData.overview.totalCharts.toLocaleString()}
                 </Typography>
               </CardContent>
             </Card>
@@ -257,13 +305,13 @@ export default function AnalyticsPage() {
             <Card>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <Heart size={24} color="#ef4444" />
+                  <Zap size={24} color="#ef4444" />
                   <Typography variant="h6" sx={{ ml: 1 }}>
-                    Matches
+                    Readings
                   </Typography>
                 </Box>
                 <Typography variant="h3" color="error.main">
-                  {analyticsData.overview.totalMatches.toLocaleString()}
+                  {analyticsData.overview.totalReadings.toLocaleString()}
                 </Typography>
               </CardContent>
             </Card>
@@ -290,18 +338,18 @@ export default function AnalyticsPage() {
         </Grid>
       )}
 
-      {/* Tab 1: Benutzer */}
+      {/* Tab 1: Charts & Readings */}
       {activeTab === 1 && (
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 3 }}>
               <Typography variant="h6" gutterBottom>
-                Human Design Typen
+                Chart-Typen
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={analyticsData.userTypes}
+                    data={analyticsData.chartTypes}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -310,7 +358,7 @@ export default function AnalyticsPage() {
                     fill="#8884d8"
                     dataKey="count"
                   >
-                    {analyticsData.userTypes.map((entry, index) => (
+                    {analyticsData.chartTypes.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -323,18 +371,18 @@ export default function AnalyticsPage() {
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 3 }}>
               <Typography variant="h6" gutterBottom>
-                Benutzeraktivität
+                Reading-Engagement
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={analyticsData.engagement}>
+                <BarChart data={analyticsData.readingEngagement}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="messages" fill="#8884d8" />
-                  <Bar dataKey="matches" fill="#82ca9d" />
-                  <Bar dataKey="sessions" fill="#ffc658" />
+                  <Bar dataKey="readings" fill="#8884d8" />
+                  <Bar dataKey="shares" fill="#82ca9d" />
+                  <Bar dataKey="favorites" fill="#ffc658" />
                 </BarChart>
               </ResponsiveContainer>
             </Paper>

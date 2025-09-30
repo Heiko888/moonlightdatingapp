@@ -247,7 +247,7 @@ function SeitenanzeigePage() {
       pages: [
         { name: "Realtime Analysis", path: "/realtime-analysis", description: "Echtzeit-Analyse mit WebSocket" },
         { name: "Realtime Analysis Demo", path: "/realtime-analysis-demo", description: "Demo der Echtzeit-Analyse" },
-        { name: "Analytics Dashboard", path: "/analytics", description: "Detaillierte Analytics" },
+        { name: "Analytics Dashboard", path: "/analytics", description: "Human Design Analytics mit Charts, Gates und Planeten" },
         { name: "Gamification", path: "/gamification", description: "Gamification-System" },
         { name: "Live Events", path: "/live-events", description: "Live-Events System" },
         { name: "Dating Impulse", path: "/dating-impulse", description: "Dating-Impulse Generator" },
@@ -345,11 +345,22 @@ function SeitenanzeigePage() {
       ]
     },
     {
+      category: '🎨 Verbesserte Features',
+      icon: <Sparkles size={20} />,
+      requiredPackage: 'free',
+      pages: [
+        { name: "Planeten-Karten", path: "/planets", description: "Moderne Karten mit Gradients und Animationen" },
+        { name: "Inkarnationskreuz", path: "/planets/incarnation-cross", description: "12 Kreuze mit Filtern und Suche" },
+        { name: "HD Analytics", path: "/analytics", description: "Human Design Analytics Dashboard" }
+      ]
+    },
+    {
       category: 'HD Academy - Planeten',
       icon: <Globe size={20} />,
       requiredPackage: 'premium',
       pages: [
-        { name: "Planeten Übersicht", path: "/planets", description: "Alle Planeten im Human Design" },
+        { name: "Planeten Übersicht", path: "/planets", description: "Alle Planeten mit modernen Karten und Filtern" },
+        { name: "Inkarnationskreuz", path: "/planets/incarnation-cross", description: "12 Inkarnationskreuze mit Kategorien und Suche" },
         { name: "Sonne", path: "/planets/sun", description: "Die Sonne im Human Design" },
         { name: "Mond", path: "/planets/moon", description: "Der Mond im Human Design" },
         { name: "Merkur", path: "/planets/mercury", description: "Merkur im Human Design" },

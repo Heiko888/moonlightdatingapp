@@ -54,11 +54,12 @@ interface IncarnationCross {
   affirmation: string;
 }
 
-// Bekannte Inkarnationskreuze
+// Erweiterte Inkarnationskreuze mit Kategorien
 const knownCrosses: IncarnationCross[] = [
+  // Führungskreuze
   {
     cross_name: "Rahmen des Bewusstseins",
-    cross_type: "Incarnation Cross",
+    cross_type: "Führungskreuz",
     sun_gate: 1,
     earth_gate: 2,
     sun_line: 1,
@@ -71,8 +72,38 @@ const knownCrosses: IncarnationCross[] = [
     affirmation: "Ich führe durch mein authentisches Sein"
   },
   {
+    cross_name: "Rahmen der Führung",
+    cross_type: "Führungskreuz",
+    sun_gate: 7,
+    earth_gate: 13,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der natürlichen Führung und Zusammenarbeit",
+    life_theme: "Führung durch Zusammenarbeit und Gemeinschaft",
+    purpose: "Andere durch natürliche Führung und Zusammenarbeit zu inspirieren",
+    challenges: "Geduld mit anderen zu haben",
+    gifts: "Natürliche Führung, Zusammenarbeit, Gemeinschaftsgeist",
+    affirmation: "Ich führe durch Zusammenarbeit und Gemeinschaft"
+  },
+  {
+    cross_name: "Rahmen der Autorität",
+    cross_type: "Führungskreuz",
+    sun_gate: 10,
+    earth_gate: 15,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der natürlichen Autorität und Individualität",
+    life_theme: "Führung durch Individualität und natürliche Autorität",
+    purpose: "Andere durch natürliche Autorität und Individualität zu inspirieren",
+    challenges: "Sich selbst zu lieben und zu akzeptieren",
+    gifts: "Natürliche Autorität, Individualität, Selbstliebe",
+    affirmation: "Ich führe durch meine natürliche Autorität"
+  },
+
+  // Transformationskreuze
+  {
     cross_name: "Rahmen der Transformation",
-    cross_type: "Incarnation Cross",
+    cross_type: "Transformationskreuz",
     sun_gate: 3,
     earth_gate: 50,
     sun_line: 1,
@@ -85,8 +116,24 @@ const knownCrosses: IncarnationCross[] = [
     affirmation: "Ich transformiere durch mein Sein"
   },
   {
+    cross_name: "Rahmen der Regeneration",
+    cross_type: "Transformationskreuz",
+    sun_gate: 4,
+    earth_gate: 49,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der Regeneration und des Schutzes",
+    life_theme: "Transformation durch Regeneration und Schutz",
+    purpose: "Andere durch Regeneration und Schutz zu führen",
+    challenges: "Geduld mit dem Transformationsprozess zu haben",
+    gifts: "Regenerative Kraft, Schutz, Geduld",
+    affirmation: "Ich regeneriere und schütze durch mein Sein"
+  },
+
+  // Liebeskreuze
+  {
     cross_name: "Rahmen der Liebe",
-    cross_type: "Incarnation Cross",
+    cross_type: "Liebeskreuz",
     sun_gate: 25,
     earth_gate: 46,
     sun_line: 1,
@@ -99,8 +146,24 @@ const knownCrosses: IncarnationCross[] = [
     affirmation: "Ich liebe bedingungslos und bringe Freude"
   },
   {
+    cross_name: "Rahmen der Herzensliebe",
+    cross_type: "Liebeskreuz",
+    sun_gate: 26,
+    earth_gate: 45,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der Herzensliebe und des Wohlstands",
+    life_theme: "Liebe durch Herzenskraft und Wohlstand",
+    purpose: "Andere durch Herzensliebe und Wohlstand zu inspirieren",
+    challenges: "Liebe und Wohlstand zu teilen",
+    gifts: "Herzensliebe, Wohlstand, Großzügigkeit",
+    affirmation: "Ich teile Liebe und Wohlstand bedingungslos"
+  },
+
+  // Weisheitskreuze
+  {
     cross_name: "Rahmen der Weisheit",
-    cross_type: "Incarnation Cross",
+    cross_type: "Weisheitskreuz",
     sun_gate: 17,
     earth_gate: 18,
     sun_line: 1,
@@ -111,8 +174,102 @@ const knownCrosses: IncarnationCross[] = [
     challenges: "Weisheit ohne Urteil zu teilen",
     gifts: "Weisheit, Korrektur, Klarheit",
     affirmation: "Ich teile Weisheit mit Klarheit und Mitgefühl"
+  },
+  {
+    cross_name: "Rahmen der Erkenntnis",
+    cross_type: "Weisheitskreuz",
+    sun_gate: 20,
+    earth_gate: 34,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der Erkenntnis und der Kraft",
+    life_theme: "Weisheit durch Erkenntnis und Kraft",
+    purpose: "Andere durch Erkenntnis und Kraft zu führen",
+    challenges: "Erkenntnis mit Demut zu teilen",
+    gifts: "Erkenntnis, Kraft, Demut",
+    affirmation: "Ich teile Erkenntnis mit Kraft und Demut"
+  },
+
+  // Kreativkreuze
+  {
+    cross_name: "Rahmen der Kreativität",
+    cross_type: "Kreativkreuz",
+    sun_gate: 5,
+    earth_gate: 35,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der Kreativität und des Wartens",
+    life_theme: "Kreativität durch Warten und Rhythmus",
+    purpose: "Andere durch Kreativität und Rhythmus zu inspirieren",
+    challenges: "Geduld mit dem kreativen Prozess zu haben",
+    gifts: "Kreativität, Rhythmus, Geduld",
+    affirmation: "Ich erschaffe durch Geduld und Rhythmus"
+  },
+  {
+    cross_name: "Rahmen der Inspiration",
+    cross_type: "Kreativkreuz",
+    sun_gate: 6,
+    earth_gate: 36,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz der Inspiration und der Krise",
+    life_theme: "Kreativität durch Inspiration und Krise",
+    purpose: "Andere durch Inspiration und Krisenbewältigung zu führen",
+    challenges: "Krisen als Wachstumschancen zu sehen",
+    gifts: "Inspiration, Krisenbewältigung, Wachstum",
+    affirmation: "Ich inspiriere durch Krisen und Wachstum"
+  },
+
+  // Mystische Kreuze
+  {
+    cross_name: "Rahmen des Mystikers",
+    cross_type: "Mystisches Kreuz",
+    sun_gate: 12,
+    earth_gate: 11,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz des Mystikers und der Ruhe",
+    life_theme: "Mystik durch Ruhe und Individualität",
+    purpose: "Andere durch mystische Ruhe und Individualität zu inspirieren",
+    challenges: "Ruhe in der Stille zu finden",
+    gifts: "Mystische Ruhe, Individualität, Stille",
+    affirmation: "Ich finde Ruhe in der mystischen Stille"
+  },
+  {
+    cross_name: "Rahmen des Sehers",
+    cross_type: "Mystisches Kreuz",
+    sun_gate: 14,
+    earth_gate: 8,
+    sun_line: 1,
+    earth_line: 1,
+    description: "Das Inkarnationskreuz des Sehers und der Kraft",
+    life_theme: "Mystik durch Sehen und Kraft",
+    purpose: "Andere durch mystisches Sehen und Kraft zu führen",
+    challenges: "Das Unsichtbare zu sehen",
+    gifts: "Mystisches Sehen, Kraft, Vision",
+    affirmation: "Ich sehe das Unsichtbare mit mystischer Kraft"
   }
 ];
+
+// Farben für verschiedene Kreuz-Typen
+const getCrossColor = (crossType: string): string => {
+  switch (crossType) {
+    case 'Führungskreuz':
+      return '#8B5CF6'; // Lila
+    case 'Transformationskreuz':
+      return '#EF4444'; // Rot
+    case 'Liebeskreuz':
+      return '#EC4899'; // Pink
+    case 'Weisheitskreuz':
+      return '#3B82F6'; // Blau
+    case 'Kreativkreuz':
+      return '#F59E0B'; // Orange
+    case 'Mystisches Kreuz':
+      return '#8B5CF6'; // Lila
+    default:
+      return '#6B7280'; // Grau
+  }
+};
 
 export default function IncarnationCrossPage() {
   const router = useRouter();
@@ -121,6 +278,11 @@ export default function IncarnationCrossPage() {
   const [calculatedCross, setCalculatedCross] = useState<IncarnationCross | null>(null);
   const [expandedCross, setExpandedCross] = useState<number | false>(false);
   
+  // Filter und Suche
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Alle');
+  const [sortBy, setSortBy] = useState('name');
+  
   // Formular für Kreuz-Berechnung
   const [calculationForm, setCalculationForm] = useState({
     sunGate: '',
@@ -128,6 +290,31 @@ export default function IncarnationCrossPage() {
     sunLine: '',
     earthLine: ''
   });
+
+  // Kategorien für Filter
+  const categories = ['Alle', 'Führungskreuz', 'Transformationskreuz', 'Liebeskreuz', 'Weisheitskreuz', 'Kreativkreuz', 'Mystisches Kreuz'];
+
+  // Gefilterte und sortierte Kreuze
+  const filteredCrosses = knownCrosses
+    .filter(cross => {
+      const matchesSearch = cross.cross_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           cross.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           cross.life_theme.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'Alle' || cross.cross_type === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.cross_name.localeCompare(b.cross_name);
+        case 'type':
+          return a.cross_type.localeCompare(b.cross_type);
+        case 'sun_gate':
+          return a.sun_gate - b.sun_gate;
+        default:
+          return 0;
+      }
+    });
 
   const calculateIncarnationCross = () => {
     if (!calculationForm.sunGate || !calculationForm.earthGate || 
@@ -474,6 +661,125 @@ export default function IncarnationCrossPage() {
         </motion.div>
       )}
 
+      {/* Filter und Suche */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+          <CardContent sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Search size={24} color="white" />
+              <Typography variant="h5" sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>
+                Kreuze durchsuchen & filtern
+              </Typography>
+            </Box>
+            
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  label="Suche nach Namen oder Beschreibung"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      '& fieldset': {
+                        borderColor: 'rgba(255,255,255,0.3)',
+                      },
+                      '&:hover fieldset': {
+                        borderColor: 'rgba(255,255,255,0.5)',
+                      },
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: 'white',
+                    },
+                    '& .MuiOutlinedInput-input': {
+                      color: 'white',
+                    }
+                  }}
+                />
+              </Grid>
+              
+              <Grid item xs={12} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel sx={{ color: 'white' }}>Kategorie</InputLabel>
+                  <Select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    sx={{
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      color: 'white',
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255,255,255,0.3)',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255,255,255,0.5)',
+                      },
+                      '& .MuiSvgIcon-root': {
+                        color: 'white',
+                      }
+                    }}
+                  >
+                    {categories.map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              
+              <Grid item xs={12} md={4}>
+                <FormControl fullWidth>
+                  <InputLabel sx={{ color: 'white' }}>Sortieren nach</InputLabel>
+                  <Select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    sx={{
+                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      color: 'white',
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255,255,255,0.3)',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(255,255,255,0.5)',
+                      },
+                      '& .MuiSvgIcon-root': {
+                        color: 'white',
+                      }
+                    }}
+                  >
+                    <MenuItem value="name">Name</MenuItem>
+                    <MenuItem value="type">Kategorie</MenuItem>
+                    <MenuItem value="sun_gate">Sonne Tor</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            
+            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Chip 
+                label={`${filteredCrosses.length} Kreuze gefunden`} 
+                color="primary" 
+                variant="outlined"
+                sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
+              />
+              {selectedCategory !== 'Alle' && (
+                <Chip 
+                  label={`Kategorie: ${selectedCategory}`} 
+                  color="secondary" 
+                  variant="outlined"
+                  sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
+                />
+              )}
+            </Box>
+          </CardContent>
+        </Card>
+      </motion.div>
+
       {/* Bekannte Inkarnationskreuze */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -481,52 +787,132 @@ export default function IncarnationCrossPage() {
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
-          Bekannte Inkarnationskreuze
+          Bekannte Inkarnationskreuze ({filteredCrosses.length})
         </Typography>
         
         <Grid container spacing={3}>
-          {knownCrosses.map((cross, index) => (
-            <Grid item xs={12} md={6} key={index}>
+          {filteredCrosses.map((cross, index) => (
+            <Grid item xs={12} md={6} lg={4} key={index}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
               >
                 <Card sx={{ 
                   height: '100%',
-                  transition: 'transform 0.3s ease-in-out',
+                  background: `linear-gradient(135deg, ${getCrossColor(cross.cross_type)}15 0%, rgba(11,13,18,0.95) 50%, rgba(26,31,43,0.98) 100%)`,
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: 4,
+                  border: `2px solid ${getCrossColor(cross.cross_type)}40`,
+                  boxShadow: `0 8px 32px ${getCrossColor(cross.cross_type)}30, inset 0 1px 0 ${getCrossColor(cross.cross_type)}60`,
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  position: 'relative',
+                  overflow: 'hidden',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)'
+                    boxShadow: `0 20px 60px ${getCrossColor(cross.cross_type)}50, inset 0 1px 0 ${getCrossColor(cross.cross_type)}80`,
+                    transform: 'translateY(-8px) scale(1.02)',
+                    border: `2px solid ${getCrossColor(cross.cross_type)}80`
+                  },
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '3px',
+                    background: `linear-gradient(90deg, ${getCrossColor(cross.cross_type)} 0%, ${getCrossColor(cross.cross_type)}80 100%)`,
+                    opacity: 0.8
                   }
                 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
-                      {cross.cross_name}
-                    </Typography>
+                  <CardContent sx={{ p: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Box sx={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: '50%',
+                        background: `linear-gradient(45deg, ${getCrossColor(cross.cross_type)}, ${getCrossColor(cross.cross_type)}80)`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mr: 2,
+                        color: '#000',
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                      }}>
+                        ✚
+                      </Box>
+                      <Box>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>
+                          {cross.cross_name}
+                        </Typography>
+                        <Chip 
+                          label={cross.cross_type} 
+                          size="small" 
+                          sx={{ 
+                            backgroundColor: `${getCrossColor(cross.cross_type)}20`,
+                            color: getCrossColor(cross.cross_type),
+                            border: `1px solid ${getCrossColor(cross.cross_type)}40`,
+                            fontWeight: 'bold'
+                          }}
+                        />
+                      </Box>
+                    </Box>
                     
                     <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
                       <Chip 
-                        label={`Sonne: ${cross.sun_gate}.${cross.sun_line}`} 
+                        label={`☉ ${cross.sun_gate}.${cross.sun_line}`} 
                         size="small" 
-                        color="primary" 
-                        variant="outlined" 
+                        sx={{ 
+                          backgroundColor: '#FFD70020',
+                          color: '#FFD700',
+                          border: '1px solid #FFD70040'
+                        }}
                       />
                       <Chip 
-                        label={`Erde: ${cross.earth_gate}.${cross.earth_line}`} 
+                        label={`🌍 ${cross.earth_gate}.${cross.earth_line}`} 
                         size="small" 
-                        color="secondary" 
-                        variant="outlined" 
+                        sx={{ 
+                          backgroundColor: '#32CD3220',
+                          color: '#32CD32',
+                          border: '1px solid #32CD3240'
+                        }}
                       />
                     </Box>
                     
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 2, color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
                       {cross.description}
                     </Typography>
                     
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#8B5CF6' }}>
-                      {cross.life_theme}
-                    </Typography>
+                    <Box sx={{ p: 2, backgroundColor: `${getCrossColor(cross.cross_type)}15`, borderRadius: 2, mb: 2 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: getCrossColor(cross.cross_type), mb: 1 }}>
+                        Lebensaufgabe:
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                        {cross.life_theme}
+                      </Typography>
+                    </Box>
+                    
+                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                      <Chip 
+                        label="Gaben" 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: '#10B98120',
+                          color: '#10B981',
+                          border: '1px solid #10B98140'
+                        }}
+                      />
+                      <Chip 
+                        label="Herausforderungen" 
+                        size="small" 
+                        sx={{ 
+                          backgroundColor: '#EF444420',
+                          color: '#EF4444',
+                          border: '1px solid #EF444440'
+                        }}
+                      />
+                    </Box>
                   </CardContent>
                 </Card>
               </motion.div>
