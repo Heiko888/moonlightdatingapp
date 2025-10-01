@@ -1,8 +1,9 @@
 "use client";
-import React from 'react';
-import { Box, Paper, Typography, Button, Container } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Paper, Typography, Button, Container, CircularProgress } from '@mui/material';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { 
   Star, 
   ArrowRight, 
@@ -11,8 +12,66 @@ import {
   BookOpen
 } from 'lucide-react';
 import AnimatedStars from '../../components/AnimatedStars';
+import AccessControl from '../../components/AccessControl';
+import { UserSubscription } from '../../lib/subscription/types';
+import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 
 export default function ChartPage() {
+  const router = useRouter();
+  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      
+      if (!token || !userId) {
+        router.push('/login');
+        return;
+      }
+      
+      setIsAuthenticated(true);
+      loadUserSubscription();
+    };
+
+    const loadUserSubscription = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          const subscription = await SubscriptionService.getUserSubscription(userId);
+          setUserSubscription(subscription);
+        }
+      } catch (error) {
+        console.error('Fehler beim Laden der Subscription:', error);
+        setUserSubscription(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)'
+      }}>
+        <CircularProgress sx={{ color: '#FFD700' }} />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
   const chartFeatures = [
     {
       title: "Human Design Chart",
@@ -41,15 +100,20 @@ export default function ChartPage() {
   ];
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: `
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-      `,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <AnimatedStars />
+    <AccessControl 
+      path="/chart" 
+      userSubscription={userSubscription} 
+      onUpgrade={() => router.push('/pricing')}
+    >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <AnimatedStars />
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8, px: 2 }}>
         <motion.div
@@ -281,6 +345,7 @@ export default function ChartPage() {
           </Box>
         </motion.div>
       </Container>
-    </Box>
+      </Box>
+    </AccessControl>
   );
 }

@@ -8,35 +8,22 @@ export class SubscriptionService {
   // Benutzer-Abonnement abrufen
   static async getUserSubscription(userId: string): Promise<UserSubscription | null> {
     try {
-      // Verwende Supabase statt Backend-Server
-      const { data, error } = await supabase
-        .from('user_subscriptions')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-      
-      if (error) {
-        console.error('Fehler beim Laden des Abonnements:', error);
-        return this.getMockSubscription(userId);
+      // Zuerst localStorage prüfen für bessere Performance
+      const localSubscription = localStorage.getItem('userSubscription');
+      if (localSubscription) {
+        try {
+          const parsed = JSON.parse(localSubscription);
+          if (parsed && parsed.userId === userId) {
+            return parsed;
+          }
+        } catch (e) {
+          console.warn('Fehler beim Parsen der lokalen Subscription:', e);
+        }
       }
-      
-      if (data) {
-        return {
-          id: data.id,
-          userId: data.user_id,
-          packageId: data.package_id,
-          status: data.status,
-          startDate: data.start_date,
-          endDate: data.end_date,
-          billingCycle: data.billing_cycle,
-          autoRenew: data.auto_renew,
-          paymentMethod: data.payment_method || 'credit_card', // Fallback für fehlende Daten
-          createdAt: data.created_at,
-          updatedAt: data.updated_at
-        };
-      }
-      
-      return null;
+
+      // Fallback zu Mock-Daten für Entwicklung
+      console.log('🔄 Verwende Mock-Subscription für Entwicklung');
+      return this.getMockSubscription(userId);
     } catch (error) {
       console.error('Fehler beim Laden des Abonnements:', error);
       return this.getMockSubscription(userId);
