@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import AccessControl from '../../components/AccessControl';
+import { UserSubscription } from '../../lib/subscription/types';
+import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 import { 
   Box, 
   Container, 
@@ -39,7 +43,6 @@ import {
   Target
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import Bodygraph from '@/components/Bodygraph';
 import EnhancedBodygraph from '@/components/EnhancedBodygraph';
 import AnimatedBodygraph from '@/components/AnimatedBodygraph';
@@ -76,6 +79,11 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function AdvancedBodygraphDemo() {
+  const router = useRouter();
+  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const [activeTab, setActiveTab] = useState(0);
   const [defined, setDefined] = useState<DefinedState>({
     centers: { 
@@ -109,10 +117,47 @@ export default function AdvancedBodygraphDemo() {
   const [showLabels, setShowLabels] = useState(true);
   const [showGateNumbers, setShowGateNumbers] = useState(true);
 
+  // Authentication check
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        if (!token || !userId) {
+          console.log('🔒 Keine Authentifizierung - leite zur Login-Seite weiter');
+          router.push('/login');
+          return;
+        }
+        
+        setIsAuthenticated(true);
+        await loadUserSubscription(userId);
+      } catch (error) {
+        console.error('Fehler bei der Authentifizierung:', error);
+        router.push('/login');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, [router]);
+
+  const loadUserSubscription = async (userId: string) => {
+    try {
+      const subscription = await SubscriptionService.getUserSubscription(userId);
+      setUserSubscription(subscription);
+    } catch (error) {
+      console.error('Fehler beim Laden der Subscription:', error);
+    }
+  };
+
   // Load available charts
   useEffect(() => {
-    loadCharts();
-  }, []);
+    if (isAuthenticated) {
+      loadCharts();
+    }
+  }, [isAuthenticated]);
 
   const loadCharts = async () => {
     setLoading(true);
@@ -178,7 +223,24 @@ export default function AdvancedBodygraphDemo() {
     setCurrentTheme(theme);
   };
 
-  const router = useRouter();
+  // Loading state
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'
+      }}>
+        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   // Animierte Sterne für den Hintergrund
   const AnimatedStars = () => (
@@ -211,17 +273,22 @@ export default function AdvancedBodygraphDemo() {
   );
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)
-      `,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <AccessControl 
+      path="/bodygraph-advanced" 
+      userSubscription={userSubscription} 
+      onUpgrade={() => router.push('/pricing')}
+    >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
       <AnimatedStars />
       
       <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
@@ -892,5 +959,6 @@ export default function AdvancedBodygraphDemo() {
       </motion.div>
     </Container>
     </Box>
+    </AccessControl>
   );
 }
