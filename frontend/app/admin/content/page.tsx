@@ -32,7 +32,7 @@ import {
   Edit, 
   Delete, 
   Save, 
-  Cancel,
+  X as Cancel,
   BookOpen,
   MessageSquare,
   Image,
