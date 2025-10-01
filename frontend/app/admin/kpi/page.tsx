@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AccessControl from '../../../components/AccessControl';
 import { UserSubscription } from '../../../lib/subscription/types';
@@ -24,17 +24,7 @@ import {
   Paper,
   Chip,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Switch,
-  FormControlLabel,
   Alert,
   Snackbar,
   LinearProgress,
@@ -46,32 +36,14 @@ import {
   TrendingUp, 
   Users, 
   Target, 
-  AlertTriangle,
-  CheckCircle,
   Edit,
   Delete,
   Plus,
   Download,
   RotateCcw,
-  Eye,
-  Filter,
-  Calendar,
-  Clock,
-  Award,
-  Activity,
-  MessageCircle,
-  Heart,
-  Star,
-  Zap,
-  Shield,
-  Globe,
-  Brain,
-  Moon,
-  Sun,
-  Sparkles
+  Star
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 // Floating Stars Animation
 const AnimatedStars = () => {
@@ -222,21 +194,13 @@ function KPIContent() {
   const [goals, setGoals] = useState<KPIGoal[]>([]);
   const [settings, setSettings] = useState<KPISetting[]>([]);
   const [loading, setLoading] = useState(true);
-  const [goalDialogOpen, setGoalDialogOpen] = useState(false);
-  const [settingDialogOpen, setSettingDialogOpen] = useState(false);
-  const [editingGoal, setEditingGoal] = useState<KPIGoal | null>(null);
-  const [editingSetting, setEditingSetting] = useState<KPISetting | null>(null);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
 
   React.useEffect(() => {
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       // Simulate API calls
@@ -323,7 +287,11 @@ function KPIContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const showSnackbar = (message: string, severity: 'success' | 'error') => {
     setSnackbar({ open: true, message, severity });
@@ -343,22 +311,13 @@ function KPIContent() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed': return <CheckCircle size={16} />;
-      case 'on-track': return <TrendingUp size={16} />;
-      case 'at-risk': return <AlertTriangle size={16} />;
-      case 'behind': return <AlertTriangle size={16} />;
-      default: return <Clock size={16} />;
-    }
-  };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'engagement': return <Users size={20} />;
       case 'growth': return <TrendingUp size={20} />;
       case 'quality': return <Star size={20} />;
-      case 'revenue': return <Award size={20} />;
+      case 'revenue': return <Star size={20} />;
       default: return <Target size={20} />;
     }
   };
@@ -490,7 +449,7 @@ function KPIContent() {
                       <Button
                         variant="contained"
                         startIcon={<Plus size={20} />}
-                        onClick={() => setGoalDialogOpen(true)}
+                        onClick={() => console.log('Add goal clicked')}
                         sx={{
                           background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
                           color: '#23233a',
@@ -601,7 +560,7 @@ function KPIContent() {
                       <Button
                         variant="contained"
                         startIcon={<Plus size={20} />}
-                        onClick={() => setSettingDialogOpen(true)}
+                        onClick={() => console.log('Add setting clicked')}
                         sx={{
                           background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
                           color: '#23233a',
