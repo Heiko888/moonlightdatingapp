@@ -242,7 +242,7 @@ export default function AdminCoachingPage() {
 
   return (
     <>
-      <AppHeader current="/admin" />
+      <AppHeader />
       <Box sx={{ minHeight: '100vh', background: 'linear-gradient(120deg,#2a174d 0%,#3a2069 100%)', py: 8 }}>
         <motion.div 
           initial={{ opacity: 0, y: 40 }} 
