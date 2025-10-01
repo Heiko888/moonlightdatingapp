@@ -1,15 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, Typography, Button, Container, Grid, Card, CardContent, Chip, IconButton } from '@mui/material';
+import { Box, Paper, Typography, Button, Container, Grid, Card, CardContent, Chip } from '@mui/material';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { 
   Smartphone, 
   Download, 
-  Star, 
   ArrowRight, 
-  CheckCircle,
   Apple,
   QrCode,
   Shield,
@@ -157,7 +155,7 @@ export default function MobileAppPage() {
       }}>
         <AnimatedStars />
         
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8, px: 2 }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -179,28 +177,29 @@ export default function MobileAppPage() {
                   ease: "easeInOut" 
                 }}
               >
-                <Typography
-                  variant="h1"
-                  sx={{
-                    color: 'white',
-                    fontWeight: 800,
-                    fontSize: { xs: '2.5rem', md: '3.5rem' },
-                    mb: 2,
-                    textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 2
-                  }}
-                >
-                  <Smartphone size={64} style={{ color: '#FFD700' }} />
-                  HD App Mobile
-                  <Smartphone size={64} style={{ color: '#FFD700' }} />
-                </Typography>
+            <Typography
+              variant="h1"
+              sx={{
+                color: 'white',
+                fontWeight: 800,
+                fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3.5rem' },
+                mb: 2,
+                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: { xs: 1, md: 2 },
+                flexDirection: { xs: 'column', sm: 'row' }
+              }}
+            >
+              <Smartphone size={32} style={{ color: '#FFD700' }} />
+              HD App Mobile
+              <Smartphone size={32} style={{ color: '#FFD700' }} />
+            </Typography>
               </motion.div>
               
               <Typography
@@ -220,18 +219,27 @@ export default function MobileAppPage() {
                 Deine Human Design Journey immer dabei - mit der offiziellen HD App für iOS und Android
               </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                gap: { xs: 1, sm: 2 }, 
+                flexWrap: 'wrap',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center'
+              }}>
                 <Button
                   component={Link}
                   href="#download"
                   variant="contained"
                   size="large"
+                  fullWidth
                   sx={{
                     background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
-                    px: 4,
+                    px: { xs: 3, sm: 4 },
                     py: 2,
                     borderRadius: 3,
                     fontWeight: 600,
+                    minWidth: { xs: '100%', sm: 'auto' },
                     '&:hover': {
                       background: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
                       transform: 'translateY(-2px)',
@@ -246,13 +254,15 @@ export default function MobileAppPage() {
                 <Button
                   variant="outlined"
                   size="large"
+                  fullWidth
                   sx={{
                     borderColor: 'rgba(255,255,255,0.3)',
                     color: '#fff',
-                    px: 4,
+                    px: { xs: 3, sm: 4 },
                     py: 2,
                     borderRadius: 3,
                     fontWeight: 600,
+                    minWidth: { xs: '100%', sm: 'auto' },
                     '&:hover': {
                       borderColor: '#FFD700',
                       backgroundColor: 'rgba(255, 215, 0, 0.1)',
@@ -285,9 +295,9 @@ export default function MobileAppPage() {
                 Download für dein Gerät
               </Typography>
 
-              <Grid container spacing={4} justifyContent="center">
+              <Grid container spacing={{ xs: 2, md: 4 }} justifyContent="center">
                 {downloadOptions.map((option, index) => (
-                  <Grid item xs={12} md={6} key={option.platform}>
+                  <Grid item xs={12} sm={6} md={6} key={option.platform}>
                     <motion.div
                       initial={{ opacity: 0, y: 40 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -395,9 +405,9 @@ export default function MobileAppPage() {
                 Alle Features der Web-App
               </Typography>
 
-              <Grid container spacing={4}>
+              <Grid container spacing={{ xs: 2, md: 4 }}>
                 {appFeatures.map((feature, index) => (
-                  <Grid item xs={12} md={6} key={feature.title}>
+                  <Grid item xs={12} sm={6} md={6} key={feature.title}>
                     <motion.div
                       initial={{ opacity: 0, y: 40 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -475,8 +485,8 @@ export default function MobileAppPage() {
                 Warum die Mobile App?
               </Typography>
 
-              <Grid container spacing={4}>
-                <Grid item xs={12} md={4}>
+              <Grid container spacing={{ xs: 2, md: 4 }}>
+                <Grid item xs={12} sm={6} md={4}>
                   <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -507,7 +517,7 @@ export default function MobileAppPage() {
                   </motion.div>
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} sm={6} md={4}>
                   <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -538,7 +548,7 @@ export default function MobileAppPage() {
                   </motion.div>
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} sm={6} md={4}>
                   <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
