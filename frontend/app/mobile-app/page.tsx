@@ -11,7 +11,6 @@ import {
   ArrowRight, 
   CheckCircle,
   Apple,
-  Android,
   QrCode,
   Shield,
   Zap,
@@ -126,7 +125,7 @@ export default function MobileAppPage() {
     },
     {
       platform: "Android",
-      icon: <Android size={24} />,
+      icon: <Smartphone size={24} />,
       version: "2.1.0", 
       size: "52.8 MB",
       requirements: "Android 8.0 oder höher",
