@@ -1,6 +1,10 @@
 "use client";
-import React, { useState } from 'react';
-import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Tabs, Tab } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import AccessControl from '../../components/AccessControl';
+import { UserSubscription } from '../../lib/subscription/types';
+import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Tabs, Tab, CircularProgress } from '@mui/material';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, 
@@ -19,11 +23,70 @@ import AnimatedStars from '@/components/AnimatedStars';
 import Link from 'next/link';
 
 export default function ChartInfoPage() {
+  const router = useRouter();
+  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
+
+  // Authentication check
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        if (!token || !userId) {
+          console.log('🔒 Keine Authentifizierung - leite zur Login-Seite weiter');
+          router.push('/login');
+          return;
+        }
+        
+        setIsAuthenticated(true);
+        await loadUserSubscription(userId);
+      } catch (error) {
+        console.error('Fehler bei der Authentifizierung:', error);
+        router.push('/login');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, [router]);
+
+  const loadUserSubscription = async (userId: string) => {
+    try {
+      const subscription = await SubscriptionService.getUserSubscription(userId);
+      setUserSubscription(subscription);
+    } catch (error) {
+      console.error('Fehler beim Laden der Subscription:', error);
+    }
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'
+      }}>
+        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const chartFeatures = [
     {
@@ -117,16 +180,21 @@ export default function ChartInfoPage() {
   ];
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-      `,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <AccessControl 
+      path="/chart-info" 
+      userSubscription={userSubscription} 
+      onUpgrade={() => router.push('/pricing')}
+    >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
       <AnimatedStars />
       
       <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
@@ -595,5 +663,6 @@ export default function ChartInfoPage() {
         </motion.div>
       </Container>
     </Box>
+    </AccessControl>
   );
 }
