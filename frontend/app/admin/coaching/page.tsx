@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, Paper, Alert, Card, TextField, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Typography, Button, Paper, Alert, TextField, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { motion } from "framer-motion";
 import AppHeader from '../../../components/AppHeader';
-import { Plus, Edit, Trash2, User, Calendar, Star, BookOpen, Users } from "lucide-react";
+import { Plus, Edit, Trash2, User, Calendar, Star, Users } from "lucide-react";
 import axios from 'axios';
 
 interface CoachProfile {
@@ -110,8 +110,9 @@ export default function AdminCoachingPage() {
       setOpenCoachDialog(false);
       resetCoachForm();
       fetchCoaches();
-    } catch (error: any) {
-      setMessage("Fehler: " + (error.response?.data?.error || error.message));
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler';
+      setMessage("Fehler: " + errorMessage);
     }
     setLoading(false);
   };
@@ -130,8 +131,9 @@ export default function AdminCoachingPage() {
       setOpenSessionDialog(false);
       resetSessionForm();
       fetchSessions();
-    } catch (error: any) {
-      setMessage("Fehler: " + (error.response?.data?.error || error.message));
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler';
+      setMessage("Fehler: " + errorMessage);
     }
     setLoading(false);
   };
@@ -142,8 +144,9 @@ export default function AdminCoachingPage() {
         await axios.delete(`http://localhost:4001/admin/coaching/coaches/${id}`);
         setMessage("Coach erfolgreich gelöscht!");
         fetchCoaches();
-      } catch (error: any) {
-        setMessage("Fehler beim Löschen: " + error.message);
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler';
+        setMessage("Fehler beim Löschen: " + errorMessage);
       }
     }
   };
@@ -154,8 +157,9 @@ export default function AdminCoachingPage() {
         await axios.delete(`http://localhost:4001/admin/coaching/sessions/${id}`);
         setMessage("Session erfolgreich gelöscht!");
         fetchSessions();
-      } catch (error: any) {
-        setMessage("Fehler beim Löschen: " + error.message);
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unbekannter Fehler';
+        setMessage("Fehler beim Löschen: " + errorMessage);
       }
     }
   };

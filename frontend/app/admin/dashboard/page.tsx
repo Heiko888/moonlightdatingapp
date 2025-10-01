@@ -2,24 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, Button, Grid, Card, CardContent, Alert, Container } from "@mui/material";
 import { motion } from 'framer-motion';
-import { Shield, Users, Settings, LogOut, Crown, BarChart3, Activity, Database, Server } from "lucide-react";
+import { Shield, Users, Settings, LogOut, Crown, BarChart3, Database, Server } from "lucide-react";
 import AnimatedStars from '@/components/AnimatedStars';
-import { 
-  AdminUser, 
-  AdminStats, 
-  AdminAuditLog,
-  BaseComponentProps 
-} from '@/types/common.types';
 
-interface AdminStatCard {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-  color: string;
-  gradient: string;
+interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
 }
 
-const AdminDashboard: React.FC = () => {
+export default function AdminDashboardPage() {
   const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -183,7 +176,7 @@ const AdminDashboard: React.FC = () => {
                     Admin Dashboard
                   </Typography>
                   <Typography variant="h6" sx={{ color: "rgba(254,243,199,0.8)" }}>
-                    Willkommen, {adminUser?.username || "Administrator"}
+                    Willkommen, Administrator
                   </Typography>
                 </Box>
               </Box>
