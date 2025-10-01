@@ -33,16 +33,23 @@ export default function MobileAppPage() {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      
-      if (!token || !userId) {
-        router.push('/login');
-        return;
-      }
-      
-      setIsAuthenticated(true);
-      loadUserSubscription();
+      // Warte kurz, damit localStorage gesetzt werden kann
+      setTimeout(() => {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        console.log('🔍 Auth Check - Token:', !!token, 'UserId:', !!userId);
+        
+        if (!token || !userId) {
+          console.log('❌ Keine Auth-Daten gefunden, leite zu Login weiter');
+          router.push('/login');
+          return;
+        }
+        
+        console.log('✅ Auth-Daten gefunden, setze authenticated');
+        setIsAuthenticated(true);
+        loadUserSubscription();
+      }, 100);
     };
 
     const loadUserSubscription = async () => {
