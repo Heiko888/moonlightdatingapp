@@ -113,10 +113,10 @@ const AppFunctionsSection = () => {
   return (
     <Box sx={{ py: 8 }}>
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        
+        
       >
         <Typography
           variant="h2"
@@ -140,10 +140,10 @@ const AppFunctionsSection = () => {
           {appFunctions.map((func, index) => (
             <Grid item xs={12} sm={6} lg={4} key={func.title}>
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{ 
                   background: 'rgba(255, 255, 255, 0.08)',

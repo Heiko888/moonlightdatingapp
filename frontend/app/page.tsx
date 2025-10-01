@@ -1303,10 +1303,10 @@ Kosmische Verbindungen
             {/* Erweiterte Analysen */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1371,10 +1371,10 @@ Kosmische Verbindungen
             {/* Readings */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1445,10 +1445,10 @@ Kosmische Verbindungen
             {/* Events & Meetups */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1515,10 +1515,10 @@ Kosmische Verbindungen
         {/* Call-to-Action Section */}
         <Box sx={{ py: 8 }}>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            
+            
           >
             <Card sx={{
               background: 'linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,165,0,0.1) 100%)',
@@ -1726,10 +1726,10 @@ Kosmische Verbindungen
           <Grid container spacing={{ xs: 3, md: 6 }}>
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #FFD70015 0%, #FFD70008 100%)',
@@ -1829,10 +1829,10 @@ Kosmische Verbindungen
             
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #FF6B9D15 0%, #FF6B9D08 100%)',
@@ -1993,10 +1993,10 @@ Kosmische Verbindungen
             {/* Testimonial 1 */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #FFD70015 0%, #FFD70008 100%)',
@@ -2079,10 +2079,10 @@ Kosmische Verbindungen
             {/* Testimonial 2 */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #FF6B9D15 0%, #FF6B9D08 100%)',
@@ -2165,10 +2165,10 @@ Kosmische Verbindungen
             {/* Testimonial 3 */}
             <Grid item xs={12} sm={6} md={4}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
@@ -2550,10 +2550,10 @@ Kosmische Verbindungen
             {/* FAQ Item 1 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #FFD70015 0%, #FFD70008 100%)',
@@ -2618,10 +2618,10 @@ Kosmische Verbindungen
             {/* FAQ Item 2 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
@@ -2686,10 +2686,10 @@ Kosmische Verbindungen
             {/* FAQ Item 3 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
@@ -2753,10 +2753,10 @@ Kosmische Verbindungen
             {/* FAQ Item 4 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
@@ -2820,10 +2820,10 @@ Kosmische Verbindungen
             {/* FAQ Item 5 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
@@ -2887,10 +2887,10 @@ Kosmische Verbindungen
             {/* FAQ Item 6 */}
             <Grid item xs={12} sm={6} md={6}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                viewport={{ once: true }}
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',

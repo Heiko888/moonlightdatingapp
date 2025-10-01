@@ -371,9 +371,9 @@ export default function MondkalenderInfo() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
@@ -403,9 +403,9 @@ export default function MondkalenderInfo() {
 
         {/* Features Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
             ✨ Alle Funktionen im Überblick
@@ -415,9 +415,9 @@ export default function MondkalenderInfo() {
             {features.map((feature, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: feature.gradient,
@@ -533,9 +533,9 @@ export default function MondkalenderInfo() {
 
         {/* Moon Phases */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
             🌙 Die 8 Mondphasen verstehen
@@ -545,9 +545,9 @@ export default function MondkalenderInfo() {
             {moonPhases.map((phase, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: phase.gradient,
@@ -655,9 +655,9 @@ export default function MondkalenderInfo() {
 
         {/* Benefits */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
             🎯 Deine Vorteile
@@ -667,9 +667,9 @@ export default function MondkalenderInfo() {
             {benefits.map((benefit, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  
+                  
+                  
                 >
                   <Paper sx={{
                     background: 'rgba(255,255,255,0.05)',
@@ -711,9 +711,9 @@ export default function MondkalenderInfo() {
 
         {/* Use Cases */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
             💡 Praktische Anwendungen
@@ -723,9 +723,9 @@ export default function MondkalenderInfo() {
             {useCases.map((useCase, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: 'rgba(255,255,255,0.05)',
@@ -778,9 +778,9 @@ export default function MondkalenderInfo() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.0 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255,255,255,0.05)',

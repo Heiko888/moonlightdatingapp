@@ -113,17 +113,17 @@ function KnowledgeContent() {
       <AnimatedStars />
         
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          
+          
+          
           style={{ position: 'relative', zIndex: 2 }}
         >
           <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
             {/* Hero Section */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              
+              
+              
             >
               <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography 
@@ -158,9 +158,9 @@ function KnowledgeContent() {
 
             {/* Search and Filter Section */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              
+              
+              
             >
               <Card sx={{
                 background: 'rgba(255, 255, 255, 0.1)',
@@ -233,9 +233,9 @@ function KnowledgeContent() {
             {/* Error Alert */}
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                
+                
+                
               >
                 <Alert 
                   severity="error" 
@@ -256,17 +256,17 @@ function KnowledgeContent() {
 
             {/* Knowledge Entries */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              
+              
+              
             >
               <Grid container spacing={3}>
                 {filteredEntries.map((entry, index) => (
                   <Grid item xs={12} md={6} key={entry.id}>
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
+                      
+                      
+                      
                     >
                       <Card sx={{
                         background: 'rgba(255, 255, 255, 0.1)',
@@ -414,8 +414,6 @@ function KnowledgeContent() {
 // Hauptkomponente mit ProtectedRoute
 export default function KnowledgePage() {
   return (
-    <ProtectedRoute requiredRole="basic">
-      <KnowledgeContent />
-    </ProtectedRoute>
+    <KnowledgeContent />
   );
 }

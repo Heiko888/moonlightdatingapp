@@ -345,16 +345,16 @@ export default function MeditationGuidePage() {
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 6 }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
+              
+              
+              
             >
               <Box sx={{ 
                 display: 'inline-flex',
@@ -383,9 +383,9 @@ export default function MeditationGuidePage() {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              
+              
+              
             >
               <Typography variant="h2" sx={{ 
                 color: '#4ECDC4', 
@@ -437,10 +437,10 @@ export default function MeditationGuidePage() {
             {activeTab === 0 && (
               <motion.div
                 key="techniques"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                
+                
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
+                
               >
                 <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700, mb: 4 }}>
                   Meditationstechniken
@@ -449,9 +449,9 @@ export default function MeditationGuidePage() {
                   {techniques.map((technique, index) => (
                     <Grid item xs={12} sm={6} md={4} key={technique.id}>
                       <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1, duration: 0.6 }}
+                        
+                        
+                        
                       >
                         <Card sx={{
                           background: 'rgba(255, 255, 255, 0.1)',
@@ -544,10 +544,10 @@ export default function MeditationGuidePage() {
             {activeTab === 1 && (
               <motion.div
                 key="guided"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                
+                
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
+                
               >
                 <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700, mb: 4 }}>
                   Geführte Meditationen
@@ -556,9 +556,9 @@ export default function MeditationGuidePage() {
                   {guidedMeditations.map((meditation, index) => (
                     <Grid item xs={12} md={6} key={meditation.id}>
                       <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1, duration: 0.6 }}
+                        
+                        
+                        
                       >
                         <Card sx={{
                           background: 'rgba(255, 255, 255, 0.1)',
@@ -651,10 +651,10 @@ export default function MeditationGuidePage() {
             {activeTab === 2 && (
               <motion.div
                 key="timer"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                
+                
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
+                
               >
                 <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700, mb: 4, textAlign: 'center' }}>
                   Meditations-Timer
@@ -776,10 +776,10 @@ export default function MeditationGuidePage() {
             {activeTab === 3 && (
               <motion.div
                 key="sessions"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                
+                
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.5 }}
+                
               >
                 <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700, mb: 4 }}>
                   Meine Meditation Sessions
@@ -817,9 +817,9 @@ export default function MeditationGuidePage() {
                         {recentSessions.map((session, index) => (
                           <motion.div
                             key={session.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                            
+                            
+                            
                           >
                             <ListItem sx={{ px: 0 }}>
                               <ListItemAvatar>

@@ -150,11 +150,7 @@ export default function DynamicDatingPage() {
       
       <Container maxWidth="lg">
         {/* Hero Section */}
-        <Box
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <Box>
           <Box textAlign="center" mb={8}>
             <Chip
               label="🚀 Für dynamische Verbindungen entwickelt"
@@ -252,9 +248,6 @@ export default function DynamicDatingPage() {
         {/* Benefits Section */}
         <Box sx={{ py: 8 }}>
           <Box
-            initial={{ opacity: 0, y: 40 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
           >
             <Box sx={{ textAlign: 'center', mb: 8 }}>
               <Typography 
@@ -274,9 +267,6 @@ export default function DynamicDatingPage() {
               {benefits.map((benefit, index) => (
                 <Grid item xs={12} sm={6} lg={4} key={index}>
                   <Box
-                    initial={{ opacity: 0, y: 40 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
                   >
                     <Card sx={{ 
                       height: '100%',
@@ -326,9 +316,6 @@ export default function DynamicDatingPage() {
         <Box sx={{ py: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 4, mb: 8 }}>
           <Container maxWidth="lg">
             <Box
-              initial={{ opacity: 0, y: 40 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
             >
               <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography 
@@ -348,9 +335,6 @@ export default function DynamicDatingPage() {
                 {features.map((feature, index) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
                     <Box
-                      initial={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
                     >
                       <Box sx={{ 
                         display: 'flex', 
@@ -376,9 +360,6 @@ export default function DynamicDatingPage() {
         {/* Testimonial */}
         <Box sx={{ py: 8 }}>
           <Box
-            initial={{ opacity: 0, y: 40 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
           >
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.95)', 
@@ -430,9 +411,6 @@ export default function DynamicDatingPage() {
         {/* CTA Section */}
         <Box sx={{ py: 8 }}>
           <Box
-            initial={{ opacity: 0, y: 40 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
           >
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.95)', 

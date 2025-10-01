@@ -250,7 +250,7 @@ export default function SaturnPage() {
 
       {/* Animated Saturn */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        
         animate={{ 
           opacity: 0.5, 
           scale: [1, 1.08, 1],
@@ -565,7 +565,7 @@ export default function SaturnPage() {
 
       {/* Saturn's Moon Titan */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.3 }}
+        
         animate={{ 
           opacity: 0.6,
           scale: 1,
@@ -630,7 +630,7 @@ export default function SaturnPage() {
 
       {/* Saturn's Moon Enceladus */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.2 }}
+        
         animate={{ 
           opacity: 0.5,
           scale: 1,
@@ -686,7 +686,7 @@ export default function SaturnPage() {
 
       {/* Saturn's Moon Rhea */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.25 }}
+        
         animate={{ 
           opacity: 0.4,
           scale: 1,
@@ -764,9 +764,9 @@ export default function SaturnPage() {
 
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -786,9 +786,9 @@ export default function SaturnPage() {
 
         {/* Overview Widget */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -876,9 +876,9 @@ export default function SaturnPage() {
 
         {/* Saturn in Gates */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1032,9 +1032,9 @@ export default function SaturnPage() {
 
         {/* Saturn in Centers */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',

@@ -52,9 +52,9 @@ export default function LogoutPage() {
     }}>
       <Container maxWidth="sm">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          
+          
+          
         >
           <Box sx={{ 
             textAlign: 'center',
@@ -66,9 +66,9 @@ export default function LogoutPage() {
           }}>
             {/* Logout-Icon */}
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              
+              
+              
             >
               <Box sx={{ 
                 display: 'inline-flex',
@@ -95,9 +95,9 @@ export default function LogoutPage() {
 
             {/* Status */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
+              
+              
+              
             >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 3 }}>
                 <CircularProgress size={24} sx={{ color: '#FFD700' }} />
@@ -109,9 +109,9 @@ export default function LogoutPage() {
 
             {/* Erfolgsmeldung */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
+              
+              
+              
             >
               <Alert 
                 severity="success" 
@@ -128,9 +128,9 @@ export default function LogoutPage() {
 
             {/* Zusätzliche Informationen */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
+              
+              
+              
             >
               <Typography variant="body2" sx={{ 
                 color: '#888', 

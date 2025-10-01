@@ -212,12 +212,14 @@ export default function JournalPage() {
       const userId = localStorage.getItem('userId');
       
       if (!token || !userId) {
-        setIsAuthenticated(false);
+        // TODO: Implement authentication state
+        console.log('User not authenticated');
         // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
-      setIsAuthenticated(true);
+      // TODO: Implement authentication state
+      console.log('User authenticated');
       
       // Daten laden
       updateTrackingData();
@@ -261,9 +263,9 @@ export default function JournalPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
@@ -283,9 +285,9 @@ export default function JournalPage() {
               <Star size={48} color="#FFD700" />
             </Box>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
+              
+              
+              
             >
               <Typography variant="h5" sx={{
                 color: 'rgba(255,255,255,0.9)',
@@ -302,9 +304,9 @@ export default function JournalPage() {
 
         {/* Stats Overview */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Grid container spacing={3} sx={{ mb: 6 }}>
             <Grid item xs={12} sm={6} md={3}>
@@ -388,9 +390,9 @@ export default function JournalPage() {
 
         {/* Tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          
+          
+          
         >
           <Paper sx={{
             background: 'rgba(255,255,255,0.05)',
@@ -426,9 +428,9 @@ export default function JournalPage() {
         {/* Journal Tab */}
         {activeTab === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
+            
+            
+            
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h3" sx={{ 
@@ -463,9 +465,9 @@ export default function JournalPage() {
               {journalEntries.map((entry, index) => (
                 <Grid item xs={12} md={6} key={entry.id}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                     whileHover={{ y: -8 }}
                   >
                     <Card sx={{
@@ -529,9 +531,9 @@ export default function JournalPage() {
         {/* Goals Tab */}
         {activeTab === 1 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
+            
+            
+            
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h3" sx={{ 
@@ -608,9 +610,9 @@ export default function JournalPage() {
               {filteredGoals.map((goal, index) => (
                 <Grid item xs={12} md={6} key={goal.id}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                     whileHover={{ y: -8 }}
                   >
                     <Card sx={{
@@ -720,9 +722,9 @@ export default function JournalPage() {
         {/* Tracking Tab */}
         {activeTab === 2 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
+            
+            
+            
           >
             <Typography variant="h3" sx={{ 
               color: '#fef3c7', 

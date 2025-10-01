@@ -605,9 +605,9 @@ export default function ConsciousnessExercisesPage() {
       <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography 
@@ -659,9 +659,9 @@ export default function ConsciousnessExercisesPage() {
           {consciousnessLevels.map((level, index) => (
             <Grid item xs={12} key={level.id}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                
+                
+                
               >
                 <Card sx={{ 
                   background: 'rgba(255,255,255,0.95)',
@@ -892,8 +892,8 @@ export default function ConsciousnessExercisesPage() {
         <AnimatePresence>
           {activeExercise && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              
+              
               exit={{ opacity: 0 }}
               style={{
                 position: 'fixed',
@@ -911,8 +911,8 @@ export default function ConsciousnessExercisesPage() {
               onClick={() => setActiveExercise(null)}
             >
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                
+                
                 exit={{ scale: 0.8, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
                 style={{

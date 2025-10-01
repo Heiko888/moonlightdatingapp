@@ -383,9 +383,9 @@ export default function HumanDesignInfo() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
@@ -423,9 +423,9 @@ export default function HumanDesignInfo() {
 
         {/* Tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255,255,255,0.05)',
@@ -456,9 +456,9 @@ export default function HumanDesignInfo() {
         {/* Grundlagen Tab */}
         {activeTab === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
@@ -549,9 +549,9 @@ export default function HumanDesignInfo() {
         {/* Die 5 Typen Tab */}
         {activeTab === 1 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Typography variant="h4" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
               👥 Die 5 Human Design Typen
@@ -561,9 +561,9 @@ export default function HumanDesignInfo() {
               {types.map((type, index) => (
                 <Grid item xs={12} md={6} lg={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255,255,255,0.05)',
@@ -654,9 +654,9 @@ export default function HumanDesignInfo() {
         {/* Die 9 Zentren Tab */}
         {activeTab === 2 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Typography variant="h4" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
               🎯 Die 9 Zentren
@@ -666,9 +666,9 @@ export default function HumanDesignInfo() {
               {centers.map((center, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255,255,255,0.05)',
@@ -723,9 +723,9 @@ export default function HumanDesignInfo() {
         {/* Profile Tab */}
         {activeTab === 3 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Typography variant="h4" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
               ⭐ Die 12 Profile
@@ -735,9 +735,9 @@ export default function HumanDesignInfo() {
               {profiles.map((profile, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255,255,255,0.05)',
@@ -772,9 +772,9 @@ export default function HumanDesignInfo() {
         {/* Autorität Tab */}
         {activeTab === 4 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Typography variant="h4" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
               🧭 Innere Autorität
@@ -784,9 +784,9 @@ export default function HumanDesignInfo() {
               {authorities.map((authority, index) => (
                 <Grid item xs={12} md={6} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255,255,255,0.05)',
@@ -831,9 +831,9 @@ export default function HumanDesignInfo() {
         {/* Vorteile Tab */}
         {activeTab === 5 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
             <Typography variant="h4" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
               🎁 Die Vorteile von Human Design
@@ -843,9 +843,9 @@ export default function HumanDesignInfo() {
               {benefits.map((benefit, index) => (
                 <Grid item xs={12} md={6} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Paper sx={{
                       background: 'rgba(255,255,255,0.05)',
@@ -886,9 +886,9 @@ export default function HumanDesignInfo() {
 
             {/* CTA Section */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              
+              
+              
             >
               <Card sx={{
                 background: 'rgba(255,255,255,0.05)',

@@ -57,9 +57,9 @@ export default function JournalInfoPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
@@ -75,9 +75,9 @@ export default function JournalInfoPage() {
               <Star size={48} color="#fef3c7" />
             </Box>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
+              
+              
+              
             >
               <Typography variant="h5" sx={{
                 color: 'rgba(254,243,199,0.9)',
@@ -94,9 +94,9 @@ export default function JournalInfoPage() {
 
         {/* Was ist Journal & Tracking */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(254,243,199,0.1) 0%, rgba(254,243,199,0.05) 100%)',
@@ -131,9 +131,9 @@ export default function JournalInfoPage() {
 
         {/* Journal Features */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             color: '#fef3c7', 
@@ -148,9 +148,9 @@ export default function JournalInfoPage() {
             {journalFeatures.map((feature, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: 'linear-gradient(135deg, rgba(254,243,199,0.1) 0%, rgba(254,243,199,0.05) 100%)',
@@ -201,9 +201,9 @@ export default function JournalInfoPage() {
 
         {/* Benefits */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(254,243,199,0.1) 0%, rgba(254,243,199,0.05) 100%)',
@@ -226,9 +226,9 @@ export default function JournalInfoPage() {
                 {journalBenefits.map((benefit, index) => (
                   <Grid item xs={12} sm={6} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                      
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                         <CheckCircle size={24} color="#fef3c7" />
@@ -249,9 +249,9 @@ export default function JournalInfoPage() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h4" sx={{ 

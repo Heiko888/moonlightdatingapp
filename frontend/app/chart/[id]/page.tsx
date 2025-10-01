@@ -12,7 +12,9 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function ChartPage({ params }: { params: { id: string } }) {
+export default async function ChartPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  
   return (
     <Box sx={{ 
       minHeight: '100vh',
@@ -34,7 +36,7 @@ export default function ChartPage({ params }: { params: { id: string } }) {
         maxWidth: 600
       }}>
         <Typography variant="h4" sx={{ color: '#fef3c7', fontWeight: 700, mb: 3 }}>
-          Chart: {params.id}
+          Chart: {id}
         </Typography>
         
         <Typography variant="body1" sx={{ color: 'rgba(254, 243, 199, 0.8)', mb: 4 }}>

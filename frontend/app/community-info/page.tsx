@@ -125,9 +125,9 @@ export default function CommunityInfoPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography variant="h2" sx={{
@@ -175,9 +175,9 @@ export default function CommunityInfoPage() {
 
         {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Grid container spacing={4} sx={{ mb: 8 }}>
             {communityStats.map((stat, index) => (
@@ -209,9 +209,9 @@ export default function CommunityInfoPage() {
 
         {/* Features */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             color: 'white', 
@@ -270,9 +270,9 @@ export default function CommunityInfoPage() {
 
         {/* Human Design Types */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             color: 'white', 
@@ -331,9 +331,9 @@ export default function CommunityInfoPage() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.1)',

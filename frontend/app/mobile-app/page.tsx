@@ -157,9 +157,9 @@ export default function MobileAppPage() {
         
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             {/* Hero Section */}
             <Box sx={{ textAlign: 'center', mb: 8 }}>
@@ -299,9 +299,9 @@ export default function MobileAppPage() {
                 {downloadOptions.map((option, index) => (
                   <Grid item xs={12} sm={6} md={6} key={option.platform}>
                     <motion.div
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      
+                      
+                      
                     >
                       <Card
                         sx={{
@@ -409,9 +409,9 @@ export default function MobileAppPage() {
                 {appFeatures.map((feature, index) => (
                   <Grid item xs={12} sm={6} md={6} key={feature.title}>
                     <motion.div
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      
+                      
+                      
                     >
                       <Paper
                         sx={{
@@ -488,9 +488,9 @@ export default function MobileAppPage() {
               <Grid container spacing={{ xs: 2, md: 4 }}>
                 <Grid item xs={12} sm={6} md={4}>
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
+                    
+                    
+                    
                   >
                     <Box sx={{ textAlign: 'center', p: 3 }}>
                       <Box
@@ -519,9 +519,9 @@ export default function MobileAppPage() {
 
                 <Grid item xs={12} sm={6} md={4}>
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                    
+                    
+                    
                   >
                     <Box sx={{ textAlign: 'center', p: 3 }}>
                       <Box
@@ -550,9 +550,9 @@ export default function MobileAppPage() {
 
                 <Grid item xs={12} sm={6} md={4}>
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
+                    
+                    
+                    
                   >
                     <Box sx={{ textAlign: 'center', p: 3 }}>
                       <Box

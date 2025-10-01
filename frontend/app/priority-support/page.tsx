@@ -241,9 +241,9 @@ export default function PrioritySupportPage() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -271,9 +271,9 @@ export default function PrioritySupportPage() {
 
         {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          
+          
+          
         >
           <Grid container spacing={4} sx={{ mb: 6 }}>
             <Grid item xs={12} md={3}>
@@ -339,9 +339,9 @@ export default function PrioritySupportPage() {
           {/* Support Channels */}
           <Grid item xs={12} md={6}>
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              
+              
+              
             >
               <Typography variant="h4" sx={{ mb: 3, fontWeight: 600 }}>
                 Support-Kanäle
@@ -433,9 +433,9 @@ export default function PrioritySupportPage() {
           {/* Support Team */}
           <Grid item xs={12} md={6}>
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
+              
+              
+              
             >
               <Typography variant="h4" sx={{ mb: 3, fontWeight: 600 }}>
                 Support-Team
@@ -522,9 +522,9 @@ export default function PrioritySupportPage() {
 
         {/* Recent Tickets */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          
+          
+          
         >
           <Paper elevation={0} sx={{
             background: 'rgba(255, 255, 255, 0.05)',

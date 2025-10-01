@@ -274,9 +274,9 @@ export default function HDAcademyPage() {
       <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography variant="h2" sx={{
@@ -316,9 +316,9 @@ export default function HDAcademyPage() {
 
         {/* Progress Overview */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          
+          
+          
         >
           <Paper sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -384,9 +384,9 @@ export default function HDAcademyPage() {
           {/* Courses */}
           <Grid item xs={12} lg={8}>
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              
+              
+              
             >
               <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
                 📚 Verfügbare Kurse
@@ -486,7 +486,8 @@ export default function HDAcademyPage() {
                 } else if (course.id === 'planets') {
                   router.push('/planets');
                 } else {
-                  setSelectedCourse(course.id);
+                  // TODO: Implement course selection
+                  console.log('Selected course:', course.id);
                 }
               }}
               sx={{
@@ -512,9 +513,9 @@ export default function HDAcademyPage() {
           <Grid item xs={12} lg={4}>
             {/* Achievements */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
+              
+              
+              
             >
               <Paper sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -569,9 +570,9 @@ export default function HDAcademyPage() {
 
             {/* Quick Links */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              
+              
+              
             >
               <Paper sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',

@@ -447,9 +447,9 @@ export default function PlanetsPage() {
 
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h1" sx={{ fontWeight: 700, color: '#FFD700', mb: 2 }}>
@@ -468,17 +468,17 @@ export default function PlanetsPage() {
 
         {/* Planets Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <Grid container spacing={3}>
             {filteredPlanets.map((planet, index) => (
               <Grid item xs={12} sm={6} md={4} key={planet.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  
+                  
+                  
                   whileHover={{ y: -5 }}
                 >
                   <Card sx={{
@@ -611,9 +611,9 @@ export default function PlanetsPage() {
 
         {/* Footer Info */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -640,9 +640,9 @@ export default function PlanetsPage() {
         {/* Keine Ergebnisse */}
         {filteredPlanets.length === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Box sx={{
               textAlign: 'center',

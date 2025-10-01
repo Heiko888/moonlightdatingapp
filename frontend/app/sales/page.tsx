@@ -135,9 +135,9 @@ export default function SalesPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={8}>
             <Chip
@@ -246,10 +246,10 @@ export default function SalesPage() {
         {/* Benefits Section */}
         <Box sx={{ py: 8 }}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 8 }}>
               <Typography 
@@ -270,10 +270,10 @@ export default function SalesPage() {
               {benefits.map((benefit, index) => (
                 <Grid item xs={12} sm={6} lg={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                    
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
+                    
+                    
                   >
                     <Card sx={{ 
                       height: '100%',
@@ -325,10 +325,10 @@ export default function SalesPage() {
         <Box sx={{ py: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 4, mb: 8, backdropFilter: 'blur(10px)' }}>
           <Container maxWidth="lg">
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
+              
+              
             >
               <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography 
@@ -349,10 +349,10 @@ export default function SalesPage() {
                 {features.map((feature, index) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, x: -20 }}
+                      
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
+                      
+                      
                     >
                       <Box sx={{ 
                         display: 'flex', 
@@ -385,10 +385,10 @@ export default function SalesPage() {
         {/* Testimonial */}
         <Box sx={{ py: 8 }}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            
+            
           >
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.1)', 
@@ -446,10 +446,10 @@ export default function SalesPage() {
         {/* CTA Section */}
         <Box sx={{ py: 8 }}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            
+            
           >
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.1)', 

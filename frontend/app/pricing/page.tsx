@@ -235,9 +235,9 @@ export default function PricingPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h2" sx={{
@@ -300,9 +300,9 @@ export default function PricingPage() {
           {packages.map((pkg, index) => (
             <Grid item xs={12} md={4} key={pkg.id}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                
+                
+                
               >
                 <Card sx={{
                   height: '100%',
@@ -437,9 +437,9 @@ export default function PricingPage() {
 
         {/* Features Comparison */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -507,9 +507,9 @@ export default function PricingPage() {
 
         {/* Guarantee */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          
+          
+          
         >
           <Alert severity="info" sx={{ mt: 4, background: 'rgba(59, 130, 246, 0.1)' }}>
             <Typography variant="body1">

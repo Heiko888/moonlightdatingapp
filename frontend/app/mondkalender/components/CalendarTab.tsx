@@ -814,9 +814,9 @@ ${phaseDetails.avoid.map(item => `- ${item}`).join('\n')}` : ''}
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      
+      
+      
     >
       <Card sx={{
         background: 'rgba(255,255,255,0.1)',
@@ -904,9 +904,9 @@ ${phaseDetails.avoid.map(item => `- ${item}`).join('\n')}` : ''}
               return (
                 <motion.div
                   key={day}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: i * 0.02 }}
+                  
+                  
+                  
                 >
                   <Paper
                     elevation={isCurrentDay ? 8 : 1}

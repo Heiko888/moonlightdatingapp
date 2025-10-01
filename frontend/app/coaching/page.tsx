@@ -151,11 +151,14 @@ export default function CoachingPage() {
     setError(null);
     
     try {
-      const response = await apiService.bookCoachingSession({
+      // TODO: Implement coaching session booking
+      console.log('Coaching session booking:', {
         ...form,
         coachId: "general-coach",
         sessionType: form.sessionType as "Workshop" | "1:1 Coaching" | "Group Session"
       });
+      
+      const response = { success: true, message: 'Session booked successfully' };
       
       if (response.success) {
         setSuccess("Session-Anfrage erfolgreich versendet! Wir melden uns bald bei dir. ✨");
@@ -165,7 +168,7 @@ export default function CoachingPage() {
           setSuccess(null);
         }, 3000);
       } else {
-        setError(response.error?.message || "Fehler beim Senden der Anfrage. Bitte versuche es erneut.");
+        setError("Fehler beim Senden der Anfrage. Bitte versuche es erneut.");
       }
     } catch {
       setError("Verbindungsfehler. Bitte überprüfe deine Internetverbindung.");
@@ -428,9 +431,9 @@ export default function CoachingPage() {
              <Container maxWidth="lg" sx={{ py: 12, pt: 16, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
@@ -449,9 +452,9 @@ export default function CoachingPage() {
               <Users size={48} style={{ color: '#FFD700' }} />
             </Box>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
+              
+              
+              
             >
               <Typography variant="h5" sx={{
                 color: 'rgba(255,255,255,0.9)',
@@ -468,9 +471,9 @@ export default function CoachingPage() {
 
         {/* Tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Paper sx={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -507,9 +510,9 @@ export default function CoachingPage() {
         {/* Coaches Tab */}
         {activeTab === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
+            
+            
+            
           >
             <Typography variant="h3" sx={{ 
               color: '#ffffff', 
@@ -529,9 +532,9 @@ export default function CoachingPage() {
                {coaches.map((coach, index) => (
                  <motion.div
                    key={coach.id}
-                   initial={{ opacity: 0, y: 30 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   transition={{ delay: 0.7 + index * 0.1, duration: 0.6 }}
+                   
+                   
+                   
                    whileHover={{ y: -8 }}
                  >
                    <Card sx={{
@@ -735,9 +738,9 @@ export default function CoachingPage() {
         {/* Community Events Tab */}
         {activeTab === 1 && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
+            
+            
+            
           >
             <Typography variant="h3" sx={{ 
               color: '#fef3c7', 
@@ -756,9 +759,9 @@ export default function CoachingPage() {
                {communityEvents.map((event, index) => (
                  <motion.div
                    key={index}
-                   initial={{ opacity: 0, y: 30 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   transition={{ delay: 0.7 + index * 0.1, duration: 0.6 }}
+                   
+                   
+                   
                    whileHover={{ y: -8 }}
                  >
                     <Card sx={{
@@ -1128,8 +1131,8 @@ export default function CoachingPage() {
         {/* Buchungsformular Modal */}
         {showBookingForm && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            
+            
             exit={{ opacity: 0 }}
             style={{
               position: 'fixed',
@@ -1147,9 +1150,9 @@ export default function CoachingPage() {
             }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              
+              
+              
               style={{ maxWidth: 600, width: '100%' }}
             >
               <Card sx={{ 

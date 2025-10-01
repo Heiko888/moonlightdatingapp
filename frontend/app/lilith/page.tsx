@@ -185,7 +185,7 @@ export default function LilithPage() {
 
       {/* Animated Lilith */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        
         animate={{ 
           opacity: 0.4, 
           scale: [1, 1.08, 1],
@@ -257,9 +257,9 @@ export default function LilithPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 4 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 6 }}>
             <Button
@@ -303,9 +303,9 @@ export default function LilithPage() {
         {/* Lilith Info */}
         {lilithInfo && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            
+            
+            
           >
             <Card sx={{ 
               mb: 6, 
@@ -400,9 +400,9 @@ export default function LilithPage() {
 
         {/* Lilith in Centers */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             fontWeight: 'bold', 
@@ -417,9 +417,9 @@ export default function LilithPage() {
             {lilithCenters.map((center, index) => (
               <Grid item xs={12} md={6} key={center.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index }}
+                  
+                  
+                  
                 >
                   <Card sx={{ 
                     height: '100%',
@@ -476,9 +476,9 @@ export default function LilithPage() {
 
         {/* Lilith in Gates */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             fontWeight: 'bold', 
@@ -512,7 +512,7 @@ export default function LilithPage() {
                     }
                   }}>
                     <AccordionSummary
-                      expandIcon={<ChevronDown sx={{ color: '#8B5CF6' }} />}
+                      expandIcon={<ChevronDown style={{ color: '#8B5CF6' }} />}
                       sx={{
                         '& .MuiAccordionSummary-content': {
                           alignItems: 'center'

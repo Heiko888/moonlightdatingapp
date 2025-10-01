@@ -400,16 +400,16 @@ export default function MatchingPage() {
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 6 }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
+              
+              
+              
             >
               <Box sx={{ 
                 display: 'inline-flex',
@@ -438,9 +438,9 @@ export default function MatchingPage() {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              
+              
+              
             >
               <Typography variant="h2" sx={{ 
                 color: '#FF6B6B', 
@@ -463,9 +463,9 @@ export default function MatchingPage() {
 
           {/* Statistiken */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
+            
+            
+            
           >
             <Grid container spacing={3} sx={{ mb: 6 }}>
               {[
@@ -476,9 +476,9 @@ export default function MatchingPage() {
               ].map((stat, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.1)',
@@ -531,9 +531,9 @@ export default function MatchingPage() {
 
           {/* Suchleiste */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
+            
+            
+            
           >
             <Box sx={{ mb: 4 }}>
               <TextField
@@ -582,9 +582,9 @@ export default function MatchingPage() {
 
           {/* Matches Liste */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
+            
+            
+            
           >
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
@@ -619,9 +619,9 @@ export default function MatchingPage() {
                     {filteredMatches.map((match, index) => (
                       <motion.div
                         key={match.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
+                        
+                        
+                        
                       >
                         <ListItem 
                           sx={{ 

@@ -28,7 +28,7 @@ export default function SwipePage() {
     if (current >= profiles.length) {
         return (
             <>
-                <AppHeader current="/dating/swipe" />
+                <AppHeader />
                 <Box sx={{ maxWidth: 420, mx: "auto", mt: 8, textAlign: "center" }}>
                     <Heart style={{ fontSize: 64, color: "#2196f3", marginBottom: 8, opacity: 0.18 }} />
                     <Typography variant="h4" sx={{ mb: 2, color: "#1565c0", fontWeight: 700 }}>
@@ -61,7 +61,7 @@ export default function SwipePage() {
     const profile = profiles[current];
     return (
         <>
-            <AppHeader current="/dating/swipe" />
+            <AppHeader />
             <Box sx={{ maxWidth: 420, mx: "auto", mt: 8, textAlign: "center" }}>
                 <Heart style={{ fontSize: 64, color: "#2196f3", marginBottom: 8, opacity: 0.18 }} />
                 <Card elevation={6} sx={{ p: 4, borderRadius: 6, boxShadow: "0 4px 24px #2196f3", background: "linear-gradient(135deg,#fffde4 0%,#bbdefb 100%)", display: "flex", flexDirection: "column", alignItems: "center", mb: 2 }}>

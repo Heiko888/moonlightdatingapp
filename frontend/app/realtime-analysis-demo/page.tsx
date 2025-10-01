@@ -250,9 +250,9 @@ export default function RealtimeAnalysisDemoPage() {
       <Container maxWidth="xl">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography
@@ -296,9 +296,9 @@ export default function RealtimeAnalysisDemoPage() {
           {/* Chart-Auswahl */}
           <Grid item xs={12} md={4}>
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              
+              
+              
             >
               <Card sx={{
                 background: 'rgba(255,255,255,0.05)',
@@ -405,9 +405,9 @@ export default function RealtimeAnalysisDemoPage() {
           {/* Analyse-Ergebnis */}
           <Grid item xs={12} md={8}>
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              
+              
+              
             >
               <Card sx={{
                 background: 'rgba(255,255,255,0.05)',
@@ -572,9 +572,9 @@ export default function RealtimeAnalysisDemoPage() {
 
         {/* Info-Box */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          
+          
+          
         >
           <Card sx={{
             mt: 4,

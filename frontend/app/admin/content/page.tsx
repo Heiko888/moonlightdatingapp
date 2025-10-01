@@ -32,7 +32,7 @@ import {
   Edit, 
   Delete, 
   Save, 
-  Cancel,
+  X as Cancel,
   BookOpen,
   MessageSquare,
   Image,
@@ -283,9 +283,9 @@ export default function AdminContentPage() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8, px: 2 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <motion.div
@@ -371,9 +371,9 @@ export default function AdminContentPage() {
 
         {/* Content Management Interface */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Paper
             sx={{
@@ -479,9 +479,9 @@ export default function AdminContentPage() {
               {filteredContent.map((item, index) => (
                 <Grid item xs={12} md={6} lg={4} key={item.id}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card
                       sx={{

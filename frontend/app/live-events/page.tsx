@@ -18,9 +18,9 @@ export default function LiveEventsPage() {
       <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography
@@ -50,9 +50,9 @@ export default function LiveEventsPage() {
 
         {/* Live Events System Component */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <LiveEventsSystem />
         </motion.div>

@@ -317,9 +317,9 @@ export default function ProfileSetupPage() {
         return (
           <Box sx={{ textAlign: 'center' }}>
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              
+              
+              
             >
               <Box sx={{ 
                 display: 'inline-flex',
@@ -405,9 +405,9 @@ export default function ProfileSetupPage() {
 
       <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          
+          
+          
         >
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>

@@ -105,9 +105,9 @@ export default function AdminDashboardPage() {
         background: "linear-gradient(135deg, #1e293b 0%, #334155 100%)"
       }}>
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          
+          
+          
         >
           <Typography variant="h6" sx={{ color: "#fef3c7" }}>
             Lade Admin-Dashboard...
@@ -129,9 +129,9 @@ export default function AdminDashboardPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: "relative", zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Paper elevation={8} sx={{ 
             p: 4, 
@@ -212,9 +212,9 @@ export default function AdminDashboardPage() {
 
         {/* Stats Cards */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h4" sx={{ 
             color: "#fef3c7", 
@@ -229,9 +229,9 @@ export default function AdminDashboardPage() {
             {statsData.map((stat, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                  
                   whileHover={{ y: -8 }}
                 >
                   <Card sx={{ 
@@ -276,9 +276,9 @@ export default function AdminDashboardPage() {
 
         {/* Quick Actions */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          
+          
+          
         >
           <Paper elevation={8} sx={{ 
             p: 6, 
@@ -295,9 +295,9 @@ export default function AdminDashboardPage() {
               {quickActions.map((action, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.0 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                     whileHover={{ y: -8 }}
                   >
                     <Button
@@ -331,9 +331,9 @@ export default function AdminDashboardPage() {
 
         {/* System Status */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          
+          
+          
         >
           <Paper elevation={8} sx={{ 
             p: 6, 

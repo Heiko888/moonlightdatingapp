@@ -199,9 +199,9 @@ export default function SupportPage() {
       <Container maxWidth="lg">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography variant="h1" sx={{
@@ -226,9 +226,9 @@ export default function SupportPage() {
 
         {/* Support-Kategorien */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Typography variant="h4" sx={{ color: '#fff', mb: 4, textAlign: 'center' }}>
             📞 Kontakt-Optionen
@@ -281,9 +281,9 @@ export default function SupportPage() {
 
         {/* FAQ Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          
+          
+          
         >
           <Typography variant="h4" sx={{ color: '#fff', mb: 4, textAlign: 'center' }}>
             ❓ Häufige Fragen
@@ -344,9 +344,9 @@ export default function SupportPage() {
 
         {/* Kontakt-Formular */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          
+          
+          
         >
           <Grid container spacing={6}>
             <Grid item xs={12} md={6}>
@@ -541,9 +541,9 @@ export default function SupportPage() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <Typography variant="h5" sx={{ color: '#fff', mb: 3 }}>

@@ -95,7 +95,7 @@ export default function FriendsPage() {
 
   return (
     <>
-      <AppHeader current="/dating/friends" />
+      <AppHeader />
       <Box sx={{ maxWidth: 900, mx: "auto", mt: 8, position: "relative", background: 'rgba(44,24,77,0.92)', borderRadius: 5, boxShadow: '0 4px 32px #2a174d', py: { xs: 4, md: 6 }, px: { xs: 2, md: 6 } }}>
         <User style={{ position: "absolute", top: -40, left: 20, fontSize: 90, color: "#b39ddb", opacity: 0.18, zIndex: 0, filter: "drop-shadow(0 0 16px #b39ddb)" }} />
         <Typography variant="h4" sx={{ mb: 1.5, textAlign: "center", color: "#b39ddb", fontWeight: 900, textShadow: "0 0 16px #7e57c2" }}>

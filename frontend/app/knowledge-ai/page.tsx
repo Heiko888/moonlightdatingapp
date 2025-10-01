@@ -148,9 +148,9 @@ export default function KnowledgeAIPage() {
           {/* Error Alert */}
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              
+              
+              
             >
               <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
                 {error}
@@ -161,9 +161,9 @@ export default function KnowledgeAIPage() {
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 4 }}>
             {/* Left Column - Question Input & Predefined Questions */}
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              
+              
+              
             >
               <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.95)', 
@@ -268,9 +268,9 @@ export default function KnowledgeAIPage() {
 
             {/* Right Column - Answer Display */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              
+              
+              
             >
               <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.95)', 

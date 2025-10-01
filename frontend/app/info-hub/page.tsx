@@ -124,9 +124,9 @@ export default function InfoHubPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <motion.div
@@ -181,9 +181,9 @@ export default function InfoHubPage() {
         {Object.entries(categories).map(([categoryName, pages], categoryIndex) => (
           <motion.div
             key={categoryName}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + categoryIndex * 0.2, duration: 0.8 }}
+            
+            
+            
           >
             <Typography variant="h3" sx={{ 
               color: 'white', 
@@ -199,9 +199,9 @@ export default function InfoHubPage() {
               {pages.map((page, index) => (
                 <Grid item xs={12} sm={6} md={4} key={page.title}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + categoryIndex * 0.2 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.1)',

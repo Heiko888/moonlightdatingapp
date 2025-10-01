@@ -233,6 +233,7 @@ export default function MondkalenderPage() {
             setUserSubscription({
               userId: user.id || 'unknown',
               packageId: subscription.plan || user.subscriptionPlan || 'basic',
+              plan: subscription.plan || user.subscriptionPlan || 'basic',
               status: subscription.status || 'active',
               startDate: subscription.startDate || new Date().toISOString(),
               endDate: subscription.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -272,6 +273,7 @@ export default function MondkalenderPage() {
             setUserSubscription({
               userId: user.id || 'unknown',
               packageId: planId,
+              plan: planId,
               status: 'active',
               startDate: new Date().toISOString(),
               endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -293,6 +295,7 @@ export default function MondkalenderPage() {
             setUserSubscription({
               userId: user.id,
               packageId: 'basic',
+              plan: 'basic',
               status: 'active',
               startDate: new Date().toISOString(),
               endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -481,7 +484,7 @@ export default function MondkalenderPage() {
             name: apiPhase.name || moonPhaseData.name,
             description: apiPhase.description || currentPhaseData.description,
             icon: apiPhase.emoji || moonPhaseData.icon,
-            energy: apiPhase.energy === 'high' ? 'Hoch' : apiPhase.energy === 'medium' ? 'Mittel' : 'Niedrig',
+            energy: apiPhase.data?.energy === 'high' ? 'Hoch' : apiPhase.data?.energy === 'medium' ? 'Mittel' : 'Niedrig',
             color: currentPhaseData.color,
             advice: currentPhaseData.advice,
             explanation: apiPhase.description || currentPhaseData.explanation,
@@ -914,17 +917,17 @@ export default function MondkalenderPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             {/* Upgrade Promotion für Basic-User */}
             {userSubscription?.packageId === 'basic' && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                
+                
+                
               >
                 <Box sx={{
                   background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%)',
@@ -976,9 +979,9 @@ export default function MondkalenderPage() {
             </Typography>
             </Box>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
+              
+              
+              
             >
               <Typography variant="h5" sx={{ 
               color: 'rgba(255,255,255,0.9)',
@@ -995,9 +998,9 @@ export default function MondkalenderPage() {
 
         {/* Profil Widget */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{ 
             background: 'rgba(139, 92, 246, 0.1)',
@@ -1108,9 +1111,9 @@ export default function MondkalenderPage() {
         {/* Aktuelle Mondphase */}
           {currentPhase && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+              
             >
                 <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.1)',
@@ -1169,9 +1172,9 @@ export default function MondkalenderPage() {
         
           {/* Tabs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            
+            
+            
           >
                 <Card sx={{ 
                   background: 'rgba(255, 255, 255, 0.1)',
@@ -1948,9 +1951,9 @@ export default function MondkalenderPage() {
 
               {/* Dating-Tipps Widget - nach den Tabs */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                
+                
+                
               >
                 <Card sx={{ 
                   background: 'rgba(255, 215, 0, 0.1)',

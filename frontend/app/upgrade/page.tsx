@@ -143,9 +143,9 @@ export default function UpgradePage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography variant="h2" sx={{
@@ -186,9 +186,9 @@ export default function UpgradePage() {
           {Object.entries(plans).map(([planKey, plan], index) => (
             <Grid item xs={12} md={4} key={planKey}>
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: plan.popular 
@@ -387,9 +387,9 @@ export default function UpgradePage() {
         
         {/* Pricing Note */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mt: 6 }}>
             <Typography variant="body2" sx={{ 

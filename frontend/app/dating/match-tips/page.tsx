@@ -568,9 +568,9 @@ export default function MatchTipsPage() {
                 {tips.map((tip) => (
                   <Grid item xs={12} md={6} key={tip.id}>
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
+                      
+                      
+                      
                     >
                       <Card sx={{
                         background: 'rgba(255,255,255,0.05)',
@@ -635,9 +635,9 @@ export default function MatchTipsPage() {
                 {locations.map((location) => (
                   <Grid item xs={12} md={6} key={location.id}>
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
+                      
+                      
+                      
                     >
                       <Card sx={{
                         background: 'rgba(255,255,255,0.05)',

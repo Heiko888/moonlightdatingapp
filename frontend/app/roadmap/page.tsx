@@ -132,9 +132,9 @@ export default function RoadmapPage() {
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -192,9 +192,9 @@ export default function RoadmapPage() {
 
           {/* AI Features Overview */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            
+            
+            
           >
             <Paper elevation={0} sx={{
               background: 'rgba(255, 255, 255, 0.05)',
@@ -230,9 +230,9 @@ export default function RoadmapPage() {
 
           {/* Personal Roadmap Component */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            
+            
+            
           >
             <PersonalRoadmap />
           </motion.div>

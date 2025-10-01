@@ -199,9 +199,9 @@ export default function AIMoonInsightsPage() {
         <Container maxWidth="xl">
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <Typography
@@ -231,9 +231,9 @@ export default function AIMoonInsightsPage() {
 
           {/* Navigation Button */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            
+            
+            
           >
             <Box sx={{ 
               display: 'flex', 
@@ -277,9 +277,9 @@ export default function AIMoonInsightsPage() {
               {/* Current Moon Phase */}
               {currentPhase && (
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: 'rgba(255,255,255,0.05)',
@@ -343,9 +343,9 @@ export default function AIMoonInsightsPage() {
                 {insights.map((insight, index) => (
                   <Grid item xs={12} md={6} lg={4} key={insight.id}>
                     <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                      
                     >
                       <Card sx={{
                         background: 'rgba(255,255,255,0.05)',
@@ -441,9 +441,9 @@ export default function AIMoonInsightsPage() {
 
               {/* Info Section */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
+                
+                
+                
               >
                 <Card sx={{
                   mt: 4,

@@ -178,9 +178,9 @@ export default function CustomReadingsPage() {
         <FloatingStars />
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.05)',
@@ -268,9 +268,9 @@ export default function CustomReadingsPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 8 }}>
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={8}>
             <Chip
@@ -323,9 +323,9 @@ export default function CustomReadingsPage() {
 
         {/* Reading Types */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h2" sx={{ 
             color: 'white',
@@ -344,9 +344,9 @@ export default function CustomReadingsPage() {
             {readingTypes.map((reading, index) => (
               <Grid item xs={12} md={6} lg={4} key={reading.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * index, duration: 0.6 }}
+                  
+                  
+                  
                 >
                   <Card sx={{ 
                     background: 'rgba(255, 255, 255, 0.05)',
@@ -447,9 +447,9 @@ export default function CustomReadingsPage() {
 
         {/* Booking Form */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -745,9 +745,9 @@ export default function CustomReadingsPage() {
 
         {/* Benefits Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ 
             background: 'rgba(255, 255, 255, 0.05)',

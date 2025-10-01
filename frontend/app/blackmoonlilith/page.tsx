@@ -193,7 +193,7 @@ export default function BlackMoonLilithPage() {
 
       {/* Animated Black Moon Lilith */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        
         animate={{ 
           opacity: 0.4, 
           scale: [1, 1.08, 1],
@@ -265,9 +265,9 @@ export default function BlackMoonLilithPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 4 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 6 }}>
             <Button
@@ -311,9 +311,9 @@ export default function BlackMoonLilithPage() {
         {/* Black Moon Lilith Info */}
         {blackMoonLilithInfo && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            
+            
+            
           >
             <Card sx={{ 
               mb: 6, 
@@ -408,9 +408,9 @@ export default function BlackMoonLilithPage() {
 
         {/* Black Moon Lilith in Centers */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             fontWeight: 'bold', 
@@ -425,9 +425,9 @@ export default function BlackMoonLilithPage() {
             {blackMoonLilithCenters.map((center, index) => (
               <Grid item xs={12} md={6} key={center.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index }}
+                  
+                  
+                  
                 >
                   <Card sx={{ 
                     height: '100%',
@@ -484,9 +484,9 @@ export default function BlackMoonLilithPage() {
 
         {/* Black Moon Lilith in Gates */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             fontWeight: 'bold', 

@@ -203,9 +203,9 @@ export default function RealtimeAnalysisPage() {
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -283,17 +283,17 @@ export default function RealtimeAnalysisPage() {
 
         {!loading && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            
+            
+            
           >
             <Grid container spacing={4}>
               {/* Chart-Auswahl */}
               <Grid item xs={12} md={6}>
                 <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
+                  
+                  
+                  
                 >
                 <Paper elevation={0} sx={{
                   background: 'rgba(255, 255, 255, 0.05)',
@@ -446,9 +446,9 @@ export default function RealtimeAnalysisPage() {
               {/* Schnell-Analyse Ergebnis */}
               <Grid item xs={12} md={6}>
                 <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
+                  
+                  
+                  
                 >
                 <Paper elevation={0} sx={{
                   background: 'rgba(255, 255, 255, 0.05)',
@@ -598,9 +598,9 @@ export default function RealtimeAnalysisPage() {
 
         {/* Info-Box */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          
+          
+          
         >
           <Paper elevation={0} sx={{
             mt: 4,

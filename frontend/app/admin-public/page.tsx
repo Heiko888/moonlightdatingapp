@@ -240,9 +240,9 @@ export default function AdminPublicPage() {
       <Container maxWidth="xl" sx={{ pt: 4, pb: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography variant="h2" sx={{ 
@@ -325,9 +325,9 @@ export default function AdminPublicPage() {
         {/* Tab Content */}
         {activeTab === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Grid container spacing={3}>
               {/* System Status */}
@@ -472,9 +472,9 @@ export default function AdminPublicPage() {
 
         {activeTab === 1 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Grid container spacing={3}>
               {[
@@ -513,9 +513,9 @@ export default function AdminPublicPage() {
 
         {activeTab === 2 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Grid container spacing={3}>
               {adminFeatures.map((feature, index) => (
@@ -571,9 +571,9 @@ export default function AdminPublicPage() {
 
         {activeTab === 3 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Card sx={{
               background: 'rgba(255, 255, 255, 0.05)',

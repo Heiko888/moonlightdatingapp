@@ -191,9 +191,7 @@ export default function DemoPage() {
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
               <Box sx={{ flex: 1 }}>
                 <HDChart 
-                  definedChannels={step.content.data.channels}
-                  activeGates={[]}
-                  definedCenters={step.content.data.centers.defined}
+                  data={step.content.data}
                 />
               </Box>
               <Box sx={{ flex: 1 }}>
@@ -323,9 +321,9 @@ export default function DemoPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 4 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography 
@@ -430,9 +428,9 @@ export default function DemoPage() {
                   </Typography>
                   
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    
+                    
+                    
                   >
                     {renderStepContent(step)}
                   </motion.div>
@@ -489,9 +487,9 @@ export default function DemoPage() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <Typography 

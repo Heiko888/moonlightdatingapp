@@ -320,9 +320,9 @@ export default function ProfilEinrichtenPage() {
       <Container maxWidth="md" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography
@@ -351,9 +351,9 @@ export default function ProfilEinrichtenPage() {
 
         {/* Stepper */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -394,9 +394,9 @@ export default function ProfilEinrichtenPage() {
 
         {/* Step Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -419,9 +419,9 @@ export default function ProfilEinrichtenPage() {
 
         {/* Navigation Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button

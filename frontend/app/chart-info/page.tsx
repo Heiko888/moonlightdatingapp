@@ -200,9 +200,9 @@ export default function ChartInfoPage() {
       <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <motion.div
@@ -290,9 +290,9 @@ export default function ChartInfoPage() {
         {/* Tab Content */}
         {activeTab === 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
             {/* Was ist Human Design */}
           <Card sx={{
@@ -327,9 +327,9 @@ export default function ChartInfoPage() {
               {chartFeatures.map((feature, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.1)',
@@ -387,9 +387,9 @@ export default function ChartInfoPage() {
 
         {activeTab === 1 && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+            
         >
           <Typography variant="h3" sx={{ 
               color: 'white', 
@@ -404,9 +404,9 @@ export default function ChartInfoPage() {
               {humanDesignTypes.map((type, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                    
                 >
                   <Card sx={{
                       background: 'rgba(255, 255, 255, 0.1)',
@@ -480,9 +480,9 @@ export default function ChartInfoPage() {
 
         {activeTab === 2 && (
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            
+            
+            
           >
             <Typography variant="h3" sx={{ 
               color: 'white', 
@@ -497,9 +497,9 @@ export default function ChartInfoPage() {
               {centers.map((center, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.1)',
@@ -543,9 +543,9 @@ export default function ChartInfoPage() {
 
         {activeTab === 3 && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+            
         >
           <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
@@ -567,9 +567,9 @@ export default function ChartInfoPage() {
                 {chartBenefits.map((benefit, index) => (
                   <Grid item xs={12} sm={6} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                        
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                           <CheckCircle size={24} color="#FFD700" />
@@ -591,9 +591,9 @@ export default function ChartInfoPage() {
 
         {/* Call to Action */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <Typography variant="h4" sx={{ 

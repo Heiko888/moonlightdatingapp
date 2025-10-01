@@ -380,9 +380,9 @@ export default function PersonalCoachPage() {
         <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
               <Users size={48} color="#FFD700" style={{ marginRight: 16 }} />
@@ -412,9 +412,9 @@ export default function PersonalCoachPage() {
 
           {/* Tabs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            
+            
+            
           >
             <Paper sx={{ 
               background: 'rgba(255, 255, 255, 0.05)',

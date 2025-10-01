@@ -117,9 +117,9 @@ export default function ReadingInfoPage() {
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
@@ -135,9 +135,9 @@ export default function ReadingInfoPage() {
               <BookOpen size={48} color="#FFD700" />
             </Box>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
+              
+              
+              
             >
               <Typography variant="h5" sx={{
                 color: 'rgba(255,255,255,0.9)',
@@ -154,9 +154,9 @@ export default function ReadingInfoPage() {
 
         {/* Was sind Readings */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -191,9 +191,9 @@ export default function ReadingInfoPage() {
 
         {/* Reading Types */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             color: '#FFD700', 
@@ -208,9 +208,9 @@ export default function ReadingInfoPage() {
             {readingTypes.map((reading, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: 'rgba(255, 255, 255, 0.1)',
@@ -262,9 +262,9 @@ export default function ReadingInfoPage() {
 
         {/* Benefits */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -287,9 +287,9 @@ export default function ReadingInfoPage() {
                 {readingBenefits.map((benefit, index) => (
                   <Grid item xs={12} sm={6} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1.4 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                      
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                         <CheckCircle size={24} color="#FFD700" />
@@ -310,9 +310,9 @@ export default function ReadingInfoPage() {
 
         {/* Features Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h3" sx={{ 
             color: '#FFD700', 
@@ -327,9 +327,9 @@ export default function ReadingInfoPage() {
             {features.map((feature, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.6 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     background: 'rgba(255, 255, 255, 0.1)',
@@ -381,9 +381,9 @@ export default function ReadingInfoPage() {
 
         {/* Process Steps */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -406,9 +406,9 @@ export default function ReadingInfoPage() {
                 {processSteps.map((step, index) => (
                   <Grid item xs={12} sm={6} md={3} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 2.0 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                      
                     >
                       <Box sx={{ textAlign: 'center' }}>
                         <Box sx={{
@@ -450,9 +450,9 @@ export default function ReadingInfoPage() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.4, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="h4" sx={{ 

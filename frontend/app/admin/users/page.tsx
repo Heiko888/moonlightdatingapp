@@ -204,9 +204,9 @@ export default function UsersPage() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8, px: 2 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <motion.div
@@ -293,9 +293,9 @@ export default function UsersPage() {
         {/* Message Alert */}
         {message && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            
+            
+            
           >
             <Alert 
               severity="success" 
@@ -309,9 +309,9 @@ export default function UsersPage() {
 
         {/* Search and Actions */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{ 
             background: 'rgba(255, 255, 255, 0.08)', 
@@ -368,9 +368,9 @@ export default function UsersPage() {
 
         {/* Users Table */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          
+          
+          
         >
           <Card sx={{ 
             background: 'rgba(255, 255, 255, 0.95)', 

@@ -74,12 +74,12 @@ export default function AdminUploadPage() {
 
   return (
     <>
-      <AppHeader current="/admin" />
+      <AppHeader />
       <Box sx={{ minHeight: '100vh', background: 'linear-gradient(120deg,#2a174d 0%,#3a2069 100%)', py: 8 }}>
         <motion.div 
-          initial={{ opacity: 0, y: 40 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }} 
+           
+           
+           
           style={{ maxWidth: 1000, margin: '0 auto' }}
         >
           <Paper elevation={6} sx={{ 

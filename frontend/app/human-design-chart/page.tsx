@@ -977,7 +977,7 @@ export default function HumanDesignChartPage() {
                       ) : (
                         <Box>
                           <Typography variant="subtitle2" sx={{ color: '#FFD700', fontWeight: 600, mb: 1 }}>
-                            {chartInfo.incarnationCross}
+                            {typeof chartInfo.incarnationCross === 'string' ? chartInfo.incarnationCross : chartInfo.incarnationCross.name}
                           </Typography>
                           <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
                             Dein Inkarnationskreuz zeigt deine Lebensaufgabe und deinen höheren Zweck. 

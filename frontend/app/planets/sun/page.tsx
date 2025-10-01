@@ -39,7 +39,7 @@ export default function SunPage() {
 
       {/* Animated Sun */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        
         animate={{ 
           opacity: 0.4, 
           scale: [1, 1.08, 1],

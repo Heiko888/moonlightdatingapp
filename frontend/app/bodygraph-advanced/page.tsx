@@ -294,9 +294,9 @@ export default function AdvancedBodygraphDemo() {
       <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
         {/* Premium Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
             <IconButton
@@ -384,9 +384,9 @@ export default function AdvancedBodygraphDemo() {
 
         {/* Premium Controls */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          
+          
+          
         >
           <Paper sx={{ 
             mb: 3,
@@ -570,9 +570,9 @@ export default function AdvancedBodygraphDemo() {
 
         {/* Premium Tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          
+          
+          
         >
           <Paper sx={{ 
             mb: 3,
@@ -631,9 +631,9 @@ export default function AdvancedBodygraphDemo() {
 
         {/* Premium Tab Panels */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          
+          
+          
         >
           <TabPanel value={activeTab} index={0}>
             <Paper sx={{ 
@@ -805,9 +805,9 @@ export default function AdvancedBodygraphDemo() {
 
       {/* SVG Integration Section */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
+        
+        
+        
       >
         <Paper sx={{ 
           mt: 4,

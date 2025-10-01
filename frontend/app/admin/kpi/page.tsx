@@ -345,9 +345,9 @@ function KPIContent() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 4 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
             <Box>
@@ -401,9 +401,9 @@ function KPIContent() {
           <>
             {/* Tabs */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              
+              
+              
             >
               <Card sx={{
                 background: 'rgba(255,255,255,0.05)',
@@ -431,9 +431,9 @@ function KPIContent() {
             {/* KPI Goals Tab */}
             {activeTab === 0 && (
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',
@@ -542,9 +542,9 @@ function KPIContent() {
             {/* Settings Tab */}
             {activeTab === 1 && (
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',
@@ -625,9 +625,9 @@ function KPIContent() {
             {/* Analytics Tab */}
             {activeTab === 2 && (
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',

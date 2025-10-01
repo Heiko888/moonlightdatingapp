@@ -101,9 +101,9 @@ export default function PackageOverviewPage() {
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h2" sx={{
@@ -145,9 +145,9 @@ export default function PackageOverviewPage() {
 
         {/* Package Comparison */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.05)',
@@ -242,9 +242,9 @@ export default function PackageOverviewPage() {
 
         {/* Page Access by Category */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          
+          
+          
         >
           <Typography variant="h4" sx={{ color: 'white', mb: 4, textAlign: 'center' }}>
             Seiten-Zugriff nach Kategorien
@@ -254,9 +254,9 @@ export default function PackageOverviewPage() {
             {Object.entries(groupedPages).map(([category, pages], categoryIndex) => (
               <Grid item xs={12} md={6} lg={4} key={category}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 * categoryIndex }}
+                  
+                  
+                  
                 >
                   <Card sx={{
                     height: '100%',
@@ -315,9 +315,9 @@ export default function PackageOverviewPage() {
 
         {/* Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          
+          
+          
         >
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 6 }}>
             <Button

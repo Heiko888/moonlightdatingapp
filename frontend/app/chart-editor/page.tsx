@@ -216,9 +216,9 @@ export default function ChartEditorPage() {
       <Container maxWidth="lg">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={6}>
             <Typography 
@@ -406,9 +406,9 @@ export default function ChartEditorPage() {
                 {/* Step 0: Welcome */}
                 {activeStep === 0 && (
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
+                    
+                    
+                    
                   >
                     <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
                       Willkommen im Chart Editor! 🎉
@@ -463,9 +463,9 @@ export default function ChartEditorPage() {
                 {/* Step 1: Template Selection */}
                 {activeStep === 1 && (
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
+                    
+                    
+                    
                   >
                     <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
                       Wähle deinen Human Design Typ
@@ -550,9 +550,9 @@ export default function ChartEditorPage() {
                 {/* Step 2: Customization */}
                 {activeStep === 2 && (
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
+                    
+                    
+                    
                   >
                     <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
                       Personalisiere deinen Chart
@@ -666,9 +666,9 @@ export default function ChartEditorPage() {
                 {/* Step 3: Chart Display */}
                 {activeStep === 3 && (
                   <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
+                    
+                    
+                    
                   >
                     <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 700 }}>
                       Dein Human Design Chart

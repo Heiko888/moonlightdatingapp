@@ -414,9 +414,9 @@ function HumanDesignChart({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      
+      
+      
     >
       <Card sx={{
               background: `
@@ -490,8 +490,8 @@ function HumanDesignChart({
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                
+                
               >
                 <User size={28} color="#fef3c7" />
               </motion.div>
@@ -723,7 +723,7 @@ function HumanDesignChart({
                     strokeLinecap="round"
                     filter={isActive ? 'url(#glow)' : 'none'}
                     strokeDasharray={isActive ? 'none' : '2,2'}
-                    initial={{ pathLength: 0, opacity: 0 }}
+                    
                     animate={{ 
                       pathLength: 1, 
                       opacity: isActive ? 1 : 0.4 
@@ -763,7 +763,7 @@ function HumanDesignChart({
                       stroke={isSelected ? '#fef3c7' : isHovered ? center.color : 'rgba(254,243,199,0.3)'}
                       strokeWidth={isSelected ? '0.5' : isHovered ? '0.4' : '0.2'}
                       filter={isDefined || isHovered ? 'url(#glow)' : 'none'}
-                      initial={{ scale: 0, opacity: 0 }}
+                      
                       animate={{ 
                         scale: isHovered ? 1.2 : 1, 
                         opacity: 1,
@@ -794,9 +794,9 @@ function HumanDesignChart({
                       fill="#fef3c7"
                       fontSize="2"
                       fontWeight="600"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1 }}
+                      
+                      
+                      
                     >
                       {center.name}
                     </motion.text>
@@ -822,8 +822,8 @@ function HumanDesignChart({
                       stroke={gate.active ? gate.color : 'rgba(254,243,199,0.4)'}
                       strokeWidth={gate.active ? "0.3" : "0.15"}
                       filter={gate.active ? "url(#glow)" : "none"}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
+                      
+                      
                       transition={{ 
                         duration: 0.6, 
                         delay: 1.5 + (index * 0.03)
@@ -875,9 +875,9 @@ function HumanDesignChart({
                       fill={gate.active ? "#fef3c7" : "rgba(254,243,199,0.7)"}
                       fontSize={gate.active ? "1.4" : "1.0"}
                       fontWeight="700"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2.2 + (index * 0.03) }}
+                      
+                      
+                      
                     >
                       {gateId}
                     </motion.text>
@@ -905,8 +905,8 @@ function HumanDesignChart({
                       stroke={isSelected ? '#fef3c7' : planetData.color as string}
                       strokeWidth={isSelected ? '0.3' : '0.1'}
                       filter="url(#planetGlow)"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
+                      
+                      
                       transition={{ 
                         duration: 0.6, 
                         delay: 2 + (index * 0.1)
@@ -935,9 +935,9 @@ function HumanDesignChart({
                       fill="#fef3c7"
                       fontSize="1.5"
                       fontWeight="700"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2.2 + (index * 0.1) }}
+                      
+                      
+                      
                     >
                       {planetSymbols[planetData.symbol as keyof typeof planetSymbols] || planetData.symbol}
                     </motion.text>
@@ -949,9 +949,9 @@ function HumanDesignChart({
                         cy={y - 2}
                         r="0.8"
                         fill="#ef4444"
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 2.5 + (index * 0.1) }}
+                        
+                        
+                        
                       />
                     )}
 
@@ -963,9 +963,9 @@ function HumanDesignChart({
                       fill={planet.color as string}
                       fontSize="0.8"
                       fontWeight="700"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 2.3 + (index * 0.1) }}
+                      
+                      
+                      
                     >
                       {planet.currentGate as string}
                     </motion.text>
@@ -979,10 +979,10 @@ function HumanDesignChart({
             <AnimatePresence>
               {hoveredElement && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  
+                  
                   exit={{ opacity: 0, scale: 0.8, y: 10 }}
-                  transition={{ duration: 0.2 }}
+                  
                   style={{
                     position: 'absolute',
                     top: '50%',
@@ -1087,8 +1087,8 @@ function HumanDesignChart({
             <AnimatePresence>
               {(selectedCenter || selectedChannel || selectedPlanet) && (
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  
+                  
                   exit={{ opacity: 0, x: 20 }}
                   style={{
                     position: 'absolute',
@@ -1737,9 +1737,9 @@ function HumanDesignChart({
 
       {/* Current Transits Section */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.8, duration: 0.8 }}
+        
+        
+        
       >
         <Box sx={{ mt: 3 }}>
           <Paper sx={{
@@ -1972,9 +1972,9 @@ function HumanDesignChart({
 
       {/* Profile Information Section - Separate */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 0.8 }}
+        
+        
+        
       >
         <Box sx={{ mt: 3 }}>
           <Paper sx={{
@@ -2143,9 +2143,9 @@ function HumanDesignChart({
 
       {/* Extended Profile Information Section */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 3, duration: 0.8 }}
+        
+        
+        
       >
         <Box sx={{ mt: 4 }}>
           <Paper sx={{

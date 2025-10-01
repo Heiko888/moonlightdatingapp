@@ -405,9 +405,9 @@ function CommunityContent() {
         <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Typography variant="h2" sx={{
@@ -449,9 +449,9 @@ function CommunityContent() {
 
           {/* Stats Cards */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            
+            
+            
           >
             <Grid container spacing={3} sx={{ mb: 4 }}>
               {communityStats.map((stat, index) => (
@@ -489,9 +489,9 @@ function CommunityContent() {
 
           {/* Search and Filter */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            
+            
+            
           >
             <Paper sx={{
               background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -622,9 +622,9 @@ function CommunityContent() {
                     {recentPosts.map((post, index) => (
                       <motion.div
                         key={post.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        
+                        
+                        
                       >
                         <Box sx={{ 
                           mb: 3, 
@@ -796,9 +796,9 @@ function CommunityContent() {
               {upcomingEvents.map((event, index) => (
                 <Grid item xs={12} md={6} lg={4} key={event.id}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -910,9 +910,9 @@ function CommunityContent() {
                   {onlineUsers.map((user, index) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} key={user.id}>
                       <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                        
+                        
+                        
                       >
                         <Box sx={{ 
                           textAlign: 'center', 
@@ -1086,9 +1086,9 @@ function CommunityContent() {
               {compatibilityMatches.map((match, index) => (
                 <Grid item xs={12} md={6} lg={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1204,9 +1204,9 @@ function CommunityContent() {
               {mentorMenteeMatches.map((match, index) => (
                 <Grid item xs={12} md={6} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1323,9 +1323,9 @@ function CommunityContent() {
               {trendingTopics.map((topic, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    
+                    
+                    
                   >
                     <Card sx={{
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1542,8 +1542,6 @@ function CommunityContent() {
 // Hauptkomponente mit ProtectedRoute
 export default function CommunityPage() {
   return (
-    <ProtectedRoute requiredRole="basic">
-      <CommunityContent />
-    </ProtectedRoute>
+    <CommunityContent />
   );
 }

@@ -185,9 +185,9 @@ export default function DatingDashboard() {
           {stats.map((stat, index) => (
             <Grid item xs={6} md={3} key={index}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',
@@ -242,9 +242,9 @@ export default function DatingDashboard() {
         {/* Content based on active tab */}
         {activeTab === 'swipe' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            
+            
+            
           >
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
@@ -341,9 +341,9 @@ export default function DatingDashboard() {
 
         {activeTab === 'matches' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            
+            
+            
           >
             <Grid container spacing={3}>
               {existingMatches.map((match) => (
@@ -440,9 +440,9 @@ export default function DatingDashboard() {
 
         {activeTab === 'events' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            
+            
+            
           >
             <Grid container spacing={3}>
               {events.map((event) => (
@@ -521,9 +521,9 @@ export default function DatingDashboard() {
 
         {activeTab === 'messages' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            
+            
+            
           >
             <Card sx={{
               background: 'rgba(255,255,255,0.05)',

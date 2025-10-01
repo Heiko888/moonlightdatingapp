@@ -173,9 +173,9 @@ export default function AuthorityPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={8}>
             <Chip
@@ -229,9 +229,9 @@ export default function AuthorityPage() {
 
         {/* Search Bar */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.1)',
@@ -270,17 +270,17 @@ export default function AuthorityPage() {
 
         {/* Authorities Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          
+          
+          
         >
           <Grid container spacing={4}>
             {filteredAuthorities.map((authority, index) => (
               <Grid item xs={12} md={6} key={authority.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 + index * 0.1, duration: 0.6 }}
+                  
+                  
+                  
                   whileHover={{ y: -8 }}
                 >
                   <Card sx={{
@@ -511,9 +511,9 @@ export default function AuthorityPage() {
 
         {/* Back to Dashboard Button */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mt: 8 }}>
             <Button

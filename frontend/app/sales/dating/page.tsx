@@ -142,9 +142,9 @@ export default function SalesDatingPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={8}>
             <Chip
@@ -251,9 +251,9 @@ export default function SalesDatingPage() {
 
         {/* Features Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h2" sx={{ 
             color: 'white',
@@ -387,9 +387,9 @@ export default function SalesDatingPage() {
 
         {/* Dating Tools Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h2" sx={{ 
             color: 'white',
@@ -541,9 +541,9 @@ export default function SalesDatingPage() {
 
         {/* Pricing Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
+          
+          
+          
         >
           <Typography variant="h2" sx={{ 
             color: 'white',
@@ -928,9 +928,9 @@ export default function SalesDatingPage() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{ 
             background: 'rgba(255, 255, 255, 0.1)',

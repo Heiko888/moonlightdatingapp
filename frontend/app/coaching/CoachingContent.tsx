@@ -182,9 +182,9 @@ const CoachingContent: React.FC = () => {
       <AnimatedStars />
       
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+        
+        
+        
         style={{ maxWidth: 1400, margin: '0 auto', position: 'relative', zIndex: 1, padding: '0 20px' }}
       >
         <Typography 
@@ -310,9 +310,9 @@ const CoachingContent: React.FC = () => {
         {filteredSessions.map((session, idx) => (
           <motion.div
             key={session.id}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: idx * 0.1, type: "spring", stiffness: 80 }}
+            
+            
+              
             whileHover={{
                 scale: 1.02,
                 boxShadow: '0 20px 40px rgba(0,0,0,0.15)',

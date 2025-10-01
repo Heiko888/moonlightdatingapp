@@ -876,14 +876,14 @@ export default function SwipePage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, scale: 0.8 }}
+              
               animate={{ 
                 opacity: 1, 
                 scale: 1,
                 x: swipeAnim === 'left' ? -300 : swipeAnim === 'right' ? 300 : 0
               }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
+              
               style={{ width: '100%', maxWidth: 500 }}
             >
               <Card sx={{ 
@@ -1350,8 +1350,8 @@ export default function SwipePage() {
       <AnimatePresence>
         {showMatches && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            
+            
             exit={{ opacity: 0 }}
             style={{
               position: 'fixed',
@@ -1367,8 +1367,8 @@ export default function SwipePage() {
             }}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              
+              
               exit={{ scale: 0.8, opacity: 0 }}
               style={{ width: '90%', maxWidth: 600 }}
             >
@@ -1449,8 +1449,8 @@ export default function SwipePage() {
       <AnimatePresence>
         {showMatchAnim && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            
+            
             exit={{ opacity: 0, scale: 0.5 }}
             style={{
               position: 'fixed',

@@ -405,9 +405,9 @@ function ProfilContent() {
       <Container maxWidth="lg" sx={{ py: 8, pt: 12 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h2" sx={{ 
@@ -432,9 +432,9 @@ function ProfilContent() {
         {/* Message Alert */}
         {message && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            
+            
+            
           >
             <Alert 
               severity="success" 
@@ -450,9 +450,9 @@ function ProfilContent() {
           {/* Linke Spalte - Profil-Informationen */}
           <Grid item xs={12} lg={8}>
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
+              
+              
+              
             >
               {/* Profil-Karte */}
               <Card sx={{ 
@@ -728,9 +728,9 @@ function ProfilContent() {
           {/* Rechte Spalte - Aktivitäten und Statistiken */}
           <Grid item xs={12} lg={4}>
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              
+              
+              
             >
               {/* Aktivitäts-Statistiken */}
               <Card sx={{ 

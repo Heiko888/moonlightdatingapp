@@ -425,15 +425,15 @@ export default function SettingsPage() {
         
         <Container maxWidth="md" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+            
+            
+            
           >
             {/* Hero Section */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              
+              
+              
             >
               <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography 
@@ -473,9 +473,9 @@ export default function SettingsPage() {
 
             {/* Persönliche Daten */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -751,9 +751,9 @@ export default function SettingsPage() {
 
             {/* Privatsphäre & Benachrichtigungen */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -886,9 +886,9 @@ export default function SettingsPage() {
 
             {/* Passwort ändern */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1079,9 +1079,9 @@ export default function SettingsPage() {
 
             {/* E-Mail ändern */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1213,9 +1213,9 @@ export default function SettingsPage() {
 
             {/* Profil bearbeiten */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1296,9 +1296,9 @@ export default function SettingsPage() {
 
             {/* Human Design Chart verwalten */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1399,9 +1399,9 @@ export default function SettingsPage() {
 
             {/* Reading verwalten */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1502,9 +1502,9 @@ export default function SettingsPage() {
 
             {/* Theme & Datenexport */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.8 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1589,9 +1589,9 @@ export default function SettingsPage() {
 
             {/* Abonnement kündigen */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.0 }}
+              
+              
+              
             >
               <Card sx={{ 
                 mb: 4,
@@ -1764,9 +1764,9 @@ export default function SettingsPage() {
 
             {/* Account löschen */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.2 }}
+              
+              
+              
             >
               <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.1)', 

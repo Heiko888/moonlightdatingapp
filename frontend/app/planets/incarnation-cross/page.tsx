@@ -376,9 +376,9 @@ export default function IncarnationCrossPage() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        
+        
+        
       >
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -403,9 +403,9 @@ export default function IncarnationCrossPage() {
       {/* Fehler-Anzeige */}
       {error && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          
+          
+          
         >
           <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
             {error}
@@ -415,9 +415,9 @@ export default function IncarnationCrossPage() {
 
       {/* Berechnungsformular */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        
+        
+        
       >
         <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
           <CardContent sx={{ p: 4 }}>
@@ -568,9 +568,9 @@ export default function IncarnationCrossPage() {
       {/* Berechnetes Inkarnationskreuz */}
       {calculatedCross && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          
+          
+          
         >
           <Card sx={{ mb: 4, border: '2px solid #8B5CF6' }}>
             <CardContent sx={{ p: 4 }}>
@@ -663,9 +663,9 @@ export default function IncarnationCrossPage() {
 
       {/* Filter und Suche */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
+        
+        
+        
       >
         <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
           <CardContent sx={{ p: 3 }}>
@@ -782,9 +782,9 @@ export default function IncarnationCrossPage() {
 
       {/* Bekannte Inkarnationskreuze */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
+        
+        
+        
       >
         <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
           Bekannte Inkarnationskreuze ({filteredCrosses.length})
@@ -794,9 +794,9 @@ export default function IncarnationCrossPage() {
           {filteredCrosses.map((cross, index) => (
             <Grid item xs={12} md={6} lg={4} key={index}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                
+                
+                
                 whileHover={{ y: -5 }}
               >
                 <Card sx={{ 

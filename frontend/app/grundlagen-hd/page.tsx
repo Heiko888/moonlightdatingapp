@@ -80,9 +80,9 @@ export default function GrundlagenHDPage() {
       <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <motion.div
@@ -135,9 +135,9 @@ export default function GrundlagenHDPage() {
 
         {/* Navigation Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          
+          
+          
         >
           <Box sx={{ 
             display: 'flex', 
@@ -202,9 +202,9 @@ export default function GrundlagenHDPage() {
           {hdBasics.map((basic, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
+                
+                
+                
               >
                 <Card sx={{
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -282,9 +282,9 @@ export default function GrundlagenHDPage() {
 
         {/* Info Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.95) 0%, rgba(26,31,43,0.98) 100%)',

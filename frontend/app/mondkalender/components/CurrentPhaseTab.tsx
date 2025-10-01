@@ -22,9 +22,9 @@ export default function CurrentPhaseTab({ currentPhase, onAddTracking }: Current
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      
+      
+      
     >
       <Grid container spacing={4}>
         {/* Aktuelle Phase Card */}
@@ -61,7 +61,7 @@ export default function CurrentPhaseTab({ currentPhase, onAddTracking }: Current
               
               <Chip
                 label={currentPhase.energy}
-                size="large"
+                size="medium"
                 sx={{
                   background: 'rgba(254,243,199,0.2)',
                   color: '#fef3c7',

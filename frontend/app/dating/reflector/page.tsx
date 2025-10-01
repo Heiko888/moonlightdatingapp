@@ -162,15 +162,15 @@ export default function ReflectiveDatingPage() {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box textAlign="center" mb={8}>
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
+              
+              
+              
             >
               <Chip
                 label="🌙 Für reflektive Liebe entwickelt"
@@ -190,9 +190,9 @@ export default function ReflectiveDatingPage() {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              
+              
+              
             >
               <Typography 
                 variant="h1" 
@@ -214,9 +214,9 @@ export default function ReflectiveDatingPage() {
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
+              
+              
+              
             >
               <Typography 
                 variant="h5" 
@@ -235,9 +235,9 @@ export default function ReflectiveDatingPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
+              
+              
+              
             >
               <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <motion.div
@@ -308,9 +308,9 @@ export default function ReflectiveDatingPage() {
 
         {/* Benefits Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ py: 8 }}>
             <Box sx={{ textAlign: 'center', mb: 8 }}>
@@ -332,9 +332,9 @@ export default function ReflectiveDatingPage() {
               {benefits.map((benefit, index) => (
                 <Grid item xs={12} sm={6} lg={4} key={index}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
+                    
+                    
+                    
                     whileHover={{ y: -8 }}
                   >
                     <Card sx={{ 
@@ -389,9 +389,9 @@ export default function ReflectiveDatingPage() {
 
         {/* Features Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ 
             py: 8, 
@@ -421,9 +421,9 @@ export default function ReflectiveDatingPage() {
                 {features.map((feature, index) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
                     <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7 + index * 0.1, duration: 0.6 }}
+                      
+                      
+                      
                       whileHover={{ y: -5 }}
                     >
                       <Box sx={{ 
@@ -458,9 +458,9 @@ export default function ReflectiveDatingPage() {
 
         {/* Testimonial */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ py: 8 }}>
             <Card sx={{ 
@@ -529,9 +529,9 @@ export default function ReflectiveDatingPage() {
 
         {/* CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ py: 8 }}>
             <Card sx={{ 

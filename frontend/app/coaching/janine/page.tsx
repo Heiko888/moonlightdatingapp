@@ -213,9 +213,9 @@ export default function JanineProfilePage() {
         <Box sx={{ maxWidth: 800, mx: 'auto', px: 3, position: 'relative', zIndex: 1 }}>
           {/* Zurück-Button */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            
+            
+            
           >
             <Button
               component={Link}
@@ -246,9 +246,9 @@ export default function JanineProfilePage() {
 
           {/* Hauptkarte */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            
+            
+            
           >
             <Card sx={{ 
               maxWidth: 700, 
@@ -275,9 +275,9 @@ export default function JanineProfilePage() {
                 `
               }}>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
+                  
+                  
+                  
                 >
                   <Avatar 
                     src="/images/janine.jpg" 
@@ -297,9 +297,9 @@ export default function JanineProfilePage() {
                 </motion.div>
                 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
+                  
+                  
+                  
                 >
                   <Typography variant="h4" sx={{ 
                     color: '#4b2e83', 
@@ -356,9 +356,9 @@ export default function JanineProfilePage() {
               {/* Content */}
               <CardContent sx={{ p: 4 }}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  
+                  
+                  
                 >
                   <Typography variant="h6" sx={{ 
                     color: '#4b2e83', 
@@ -456,8 +456,8 @@ export default function JanineProfilePage() {
           {/* Buchungsformular Modal */}
           {showBookingForm && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              
+              
               exit={{ opacity: 0 }}
               style={{
                 position: 'fixed',
@@ -475,9 +475,9 @@ export default function JanineProfilePage() {
               }}
             >
               <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                
+                
+                
                 style={{ maxWidth: 600, width: '100%' }}
               >
                 <Card sx={{ 

@@ -256,7 +256,7 @@ export default function JupiterPage() {
 
       {/* Animated Jupiter */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
+        
         animate={{ 
           opacity: 0.5, 
           scale: [1, 1.09, 1],
@@ -483,7 +483,7 @@ export default function JupiterPage() {
 
       {/* Jupiter's Moons - Io, Europa, Ganymede, Callisto */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.3 }}
+        
         animate={{ 
           opacity: 0.7,
           scale: 1,
@@ -537,7 +537,7 @@ export default function JupiterPage() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.2 }}
+        
         animate={{ 
           opacity: 0.6,
           scale: 1,
@@ -582,7 +582,7 @@ export default function JupiterPage() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.25 }}
+        
         animate={{ 
           opacity: 0.5,
           scale: 1,
@@ -637,7 +637,7 @@ export default function JupiterPage() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.2 }}
+        
         animate={{ 
           opacity: 0.4,
           scale: 1,
@@ -705,9 +705,9 @@ export default function JupiterPage() {
 
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          
+          
+          
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
@@ -727,9 +727,9 @@ export default function JupiterPage() {
 
         {/* Jupiter in Gates */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -883,9 +883,9 @@ export default function JupiterPage() {
 
         {/* Jupiter in Centers */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          
+          
+          
         >
           <Card sx={{
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
