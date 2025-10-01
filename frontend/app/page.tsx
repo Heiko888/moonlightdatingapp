@@ -536,32 +536,41 @@ export default function HomePage() {
         </motion.div>
       </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header mit Login/Registrieren Buttons */}
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center',
-          py: 3,
-          position: 'relative'
+          py: { xs: 2, md: 3 },
+          position: 'relative',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: { xs: 2, sm: 0 }
         }}>
           {/* Logo/Title */}
           <Typography 
             variant="h4" 
             sx={{ 
               fontWeight: 'bold',
+              fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2.125rem' },
               background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              textShadow: '0 0 20px rgba(255, 255, 255, 0.6)'
+              textShadow: '0 0 20px rgba(255, 255, 255, 0.6)',
+              textAlign: { xs: 'center', sm: 'left' }
             }}
           >
             KOSMISCHE VERBINDUNGEN
           </Typography>
           
           {/* App direkt nutzen - Kein Login erforderlich */}
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: { xs: 1, sm: 2 },
+            flexDirection: { xs: 'column', sm: 'row' },
+            width: { xs: '100%', sm: 'auto' }
+          }}>
             <Button
               component={Link}
               href="/chart"
@@ -571,7 +580,7 @@ export default function HomePage() {
                 background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                 color: '#000',
                 fontWeight: 'bold',
-                px: 3,
+                px: { xs: 2, sm: 3 },
                 py: 1,
                 borderRadius: 2,
                 boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
@@ -595,7 +604,7 @@ export default function HomePage() {
                 color: '#C0C0C0',
                 borderColor: 'rgba(192, 192, 192, 0.5)',
                 fontWeight: 'bold',
-                px: 3,
+                px: { xs: 2, sm: 3 },
                 py: 1,
                 borderRadius: 2,
                 background: 'rgba(192, 192, 192, 0.1)',
@@ -618,8 +627,8 @@ export default function HomePage() {
         {/* Hero Section */}
         <Box sx={{ 
           textAlign: 'center', 
-          py: 12,
-          pt: 16,
+          py: { xs: 6, md: 12 },
+          pt: { xs: 8, md: 16 },
           position: 'relative'
         }}>
           <Typography 
@@ -671,7 +680,14 @@ Kosmische Verbindungen
           </Typography>
 
 
-          <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: { xs: 2, md: 3 }, 
+            justifyContent: 'center', 
+            flexWrap: 'wrap',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center'
+          }}>
             <Button
               component={Link}
               href="/dating-info"
@@ -799,7 +815,7 @@ Kosmische Verbindungen
 
         {/* Friends Community Widget */}
         <Box sx={{ py: 8, mb: 4 }}>
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 } }}>
             <Card sx={{
               background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
               backdropFilter: 'blur(15px)',
@@ -860,7 +876,7 @@ Kosmische Verbindungen
                   Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
                 </Typography>
 
-                <Grid container spacing={3} sx={{ mb: 4 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: 4 }}>
                   <Grid item xs={12} sm={6} md={3}>
                     <Box sx={{ textAlign: 'center' }}>
                       <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
@@ -974,9 +990,9 @@ Kosmische Verbindungen
             🚀 Hauptfunktionen
           </Typography>
           
-          <Grid container spacing={4}>
+          <Grid container spacing={{ xs: 2, md: 4 }}>
             {mainFeatures.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card sx={{
                   background: `linear-gradient(135deg, ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}15 0%, ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}08 100%)`,
                   backdropFilter: 'blur(15px)',
@@ -1145,8 +1161,8 @@ Kosmische Verbindungen
           >
             Entdecke alle Tools und Funktionen der Kosmische Verbindungen App
           </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
+          <Grid container spacing={{ xs: 2, md: 3 }}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                 backdropFilter: 'blur(20px)',
@@ -1170,7 +1186,7 @@ Kosmische Verbindungen
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                 backdropFilter: 'blur(20px)',
@@ -1194,7 +1210,7 @@ Kosmische Verbindungen
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                 backdropFilter: 'blur(20px)',
@@ -1285,7 +1301,7 @@ Kosmische Verbindungen
 
           <Grid container spacing={4} sx={{ mb: 8 }}>
             {/* Erweiterte Analysen */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1353,7 +1369,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* Readings */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1427,7 +1443,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* Events & Meetups */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1707,8 +1723,8 @@ Kosmische Verbindungen
             Kosmische Verbindungen revolutioniert das Dating durch Human Design - für tiefere Verbindungen und erfüllendere Beziehungen.
           </Typography>
 
-          <Grid container spacing={6}>
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={{ xs: 3, md: 6 }}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1811,7 +1827,7 @@ Kosmische Verbindungen
               </motion.div>
             </Grid>
             
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1903,7 +1919,7 @@ Kosmische Verbindungen
                       <Box sx={{
                         background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                         color: '#000',
-                        px: 3,
+                        px: { xs: 2, sm: 3 },
                         py: 2,
                         borderRadius: 3,
                         fontSize: '1rem',
@@ -1920,7 +1936,7 @@ Kosmische Verbindungen
                       <Box sx={{
                         background: 'linear-gradient(135deg, #FF6B9D, #C44569)',
                         color: '#fff',
-                        px: 3,
+                        px: { xs: 2, sm: 3 },
                         py: 2,
                         borderRadius: 3,
                         fontSize: '1rem',
@@ -1937,7 +1953,7 @@ Kosmische Verbindungen
                       <Box sx={{
                         background: 'linear-gradient(135deg, #4ECDC4, #44A08D)',
                         color: '#fff',
-                        px: 3,
+                        px: { xs: 2, sm: 3 },
                         py: 2,
                         borderRadius: 3,
                         fontSize: '1rem',
@@ -1975,7 +1991,7 @@ Kosmische Verbindungen
           
           <Grid container spacing={4} sx={{ mb: 8 }}>
             {/* Testimonial 1 */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2061,7 +2077,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* Testimonial 2 */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2147,7 +2163,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* Testimonial 3 */}
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2263,7 +2279,7 @@ Kosmische Verbindungen
           
           <Grid container spacing={4} justifyContent="center">
             {pricingPlans.map((plan, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card sx={{
                   background: plan.popular 
                     ? 'linear-gradient(135deg, #FFD70015 0%, #FFD70008 100%)' 
@@ -2312,7 +2328,7 @@ Kosmische Verbindungen
                       transform: 'translateX(-50%)',
                       background: 'linear-gradient(45deg, #FFD700, #FFA500)',
                       color: '#000',
-                      px: 3,
+                      px: { xs: 2, sm: 3 },
                       py: 1,
                       borderRadius: '0 0 12px 12px',
                       fontSize: '0.9rem',
@@ -2445,7 +2461,6 @@ Kosmische Verbindungen
                     {/* CTA Button */}
                     <Button
                       variant="contained"
-                      fullWidth
                       onClick={() => {
                         console.log(`Plan ausgewählt: ${plan.name}`);
                         
@@ -2533,7 +2548,7 @@ Kosmische Verbindungen
 
           <Grid container spacing={4} sx={{ maxWidth: 1000, mx: 'auto' }}>
             {/* FAQ Item 1 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2601,7 +2616,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* FAQ Item 2 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2669,7 +2684,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* FAQ Item 3 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2736,7 +2751,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* FAQ Item 4 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2803,7 +2818,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* FAQ Item 5 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -2870,7 +2885,7 @@ Kosmische Verbindungen
             </Grid>
 
             {/* FAQ Item 6 */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} sm={6} md={6}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
