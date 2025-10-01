@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import AccessControl from '../../../components/AccessControl';
+import { UserSubscription } from '../../../lib/subscription/types';
+import { SubscriptionService } from '../../../lib/subscription/subscriptionService';
 import { 
   Box, 
   Typography, 
@@ -142,6 +146,77 @@ interface KPISetting {
 }
 
 export default function AdminKPIPanel() {
+  const router = useRouter();
+  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Authentication check
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        
+        if (!token || !userId) {
+          console.log('🔒 Keine Authentifizierung - leite zur Login-Seite weiter');
+          router.push('/login');
+          return;
+        }
+        
+        setIsAuthenticated(true);
+        await loadUserSubscription(userId);
+      } catch (error) {
+        console.error('Fehler bei der Authentifizierung:', error);
+        router.push('/login');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, [router]);
+
+  const loadUserSubscription = async (userId: string) => {
+    try {
+      const subscription = await SubscriptionService.getUserSubscription(userId);
+      setUserSubscription(subscription);
+    } catch (error) {
+      console.error('Fehler beim Laden der Subscription:', error);
+    }
+  };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'
+      }}>
+        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return (
+    <AccessControl 
+      path="/admin/kpi" 
+      userSubscription={userSubscription} 
+      onUpgrade={() => router.push('/pricing')}
+    >
+      <KPIContent />
+    </AccessControl>
+  );
+}
+
+function KPIContent() {
   const [isClient, setIsClient] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [goals, setGoals] = useState<KPIGoal[]>([]);
