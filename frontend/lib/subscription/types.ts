@@ -23,6 +23,7 @@ export interface UserSubscription {
   id?: string; // Optional für Kompatibilität mit verschiedenen Datenquellen
   userId: string;
   packageId: 'basic' | 'premium' | 'vip';
+  plan: string; // Human-readable plan name
   status: 'active' | 'expired' | 'cancelled' | 'trial';
   startDate: string;
   endDate: string;

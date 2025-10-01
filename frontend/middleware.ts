@@ -1,6 +1,30 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// Subscription-based access control
+const subscriptionAccess = {
+  'free': ['/chart', '/chart-info', '/human-design-info', '/'],
+  'basic': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading'],
+  'premium': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip'],
+  'vip': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip', '/admin']
+}
+
+// Helper function to get user subscription from localStorage (client-side)
+function getUserSubscriptionFromRequest(request: NextRequest) {
+  // Try to get from cookies first
+  const cookieSubscription = request.cookies.get('user-subscription')?.value
+  if (cookieSubscription) {
+    try {
+      return JSON.parse(cookieSubscription)
+    } catch (e) {
+      console.warn('Invalid subscription cookie:', e)
+    }
+  }
+  
+  // Fallback to default free plan
+  return { packageId: 'free', plan: 'Free', status: 'active' }
+}
+
 // Security middleware for production
 export function middleware(request: NextRequest) {
   const response = NextResponse.next()
@@ -68,7 +92,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Authentication check for protected routes
-  const protectedRoutes = ['/dashboard', '/profile', '/settings', '/subscription']
+  const protectedRoutes = ['/dashboard', '/profile', '/settings', '/subscription', '/chart', '/chart-info', '/human-design-info', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip']
   const isProtectedRoute = protectedRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
@@ -82,6 +106,41 @@ export function middleware(request: NextRequest) {
     if (!token) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
+
+    // Subscription-based access control
+    const subscription = getUserSubscriptionFromRequest(request)
+    
+    // Check if user has access to the requested route
+    const userPlan = subscription.packageId || 'free'
+    const allowedRoutes = subscriptionAccess[userPlan as keyof typeof subscriptionAccess] || subscriptionAccess.free
+    
+    const currentPath = request.nextUrl.pathname
+    const hasAccess = allowedRoutes.some(route => currentPath.startsWith(route))
+    
+    if (!hasAccess) {
+      // Redirect to upgrade page for premium features
+      if (currentPath.startsWith('/bodygraph-advanced') || 
+          currentPath.startsWith('/chart-comparison') || 
+          currentPath.startsWith('/dating') || 
+          currentPath.startsWith('/coaching') ||
+          currentPath.startsWith('/analytics') ||
+          currentPath.startsWith('/api-access') ||
+          currentPath.startsWith('/vip-community') ||
+          currentPath.startsWith('/personal-coach') ||
+          currentPath.startsWith('/dashboard-vip')) {
+        return NextResponse.redirect(new URL('/pricing', request.url))
+      }
+      
+      // Redirect to basic upgrade for basic features
+      if (currentPath.startsWith('/dashboard') || 
+          currentPath.startsWith('/profile') || 
+          currentPath.startsWith('/settings') ||
+          currentPath.startsWith('/mondkalender') ||
+          currentPath.startsWith('/community') ||
+          currentPath.startsWith('/reading')) {
+        return NextResponse.redirect(new URL('/pricing', request.url))
+      }
+    }
   }
 
   // Admin route protection
@@ -91,6 +150,19 @@ export function middleware(request: NextRequest) {
     
     if (!token || userRole !== 'admin') {
       return NextResponse.redirect(new URL('/unauthorized', request.url))
+    }
+  }
+
+  // Sync subscription data to cookies for client-side access
+  if (isProtectedRoute) {
+    const subscription = getUserSubscriptionFromRequest(request)
+    if (subscription && subscription.packageId !== 'free') {
+      response.cookies.set('user-subscription', JSON.stringify(subscription), {
+        httpOnly: false, // Allow client-side access
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7 // 7 days
+      })
     }
   }
 

@@ -1,6 +1,7 @@
 import { UserSubscription, SubscriptionPackage } from './types';
 import { subscriptionPackages } from './packages';
 import { supabase } from '@/lib/supabase/client';
+import { syncSubscriptionToCookies } from '../utils/subscriptionSync';
 
 export class SubscriptionService {
   private static readonly API_BASE = 'http://localhost:4001/subscription';
@@ -14,6 +15,8 @@ export class SubscriptionService {
         try {
           const parsed = JSON.parse(localSubscription);
           if (parsed && parsed.userId === userId) {
+            // Sync to cookies for middleware access
+            syncSubscriptionToCookies(parsed);
             return parsed;
           }
         } catch (e) {
@@ -67,6 +70,7 @@ export class SubscriptionService {
           id: data.id,
           userId: data.user_id,
           packageId: data.package_id,
+          plan: data.package_id === 'basic' ? 'Basic' : data.package_id === 'premium' ? 'Premium' : 'VIP',
           status: data.status,
           startDate: data.start_date,
           endDate: data.end_date,
@@ -162,9 +166,10 @@ export class SubscriptionService {
     const endDate = new Date();
     endDate.setMonth(endDate.getMonth() + 1); // 1 Monat gültig
 
-    return {
+    const subscription: UserSubscription = {
       userId,
       packageId,
+      plan: packageId === 'basic' ? 'Basic' : packageId === 'premium' ? 'Premium' : 'VIP',
       status: 'active',
       startDate: now.toISOString(),
       endDate: endDate.toISOString(),
@@ -172,6 +177,11 @@ export class SubscriptionService {
       paymentMethod: 'credit_card',
       billingCycle: 'monthly'
     };
+
+    // Sync to cookies for middleware access
+    syncSubscriptionToCookies(subscription);
+    
+    return subscription;
   }
 
   // Verfügbare Pakete abrufen
