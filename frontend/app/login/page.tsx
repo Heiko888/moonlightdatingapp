@@ -87,8 +87,9 @@ const LoginPage: React.FC = () => {
           router.push('/dashboard');
         }, 1000);
       } else {
-        console.error('API Login Fehler:', result.error);
-        setError(result.error?.message || 'Anmeldung fehlgeschlagen');
+        console.error('API Login Fehler:', result);
+        const errorMessage = result.error?.message || result.message || 'Anmeldung fehlgeschlagen';
+        setError(errorMessage);
       }
 
     } catch (err) {
