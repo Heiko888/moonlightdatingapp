@@ -84,7 +84,7 @@ const LoginPage: React.FC = () => {
         console.log('🔄 Weiterleitung zum Dashboard...');
         setTimeout(() => {
           console.log('🚀 Navigiere zu /dashboard');
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }, 1000);
       } else {
         console.error('API Login Fehler:', result.error);

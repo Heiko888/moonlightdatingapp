@@ -18,16 +18,27 @@ import {
   Step,
   StepLabel,
   Alert,
-  Chip
+  Chip,
+  Avatar,
+  IconButton,
+  Divider,
+  FormControlLabel,
+  Switch,
+  Slider,
+  RadioGroup,
+  Radio,
+  FormLabel
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import { User, Calendar, MapPin, Heart, Star, CheckCircle } from 'lucide-react';
+import { User, Calendar, MapPin, Heart, Star, CheckCircle, Camera, Upload, Phone, Globe, Lock, Eye } from 'lucide-react';
 import AnimatedStars from '@/components/AnimatedStars';
 
 const steps = [
   'Persönliche Daten',
+  'Profilbild & Kontakt',
   'Geburtsdaten',
-  'Interessen',
+  'Interessen & Präferenzen',
+  'Privatsphäre',
   'Fertig!'
 ];
 
@@ -38,11 +49,26 @@ export default function ProfilEinrichtenPage() {
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
+    website: '',
+    location: '',
+    profileImage: '',
     birthDate: '',
     birthTime: '',
     birthPlace: '',
     interests: [] as string[],
-    bio: ''
+    bio: '',
+    relationshipStatus: '',
+    lookingFor: '',
+    ageRange: [18, 65],
+    maxDistance: 50,
+    privacySettings: {
+      showProfile: true,
+      showBirthDate: false,
+      showLocation: true,
+      allowMessages: true,
+      showOnlineStatus: true
+    }
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -127,11 +153,20 @@ export default function ProfilEinrichtenPage() {
         // Aktualisiere die Daten
         userData.firstName = formData.firstName;
         userData.lastName = formData.lastName;
+        userData.phone = formData.phone;
+        userData.website = formData.website;
+        userData.location = formData.location;
+        userData.profileImage = formData.profileImage;
         userData.birthDate = formData.birthDate;
         userData.birthTime = formData.birthTime;
         userData.birthPlace = formData.birthPlace;
         userData.interests = formData.interests;
         userData.bio = formData.bio;
+        userData.relationshipStatus = formData.relationshipStatus;
+        userData.lookingFor = formData.lookingFor;
+        userData.ageRange = formData.ageRange;
+        userData.maxDistance = formData.maxDistance;
+        userData.privacySettings = formData.privacySettings;
         userData.name = `${formData.firstName} ${formData.lastName}`.trim();
       }
 
@@ -164,6 +199,18 @@ export default function ProfilEinrichtenPage() {
     }
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        handleInputChange('profileImage', result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
@@ -176,6 +223,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
                 sx={{ mb: 3 }}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -185,6 +233,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
                 sx={{ mb: 3 }}
+                required
               />
             </Grid>
             <Grid item xs={12}>
@@ -215,6 +264,91 @@ export default function ProfilEinrichtenPage() {
       case 1:
         return (
           <Grid container spacing={3}>
+            <Grid item xs={12} sx={{ textAlign: 'center', mb: 3 }}>
+              <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                Profilbild
+              </Typography>
+              <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                <Avatar
+                  src={formData.profileImage}
+                  sx={{ 
+                    width: 120, 
+                    height: 120, 
+                    mb: 2,
+                    border: '3px solid #FFD700'
+                  }}
+                >
+                  <User size={60} />
+                </Avatar>
+                <IconButton
+                  component="label"
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    backgroundColor: '#8B5CF6',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: '#7C3AED'
+                    }
+                  }}
+                >
+                  <Camera size={20} />
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </IconButton>
+              </Box>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                Klicke auf das Kamera-Symbol, um ein Profilbild hochzuladen
+              </Typography>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Telefon (optional)"
+                value={formData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                sx={{ mb: 3 }}
+                InputProps={{
+                  startAdornment: <Phone size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Website (optional)"
+                value={formData.website}
+                onChange={(e) => handleInputChange('website', e.target.value)}
+                sx={{ mb: 3 }}
+                InputProps={{
+                  startAdornment: <Globe size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Standort"
+                value={formData.location}
+                onChange={(e) => handleInputChange('location', e.target.value)}
+                placeholder="z.B. Berlin, Deutschland"
+                InputProps={{
+                  startAdornment: <MapPin size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                }}
+              />
+            </Grid>
+          </Grid>
+        );
+
+      case 2:
+        return (
+          <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
@@ -224,6 +358,7 @@ export default function ProfilEinrichtenPage() {
                 onChange={(e) => handleInputChange('birthDate', e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 sx={{ mb: 3 }}
+                required
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -245,18 +380,19 @@ export default function ProfilEinrichtenPage() {
                 onChange={(e) => handleInputChange('birthPlace', e.target.value)}
                 placeholder="z.B. Berlin, Deutschland"
                 sx={{ mb: 3 }}
+                required
               />
             </Grid>
           </Grid>
         );
 
-      case 2:
+      case 3:
         return (
           <Box>
             <Typography variant="h6" sx={{ mb: 3, color: 'white' }}>
               Wähle deine Interessen (optional)
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 4 }}>
               {interestOptions.map((interest) => (
                 <Chip
                   key={interest}
@@ -284,10 +420,225 @@ export default function ProfilEinrichtenPage() {
                 />
               ))}
             </Box>
+            
+            <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.1)' }} />
+            
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth>
+                  <FormLabel sx={{ color: 'white', mb: 1 }}>Beziehungsstatus</FormLabel>
+                  <RadioGroup
+                    value={formData.relationshipStatus}
+                    onChange={(e) => handleInputChange('relationshipStatus', e.target.value)}
+                  >
+                    <FormControlLabel 
+                      value="single" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Single" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="in-relationship" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="In einer Beziehung" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="married" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Verheiratet" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="complicated" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Es ist kompliziert" 
+                      sx={{ color: 'white' }}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth>
+                  <FormLabel sx={{ color: 'white', mb: 1 }}>Suche nach</FormLabel>
+                  <RadioGroup
+                    value={formData.lookingFor}
+                    onChange={(e) => handleInputChange('lookingFor', e.target.value)}
+                  >
+                    <FormControlLabel 
+                      value="friendship" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Freundschaft" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="relationship" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Beziehung" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="networking" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Networking" 
+                      sx={{ color: 'white' }}
+                    />
+                    <FormControlLabel 
+                      value="mentoring" 
+                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      label="Mentoring" 
+                      sx={{ color: 'white' }}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              
+              <Grid item xs={12}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                  Altersbereich für Matches
+                </Typography>
+                <Slider
+                  value={formData.ageRange}
+                  onChange={(_, newValue) => handleInputChange('ageRange', newValue)}
+                  valueLabelDisplay="auto"
+                  min={18}
+                  max={80}
+                  step={1}
+                  sx={{
+                    color: '#8B5CF6',
+                    '& .MuiSlider-thumb': {
+                      backgroundColor: '#8B5CF6'
+                    }
+                  }}
+                />
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1 }}>
+                  {formData.ageRange[0]} - {formData.ageRange[1]} Jahre
+                </Typography>
+              </Grid>
+              
+              <Grid item xs={12}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                  Maximale Entfernung für Matches
+                </Typography>
+                <Slider
+                  value={formData.maxDistance}
+                  onChange={(_, newValue) => handleInputChange('maxDistance', newValue)}
+                  valueLabelDisplay="auto"
+                  min={1}
+                  max={200}
+                  step={5}
+                  sx={{
+                    color: '#8B5CF6',
+                    '& .MuiSlider-thumb': {
+                      backgroundColor: '#8B5CF6'
+                    }
+                  }}
+                />
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mt: 1 }}>
+                  {formData.maxDistance} km
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
         );
 
-      case 3:
+      case 4:
+        return (
+          <Box>
+            <Typography variant="h6" sx={{ mb: 3, color: 'white' }}>
+              Privatsphäre-Einstellungen
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.privacySettings.showProfile}
+                      onChange={(e) => handleInputChange('privacySettings', {
+                        ...formData.privacySettings,
+                        showProfile: e.target.checked
+                      })}
+                      sx={{ color: '#8B5CF6' }}
+                    />
+                  }
+                  label="Profil öffentlich sichtbar"
+                  sx={{ color: 'white' }}
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.privacySettings.showBirthDate}
+                      onChange={(e) => handleInputChange('privacySettings', {
+                        ...formData.privacySettings,
+                        showBirthDate: e.target.checked
+                      })}
+                      sx={{ color: '#8B5CF6' }}
+                    />
+                  }
+                  label="Geburtsdatum anzeigen"
+                  sx={{ color: 'white' }}
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.privacySettings.showLocation}
+                      onChange={(e) => handleInputChange('privacySettings', {
+                        ...formData.privacySettings,
+                        showLocation: e.target.checked
+                      })}
+                      sx={{ color: '#8B5CF6' }}
+                    />
+                  }
+                  label="Standort anzeigen"
+                  sx={{ color: 'white' }}
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.privacySettings.allowMessages}
+                      onChange={(e) => handleInputChange('privacySettings', {
+                        ...formData.privacySettings,
+                        allowMessages: e.target.checked
+                      })}
+                      sx={{ color: '#8B5CF6' }}
+                    />
+                  }
+                  label="Nachrichten von anderen Benutzern erlauben"
+                  sx={{ color: 'white' }}
+                />
+              </Grid>
+              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.privacySettings.showOnlineStatus}
+                      onChange={(e) => handleInputChange('privacySettings', {
+                        ...formData.privacySettings,
+                        showOnlineStatus: e.target.checked
+                      })}
+                      sx={{ color: '#8B5CF6' }}
+                    />
+                  }
+                  label="Online-Status anzeigen"
+                  sx={{ color: 'white' }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        );
+
+      case 5:
         return (
           <Box sx={{ textAlign: 'center' }}>
             <CheckCircle size={64} color="#22c55e" style={{ marginBottom: '1rem' }} />

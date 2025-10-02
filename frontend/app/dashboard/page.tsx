@@ -72,30 +72,40 @@ const DashboardPage: React.FC = () => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
 
   useEffect(() => {
-    // Supabase-Authentifizierung prüfen
+    // Authentifizierung prüfen - sowohl Supabase als auch localStorage
     const initializeAuth = async () => {
       try {
-        const { data: { user }, error } = await supabase.auth.getUser();
+        // Zuerst localStorage prüfen (schneller)
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
         
-        if (error || !user) {
-          console.log('Kein authentifizierter Benutzer, weiterleitung zu Login');
-          // Verzögerte Weiterleitung um Loop zu vermeiden
-          setTimeout(() => router.push('/login'), 100);
-          return;
+        if (!token || !userId) {
+          console.log('Keine lokalen Auth-Daten, prüfe Supabase...');
+          
+          // Fallback: Supabase-Authentifizierung prüfen
+          const { data: { user }, error } = await supabase.auth.getUser();
+          
+          if (error || !user) {
+            console.log('Kein authentifizierter Benutzer, weiterleitung zu Login');
+            setTimeout(() => router.push('/login'), 100);
+            return;
+          }
+          
+          console.log('Supabase-Benutzer authentifiziert:', user.email);
+        } else {
+          console.log('Lokale Auth-Daten gefunden:', userId);
         }
         
-        console.log('Benutzer authentifiziert:', user.email);
         // Dashboard-Daten laden
         loadDashboardData();
       } catch (error) {
         console.error('Auth-Check Fehler:', error);
-        // Verzögerte Weiterleitung um Loop zu vermeiden
         setTimeout(() => router.push('/login'), 100);
       }
     };
 
     initializeAuth();
-  }, []); // Leere Dependencies verhindert Infinite Loop
+  }, [router]); // Router als Dependency für stabile Funktion
 
 
   const loadDashboardData = useCallback(async () => {
