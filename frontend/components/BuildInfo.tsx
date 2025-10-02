@@ -17,6 +17,16 @@ export default function BuildInfo() {
   useEffect(() => {
     const fetchBuildInfo = async () => {
       try {
+        // Fallback auf statische Daten
+        setBuildInfo({
+          buildId: 'dev-build',
+          timestamp: new Date().toISOString(),
+          environment: 'development',
+          version: '1.0.0'
+        });
+        setLoading(false);
+        return;
+        
         // Versuche zuerst die Frontend-Health-API
         const response = await fetch('/api/health');
         if (response.ok) {

@@ -35,8 +35,6 @@ export default function AppHeader() {
   };
 
   const navigationItems = [
-    { label: 'Startseite', path: '/', icon: <Home size={20} /> },
-    { label: 'Dashboard', path: '/dashboard', icon: <BarChart3 size={20} /> },
     { label: 'Registrieren', path: '/register', icon: <UserPlus size={20} /> },
     { label: 'Anmelden', path: '/login', icon: <LogIn size={20} /> }
   ];
@@ -53,10 +51,10 @@ export default function AppHeader() {
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo/Brand */}
-            <Typography 
-              variant="h6" 
+        <Typography 
+          variant="h6" 
           component="div" 
-              sx={{ 
+          sx={{ 
             color: '#FFD700',
             fontWeight: 'bold',
             cursor: 'pointer'
@@ -64,9 +62,9 @@ export default function AppHeader() {
           onClick={() => handleNavigation('/')}
         >
           🌙 Kosmische Verbindungen App
-            </Typography>
+        </Typography>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Right Side */}
         {!isMobile && (
           <Box sx={{ display: 'flex', gap: 1 }}>
             {navigationItems.map((item) => (
@@ -93,7 +91,7 @@ export default function AppHeader() {
               </Button>
             ))}
           </Box>
-          )}
+        )}
           
         {/* Mobile Menu */}
         {isMobile && (

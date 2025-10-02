@@ -1023,43 +1023,6 @@ Kosmische Verbindungen
                   }
                 }}>
                   <CardContent sx={{ p: 3, position: 'relative', zIndex: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Box sx={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: '50%',
-                        background: feature.color,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mr: 2,
-                        filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))',
-                        boxShadow: `0 0 20px ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}40`
-                      }}>
-                        <Box sx={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: '50%',
-                          backgroundColor: 'white'
-                        }} />
-                      </Box>
-                      <Typography variant="h6" sx={{ 
-                        color: 'white', 
-                        fontWeight: 700,
-                        textShadow: '0 0 10px rgba(255, 255, 255, 0.3)'
-                      }}>
-                        {feature.title}
-                      </Typography>
-                    </Box>
-                    <Typography sx={{
-                      color: 'rgba(255,255,255,0.9)',
-                      fontSize: '0.9rem',
-                      lineHeight: 1.5,
-                      mb: 2,
-                      textShadow: '0 0 5px rgba(255, 255, 255, 0.2)'
-                    }}>
-                      {feature.description}
-                    </Typography>
                     <Box sx={{ 
                       display: 'flex', 
                       alignItems: 'center', 

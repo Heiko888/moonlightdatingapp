@@ -22,9 +22,14 @@ import {
   Star,
   User,
   Edit,
-  MessageCircle
+  MessageCircle,
+  Target,
+  Zap,
+  Eye,
+  Activity
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
+import EnhancedChartVisuals from '@/components/EnhancedChartVisuals';
 
 interface DashboardStats {
   moonEntries: number;
@@ -43,6 +48,16 @@ interface Match {
   lastMessageTime?: string;
 }
 
+interface ChartData {
+  type: string;
+  profile: string;
+  authority: string;
+  strategy: string;
+  centers: Record<string, { defined: boolean }>;
+  gates: Array<{ id: number; active: boolean; center: string }>;
+  planets?: Record<string, any>;
+}
+
 const DashboardPage: React.FC = () => {
   const router = useRouter();
   const [stats, setStats] = useState<DashboardStats>({
@@ -54,6 +69,7 @@ const DashboardPage: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [chartData, setChartData] = useState<ChartData | null>(null);
 
   useEffect(() => {
     // Supabase-Authentifizierung prüfen
@@ -125,9 +141,95 @@ const DashboardPage: React.FC = () => {
         }
       ];
       
+      // Mock Chart Data
+      const mockChartData: ChartData = {
+        type: 'Generator',
+        profile: '2/4',
+        authority: 'Sakral',
+        strategy: 'Auf andere reagieren',
+        centers: {
+          'Head': { defined: true },
+          'Ajna': { defined: true },
+          'Throat': { defined: false },
+          'G': { defined: true },
+          'Heart': { defined: false },
+          'Spleen': { defined: true },
+          'Sacral': { defined: true },
+          'Solar': { defined: false },
+          'Root': { defined: true }
+        },
+        gates: [
+          { id: 1, active: true, center: 'Head' },
+          { id: 2, active: true, center: 'Head' },
+          { id: 3, active: true, center: 'Throat' },
+          { id: 4, active: true, center: 'Head' },
+          { id: 5, active: true, center: 'Throat' },
+          { id: 6, active: true, center: 'Throat' },
+          { id: 7, active: true, center: 'Throat' },
+          { id: 8, active: true, center: 'Throat' },
+          { id: 9, active: true, center: 'Spleen' },
+          { id: 10, active: true, center: 'G' },
+          { id: 11, active: true, center: 'Ajna' },
+          { id: 12, active: true, center: 'Throat' },
+          { id: 13, active: true, center: 'G' },
+          { id: 14, active: true, center: 'G' },
+          { id: 15, active: true, center: 'G' },
+          { id: 16, active: true, center: 'Throat' },
+          { id: 17, active: true, center: 'Ajna' },
+          { id: 18, active: true, center: 'Spleen' },
+          { id: 19, active: true, center: 'Root' },
+          { id: 20, active: true, center: 'Throat' },
+          { id: 21, active: true, center: 'Heart' },
+          { id: 22, active: true, center: 'Throat' },
+          { id: 23, active: true, center: 'Throat' },
+          { id: 24, active: true, center: 'Ajna' },
+          { id: 25, active: true, center: 'Heart' },
+          { id: 26, active: true, center: 'Heart' },
+          { id: 27, active: true, center: 'Spleen' },
+          { id: 28, active: true, center: 'Root' },
+          { id: 29, active: true, center: 'Sacral' },
+          { id: 30, active: true, center: 'Solar' },
+          { id: 31, active: true, center: 'Throat' },
+          { id: 32, active: true, center: 'Solar' },
+          { id: 33, active: true, center: 'Throat' },
+          { id: 34, active: true, center: 'Sacral' },
+          { id: 35, active: true, center: 'Throat' },
+          { id: 36, active: true, center: 'Solar' },
+          { id: 37, active: true, center: 'Solar' },
+          { id: 38, active: true, center: 'Solar' },
+          { id: 39, active: true, center: 'Root' },
+          { id: 40, active: true, center: 'Heart' },
+          { id: 41, active: true, center: 'Root' },
+          { id: 42, active: true, center: 'Solar' },
+          { id: 43, active: true, center: 'Ajna' },
+          { id: 44, active: true, center: 'Spleen' },
+          { id: 45, active: true, center: 'G' },
+          { id: 46, active: true, center: 'G' },
+          { id: 47, active: true, center: 'G' },
+          { id: 48, active: true, center: 'Spleen' },
+          { id: 49, active: true, center: 'G' },
+          { id: 50, active: true, center: 'Solar' },
+          { id: 51, active: true, center: 'Heart' },
+          { id: 52, active: true, center: 'Root' },
+          { id: 53, active: true, center: 'Root' },
+          { id: 54, active: true, center: 'Root' },
+          { id: 55, active: true, center: 'Solar' },
+          { id: 56, active: true, center: 'Throat' },
+          { id: 57, active: true, center: 'G' },
+          { id: 58, active: true, center: 'Root' },
+          { id: 59, active: true, center: 'Sacral' },
+          { id: 60, active: true, center: 'Root' },
+          { id: 61, active: true, center: 'Head' },
+          { id: 62, active: true, center: 'Throat' },
+          { id: 63, active: true, center: 'Head' },
+          { id: 64, active: true, center: 'Head' }
+        ]
+      };
+      
       // Batch State Updates um Re-Renders zu minimieren
       setStats(mockStats);
       setMatches(mockMatches);
+      setChartData(mockChartData);
       
       // Verzögerte Loading-False um State-Updates zu stabilisieren
       setTimeout(() => setLoading(false), 50);
@@ -469,6 +571,117 @@ const DashboardPage: React.FC = () => {
             </Card>
           </Grid>
         </Grid>
+
+        {/* Human Design Chart Widget */}
+        {chartData && (
+          <Card sx={{ 
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(168, 85, 247, 0.08) 100%)',
+            backdropFilter: 'blur(25px)',
+            border: '1px solid rgba(139, 92, 246, 0.3)',
+            borderRadius: 4,
+            position: 'relative',
+            overflow: 'hidden',
+            mb: 6,
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',
+              border: '1px solid rgba(139, 92, 246, 0.5)'
+            },
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 70%)',
+              opacity: 0.6
+            }
+          }}>
+            <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #8B5CF6, #A855F7)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mr: 2,
+                  boxShadow: '0 8px 25px rgba(139, 92, 246, 0.4)'
+                }}>
+                  <Target size={24} color="white" />
+                </Box>
+                <Box>
+                  <Typography variant="h5" sx={{ 
+                    color: '#8B5CF6', 
+                    fontWeight: 'bold',
+                    mb: 0.5,
+                    textShadow: '0 0 10px rgba(139, 92, 246, 0.5)'
+                  }}>
+                    Dein Human Design Chart
+                  </Typography>
+                  <Typography variant="body2" sx={{ 
+                    color: 'rgba(255,255,255,0.8)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}>
+                    <Zap size={16} />
+                    {chartData.type} • {chartData.profile} • {chartData.authority}
+                  </Typography>
+                </Box>
+              </Box>
+              
+              <Box sx={{ 
+                background: 'rgba(255,255,255,0.05)', 
+                borderRadius: 3, 
+                p: 3,
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                <EnhancedChartVisuals 
+                  chartData={chartData} 
+                  onTransitClick={() => console.log('Transit clicked')}
+                />
+              </Box>
+              
+              <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<Eye size={16} />}
+                  sx={{
+                    borderColor: 'rgba(139, 92, 246, 0.5)',
+                    color: '#8B5CF6',
+                    '&:hover': {
+                      borderColor: '#8B5CF6',
+                      backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                    }
+                  }}
+                  onClick={() => router.push('/human-design-chart')}
+                >
+                  Vollständiges Chart
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<Activity size={16} />}
+                  sx={{
+                    borderColor: 'rgba(139, 92, 246, 0.5)',
+                    color: '#8B5CF6',
+                    '&:hover': {
+                      borderColor: '#8B5CF6',
+                      backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                    }
+                  }}
+                  onClick={() => router.push('/centers')}
+                >
+                  Zentren Details
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Quick Actions */}
         <Card sx={{ 

@@ -29,16 +29,16 @@ import {
   Login,
   AccountCircle,
   Close,
-  Chart,
-  Calendar,
-  BookOpen,
-  Users,
-  Heart,
-  Brain,
+  BarChart,
+  Event,
+  MenuBook,
+  Group,
+  Favorite,
+  Psychology,
   Star,
-  Zap,
-  Target,
-  Globe
+  FlashOn,
+  GpsFixed,
+  Public
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -55,26 +55,24 @@ interface NavigationItem {
 
 const navigationItems: NavigationItem[] = [
   // Hauptseiten
-  { name: "Startseite", path: "/", icon: <Home />, category: "Hauptseiten" },
-  { name: "Dashboard", path: "/dashboard", icon: <Dashboard />, category: "Hauptseiten" },
-  { name: "Chart", path: "/chart", icon: <Chart />, category: "Hauptseiten" },
-  { name: "Mondkalender", path: "/mondkalender", icon: <Calendar />, category: "Hauptseiten" },
+  { name: "Chart", path: "/chart", icon: <BarChart />, category: "Hauptseiten" },
+  { name: "Mondkalender", path: "/mondkalender", icon: <Event />, category: "Hauptseiten" },
   
   // Human Design
-  { name: "Human Design Chart", path: "/human-design-chart", icon: <Brain />, category: "Human Design" },
-  { name: "Authority", path: "/authority", icon: <Target />, category: "Human Design" },
-  { name: "Centers", path: "/centers", icon: <Zap />, category: "Human Design" },
+  { name: "Human Design Chart", path: "/human-design-chart", icon: <Psychology />, category: "Human Design" },
+  { name: "Authority", path: "/authority", icon: <GpsFixed />, category: "Human Design" },
+  { name: "Centers", path: "/centers", icon: <FlashOn />, category: "Human Design" },
   { name: "Channels", path: "/channels", icon: <Star />, category: "Human Design" },
-  { name: "Gates", path: "/gates", icon: <Brain />, category: "Human Design" },
+  { name: "Gates", path: "/gates", icon: <Psychology />, category: "Human Design" },
   
   // Wissen & Journal
-  { name: "Knowledge", path: "/knowledge", icon: <BookOpen />, category: "Wissen & Journal" },
-  { name: "Journal", path: "/journal", icon: <BookOpen />, category: "Wissen & Journal" },
-  { name: "Reading", path: "/reading", icon: <BookOpen />, category: "Wissen & Journal" },
+  { name: "Knowledge", path: "/knowledge", icon: <MenuBook />, category: "Wissen & Journal" },
+  { name: "Journal", path: "/journal", icon: <MenuBook />, category: "Wissen & Journal" },
+  { name: "Reading", path: "/reading", icon: <MenuBook />, category: "Wissen & Journal" },
   
   // Community & Dating
-  { name: "Community", path: "/community", icon: <Users />, category: "Community & Social" },
-  { name: "Dating", path: "/dating", icon: <Heart />, category: "Community & Social" },
+  { name: "Community", path: "/community", icon: <Group />, category: "Community & Social" },
+  { name: "Dating", path: "/dating", icon: <Favorite />, category: "Community & Social" },
   
   // Profil & Einstellungen
   { name: "Profil", path: "/profil", icon: <Person />, category: "Profil & Einstellungen" },
@@ -82,7 +80,7 @@ const navigationItems: NavigationItem[] = [
   
   // Admin
   { name: "Admin", path: "/admin", icon: <Settings />, category: "Admin" },
-  { name: "Seitenanzeige", path: "/seitenanzeige", icon: <Globe />, category: "Admin" }
+  { name: "Seitenanzeige", path: "/seitenanzeige", icon: <Public />, category: "Admin" }
 ];
 
 interface AppNavigationProps {
