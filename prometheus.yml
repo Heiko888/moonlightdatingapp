@@ -1,9 +1,9 @@
 global:
-  scrape_interval: 30s
-  evaluation_interval: 30s
+  scrape_interval: 15s
+  evaluation_interval: 15s
 
 rule_files:
-  - "alerts.yml"
+  - "rules/*.yml"
 
 alerting:
   alertmanagers:
@@ -12,13 +12,29 @@ alerting:
           - alertmanager:9093
 
 scrape_configs:
-  - job_name: 'hd-backend'
+  # Prometheus selbst
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ['host.docker.internal:4001']
-    metrics_path: '/metrics'
-    scrape_interval: 30s
-    
+      - targets: ['localhost:9090']
+
+  # Node Exporter für System-Metriken
   - job_name: 'node-exporter'
     static_configs:
       - targets: ['node-exporter:9100']
+
+  # HD App Frontend
+  - job_name: 'hd-app-frontend'
+    static_configs:
+      - targets: ['frontend:3000']
+    metrics_path: '/api/metrics'
     scrape_interval: 30s
+
+  # Grafana
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
+
+  # Redis (falls verwendet)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']

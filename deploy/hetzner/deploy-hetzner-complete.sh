@@ -141,11 +141,12 @@ if [ ! -f ".env" ]; then
     cp env.supabase .env
     print_warning "Bitte .env Datei mit Ihren Werten konfigurieren!"
     print_warning "Wichtige Variablen:"
-    print_warning "- JWT_SECRET"
+    print_warning "- JWT_SECRET (mindestens 32 Zeichen)"
     print_warning "- OPENAI_API_KEY"
     print_warning "- GRAFANA_PASSWORD"
-    print_warning "- NEXT_PUBLIC_SUPABASE_URL"
-    print_warning "- NEXT_PUBLIC_SUPABASE_ANON_KEY"
+    print_warning "- SUPABASE_SERVICE_ROLE_KEY"
+    print_warning "- ALERT_EMAIL"
+    print_warning "- SMTP_Konfiguration für Alerts"
     read -p "Drücken Sie Enter, wenn Sie die .env Datei konfiguriert haben..."
 fi
 
@@ -299,6 +300,7 @@ print_info "  • Status prüfen: docker-compose -f docker-compose.supabase.yml 
 print_info "  • Logs anzeigen: docker-compose -f docker-compose.supabase.yml logs -f"
 print_info "  • Services stoppen: docker-compose -f docker-compose.supabase.yml down"
 print_info "  • Services neu starten: docker-compose -f docker-compose.supabase.yml up -d"
+print_info "  • Supabase Status: curl -f http://localhost:3000/api/health"
 echo ""
 print_info "⚠️  Wichtige Hinweise:"
 print_info "  • Überwachen Sie die Logs regelmäßig"
@@ -309,4 +311,7 @@ print_info "  • Firewall ist konfiguriert und aktiv"
 if [ "$services_ok" = false ]; then
     print_warning "⚠️  Einige Services sind nicht erreichbar. Prüfen Sie die Logs:"
     print_warning "  docker-compose -f docker-compose.supabase.yml logs -f"
+    print_warning "  • Supabase-Verbindung prüfen: curl -f http://localhost:3000/api/health"
+    print_warning "  • Grafana prüfen: curl -f http://localhost:3001"
+    print_warning "  • Prometheus prüfen: curl -f http://localhost:9090"
 fi
