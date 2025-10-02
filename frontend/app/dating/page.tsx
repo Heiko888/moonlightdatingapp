@@ -104,6 +104,16 @@ export default function DatingDashboard() {
   const [activeTab, setActiveTab] = useState('swipe');
   const [settingsAnchorEl, setSettingsAnchorEl] = useState<null | HTMLElement>(null);
   const [isClient, setIsClient] = useState(false);
+  
+  // Filter states
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    ageRange: [18, 65],
+    hdType: '',
+    location: '',
+    interests: [] as string[],
+    compatibility: 0
+  });
 
   React.useEffect(() => {
     setIsClient(true);
@@ -116,6 +126,27 @@ export default function DatingDashboard() {
 
   const handleSettingsClose = () => {
     setSettingsAnchorEl(null);
+  };
+
+  // Filter handlers
+  const handleFilterChange = (key: string, value: any) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const applyFilters = () => {
+    // Hier würde die Filterlogik implementiert werden
+    console.log('Filter angewendet:', filters);
+    setShowFilters(false);
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      ageRange: [18, 65],
+      hdType: '',
+      location: '',
+      interests: [],
+      compatibility: 0
+    });
   };
 
   // Mock data for dashboard
@@ -299,6 +330,152 @@ export default function DatingDashboard() {
           </Box>
         </Box>
         </motion.div>
+
+        {/* Filter Section */}
+        {showFilters && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card sx={{
+              background: 'rgba(255,255,255,0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 3,
+              p: 3,
+              mb: 4
+            }}>
+              <Typography variant="h6" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
+                🔍 Filter & Suche
+              </Typography>
+              
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 1 }}>
+                    Altersbereich: {filters.ageRange[0]} - {filters.ageRange[1]} Jahre
+                  </Typography>
+                  <Box sx={{ px: 2 }}>
+                    <input
+                      type="range"
+                      min="18"
+                      max="65"
+                      value={filters.ageRange[0]}
+                      onChange={(e) => handleFilterChange('ageRange', [parseInt(e.target.value), filters.ageRange[1]])}
+                      style={{ width: '100%', marginBottom: 8 }}
+                    />
+                    <input
+                      type="range"
+                      min="18"
+                      max="65"
+                      value={filters.ageRange[1]}
+                      onChange={(e) => handleFilterChange('ageRange', [filters.ageRange[0], parseInt(e.target.value)])}
+                      style={{ width: '100%' }}
+                    />
+                  </Box>
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 1 }}>
+                    Human Design Typ
+                  </Typography>
+                  <select
+                    value={filters.hdType}
+                    onChange={(e) => handleFilterChange('hdType', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      background: 'rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white'
+                    }}
+                  >
+                    <option value="">Alle Typen</option>
+                    <option value="Generator">Generator</option>
+                    <option value="Projector">Projector</option>
+                    <option value="Manifestor">Manifestor</option>
+                    <option value="Reflector">Reflector</option>
+                  </select>
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 1 }}>
+                    Standort
+                  </Typography>
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      background: 'rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white'
+                    }}
+                  >
+                    <option value="">Alle Standorte</option>
+                    <option value="Berlin">Berlin</option>
+                    <option value="Hamburg">Hamburg</option>
+                    <option value="München">München</option>
+                    <option value="Köln">Köln</option>
+                    <option value="Frankfurt">Frankfurt</option>
+                  </select>
+                </Grid>
+                
+                <Grid item xs={12} md={6}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 1 }}>
+                    Mindest-Kompatibilität: {filters.compatibility}%
+                  </Typography>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={filters.compatibility}
+                    onChange={(e) => handleFilterChange('compatibility', parseInt(e.target.value))}
+                    style={{ width: '100%' }}
+                  />
+                </Grid>
+              </Grid>
+              
+              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  onClick={applyFilters}
+                  sx={{
+                    background: 'linear-gradient(45deg, #10b981, #059669)',
+                    '&:hover': { background: 'linear-gradient(45deg, #059669, #10b981)' }
+                  }}
+                >
+                  Filter anwenden
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={resetFilters}
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    '&:hover': { borderColor: 'rgba(255,255,255,0.6)' }
+                  }}
+                >
+                  Zurücksetzen
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => setShowFilters(false)}
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    '&:hover': { borderColor: 'rgba(255,255,255,0.6)' }
+                  }}
+                >
+                  Schließen
+                </Button>
+              </Box>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Features Section */}
               <motion.div
@@ -937,13 +1114,14 @@ export default function DatingDashboard() {
             <Button
               variant="outlined"
               startIcon={<Filter size={20} />}
+              onClick={() => setShowFilters(!showFilters)}
             sx={{ 
                 borderColor: '#10b981',
                 color: '#10b981',
                 '&:hover': { borderColor: '#059669', background: 'rgba(16, 185, 129, 0.1)' }
               }}
             >
-              Filter
+              {showFilters ? 'Filter schließen' : 'Filter'}
           </Button>
             <Button
               component={Link}
