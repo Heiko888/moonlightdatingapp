@@ -127,8 +127,9 @@ const ReadingPage: React.FC = () => {
       };
 
       // SSR-sicherer localStorage Zugriff
+      let existingReadings = [];
       if (typeof window !== 'undefined') {
-        const existingReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
+        existingReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
         existingReadings.push(newReading);
         localStorage.setItem('userReadings', JSON.stringify(existingReadings));
       }

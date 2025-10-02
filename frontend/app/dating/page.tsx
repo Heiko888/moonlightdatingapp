@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from 'react';
 import { 
   Box, 
   Typography, 
@@ -19,7 +20,8 @@ import {
   Badge,
   Menu,
   MenuItem,
-  ListItemIcon
+  ListItemIcon,
+  Paper
 } from '@mui/material';
 import { 
   Heart, 
@@ -38,16 +40,74 @@ import {
   Shield,
   LogOut,
   HelpCircle,
-  Info
+  Info,
+  Sparkles,
+  Target,
+  Activity,
+  TrendingUp,
+  CheckCircle,
+  ArrowRight
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState } from 'react';
 import SSRSafeStars from '@/components/SSRSafeStars';
+
+// Floating Stars Animation
+const AnimatedStars = () => {
+  const stars = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 2
+  }));
+
+  return (
+    <Box sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: 'none',
+      zIndex: 1
+    }}>
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          style={{
+            position: 'absolute',
+            left: star.left,
+            top: star.top,
+            width: star.size,
+            height: star.size,
+            background: 'rgba(255, 255, 255, 0.6)',
+            borderRadius: '50%',
+            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
+          }}
+          animate={{
+            opacity: [0.3, 1, 0.3],
+            scale: [0.8, 1.2, 0.8]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            delay: star.delay
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 export default function DatingDashboard() {
   const [activeTab, setActiveTab] = useState('swipe');
   const [settingsAnchorEl, setSettingsAnchorEl] = useState<null | HTMLElement>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Settings menu handlers
   const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -139,78 +199,340 @@ export default function DatingDashboard() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <SSRSafeStars />
+      {isClient && <AnimatedStars />}
       
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-          <Box>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Box sx={{ 
+            textAlign: 'center', 
+            mb: 6,
+            py: { xs: 4, md: 6 }
+          }}>
           <Typography
-              variant="h3"
+              variant="h2"
             sx={{
-              color: '#FFD700',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
               fontWeight: 800,
-                mb: 1,
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
+                mb: 2,
+                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+              }}
+            >
+              💕 Dating & Matching
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                mb: 3,
+                fontSize: { xs: '1.1rem', md: '1.3rem' },
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Finde die Liebe, die wirklich zu dir passt. Basierend auf deinem Human Design und energetischen Kompatibilität.
+          </Typography>
+            
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Button
+                component={Link}
+                href="/dating/swipe"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
+                  px: 4,
+                  py: 1.5,
+                  borderRadius: 3,
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  fontSize: '1.1rem',
+                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+                  }
+                }}
+              >
+                Jetzt swipen <ArrowRight size={20} style={{ marginLeft: 8 }} />
+              </Button>
+              <Button
+                component={Link}
+                href="/dating/friends"
+                variant="outlined"
+                sx={{
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  px: 4,
+                  py: 1.5,
+                  borderRadius: 3,
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  fontSize: '1.1rem',
+                  '&:hover': {
+                    borderColor: 'rgba(255, 255, 255, 0.6)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                  }
+                }}
+              >
+                Freunde finden
+              </Button>
+          </Box>
+        </Box>
+        </motion.div>
+
+        {/* Features Section */}
+              <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Box sx={{ mb: 8 }}>
+            <Typography 
+              variant="h3" 
+              sx={{ 
+                textAlign: 'center', 
+                mb: 6,
+                color: 'white',
+                fontWeight: 700,
                 fontSize: { xs: '2rem', md: '2.5rem' }
               }}
             >
-              💕 Dating Dashboard
+              ✨ Deine Dating-Features
             </Typography>
-            <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
-              Finde deine energetischen Matches
-          </Typography>
-          </Box>
-          
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <IconButton sx={{ color: '#FFD700' }}>
-              <Badge badgeContent={3} color="error">
-                <Bell size={24} />
-              </Badge>
-            </IconButton>
-            <IconButton 
-              sx={{ color: '#FFD700' }}
-              onClick={handleSettingsClick}
-            >
-              <Settings size={24} />
-            </IconButton>
-          </Box>
-        </Box>
-
-        {/* Stats Cards */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          {stats.map((stat, index) => (
-            <Grid item xs={6} md={3} key={index}>
-              <motion.div
-                
-                
-                
+            
+            <Grid container spacing={{ xs: 2, md: 4 }}>
+              <Grid item xs={12} sm={6} md={4}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card sx={{
+                    background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(196, 69, 105, 0.08) 100%)',
+                    border: '1px solid rgba(255, 107, 157, 0.2)',
+                    borderRadius: 3,
+                    p: 3,
+                    height: '100%',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}>
+                    <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Box sx={{
+                          width: 50,
+                          height: 50,
+                          background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                          borderRadius: 2,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mr: 2,
+                          boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
+                        }}>
+                          <Heart size={24} color="white" />
+                        </Box>
+                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                          Energetische Kompatibilität
+                        </Typography>
+                      </Box>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 2, lineHeight: 1.6 }}>
+                        Finde Partner basierend auf Human Design Kompatibilität und energetischen Resonanzen.
+                      </Typography>
+                      <List dense>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#ff6b9d" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Typ-Kompatibilität" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#ff6b9d" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Autoritäts-Matching" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#ff6b9d" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Profil-Harmonie" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                      </List>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} sm={6} md={4}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card sx={{
+                    background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+                    border: '1px solid rgba(78, 205, 196, 0.2)',
+                    borderRadius: 3,
+                    p: 3,
+                    height: '100%',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}>
+                    <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Box sx={{
+                          width: 50,
+                          height: 50,
+                          background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                          borderRadius: 2,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mr: 2,
+                          boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)'
+                        }}>
+                          <Users size={24} color="white" />
+                        </Box>
+                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                          Community Hub
+                        </Typography>
+                      </Box>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 2, lineHeight: 1.6 }}>
+                        Verbinde dich mit Gleichgesinnten und teile deine Human Design Reise.
+                      </Typography>
+                      <List dense>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#4ecdc4" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Freunde finden" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#4ecdc4" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Erfahrungen teilen" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#4ecdc4" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Lernen & Wachsen" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                      </List>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Grid>
+              
+              <Grid item xs={12} sm={6} md={4}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
               >
                 <Card sx={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 2
-                }}>
-                  <CardContent sx={{ p: 3, textAlign: 'center' }}>
-                    <Box sx={{ color: stat.color, mb: 1 }}>
-                      {stat.icon}
+                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.08) 100%)',
+                    border: '1px solid rgba(102, 126, 234, 0.2)',
+                    borderRadius: 3,
+                    p: 3,
+                    height: '100%',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}>
+                    <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Box sx={{
+                          width: 50,
+                          height: 50,
+                          background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                          borderRadius: 2,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          mr: 2,
+                          boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
+                        }}>
+                          <Sparkles size={24} color="white" />
                     </Box>
-                    <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
-                      {stat.value}
+                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                          Intelligente Matches
           </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                      {stat.label}
+                      </Box>
+                      <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 2, lineHeight: 1.6 }}>
+                        KI-gestützte Matching-Algorithmen für optimale Kompatibilität.
           </Typography>
+                      <List dense>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#667eea" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="KI-Matching" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#667eea" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Persönliche Insights" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                        <ListItem sx={{ px: 0, py: 0.5 }}>
+                          <ListItemIcon sx={{ minWidth: 32 }}>
+                            <CheckCircle size={16} color="#667eea" />
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary="Kompatibilitäts-Score" 
+                            sx={{ '& .MuiListItemText-primary': { color: 'rgba(255,255,255,0.9)', fontSize: '0.9rem' } }}
+                          />
+                        </ListItem>
+                      </List>
                   </CardContent>
                 </Card>
               </motion.div>
             </Grid>
-          ))}
         </Grid>
+          </Box>
+        </motion.div>
 
         {/* Navigation Tabs */}
         <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>

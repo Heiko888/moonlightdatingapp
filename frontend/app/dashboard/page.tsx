@@ -72,40 +72,19 @@ const DashboardPage: React.FC = () => {
   const [chartData, setChartData] = useState<ChartData | null>(null);
 
   useEffect(() => {
-    // Authentifizierung prüfen - sowohl Supabase als auch localStorage
-    const initializeAuth = async () => {
-      try {
-        // Zuerst localStorage prüfen (schneller)
-        const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
-        
-        if (!token || !userId) {
-          console.log('Keine lokalen Auth-Daten, prüfe Supabase...');
-          
-          // Fallback: Supabase-Authentifizierung prüfen
-          const { data: { user }, error } = await supabase.auth.getUser();
-          
-          if (error || !user) {
-            console.log('Kein authentifizierter Benutzer, weiterleitung zu Login');
-            setTimeout(() => router.push('/login'), 100);
-            return;
-          }
-          
-          console.log('Supabase-Benutzer authentifiziert:', user.email);
-        } else {
-          console.log('Lokale Auth-Daten gefunden:', userId);
-        }
-        
-        // Dashboard-Daten laden
-        loadDashboardData();
-      } catch (error) {
-        console.error('Auth-Check Fehler:', error);
-        setTimeout(() => router.push('/login'), 100);
-      }
-    };
-
-    initializeAuth();
-  }, [router]); // Router als Dependency für stabile Funktion
+    // Prüfe ob Benutzer eingeloggt ist
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    
+    if (!token || !userId) {
+      console.log('Keine Authentifizierung, weiterleitung zu Login');
+      router.push('/login');
+      return;
+    }
+    
+    console.log('Dashboard wird geladen...');
+    loadDashboardData();
+  }, [router]);
 
 
   const loadDashboardData = useCallback(async () => {

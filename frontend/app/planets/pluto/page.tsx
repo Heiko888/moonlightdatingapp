@@ -324,9 +324,9 @@ export default function PlutoPage() {
         }} />
       </motion.div>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
           <Button
             variant="outlined"
             onClick={() => router.push('/planets')}
@@ -338,7 +338,7 @@ export default function PlutoPage() {
                 backgroundColor: 'rgba(139, 0, 139, 0.1)',
                 boxShadow: '0 0 20px rgba(139, 0, 139, 0.3)'
               },
-              mr: 2
+              marginRight: 2
             }}
           >
             <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -352,19 +352,19 @@ export default function PlutoPage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-              <Typography variant="h2" sx={{ mr: 2, fontWeight: 700, color: '#8B008B' }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
+              <Typography variant="h2" sx={{ marginRight: 2, fontWeight: 700, color: '#8B008B' }}>
                 {currentPlutoInfo.symbol}
               </Typography>
               <Typography variant="h2" sx={{ fontWeight: 700, color: '#8B008B' }}>
                 {currentPlutoInfo.planet_name}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {currentPlutoInfo.mythology}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2, maxWidth: '600px', margin: 'auto' }}>
               {currentPlutoInfo.description}
             </Typography>
           </Box>
@@ -383,9 +383,9 @@ export default function PlutoPage() {
             border: '1px solid #8B008B',
             boxShadow: '0 8px 32px rgba(139, 0, 139, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Box sx={{
                 width: 50,
                 height: 50,
@@ -394,17 +394,17 @@ export default function PlutoPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mr: 2
+                marginRight: 2
               }}>
-                <Typography variant="h4" sx={{ color: '#000', fontWeight: 'bold' }}>
+                <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>
                   {currentPlutoInfo.symbol}
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>
+                <Typography variant="h5" style={{ color: 'white', fontWeight: 600 }}>
                   {currentPlutoInfo.planet_name} - Übersicht
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                   Grundlegende Informationen über {currentPlutoInfo.planet_name}
                 </Typography>
               </Box>
@@ -413,37 +413,37 @@ export default function PlutoPage() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                     Umlaufzeit
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {currentPlutoInfo.orbital_period}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                     Entdeckung
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {currentPlutoInfo.discovery}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                     Mythologie
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {currentPlutoInfo.mythology}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                     Farbe
                   </Typography>
                   <Box sx={{ 
@@ -451,7 +451,7 @@ export default function PlutoPage() {
                     height: 30, 
                     borderRadius: '50%', 
                     backgroundColor: currentPlutoInfo.color,
-                    mx: 'auto',
+                    margin: 'auto',
                     border: '2px solid rgba(255,255,255,0.3)'
                   }} />
                 </Box>
@@ -473,12 +473,12 @@ export default function PlutoPage() {
             border: '1px solid #8B008B',
             boxShadow: '0 8px 32px rgba(139, 0, 139, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#8B008B" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                   Pluto in den Gates
                 </Typography>
               </Box>
@@ -492,19 +492,19 @@ export default function PlutoPage() {
                 }} 
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Alle {planetGates.length} Gates mit Pluto-Informationen. Pluto zeigt unsere Transformation und Macht in jedem Gate.
             </Typography>
             <List>
               {planetGates.map((gate, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: '#8B008B' }} />}
+                    expandIcon={<ChevronDown style={{ color: '#8B008B' }} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',
@@ -521,17 +521,17 @@ export default function PlutoPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                           {gate.gate_number}
                         </Typography>
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate.name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate.essence}
                         </Typography>
                       </Box>
@@ -548,15 +548,15 @@ export default function PlutoPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {gate.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {gate.deep_meaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -575,8 +575,8 @@ export default function PlutoPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -601,10 +601,10 @@ export default function PlutoPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(139,0,139,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                           Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate.affirmation}
                         </Typography>
                       </Box>
@@ -630,25 +630,25 @@ export default function PlutoPage() {
             boxShadow: '0 8px 32px rgba(139, 0, 139, 0.2)',
             p: 3
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#8B008B" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Pluto in den Centers
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Pluto in den {planetCenters.length} Centers zeigt, wo unsere Transformation und Macht am stärksten wirken.
             </Typography>
             <List>
               {planetCenters.map((center, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: '#8B008B' }} />}
+                    expandIcon={<ChevronDown style={{ color: '#8B008B' }} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',
@@ -665,15 +665,15 @@ export default function PlutoPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {center.center_name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.essence}
                         </Typography>
                       </Box>
@@ -690,15 +690,15 @@ export default function PlutoPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {center.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {center.deep_meaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -717,8 +717,8 @@ export default function PlutoPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -743,10 +743,10 @@ export default function PlutoPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(139,0,139,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#8B008B', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#8B008B', fontWeight: 600, marginBottom: 1 }}>
                           Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.affirmation}
                         </Typography>
                       </Box>

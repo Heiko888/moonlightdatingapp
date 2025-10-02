@@ -488,7 +488,7 @@ export default function ChartSharingModal({ open, onClose, chartData }: ChartSha
                             <TextField
                               fullWidth
                               value={shareData.shareUrl}
-                              readOnly
+                              InputProps={{ readOnly: true }}
                               sx={{
                                 '& .MuiOutlinedInput-root': {
                                   color: '#fef3c7',

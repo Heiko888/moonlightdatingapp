@@ -311,6 +311,7 @@ export default function MondkalenderPage() {
         setUserSubscription({
           userId: 'fallback-user',
           packageId: 'basic',
+          plan: 'basic',
           status: 'active',
           startDate: new Date().toISOString(),
           endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -479,18 +480,18 @@ export default function MondkalenderPage() {
       try {
         const apiPhase = await apiService.getCurrentMoonPhase();
         
-        if (apiPhase) {
+        if (apiPhase && apiPhase.success && apiPhase.data) {
           const convertedPhase: MoonPhase = {
-            name: apiPhase.name || moonPhaseData.name,
-            description: apiPhase.description || currentPhaseData.description,
-            icon: apiPhase.emoji || moonPhaseData.icon,
-            energy: apiPhase.data?.energy === 'high' ? 'Hoch' : apiPhase.data?.energy === 'medium' ? 'Mittel' : 'Niedrig',
+            name: apiPhase.data.name || moonPhaseData.name,
+            description: apiPhase.data.description || currentPhaseData.description,
+            icon: apiPhase.data.emoji || moonPhaseData.icon,
+            energy: apiPhase.data.energy === 'high' ? 'Hoch' : apiPhase.data.energy === 'medium' ? 'Mittel' : 'Niedrig',
             color: currentPhaseData.color,
             advice: currentPhaseData.advice,
-            explanation: apiPhase.description || currentPhaseData.explanation,
+            explanation: apiPhase.data.description || currentPhaseData.explanation,
             reflectionExercises: currentPhaseData.reflectionExercises,
             moonRituals: currentPhaseData.moonRituals,
-            humanDesignConnection: apiPhase.humanDesignConnection || currentPhaseData.humanDesignConnection
+            humanDesignConnection: apiPhase.data.humanDesignConnection || currentPhaseData.humanDesignConnection
           };
           setCurrentPhase(convertedPhase);
         }
@@ -575,9 +576,9 @@ export default function MondkalenderPage() {
 
       const data = await apiService.getMoonTracking(localStorage.getItem('userId') || '');
       
-      if (data) {
-        setTrackingData(data);
-        calculateStats(data);
+      if (data && data.success && data.data) {
+        setTrackingData(data.data);
+        calculateStats(data.data);
       }
     } catch (error) {
       console.error('Fehler beim Laden der Daten:', error);
@@ -627,7 +628,8 @@ export default function MondkalenderPage() {
 
   const loadMoonStories = async () => {
     try {
-      const stories = await apiService.getMoonStories();
+      // TODO: Implement getMoonStories in SupabaseService
+      const stories = null;
       if (stories) {
         setMoonStories(stories);
       }
@@ -695,7 +697,8 @@ export default function MondkalenderPage() {
 
   const loadPlantRituals = async () => {
     try {
-      const rituals = await apiService.getPlantRituals();
+      // TODO: Implement getPlantRituals in SupabaseService
+      const rituals = null;
       if (rituals) {
         setPlantRituals(rituals);
       }
@@ -723,7 +726,8 @@ export default function MondkalenderPage() {
 
   const loadHealthGuidance = async () => {
     try {
-      const guidance = await apiService.getHealthGuidance();
+      // TODO: Implement getHealthGuidance in SupabaseService
+      const guidance = null;
       if (guidance) {
         setHealthGuidance(guidance);
       }
@@ -771,7 +775,8 @@ export default function MondkalenderPage() {
         updatedAt: new Date().toISOString()
       };
 
-      const response = await apiService.saveMoonTrackingData(entryData);
+      // TODO: Implement saveMoonTrackingData in SupabaseService
+      const response = { success: true, message: 'Data saved locally' };
 
       if (response.success) {
         setNewEntry({

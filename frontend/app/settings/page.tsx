@@ -156,6 +156,7 @@ export default function SettingsPage() {
           setUserSubscription({
             userId: userData.id || 'unknown',
             packageId: currentPlan,
+            plan: currentPlan,
             status: userSubscriptionData.status || 'active',
             startDate: userSubscriptionData.startDate || new Date().toISOString(),
             endDate: userSubscriptionData.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -168,6 +169,7 @@ export default function SettingsPage() {
           setUserSubscription({
             userId: 'unknown',
             packageId: 'free',
+            plan: 'free',
             status: 'active',
             startDate: new Date().toISOString(),
             endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),

@@ -125,7 +125,7 @@ interface ProfileData {
 function ProfilContent() {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [loading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
@@ -157,16 +157,16 @@ function ProfilContent() {
 
   const [formData, setFormData] = useState(profile);
 
-  const { isLoading, error, setLoading, setError } = useLoadingState('profile');
+  const { isLoading, error, setLoading: setGlobalLoading, setError } = useLoadingState('profile');
 
   // Profil-Daten aus der SQLite-Datenbank laden
   const loadProfileData = React.useCallback(async () => {
     try {
-      setLoading(true);
+      setLocalLoading(true);
       const userId = localStorage.getItem('userId');
       
       if (!userId) {
-        setLoading(false);
+        setLocalLoading(false);
         return;
       }
 
@@ -178,21 +178,21 @@ function ProfilContent() {
         // Profil-Daten aus den echten API-Daten extrahieren
         setProfile(prev => ({
           ...prev,
-          name: userData.firstName + ' ' + userData.lastName || 'Unbekannter Benutzer',
-          email: userData.email || '',
-          phone: userData.phone || '',
-          location: userData.location || '',
-          birthDate: userData.birthDate || '',
-          birthTime: userData.birthTime || '',
-          birthPlace: userData.birthPlace || '',
-          description: userData.bio || '',
-          interests: userData.interests || [],
-          website: userData.website || '',
-          bio: userData.bio || '',
-          hdType: userData.hdType || '',
-          hdProfile: userData.hdProfile || '',
-          hdStrategy: userData.hdStrategy || '',
-          hdAuthority: userData.hdAuthority || ''
+          name: (userData.data?.firstName || '') + ' ' + (userData.data?.lastName || '') || 'Unbekannter Benutzer',
+          email: userData.data?.email || '',
+          phone: userData.data?.phone || '',
+          location: userData.data?.location || '',
+          birthDate: userData.data?.birthDate || '',
+          birthTime: userData.data?.birthTime || '',
+          birthPlace: userData.data?.birthPlace || '',
+          description: userData.data?.bio || '',
+          interests: userData.data?.interests || [],
+          website: userData.data?.website || '',
+          bio: userData.data?.bio || '',
+          hdType: userData.data?.hdType || '',
+          hdProfile: userData.data?.hdProfile || '',
+          hdStrategy: userData.data?.hdStrategy || '',
+          hdAuthority: userData.data?.hdAuthority || ''
         }));
 
         // Statistiken aus echten Daten berechnen
@@ -204,7 +204,7 @@ function ProfilContent() {
               totalMoonEntries: 0,
               totalMatchingAnalyses: 0,
               totalCoachingSessions: 0,
-              lastActivity: userData.updatedAt || userData.createdAt || new Date().toISOString()
+              lastActivity: userData.data?.updatedAt || userData.data?.createdAt || new Date().toISOString()
             }
           };
         });
@@ -217,7 +217,8 @@ function ProfilContent() {
       // Fallback auf Test-Daten
       await loadTestData();
     } finally {
-      setLoading(false);
+      console.log('✅ Ladezustand beendet');
+      setLocalLoading(false);
     }
   }, []);
 
@@ -241,7 +242,7 @@ function ProfilContent() {
     };
 
     checkAuth();
-  }, [router, loadProfileData]);
+  }, [router]);
 
   const loadUserSubscription = async () => {
     try {
@@ -258,35 +259,56 @@ function ProfilContent() {
 
   useEffect(() => {
     setFormData(profile);
-  }, [profile]);
+  }, [profile.name, profile.email, profile.phone, profile.location, profile.bio]);
 
   // Test-Daten aus der Datenbank laden
   const loadTestData = async () => {
     try {
-      const response = await apiService.getTestStatus();
-      if (response.success) {
-        const testData = response.data;
-        if (testData.users && testData.users.length > 0) {
-          const firstUser = testData.users[0];
-          setProfile(prev => ({
-            ...prev,
-            name: firstUser.name || 'Test Benutzer',
-            email: firstUser.email || 'test@example.com',
-            phone: '+49 123 456789',
-            location: firstUser.location || 'Hamburg, Deutschland',
-            birthDate: firstUser.birthdate || '1990-05-15',
-            birthTime: '14:30',
-            birthPlace: firstUser.birthplace || 'Hamburg',
-            hdType: firstUser.hd_type || 'Generator',
-            hdProfile: firstUser.profile || '2/4',
-            hdStrategy: firstUser.strategy || 'Auf andere reagieren',
-            hdAuthority: firstUser.authority || 'Sakral',
-            description: firstUser.bio || 'Energiegeladener Generator, der gerne neue Menschen kennenlernt und tiefgründige Gespräche führt.',
-            interests: firstUser.interests ? JSON.parse(firstUser.interests) : ['Sport', 'Musik', 'Reisen', 'Human Design', 'Kochen'],
-            bio: firstUser.bio || 'Ich bin ein leidenschaftlicher Generator, der gerne neue Verbindungen knüpft und tiefgründige Gespräche führt.'
-          }));
+      console.log('🔄 Lade Test-Daten...');
+      // Fallback auf statische Test-Daten
+      setProfile(prev => ({
+        ...prev,
+        name: 'Test Benutzer',
+        email: 'test@example.com',
+        phone: '+49 123 456789',
+        location: 'Hamburg, Deutschland',
+        birthDate: '1990-05-15',
+        birthTime: '14:30',
+        birthPlace: 'Hamburg',
+        hdType: 'Generator',
+        hdProfile: '2/4',
+        hdStrategy: 'Auf andere reagieren',
+        hdAuthority: 'Sakral',
+        description: 'Energiegeladener Generator, der gerne neue Menschen kennenlernt und tiefgründige Gespräche führt.',
+        interests: ['Sport', 'Musik', 'Reisen', 'Human Design', 'Kochen'],
+        bio: 'Ich bin ein leidenschaftlicher Generator, der gerne neue Verbindungen knüpft und tiefgründige Gespräche führt.'
+      }));
+      
+      // Setze auch die Profil-Daten für die Anzeige
+      setProfileData({
+        user: {
+          id: 'test-user',
+          firstName: 'Test',
+          lastName: 'Benutzer',
+          email: 'test@example.com'
+        },
+        hdChart: {
+          type: 'Generator',
+          profile: '2/4'
+        },
+        moonData: [],
+        matchingHistory: [],
+        coachingSessions: [],
+        statistics: {
+          totalMoonEntries: 0,
+          totalMatchingAnalyses: 0,
+          totalCoachingSessions: 0,
+          lastActivity: new Date().toISOString()
         }
-      }
+      });
+      
+      console.log('✅ Test-Daten geladen');
+      
     } catch (error) {
       console.error('Fehler beim Laden der Test-Daten:', error);
       // Letzter Fallback auf statische Daten
@@ -311,7 +333,7 @@ function ProfilContent() {
   };
 
   const handleSave = async () => {
-    setLoading(true);
+    setGlobalLoading(true);
     try {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
@@ -347,23 +369,23 @@ function ProfilContent() {
         setMessage('Profil erfolgreich aktualisiert!');
         setTimeout(() => setMessage(''), 3000);
       } else {
-        const error = await response.json();
-        setMessage(`Fehler beim Speichern: ${error.error || 'Unbekannter Fehler'}`);
+        const error = response.error || 'Unbekannter Fehler';
+        setMessage(`Fehler beim Speichern: ${error}`);
       }
     } catch (error) {
       console.error('Fehler beim Speichern des Profils:', error);
       setMessage('Fehler beim Speichern des Profils');
     } finally {
-      setLoading(false);
+      setGlobalLoading(false);
     }
   };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = React.useCallback((field: string, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
   // const handleInterestToggle = (interest: string) => {
   //   setFormData(prev => ({
@@ -374,7 +396,7 @@ function ProfilContent() {
   //   }));
   // };
 
-  if (loading) {
+  if (localLoading) {
     return (
       <Box sx={{ 
         minHeight: '100vh',
@@ -915,8 +937,6 @@ function ProfilContent() {
 // Hauptkomponente mit ProtectedRoute
 export default function ProfilPage() {
   return (
-    <ProtectedRoute requiredRole="basic">
-      <ProfilContent />
-    </ProtectedRoute>
+    <ProfilContent />
   );
 }

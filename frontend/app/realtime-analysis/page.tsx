@@ -59,6 +59,7 @@ export default function RealtimeAnalysisPage() {
           const subscription = {
             userId: user.id || 'unknown',
             packageId: user.subscriptionPlan || 'basic',
+            plan: user.subscriptionPlan || 'basic',
             status: user.subscriptionStatus || 'active',
             startDate: user.subscriptionStartDate || new Date().toISOString(),
             endDate: user.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),

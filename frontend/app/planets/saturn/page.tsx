@@ -740,9 +740,9 @@ export default function SaturnPage() {
         }} />
       </motion.div>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
           <Button
             variant="outlined"
             onClick={() => router.push('/planets')}
@@ -754,7 +754,7 @@ export default function SaturnPage() {
                 backgroundColor: 'rgba(112, 128, 144, 0.1)',
                 boxShadow: '0 0 20px rgba(112, 128, 144, 0.3)'
               },
-              mr: 2
+              marginRight: 2
             }}
           >
             <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -768,17 +768,17 @@ export default function SaturnPage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
               <Shield size={48} color="#708090" />
-              <Typography variant="h2" sx={{ ml: 2, fontWeight: 700, color: '#708090' }}>
+              <Typography variant="h2" sx={{ marginLeft: 2, fontWeight: 700, color: '#708090' }}>
                 {saturnInfo.name}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {saturnInfo.mythology}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2, maxWidth: '600px', margin: 'auto' }}>
               {saturnInfo.description}
             </Typography>
           </Box>
@@ -797,9 +797,9 @@ export default function SaturnPage() {
             border: '1px solid #708090',
             boxShadow: '0 8px 32px rgba(112, 128, 144, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Box sx={{
                 width: 50,
                 height: 50,
@@ -808,17 +808,17 @@ export default function SaturnPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mr: 2
+                marginRight: 2
               }}>
-                <Typography variant="h4" sx={{ color: '#000', fontWeight: 'bold' }}>
+                <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>
                   {saturnInfo.symbol}
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>
+                <Typography variant="h5" style={{ color: 'white', fontWeight: 600 }}>
                   {saturnInfo.name} - Übersicht
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                   Grundlegende Informationen über {saturnInfo.name}
                 </Typography>
               </Box>
@@ -827,37 +827,37 @@ export default function SaturnPage() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                     Umlaufzeit
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {saturnInfo.orbitalPeriod}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                     Entdeckung
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {saturnInfo.discovery}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                     Mythologie
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {saturnInfo.mythology}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                     Farbe
                   </Typography>
                   <Box sx={{ 
@@ -865,7 +865,7 @@ export default function SaturnPage() {
                     height: 30, 
                     borderRadius: '50%', 
                     backgroundColor: saturnInfo.color,
-                    mx: 'auto',
+                    margin: 'auto',
                     border: '2px solid rgba(255,255,255,0.3)'
                   }} />
                 </Box>
@@ -887,12 +887,12 @@ export default function SaturnPage() {
             border: '1px solid #708090',
             boxShadow: '0 8px 32px rgba(112, 128, 144, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#708090" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                   Saturn in den Gates
                 </Typography>
               </Box>
@@ -906,14 +906,14 @@ export default function SaturnPage() {
                 }} 
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Hier sind die ersten 8 Gates mit Saturn-Informationen. Saturn zeigt unsere Struktur und Disziplin in jedem Gate.
             </Typography>
             <List>
               {saturnInGates.map((gate, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -935,17 +935,17 @@ export default function SaturnPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                           {gate.gate}
                         </Typography>
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate.name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate.structure}
                         </Typography>
                       </Box>
@@ -962,15 +962,15 @@ export default function SaturnPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {gate.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {gate.deepMeaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -989,8 +989,8 @@ export default function SaturnPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -1015,10 +1015,10 @@ export default function SaturnPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(112,128,144,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                           Struktur-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate.structureAffirmation}
                         </Typography>
                       </Box>
@@ -1044,20 +1044,20 @@ export default function SaturnPage() {
             boxShadow: '0 8px 32px rgba(112, 128, 144, 0.2)',
             p: 3
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#708090" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Saturn in den Centers
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Saturn in den 9 Centers zeigt, wo unsere Struktur und Disziplin am stärksten wirken.
             </Typography>
             <List>
               {saturnInCenters.map((center, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -1079,15 +1079,15 @@ export default function SaturnPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {center.center}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.structure}
                         </Typography>
                       </Box>
@@ -1104,15 +1104,15 @@ export default function SaturnPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {center.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {center.deepMeaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -1131,8 +1131,8 @@ export default function SaturnPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -1157,10 +1157,10 @@ export default function SaturnPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(112,128,144,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#708090', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#708090', fontWeight: 600, marginBottom: 1 }}>
                           Struktur-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.structureAffirmation}
                         </Typography>
                       </Box>

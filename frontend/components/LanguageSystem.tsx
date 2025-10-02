@@ -2,7 +2,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, Avatar, Badge, LinearProgress, Switch, FormControlLabel, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, CheckCircle, Star, RotateCcw, Share2, Bookmark, Settings, Download, Upload, Languages, Flag, MessageCircle, BookOpen, Users, Award } from 'lucide-react';
+import { Globe, CheckCircle, Star, RotateCcw, Share2, Bookmark, Settings, Download, Upload, Languages, Flag, MessageCircle, BookOpen, Users, Award, Heart, Moon } from 'lucide-react';
 import { useNotifications } from './NotificationService';
 
 interface Language {
@@ -260,7 +260,7 @@ const getCategoryIcon = (category: string) => {
     case 'types':
       return <Star size={16} />;
     case 'energy':
-      return <Zap size={16} />;
+      return <Star size={16} />;
     case 'relationships':
       return <Users size={16} />;
     case 'career':

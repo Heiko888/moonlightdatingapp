@@ -332,9 +332,9 @@ export default function MercuryPage() {
         }}
       />
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
           <Button
             variant="outlined"
             onClick={() => router.push('/planets')}
@@ -346,7 +346,7 @@ export default function MercuryPage() {
                 backgroundColor: 'rgba(135, 206, 235, 0.1)',
                 boxShadow: '0 0 20px rgba(135, 206, 235, 0.3)'
               },
-              mr: 2
+              marginRight: 2
             }}
           >
             <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -360,17 +360,17 @@ export default function MercuryPage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
               <Brain size={48} color="#87CEEB" />
-              <Typography variant="h2" sx={{ ml: 2, fontWeight: 700, color: '#87CEEB' }}>
+              <Typography variant="h2" sx={{ marginLeft: 2, fontWeight: 700, color: '#87CEEB' }}>
                 {planetInfo?.planet_name || fallbackMercuryInfo.planet_name}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {planetInfo?.mythology || fallbackMercuryInfo.mythology}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2, maxWidth: '600px', margin: 'auto' }}>
               {planetInfo?.description || fallbackMercuryInfo.description}
             </Typography>
           </Box>
@@ -389,9 +389,9 @@ export default function MercuryPage() {
             border: '1px solid #87CEEB',
             boxShadow: '0 8px 32px rgba(135, 206, 235, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Box sx={{
                 width: 50,
                 height: 50,
@@ -400,17 +400,17 @@ export default function MercuryPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mr: 2
+                marginRight: 2
               }}>
-                <Typography variant="h4" sx={{ color: '#000', fontWeight: 'bold' }}>
+                <Typography variant="h4" style={{ color: '#000', fontWeight: 'bold' }}>
                   {planetInfo?.symbol || fallbackMercuryInfo.symbol}
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h5" sx={{ color: 'white', fontWeight: 600 }}>
+                <Typography variant="h5" style={{ color: 'white', fontWeight: 600 }}>
                   {planetInfo?.planet_name || fallbackMercuryInfo.planet_name} - Übersicht
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                   Grundlegende Informationen über {planetInfo?.planet_name || fallbackMercuryInfo.planet_name}
                 </Typography>
               </Box>
@@ -419,40 +419,40 @@ export default function MercuryPage() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                     Umlaufzeit
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {planetInfo?.orbital_period || fallbackMercuryInfo.orbital_period}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                     Entdeckung
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {planetInfo?.discovery || fallbackMercuryInfo.discovery}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                     Mythologie
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     {planetInfo?.mythology || fallbackMercuryInfo.mythology}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h6" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                     Element
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     Luft
                   </Typography>
                 </Box>
@@ -474,12 +474,12 @@ export default function MercuryPage() {
             border: '1px solid #87CEEB',
             boxShadow: '0 8px 32px rgba(135, 206, 235, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#87CEEB" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                   Merkur in den Gates
                 </Typography>
               </Box>
@@ -493,14 +493,14 @@ export default function MercuryPage() {
                 }} 
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Hier sind alle 64 Gates mit Merkur-Informationen. Merkur zeigt unsere Kommunikationsweise und Denkprozesse in jedem Gate.
             </Typography>
             <List>
               {planetGates?.map((gate, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -522,17 +522,17 @@ export default function MercuryPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                           {gate.gate_number}
                         </Typography>
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate.name || `Gate ${gate.gate_number}`}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate.description || 'Merkur Kommunikation'}
                         </Typography>
                       </Box>
@@ -562,10 +562,10 @@ export default function MercuryPage() {
                                 border: '1px solid rgba(135,206,235,0.3)',
                                 height: '100%'
                               }}>
-                                <Typography variant="h6" sx={{ color: '#87CEEB', fontWeight: 600, mb: 2 }}>
+                                <Typography variant="h6" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 2 }}>
                                   🌟 Persönlich
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontStyle: 'italic' }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontStyle: 'italic' }}>
                                   {gate.personal_affirmation || (gate.gate_number === 1 ? '"Ich erschaffe durch meine Worte."' : 
                                    gate.gate_number === 2 ? '"Ich spreche aus Klarheit."' : 
                                    gate.gate_number === 3 ? '"Ich bringe Ordnung ins Chaos."' :
@@ -610,13 +610,13 @@ export default function MercuryPage() {
                                    gate.gate_number === 42 ? '"Ich spreche Geschichten zu Ende."' :
                                    '"Ich spreche meine Einsichten."')}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                                   {gate.essence}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                                   {gate.description}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                                   {gate.deep_meaning}
                                 </Typography>
                               </Box>
@@ -629,10 +629,10 @@ export default function MercuryPage() {
                                 border: '1px solid rgba(70,130,180,0.3)',
                                 height: '100%'
                               }}>
-                                <Typography variant="h6" sx={{ color: '#4682B4', fontWeight: 600, mb: 2 }}>
+                                <Typography variant="h6" style={{ color: '#4682B4', fontWeight: 600, marginBottom: 2 }}>
                                   💼 Business
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontStyle: 'italic' }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontStyle: 'italic' }}>
                                   {gate.business_affirmation || (gate.gate_number === 1 ? '"Meine Sprache ist mein Markenzeichen."' : 
                                    gate.gate_number === 2 ? '"Meine Worte geben meinem Business Richtung."' : 
                                    gate.gate_number === 3 ? '"Meine Kommunikation bringt Struktur ins Angebot."' :
@@ -677,10 +677,10 @@ export default function MercuryPage() {
                                    gate.gate_number === 42 ? '"Ich führe Projekte bis zur Reife."' :
                                    '"Meine Worte bringen Innovation."')}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                                   {gate.consciousness}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                                   {gate.business_description || getBusinessDescription(gate.gate_number)}
                                 </Typography>
                               </Box>
@@ -690,17 +690,17 @@ export default function MercuryPage() {
                       ) : (
                         <>
                           {/* Standard-Anzeige für alle anderen Gates */}
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                          <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                             {gate.description || 'Merkur Kommunikation und Denken'}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                          <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                             {gate.description || 'Merkur Kommunikation und Denken in diesem Gate'}
                           </Typography>
                         </>
                       )}
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -729,8 +729,8 @@ export default function MercuryPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -765,10 +765,10 @@ export default function MercuryPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(135,206,235,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                           Kommunikations-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate.affirmation || 'Ich kommuniziere klar und authentisch. Meine Worte sind wertvoll und heilend.'}
                         </Typography>
                       </Box>
@@ -794,20 +794,20 @@ export default function MercuryPage() {
             boxShadow: '0 8px 32px rgba(135, 206, 235, 0.2)',
             p: 3
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#87CEEB" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Merkur in den Centers
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Merkur in den 9 Centers zeigt, wo unsere Kommunikation und unser Denken am stärksten wirken.
             </Typography>
             <List>
               {planetCenters?.map((center, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -829,15 +829,15 @@ export default function MercuryPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {center.center_name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.description || 'Merkur Kommunikation'}
                         </Typography>
                       </Box>
@@ -854,15 +854,15 @@ export default function MercuryPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {center.description || 'Merkur Kommunikation in diesem Center'}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {center.description || 'Merkur Kommunikation und Denken in diesem Center'}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -891,8 +891,8 @@ export default function MercuryPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -927,10 +927,10 @@ export default function MercuryPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(135,206,235,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#87CEEB', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#87CEEB', fontWeight: 600, marginBottom: 1 }}>
                           Kommunikations-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.affirmation || 'Ich kommuniziere klar und authentisch in diesem Center. Meine Worte sind wertvoll und heilend.'}
                         </Typography>
                       </Box>

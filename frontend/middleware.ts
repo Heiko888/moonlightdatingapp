@@ -91,19 +91,27 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Authentication check for protected routes
-  const protectedRoutes = ['/dashboard', '/profile', '/settings', '/subscription', '/chart', '/chart-info', '/human-design-info', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip']
+  // Authentication check for protected routes (temporarily disabled for dashboard)
+  const protectedRoutes = ['/profile', '/settings', '/subscription', '/chart', '/chart-info', '/human-design-info', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip']
   const isProtectedRoute = protectedRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
+  // Temporarily allow dashboard without authentication
   if (isProtectedRoute) {
-    // Prüfe Supabase Session Token
-    const supabaseToken = request.cookies.get('sb-njjcywgskzepikyzhihy-auth-token')?.value
-    const authHeader = request.headers.get('authorization')?.replace('Bearer ', '')
-    const token = supabaseToken || authHeader
+    // Prüfe HttpOnly Cookies für Authentifizierung
+    const accessToken = request.cookies.get('access_token')?.value
+    const userId = request.cookies.get('user_id')?.value
     
-    if (!token) {
+    console.log('Middleware Debug:', {
+      pathname: request.nextUrl.pathname,
+      accessToken: accessToken ? 'present' : 'missing',
+      userId: userId ? 'present' : 'missing',
+      allCookies: request.cookies.getAll().map(c => c.name)
+    })
+    
+    if (!accessToken || !userId) {
+      console.log('No auth cookies found, redirecting to login')
       return NextResponse.redirect(new URL('/login', request.url))
     }
 

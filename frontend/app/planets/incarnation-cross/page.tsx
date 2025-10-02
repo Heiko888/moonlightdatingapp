@@ -373,18 +373,18 @@ export default function IncarnationCrossPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ padding: 4 }}>
       {/* Header */}
       <motion.div
         
         
         
       >
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+        <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
             <Cross size={48} color="#8B5CF6" />
             <Typography variant="h2" component="h1" sx={{ 
-              ml: 2, 
+              marginLeft: 2, 
               fontWeight: 'bold',
               background: 'linear-gradient(45deg, #8B5CF6, #EC4899)',
               backgroundClip: 'text',
@@ -394,7 +394,7 @@ export default function IncarnationCrossPage() {
               Inkarnationskreuz
             </Typography>
           </Box>
-          <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
+          <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 600, margin: 'auto' }}>
             Entdecke dein einzigartiges Inkarnationskreuz - die vier Tore, die deine Lebensaufgabe und dein höchstes Potenzial definieren
           </Typography>
         </Box>
@@ -407,7 +407,7 @@ export default function IncarnationCrossPage() {
           
           
         >
-          <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+          <Alert severity="error" sx={{ marginBottom: 3 }} onClose={() => setError(null)}>
             {error}
           </Alert>
         </motion.div>
@@ -419,11 +419,11 @@ export default function IncarnationCrossPage() {
         
         
       >
-        <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <Card sx={{ marginBottom: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
           <CardContent sx={{ p: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Calculator size={24} color="white" />
-              <Typography variant="h5" sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, color: 'white', fontWeight: 'bold' }}>
                 Inkarnationskreuz berechnen
               </Typography>
             </Box>
@@ -542,7 +542,7 @@ export default function IncarnationCrossPage() {
               </Grid>
             </Grid>
             
-            <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Box sx={{ marginTop: 3, textAlign: 'center' }}>
               <Button
                 variant="contained"
                 size="large"
@@ -554,8 +554,7 @@ export default function IncarnationCrossPage() {
                   '&:hover': {
                     background: 'linear-gradient(45deg, #FF5252, #26A69A)',
                   },
-                  px: 4,
-                  py: 1.5
+                  padding: 16
                 }}
               >
                 {loading ? 'Berechne...' : 'Inkarnationskreuz berechnen'}
@@ -572,20 +571,20 @@ export default function IncarnationCrossPage() {
           
           
         >
-          <Card sx={{ mb: 4, border: '2px solid #8B5CF6' }}>
+          <Card sx={{ marginBottom: 4, border: '2px solid #8B5CF6' }}>
             <CardContent sx={{ p: 4 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
                 <Star size={24} color="#8B5CF6" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 'bold', color: '#8B5CF6' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 'bold', color: '#8B5CF6' }}>
                   Dein Inkarnationskreuz
                 </Typography>
               </Box>
               
-              <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold' }}>
+              <Typography variant="h4" sx={{ marginBottom: 2, fontWeight: 'bold' }}>
                 {calculatedCross.cross_name}
               </Typography>
               
-              <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', gap: 2, marginBottom: 3, flexWrap: 'wrap' }}>
                 <Chip 
                   label={`Sonne: Tor ${calculatedCross.sun_gate}.${calculatedCross.sun_line}`} 
                   color="primary" 
@@ -598,14 +597,14 @@ export default function IncarnationCrossPage() {
                 />
               </Box>
               
-              <Typography variant="body1" sx={{ mb: 3, lineHeight: 1.8 }}>
+              <Typography variant="body1" sx={{ marginBottom: 3, lineHeight: 1.8 }}>
                 {calculatedCross.description}
               </Typography>
               
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
                   <Box sx={{ p: 2, backgroundColor: '#F3F4F6', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
                       Lebensaufgabe
                     </Typography>
                     <Typography variant="body2">
@@ -616,7 +615,7 @@ export default function IncarnationCrossPage() {
                 
                 <Grid item xs={12} md={6}>
                   <Box sx={{ p: 2, backgroundColor: '#F3F4F6', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
                       Zweck
                     </Typography>
                     <Typography variant="body2">
@@ -627,7 +626,7 @@ export default function IncarnationCrossPage() {
                 
                 <Grid item xs={12} md={6}>
                   <Box sx={{ p: 2, backgroundColor: '#FEF2F2', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold', color: '#DC2626' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#DC2626' }}>
                       Herausforderungen
                     </Typography>
                     <Typography variant="body2">
@@ -638,7 +637,7 @@ export default function IncarnationCrossPage() {
                 
                 <Grid item xs={12} md={6}>
                   <Box sx={{ p: 2, backgroundColor: '#F0FDF4', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold', color: '#16A34A' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#16A34A' }}>
                       Gaben
                     </Typography>
                     <Typography variant="body2">
@@ -648,11 +647,11 @@ export default function IncarnationCrossPage() {
                 </Grid>
               </Grid>
               
-              <Box sx={{ mt: 3, p: 2, backgroundColor: '#8B5CF6', borderRadius: 2 }}>
-                <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold', color: 'white' }}>
+              <Box sx={{ marginTop: 3, p: 2, backgroundColor: '#8B5CF6', borderRadius: 2 }}>
+                <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: 'white' }}>
                   Affirmation
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'white', fontStyle: 'italic' }}>
+                <Typography variant="body1" style={{ color: 'white', fontStyle: 'italic' }}>
                   "{calculatedCross.affirmation}"
                 </Typography>
               </Box>
@@ -667,11 +666,11 @@ export default function IncarnationCrossPage() {
         
         
       >
-        <Card sx={{ mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <Card sx={{ marginBottom: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
           <CardContent sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Search size={24} color="white" />
-              <Typography variant="h5" sx={{ ml: 2, color: 'white', fontWeight: 'bold' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, color: 'white', fontWeight: 'bold' }}>
                 Kreuze durchsuchen & filtern
               </Typography>
             </Box>
@@ -705,7 +704,7 @@ export default function IncarnationCrossPage() {
               
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth>
-                  <InputLabel sx={{ color: 'white' }}>Kategorie</InputLabel>
+                  <InputLabel style={{ color: 'white' }}>Kategorie</InputLabel>
                   <Select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -734,7 +733,7 @@ export default function IncarnationCrossPage() {
               
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth>
-                  <InputLabel sx={{ color: 'white' }}>Sortieren nach</InputLabel>
+                  <InputLabel style={{ color: 'white' }}>Sortieren nach</InputLabel>
                   <Select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
@@ -760,19 +759,19 @@ export default function IncarnationCrossPage() {
               </Grid>
             </Grid>
             
-            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ marginTop: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
               <Chip 
                 label={`${filteredCrosses.length} Kreuze gefunden`} 
                 color="primary" 
                 variant="outlined"
-                sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
+                style={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
               />
               {selectedCategory !== 'Alle' && (
                 <Chip 
                   label={`Kategorie: ${selectedCategory}`} 
                   color="secondary" 
                   variant="outlined"
-                  sx={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
+                  style={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }}
                 />
               )}
             </Box>
@@ -786,7 +785,7 @@ export default function IncarnationCrossPage() {
         
         
       >
-        <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold' }}>
+        <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold' }}>
           Bekannte Inkarnationskreuze ({filteredCrosses.length})
         </Typography>
         
@@ -826,7 +825,7 @@ export default function IncarnationCrossPage() {
                   }
                 }}>
                   <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
                       <Box sx={{
                         width: 40,
                         height: 40,
@@ -835,7 +834,7 @@ export default function IncarnationCrossPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2,
+                        marginRight: 2,
                         color: '#000',
                         fontSize: '18px',
                         fontWeight: 'bold'
@@ -859,7 +858,7 @@ export default function IncarnationCrossPage() {
                       </Box>
                     </Box>
                     
-                    <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+                    <Box sx={{ display: 'flex', gap: 1, marginBottom: 2, flexWrap: 'wrap' }}>
                       <Chip 
                         label={`☉ ${cross.sun_gate}.${cross.sun_line}`} 
                         size="small" 
@@ -880,15 +879,15 @@ export default function IncarnationCrossPage() {
                       />
                     </Box>
                     
-                    <Typography variant="body2" sx={{ mb: 2, color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
+                    <Typography variant="body2" sx={{ marginBottom: 2, color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
                       {cross.description}
                     </Typography>
                     
-                    <Box sx={{ p: 2, backgroundColor: `${getCrossColor(cross.cross_type)}15`, borderRadius: 2, mb: 2 }}>
-                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: getCrossColor(cross.cross_type), mb: 1 }}>
+                    <Box sx={{ p: 2, backgroundColor: `${getCrossColor(cross.cross_type)}15`, borderRadius: 2, marginBottom: 2 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: getCrossColor(cross.cross_type), marginBottom: 1 }}>
                         Lebensaufgabe:
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)' }}>
                         {cross.life_theme}
                       </Typography>
                     </Box>

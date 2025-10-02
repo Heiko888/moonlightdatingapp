@@ -357,9 +357,9 @@ export default function UranusPage() {
         }} />
       </motion.div>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
           <Button
             variant="outlined"
             onClick={() => router.push('/planets')}
@@ -371,7 +371,7 @@ export default function UranusPage() {
                 backgroundColor: 'rgba(0, 206, 209, 0.1)',
                 boxShadow: '0 0 20px rgba(0, 206, 209, 0.3)'
               },
-              mr: 2
+              marginRight: 2
             }}
           >
             <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -385,19 +385,19 @@ export default function UranusPage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-              <Typography variant="h1" sx={{ color: '#00CED1', mr: 2, fontSize: '3rem' }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
+              <Typography variant="h1" style={{ color: '#00CED1', marginRight: 2, fontSize: '3rem' }}>
                 {planetInfo?.symbol || fallbackUranusInfo.symbol}
               </Typography>
               <Typography variant="h2" sx={{ fontWeight: 700, color: '#00CED1' }}>
                 {planetInfo?.planet_name || fallbackUranusInfo.planet_name}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {planetInfo?.mythology || fallbackUranusInfo.mythology}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2, maxWidth: '600px', margin: 'auto' }}>
               {planetInfo?.description || fallbackUranusInfo.description}
             </Typography>
           </Box>
@@ -416,44 +416,44 @@ export default function UranusPage() {
             border: '1px solid #00CED1',
             boxShadow: '0 8px 32px rgba(0, 206, 209, 0.2)',
             p: 4,
-            mb: 4
+            marginBottom: 4
           }}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h1" sx={{ color: planetInfo?.color || fallbackUranusInfo.color, mb: 2 }}>
+                  <Typography variant="h1" style={{ color: planetInfo?.color || fallbackUranusInfo.color, marginBottom: 2 }}>
                     {planetInfo?.symbol || fallbackUranusInfo.symbol}
                   </Typography>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
+                  <Typography variant="h4" style={{ color: 'white', fontWeight: 700, marginBottom: 2 }}>
                     {planetInfo?.planet_name || fallbackUranusInfo.planet_name}
                   </Typography>
-                  <Typography variant="h6" sx={{ color: planetInfo?.color || fallbackUranusInfo.color, mb: 3 }}>
+                  <Typography variant="h6" style={{ color: planetInfo?.color || fallbackUranusInfo.color, marginBottom: 3 }}>
                     {planetInfo?.mythology || fallbackUranusInfo.mythology}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Box>
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.6 }}>
+                  <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 3, lineHeight: 1.6 }}>
                     {planetInfo?.description || fallbackUranusInfo.description}
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Orbitalperiode
                         </Typography>
-                        <Typography variant="h6" sx={{ color: planetInfo?.color || fallbackUranusInfo.color }}>
+                        <Typography variant="h6" style={{ color: planetInfo?.color || fallbackUranusInfo.color }}>
                           {planetInfo?.orbital_period || fallbackUranusInfo.orbital_period}
                         </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Entdeckung
                         </Typography>
-                        <Typography variant="h6" sx={{ color: planetInfo?.color || fallbackUranusInfo.color }}>
+                        <Typography variant="h6" style={{ color: planetInfo?.color || fallbackUranusInfo.color }}>
                           {planetInfo?.discovery || fallbackUranusInfo.discovery}
                         </Typography>
                       </Box>
@@ -478,12 +478,12 @@ export default function UranusPage() {
             border: '1px solid #00CED1',
             boxShadow: '0 8px 32px rgba(0, 206, 209, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#00CED1" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                   Uranus in den Gates
                 </Typography>
               </Box>
@@ -497,14 +497,14 @@ export default function UranusPage() {
                 }} 
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Hier sind alle 64 Gates mit Uranus-Informationen. Uranus zeigt unsere Revolution und Innovation in jedem Gate.
             </Typography>
             <List>
               {planetGates?.map((gate, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -526,17 +526,17 @@ export default function UranusPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                           {gate.gate_number}
                         </Typography>
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate.name || `Gate ${gate.gate_number}`}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate.description || 'Uranus Revolution'}
                         </Typography>
                       </Box>
@@ -553,15 +553,15 @@ export default function UranusPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {gate.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {gate.description || 'Uranus Revolution und Innovation'}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -590,8 +590,8 @@ export default function UranusPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -626,10 +626,10 @@ export default function UranusPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(0,206,209,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#00CED1', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#00CED1', fontWeight: 600, marginBottom: 1 }}>
                           Revolutions-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate.affirmation || 'Ich revolutioniere bewusst und entwickle innovative Lösungen. Meine Revolution ist transformativ.'}
                         </Typography>
                       </Box>
@@ -655,20 +655,20 @@ export default function UranusPage() {
             boxShadow: '0 8px 32px rgba(0, 206, 209, 0.2)',
             p: 3
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#00CED1" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Uranus in den Centers
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Uranus in den 9 Centers zeigt, wo unsere Revolution und Innovation am stärksten wirken.
             </Typography>
             <List>
               {planetCenters?.map((center, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -690,15 +690,15 @@ export default function UranusPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {center.center_name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.description || 'Uranus Revolution'}
                         </Typography>
                       </Box>
@@ -715,15 +715,15 @@ export default function UranusPage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {center.description || 'Uranus Revolution in diesem Center'}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {center.description || 'Uranus Revolution und Innovation in diesem Center'}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -752,8 +752,8 @@ export default function UranusPage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -788,10 +788,10 @@ export default function UranusPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(0,206,209,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#00CED1', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#00CED1', fontWeight: 600, marginBottom: 1 }}>
                           Revolutions-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.affirmation || 'Ich revolutioniere bewusst in diesem Center und entwickle innovative Lösungen. Meine Revolution ist transformativ.'}
                         </Typography>
                       </Box>

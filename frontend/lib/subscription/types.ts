@@ -1,5 +1,5 @@
 export interface SubscriptionPackage {
-  id: 'basic' | 'premium' | 'vip';
+  id: 'basic' | 'premium' | 'vip' | 'admin';
   name: string;
   description: string;
   price: string;
@@ -22,7 +22,7 @@ export interface SubscriptionPackage {
 export interface UserSubscription {
   id?: string; // Optional für Kompatibilität mit verschiedenen Datenquellen
   userId: string;
-  packageId: 'basic' | 'premium' | 'vip';
+  packageId: 'basic' | 'premium' | 'vip' | 'admin';
   plan: string; // Human-readable plan name
   status: 'active' | 'expired' | 'cancelled' | 'trial';
   startDate: string;
@@ -30,6 +30,7 @@ export interface UserSubscription {
   autoRenew: boolean;
   paymentMethod: string;
   billingCycle: 'monthly' | 'yearly';
+  features?: string[]; // Optional für Demo-Zwecke und erweiterte Features
   createdAt?: string; // Optional für Supabase Kompatibilität
   updatedAt?: string; // Optional für Supabase Kompatibilität
 }
@@ -37,7 +38,7 @@ export interface UserSubscription {
 export interface PageAccess {
   path: string;
   name: string;
-  requiredPackage: 'free' | 'basic' | 'premium' | 'vip';
+  requiredPackage: 'free' | 'basic' | 'premium' | 'vip' | 'admin';
   description: string;
   category: string;
   exactPackage?: boolean; // Wenn true, nur exakt dieses Paket, nicht höhere

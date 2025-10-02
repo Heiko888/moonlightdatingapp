@@ -36,6 +36,7 @@ export const pageAccessConfig: PageAccess[] = [
   { path: '/roadmap', name: 'Roadmap', requiredPackage: 'premium', description: 'Projekt-Roadmap', category: 'Premium' },
   { path: '/premium-dashboard', name: 'Premium Dashboard', requiredPackage: 'premium', description: 'Premium-Dashboard', category: 'Premium' },
   { path: '/chat-new', name: 'Chat', requiredPackage: 'basic', description: 'Chat-System', category: 'Basic' },
+  { path: '/mobile-app', name: 'Mobile App', requiredPackage: 'basic', description: 'Mobile App Download', category: 'Basic' },
 
   // VIP-Paket erforderlich
   { path: '/dashboard-vip', name: 'VIP Dashboard', requiredPackage: 'vip', description: 'Exklusives VIP-Dashboard', category: 'VIP' },
@@ -157,7 +158,7 @@ export const getAccessiblePages = (userSubscription: UserSubscription | null): P
 };
 
 export const getUpgradeOptions = (currentPackage: string): string[] => {
-  const packageHierarchy = ['free', 'basic', 'premium', 'vip'];
+  const packageHierarchy = ['free', 'basic', 'premium', 'vip', 'admin'];
   const currentLevel = packageHierarchy.indexOf(currentPackage);
   
   if (currentLevel === -1 || currentLevel === packageHierarchy.length - 1) {

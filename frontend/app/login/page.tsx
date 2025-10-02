@@ -70,22 +70,22 @@ const LoginPage: React.FC = () => {
       if (result.success) {
         console.log('✅ API Login erfolgreich:', result.data.user.email);
 
-        // LocalStorage für Kompatibilität
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('token', result.data.session.access_token);
-          localStorage.setItem('userId', result.data.user.id);
-          localStorage.setItem('userData', JSON.stringify(result.data.user));
-        }
+        // Session-Daten in localStorage speichern
+        localStorage.setItem('token', result.data.session.access_token);
+        localStorage.setItem('userId', result.data.user.id);
+        localStorage.setItem('userEmail', result.data.user.email);
+        console.log('💾 Session-Daten in localStorage gespeichert');
 
         // Erfolgsmeldung anzeigen
         setError('');
         setSuccess('✅ Login erfolgreich!');
 
         console.log('🔄 Weiterleitung zum Dashboard...');
+        // Kurzer Delay um sicherzustellen, dass localStorage gesetzt ist
         setTimeout(() => {
           console.log('🚀 Navigiere zu /dashboard');
           router.push('/dashboard');
-        }, 1000);
+        }, 500);
       } else {
         console.error('API Login Fehler:', result);
         const errorMessage = result.error?.message || result.message || 'Anmeldung fehlgeschlagen';

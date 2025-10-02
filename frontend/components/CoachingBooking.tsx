@@ -460,7 +460,7 @@ export default function CoachingBooking({
       <Dialog open={true} maxWidth="sm" fullWidth>
         <DialogContent>
           <Box textAlign="center" py={4}>
-            <CheckCircle sx={{ fontSize: 64, color: 'success.main', mb: 2 }} />
+            <CheckCircle size={64} style={{ color: '#4caf50', marginBottom: 16 }} />
             <Typography variant="h5" gutterBottom>
               Buchung erfolgreich!
             </Typography>

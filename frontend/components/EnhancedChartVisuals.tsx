@@ -270,11 +270,11 @@ export default function EnhancedChartVisuals({ chartData, onTransitClick }: Enha
                                 {transit.name}
                               </Typography>
                       <Chip
-                        label={transit.isActive ? "Aktiv" : "Inaktiv"}
+                        label="Aktiv"
                         size="small"
                         sx={{
                           ml: 'auto',
-                          bgcolor: transit.isActive ? '#10b981' : '#6b7280',
+                          bgcolor: '#10b981',
                           color: 'white',
                           fontSize: '0.7rem'
                         }}
@@ -308,7 +308,7 @@ export default function EnhancedChartVisuals({ chartData, onTransitClick }: Enha
                        }}>
                          • Position: {transit.position}° im Chart<br/>
                          • Stärke: {Math.round(transit.strength * 100)}%<br/>
-                         • Aktivierung: {transit.isActive ? 'Aktiviert' : 'Nicht aktiviert'}
+                         • Aktivierung: Aktiviert
                        </Typography>
                      </Box>
                     
@@ -331,14 +331,14 @@ export default function EnhancedChartVisuals({ chartData, onTransitClick }: Enha
                         overflow: 'hidden'
                       }}>
                         <Box sx={{
-                          width: `${transit.impact * 100}%`,
+                          width: `${transit.strength * 100}%`,
                           height: '100%',
                           bgcolor: getTransitColor(transit.strength),
                           borderRadius: 2
                         }} />
                       </Box>
                       <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-                        {Math.round(transit.impact * 100)}%
+                        {Math.round(transit.strength * 100)}%
                       </Typography>
                     </Box>
                   </CardContent>

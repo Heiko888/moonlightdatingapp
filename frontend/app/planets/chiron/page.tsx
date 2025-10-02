@@ -379,9 +379,9 @@ export default function ChironPage() {
         }} />
       </motion.div>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
             <Button
               variant="outlined"
             onClick={() => router.push('/planets')}
@@ -393,7 +393,7 @@ export default function ChironPage() {
                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                 boxShadow: '0 0 20px rgba(255, 107, 107, 0.3)'
               },
-              mr: 2
+              marginRight: 2
               }}
             >
               <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -407,17 +407,17 @@ export default function ChironPage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
               <Heart size={48} color="#FF6B6B" />
-              <Typography variant="h2" sx={{ ml: 2, fontWeight: 700, color: '#FF6B6B' }}>
+              <Typography variant="h2" sx={{ marginLeft: 2, fontWeight: 700, color: '#FF6B6B' }}>
                 {chironInfo?.name || 'Chiron'}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {chironInfo?.description || 'Der verwundete Heiler'}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 16, maxWidth: '600px', margin: '0 auto' }}>
               {chironInfo?.description || 'Chiron repräsentiert unsere Wunden und unsere Fähigkeit zur Heilung.'}
             </Typography>
           </Box>
@@ -436,44 +436,44 @@ export default function ChironPage() {
             border: '1px solid #FF6B6B',
             boxShadow: '0 8px 32px rgba(255, 107, 107, 0.2)',
             p: 4,
-            mb: 4
+            marginBottom: 4
           }}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h1" sx={{ color: '#FF6B6B', mb: 2 }}>
+                  <Typography variant="h1" style={{ color: '#FF6B6B', marginBottom: 2 }}>
                     {chironInfo?.symbol || '⚷'}
                   </Typography>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
+                  <Typography variant="h4" style={{ color: 'white', fontWeight: 700, marginBottom: 2 }}>
                     {chironInfo?.name || 'Chiron'}
                   </Typography>
-                  <Typography variant="h6" sx={{ color: '#FF6B6B', mb: 3 }}>
+                  <Typography variant="h6" style={{ color: '#FF6B6B', marginBottom: 3 }}>
                     {chironInfo?.description || 'Der verwundete Heiler'}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Box>
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.6 }}>
+                  <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 3, lineHeight: 1.6 }}>
                     {chironInfo?.description || 'Chiron repräsentiert unsere Wunden und unsere Fähigkeit zur Heilung.'}
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Orbitalperiode
                         </Typography>
-                        <Typography variant="h6" sx={{ color: '#FF6B6B' }}>
+                        <Typography variant="h6" style={{ color: '#FF6B6B' }}>
                           50.7 Jahre
                         </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Entdeckung
                         </Typography>
-                        <Typography variant="h6" sx={{ color: '#FF6B6B' }}>
+                        <Typography variant="h6" style={{ color: '#FF6B6B' }}>
                           1977
                         </Typography>
                       </Box>
@@ -498,12 +498,12 @@ export default function ChironPage() {
             border: '1px solid #FF6B6B',
             boxShadow: '0 8px 32px rgba(255, 107, 107, 0.2)',
                 p: 3,
-            mb: 4
+            marginBottom: 4
               }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#FF6B6B" />
-                    <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                    <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                       Chiron in den Gates
                     </Typography>
                   </Box>
@@ -517,14 +517,14 @@ export default function ChironPage() {
                     }} 
                   />
                 </Box>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+                <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Hier sind alle 64 Gates mit Chiron-Informationen. Chiron zeigt unsere Wunden und Heilung in jedem Gate.
                 </Typography>
             <List>
               {chironGates.map((gate: any, index: number) => (
                     <Accordion key={index} sx={{ 
                       background: 'rgba(255,255,255,0.05)', 
-                      mb: 1,
+                      marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -546,17 +546,17 @@ export default function ChironPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                             {gate?.gate_number || gate?.gate || 'Gate'}
                         </Typography>
                       </Box>
                           <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate?.name || `Gate ${gate?.gate_number || 'Unbekannt'}`}
                             </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate?.description || 'Chiron Heilung'}
                         </Typography>
                           </Box>
@@ -573,10 +573,10 @@ export default function ChironPage() {
                       </AccordionSummary>
                       <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                           {gate?.description || 'Beschreibung wird geladen...'}
                         </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                           {gate?.deepMeaning || 'Tiefere Bedeutung wird geladen...'}
                         </Typography>
                         
@@ -586,18 +586,18 @@ export default function ChironPage() {
                           background: 'rgba(255,107,107,0.1)', 
                           borderRadius: 2, 
                           border: '1px solid rgba(255,107,107,0.3)',
-                          mb: 2
+                          marginBottom: 2
                         }}>
-                          <Typography variant="h6" sx={{ color: '#FF6B6B', mb: 2, fontWeight: 600 }}>
+                          <Typography variant="h6" style={{ color: '#FF6B6B', marginBottom: 2, fontWeight: 600 }}>
                             🌌 Chiron bewusst – Tor {gate?.gate_number || gate?.gate || 'Unbekannt'}
                           </Typography>
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, mb: 2, whiteSpace: 'pre-line' }}>
+                          <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', lineHeight: 1.8, marginBottom: 2, whiteSpace: 'pre-line' }}>
                             {gate?.deep_meaning || gate?.deepMeaning || 'Detaillierte Chiron-Informationen werden geladen...'}
                           </Typography>
                         </Box>
                         
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                                 Schatten-Aspekte:
                               </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -626,8 +626,8 @@ export default function ChironPage() {
                             </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                                 Geschenke:
                               </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -662,10 +662,10 @@ export default function ChironPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(65,105,225,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', fontWeight: 600, marginBottom: 1 }}>
                           Heilungs-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate?.healingAffirmation || "Ich heile meine Wunden und entwickle Chiron-Heilung. Meine Wunden sind meine größten Lehrer."}
                         </Typography>
                       </Box>
@@ -691,20 +691,20 @@ export default function ChironPage() {
             boxShadow: '0 8px 32px rgba(255, 107, 107, 0.2)',
             p: 3
               }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#FF6B6B" />
-                  <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                  <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Chiron in den Zentren
                   </Typography>
                 </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Chiron in den 9 Zentren zeigt, wo unsere Wunden und Heilung am stärksten wirken.
             </Typography>
                 <List>
               {chironCenters.map((center: any, index: number) => (
                     <Accordion key={index} sx={{ 
                       background: 'rgba(255,255,255,0.05)', 
-                      mb: 1,
+                      marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
@@ -726,15 +726,15 @@ export default function ChironPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                           <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                               {center.center}
                             </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.spirituality}
                             </Typography>
                           </Box>
@@ -751,15 +751,15 @@ export default function ChironPage() {
                       </AccordionSummary>
                       <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                           {center.description}
                         </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                           {center.deepMeaning}
                         </Typography>
                         
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                                 Schatten-Aspekte:
                               </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -788,8 +788,8 @@ export default function ChironPage() {
             </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -824,10 +824,10 @@ export default function ChironPage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(65,105,225,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', fontWeight: 600, marginBottom: 1 }}>
                           Spiritualitäts-Affirmation:
                               </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.spiritualityAffirmation}
                             </Typography>
                           </Box>

@@ -515,9 +515,9 @@ export default function NeptunePage() {
         }} />
       </motion.div>
 
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ padding: 4, position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
           <Button
             variant="outlined"
             onClick={() => router.push('/planets')}
@@ -529,7 +529,7 @@ export default function NeptunePage() {
                 backgroundColor: 'rgba(65, 105, 225, 0.1)',
                 boxShadow: '0 0 20px rgba(65, 105, 225, 0.3)'
               },
-              mr: 2
+              marginRight: 2
             }}
           >
             <ArrowLeft size={20} style={{ marginRight: 8 }} />
@@ -543,17 +543,17 @@ export default function NeptunePage() {
           
           
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
               <Globe size={48} color="#4169E1" />
-              <Typography variant="h2" sx={{ ml: 2, fontWeight: 700, color: '#4169E1' }}>
+              <Typography variant="h2" sx={{ marginLeft: 2, fontWeight: 700, color: '#4169E1' }}>
                 {neptuneInfo.symbol} {neptuneInfo.name}
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <Typography variant="h5" style={{ color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {neptuneInfo.mythology}
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2, maxWidth: '600px', mx: 'auto' }}>
+            <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.7)', marginTop: 2, maxWidth: '600px', margin: 'auto' }}>
               {neptuneInfo.description}
             </Typography>
           </Box>
@@ -572,44 +572,44 @@ export default function NeptunePage() {
             border: '1px solid #4169E1',
             boxShadow: '0 8px 32px rgba(65, 105, 225, 0.2)',
             p: 4,
-            mb: 4
+            marginBottom: 4
           }}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h1" sx={{ color: neptuneInfo.color, mb: 2 }}>
+                  <Typography variant="h1" style={{ color: neptuneInfo.color, marginBottom: 2 }}>
                     {neptuneInfo.symbol}
                   </Typography>
-                  <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 2 }}>
+                  <Typography variant="h4" style={{ color: 'white', fontWeight: 700, marginBottom: 2 }}>
                     {neptuneInfo.name}
                   </Typography>
-                  <Typography variant="h6" sx={{ color: neptuneInfo.color, mb: 3 }}>
+                  <Typography variant="h6" style={{ color: neptuneInfo.color, marginBottom: 3 }}>
                     {neptuneInfo.mythology}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Box>
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.6 }}>
+                  <Typography variant="body1" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 3, lineHeight: 1.6 }}>
                     {neptuneInfo.description}
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Orbitalperiode
                         </Typography>
-                        <Typography variant="h6" sx={{ color: neptuneInfo.color }}>
+                        <Typography variant="h6" style={{ color: neptuneInfo.color }}>
                           {neptuneInfo.orbitalPeriod}
                         </Typography>
                       </Box>
                     </Grid>
                     <Grid item xs={6}>
                       <Box sx={{ textAlign: 'center', p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           Entdeckung
                         </Typography>
-                        <Typography variant="h6" sx={{ color: neptuneInfo.color }}>
+                        <Typography variant="h6" style={{ color: neptuneInfo.color }}>
                           {neptuneInfo.discovery}
                         </Typography>
                       </Box>
@@ -634,12 +634,12 @@ export default function NeptunePage() {
             border: '1px solid #4169E1',
             boxShadow: '0 8px 32px rgba(65, 105, 225, 0.2)',
             p: 3,
-            mb: 4
+            marginBottom: 4
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Target size={24} color="#4169E1" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                   Neptun in den Gates
                 </Typography>
               </Box>
@@ -653,19 +653,19 @@ export default function NeptunePage() {
                 }} 
               />
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Hier sind die ersten 8 Gates mit Neptun-Informationen. Neptun zeigt unsere Spiritualität und Verbindung in jedem Gate.
             </Typography>
             <List>
               {neptuneInGates.map((gate, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: '#4169E1' }} />}
+                    expandIcon={<ChevronDown style={{ color: '#4169E1' }} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',
@@ -682,17 +682,17 @@ export default function NeptunePage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#000' }}>
                           {gate.gate}
                         </Typography>
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {gate.name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {gate.spirituality}
                         </Typography>
                       </Box>
@@ -709,15 +709,15 @@ export default function NeptunePage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {gate.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {gate.deepMeaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -736,8 +736,8 @@ export default function NeptunePage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -762,10 +762,10 @@ export default function NeptunePage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(65,105,225,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#4169E1', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#4169E1', fontWeight: 600, marginBottom: 1 }}>
                           Spiritualitäts-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {gate.spiritualityAffirmation}
                         </Typography>
                       </Box>
@@ -791,25 +791,25 @@ export default function NeptunePage() {
             boxShadow: '0 8px 32px rgba(65, 105, 225, 0.2)',
             p: 3
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
               <Crown size={24} color="#4169E1" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+              <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 600, color: 'white' }}>
                 Neptun in den Centers
               </Typography>
             </Box>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontStyle: 'italic' }}>
+            <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 3, fontStyle: 'italic' }}>
               Neptun in den 9 Centers zeigt, wo unsere Spiritualität und Verbindung am stärksten wirken.
             </Typography>
             <List>
               {neptuneInCenters.map((center, index) => (
                 <Accordion key={index} sx={{ 
                   background: 'rgba(255,255,255,0.05)', 
-                  mb: 1,
+                  marginBottom: 1,
                   '&:before': { display: 'none' },
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: '#4169E1' }} />}
+                    expandIcon={<ChevronDown style={{ color: '#4169E1' }} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',
@@ -826,15 +826,15 @@ export default function NeptunePage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        marginRight: 2
                       }}>
                         <Crown size={20} color="#000" />
                       </Box>
                       <Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6" style={{ color: 'white', fontWeight: 600 }}>
                           {center.center}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                           {center.spirituality}
                         </Typography>
                       </Box>
@@ -851,15 +851,15 @@ export default function NeptunePage() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ pl: 6 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.8)', marginBottom: 2 }}>
                         {center.description}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2, fontWeight: 500 }}>
+                      <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', marginBottom: 2, fontWeight: 500 }}>
                         {center.deepMeaning}
                       </Typography>
                       
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#FF6B6B', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#FF6B6B', marginBottom: 1, fontWeight: 600 }}>
                           Schatten-Aspekte:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -878,8 +878,8 @@ export default function NeptunePage() {
                         </Box>
                       </Box>
 
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="body2" sx={{ color: '#4CAF50', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" style={{ color: '#4CAF50', marginBottom: 1, fontWeight: 600 }}>
                           Geschenke:
                         </Typography>
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -904,10 +904,10 @@ export default function NeptunePage() {
                         borderRadius: 2, 
                         border: '1px solid rgba(65,105,225,0.3)'
                       }}>
-                        <Typography variant="body2" sx={{ color: '#4169E1', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="body2" style={{ color: '#4169E1', fontWeight: 600, marginBottom: 1 }}>
                           Spiritualitäts-Affirmation:
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
+                        <Typography variant="body2" style={{ color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}>
                           {center.spiritualityAffirmation}
                         </Typography>
                       </Box>

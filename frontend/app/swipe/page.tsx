@@ -13,7 +13,8 @@ import {
   Grid,
   LinearProgress,
   IconButton,
-  Container
+  Container,
+  Paper
 } from "@mui/material";
 import {
   Heart, 
@@ -22,7 +23,13 @@ import {
   MessageCircle, 
   Eye, 
   Zap, 
-  Sparkles
+  Sparkles,
+  ArrowRight,
+  CheckCircle,
+  Star,
+  Target,
+  Activity,
+  TrendingUp
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import ProfileImageCarousel from '../../components/ProfileImageCarousel';
@@ -72,6 +79,62 @@ interface Match {
   userB: { _id: string; name: string; image?: string };
   createdAt: string;
 }
+
+// Floating Stars Animation
+const AnimatedStars = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
+  const stars = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 2
+  }));
+
+  return (
+    <Box sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: 'none',
+      zIndex: 1
+    }}>
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          style={{
+            position: 'absolute',
+            left: star.left,
+            top: star.top,
+            width: star.size,
+            height: star.size,
+            background: 'rgba(255, 255, 255, 0.6)',
+            borderRadius: '50%',
+            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
+          }}
+          animate={{
+            opacity: [0.3, 1, 0.3],
+            scale: [0.8, 1.2, 0.8]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            delay: star.delay
+          }}
+        />
+      ))}
+    </Box>
+  );
+};
 
 // Animated Human Design Symbols Background
 const AnimatedHDSymbols = () => {
@@ -401,11 +464,12 @@ export default function SwipePage() {
       try {
         setLoading(true);
         
-        // Verwende Supabase statt Backend-Server
+        // Verwende Supabase matching_profiles Tabelle
         const { data, error } = await supabase
-          .from('user_profiles')
+          .from('matching_profiles')
           .select('*')
-          .neq('user_id', userId); // Alle Profile außer dem aktuellen Benutzer
+          .neq('user_id', userId) // Alle Profile außer dem aktuellen Benutzer
+          .eq('is_active', true); // Nur aktive Profile
         
         if (error) {
           console.error('Fehler beim Laden der Profile:', error);
@@ -415,9 +479,34 @@ export default function SwipePage() {
           console.log('⚠️ Supabase-Fehler, verwende Mock-Daten');
         } else {
           if (data && data.length > 0) {
-            setProfiles(data);
+            // Transformiere die Daten für die Komponente
+            const transformedProfiles = data.map(profile => ({
+              _id: profile.id,
+              name: profile.name,
+              bio: profile.bio,
+              age: profile.age,
+              location: profile.location,
+              hdType: profile.hd_type,
+              hdProfile: profile.profile,
+              hdStrategy: profile.strategy,
+              hdAuthority: profile.authority,
+              interests: profile.interests || [],
+              birthDate: profile.created_at?.split('T')[0],
+              birthTime: '12:00', // Fallback
+              birthPlace: profile.location,
+              image: profile.avatar,
+              profile_images: profile.images ? profile.images.map((img: any, index: number) => ({
+                id: `img-${index}`,
+                url: img,
+                is_primary: index === 0,
+                uploaded_at: new Date().toISOString(),
+                order: index
+              })) : []
+            }));
+            
+            setProfiles(transformedProfiles);
             setDataSource('real');
-            console.log(`✅ ${data.length} Profile von Supabase geladen`);
+            console.log(`✅ ${data.length} echte Profile von Supabase geladen`);
           } else {
             // Fallback zu Mock-Daten wenn keine echten Profile vorhanden
             setProfiles(mockProfiles);
@@ -795,78 +884,125 @@ export default function SwipePage() {
 
   return (
     <Box sx={{ 
-      minHeight: '100vh', 
+      minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='80' cy='80' r='1'/%3E%3Ccircle cx='40' cy='60' r='0.5'/%3E%3Ccircle cx='60' cy='40' r='0.5'/%3E%3Ccircle cx='90' cy='10' r='0.8'/%3E%3Ccircle cx='10' cy='90' r='0.8'/%3E%3C/g%3E%3C/svg%3E")
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
       overflow: 'hidden',
       py: 4
     }}>
+      <AnimatedStars />
       <AnimatedHDSymbols />
-      <FloatingStars />
       
       {/* Header */}
-      <Box sx={{ 
-        position: 'absolute', 
-        top: 0, 
-        left: 0, 
-        right: 0, 
-        zIndex: 10,
-        background: 'rgba(255,255,255,0.1)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,0.2)',
-        p: 3
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box>
-              <Typography variant="h5" sx={{ 
-                color: 'white', 
-                fontWeight: 800,
-                background: 'linear-gradient(45deg, #fff, #e0e7ff)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                💫 Intelligente Swipe
-              </Typography>
-              {dataSource !== 'unknown' && (
-                <Typography variant="caption" sx={{ 
-                  color: dataSource === 'real' ? '#10b981' : '#f59e0b',
-                  fontSize: '0.75rem',
-                  fontWeight: 600
-                }}>
-                  {dataSource === 'real' ? '✅ Echte Profile' : '⚠️ Demo-Daten'}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Box sx={{ 
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          zIndex: 10,
+          background: 'rgba(255,255,255,0.05)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          p: 3
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2
+            }}>
+              <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
+                <Typography 
+                  variant="h3" 
+                  sx={{ 
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 800,
+                    fontSize: { xs: '2rem', md: '2.5rem' },
+                    mb: 1
+                  }}
+                >
+                  💕 Swipe & Match
                 </Typography>
-              )}
+                <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem' }}>
+                  Finde deine energetischen Matches
+                </Typography>
+                {dataSource !== 'unknown' && (
+                  <Typography variant="caption" sx={{ 
+                    color: dataSource === 'real' ? '#10b981' : '#f59e0b',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    display: 'block',
+                    mt: 0.5
+                  }}>
+                    {dataSource === 'real' ? '✅ Echte Profile' : '⚠️ Demo-Daten'}
+                  </Typography>
+                )}
+              </Box>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Button
+                  variant="contained"
+                  startIcon={<Users size={20} />}
+                  onClick={() => setShowMatches(!showMatches)}
+                  sx={{
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 3,
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+                    }
+                  }}
+                >
+                  Matches ({matches.length})
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<Heart size={20} />}
+                  sx={{
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    color: 'white',
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 3,
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    '&:hover': {
+                      borderColor: 'rgba(255, 255, 255, 0.6)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                    }
+                  }}
+                >
+                  Swipe weiter
+                </Button>
+              </Box>
             </Box>
-            <Button
-              variant="outlined"
-              onClick={() => setShowMatches(!showMatches)}
-              sx={{
-                borderColor: 'rgba(255,255,255,0.3)',
-                color: 'white',
-                fontWeight: 600,
-                backdropFilter: 'blur(10px)',
-                '&:hover': { 
-                  borderColor: 'white',
-                  backgroundColor: 'rgba(255,255,255,0.1)'
-                }
-              }}
-            >
-              <Users size={20} style={{ marginRight: 8 }} />
-              Matches ({matches.length})
-            </Button>
-          </Box>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
+      </motion.div>
 
       {/* Hauptinhalt */}
-      <Container maxWidth="lg" sx={{ pt: 12, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 4 }}>
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'center', 

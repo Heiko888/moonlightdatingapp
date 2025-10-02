@@ -56,115 +56,184 @@ export default function RealtimeAnalysisDemoPage() {
       const chart1: ChartData = {
         id: 'demo-1',
         name: 'Sarah (Generator)',
-        type: 'Generator',
+        type: 'generator',
         profile: '1/3',
         authority: 'Sacral',
-        strategy: 'Wait to Respond',
-        centers: {
-          'Head': true,
-          'Ajna': false,
-          'Throat': true,
-          'G': true,
-          'Heart': false,
-          'Sacral': true,
-          'Spleen': false,
-          'Solar': true,
-          'Root': false
+        // strategy: 'Wait to Respond', // TODO: Add strategy to ChartData interface
+        centers: [
+          { id: 'HEAD', defined: true, gates: [64, 61, 63] },
+          { id: 'AJNA', defined: false, gates: [] },
+          { id: 'THROAT', defined: true, gates: [23, 8, 12, 20, 35, 45] },
+          { id: 'G', defined: true, gates: [10, 15, 7, 13] },
+          { id: 'HEART', defined: false, gates: [] },
+          { id: 'SACRAL', defined: true, gates: [34, 27, 59, 42] },
+          { id: 'SPLEEN', defined: false, gates: [] },
+          { id: 'SOLAR', defined: true, gates: [21, 26, 51] },
+          { id: 'ROOT', defined: false, gates: [] }
+        ],
+        channels: [
+          { id: '34-20', gates: [34, 20], defined: true },
+          { id: '10-57', gates: [10, 57], defined: false },
+          { id: '1-8', gates: [1, 8], defined: true },
+          { id: '2-14', gates: [2, 14], defined: false }
+        ],
+        gates: [
+          { id: 1, line: 1, conscious: true, unconscious: false },
+          { id: 8, line: 2, conscious: true, unconscious: false },
+          { id: 20, line: 3, conscious: true, unconscious: false },
+          { id: 34, line: 4, conscious: true, unconscious: false },
+          { id: 57, line: 5, conscious: false, unconscious: false },
+          { id: 10, line: 6, conscious: false, unconscious: false }
+        ],
+        // planets: {}, // TODO: Add planets to ChartData interface
+        defined: {
+          centers: {
+            SACRAL: true,
+            THROAT: true,
+            G: true,
+            HEART: true,
+            SOLAR: true,
+            SPLEEN: true,
+            ROOT: true
+          },
+          channels: {
+            '34-20': true,
+            '1-8': true
+          },
+          gates: {
+            1: true,
+            8: true,
+            20: true,
+            34: true
+          }
         },
-        channels: {
-          '34-20': true,
-          '10-57': false,
-          '1-8': true,
-          '2-14': false
-        },
-        gates: {
-          '1': true,
-          '8': true,
-          '20': true,
-          '34': true,
-          '57': false,
-          '10': false
-        },
-        planets: {},
-        defined: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        birthDate: '1990-01-01',
+        birthTime: '12:00',
+        birthPlace: 'Berlin, Germany',
+        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
+        // updatedAt: new Date().toISOString()
       };
 
       const chart2: ChartData = {
         id: 'demo-2',
         name: 'Michael (Projector)',
-        type: 'Projector',
+        type: 'projector',
         profile: '2/4',
         authority: 'Splenic',
-        strategy: 'Wait for Invitation',
-        centers: {
-          'Head': false,
-          'Ajna': true,
-          'Throat': true,
-          'G': false,
-          'Heart': true,
-          'Sacral': false,
-          'Spleen': true,
-          'Solar': false,
-          'Root': true
+        // strategy: 'Wait for Invitation', // TODO: Add strategy to ChartData interface
+        centers: [
+          { id: 'HEAD', defined: false, gates: [] },
+          { id: 'AJNA', defined: true, gates: [47, 24] },
+          { id: 'THROAT', defined: true, gates: [23, 8, 12, 20, 35, 45] },
+          { id: 'G', defined: false, gates: [] },
+          { id: 'HEART', defined: true, gates: [21, 26, 51] },
+          { id: 'SACRAL', defined: false, gates: [] },
+          { id: 'SPLEEN', defined: true, gates: [48, 57, 28] },
+          { id: 'SOLAR', defined: false, gates: [] },
+          { id: 'ROOT', defined: true, gates: [19, 39, 58] }
+        ],
+        channels: [
+          { id: '34-20', gates: [34, 20], defined: false },
+          { id: '10-57', gates: [10, 57], defined: true },
+          { id: '1-8', gates: [1, 8], defined: false },
+          { id: '2-14', gates: [2, 14], defined: true }
+        ],
+        gates: [
+          { id: 1, line: 1, conscious: false, unconscious: false },
+          { id: 8, line: 2, conscious: false, unconscious: false },
+          { id: 20, line: 3, conscious: false, unconscious: false },
+          { id: 34, line: 4, conscious: false, unconscious: false },
+          { id: 57, line: 5, conscious: true, unconscious: false },
+          { id: 10, line: 6, conscious: true, unconscious: false }
+        ],
+        // planets: {}, // TODO: Add planets to ChartData interface
+        defined: {
+          centers: {
+            SACRAL: true,
+            THROAT: true,
+            G: true,
+            HEART: true,
+            SOLAR: true,
+            SPLEEN: true,
+            ROOT: true
+          },
+          channels: {
+            '34-20': true,
+            '1-8': true
+          },
+          gates: {
+            1: true,
+            8: true,
+            20: true,
+            34: true
+          }
         },
-        channels: {
-          '34-20': false,
-          '10-57': true,
-          '1-8': false,
-          '2-14': true
-        },
-        gates: {
-          '1': false,
-          '8': false,
-          '20': false,
-          '34': false,
-          '57': true,
-          '10': true
-        },
-        planets: {},
-        defined: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        birthDate: '1990-01-01',
+        birthTime: '12:00',
+        birthPlace: 'Berlin, Germany',
+        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
+        // updatedAt: new Date().toISOString()
       };
 
       const chart3: ChartData = {
         id: 'demo-3',
         name: 'Emma (Manifestor)',
-        type: 'Manifestor',
+        type: 'manifestor',
         profile: '3/5',
         authority: 'Emotional',
-        strategy: 'Inform',
-        centers: {
-          'Head': true,
-          'Ajna': true,
-          'Throat': true,
-          'G': true,
-          'Heart': true,
-          'Sacral': false,
-          'Spleen': true,
-          'Solar': true,
-          'Root': true
+        // strategy: 'Inform', // TODO: Add strategy to ChartData interface
+        centers: [
+          { id: 'HEAD', defined: true, gates: [64, 61, 63] },
+          { id: 'AJNA', defined: true, gates: [47, 24] },
+          { id: 'THROAT', defined: true, gates: [23, 8, 12, 20, 35, 45] },
+          { id: 'G', defined: true, gates: [10, 15, 7, 13] },
+          { id: 'HEART', defined: true, gates: [21, 26, 51] },
+          { id: 'SACRAL', defined: false, gates: [] },
+          { id: 'SPLEEN', defined: true, gates: [48, 57, 28] },
+          { id: 'SOLAR', defined: true, gates: [21, 26, 51] },
+          { id: 'ROOT', defined: true, gates: [19, 39, 58] }
+        ],
+        channels: [
+          { id: '34-20', gates: [34, 20], defined: true },
+          { id: '10-57', gates: [10, 57], defined: true },
+          { id: '1-8', gates: [1, 8], defined: true },
+          { id: '2-14', gates: [2, 14], defined: true }
+        ],
+        gates: [
+          { id: 1, line: 1, conscious: true, unconscious: false },
+          { id: 8, line: 2, conscious: true, unconscious: false },
+          { id: 20, line: 3, conscious: true, unconscious: false },
+          { id: 34, line: 4, conscious: true, unconscious: false },
+          { id: 57, line: 5, conscious: true, unconscious: false },
+          { id: 10, line: 6, conscious: true, unconscious: false }
+        ],
+        // planets: {}, // TODO: Add planets to ChartData interface
+        defined: {
+          centers: {
+            SACRAL: true,
+            THROAT: true,
+            G: true,
+            HEART: true,
+            SOLAR: true,
+            SPLEEN: true,
+            ROOT: true
+          },
+          channels: {
+            '34-20': true,
+            '1-8': true
+          },
+          gates: {
+            1: true,
+            8: true,
+            20: true,
+            34: true
+          }
         },
-        channels: {
-          '34-20': true,
-          '10-57': true,
-          '1-8': true,
-          '2-14': true
-        },
-        gates: {
-          '1': true,
-          '8': true,
-          '20': true,
-          '34': true,
-          '57': true,
-          '10': true
-        },
-        planets: {},
-        defined: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        birthDate: '1990-01-01',
+        birthTime: '12:00',
+        birthPlace: 'Berlin, Germany',
+        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
+        // updatedAt: new Date().toISOString()
       };
 
       setDemoCharts([chart1, chart2, chart3]);
