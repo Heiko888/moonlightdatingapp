@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
@@ -111,21 +111,21 @@ export default function ProfilEinrichtenPage() {
     }
   }, []);
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = useCallback((field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
-  const handleInterestToggle = (interest: string) => {
+  const handleInterestToggle = useCallback((interest: string) => {
     setFormData(prev => ({
       ...prev,
       interests: prev.interests.includes(interest)
         ? prev.interests.filter(i => i !== interest)
         : [...prev.interests, interest]
     }));
-  };
+  }, []);
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
