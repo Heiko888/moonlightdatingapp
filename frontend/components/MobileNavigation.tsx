@@ -282,7 +282,7 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
       {/* Navigation Content */}
       <Box sx={{ flex: 1, overflow: 'auto', py: 1 }}>
         {filteredItems.map(([category, items]) => (
-          <Box key={category} sx={{ mb: 1 }}>
+          <Box key={category as string} sx={{ mb: 1 }}>
             <ListItem 
               onClick={() => handleCategoryToggle(category)}
               sx={{
