@@ -284,7 +284,7 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
         {filteredItems.map(([category, items]) => (
           <Box key={category as string} sx={{ mb: 1 }}>
             <ListItem 
-              onClick={() => handleCategoryToggle(category)}
+              onClick={() => handleCategoryToggle(category as string)}
               sx={{
                 cursor: 'pointer',
                 borderRadius: 1,
