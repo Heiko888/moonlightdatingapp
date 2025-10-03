@@ -29,7 +29,7 @@ import {
   XCircle, 
   AlertTriangle,
   ExternalLink,
-  RefreshCw
+  RefreshCcw
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -197,7 +197,7 @@ export default function SubscriptionManagement() {
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-        <RefreshCw className="animate-spin" size={24} />
+        <RefreshCcw className="animate-spin" size={24} />
       </Box>
     );
   }
