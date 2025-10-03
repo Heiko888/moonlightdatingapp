@@ -9,382 +9,401 @@ import {
   Button,
   Chip,
   Alert,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  LinearProgress,
-  IconButton
+  DialogActions
 } from '@mui/material';
-import {
-  Crown,
-  Diamond,
-  Star,
-  Check,
-  X,
-  Calendar,
-  CreditCard,
-  Settings,
-  ArrowRight,
-  Info
+import { 
+  CreditCard, 
+  Calendar, 
+  Settings, 
+  CheckCircle, 
+  XCircle, 
+  AlertTriangle,
+  ExternalLink,
+  RefreshCw
 } from 'lucide-react';
-import { UserSubscription } from '../lib/subscription/types';
-import { subscriptionPackages } from '../lib/subscription/packages';
-import { SubscriptionService } from '../lib/subscription/subscriptionService';
+import { motion } from 'framer-motion';
 
-interface SubscriptionManagementProps {
-  userSubscription: UserSubscription | null;
-  onSubscriptionUpdate?: (subscription: UserSubscription) => void;
+interface SubscriptionData {
+  id: string;
+  status: 'active' | 'canceled' | 'past_due' | 'unpaid';
+  current_period_start: string;
+  current_period_end: string;
+  cancel_at_period_end: boolean;
+  plan: {
+    id: string;
+    nickname: string;
+    amount: number;
+    currency: string;
+    interval: string;
+  };
 }
 
-export default function SubscriptionManagement({
-  userSubscription,
-  onSubscriptionUpdate
-}: SubscriptionManagementProps) {
-  const [loading, setLoading] = useState(false);
-  const [upgradeDialog, setUpgradeDialog] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<string>('');
-  const [error, setError] = useState<string>('');
+export default function SubscriptionManagement() {
+  const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  const getPackageInfo = (packageId: string) => {
-    return subscriptionPackages.find(pkg => pkg.id === packageId);
-  };
+  useEffect(() => {
+    loadSubscription();
+  }, []);
 
-  const getPackageIcon = (packageId: string) => {
-    switch (packageId) {
-      case 'basic': return <Star size={24} />;
-      case 'premium': return <Diamond size={24} />;
-      case 'vip': return <Crown size={24} />;
-      default: return <Star size={24} />;
-    }
-  };
-
-  const handleUpgrade = async (packageId: string) => {
-    if (!userSubscription) return;
-
-    setLoading(true);
-    setError('');
-
+  const loadSubscription = async () => {
     try {
-      const updatedSubscription = await SubscriptionService.updateSubscription(
-        userSubscription.userId,
-        packageId,
-        'monthly'
-      );
+      setLoading(true);
+      setError(null);
 
-      if (updatedSubscription && onSubscriptionUpdate) {
-        onSubscriptionUpdate(updatedSubscription);
-        setUpgradeDialog(false);
+      // Hier würde normalerweise ein API-Call zu Ihrem Backend gemacht werden
+      // Für Demo-Zwecke verwenden wir localStorage
+      const userData = localStorage.getItem('userData');
+      const subscriptionData = localStorage.getItem('userSubscription');
+
+      if (userData && subscriptionData) {
+        const user = JSON.parse(userData);
+        const sub = JSON.parse(subscriptionData);
+        
+        // Mock Stripe Subscription Data
+        const mockSubscription: SubscriptionData = {
+          id: `sub_${Date.now()}`,
+          status: sub.status === 'active' ? 'active' : 'canceled',
+          current_period_start: sub.startDate,
+          current_period_end: sub.endDate,
+          cancel_at_period_end: false,
+          plan: {
+            id: sub.packageId,
+            nickname: sub.packageId.charAt(0).toUpperCase() + sub.packageId.slice(1),
+            amount: sub.packageId === 'basic' ? 0 : sub.packageId === 'premium' ? 1999 : 4999,
+            currency: 'eur',
+            interval: 'month'
+          }
+        };
+
+        setSubscription(mockSubscription);
+      } else {
+        setSubscription(null);
       }
     } catch (error) {
-      setError('Upgrade fehlgeschlagen. Bitte versuchen Sie es erneut.');
-      console.error('Upgrade error:', error);
+      console.error('Fehler beim Laden der Subscription:', error);
+      setError('Fehler beim Laden der Abonnement-Daten');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDowngrade = async (packageId: string) => {
-    if (!userSubscription) return;
-
-    setLoading(true);
-    setError('');
-
+  const handleManageSubscription = async () => {
     try {
-      const updatedSubscription = await SubscriptionService.updateSubscription(
-        userSubscription.userId,
-        packageId,
-        'monthly'
-      );
+      const userData = localStorage.getItem('userData');
+      if (!userData) {
+        setError('Benutzer nicht gefunden');
+        return;
+      }
 
-      if (updatedSubscription && onSubscriptionUpdate) {
-        onSubscriptionUpdate(updatedSubscription);
+      const user = JSON.parse(userData);
+      
+      const response = await fetch('/api/stripe/customer-portal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          userEmail: user.email,
+        }),
+      });
+
+      const { url } = await response.json();
+
+      if (url) {
+        window.open(url, '_blank');
+      } else {
+        setError('Fehler beim Öffnen des Kundenportals');
       }
     } catch (error) {
-      setError('Downgrade fehlgeschlagen. Bitte versuchen Sie es erneut.');
-      console.error('Downgrade error:', error);
-    } finally {
-      setLoading(false);
+      console.error('Fehler beim Öffnen des Kundenportals:', error);
+      setError('Fehler beim Öffnen des Kundenportals');
     }
   };
 
-  const canUpgrade = (packageId: string): boolean => {
-    if (!userSubscription) return false;
-    
-    const hierarchy = ['free', 'basic', 'premium', 'vip', 'admin'];
-    const currentIndex = hierarchy.indexOf(userSubscription.packageId);
-    const targetIndex = hierarchy.indexOf(packageId);
-    
-    return targetIndex > currentIndex;
+  const handleCancelSubscription = async () => {
+    try {
+      // Hier würde normalerweise ein API-Call gemacht werden
+      // Für Demo-Zwecke aktualisieren wir localStorage
+      const subscriptionData = localStorage.getItem('userSubscription');
+      if (subscriptionData) {
+        const sub = JSON.parse(subscriptionData);
+        sub.status = 'canceled';
+        sub.cancel_at_period_end = true;
+        localStorage.setItem('userSubscription', JSON.stringify(sub));
+        
+        setSubscription(prev => prev ? {
+          ...prev,
+          status: 'canceled',
+          cancel_at_period_end: true
+        } : null);
+      }
+      
+      setShowCancelDialog(false);
+    } catch (error) {
+      console.error('Fehler beim Kündigen:', error);
+      setError('Fehler beim Kündigen des Abonnements');
+    }
   };
 
-  const canDowngrade = (packageId: string): boolean => {
-    if (!userSubscription) return false;
-    
-    const hierarchy = ['free', 'basic', 'premium', 'vip', 'admin'];
-    const currentIndex = hierarchy.indexOf(userSubscription.packageId);
-    const targetIndex = hierarchy.indexOf(packageId);
-    
-    return targetIndex < currentIndex;
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return '#10b981';
+      case 'canceled': return '#ef4444';
+      case 'past_due': return '#f59e0b';
+      case 'unpaid': return '#ef4444';
+      default: return '#6b7280';
+    }
   };
 
-  if (!userSubscription) {
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'active': return <CheckCircle size={20} />;
+      case 'canceled': return <XCircle size={20} />;
+      case 'past_due': return <AlertTriangle size={20} />;
+      case 'unpaid': return <XCircle size={20} />;
+      default: return <AlertTriangle size={20} />;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const formatPrice = (amount: number, currency: string) => {
+    return new Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: currency.toUpperCase()
+    }).format(amount / 100);
+  };
+
+  if (loading) {
     return (
-      <Card sx={{ p: 3, textAlign: 'center' }}>
-        <Typography variant="h6" color="text.secondary">
-          Kein Abonnement gefunden
-        </Typography>
-      </Card>
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+        <RefreshCw className="animate-spin" size={24} />
+      </Box>
     );
   }
 
-  const currentPackage = getPackageInfo(userSubscription.packageId);
+  if (!subscription) {
+    return (
+      <Alert severity="info" sx={{ m: 2 }}>
+        <Typography variant="body1">
+          Sie haben derzeit kein aktives Abonnement. 
+          <Button 
+            variant="text" 
+            onClick={() => window.location.href = '/pricing'}
+            sx={{ ml: 1 }}
+          >
+            Jetzt upgraden
+          </Button>
+        </Typography>
+      </Alert>
+    );
+  }
 
   return (
-    <Box>
-      {/* Current Subscription */}
-      <Card sx={{ mb: 3, background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
-        <CardContent sx={{ p: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Box sx={{ 
-              color: currentPackage?.color,
-              display: 'flex',
-              alignItems: 'center',
-              mr: 2
-            }}>
-              {getPackageIcon(userSubscription.packageId)}
-            </Box>
-            <Box>
-              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                {currentPackage?.name || 'Unbekanntes Paket'}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Aktuelles Abonnement
-              </Typography>
-            </Box>
-            <Box sx={{ ml: 'auto' }}>
-              <Chip 
-                label={userSubscription.status === 'active' ? 'Aktiv' : 'Inaktiv'}
-                color={userSubscription.status === 'active' ? 'success' : 'error'}
-                size="small"
-              />
-            </Box>
-          </Box>
+    <Box sx={{ p: 2 }}>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-          <Box sx={{ display: 'flex', gap: 3, mb: 2 }}>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                Abonnement startet
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Card sx={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: 3
+        }}>
+          <CardContent sx={{ p: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography variant="h5" sx={{ color: 'white', fontWeight: 'bold' }}>
+                Abonnement-Verwaltung
               </Typography>
-              <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                {new Date(userSubscription.startDate).toLocaleDateString()}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                Abonnement endet
-              </Typography>
-              <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                {new Date(userSubscription.endDate).toLocaleDateString()}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                Zahlungsmethode
-              </Typography>
-              <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                {userSubscription.paymentMethod === 'none' ? 'Kostenlos' : 
-                 userSubscription.paymentMethod === 'card' ? 'Kreditkarte' : 
-                 userSubscription.paymentMethod}
-              </Typography>
-            </Box>
-          </Box>
-
-          {userSubscription.status === 'active' && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                Abonnement-Fortschritt
-              </Typography>
-              <LinearProgress 
-                variant="determinate" 
-                value={75} 
-                sx={{ 
-                  height: 8, 
-                  borderRadius: 4,
-                  '& .MuiLinearProgress-bar': {
-                    background: currentPackage?.color
-                  }
-                }} 
-              />
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Available Packages */}
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
-        Verfügbare Pakete
-      </Typography>
-
-      <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' } }}>
-        {subscriptionPackages
-          .filter(pkg => pkg.id !== 'admin') // Admin-Paket nicht anzeigen
-          .map((pkg) => {
-            const isCurrentPackage = pkg.id === userSubscription.packageId;
-            const canUpgradeTo = canUpgrade(pkg.id);
-            const canDowngradeTo = canDowngrade(pkg.id);
-
-            return (
-              <Card 
-                key={pkg.id}
-                sx={{ 
-                  border: isCurrentPackage ? `2px solid ${pkg.color}` : '1px solid #e2e8f0',
-                  background: isCurrentPackage ? `${pkg.color}10` : 'white',
-                  position: 'relative'
+              <Chip
+                icon={getStatusIcon(subscription.status)}
+                label={subscription.status === 'active' ? 'Aktiv' : 
+                       subscription.status === 'canceled' ? 'Gekündigt' :
+                       subscription.status === 'past_due' ? 'Überfällig' : 'Unbezahlt'}
+                sx={{
+                  backgroundColor: getStatusColor(subscription.status),
+                  color: 'white',
+                  fontWeight: 'bold'
                 }}
-              >
-                {isCurrentPackage && (
-                  <Box sx={{ 
-                    position: 'absolute', 
-                    top: 8, 
-                    right: 8,
-                    background: pkg.color,
-                    color: 'white',
-                    px: 1,
-                    py: 0.5,
-                    borderRadius: 1,
-                    fontSize: '0.75rem',
-                    fontWeight: 'bold'
-                  }}>
-                    AKTUELL
-                  </Box>
-                )}
+              />
+            </Box>
 
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Box sx={{ color: pkg.color, mr: 2 }}>
-                      {getPackageIcon(pkg.id)}
-                    </Box>
-                    <Box>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                        {pkg.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {pkg.description}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, color: pkg.color }}>
-                    {pkg.price}
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    Aktueller Plan
                   </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <CreditCard size={24} color="#8b5cf6" style={{ marginRight: 12 }} />
+                    <Box>
+                      <Typography variant="h6" sx={{ color: 'white' }}>
+                        {subscription.plan.nickname}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        {formatPrice(subscription.plan.amount, subscription.plan.currency)} / {subscription.plan.interval}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
 
-                  <List dense sx={{ mb: 3 }}>
-                    {pkg.features.slice(0, 4).map((feature, index) => (
-                      <ListItem key={index} sx={{ px: 0, py: 0.5 }}>
-                        <ListItemIcon sx={{ minWidth: 24 }}>
-                          <Check size={16} color={pkg.color} />
-                        </ListItemIcon>
-                        <ListItemText 
-                          primary={feature}
-                          sx={{ '& .MuiListItemText-primary': { fontSize: '0.875rem' } }}
-                        />
-                      </ListItem>
-                    ))}
-                  </List>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    Abrechnungszeitraum
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Von: {formatDate(subscription.current_period_start)}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      Bis: {formatDate(subscription.current_period_end)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
 
-                  <Button
-                    variant={isCurrentPackage ? "outlined" : "contained"}
-                    fullWidth
-                    disabled={isCurrentPackage || loading}
-                    onClick={() => {
-                      if (canUpgradeTo || canDowngradeTo) {
-                        setSelectedPackage(pkg.id);
-                        setUpgradeDialog(true);
-                      }
-                    }}
-                    sx={{
-                      background: isCurrentPackage ? 'transparent' : pkg.color,
-                      color: isCurrentPackage ? pkg.color : 'white',
-                      borderColor: pkg.color,
-                      fontWeight: 'bold',
-                      '&:hover': {
-                        background: isCurrentPackage ? `${pkg.color}10` : pkg.color,
-                      }
-                    }}
-                  >
-                    {isCurrentPackage ? 'Aktuelles Paket' : 
-                     canUpgradeTo ? 'Upgrade' : 
-                     canDowngradeTo ? 'Downgrade' : 'Nicht verfügbar'}
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-      </Box>
+              <Grid item xs={12} md={6}>
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    Aktionen
+                  </Typography>
+                  
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <Button
+                      variant="contained"
+                      startIcon={<Settings size={20} />}
+                      onClick={handleManageSubscription}
+                      sx={{
+                        background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
+                        '&:hover': {
+                          background: 'linear-gradient(45deg, #7c3aed, #9333ea)'
+                        }
+                      }}
+                    >
+                      Zahlungsmethoden verwalten
+                    </Button>
 
-      {/* Upgrade/Downgrade Dialog */}
-      <Dialog open={upgradeDialog} onClose={() => setUpgradeDialog(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {canUpgrade(selectedPackage) ? '🚀 Paket upgraden' : '📉 Paket downgraden'}
+                    {subscription.status === 'active' && !subscription.cancel_at_period_end && (
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => setShowCancelDialog(true)}
+                        sx={{
+                          borderColor: '#ef4444',
+                          color: '#ef4444',
+                          '&:hover': {
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                          }
+                        }}
+                      >
+                        Abonnement kündigen
+                      </Button>
+                    )}
+
+                    {subscription.cancel_at_period_end && (
+                      <Alert severity="warning">
+                        <Typography variant="body2">
+                          Ihr Abonnement wird am {formatDate(subscription.current_period_end)} beendet.
+                        </Typography>
+                      </Alert>
+                    )}
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.1)' }} />
+
+            <Box>
+              <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                Abonnement-Details
+              </Typography>
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckCircle size={20} color="#10b981" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Automatische Verlängerung"
+                    secondary={subscription.cancel_at_period_end ? "Deaktiviert" : "Aktiviert"}
+                    primaryTypographyProps={{ color: 'white' }}
+                    secondaryTypographyProps={{ color: 'rgba(255,255,255,0.7)' }}
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckCircle size={20} color="#10b981" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Nächste Abrechnung"
+                    secondary={formatDate(subscription.current_period_end)}
+                    primaryTypographyProps={{ color: 'white' }}
+                    secondaryTypographyProps={{ color: 'rgba(255,255,255,0.7)' }}
+                  />
+                </ListItem>
+              </List>
+            </Box>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Cancel Subscription Dialog */}
+      <Dialog open={showCancelDialog} onClose={() => setShowCancelDialog(false)}>
+        <DialogTitle sx={{ color: 'white' }}>
+          Abonnement kündigen
         </DialogTitle>
         <DialogContent>
-          {selectedPackage && (
-            <Box>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                {canUpgrade(selectedPackage) 
-                  ? `Möchten Sie wirklich zu ${getPackageInfo(selectedPackage)?.name} upgraden?`
-                  : `Möchten Sie wirklich zu ${getPackageInfo(selectedPackage)?.name} downgraden?`
-                }
-              </Typography>
-              
-              {canUpgrade(selectedPackage) && (
-                <Alert severity="info" sx={{ mb: 2 }}>
-                  <Typography variant="body2">
-                    <strong>Upgrade-Vorteile:</strong> Sie erhalten sofort Zugang zu allen Premium-Features.
-                  </Typography>
-                </Alert>
-              )}
-
-              {canDowngrade(selectedPackage) && (
-                <Alert severity="warning" sx={{ mb: 2 }}>
-                  <Typography variant="body2">
-                    <strong>Downgrade-Hinweis:</strong> Sie verlieren Zugang zu Premium-Features. 
-                    Ihre Daten bleiben erhalten.
-                  </Typography>
-                </Alert>
-              )}
-
-              {error && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {error}
-                </Alert>
-              )}
-            </Box>
-          )}
+          <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+            Sind Sie sicher, dass Sie Ihr Abonnement kündigen möchten? 
+            Sie haben weiterhin Zugang bis zum Ende des aktuellen Abrechnungszeitraums.
+          </Typography>
+          <Alert severity="warning" sx={{ mt: 2 }}>
+            Nach der Kündigung können Sie Ihr Abonnement jederzeit wieder aktivieren.
+          </Alert>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setUpgradeDialog(false)} disabled={loading}>
+          <Button onClick={() => setShowCancelDialog(false)}>
             Abbrechen
           </Button>
           <Button 
-            onClick={() => handleUpgrade(selectedPackage)}
+            onClick={handleCancelSubscription}
+            color="error"
             variant="contained"
-            disabled={loading}
-            sx={{ 
-              background: canUpgrade(selectedPackage) ? '#10b981' : '#f59e0b',
-              '&:hover': {
-                background: canUpgrade(selectedPackage) ? '#059669' : '#d97706'
-              }
-            }}
           >
-            {loading ? 'Wird verarbeitet...' : 
-             canUpgrade(selectedPackage) ? 'Upgrade bestätigen' : 'Downgrade bestätigen'}
+            Kündigen
           </Button>
         </DialogActions>
       </Dialog>

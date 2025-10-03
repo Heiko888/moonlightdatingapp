@@ -46,6 +46,7 @@ import {
   DollarSign,
   Sparkles
 } from 'lucide-react';
+import SubscriptionManagement from '../../components/SubscriptionManagement';
 
 // SSR-sichere animierte Sterne Komponente - Optimiert
 const SSRSafeAnimatedStars = () => {
@@ -1589,179 +1590,13 @@ export default function SettingsPage() {
               </Card>
             </motion.div>
 
-            {/* Abonnement kündigen */}
+            {/* Stripe Subscription Management */}
             <motion.div
-              
-              
-              
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #F59E0B, #D97706)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <DollarSign size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#F59E0B', fontWeight: 700 }}>
-                      Abonnement verwalten
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
-                    Verwalte dein Premium-Abonnement und kündige es bei Bedarf.
-                  </Typography>
-
-                  <Box sx={{ 
-                    p: 3, 
-                    mb: 3, 
-                    borderRadius: 3, 
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1))',
-                    border: '1px solid rgba(245, 158, 11, 0.2)'
-                  }}>
-                    <Typography variant="h6" sx={{ color: '#F59E0B', fontWeight: 600, mb: 1 }}>
-                      Aktuelles Abonnement: {userSubscription?.packageId?.toUpperCase() || 'FREE'}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
-                      {userSubscription?.packageId === 'free' && (
-                        <>
-                          • Grundfunktionen<br/>
-                          • Mondkalender<br/>
-                          • Community-Zugang<br/>
-                          • Basis-Matching
-                        </>
-                      )}
-                      {userSubscription?.packageId === 'basic' && (
-                        <>
-                          • Human Design Chart<br/>
-                          • Vollständiger Mondkalender<br/>
-                          • Community-Zugang<br/>
-                          • Bis zu 3 Profilbilder
-                        </>
-                      )}
-                      {userSubscription?.packageId === 'premium' && (
-                        <>
-                          • Unbegrenzte Chart-Berechnungen<br/>
-                          • Erweiterte Readings mit AI<br/>
-                          • PDF-Integration für detaillierte Analysen<br/>
-                          • Prioritäts-Support
-                        </>
-                      )}
-                      {userSubscription?.packageId === 'vip' && (
-                        <>
-                          • Alle Premium-Features<br/>
-                          • Persönlicher Coach<br/>
-                          • Exklusive Events<br/>
-                          • 24/7 VIP-Support
-                        </>
-                      )}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: '#F59E0B', fontWeight: 500 }}>
-                      {userSubscription?.packageId === 'free' ? (
-                        'Upgrade für erweiterte Features'
-                      ) : (
-                        `Nächste Abrechnung: ${new Date(userSubscription?.endDate || '').toLocaleDateString('de-DE')}`
-                      )}
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    {userSubscription?.packageId === 'free' ? (
-                      <Button 
-                        variant="contained" 
-                        component={Link}
-                        href="/upgrade"
-                        startIcon={<Sparkles size={20} />}
-                        sx={{ 
-                          borderRadius: 3,
-                          background: 'linear-gradient(45deg, #F59E0B, #D97706)',
-                          color: 'white',
-                          fontWeight: 600,
-                          py: 1.5,
-                          '&:hover': {
-                            background: 'linear-gradient(45deg, #D97706, #B45309)'
-                          }
-                        }}
-                      >
-                        Jetzt upgraden
-                      </Button>
-                    ) : (
-                      <Button 
-                        variant="outlined" 
-                        component={Link}
-                        href="/pricing"
-                        startIcon={<DollarSign size={20} />}
-                        sx={{ 
-                          borderRadius: 3,
-                          borderColor: 'rgba(245, 158, 11, 0.3)',
-                          color: '#F59E0B',
-                          fontWeight: 600,
-                          py: 1.5,
-                          '&:hover': {
-                            borderColor: '#F59E0B',
-                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                          }
-                        }}
-                      >
-                        Abonnement ändern
-                      </Button>
-                    )}
-
-                    {userSubscription?.packageId !== 'free' && (
-                      <Button 
-                        variant="contained" 
-                        onClick={handleCancelSubscription}
-                        disabled={loading}
-                        startIcon={loading ? <CircularProgress size={20} /> : <DollarSign size={20} />}
-                        sx={{ 
-                          borderRadius: 3, 
-                          background: 'linear-gradient(45deg, #EF4444, #DC2626)', 
-                          color: '#fff', 
-                          fontWeight: 700, 
-                          fontSize: 16, 
-                          py: 1.5,
-                          px: 4,
-                          boxShadow: '0 8px 25px rgba(239, 68, 68, 0.3)',
-                          '&:hover': {
-                            background: 'linear-gradient(45deg, #DC2626, #B91C1C)',
-                            boxShadow: '0 12px 35px rgba(239, 68, 68, 0.4)',
-                          },
-                          '&:disabled': { 
-                            opacity: 0.7,
-                            background: 'linear-gradient(45deg, #EF4444, #DC2626)'
-                          } 
-                        }}
-                      >
-                        {loading ? 'Kündige...' : 'Abonnement kündigen'}
-                      </Button>
-                    )}
-
-                    {cancelSubscriptionSuccess && (
-                      <Alert severity="info" sx={{ borderRadius: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <CheckCircle size={20} />
-                          Abonnement erfolgreich gekündigt! Du behältst den Zugang bis zum Ende der aktuellen Abrechnungsperiode.
-                        </Box>
-                      </Alert>
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
+              <SubscriptionManagement />
             </motion.div>
 
             {/* Account löschen */}
