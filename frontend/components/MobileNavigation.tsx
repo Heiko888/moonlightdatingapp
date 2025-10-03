@@ -136,9 +136,9 @@ const navigationItems: NavigationItem[] = [
   { name: "Live Events", path: "/live-events", icon: <Calendar />, category: "Premium Features", description: "Live-Events", isPremium: true },
   
   // Mobile & Apps
-  { name: "Mobile App", path: "/mobile-app", icon: <Smartphone />, category: "Mobile & Apps", description: "Mobile App Download" },
-  { name: "Mobile Dashboard", path: "/mobile-dashboard", icon: <Smartphone />, category: "Mobile & Apps", description: "Mobile-optimiertes Dashboard" },
-  { name: "PWA Install", path: "/pwa-install", icon: <Smartphone />, category: "Mobile & Apps", description: "Progressive Web App" },
+  { name: "Mobile App", path: "/mobile-app", icon: <Star />, category: "Mobile & Apps", description: "Mobile App Download" },
+  { name: "Mobile Dashboard", path: "/mobile-dashboard", icon: <Star />, category: "Mobile & Apps", description: "Mobile-optimiertes Dashboard" },
+  { name: "PWA Install", path: "/pwa-install", icon: <Star />, category: "Mobile & Apps", description: "Progressive Web App" },
   
   // Profil & Einstellungen
   { name: "Profil", path: "/profil", icon: <Person />, category: "Profil & Einstellungen", description: "Benutzerprofil" },
