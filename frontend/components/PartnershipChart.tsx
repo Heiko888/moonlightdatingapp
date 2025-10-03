@@ -33,10 +33,31 @@ export default function PartnershipChart({ chartA, chartB }: { chartA: ChartData
         Partnerschafts-/Team-Chart
       </Typography>
       <HDChart
-        definedChannels={combinedChannels}
-        activeGates={combinedGates}
-        definedCenters={combinedCenters}
-        colors={{ centerFillDefined: '#7c4dff', background: '#f3f4f6' }}
+        data={{
+          gates: combinedGates.map(gate => ({ id: gate, active: true })),
+          centers: {
+            head: { defined: combinedCenters.includes('head') },
+            ajna: { defined: combinedCenters.includes('ajna') },
+            throat: { defined: combinedCenters.includes('throat') },
+            g: { defined: combinedCenters.includes('g') },
+            heart: { defined: combinedCenters.includes('heart') },
+            sacral: { defined: combinedCenters.includes('sacral') },
+            solar: { defined: combinedCenters.includes('solar') },
+            spleen: { defined: combinedCenters.includes('spleen') },
+            root: { defined: combinedCenters.includes('root') }
+          },
+          channels: combinedChannels.map(channel => {
+            const [from, to] = channel.split('-').map(Number);
+            return { from, to, active: true };
+          }),
+          metadata: {
+            type: 'partnership',
+            profile: 'combined',
+            authority: 'combined',
+            strategy: 'combined'
+          }
+        }}
+        initialTheme="light"
       />
       <Box sx={{ mt: 2, color: '#23233a', fontSize: 15 }}>
         <strong>Gemeinsame Kanäle:</strong> {combinedChannels.join(', ') || 'Keine'}<br />

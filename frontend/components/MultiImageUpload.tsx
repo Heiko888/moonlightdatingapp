@@ -21,13 +21,13 @@ import {
   Upload,
   X,
   Star,
-  DragIndicator,
+  GripVertical,
   Delete,
   Edit,
   Image as ImageIcon,
   Plus,
   CheckCircle,
-  Error as ErrorIcon
+  AlertCircle as ErrorIcon
 } from 'lucide-react';
 
 interface ProfileImage {
