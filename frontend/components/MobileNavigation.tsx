@@ -50,7 +50,7 @@ import {
   ExpandLess,
   AttachMoney as DollarSign,
   People as Users,
-  BookOpen,
+  MenuBook as BookOpen,
   Favorite as Heart,
   Language as Globe,
   Nightlight as Moon,
