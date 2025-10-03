@@ -208,13 +208,13 @@ const AnimatedHDSymbols = () => {
           key={`orb-${i}`}
           initial={{ 
             opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
+            x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
+            y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0
           }}
           animate={{ 
             opacity: [0, 0.4, 0],
-            x: [null, Math.random() * window.innerWidth],
-            y: [null, Math.random() * window.innerHeight]
+            x: [null, typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0],
+            y: [null, typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0]
           }}
           transition={{
             duration: 15 + Math.random() * 10,
