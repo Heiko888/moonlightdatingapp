@@ -229,10 +229,9 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
     return packageHierarchy[userPackage] >= 2; // Premium oder höher
   };
 
-  const filteredItems = Object.entries(groupedItems).map(([category, items]) => [
-    category,
-    items.filter(hasAccess)
-  ]).filter(([_, items]) => items.length > 0);
+  const filteredItems = Object.entries(groupedItems)
+    .map(([category, items]) => [category, items.filter(hasAccess)] as [string, NavigationItem[]])
+    .filter(([_, items]) => items.length > 0);
 
   const drawer = (
     <Box sx={{ 

@@ -28,10 +28,9 @@ import {
   Calendar,
   User,
   Settings,
-  Notifications,
+  Bell,
   Search,
-  Add,
-  Chat,
+  Plus,
   Users,
   Moon,
   Crown
@@ -175,7 +174,7 @@ export default function MobileOptimizedLayout({
 
           <IconButton color="inherit">
             <Badge badgeContent={notifications} color="error">
-              <Notifications />
+              <Bell />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -220,7 +219,7 @@ export default function MobileOptimizedLayout({
           }}
           onClick={() => handleNavigation('/chat-new')}
         >
-          <Add />
+          <Plus />
         </Fab>
       )}
 
