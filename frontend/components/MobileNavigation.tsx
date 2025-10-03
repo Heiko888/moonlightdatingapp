@@ -296,12 +296,12 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
               }}
             >
               <ListItemIcon sx={{ color: '#FFD700', minWidth: 40 }}>
-                {expandedCategories.includes(category) ? <ExpandLess /> : <ExpandMore />}
+                {expandedCategories.includes(category as string) ? <ExpandLess /> : <ExpandMore />}
               </ListItemIcon>
               <ListItemText 
                 primary={
                   <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600 }}>
-                    {category}
+                    {category as string}
                   </Typography>
                 }
                 secondary={
@@ -312,7 +312,7 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
               />
             </ListItem>
             
-            <Collapse in={expandedCategories.includes(category)} timeout="auto" unmountOnExit>
+            <Collapse in={expandedCategories.includes(category as string)} timeout="auto" unmountOnExit>
               <List dense sx={{ pl: 2 }}>
                 {items.map((item) => (
                   <ListItem 
