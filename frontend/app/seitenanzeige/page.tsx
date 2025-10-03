@@ -220,12 +220,23 @@ function SeitenanzeigePage() {
       icon: <TrendingUp size={20} />,
       requiredPackage: 'free',
       pages: [
-        { name: "Pricing", path: "/pricing", description: "Preisübersicht" },
+        { name: "Pricing", path: "/pricing", description: "Preisübersicht mit Stripe-Integration" },
         { name: "Sales Dating", path: "/sales/dating", description: "Dating-Verkauf" },
         { name: "Sales Generator", path: "/sales/generator", description: "Generator-Verkauf" },
         { name: "Sales Manifestor", path: "/sales/manifestor", description: "Manifestor-Verkauf" },
         { name: "Sales Projector", path: "/sales/projector", description: "Projector-Verkauf" },
         { name: "Sales Reflector", path: "/sales/reflector", description: "Reflector-Verkauf" }
+      ]
+    },
+    {
+      category: 'Stripe Integration',
+      icon: <TrendingUp size={20} />,
+      requiredPackage: 'free',
+      pages: [
+        { name: "Stripe Checkout", path: "/api/stripe/create-checkout-session", description: "Stripe Checkout Session API" },
+        { name: "Stripe Webhook", path: "/api/stripe/webhook", description: "Stripe Webhook Handler" },
+        { name: "Stripe Customer Portal", path: "/api/stripe/customer-portal", description: "Stripe Customer Portal API" },
+        { name: "Subscription Management", path: "/settings", description: "Stripe Subscription Management (in Settings)" }
       ]
     },
     {
@@ -444,6 +455,9 @@ function SeitenanzeigePage() {
         { name: "Offline Data", path: "/api/offline", description: "Offline-Daten" },
         { name: "Device Management", path: "/api/devices", description: "Geräte-Verwaltung" },
         { name: "App Settings", path: "/api/app-settings", description: "App-Einstellungen" },
+        { name: "Stripe Checkout", path: "/api/stripe/create-checkout-session", description: "Stripe Checkout Session" },
+        { name: "Stripe Webhook", path: "/api/stripe/webhook", description: "Stripe Webhook Handler" },
+        { name: "Stripe Customer Portal", path: "/api/stripe/customer-portal", description: "Stripe Customer Portal" },
       ]
     }
   ];

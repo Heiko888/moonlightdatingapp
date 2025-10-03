@@ -78,6 +78,9 @@ const navigationItems: NavigationItem[] = [
   { name: "Profil", path: "/profil", icon: <Person />, category: "Profil & Einstellungen" },
   { name: "Settings", path: "/settings", icon: <Settings />, category: "Profil & Einstellungen" },
   
+  // Pricing & Subscription
+  { name: "Pricing", path: "/pricing", icon: <Star />, category: "Pricing & Subscription" },
+  
   // Admin
   { name: "Admin", path: "/admin", icon: <Settings />, category: "Admin" },
   { name: "Seitenanzeige", path: "/seitenanzeige", icon: <Public />, category: "Admin" }

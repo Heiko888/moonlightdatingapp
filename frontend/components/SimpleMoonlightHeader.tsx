@@ -98,6 +98,7 @@ const pages = [
   { label: "Journal", href: "/journal", icon: BookText },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Profil", href: "/profil", icon: User },
+  { label: "Settings", href: "/settings", icon: Settings },
   { label: "Pricing", href: "/pricing", icon: DollarSign },
   { label: "Admin", href: "/admin", icon: Settings },
 ];
