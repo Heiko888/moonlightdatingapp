@@ -232,12 +232,15 @@ Write-Success "🎉 HD App Production Deployment abgeschlossen!"
 Write-Host ""
 Write-Host "🌐 Verfügbare URLs:" -ForegroundColor White
 Write-Host "===================" -ForegroundColor White
+# Lokale IP-Adresse ermitteln
 $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object {$_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.254.*"} | Select-Object -First 1).IPAddress
-Write-Host "Frontend:  http://$localIP:3000" -ForegroundColor Green
-Write-Host "Backend:   http://$localIP:4001" -ForegroundColor Green
-Write-Host "Grafana:   http://$localIP:3001" -ForegroundColor Green
-Write-Host "Prometheus: http://$localIP:9090" -ForegroundColor Green
-Write-Host "Node Exporter: http://$localIP:9100" -ForegroundColor Green
+
+# URLs mit der ermittelten IP-Adresse ausgeben
+Write-Host "Frontend:  http://$($localIP):3000" -ForegroundColor Green
+Write-Host "Backend:   http://$($localIP):4001" -ForegroundColor Green
+Write-Host "Grafana:   http://$($localIP):3001" -ForegroundColor Green
+Write-Host "Prometheus: http://$($localIP):9090" -ForegroundColor Green
+Write-Host "Node Exporter: http://$($localIP):9100" -ForegroundColor Green
 Write-Host ""
 Write-Host "📊 Nützliche Befehle:" -ForegroundColor White
 Write-Host "=====================" -ForegroundColor White

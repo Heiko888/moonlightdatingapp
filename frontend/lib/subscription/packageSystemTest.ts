@@ -101,26 +101,30 @@ const testPages = [
   { path: '/admin/users', expectedAccess: { free: false, basic: false, premium: false, vip: false, admin: true } }
 ];
 
+type TestResult = {
+  page: string;
+  package: string;
+  expected: boolean;
+  actual: boolean;
+  passed: boolean;
+  message: string;
+};
+
+type TestResults = {
+  totalTests: number;
+  passedTests: number;
+  failedTests: number;
+  successRate: number;
+  results: TestResult[];
+};
+
 export class PackageSystemTestSuite {
-  private testResults: Array<{
-    page: string;
-    package: string;
-    expected: boolean;
-    actual: boolean;
-    passed: boolean;
-    message: string;
-  }> = [];
+  private testResults: TestResult[] = [];
 
   /**
    * Führe alle Paket-System-Tests aus
    */
-  async runAllTests(): Promise<{
-    totalTests: number;
-    passedTests: number;
-    failedTests: number;
-    successRate: number;
-    results: typeof this.testResults;
-  }> {
+  async runAllTests(): Promise<TestResults> {
     console.log('🧪 Starte Paket-System-Tests...');
     
     this.testResults = [];
@@ -246,14 +250,14 @@ export class PackageSystemTestSuite {
    * Generiere Test-Report
    */
   generateReport(): string {
-    const failedTests = this.testResults.filter(r => !r.passed);
+    const failedTests = this.testResults.filter((r: TestResult) => !r.passed);
     
     let report = '# 📊 Paket-System Test Report\n\n';
     report += `**Datum:** ${new Date().toLocaleString()}\n\n`;
     report += `**Gesamt-Tests:** ${this.testResults.length}\n`;
-    report += `**Bestanden:** ${this.testResults.filter(r => r.passed).length}\n`;
+    report += `**Bestanden:** ${this.testResults.filter((r: TestResult) => r.passed).length}\n`;
     report += `**Fehlgeschlagen:** ${failedTests.length}\n`;
-    report += `**Erfolgsrate:** ${((this.testResults.filter(r => r.passed).length / this.testResults.length) * 100).toFixed(1)}%\n\n`;
+    report += `**Erfolgsrate:** ${((this.testResults.filter((r: TestResult) => r.passed).length / this.testResults.length) * 100).toFixed(1)}%\n\n`;
 
     if (failedTests.length > 0) {
       report += '## ❌ Fehlgeschlagene Tests\n\n';

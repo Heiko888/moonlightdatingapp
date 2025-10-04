@@ -19,8 +19,8 @@ export const pageAccessConfig: PageAccess[] = [
   { path: '/friends', name: 'Friends', requiredPackage: 'basic', description: 'Freunde-System', category: 'Basic' },
   { path: '/settings', name: 'Einstellungen', requiredPackage: 'basic', description: 'Anwendungseinstellungen', category: 'Basic' },
 
-  // Basic-Paket (kostenlos nach Registrierung)
-  { path: '/mondkalender', name: 'Mondkalender', requiredPackage: 'basic', description: 'Vollständiger Mondkalender', category: 'Basic' },
+  // Öffentliche Seiten (kein Login erforderlich)
+  { path: '/mondkalender', name: 'Mondkalender', requiredPackage: 'free', description: 'Vollständiger Mondkalender', category: 'Öffentlich' },
   { path: '/chart-comparison', name: 'Chart-Vergleich', requiredPackage: 'premium', description: 'Chart-Vergleichs-Tool', category: 'Premium' },
   { path: '/bodygraph-advanced', name: 'Bodygraph Advanced', requiredPackage: 'premium', description: 'Erweiterte Chart-Analyse', category: 'Premium' },
   { path: '/coaching-new', name: 'Coaching', requiredPackage: 'premium', description: 'Coaching-System', category: 'Premium' },
