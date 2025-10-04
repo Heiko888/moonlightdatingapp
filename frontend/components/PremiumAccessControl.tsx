@@ -43,7 +43,8 @@ const PremiumAccessControl: React.FC<PremiumAccessControlProps> = ({
   fallbackComponent,
   showUpgradePrompt = true
 }) => {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const router = useRouter();
   const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
   const [loading, setLoading] = useState(true);
@@ -70,22 +71,37 @@ const PremiumAccessControl: React.FC<PremiumAccessControlProps> = ({
         }
 
         // Echte Subscription-Prüfung über den Service
-        const subscription = await subscriptionService.getCurrentSubscription(user.id);
+        const userId = user?.id as string || user?.userId as string;
+        if (!userId) {
+          setError('Benutzer-ID nicht verfügbar');
+          return;
+        }
+        const subscription = await subscriptionService.getCurrentSubscription(userId);
         
         if (subscription) {
           setSubscriptionInfo({
+            id: subscription.id,
+            userId: subscription.userId,
             level: subscription.level,
-            expires: subscription.endDate,
-            features: subscriptionService.getFeaturesForLevel(subscription.level),
-            isActive: subscriptionService.isSubscriptionActive(subscription)
+            status: subscription.status,
+            startDate: subscription.startDate,
+            endDate: subscription.endDate,
+            autoRenew: subscription.autoRenew,
+            features: subscription.features,
+            metadata: subscription.metadata
           });
         } else {
           // Fallback für Benutzer ohne Subscription
           setSubscriptionInfo({
+            id: 'free',
+            userId: user.id as string,
             level: 'free',
-            expires: undefined,
+            status: 'active',
+            startDate: new Date().toISOString(),
+            endDate: undefined,
+            autoRenew: false,
             features: subscriptionService.getFeaturesForLevel('free'),
-            isActive: true
+            metadata: {}
           });
         }
       } catch (err) {
@@ -121,7 +137,7 @@ const PremiumAccessControl: React.FC<PremiumAccessControlProps> = ({
     const userLevel = subscriptionLevels[subscriptionInfo.level];
     const requiredLevel = subscriptionLevels[requiredSubscription];
     
-    return userLevel >= requiredLevel && subscriptionInfo.isActive;
+    return userLevel >= requiredLevel && subscriptionInfo.status === 'active';
   };
 
   const handleUpgrade = () => {
@@ -257,9 +273,9 @@ const PremiumAccessControl: React.FC<PremiumAccessControlProps> = ({
                     <Typography variant="body1" sx={{ mb: 2 }}>
                       Abonnement: <strong>{subscriptionInfo?.level.toUpperCase()}</strong>
                     </Typography>
-                    {subscriptionInfo?.expires && (
+                    {subscriptionInfo?.endDate && (
                       <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                        Läuft ab: {new Date(subscriptionInfo.expires).toLocaleDateString('de-DE')}
+                        Läuft ab: {new Date(subscriptionInfo.endDate).toLocaleDateString('de-DE')}
                       </Typography>
                     )}
                   </CardContent>

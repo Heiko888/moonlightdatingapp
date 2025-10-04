@@ -723,8 +723,8 @@ class DatingService {
     if (userCross === otherCross) return 95;
     
     // Extrahiere die Profile aus dem Cross
-    const userCrossProfiles = userCross.match(/\d+\/\d+/g) || [];
-    const otherCrossProfiles = otherCross.match(/\d+\/\d+/g) || [];
+    const userCrossProfiles: string[] = userCross.match(/\d+\/\d+/g) || [];
+    const otherCrossProfiles: string[] = otherCross.match(/\d+\/\d+/g) || [];
     
     let compatibility = 50;
     

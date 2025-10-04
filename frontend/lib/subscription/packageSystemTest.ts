@@ -10,7 +10,8 @@ import { UserSubscription } from './types';
 const testSubscriptions: Record<string, UserSubscription> = {
   free: {
     userId: 'test-free',
-    packageId: 'free',
+    packageId: 'basic',
+    plan: 'Free Plan',
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -21,6 +22,7 @@ const testSubscriptions: Record<string, UserSubscription> = {
   basic: {
     userId: 'test-basic',
     packageId: 'basic',
+    plan: 'Basic Plan',
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -31,6 +33,7 @@ const testSubscriptions: Record<string, UserSubscription> = {
   premium: {
     userId: 'test-premium',
     packageId: 'premium',
+    plan: 'Premium Plan',
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -41,6 +44,7 @@ const testSubscriptions: Record<string, UserSubscription> = {
   vip: {
     userId: 'test-vip',
     packageId: 'vip',
+    plan: 'VIP Plan',
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -51,6 +55,7 @@ const testSubscriptions: Record<string, UserSubscription> = {
   admin: {
     userId: 'test-admin',
     packageId: 'admin',
+    plan: 'Admin Plan',
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),

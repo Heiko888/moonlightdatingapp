@@ -205,7 +205,7 @@ export function useAsyncOperation<T = any>() {
 // Debounced Loading-State für Suchoperationen
 export function useDebouncedLoading(delay: number = 300) {
   const [isLoading, setIsLoading] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const setLoading = useCallback((loading: boolean) => {
     if (timeoutRef.current) {

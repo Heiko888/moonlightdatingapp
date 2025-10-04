@@ -5,8 +5,8 @@
 
 // API-Base-URLs
 export const API_CONFIG = {
-  // Haupt-Backend-URL
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4001',
+  // Supabase Edge Functions URL (für lokale Entwicklung: Mock-Modus)
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005/api',
   
   // API-Endpunkte - ALLE standardisiert
   ENDPOINTS: {
@@ -79,7 +79,8 @@ export const API_CONFIG = {
     ADMIN: {
       USERS: '/api/admin/users',
       STATS: '/api/admin/stats',
-      UPLOAD: '/api/admin/upload'
+      UPLOAD: '/api/admin/upload',
+      DASHBOARD: '/api/admin/dashboard'
     },
     
     // Data Persistence

@@ -71,9 +71,10 @@ const LoginPage: React.FC = () => {
         console.log('✅ API Login erfolgreich:', result.data.user.email);
 
         // Session-Daten in localStorage speichern
-        localStorage.setItem('token', result.data.session.access_token);
+        localStorage.setItem('token', result.data.token);
         localStorage.setItem('userId', result.data.user.id);
         localStorage.setItem('userEmail', result.data.user.email);
+        localStorage.setItem('userPackage', result.data.user.package || 'free');
         console.log('💾 Session-Daten in localStorage gespeichert');
 
         // Erfolgsmeldung anzeigen

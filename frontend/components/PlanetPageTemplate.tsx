@@ -279,7 +279,7 @@ export default function PlanetPageTemplate({
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: planetColor }} />}
+                    expandIcon={<ChevronDown color={planetColor} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',
@@ -423,7 +423,7 @@ export default function PlanetPageTemplate({
                   '&.Mui-expanded': { margin: '0 0 8px 0' }
                 }}>
                   <AccordionSummary
-                    expandIcon={<ChevronDown sx={{ color: planetColor }} />}
+                    expandIcon={<ChevronDown color={planetColor} />}
                     sx={{ 
                       '& .MuiAccordionSummary-content': { 
                         alignItems: 'center',

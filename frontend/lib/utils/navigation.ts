@@ -51,6 +51,7 @@ export const smartRedirect = (targetPath?: string): string => {
   const subscription: SubscriptionType = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
+    plan: `${currentPlan} Plan`,
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -180,6 +181,7 @@ export const hasAccess = (path: string): boolean => {
   const subscription: SubscriptionType = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
+    plan: `${currentPlan} Plan`,
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -203,6 +205,7 @@ export const getAccessiblePages = (): string[] => {
   const subscription: SubscriptionType = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
+    plan: `${currentPlan} Plan`,
     status: 'active',
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),

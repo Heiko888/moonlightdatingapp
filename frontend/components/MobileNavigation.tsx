@@ -280,38 +280,40 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
 
       {/* Navigation Content */}
       <Box sx={{ flex: 1, overflow: 'auto', py: 1 }}>
-        {filteredItems.map(([category, items]) => (
-          <Box key={category as string} sx={{ mb: 1 }}>
-            <ListItem 
-              onClick={() => handleCategoryToggle(category as string)}
-              sx={{
-                cursor: 'pointer',
-                borderRadius: 1,
-                mx: 1,
-                mb: 0.5,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)',
-                }
-              }}
-            >
-              <ListItemIcon sx={{ color: '#FFD700', minWidth: 40 }}>
-                {expandedCategories.includes(category as string) ? <ExpandLess /> : <ExpandMore />}
-              </ListItemIcon>
-              <ListItemText 
-                primary={
-                  <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600 }}>
-                    {category as string}
-                  </Typography>
-                }
-                secondary={
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-                    {items.length} Seiten
-                  </Typography>
-                }
-              />
-            </ListItem>
-            
-            <Collapse in={expandedCategories.includes(category as string)} timeout="auto" unmountOnExit>
+        {filteredItems.map(([category, items]) => {
+          const categoryName = category as string;
+          return (
+            <Box key={categoryName} sx={{ mb: 1 }}>
+              <ListItem 
+                onClick={() => handleCategoryToggle(categoryName)}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: 1,
+                  mx: 1,
+                  mb: 0.5,
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.05)',
+                  }
+                }}
+              >
+                <ListItemIcon sx={{ color: '#FFD700', minWidth: 40 }}>
+                  {expandedCategories.includes(categoryName) ? <ExpandLess /> : <ExpandMore />}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={
+                    <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600 }}>
+                      {categoryName}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                      {items.length} Seiten
+                    </Typography>
+                  }
+                />
+              </ListItem>
+              
+              <Collapse in={expandedCategories.includes(categoryName)} timeout="auto" unmountOnExit>
               <List dense sx={{ pl: 2 }}>
                 {items.map((item) => (
                   <ListItem 
@@ -384,7 +386,8 @@ export default function MobileNavigation({ currentPath = '/' }: MobileNavigation
               </List>
             </Collapse>
           </Box>
-        ))}
+          );
+        })}
       </Box>
 
       {/* Footer */}

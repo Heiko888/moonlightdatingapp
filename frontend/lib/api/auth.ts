@@ -69,7 +69,7 @@ class AuthService {
         const session = sessionData ? JSON.parse(sessionData) : null;
         
         const authData: AuthResponse = {
-          token: session?.access_token || 'supabase-session-token',
+          token: session?.access_token || 'mock-jwt-token-' + Date.now(),
           user: {
             id: response.user.id,
             email: response.user.email,
@@ -129,7 +129,7 @@ class AuthService {
         const session = sessionData ? JSON.parse(sessionData) : null;
         
         const authData: AuthResponse = {
-          token: session?.access_token || 'supabase-session-token',
+          token: session?.access_token || 'mock-jwt-token-' + Date.now(),
           user: {
             id: response.user.id,
             email: response.user.email,

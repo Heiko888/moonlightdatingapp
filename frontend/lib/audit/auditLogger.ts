@@ -3,6 +3,7 @@
  * Protokolliert wichtige Benutzer-Aktionen für Compliance und Debugging
  */
 
+import React from 'react';
 import { api } from '@/lib/api/client';
 import { API_CONFIG } from '@/lib/api/config';
 import { getUserId, getUserData } from '@/lib/session/sessionManager';
@@ -157,13 +158,15 @@ class AuditLogger {
    */
   public async getLogs(filter: AuditFilter = {}): Promise<AuditEvent[]> {
     try {
-      const response = await api.get<AuditEvent[]>('/audit/logs', {
-        params: {
-          ...filter,
-          startDate: filter.startDate?.toISOString(),
-          endDate: filter.endDate?.toISOString()
-        }
-      });
+      // URL mit Query-Parametern bauen
+      const queryParams = new URLSearchParams();
+      if (filter.userId) queryParams.append('userId', filter.userId);
+      if (filter.action) queryParams.append('action', filter.action);
+      if (filter.startDate) queryParams.append('startDate', filter.startDate.toISOString());
+      if (filter.endDate) queryParams.append('endDate', filter.endDate.toISOString());
+      
+      const url = `/audit/logs${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      const response = await api.get<AuditEvent[]>(url);
 
       return response.success ? response.data || [] : [];
     } catch (error) {

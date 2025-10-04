@@ -185,7 +185,7 @@ export default function ExclusiveEventsPage() {
     }
   ]);
 
-  const handleBookEvent = (event) => {
+  const handleBookEvent = (event: any) => {
     setSelectedEvent(event);
     setBookingDialog(true);
   };
@@ -196,7 +196,7 @@ export default function ExclusiveEventsPage() {
     setSelectedEvent(null);
   };
 
-  const getEventTypeColor = (type) => {
+  const getEventTypeColor = (type: any) => {
     switch (type) {
       case 'Workshop': return '#8b5cf6';
       case 'Masterclass': return '#06b6d4';
@@ -207,7 +207,7 @@ export default function ExclusiveEventsPage() {
     }
   };
 
-  const getEventTypeIcon = (type) => {
+  const getEventTypeIcon = (type: any) => {
     switch (type) {
       case 'Workshop': return <Users size={20} />;
       case 'Masterclass': return <Star size={20} />;

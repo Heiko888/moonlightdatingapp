@@ -46,7 +46,7 @@ class SubscriptionService {
    */
   async getCurrentSubscription(userId: string): Promise<SubscriptionInfo | null> {
     try {
-      const response = await api.get<SubscriptionInfo>(`${API_CONFIG.ENDPOINTS.USERS.SUBSCRIPTION.replace(':id', userId)}`);
+      const response = await api.get<SubscriptionInfo>(`/api/users/${userId}/subscription`);
       
       if (response.success && response.data) {
         return response.data;

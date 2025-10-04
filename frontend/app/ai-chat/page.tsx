@@ -115,7 +115,7 @@ export default function AIChatPage() {
           <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
             <AIChatInterface 
               userChart={userChart}
-              userId={userId}
+              userId={userId || undefined}
               className="h-[600px]"
             />
           </div>

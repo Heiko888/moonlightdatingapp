@@ -123,11 +123,20 @@ export class SupabaseAuthService {
 
       // Auth-Daten im localStorage speichern
       localStorage.setItem('supabase_user', JSON.stringify(user));
-      localStorage.setItem('supabase_session', JSON.stringify(data.session));
       
-      // Auch im Standard-Token-Speicher für API-Client-Kompatibilität
-      if (data.session?.access_token) {
-        localStorage.setItem('token', data.session.access_token);
+      // Session nur speichern wenn vorhanden
+      if (data.session) {
+        localStorage.setItem('supabase_session', JSON.stringify(data.session));
+        
+        // Token für API-Client-Kompatibilität
+        if (data.session.access_token) {
+          localStorage.setItem('token', data.session.access_token);
+        }
+      } else {
+        // Fallback: Mock-Token für lokale Entwicklung
+        const mockToken = 'mock-jwt-token-' + Date.now();
+        localStorage.setItem('token', mockToken);
+        console.warn('⚠️ Keine Supabase-Session, verwende Mock-Token für lokale Entwicklung');
       }
 
       return {
@@ -264,11 +273,20 @@ export class SupabaseAuthService {
 
       // Auth-Daten im localStorage speichern
       localStorage.setItem('supabase_user', JSON.stringify(user));
-      localStorage.setItem('supabase_session', JSON.stringify(data.session));
       
-      // Auch im Standard-Token-Speicher für API-Client-Kompatibilität
-      if (data.session?.access_token) {
-        localStorage.setItem('token', data.session.access_token);
+      // Session nur speichern wenn vorhanden
+      if (data.session) {
+        localStorage.setItem('supabase_session', JSON.stringify(data.session));
+        
+        // Token für API-Client-Kompatibilität
+        if (data.session.access_token) {
+          localStorage.setItem('token', data.session.access_token);
+        }
+      } else {
+        // Fallback: Mock-Token für lokale Entwicklung
+        const mockToken = 'mock-jwt-token-' + Date.now();
+        localStorage.setItem('token', mockToken);
+        console.warn('⚠️ Keine Supabase-Session, verwende Mock-Token für lokale Entwicklung');
       }
 
       return {

@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe, SUBSCRIPTION_PACKAGES } from '../../../../lib/stripe';
 
+// Prüfe ob Stripe konfiguriert ist
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.warn('STRIPE_SECRET_KEY nicht gesetzt - Stripe-Funktionen deaktiviert');
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Prüfe Stripe-Konfiguration
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: 'Stripe nicht konfiguriert' },
+        { status: 503 }
+      );
+    }
+
     const { packageId, userId, userEmail } = await request.json();
 
     if (!packageId || !userId || !userEmail) {

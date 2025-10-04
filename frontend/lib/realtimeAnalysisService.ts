@@ -106,11 +106,11 @@ export class RealtimeAnalysisService {
       type: chart.type,
       profile: chart.profile,
       authority: chart.authority,
-      strategy: chart.strategy,
+      strategy: (chart as any).strategy || 'Not defined',
       centers: chart.centers,
       channels: chart.channels,
       gates: chart.gates,
-      planets: chart.planets,
+      planets: (chart as any).planets || {},
       defined: chart.defined
     };
   }
@@ -238,7 +238,7 @@ export class RealtimeAnalysisService {
   }
 
   // Harmonie berechnen
-  private static calculateHarmony(chart1: ChartData, chart2: Chart2): number {
+  private static calculateHarmony(chart1: ChartData, chart2: ChartData): number {
     let harmony = 50;
 
     // Ähnliche Autoritäten
@@ -247,7 +247,7 @@ export class RealtimeAnalysisService {
     }
 
     // Kompatible Strategien
-    const strategyHarmony = this.getStrategyHarmony(chart1.strategy, chart2.strategy);
+    const strategyHarmony = this.getStrategyHarmony((chart1 as any).strategy, (chart2 as any).strategy);
     harmony += strategyHarmony;
 
     // Gemeinsame Kanäle
@@ -266,9 +266,9 @@ export class RealtimeAnalysisService {
     challenge += conflictingCenters.length * 10;
 
     // Verschiedene HD-Typen können herausfordernd sein
-    if (chart1.type === 'Manifestor' && chart2.type === 'Projector') {
+    if (chart1.type === 'manifestor' && chart2.type === 'projector') {
       challenge += 15;
-    } else if (chart1.type === 'Projector' && chart2.type === 'Manifestor') {
+    } else if (chart1.type === 'projector' && chart2.type === 'manifestor') {
       challenge += 15;
     }
 
