@@ -22,7 +22,9 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  useTheme,
+  alpha
 } from '@mui/material';
 import { 
   Heart, 
@@ -42,7 +44,11 @@ import {
   Lightbulb,
   Target,
   Clock,
-  DollarSign
+  DollarSign,
+  Zap,
+  Shield,
+  Brain,
+  Eye
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -125,6 +131,7 @@ interface Location {
 }
 
 export default function MatchTipsPage() {
+  const theme = useTheme();
   const [userType, setUserType] = useState('');
   const [partnerType, setUserPartnerType] = useState('');
   const [userProfile, setUserProfile] = useState('');
@@ -399,10 +406,9 @@ export default function MatchTipsPage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='80' cy='80' r='1'/%3E%3Ccircle cx='40' cy='60' r='0.5'/%3E%3Ccircle cx='60' cy='40' r='0.5'/%3E%3Ccircle cx='90' cy='10' r='0.8'/%3E%3Ccircle cx='10' cy='90' r='0.8'/%3E%3C/g%3E%3C/svg%3E")
+        radial-gradient(ellipse at top, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(66, 165, 245, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
@@ -410,36 +416,63 @@ export default function MatchTipsPage() {
       <FloatingStars />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
-        {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography
-            variant="h2"
-            sx={{
-              color: '#FFD700',
-              fontWeight: 800,
-              mb: 2,
-              fontSize: { xs: '2rem', md: '3rem' },
-              textShadow: '0 4px 20px rgba(255, 215, 0, 0.8)',
-              background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}
+        {/* Modern Header */}
+        <Box sx={{ textAlign: 'center', mb: 8 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            💕 Dating-Tipps & Orte
-          </Typography>
-          <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.2rem' }}>
-            Personalisierte Empfehlungen basierend auf euren Human Design Profilen
-          </Typography>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              mb: 3,
+              gap: 2
+            }}>
+              <Heart size={48} color="#ff6b6b" />
+              <Typography
+                variant="h2"
+                sx={{
+                  color: 'white',
+                  fontWeight: 800,
+                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  background: 'linear-gradient(45deg, #ff6b6b, #ffa726, #42a5f5)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: '0 0 30px rgba(255, 107, 107, 0.3)'
+                }}
+              >
+                Match-Tips
+              </Typography>
+              <Sparkles size={48} color="#ffa726" />
+            </Box>
+            <Typography sx={{ 
+              color: alpha(theme.palette.common.white, 0.9), 
+              fontSize: '1.3rem',
+              fontWeight: 300,
+              maxWidth: '600px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}>
+              Personalisierte Dating-Empfehlungen basierend auf euren Human Design Profilen
+            </Typography>
+          </motion.div>
         </Box>
 
-        {/* Eingabeformular */}
-        <Card sx={{
-          background: 'rgba(255,255,255,0.05)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 3,
-          mb: 4
+        {/* Modern Input Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Card sx={{
+            background: alpha(theme.palette.common.white, 0.08),
+            backdropFilter: 'blur(20px)',
+            border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+            borderRadius: 4,
+            mb: 4
         }}>
           <CardContent sx={{ p: 4 }}>
             <Typography variant="h5" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
@@ -531,19 +564,27 @@ export default function MatchTipsPage() {
             </Grid>
             
             <Box sx={{ textAlign: 'center', mt: 4 }}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleGenerateTips}
-                disabled={!userType || !partnerType || !userProfile || !partnerProfile}
-                sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                  color: '#23233a',
-                  fontWeight: 700,
-                  px: 6,
-                  py: 2,
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #fbbf24, #FFD700)',
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handleGenerateTips}
+                  disabled={!userType || !partnerType || !userProfile || !partnerProfile}
+                  startIcon={<Zap size={20} />}
+                  sx={{
+                    background: 'linear-gradient(45deg, #ff6b6b, #ffa726)',
+                    color: 'white',
+                    fontWeight: 700,
+                    px: 6,
+                    py: 2,
+                    borderRadius: 3,
+                    boxShadow: '0 8px 32px rgba(255, 107, 107, 0.3)',
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #ff5252, #ff9800)',
+                      boxShadow: '0 12px 40px rgba(255, 107, 107, 0.4)',
                     transform: 'translateY(-2px)'
                   }
                 }}
@@ -558,32 +599,56 @@ export default function MatchTipsPage() {
         {/* Ergebnisse */}
         {showResults && (
           <>
-            {/* Dating-Tipps */}
-            <Box sx={{ mb: 6 }}>
-              <Typography variant="h4" sx={{ color: 'white', mb: 4, textAlign: 'center' }}>
-                💡 Personalisierte Dating-Tipps
-              </Typography>
-              
-              <Grid container spacing={3}>
-                {tips.map((tip) => (
-                  <Grid item xs={12} md={6} key={tip.id}>
-                    <motion.div
-                      
-                      
-                      
-                    >
-                      <Card sx={{
-                        background: 'rgba(255,255,255,0.05)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        borderRadius: 3,
-                        height: '100%',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateY(-4px)',
-                          boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
-                        }
-                      }}>
+            {/* Modern Dating Tips */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Box sx={{ mb: 8 }}>
+                <Box sx={{ textAlign: 'center', mb: 6 }}>
+                  <Typography variant="h4" sx={{ 
+                    color: 'white', 
+                    mb: 2,
+                    fontWeight: 700,
+                    fontSize: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 2
+                  }}>
+                    <Lightbulb size={32} color="#ffa726" />
+                    Personalisierte Dating-Tipps
+                    <Brain size={32} color="#42a5f5" />
+                  </Typography>
+                  <Typography sx={{ color: alpha(theme.palette.common.white, 0.8), fontSize: '1.1rem' }}>
+                    Basierend auf euren Human Design Profilen
+                  </Typography>
+                </Box>
+                
+                <Grid container spacing={4}>
+                  {tips.map((tip, index) => (
+                    <Grid item xs={12} md={6} key={tip.id}>
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        whileHover={{ y: -8 }}
+                      >
+                        <Card sx={{
+                          background: alpha(theme.palette.common.white, 0.08),
+                          backdropFilter: 'blur(20px)',
+                          border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+                          borderRadius: 4,
+                          height: '100%',
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+                            border: `1px solid ${alpha(tip.color, 0.5)}`
+                          }
+                        }}>
                         <CardContent sx={{ p: 3 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                             <Box sx={{ color: tip.color, mr: 2 }}>
