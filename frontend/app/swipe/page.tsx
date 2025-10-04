@@ -579,7 +579,7 @@ export default function SwipePage() {
     };
 
     loadProfiles();
-    loadMatches();
+    loadMatches().catch(console.error);
   }, [mounted, userId, mockProfiles]);
 
   // Energetische Kompatibilität berechnen
