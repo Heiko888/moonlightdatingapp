@@ -592,9 +592,11 @@ export default function MatchTipsPage() {
                 <Sparkles size={20} style={{ marginRight: 8 }} />
                 Tipps generieren
               </Button>
+              </motion.div>
             </Box>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Ergebnisse */}
         {showResults && (
@@ -780,6 +782,7 @@ export default function MatchTipsPage() {
                 ))}
               </Grid>
             </Box>
+            </motion.div>
           </>
         )}
       </Container>
