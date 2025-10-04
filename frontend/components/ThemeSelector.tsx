@@ -294,7 +294,7 @@ export default function ThemeSelector({ open, onClose }: ThemeSelectorProps) {
                           </Box>
                           
                           {/* Active Indicator */}
-                          {theme.id === currentTheme.id && (
+                          {theme.id === currentTheme?.id && (
                             <Box sx={{
                               position: 'absolute',
                               top: 8,
@@ -434,7 +434,7 @@ export default function ThemeSelector({ open, onClose }: ThemeSelectorProps) {
                           </Box>
                           
                           {/* Active Indicator */}
-                          {theme.id === currentTheme.id && (
+                          {theme.id === currentTheme?.id && (
                             <Box sx={{
                               position: 'absolute',
                               top: 8,

@@ -281,7 +281,7 @@ const gateNames = {
 for (let i = 21; i <= 64; i++) {
   allLilithGates.push({
     gate: i,
-    name: gateNames[i] || `Tor ${i}`,
+    name: gateNames[i as keyof typeof gateNames] || `Tor ${i}`,
     description: `Lilith in Tor ${i} bringt die Kraft der Wildheit und Unabhängigkeit.`,
     deep_meaning: `Die tiefe Bedeutung von Tor ${i} liegt in der natürlichen Lilith-Energie.`,
     shadow_aspects: `Unbewusste Scham über Tor ${i}, Angst vor Wildheit`,

@@ -185,7 +185,7 @@ export default function PrioritySupportPage() {
     setMessage('');
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'Hoch': return '#ef4444';
       case 'Mittel': return '#f59e0b';
@@ -194,7 +194,7 @@ export default function PrioritySupportPage() {
     }
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'Gelöst': return '#10b981';
       case 'In Bearbeitung': return '#f59e0b';

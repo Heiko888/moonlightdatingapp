@@ -152,7 +152,7 @@ export default function BodygraphComparison() {
 
     // Find common elements
     const allCenters = visibleCharts.map(c => 
-      Object.keys(c.defined.centers || {}).filter(center => c.defined.centers![center])
+      Object.keys(c.defined.centers || {}).filter(center => c.defined.centers![center as keyof typeof c.defined.centers])
     );
     const allChannels = visibleCharts.map(c => 
       Object.keys(c.defined.channels || {}).filter(channel => c.defined.channels![channel])

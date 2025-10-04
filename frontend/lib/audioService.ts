@@ -123,7 +123,7 @@ class AudioService {
         resolve();
       };
 
-      utterance.onerror = (event) => {
+      utterance.onerror = (event: any) => {
         this.isPlaying = false;
         this.currentUtterance = null;
         reject(new Error(`Audio-Fehler: ${event.error}`));

@@ -926,7 +926,7 @@ export default function MiniCoursesSystem() {
               },
             }}
           >
-            {selectedCourse?.progress > 0 ? 'Fortsetzen' : 'Kurs starten'}
+            {(selectedCourse?.progress || 0) > 0 ? 'Fortsetzen' : 'Kurs starten'}
           </Button>
           <Button onClick={() => setShowCourseDetails(false)} variant="outlined">
             Schließen

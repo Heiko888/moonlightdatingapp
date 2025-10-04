@@ -208,7 +208,7 @@ export default function MondkalenderPage() {
       
       // Versuche Subscription zu laden, aber nicht blockierend
       if (token && userId) {
-        await loadUserSubscription();
+      await loadUserSubscription();
       } else {
         // Fallback: Basic-Plan für nicht-angemeldete Benutzer
         setUserSubscription({
@@ -826,9 +826,9 @@ export default function MondkalenderPage() {
         gap: 2
       }}>
         <CircularProgress size={60} sx={{ color: '#8B5CF6' }} />
-        <Typography variant="h6" sx={{ color: 'white', textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ color: 'white', textAlign: 'center' }}>
           Mondkalender wird geladen...
-        </Typography>
+          </Typography>
       </Box>
     );
   }

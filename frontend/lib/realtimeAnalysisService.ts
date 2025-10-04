@@ -297,8 +297,8 @@ export class RealtimeAnalysisService {
 
   // Zentren-Interaktionen analysieren
   private static analyzeCenterInteractions(chart1: ChartData, chart2: ChartData) {
-    const centers1 = Object.keys(chart1.centers || {}).filter(key => chart1.centers[key]);
-    const centers2 = Object.keys(chart2.centers || {}).filter(key => chart2.centers[key]);
+    const centers1 = Object.keys(chart1.centers || {}).filter(key => chart1.centers[key as keyof typeof chart1.centers]);
+    const centers2 = Object.keys(chart2.centers || {}).filter(key => chart2.centers[key as keyof typeof chart2.centers]);
 
     const complementary = centers1.filter(center => !centers2.includes(center));
     const conflicting = this.getConflictingCenters(chart1.centers, chart2.centers);
@@ -313,8 +313,8 @@ export class RealtimeAnalysisService {
 
   // Kanal-Resonanz analysieren
   private static analyzeChannelResonance(chart1: ChartData, chart2: ChartData) {
-    const channels1 = Object.keys(chart1.channels || {}).filter(key => chart1.channels[key]);
-    const channels2 = Object.keys(chart2.channels || {}).filter(key => chart2.channels[key]);
+    const channels1 = Object.keys(chart1.channels || {}).filter(key => chart1.channels[key as keyof typeof chart1.channels]);
+    const channels2 = Object.keys(chart2.channels || {}).filter(key => chart2.channels[key as keyof typeof chart2.channels]);
 
     const shared = channels1.filter(channel => channels2.includes(channel));
     const complementary = this.getComplementaryChannels(chart1.channels, chart2.channels);
@@ -329,8 +329,8 @@ export class RealtimeAnalysisService {
 
   // Tor-Interaktionen analysieren
   private static analyzeGateInteractions(chart1: ChartData, chart2: ChartData) {
-    const gates1 = Object.keys(chart1.gates || {}).filter(key => chart1.gates[key]);
-    const gates2 = Object.keys(chart2.gates || {}).filter(key => chart2.gates[key]);
+    const gates1 = Object.keys(chart1.gates || {}).filter(key => chart1.gates[key as keyof typeof chart1.gates]);
+    const gates2 = Object.keys(chart2.gates || {}).filter(key => chart2.gates[key as keyof typeof chart2.gates]);
 
     const harmonious = this.getHarmoniousGates(gates1, gates2);
     const challenging = this.getChallengingGates(gates1, gates2);

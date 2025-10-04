@@ -59,9 +59,9 @@ export default function ChironPage() {
   
   // Verwende den usePlanetData Hook für alle 64 Gates
   // const { chironInfo, chironGates, chironCenters, loading, error } = useChironData(); // Hook wurde entfernt
-  const chironInfo = null;
-  const chironGates = [];
-  const chironCenters = [];
+  const chironInfo: any = null;
+  const chironGates: any[] = [];
+  const chironCenters: any[] = [];
   const loading = false;
   const error = null;
 

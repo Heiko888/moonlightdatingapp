@@ -514,7 +514,7 @@ export default function PersonalRoadmap() {
 
   // Hobby-basierte Insights
   const generateHobbyInsights = (hobbies: string[], hdType: string, profile: string) => {
-    const insights = [];
+    const insights: any[] = [];
     
     hobbies.forEach(hobby => {
       const hobbyLower = hobby.toLowerCase();
@@ -538,7 +538,7 @@ export default function PersonalRoadmap() {
 
   // Dating-Tipps basierend auf Interessen
   const generateDatingTips = (interests: string[], hdType: string, profile: string) => {
-    const tips = [];
+    const tips: any[] = [];
     
     interests.forEach(interest => {
       const interestLower = interest.toLowerCase();
@@ -565,7 +565,7 @@ export default function PersonalRoadmap() {
 
   // Hobby-basierte Dating-Empfehlungen
   const generateHobbyDatingRecommendations = (hobbies: string[], hdType: string, profile: string) => {
-    const recommendations = [];
+    const recommendations: any[] = [];
     
     hobbies.forEach(hobby => {
       const hobbyLower = hobby.toLowerCase();
@@ -589,7 +589,7 @@ export default function PersonalRoadmap() {
 
   // Orts-basierte Empfehlungen
   const generateLocationRecommendations = (interests: string[], hdType: string, profile: string) => {
-    const recommendations = [];
+    const recommendations: any[] = [];
     
     interests.forEach(interest => {
       const interestLower = interest.toLowerCase();
