@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Typography, TextField, Button, Alert, CircularProgress, Container, Paper } from '@mui/material';
-import { useLoadingState } from '@/lib/api/loading';
+// import { useLoadingState } from '@/lib/api/loading'; // Entfernt - nicht mehr benötigt
 // import { supabase } from '@/lib/supabase/client'; // Temporär deaktiviert
 
 interface LoginData {
@@ -13,7 +13,8 @@ interface LoginData {
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
-  const { isLoading, error, setLoading, setError, clearError } = useLoadingState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
   
   const [formData, setFormData] = useState<LoginData>({
@@ -33,13 +34,13 @@ const LoginPage: React.FC = () => {
       [name]: value
     }));
     // Fehler und Erfolg beim Eingeben zurücksetzen
-    if (error) clearError();
+    if (error) setError('');
     if (success) setSuccess('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    clearError();
+    setError('');
     setSuccess('');
     
     if (!formData.email || !formData.password) {
@@ -47,7 +48,7 @@ const LoginPage: React.FC = () => {
       return;
     }
     
-    setLoading(true);
+    setIsLoading(true);
     
     try {
       console.log('🔄 Starte API Login...');
@@ -97,7 +98,7 @@ const LoginPage: React.FC = () => {
       console.error('Login-Fehler:', err);
       setError(err instanceof Error ? err.message : 'Ein unbekannter Fehler ist aufgetreten.');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 

@@ -50,7 +50,7 @@ import {
 } from 'lucide-react';
 
 export default function ExclusiveEventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
   const [bookingDialog, setBookingDialog] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');

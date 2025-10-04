@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from '@/app/components/ClientProviders'
-import { AuthProvider } from '@/components/AuthProvider'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -22,9 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ErrorBoundary>
           <ClientProviders>
-            <AuthProvider>
-              {children}
-            </AuthProvider>
+            {children}
           </ClientProviders>
         </ErrorBoundary>
       </body>
