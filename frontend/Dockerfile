@@ -1,21 +1,23 @@
-FROM node:20-alpine
+# syntax=docker/dockerfile:1.6
 
+FROM node:20-bookworm-slim AS deps
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
 
-# Install dependencies
-RUN npm ci
-
-# Copy source code
+FROM node:20-bookworm-slim AS builder
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--max_old_space_size=2048
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN --mount=type=cache,target=/root/.npm npm run build
 
-# Build the application
-RUN npm run build
-
-# Expose port
+FROM node:20-bookworm-slim AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app ./
+RUN useradd -m nextjs && chown -R nextjs:nextjs /app
+USER nextjs
 EXPOSE 3000
-
-# Start the application
-CMD ["npm", "start", "--", "-p", "3000", "-H", "0.0.0.0"]
+CMD ["npm","run","start","--","-p","3000","-H","0.0.0.0"]

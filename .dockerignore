@@ -1,0 +1,11 @@
+**/node_modules
+**/.next
+.git
+*.log
+.env*
+supabase*
+grafana*
+prometheus*
+monitoring*
+nginx/*
+coverage
