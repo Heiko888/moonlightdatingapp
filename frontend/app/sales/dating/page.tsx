@@ -634,7 +634,7 @@ export default function SalesDatingPage() {
                   
                   <Button
                     component={Link}
-                    href="/pricing"
+                    href="/subscription"
                     variant="outlined"
                     fullWidth
                     sx={{
@@ -751,7 +751,7 @@ export default function SalesDatingPage() {
                   
                   <Button
                     component={Link}
-                    href="/pricing"
+                    href="/subscription"
                     variant="contained"
                     fullWidth
                     sx={{
@@ -850,7 +850,7 @@ export default function SalesDatingPage() {
                   
                   <Button
                     component={Link}
-                    href="/pricing"
+                    href="/subscription"
                     variant="outlined"
                     fullWidth
                     sx={{

@@ -184,7 +184,7 @@ export default function ProtectedRoute({
               variant="contained"
               color="primary"
               size="large"
-              onClick={() => router.push('/pricing')}
+              onClick={() => router.push('/subscription')}
               sx={{ minWidth: 200 }}
             >
               Paket upgraden

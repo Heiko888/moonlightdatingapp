@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 // Unused imports removed
 // import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
 import { MoonTracking } from '@/types/common.types';
+import { safeJsonParse } from '@/lib/supabase/client';
 import { 
   Box, 
   Typography, 
@@ -233,26 +234,32 @@ export default function MondkalenderPage() {
         const userData = localStorage.getItem('userData');
         const userSubscription = localStorage.getItem('userSubscription');
         
-        if (userData) {
-          const user = JSON.parse(userData);
+        if (userData && userData.trim() !== '') {
+          try {
+            const user = safeJsonParse(userData, {});
           
-          // Versuche zuerst localStorage
-          if (userSubscription) {
-            const subscription = JSON.parse(userSubscription);
-            setUserSubscription({
-              userId: user.id || 'unknown',
-              packageId: subscription.plan || user.subscriptionPlan || 'basic',
-              plan: subscription.plan || user.subscriptionPlan || 'basic',
-              status: subscription.status || 'active',
-              startDate: subscription.startDate || new Date().toISOString(),
-              endDate: subscription.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-              autoRenew: subscription.autoRenew || false,
-              paymentMethod: subscription.paymentMethod || 'none',
-              billingCycle: subscription.billingCycle || 'monthly'
-            });
-            console.log('✅ Subscription aus localStorage geladen:', subscription.plan || user.subscriptionPlan || 'basic');
-            return;
-          }
+            // Versuche zuerst localStorage
+            if (userSubscription && userSubscription.trim() !== '') {
+              try {
+                const subscription = safeJsonParse(userSubscription, {});
+                setUserSubscription({
+                  userId: user.id || 'unknown',
+                  packageId: subscription.plan || user.subscriptionPlan || 'basic',
+                  plan: subscription.plan || user.subscriptionPlan || 'basic',
+                  status: subscription.status || 'active',
+                  startDate: subscription.startDate || new Date().toISOString(),
+                  endDate: subscription.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+                  autoRenew: subscription.autoRenew || false,
+                  paymentMethod: subscription.paymentMethod || 'none',
+                  billingCycle: subscription.billingCycle || 'monthly'
+                });
+                console.log('✅ Subscription aus localStorage geladen:', subscription.plan || user.subscriptionPlan || 'basic');
+                return;
+              } catch (parseError) {
+                console.error('JSON.parse Fehler für userSubscription:', parseError);
+                localStorage.removeItem('userSubscription');
+              }
+            }
           
           // Fallback: Direkt aus userData
           if (user.subscriptionPlan) {
@@ -314,6 +321,10 @@ export default function MondkalenderPage() {
               billingCycle: 'monthly'
             });
           }
+        } catch (parseError) {
+          console.error('JSON.parse Fehler für userData:', parseError);
+          localStorage.removeItem('userData');
+        }
         }
       } catch (error) {
         console.error('Fehler beim Laden des Abonnements:', error);
@@ -333,7 +344,7 @@ export default function MondkalenderPage() {
     };
 
     checkAuth();
-  }, [router]);
+  }, []);
   const [notificationSettings, setNotificationSettings] = useState({
     moonPhaseReminders: true,
     dailyReminders: false,
@@ -613,7 +624,7 @@ export default function MondkalenderPage() {
       if (typeof window !== 'undefined') {
         const userData = localStorage.getItem('userData');
         if (userData) {
-          const user = JSON.parse(userData);
+          const user = safeJsonParse(userData, {});
           setUserProfile(user);
           return;
         }
@@ -846,7 +857,7 @@ export default function MondkalenderPage() {
     <AccessControl 
       path={pathname} 
       userSubscription={userSubscription}
-      onUpgrade={() => router.push('/upgrade')}
+      onUpgrade={() => router.push('/subscription')}
     >
     <Box sx={{ 
       minHeight: '100vh', 
@@ -947,7 +958,7 @@ export default function MondkalenderPage() {
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={() => router.push('/upgrade')}
+                    onClick={() => router.push('/subscription')}
                     sx={{
                       background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                       color: '#000',
@@ -1041,7 +1052,7 @@ export default function MondkalenderPage() {
                 />
               </Box>
               
-              <Grid container spacing={3}>
+              <Grid container spacing={4}>
                 <Grid item xs={12} md={3}>
                   <Box sx={{ textAlign: 'center', p: 2 }}>
                     <Typography variant="h4" sx={{ color: '#8B5CF6', mb: 1 }}>
@@ -1142,7 +1153,7 @@ export default function MondkalenderPage() {
                       </Box>
                     </Box>
 
-                  <Grid container spacing={3}>
+                  <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
                       <Typography variant="h6" sx={{ color: '#8B5CF6', mb: 2 }}>
                         💡 Empfehlung
@@ -1240,7 +1251,7 @@ export default function MondkalenderPage() {
                     <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
                       Wähle einen Monat:
                     </Typography>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={3}>
                       {[
                         'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
                         'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
@@ -1358,7 +1369,7 @@ export default function MondkalenderPage() {
                       <Typography variant="h6" sx={{ color: '#fff', mb: 3 }}>
                         🌙 Aktuelle Mondphase Details
                       </Typography>
-                      <Grid container spacing={4}>
+                      <Grid container spacing={5}>
                         <Grid item xs={12} md={6}>
                           <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
                             📖 Erklärung
@@ -1482,7 +1493,7 @@ export default function MondkalenderPage() {
                       📝 Heute tracken
                     </Typography>
                     
-                    <Grid container spacing={3}>
+                    <Grid container spacing={4}>
                       <Grid item xs={12} md={4}>
                         <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 1 }}>
                           Stimmung: {newEntry.mood}/10
@@ -1618,7 +1629,7 @@ export default function MondkalenderPage() {
                   </Typography>
                   
                   {stats ? (
-                    <Grid container spacing={3}>
+                    <Grid container spacing={4}>
                       <Grid item xs={12} sm={6} md={3}>
                         <Card sx={{ 
                           background: 'rgba(255, 255, 255, 0.05)',
@@ -1702,14 +1713,14 @@ export default function MondkalenderPage() {
                     📚 Wissen & Rituale
                   </Typography>
                   
-                  <Grid container spacing={4}>
+                  <Grid container spacing={5}>
                     {/* Mond-Geschichten */}
                     <Grid item xs={12} md={6}>
                       <Typography variant="h6" sx={{ color: '#fff', mb: 3 }}>
                         📖 Mond-Geschichten & Mythen
                       </Typography>
                       
-                      <Grid container spacing={3}>
+                      <Grid container spacing={4}>
                         {moonStories.map((story) => (
                           <Grid item xs={12} key={story.id}>
                             <Card sx={{
@@ -1766,7 +1777,7 @@ export default function MondkalenderPage() {
                         🌱 Pflanzen-Rituale & Mond-Gärtnern
                       </Typography>
                       
-                      <Grid container spacing={3}>
+                      <Grid container spacing={4}>
                         {plantRituals.map((ritual) => (
                           <Grid item xs={12} key={ritual.id}>
                             <Card sx={{
@@ -1812,7 +1823,7 @@ export default function MondkalenderPage() {
                         💚 Gesundheit & Ernährung nach Mondphasen
                       </Typography>
                       
-                      <Grid container spacing={3}>
+                      <Grid container spacing={4}>
                         {healthGuidance.map((guidance) => (
                           <Grid item xs={12} md={6} key={guidance.id}>
                             <Card sx={{ 
@@ -1971,7 +1982,7 @@ export default function MondkalenderPage() {
                       </Typography>
                     </Box>
                     
-                    <Grid container spacing={3}>
+                    <Grid container spacing={4}>
                       {/* Human Design Dating-Tipps */}
                       <Grid item xs={12} md={6}>
                         <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>

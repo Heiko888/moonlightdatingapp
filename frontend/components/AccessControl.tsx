@@ -240,7 +240,7 @@ export default function AccessControl({
                   <Button
                     variant="outlined"
                     size="large"
-                    href="/upgrade"
+                    href="/subscription"
                     sx={{
                       borderColor: 'rgba(255,255,255,0.3)',
                       color: 'white',

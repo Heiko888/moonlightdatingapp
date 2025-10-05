@@ -1,8 +1,5 @@
 "use client";
 import React from 'react';
-import ConditionalLayout from '@/components/ConditionalLayout'
-import { NotificationProvider } from '@/components/NotificationService'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import ClientErrorBoundary from '@/app/components/ClientErrorBoundary'
 
 interface ClientProvidersProps {
@@ -12,13 +9,7 @@ interface ClientProvidersProps {
 export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
     <ClientErrorBoundary>
-      <ThemeProvider>
-        <NotificationProvider>
-          <ConditionalLayout>
-            {children}
-          </ConditionalLayout>
-        </NotificationProvider>
-      </ThemeProvider>
+      {children}
     </ClientErrorBoundary>
   );
 }

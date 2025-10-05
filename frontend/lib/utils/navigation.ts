@@ -87,59 +87,51 @@ export const smartRedirect = (targetPath?: string): string => {
   }
 };
 
+import { safeJsonParse } from './safeJsonParse';
+
 /**
  * Lädt Benutzer-Daten aus localStorage
  */
 export const getUserData = (): UserData | null => {
-  try {
-    const userData = localStorage.getItem('userData');
-    if (!userData) return null;
-    
-    const parsed = JSON.parse(userData);
-    return {
-      subscriptionPlan: parsed?.subscriptionPlan || 'basic',
-      id: parsed?.id || '',
-      name: parsed?.name || '',
-      email: parsed?.email || ''
-    };
-  } catch (error) {
-    console.error('Fehler beim Laden der Benutzer-Daten:', error);
-    return null;
-  }
+  const userData = localStorage.getItem('userData');
+  const parsed = safeJsonParse(userData);
+  
+  if (!parsed) return null;
+  
+  return {
+    subscriptionPlan: parsed?.subscriptionPlan || 'basic',
+    id: parsed?.id || '',
+    name: parsed?.name || '',
+    email: parsed?.email || ''
+  };
 };
 
 /**
  * Lädt Subscription-Daten aus localStorage
  */
 export const getUserSubscription = (): UserSubscription | null => {
-  try {
-    const userData = localStorage.getItem('userData');
-    if (userData) {
-      const user = JSON.parse(userData);
-      
-      // Debug-Logging für bessere Fehlerdiagnose
-      console.log('🔍 getUserSubscription Debug:', {
-        userData: user,
-        subscriptionPlan: user.subscriptionPlan,
-        subscriptionStatus: user.subscriptionStatus
-      });
-      
-      return {
-        userId: user?.id || 'unknown',
-        packageId: user?.subscriptionPlan || 'basic', // WICHTIG: subscriptionPlan wird zu packageId
-        status: user?.subscriptionStatus || 'active',
-        startDate: user?.subscriptionStartDate || new Date().toISOString(),
-        endDate: user?.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        autoRenew: user?.autoRenew || false,
-        paymentMethod: user?.paymentMethod || 'none',
-        billingCycle: user?.billingCycle || 'monthly',
-      } as SubscriptionType;
-    }
-    return null;
-  } catch (error) {
-    console.error('Fehler beim Laden der Subscription-Daten:', error);
-    return null;
-  }
+  const userData = localStorage.getItem('userData');
+  const user = safeJsonParse(userData);
+  
+  if (!user) return null;
+  
+  // Debug-Logging für bessere Fehlerdiagnose
+  console.log('🔍 getUserSubscription Debug:', {
+    userData: user,
+    subscriptionPlan: user.subscriptionPlan,
+    subscriptionStatus: user.subscriptionStatus
+  });
+  
+  return {
+    userId: user?.id || 'unknown',
+    packageId: user?.subscriptionPlan || 'basic', // WICHTIG: subscriptionPlan wird zu packageId
+    status: user?.subscriptionStatus || 'active',
+    startDate: user?.subscriptionStartDate || new Date().toISOString(),
+    endDate: user?.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    autoRenew: user?.autoRenew || false,
+    paymentMethod: user?.paymentMethod || 'none',
+    billingCycle: user?.billingCycle || 'monthly',
+  } as SubscriptionType;
 };
 
 /**

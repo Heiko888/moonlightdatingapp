@@ -32,6 +32,7 @@ import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import { safeJsonParse } from '@/lib/supabase/client';
 
 interface ReadingExtended extends Reading {
   question: string;
@@ -79,7 +80,7 @@ const ReadingPage: React.FC = () => {
     try {
       const userData = localStorage.getItem('userData');
       if (userData) {
-        const user = JSON.parse(userData);
+        const user = safeJsonParse(userData, {});
         const subscription = await SubscriptionService.getUserSubscription(user.id);
         setUserSubscription(subscription);
       }
@@ -93,7 +94,7 @@ const ReadingPage: React.FC = () => {
       setLoading(true);
       // SSR-sicherer localStorage Zugriff
       if (typeof window !== 'undefined') {
-        const localReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
+        const localReadings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []);
         setReadings(localReadings);
       }
     } catch (error) {
@@ -129,7 +130,7 @@ const ReadingPage: React.FC = () => {
       // SSR-sicherer localStorage Zugriff
       let existingReadings = [];
       if (typeof window !== 'undefined') {
-        existingReadings = JSON.parse(localStorage.getItem('userReadings') || '[]');
+        existingReadings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []);
         existingReadings.push(newReading);
         localStorage.setItem('userReadings', JSON.stringify(existingReadings));
       }

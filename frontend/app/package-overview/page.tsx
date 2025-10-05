@@ -27,6 +27,7 @@ import AnimatedMoon from '../../components/AnimatedMoon';
 import { pageAccessConfig } from '../../lib/subscription/accessControl';
 import { subscriptionPackages } from '../../lib/subscription/packages';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import { safeJsonParse } from '@/lib/supabase/client';
 import { UserSubscription } from '../../lib/subscription/types';
 
 export default function PackageOverviewPage() {
@@ -42,7 +43,7 @@ export default function PackageOverviewPage() {
     try {
       const userData = localStorage.getItem('userData');
       if (userData) {
-        const user = JSON.parse(userData);
+        const user = safeJsonParse(userData, {});
         const subscription = await SubscriptionService.getUserSubscription(user.id);
         setUserSubscription(subscription);
       }
@@ -323,7 +324,7 @@ export default function PackageOverviewPage() {
             <Button
               variant="contained"
               size="large"
-              href="/pricing"
+              href="/subscription"
               sx={{
                 background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                 '&:hover': {

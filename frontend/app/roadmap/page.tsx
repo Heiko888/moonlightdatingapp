@@ -7,6 +7,7 @@ import PersonalRoadmap from '@/components/PersonalRoadmap';
 import AccessControl from '../../components/AccessControl';
 import Link from 'next/link';
 import { UserSubscription } from '../../lib/subscription/types';
+import { safeJsonParse } from '@/lib/supabase/client';
 
 export default function RoadmapPage() {
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
@@ -19,9 +20,9 @@ export default function RoadmapPage() {
     if (typeof window !== 'undefined') {
       // Lade User-Daten aus localStorage
       const userData = localStorage.getItem('userData');
-      if (userData) {
+      if (userData && userData.trim() !== '') {
         try {
-          const user = JSON.parse(userData);
+          const user = safeJsonParse(userData, {});
           console.log('🔍 Roadmap - User-Daten geladen:', user);
           
           // Erstelle UserSubscription-Objekt - korrigiere packageId für Premium

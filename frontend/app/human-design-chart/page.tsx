@@ -40,6 +40,7 @@ import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import { safeJsonParse } from '@/lib/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -184,13 +185,22 @@ export default function HumanDesignChartPage() {
   const loadUserSubscription = async () => {
     try {
       const userData = typeof window !== 'undefined' ? localStorage.getItem('userData') : null;
-      if (userData) {
-        const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
-        setUserSubscription(subscription);
+      if (userData && userData.trim() !== '') {
+        try {
+          const user = safeJsonParse(userData, {});
+          const subscription = await SubscriptionService.getUserSubscription(user.id);
+          setUserSubscription(subscription);
+        } catch (parseError) {
+          console.error('JSON.parse Fehler in loadUserSubscription:', parseError);
+          localStorage.removeItem('userData');
+        }
       }
     } catch (error) {
       console.error('Fehler beim Laden der Subscription:', error);
+      // Lösche ungültige Daten aus localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('userData');
+      }
     }
   };
 
@@ -201,12 +211,13 @@ export default function HumanDesignChartPage() {
 
       // Lade Benutzerdaten aus localStorage
       const userData = typeof window !== 'undefined' ? localStorage.getItem('userData') : null;
-      if (!userData) return;
+      if (!userData || userData.trim() === '') return;
 
-      const user = JSON.parse(userData);
-      console.log('👤 Benutzerdaten:', user);
+      try {
+        const user = safeJsonParse(userData, {});
+        console.log('👤 Benutzerdaten:', user);
 
-      // Prüfe ob Geburtsdaten vorhanden sind
+        // Prüfe ob Geburtsdaten vorhanden sind
       if (user.birthDate && user.birthTime && user.birthPlace) {
         console.log('📊 Berechne Chart mit echten Geburtsdaten:', {
           birthDate: user.birthDate,
@@ -290,7 +301,7 @@ export default function HumanDesignChartPage() {
       if (typeof window !== 'undefined') {
         const userChart = localStorage.getItem('userChart');
         if (userChart) {
-          const chartInfo = JSON.parse(userChart);
+          const chartInfo = safeJsonParse(userChart, {});
           console.log('📋 Chart-Info aus localStorage:', chartInfo);
           
           setChartData(prevData => ({
@@ -304,6 +315,10 @@ export default function HumanDesignChartPage() {
             }
           }));
         }
+      }
+      } catch (parseError) {
+        console.error('JSON.parse Fehler in loadChartData:', parseError);
+        localStorage.removeItem('userData');
       }
     } catch (error) {
       console.error('Fehler beim Laden der Chart-Daten:', error);
@@ -478,7 +493,7 @@ export default function HumanDesignChartPage() {
     <AccessControl
       path="/human-design-chart"
       userSubscription={userSubscription}
-      onUpgrade={() => window.location.href = '/pricing'}
+      onUpgrade={() => window.location.href = '/subscription'}
     >
       <Box sx={{ 
         minHeight: '100vh',

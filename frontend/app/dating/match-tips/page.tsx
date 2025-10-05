@@ -631,7 +631,7 @@ export default function MatchTipsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Box sx={{ mb: 8 }}>
+              <Box sx={{ mb: 8, mt: 6 }}>
                 <Box sx={{ textAlign: 'center', mb: 6 }}>
                   <Typography variant="h4" sx={{ 
                     color: 'white', 

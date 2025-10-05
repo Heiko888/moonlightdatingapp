@@ -99,7 +99,7 @@ const pages = [
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Profil", href: "/profil", icon: User },
   { label: "Settings", href: "/settings", icon: Settings },
-  { label: "Pricing", href: "/pricing", icon: DollarSign },
+  { label: "Pricing", href: "/subscription", icon: DollarSign },
   { label: "Admin", href: "/admin", icon: Settings },
 ];
 

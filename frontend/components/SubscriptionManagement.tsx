@@ -1,25 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { safeJsonParse } from '@/lib/supabase/client';
 import {
   Box,
   Card,
   CardContent,
   Typography,
   Button,
-  Chip,
   Alert,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  CircularProgress
 } from '@mui/material';
 import { 
   CreditCard, 
@@ -28,10 +18,8 @@ import {
   CheckCircle, 
   XCircle, 
   AlertTriangle,
-  ExternalLink,
   RefreshCcw
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 interface SubscriptionData {
   id: string;
@@ -52,7 +40,6 @@ export default function SubscriptionManagement() {
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
   useEffect(() => {
     loadSubscription();
@@ -69,8 +56,8 @@ export default function SubscriptionManagement() {
       const subscriptionData = localStorage.getItem('userSubscription');
 
       if (userData && subscriptionData) {
-        const user = JSON.parse(userData);
-        const sub = JSON.parse(subscriptionData);
+        const user = safeJsonParse(userData, {});
+        const sub = safeJsonParse(subscriptionData, {});
         
         // Mock Stripe Subscription Data
         const mockSubscription: SubscriptionData = {
@@ -108,7 +95,7 @@ export default function SubscriptionManagement() {
         return;
       }
 
-      const user = JSON.parse(userData);
+      const user = safeJsonParse(userData, {});
       
       const response = await fetch('/api/stripe/customer-portal', {
         method: 'POST',
@@ -131,31 +118,6 @@ export default function SubscriptionManagement() {
     } catch (error) {
       console.error('Fehler beim Öffnen des Kundenportals:', error);
       setError('Fehler beim Öffnen des Kundenportals');
-    }
-  };
-
-  const handleCancelSubscription = async () => {
-    try {
-      // Hier würde normalerweise ein API-Call gemacht werden
-      // Für Demo-Zwecke aktualisieren wir localStorage
-      const subscriptionData = localStorage.getItem('userSubscription');
-      if (subscriptionData) {
-        const sub = JSON.parse(subscriptionData);
-        sub.status = 'canceled';
-        sub.cancel_at_period_end = true;
-        localStorage.setItem('userSubscription', JSON.stringify(sub));
-        
-        setSubscription(prev => prev ? {
-          ...prev,
-          status: 'canceled',
-          cancel_at_period_end: true
-        } : null);
-      }
-      
-      setShowCancelDialog(false);
-    } catch (error) {
-      console.error('Fehler beim Kündigen:', error);
-      setError('Fehler beim Kündigen des Abonnements');
     }
   };
 
@@ -227,186 +189,109 @@ export default function SubscriptionManagement() {
         </Alert>
       )}
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Card sx={{
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: 3
-        }}>
-          <CardContent sx={{ p: 4 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography variant="h5" sx={{ color: 'white', fontWeight: 'bold' }}>
-                Abonnement-Verwaltung
-              </Typography>
-              <Chip
-                icon={getStatusIcon(subscription.status)}
-                label={subscription.status === 'active' ? 'Aktiv' : 
-                       subscription.status === 'canceled' ? 'Gekündigt' :
-                       subscription.status === 'past_due' ? 'Überfällig' : 'Unbezahlt'}
-                sx={{
-                  backgroundColor: getStatusColor(subscription.status),
-                  color: 'white',
-                  fontWeight: 'bold'
-                }}
-              />
+      <Card sx={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: 3,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.3)',
+          border: '1px solid rgba(255, 255, 255, 0.2)'
+        }
+      }}>
+        <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography variant="h5" sx={{ color: '#e6e6fa', fontWeight: 700 }}>
+              Abonnement-Verwaltung
+            </Typography>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+              px: 2,
+              py: 1,
+              borderRadius: 2,
+              backgroundColor: getStatusColor(subscription.status),
+              color: 'white',
+              fontWeight: 'bold'
+            }}>
+              {getStatusIcon(subscription.status)}
+              {subscription.status === 'active' ? 'Aktiv' : 
+               subscription.status === 'canceled' ? 'Gekündigt' :
+               subscription.status === 'past_due' ? 'Überfällig' : 'Unbezahlt'}
             </Box>
+          </Box>
 
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    Aktueller Plan
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 3, mb: 3 }}>
+            <Box>
+              <Typography variant="h6" sx={{ color: '#e6e6fa', mb: 2 }}>
+                Aktueller Plan
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <CreditCard size={24} color="#8b5cf6" style={{ marginRight: 12 }} />
+                <Box>
+                  <Typography variant="h6" sx={{ color: 'white' }}>
+                    {subscription.plan.nickname}
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <CreditCard size={24} color="#8b5cf6" style={{ marginRight: 12 }} />
-                    <Box>
-                      <Typography variant="h6" sx={{ color: 'white' }}>
-                        {subscription.plan.nickname}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                        {formatPrice(subscription.plan.amount, subscription.plan.currency)} / {subscription.plan.interval}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    Abrechnungszeitraum
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    {formatPrice(subscription.plan.amount, subscription.plan.currency)} / {subscription.plan.interval}
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                      Von: {formatDate(subscription.current_period_start)}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                      Bis: {formatDate(subscription.current_period_end)}
-                    </Typography>
-                  </Box>
                 </Box>
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    Aktionen
-                  </Typography>
-                  
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Button
-                      variant="contained"
-                      startIcon={<Settings size={20} />}
-                      onClick={handleManageSubscription}
-                      sx={{
-                        background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
-                        '&:hover': {
-                          background: 'linear-gradient(45deg, #7c3aed, #9333ea)'
-                        }
-                      }}
-                    >
-                      Zahlungsmethoden verwalten
-                    </Button>
-
-                    {subscription.status === 'active' && !subscription.cancel_at_period_end && (
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={() => setShowCancelDialog(true)}
-                        sx={{
-                          borderColor: '#ef4444',
-                          color: '#ef4444',
-                          '&:hover': {
-                            borderColor: '#dc2626',
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)'
-                          }
-                        }}
-                      >
-                        Abonnement kündigen
-                      </Button>
-                    )}
-
-                    {subscription.cancel_at_period_end && (
-                      <Alert severity="warning">
-                        <Typography variant="body2">
-                          Ihr Abonnement wird am {formatDate(subscription.current_period_end)} beendet.
-                        </Typography>
-                      </Alert>
-                    )}
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.1)' }} />
+              </Box>
+            </Box>
 
             <Box>
-              <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                Abonnement-Details
+              <Typography variant="h6" sx={{ color: '#e6e6fa', mb: 2 }}>
+                Abrechnungszeitraum
               </Typography>
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckCircle size={20} color="#10b981" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Automatische Verlängerung"
-                    secondary={subscription.cancel_at_period_end ? "Deaktiviert" : "Aktiviert"}
-                    primaryTypographyProps={{ color: 'white' }}
-                    secondaryTypographyProps={{ color: 'rgba(255,255,255,0.7)' }}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckCircle size={20} color="#10b981" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Nächste Abrechnung"
-                    secondary={formatDate(subscription.current_period_end)}
-                    primaryTypographyProps={{ color: 'white' }}
-                    secondaryTypographyProps={{ color: 'rgba(255,255,255,0.7)' }}
-                  />
-                </ListItem>
-              </List>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  Von: {formatDate(subscription.current_period_start)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Calendar size={20} color="#10b981" style={{ marginRight: 8 }} />
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  Bis: {formatDate(subscription.current_period_end)}
+                </Typography>
+              </Box>
             </Box>
-          </CardContent>
-        </Card>
-      </motion.div>
+          </Box>
 
-      {/* Cancel Subscription Dialog */}
-      <Dialog open={showCancelDialog} onClose={() => setShowCancelDialog(false)}>
-        <DialogTitle sx={{ color: 'white' }}>
-          Abonnement kündigen
-        </DialogTitle>
-        <DialogContent>
-          <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
-            Sind Sie sicher, dass Sie Ihr Abonnement kündigen möchten? 
-            Sie haben weiterhin Zugang bis zum Ende des aktuellen Abrechnungszeitraums.
-          </Typography>
-          <Alert severity="warning" sx={{ mt: 2 }}>
-            Nach der Kündigung können Sie Ihr Abonnement jederzeit wieder aktivieren.
-          </Alert>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowCancelDialog(false)}>
-            Abbrechen
-          </Button>
-          <Button 
-            onClick={handleCancelSubscription}
-            color="error"
-            variant="contained"
-          >
-            Kündigen
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Button
+              variant="contained"
+              startIcon={<Settings size={20} />}
+              onClick={handleManageSubscription}
+              sx={{
+                background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
+                borderRadius: 3,
+                py: 1.5,
+                fontWeight: 600,
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #7c3aed, #9333ea)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
+                }
+              }}
+            >
+              Zahlungsmethoden verwalten
+            </Button>
+
+            {subscription.cancel_at_period_end && (
+              <Alert severity="warning" sx={{ borderRadius: 3 }}>
+                <Typography variant="body2">
+                  Ihr Abonnement wird am {formatDate(subscription.current_period_end)} beendet.
+                </Typography>
+              </Alert>
+            )}
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

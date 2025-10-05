@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { safeJsonParse } from '@/lib/supabase/client';
 import {
   Container,
   Typography,
@@ -103,7 +104,7 @@ export default function DatingInterface() {
 
   const loadPremiumFeatures = () => {
     try {
-      const userSubscription = JSON.parse(localStorage.getItem('userSubscription') || '{}');
+      const userSubscription = safeJsonParse(localStorage.getItem('userSubscription') || '{}', {});
       
       setUserSubscription(userSubscription);
       
@@ -1205,7 +1206,7 @@ export default function DatingInterface() {
             variant="contained"
             onClick={() => {
               setShowPremiumDialog(false);
-              window.location.href = '/upgrade';
+              window.location.href = '/subscription';
             }}
             sx={{
               background: 'linear-gradient(45deg, #FFD700, #FFA500)',

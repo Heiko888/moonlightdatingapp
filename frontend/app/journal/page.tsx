@@ -4,7 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Tabs, Tab, LinearProgress, IconButton } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Star, BookOpen, BarChart3, Target, Plus, Calendar, TrendingUp, CheckCircle, Filter, Home, Briefcase, Heart, Users, User } from 'lucide-react';
-import AnimatedStars from '@/components/AnimatedStars';
+import SSRSafeStars from '@/components/SSRSafeStars';
 import AccessControl from '@/components/AccessControl';
 import { UserSubscription } from '@/lib/subscription/types';
 import { SubscriptionService } from '@/lib/subscription/subscriptionService';
@@ -251,14 +251,15 @@ export default function JournalPage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
+      <SSRSafeStars />
       
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
         {/* Header */}
@@ -268,34 +269,37 @@ export default function JournalPage() {
           
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
-              <Star size={48} color="#FFD700" />
-              <Typography variant="h1" sx={{
-                color: '#FFD700',
-                fontWeight: 800,
-                textShadow: '0 4px 20px rgba(0,0,0,0.6)',
-                fontSize: { xs: '2.5rem', md: '4rem' },
-                background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                Journal & Tracking
-              </Typography>
-              <Star size={48} color="#FFD700" />
-            </Box>
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                fontSize: { xs: '2.5rem', md: '3.5rem' },
+                mb: 2,
+                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+              }}
+            >
+              📝 Journal & Tracking
+            </Typography>
             <motion.div
               
               
               
             >
-              <Typography variant="h5" sx={{
-                color: 'rgba(255,255,255,0.9)',
-                fontSize: { xs: '1.2rem', md: '1.5rem' },
-                maxWidth: 800,
-                mx: 'auto',
-                lineHeight: 1.6
-              }}>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  mb: 3,
+                  fontSize: { xs: '1.1rem', md: '1.3rem' },
+                  maxWidth: '600px',
+                  mx: 'auto',
+                  lineHeight: 1.6
+                }}
+              >
                 Dokumentiere deine Human Design Reise und verfolge deine Entwicklung
               </Typography>
             </motion.div>
@@ -311,15 +315,19 @@ export default function JournalPage() {
           <Grid container spacing={3} sx={{ mb: 6 }}>
             <Grid item xs={12} sm={6} md={3}>
               <Card sx={{
-                background: 'rgba(255,215,0,0.1)',
-                borderRadius: 4,
-                border: '1px solid rgba(255,215,0,0.3)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                }
               }}>
                 <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                  <BookOpen size={32} color="#FFD700" style={{ marginBottom: 16 }} />
-                  <Typography variant="h3" sx={{ color: '#FFD700', fontWeight: 800, mb: 1 }}>
+                  <BookOpen size={32} color="#ff6b9d" style={{ marginBottom: 16 }} />
+                  <Typography variant="h3" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 1 }}>
                     {trackingData.totalEntries}
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -330,15 +338,19 @@ export default function JournalPage() {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card sx={{
-                background: 'rgba(59,130,246,0.1)',
-                borderRadius: 4,
-                border: '1px solid rgba(59,130,246,0.3)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                }
               }}>
                 <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                  <TrendingUp size={32} color="#93c5fd" style={{ marginBottom: 16 }} />
-                  <Typography variant="h3" sx={{ color: '#93c5fd', fontWeight: 800, mb: 1 }}>
+                  <TrendingUp size={32} color="#4ecdc4" style={{ marginBottom: 16 }} />
+                  <Typography variant="h3" sx={{ color: '#4ecdc4', fontWeight: 800, mb: 1 }}>
                     {trackingData.currentStreak}
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -349,15 +361,19 @@ export default function JournalPage() {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card sx={{
-                background: 'rgba(168,85,247,0.1)',
-                borderRadius: 4,
-                border: '1px solid rgba(168,85,247,0.3)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                }
               }}>
                 <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                  <Target size={32} color="#c4b5fd" style={{ marginBottom: 16 }} />
-                  <Typography variant="h3" sx={{ color: '#c4b5fd', fontWeight: 800, mb: 1 }}>
+                  <Target size={32} color="#667eea" style={{ marginBottom: 16 }} />
+                  <Typography variant="h3" sx={{ color: '#667eea', fontWeight: 800, mb: 1 }}>
                     {trackingData.goalsCompleted}/{trackingData.totalGoals}
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -368,15 +384,19 @@ export default function JournalPage() {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card sx={{
-                background: 'rgba(16,185,129,0.1)',
-                borderRadius: 4,
-                border: '1px solid rgba(16,185,129,0.3)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                }
               }}>
                 <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                  <BarChart3 size={32} color="#86efac" style={{ marginBottom: 16 }} />
-                  <Typography variant="h3" sx={{ color: '#86efac', fontWeight: 800, mb: 1 }}>
+                  <BarChart3 size={32} color="#10b981" style={{ marginBottom: 16 }} />
+                  <Typography variant="h3" sx={{ color: '#10b981', fontWeight: 800, mb: 1 }}>
                     {Math.round((trackingData.goalsCompleted / trackingData.totalGoals) * 100)}%
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -396,9 +416,9 @@ export default function JournalPage() {
         >
           <Paper sx={{
             background: 'rgba(255,255,255,0.05)',
-            borderRadius: 4,
+            backdropFilter: 'blur(10px)',
             border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(20px)',
+            borderRadius: 12,
             mb: 6
           }}>
             <Tabs 
@@ -410,11 +430,11 @@ export default function JournalPage() {
                   fontWeight: 600,
                   fontSize: '1.1rem',
                   '&.Mui-selected': {
-                    color: '#FFD700'
+                    color: '#ff6b9d'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#FFD700'
+                  backgroundColor: '#ff6b9d'
                 }
               }}
             >
@@ -434,7 +454,7 @@ export default function JournalPage() {
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h3" sx={{ 
-                color: '#FFD700', 
+                color: '#ffffff', 
                 fontWeight: 700 
               }}>
                 Meine Journal Einträge
@@ -444,16 +464,16 @@ export default function JournalPage() {
                 startIcon={<Plus size={20} />}
                 onClick={() => setShowJournalDialog(true)}
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                  color: '#000',
-                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
+                  fontWeight: 600,
                   px: 4,
                   py: 2,
-                  borderRadius: 3,
+                  borderRadius: 12,
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FFA500, #FF8C00)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 30px rgba(255,215,0,0.4)'
+                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
                   }
                 }}
               >
@@ -471,16 +491,21 @@ export default function JournalPage() {
                     whileHover={{ y: -8 }}
                   >
                     <Card sx={{
-                      background: 'rgba(255,255,255,0.1)',
-                      borderRadius: 3,
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      backdropFilter: 'blur(20px)',
-                      height: '100%'
+                      background: 'rgba(255,255,255,0.05)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: 12,
+                      height: '100%',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                      }
                     }}>
                       <CardContent sx={{ p: 3 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Calendar size={20} color="#FFD700" />
+                            <Calendar size={20} color="#ff6b9d" />
                             <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
                               {new Date(entry.date).toLocaleDateString('de-DE')}
                             </Typography>
@@ -489,9 +514,9 @@ export default function JournalPage() {
                             label={entry.mood}
                             size="small"
                             sx={{
-                              background: 'rgba(255,215,0,0.2)',
-                              color: '#FFD700',
-                              border: '1px solid rgba(255,215,0,0.3)'
+                              background: 'rgba(255, 107, 157, 0.2)',
+                              color: '#ff6b9d',
+                              border: '1px solid rgba(255, 107, 157, 0.3)'
                             }}
                           />
                         </Box>
@@ -511,9 +536,9 @@ export default function JournalPage() {
                               label={tag}
                               size="small"
                               sx={{
-                                background: 'rgba(255,215,0,0.15)',
-                                color: '#FFD700',
-                                border: '1px solid rgba(255,215,0,0.2)',
+                                background: 'rgba(255, 107, 157, 0.15)',
+                                color: '#ff6b9d',
+                                border: '1px solid rgba(255, 107, 157, 0.2)',
                                 fontSize: '0.8rem'
                               }}
                             />
@@ -537,7 +562,7 @@ export default function JournalPage() {
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
               <Typography variant="h3" sx={{ 
-                color: '#FFD700', 
+                color: '#ffffff', 
                 fontWeight: 700 
               }}>
                 Meine Ziele
@@ -547,16 +572,16 @@ export default function JournalPage() {
                 startIcon={<Plus size={20} />}
                 onClick={() => setShowGoalDialog(true)}
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                  color: '#000',
-                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
+                  fontWeight: 600,
                   px: 4,
                   py: 2,
-                  borderRadius: 3,
+                  borderRadius: 12,
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FFA500, #FF8C00)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 30px rgba(255,215,0,0.4)'
+                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
                   }
                 }}
               >
@@ -567,7 +592,7 @@ export default function JournalPage() {
             {/* Kategorien-Filter */}
             <Box sx={{ mb: 4 }}>
               <Typography variant="h6" sx={{ 
-                color: '#fef3c7', 
+                color: '#ffffff', 
                 fontWeight: 600, 
                 mb: 2 
               }}>
@@ -616,21 +641,21 @@ export default function JournalPage() {
                     whileHover={{ y: -8 }}
                   >
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(254,243,199,0.1) 0%, rgba(254,243,199,0.05) 100%)',
-                      borderRadius: 4,
-                      border: '1px solid rgba(254,243,199,0.2)',
+                      background: 'rgba(255,255,255,0.05)',
                       backdropFilter: 'blur(10px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: 12,
                       transition: 'all 0.3s ease',
                       '&:hover': {
-                        boxShadow: '0 25px 50px rgba(0,0,0,0.3)'
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
                       }
                     }}>
                       <CardContent sx={{ p: 4 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
                           <Box sx={{ flex: 1 }}>
                             <Typography variant="h5" sx={{
-                              color: '#fef3c7',
+                              color: '#ffffff',
                               fontWeight: 700,
                               mb: 1
                             }}>
@@ -658,7 +683,7 @@ export default function JournalPage() {
                         </Box>
 
                         <Typography sx={{
-                          color: 'rgba(254,243,199,0.8)',
+                          color: 'rgba(255,255,255,0.8)',
                           mb: 3,
                           lineHeight: 1.6
                         }}>
@@ -667,10 +692,10 @@ export default function JournalPage() {
 
                         <Box sx={{ mb: 3 }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Typography sx={{ color: 'rgba(254,243,199,0.8)', fontSize: '0.9rem' }}>
+                            <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
                               Fortschritt
                             </Typography>
-                            <Typography sx={{ color: '#fef3c7', fontWeight: 600 }}>
+                            <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
                               {goal.progress}%
                             </Typography>
                           </Box>
@@ -690,14 +715,14 @@ export default function JournalPage() {
                         </Box>
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Typography sx={{ color: 'rgba(254,243,199,0.7)', fontSize: '0.9rem' }}>
+                          <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
                             Deadline: {new Date(goal.deadline).toLocaleDateString('de-DE')}
                           </Typography>
                           <Box sx={{ display: 'flex', gap: 1 }}>
                             <IconButton
                               size="small"
                               onClick={() => updateGoalProgress(goal.id, goal.progress + 10)}
-                              sx={{ color: '#fef3c7' }}
+                              sx={{ color: '#ffffff' }}
                             >
                               <TrendingUp size={16} />
                             </IconButton>
@@ -727,7 +752,7 @@ export default function JournalPage() {
             
           >
             <Typography variant="h3" sx={{ 
-              color: '#fef3c7', 
+              color: '#ffffff', 
               textAlign: 'center', 
               fontWeight: 700, 
               mb: 6 
@@ -746,7 +771,7 @@ export default function JournalPage() {
                 }}>
                   <CardContent sx={{ p: 4 }}>
                     <Typography variant="h5" sx={{
-                      color: '#fef3c7',
+                      color: '#ffffff',
                       fontWeight: 700,
                       mb: 3
                     }}>
@@ -754,18 +779,18 @@ export default function JournalPage() {
                     </Typography>
                     <Box sx={{ mb: 3 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{ color: 'rgba(254,243,199,0.8)' }}>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
                           Aktuelle Serie
                         </Typography>
-                        <Typography sx={{ color: '#fef3c7', fontWeight: 600 }}>
+                        <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
                           {trackingData.currentStreak} Tage
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{ color: 'rgba(254,243,199,0.8)' }}>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
                           Längste Serie
                         </Typography>
-                        <Typography sx={{ color: '#fef3c7', fontWeight: 600 }}>
+                        <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
                           {trackingData.longestStreak} Tage
                         </Typography>
                       </Box>
@@ -784,7 +809,7 @@ export default function JournalPage() {
                 }}>
                   <CardContent sx={{ p: 4 }}>
                     <Typography variant="h5" sx={{
-                      color: '#fef3c7',
+                      color: '#ffffff',
                       fontWeight: 700,
                       mb: 3
                     }}>
@@ -792,18 +817,18 @@ export default function JournalPage() {
                     </Typography>
                     <Box sx={{ mb: 3 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{ color: 'rgba(254,243,199,0.8)' }}>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
                           Abgeschlossen
                         </Typography>
-                        <Typography sx={{ color: '#fef3c7', fontWeight: 600 }}>
+                        <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
                           {trackingData.goalsCompleted}/{trackingData.totalGoals}
                         </Typography>
                       </Box>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{ color: 'rgba(254,243,199,0.8)' }}>
+                        <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>
                           Erfolgsrate
                         </Typography>
-                        <Typography sx={{ color: '#fef3c7', fontWeight: 600 }}>
+                        <Typography sx={{ color: '#ffffff', fontWeight: 600 }}>
                           {Math.round((trackingData.goalsCompleted / trackingData.totalGoals) * 100)}%
                         </Typography>
                       </Box>

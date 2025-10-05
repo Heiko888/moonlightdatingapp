@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Chip, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Grid, List, ListItem, ListItemIcon, ListItemText, Divider, LinearProgress, Avatar, Badge } from '@mui/material';
 import { Trophy, Star, Zap, Heart, Target, BookOpen, Users, Calendar, Award, Crown, Medal, Gem, Flame, Eye, Moon, RotateCcw, Share2, Bookmark, TrendingUp, CheckCircle } from 'lucide-react';
-import { useNotifications } from './NotificationService';
+// import { useNotifications } from './NotificationService';
 
 interface Badge {
   id: string;
@@ -271,7 +271,14 @@ export default function GamificationSystem() {
   const [showAchievements, setShowAchievements] = useState(false);
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
   const [savedStats, setSavedStats] = useState<string[]>([]);
-  const { addNotification } = useNotifications();
+  // const { addNotification } = useNotifications();
+  
+  // Temporary notification function
+  const addNotification = (notification: any) => {
+    console.log('Notification:', notification);
+    // You can implement a simple alert or toast here
+    alert(`${notification.title}: ${notification.message}`);
+  };
 
   useEffect(() => {
     // Load saved stats

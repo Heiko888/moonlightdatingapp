@@ -26,7 +26,7 @@ export default function CurrentPhaseTab({ currentPhase, onAddTracking }: Current
       
       
     >
-      <Grid container spacing={4}>
+      <Grid container spacing={5}>
         {/* Aktuelle Phase Card */}
         <Grid item xs={12} md={6}>
           <Card sx={{

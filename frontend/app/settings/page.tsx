@@ -1,198 +1,255 @@
 "use client";
-import React, { useState, useEffect } from "react";
-// import AppHeader from "../../components/AppHeader";
-// import AnimatedMoon from "../../components/AnimatedMoon";
+
+import React, { useState, useEffect } from 'react';
 import { 
   Box, 
   Typography, 
-  TextField, 
   Button, 
   Card, 
-  CardContent,
+  CardContent, 
   Container,
+  Grid,
+  Chip,
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Divider,
+  IconButton,
+  Badge,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Paper,
   Switch,
   FormControlLabel,
   Alert,
   CircularProgress
-} from "@mui/material";
+} from '@mui/material';
+import { 
+  Settings, 
+  User, 
+  Bell, 
+  Shield, 
+  Palette,
+  Download,
+  Save,
+  CheckCircle,
+  Sparkles,
+  Moon,
+  Sun,
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Heart,
+  Star,
+  Activity,
+  TrendingUp,
+  ArrowRight,
+  LogOut,
+  HelpCircle,
+  Info,
+  MoreVertical,
+  Globe,
+  Trash2
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useHydrationSafe } from '../../hooks/useHydrationSafe';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types';
+import { useRouter } from 'next/navigation';
 
 // Extended UserSubscription to include 'free' package
 interface UserSubscription extends Omit<BaseUserSubscription, 'packageId'> {
   packageId: 'free' | 'basic' | 'premium' | 'vip';
 }
-import { useRouter } from 'next/navigation';
-import { 
-  User, 
-  Lock, 
-  Mail, 
-  Eye, 
-  EyeOff, 
-  Download, 
-  Trash2, 
-  Palette,
-  Shield,
-  Save,
-  CheckCircle,
-  BarChart3,
-  BookOpen,
-  Eye as EyeIcon,
-  Edit,
-  Plus,
-  DollarSign,
-  Sparkles
-} from 'lucide-react';
-import SubscriptionManagement from '../../components/SubscriptionManagement';
 
-// SSR-sichere animierte Sterne Komponente - Optimiert
-const SSRSafeAnimatedStars = () => {
-  // Entferne isClient State für bessere Performance
-  // Sterne werden direkt gerendert
-
-  const starPositions = [
-    { left: '5%', top: '15%' },
-    { left: '15%', top: '25%' },
-    { left: '25%', top: '10%' },
-    { left: '35%', top: '35%' },
-    { left: '45%', top: '20%' },
-    { left: '55%', top: '45%' },
-    { left: '65%', top: '15%' },
-    { left: '75%', top: '30%' },
-    { left: '85%', top: '25%' },
-    { left: '95%', top: '40%' },
-    { left: '10%', top: '55%' },
-    { left: '20%', top: '70%' },
-    { left: '30%', top: '60%' },
-    { left: '40%', top: '75%' },
-    { left: '50%', top: '50%' },
-    { left: '60%', top: '65%' },
-    { left: '70%', top: '55%' },
-    { left: '80%', top: '70%' },
-    { left: '90%', top: '60%' },
-    { left: '5%', top: '85%' },
-    { left: '25%', top: '80%' },
-    { left: '45%', top: '90%' },
-    { left: '65%', top: '85%' },
-    { left: '85%', top: '80%' },
-    { left: '95%', top: '90%' }
-  ];
+// Floating Stars Animation
+const AnimatedStars = () => {
+  const stars = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    size: Math.random() * 3 + 1,
+    delay: Math.random() * 2
+  }));
 
   return (
-    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-      {starPositions.map((position, i) => {
-        const size = 3 + (i % 3); // Feste Größen: 3, 4, 5px
-        const color = i % 3 === 0 ? '#FFD700' : i % 3 === 1 ? '#A855F7' : '#8B5CF6';
-        const delay = (i * 0.2) % 4; // Berechenbare Delays
-        const duration = 3 + (i % 3); // 3, 4, 5 Sekunden
-        
-        return (
-          <motion.div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: `${size}px`,
-              height: `${size}px`,
-              background: color,
-              borderRadius: '50%',
-              boxShadow: i % 3 === 0 
-                ? '0 0 8px #FFD700, 0 0 16px #FFD700, 0 0 24px #FFD700'
-                : i % 3 === 1
-                ? '0 0 8px #A855F7, 0 0 16px #A855F7, 0 0 24px #A855F7'
-                : '0 0 8px #8B5CF6, 0 0 16px #8B5CF6, 0 0 24px #8B5CF6',
-              left: position.left,
-              top: position.top,
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.6, 1.4, 0.6],
-            }}
-            transition={{
-              duration: duration,
-              repeat: Infinity,
-              delay: delay,
-            }}
-          />
-        );
-      })}
+    <Box sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: 'none',
+      zIndex: 1
+    }}>
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          style={{
+            position: 'absolute',
+            left: star.left,
+            top: star.top,
+            width: star.size,
+            height: star.size,
+            background: 'rgba(255, 255, 255, 0.6)',
+            borderRadius: '50%',
+            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
+          }}
+          animate={{
+            opacity: [0.3, 1, 0.3],
+            scale: [0.8, 1.2, 0.8]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            delay: star.delay
+          }}
+        />
+      ))}
     </Box>
   );
 };
 
-const initialSettings = {
-  name: "",
-  email: "",
-  phone: "",
-  location: "",
-  postalCode: "",
-  bio: "",
-  website: "",
-};
-
-// UserSubscription interface imported from types
-
 export default function SettingsPage() {
   const router = useRouter();
-  const [exportSuccess, setExportSuccess] = useState(false);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [settingsAnchorEl, setSettingsAnchorEl] = useState<null | HTMLElement>(null);
+  const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
-  const { isClient, localStorage: safeLocalStorage } = useHydrationSafe();
+  const { isClient: hydrationSafe, localStorage: safeLocalStorage } = useHydrationSafe();
+
+  // Settings states
+  const [settings, setSettings] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    birthDate: "",
+    notifications: true,
+    emailNotifications: true,
+    pushNotifications: true,
+    darkMode: true,
+    language: 'de',
+    privacy: 'public'
+  });
+
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Load user subscription data
   useEffect(() => {
-    if (isClient) {
-      const loadSubscription = () => {
-        try {
-          const userData = JSON.parse(safeLocalStorage.getItem('userData') || '{}');
-          const userSubscriptionData = JSON.parse(safeLocalStorage.getItem('userSubscription') || '{}');
-          
-          let currentPlan = userData.subscriptionPlan || userSubscriptionData.packageId || 'free';
-          if (currentPlan === 'free') {
-            currentPlan = 'basic'; // Auto-Upgrade für bestehende 'free' User
-          }
-          
-          setUserSubscription({
-            userId: userData.id || 'unknown',
-            packageId: currentPlan,
-            plan: currentPlan,
-            status: userSubscriptionData.status || 'active',
-            startDate: userSubscriptionData.startDate || new Date().toISOString(),
-            endDate: userSubscriptionData.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-            autoRenew: userSubscriptionData.autoRenew || false,
-            paymentMethod: userSubscriptionData.paymentMethod || 'none',
-            billingCycle: userSubscriptionData.billingCycle || 'monthly'
-          });
-        } catch (error) {
-          console.error('Error loading user subscription:', error);
-          setUserSubscription({
-            userId: 'unknown',
-            packageId: 'free',
-            plan: 'free',
-            status: 'active',
-            startDate: new Date().toISOString(),
-            endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-            autoRenew: false,
-            paymentMethod: 'none',
-            billingCycle: 'monthly'
-          });
-        }
-      };
+    if (!hydrationSafe) return;
+    
+    try {
+      const userData = JSON.parse(safeLocalStorage.getItem('userData') || '{}');
+      const userSubscriptionData = JSON.parse(safeLocalStorage.getItem('userSubscription') || '{}');
       
-      loadSubscription();
+      let currentPlan = userData.subscriptionPlan || userSubscriptionData.packageId || 'free';
+      if (currentPlan === 'free') {
+        currentPlan = 'basic'; // Auto-Upgrade für bestehende 'free' User
+      }
+      
+      setUserSubscription({
+        userId: userData.id || 'unknown',
+        packageId: currentPlan,
+        plan: currentPlan,
+        status: userSubscriptionData.status || 'active',
+        startDate: userSubscriptionData.startDate || new Date().toISOString(),
+        endDate: userSubscriptionData.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        autoRenew: userSubscriptionData.autoRenew || false,
+        paymentMethod: userSubscriptionData.paymentMethod || 'none',
+        billingCycle: userSubscriptionData.billingCycle || 'monthly'
+      });
+
+      // Load user settings
+      setSettings({
+        name: userData.firstName || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+        location: userData.location || '',
+        birthDate: userData.birthDate || '',
+        notifications: userData.notifications !== false,
+        emailNotifications: userData.emailNotifications !== false,
+        pushNotifications: userData.pushNotifications !== false,
+        darkMode: userData.darkMode !== false,
+        language: userData.language || 'de',
+        privacy: userData.privacy || 'public'
+      });
+    } catch (error) {
+      console.error('Error loading user data:', error);
+      setUserSubscription({
+        userId: 'unknown',
+        packageId: 'free',
+        plan: 'free',
+        status: 'active',
+        startDate: new Date().toISOString(),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        autoRenew: false,
+        paymentMethod: 'none',
+        billingCycle: 'monthly'
+      });
     }
-  }, [isClient, safeLocalStorage]); // Alle verwendeten Dependencies
+  }, [hydrationSafe]);
+
+  // Settings menu handlers
+  const handleSettingsClick = (event: React.MouseEvent<HTMLElement>) => {
+    setSettingsAnchorEl(event.currentTarget);
+  };
+
+  const handleSettingsClose = () => {
+    setSettingsAnchorEl(null);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSettings({ ...settings, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = () => {
+    if (loading) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    setTimeout(() => {
+      setSuccess(true);
+      setLoading(false);
+      setTimeout(() => setSuccess(false), 3000);
+    }, 1000);
+  };
+
+  const handleThemeChange = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
 
   const handleExportData = async () => {
+    if (loading) return;
+    
     setLoading(true);
+    setError(null);
+    
     const userId = safeLocalStorage.getItem("userId");
     if (!userId) {
       setError("Keine User-ID gefunden.");
       setLoading(false);
       return;
     }
+    
     try {
       const resp = await fetch(`/api/user/${userId}`);
       if (resp.ok) {
@@ -207,207 +264,25 @@ export default function SettingsPage() {
           a.click();
           a.remove();
         }
-        setExportSuccess(true);
-        setTimeout(() => setExportSuccess(false), 3000);
+        setSuccess(true);
+        setTimeout(() => setSuccess(false), 3000);
       } else {
         setError("Fehler beim Export.");
       }
     } catch {
       setError("Fehler beim Export.");
-    }
-    setLoading(false);
-  };
-
-  const [privacy, setPrivacy] = useState({ 
-    profileVisible: true, 
-    dataSharing: false,
-    emailNotifications: true,
-    pushNotifications: true,
-    allowMessages: true
-  });
-  
-  const [pwChange, setPwChange] = useState({ old: '', neu: '', confirm: '' });
-  const [emailChange, setEmailChange] = useState({ neu: '', confirm: '' });
-  const [pwSuccess, setPwSuccess] = useState(false);
-  const [emailSuccess, setEmailSuccess] = useState(false);
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const handlePrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrivacy({ ...privacy, [e.target.name]: e.target.checked });
-  };
-  
-  const handlePwChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPwChange({ ...pwChange, [e.target.name]: e.target.value });
-  };
-  
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailChange({ ...emailChange, [e.target.name]: e.target.value });
-  };
-
-  const savePwChange = async () => {
-    if (pwChange.neu !== pwChange.confirm) {
-      setError("Neue Passwörter stimmen nicht überein.");
-      return;
-    }
-    
-    setLoading(true);
-    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : "";
-    if (!userId) {
-      setError("Keine User-ID gefunden.");
+    } finally {
       setLoading(false);
-      return;
     }
-    try {
-      const resp = await fetch(`/api/user/changepassword`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, oldPassword: pwChange.old, newPassword: pwChange.neu })
-      });
-      if (resp.ok) {
-        setPwSuccess(true);
-        setError(null);
-        setPwChange({ old: '', neu: '', confirm: '' });
-        setTimeout(() => setPwSuccess(false), 3000);
-      } else {
-        const data = await resp.json();
-        setError(data.error || "Fehler beim Ändern des Passworts.");
-      }
-    } catch {
-      setError("Fehler beim Ändern des Passworts.");
-    }
-    setLoading(false);
   };
 
-  const saveEmailChange = async () => {
-    if (emailChange.neu !== emailChange.confirm) {
-      setError("E-Mail-Adressen stimmen nicht überein.");
-      return;
-    }
-    
-    setLoading(true);
-    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : "";
-    if (!userId) {
-      setError("Keine User-ID gefunden.");
-      setLoading(false);
-      return;
-    }
-    try {
-      const resp = await fetch(`/api/user/changeemail`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, newEmail: emailChange.neu })
-      });
-      if (resp.ok) {
-        setEmailSuccess(true);
-        setError(null);
-        setEmailChange({ neu: '', confirm: '' });
-        setTimeout(() => setEmailSuccess(false), 3000);
-      } else {
-        const data = await resp.json();
-        setError(data.error || "Fehler beim Ändern der E-Mail.");
-      }
-    } catch {
-      setError("Fehler beim Ändern der E-Mail.");
-    }
-    setLoading(false);
-  };
-
-  const [settings, setSettings] = useState(initialSettings);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSettings({ ...settings, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    setLoading(true);
-    // Hier könnte ein API-Call stehen
-    setTimeout(() => {
-      setSuccess(true);
-      setError(null);
-      setLoading(false);
-      setTimeout(() => setSuccess(false), 3000);
-    }, 1000);
-  };
-
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [deleteSuccess, setDeleteSuccess] = useState(false);
-  const [cancelSubscriptionSuccess, setCancelSubscriptionSuccess] = useState(false);
-
-  const handleThemeChange = () => {
-    setTheme(t => t === 'light' ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme === 'light' ? 'dark' : 'light');
-  };
-
-  const handleDeleteAccount = async () => {
-    if (!window.confirm("Möchtest du deinen Account wirklich unwiderruflich löschen? Diese Aktion kann nicht rückgängig gemacht werden.")) {
-      return;
-    }
-    
-    setLoading(true);
-    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : "";
-    if (!userId) {
-      setError("Keine User-ID gefunden.");
-      setLoading(false);
-      return;
-    }
-    try {
-      const resp = await fetch(`/api/user/delete`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId })
-      });
-      if (resp.ok) {
-        setDeleteSuccess(true);
-        setError(null);
-        setTimeout(() => {
-          localStorage.clear();
-          window.location.href = '/';
-        }, 2000);
-      } else {
-        const data = await resp.json();
-        setError(data.error || "Fehler beim Löschen.");
-      }
-    } catch {
-      setError("Fehler beim Löschen.");
-    }
-    setLoading(false);
-  };
-
-  const handleCancelSubscription = async () => {
-    if (!window.confirm("Möchtest du dein Abonnement wirklich kündigen? Du verlierst den Zugang zu Premium-Features am Ende der aktuellen Abrechnungsperiode.")) {
-      return;
-    }
-    
-    setLoading(true);
-    const userId = typeof window !== "undefined" ? localStorage.getItem("userId") : "";
-    if (!userId) {
-      setError("Keine User-ID gefunden.");
-      setLoading(false);
-      return;
-    }
-    try {
-      const resp = await fetch(`/api/user/cancel-subscription`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId })
-      });
-      if (resp.ok) {
-        setCancelSubscriptionSuccess(true);
-        setError(null);
-        setTimeout(() => setCancelSubscriptionSuccess(false), 5000);
-      } else {
-        const data = await resp.json();
-        setError(data.error || "Fehler beim Kündigen des Abonnements.");
-      }
-    } catch {
-      setError("Fehler beim Kündigen des Abonnements.");
-    }
-    setLoading(false);
-  };
+  const settingsTabs = [
+    { id: 'profile', label: 'Profil', icon: <User size={20} /> },
+    { id: 'notifications', label: 'Benachrichtigungen', icon: <Bell size={20} /> },
+    { id: 'privacy', label: 'Datenschutz', icon: <Shield size={20} /> },
+    { id: 'appearance', label: 'Erscheinungsbild', icon: <Palette size={20} /> },
+    { id: 'account', label: 'Konto', icon: <Settings size={20} /> }
+  ];
 
   return (
     <AccessControl 
@@ -415,1274 +290,681 @@ export default function SettingsPage() {
       userSubscription={userSubscription ? {
         ...userSubscription,
         packageId: userSubscription.packageId === 'free' ? 'basic' : userSubscription.packageId
-      } as BaseUserSubscription : null}
-      onUpgrade={() => router.push('/pricing')}
+      } : undefined}
     >
       <Box sx={{ 
-        minHeight: '100vh', 
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <SSRSafeAnimatedStars />
+        {isClient && <AnimatedStars />}
         
-        <Container maxWidth="md" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
           <motion.div
-            
-            
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            {/* Hero Section */}
-            <motion.div
-              
-              
-              
-            >
-              <Box sx={{ textAlign: 'center', mb: 6 }}>
-                <Typography 
-                  variant="h2" 
-                  sx={{ 
-                    color: '#FFD700', 
-                    fontWeight: 800, 
-                    mb: 3,
-                    fontSize: { xs: '2.5rem', md: '3.5rem' },
-                    textShadow: '0 0 20px rgba(255, 215, 0, 0.5)',
-                    background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }}
-                >
-                  <Sparkles size={48} style={{ marginRight: 16, display: 'inline-block' }} />
-                  Einstellungen
-                  <Sparkles size={48} style={{ marginLeft: 16, display: 'inline-block' }} />
-                </Typography>
-                
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: 'rgba(255,255,255,0.9)', 
-                    mb: 4,
-                    fontWeight: 400,
-                    maxWidth: 800,
-                    mx: 'auto',
-                    lineHeight: 1.4
-                  }}
-                >
-                  Verwalte deine persönlichen Einstellungen und Human Design Präferenzen
-                </Typography>
-              </Box>
-            </motion.div>
+            <Box sx={{ 
+              textAlign: 'center', 
+              mb: 6,
+              py: { xs: 4, md: 6 }
+            }}>
+              <Typography
+                variant="h2"
+                sx={{
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  mb: 2,
+                  textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+                }}
+              >
+                ⚙️ Einstellungen
+              </Typography>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  mb: 3,
+                  fontSize: { xs: '1.1rem', md: '1.3rem' },
+                  maxWidth: '600px',
+                  mx: 'auto',
+                  lineHeight: 1.6
+                }}
+              >
+                Personalisiere deine Erfahrung und verwalte deine Präferenzen
+              </Typography>
+            </Box>
+          </motion.div>
 
-            {/* Persönliche Daten */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', 
-                      color: '#23233a'
-                    }}>
-                      <User size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#FFD700', fontWeight: 700 }}>
-                      Persönliche Daten
-                    </Typography>
-                  </Box>
+          {/* Navigation Tabs */}
+          <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+            {settingsTabs.map((tab) => (
+              <Button
+                key={tab.id}
+                variant={activeTab === tab.id ? 'contained' : 'outlined'}
+                onClick={() => setActiveTab(tab.id)}
+                startIcon={tab.icon}
+                sx={{
+                  background: activeTab === tab.id ? 'linear-gradient(45deg, #FFD700, #fbbf24)' : 'transparent',
+                  color: activeTab === tab.id ? '#23233a' : '#FFD700',
+                  border: '1px solid #FFD700',
+                  '&:hover': {
+                    background: activeTab === tab.id ? 'linear-gradient(45deg, #fbbf24, #FFD700)' : 'rgba(255, 215, 0, 0.1)'
+                  }
+                }}
+              >
+                {tab.label}
+              </Button>
+            ))}
+          </Box>
 
-                  <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 3 }}>
-                    <TextField 
-                      name="name" 
-                      label="Vollständiger Name" 
-                      value={settings.name} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="email" 
-                      label="E-Mail" 
-                      type="email"
-                      value={settings.email} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="phone" 
-                      label="Telefon" 
-                      value={settings.phone} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="location" 
-                      label="Ort" 
-                      value={settings.location} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="postalCode" 
-                      label="Postleitzahl" 
-                      value={settings.postalCode} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="website" 
-                      label="Website" 
-                      value={settings.website} 
-                      onChange={handleChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(255, 215, 0, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#FFD700',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                  </Box>
-
-                  <TextField 
-                    name="bio" 
-                    label="Über mich" 
-                    value={settings.bio} 
-                    onChange={handleChange} 
-                    fullWidth 
-                    multiline 
-                    minRows={3}
-                    sx={{ 
-                      mt: 3,
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: 3,
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        '& fieldset': {
-                          borderColor: 'rgba(255, 215, 0, 0.3)',
-                        },
-                        '&:hover fieldset': {
-                          borderColor: 'rgba(255, 215, 0, 0.5)',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#FFD700',
-                        },
-                      },
-                      '& .MuiInputBase-input': {
-                        color: '#23233a',
-                      },
-                      '& .MuiInputLabel-root': {
-                        color: '#666',
-                      }
-                    }} 
-                  />
-
-                  <Button 
-                    variant="contained" 
-                    onClick={handleSave}
-                    disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Save size={20} />}
-                    sx={{ 
-                      mt: 3, 
-                      borderRadius: 3, 
-                      background: 'linear-gradient(45deg, #FFD700, #fbbf24)', 
-                      color: '#23233a', 
-                      fontWeight: 700, 
-                      fontSize: 16, 
-                      py: 1.5,
-                      px: 4,
-                      boxShadow: '0 8px 25px rgba(255, 215, 0, 0.3)',
-                      '&:hover': {
-                        background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
-                        boxShadow: '0 12px 35px rgba(255, 215, 0, 0.4)',
-                      },
-                      '&:disabled': { 
-                        opacity: 0.7,
-                        background: 'linear-gradient(45deg, #FFD700, #fbbf24)'
-                      } 
-                    }}
-                  >
-                    {loading ? 'Speichere...' : 'Speichern'}
-                  </Button>
-
-                  {success && (
-                    <Alert severity="success" sx={{ mt: 2, borderRadius: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <CheckCircle size={20} />
-                        Einstellungen erfolgreich gespeichert!
-                      </Box>
-                    </Alert>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Privatsphäre & Benachrichtigungen */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #A855F7, #8B5CF6)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(168, 85, 247, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <Shield size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#A855F7', fontWeight: 700 }}>
-                      Privatsphäre & Benachrichtigungen
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <FormControlLabel
-                      control={
-                        <Switch 
-                          checked={privacy.profileVisible} 
-                          onChange={handlePrivacyChange}
-                          name="profileVisible"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#FFD700',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#FFD700',
-                            },
-                          }}
-                        />
-                      }
-                      label="Profil öffentlich sichtbar"
-                      sx={{ color: '#ffffff', fontWeight: 500 }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Switch 
-                          checked={privacy.dataSharing} 
-                          onChange={handlePrivacyChange}
-                          name="dataSharing"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#FFD700',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#FFD700',
-                            },
-                          }}
-                        />
-                      }
-                      label="Daten für Forschung freigeben"
-                      sx={{ color: '#ffffff', fontWeight: 500 }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Switch 
-                          checked={privacy.emailNotifications} 
-                          onChange={handlePrivacyChange}
-                          name="emailNotifications"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#FFD700',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#FFD700',
-                            },
-                          }}
-                        />
-                      }
-                      label="E-Mail-Benachrichtigungen"
-                      sx={{ color: '#ffffff', fontWeight: 500 }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Switch 
-                          checked={privacy.pushNotifications} 
-                          onChange={handlePrivacyChange}
-                          name="pushNotifications"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#FFD700',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#FFD700',
-                            },
-                          }}
-                        />
-                      }
-                      label="Push-Benachrichtigungen"
-                      sx={{ color: '#ffffff', fontWeight: 500 }}
-                    />
-                    <FormControlLabel
-                      control={
-                        <Switch 
-                          checked={privacy.allowMessages} 
-                          onChange={handlePrivacyChange}
-                          name="allowMessages"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#FFD700',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#FFD700',
-                            },
-                          }}
-                        />
-                      }
-                      label="Nachrichten von anderen Nutzern erlauben"
-                      sx={{ color: '#ffffff', fontWeight: 500 }}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Passwort ändern */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #10B981, #059669)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <Lock size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#10B981', fontWeight: 700 }}>
-                      Passwort ändern
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <TextField 
-                      name="old" 
-                      label="Aktuelles Passwort" 
-                      type={showOldPassword ? "text" : "password"}
-                      value={pwChange.old} 
-                      onChange={handlePwChange} 
-                      fullWidth 
-                      InputProps={{
-                        endAdornment: (
-                          <Button
-                            onClick={() => setShowOldPassword(!showOldPassword)}
-                            sx={{ minWidth: 'auto', p: 1 }}
-                          >
-                            {showOldPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                          </Button>
-                        ),
-                      }}
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#10B981',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="neu" 
-                      label="Neues Passwort" 
-                      type={showNewPassword ? "text" : "password"}
-                      value={pwChange.neu} 
-                      onChange={handlePwChange} 
-                      fullWidth 
-                      InputProps={{
-                        endAdornment: (
-                          <Button
-                            onClick={() => setShowNewPassword(!showNewPassword)}
-                            sx={{ minWidth: 'auto', p: 1 }}
-                          >
-                            {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                          </Button>
-                        ),
-                      }}
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#10B981',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="confirm" 
-                      label="Neues Passwort bestätigen" 
-                      type={showConfirmPassword ? "text" : "password"}
-                      value={pwChange.confirm} 
-                      onChange={handlePwChange} 
-                      fullWidth 
-                      InputProps={{
-                        endAdornment: (
-                          <Button
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            sx={{ minWidth: 'auto', p: 1 }}
-                          >
-                            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                          </Button>
-                        ),
-                      }}
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(16, 185, 129, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#10B981',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    
-                    <Button 
-                      variant="contained" 
-                      onClick={savePwChange}
-                      disabled={loading || !pwChange.old || !pwChange.neu || !pwChange.confirm}
-                      startIcon={loading ? <CircularProgress size={20} /> : <Lock size={20} />}
-                      sx={{ 
-                        borderRadius: 3, 
-                        background: 'linear-gradient(45deg, #10B981, #059669)', 
-                        color: '#fff', 
-                        fontWeight: 700, 
-                        fontSize: 16, 
-                        py: 1.5,
-                        px: 4,
-                        boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)',
-                        '&:hover': {
-                          background: 'linear-gradient(45deg, #059669, #047857)',
-                          boxShadow: '0 12px 35px rgba(16, 185, 129, 0.4)',
-                        },
-                        '&:disabled': { 
-                          opacity: 0.7,
-                          background: 'linear-gradient(45deg, #10B981, #059669)'
-                        } 
-                      }}
-                    >
-                      {loading ? 'Ändere...' : 'Passwort ändern'}
-                    </Button>
-
-                    {pwSuccess && (
-                      <Alert severity="success" sx={{ borderRadius: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <CheckCircle size={20} />
-                          Passwort erfolgreich geändert!
-                        </Box>
-                      </Alert>
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* E-Mail ändern */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <Mail size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#8B5CF6', fontWeight: 700 }}>
-                      E-Mail ändern
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <TextField 
-                      name="neu" 
-                      label="Neue E-Mail" 
-                      type="email"
-                      value={emailChange.neu} 
-                      onChange={handleEmailChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(139, 92, 246, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(139, 92, 246, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#8B5CF6',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    <TextField 
-                      name="confirm" 
-                      label="Neue E-Mail bestätigen" 
-                      type="email"
-                      value={emailChange.confirm} 
-                      onChange={handleEmailChange} 
-                      fullWidth 
-                      sx={{ 
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 3,
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          '& fieldset': {
-                            borderColor: 'rgba(139, 92, 246, 0.3)',
-                          },
-                          '&:hover fieldset': {
-                            borderColor: 'rgba(139, 92, 246, 0.5)',
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#8B5CF6',
-                          },
-                        },
-                        '& .MuiInputBase-input': {
-                          color: '#23233a',
-                        },
-                        '& .MuiInputLabel-root': {
-                          color: '#666',
-                        }
-                      }} 
-                    />
-                    
-                    <Button 
-                      variant="contained" 
-                      onClick={saveEmailChange}
-                      disabled={loading || !emailChange.neu || !emailChange.confirm}
-                      startIcon={loading ? <CircularProgress size={20} /> : <Mail size={20} />}
-                      sx={{ 
-                        borderRadius: 3, 
-                        background: 'linear-gradient(45deg, #8B5CF6, #7C3AED)', 
-                        color: '#fff', 
-                        fontWeight: 700, 
-                        fontSize: 16, 
-                        py: 1.5,
-                        px: 4,
-                        boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)',
-                        '&:hover': {
-                          background: 'linear-gradient(45deg, #7C3AED, #6D28D9)',
-                          boxShadow: '0 12px 35px rgba(139, 92, 246, 0.4)',
-                        },
-                        '&:disabled': { 
-                          opacity: 0.7,
-                          background: 'linear-gradient(45deg, #8B5CF6, #7C3AED)'
-                        } 
-                      }}
-                    >
-                      {loading ? 'Ändere...' : 'E-Mail ändern'}
-                    </Button>
-
-                    {emailSuccess && (
-                      <Alert severity="success" sx={{ borderRadius: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <CheckCircle size={20} />
-                          E-Mail erfolgreich geändert!
-                        </Box>
-                      </Alert>
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Profil bearbeiten */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)', 
-                      color: '#23233a'
-                    }}>
-                      <User size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#FFD700', fontWeight: 700 }}>
-                      Profil bearbeiten
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
-                    Bearbeite deine persönlichen Informationen und Human Design Details.
-                  </Typography>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/profil-einrichten"
-                      startIcon={<User size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(255, 215, 0, 0.3)',
-                        color: '#FFD700',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#FFD700',
-                          backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                        }
-                      }}
-                    >
-                      Profil vollständig bearbeiten
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/profil"
-                      startIcon={<User size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(255, 215, 0, 0.3)',
-                        color: '#FFD700',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#FFD700',
-                          backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                        }
-                      }}
-                    >
-                      Profil anzeigen
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Human Design Chart verwalten */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #10B981, #059669)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <BarChart3 size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#10B981', fontWeight: 700 }}>
-                      Human Design Chart verwalten
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
-                    Erstelle neue Charts, bearbeite bestehende und verwalte deine Human Design Berechnungen.
-                  </Typography>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/chart"
-                      startIcon={<Plus size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(16, 185, 129, 0.3)',
-                        color: '#10B981',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#10B981',
-                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        }
-                      }}
-                    >
-                      Neues Chart erstellen
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/dashboard"
-                      startIcon={<EyeIcon size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(16, 185, 129, 0.3)',
-                        color: '#10B981',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#10B981',
-                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        }
-                      }}
-                    >
-                      Meine Charts anzeigen
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/chart"
-                      startIcon={<Edit size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(16, 185, 129, 0.3)',
-                        color: '#10B981',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#10B981',
-                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        }
-                      }}
-                    >
-                      Chart bearbeiten
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Reading verwalten */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #F59E0B, #D97706)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <BookOpen size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#F59E0B', fontWeight: 700 }}>
-                      Reading verwalten
-                    </Typography>
-                  </Box>
-
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
-                    Erstelle neue Readings, bearbeite bestehende und verwalte deine Human Design Interpretationen.
-                  </Typography>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/reading"
-                      startIcon={<Plus size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(245, 158, 11, 0.3)',
-                        color: '#F59E0B',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#F59E0B',
-                          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        }
-                      }}
-                    >
-                      Neues Reading erstellen
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/dashboard"
-                      startIcon={<EyeIcon size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(245, 158, 11, 0.3)',
-                        color: '#F59E0B',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#F59E0B',
-                          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        }
-                      }}
-                    >
-                      Meine Readings anzeigen
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      component={Link}
-                      href="/reading"
-                      startIcon={<Edit size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(245, 158, 11, 0.3)',
-                        color: '#F59E0B',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#F59E0B',
-                          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        }
-                      }}
-                    >
-                      Reading bearbeiten
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Theme & Datenexport */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                mb: 4,
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #F59E0B, #D97706)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(245, 158, 11, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <Palette size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#F59E0B', fontWeight: 700 }}>
-                      Darstellung & Daten
-                    </Typography>
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    <Button 
-                      variant="outlined" 
-                      onClick={handleThemeChange}
-                      startIcon={<Palette size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(245, 158, 11, 0.3)',
-                        color: '#F59E0B',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#F59E0B',
-                          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        }
-                      }}
-                    >
-                      {theme === 'light' ? 'Dunkles Theme aktivieren' : 'Helles Theme aktivieren'}
-                    </Button>
-
-                    <Button 
-                      variant="outlined" 
-                      onClick={handleExportData}
-                      disabled={loading}
-                      startIcon={loading ? <CircularProgress size={20} /> : <Download size={20} />}
-                      sx={{ 
-                        borderRadius: 3,
-                        borderColor: 'rgba(245, 158, 11, 0.3)',
-                        color: '#F59E0B',
-                        fontWeight: 600,
-                        py: 1.5,
-                        '&:hover': {
-                          borderColor: '#F59E0B',
-                          backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        }
-                      }}
-                    >
-                      {loading ? 'Exportiere...' : 'Meine Daten als JSON herunterladen'}
-                    </Button>
-
-                    {exportSuccess && (
-                      <Alert severity="success" sx={{ borderRadius: 3 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <CheckCircle size={20} />
-                          Datenexport erfolgreich!
-                        </Box>
-                      </Alert>
-                    )}
-                  </Box>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Stripe Subscription Management */}
+          {/* Content based on active tab */}
+          {activeTab === 'profile' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.6 }}
             >
-              <SubscriptionManagement />
-            </motion.div>
-
-            {/* Account löschen */}
-            <motion.div
-              
-              
-              
-            >
-              <Card sx={{ 
-                background: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3, 
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255, 255, 255, 0.2)'
-              }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                    <Box sx={{ 
-                      width: 48, 
-                      height: 48, 
-                      borderRadius: '12px', 
-                      background: 'linear-gradient(135deg, #EF4444, #DC2626)', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)', 
-                      color: '#fff'
-                    }}>
-                      <Trash2 size={24} />
-                    </Box>
-                    <Typography variant="h5" sx={{ color: '#EF4444', fontWeight: 700 }}>
-                      Account löschen
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Card sx={{
+                    background: 'rgba(255,255,255,0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 3,
+                    p: 4
+                  }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                      <User size={24} style={{ marginRight: 12 }} />
+                      Persönliche Daten
                     </Typography>
-                  </Box>
+                    
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        Vorname
+                      </Typography>
+                      <Box
+                        component="input"
+                        type="text"
+                        value={settings.name}
+                        onChange={handleInputChange}
+                        name="name"
+                        placeholder="Dein Vorname"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          },
+                          '::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.5)'
+                          }
+                        }}
+                      />
+                    </Box>
 
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
-                    Diese Aktion kann nicht rückgängig gemacht werden. Alle deine Daten werden unwiderruflich gelöscht.
-                  </Typography>
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        E-Mail
+                      </Typography>
+                      <Box
+                        component="input"
+                        type="email"
+                        value={settings.email}
+                        onChange={handleInputChange}
+                        name="email"
+                        placeholder="deine@email.com"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          },
+                          '::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.5)'
+                          }
+                        }}
+                      />
+                    </Box>
 
-                  <Button 
-                    variant="contained" 
-                    color="error"
-                    onClick={handleDeleteAccount}
-                    disabled={loading}
-                    startIcon={loading ? <CircularProgress size={20} /> : <Trash2 size={20} />}
-                    sx={{ 
-                      borderRadius: 3, 
-                      background: 'linear-gradient(45deg, #EF4444, #DC2626)', 
-                      color: '#fff', 
-                      fontWeight: 700, 
-                      fontSize: 16, 
-                      py: 1.5,
-                      px: 4,
-                      boxShadow: '0 8px 25px rgba(239, 68, 68, 0.3)',
-                      '&:hover': {
-                        background: 'linear-gradient(45deg, #DC2626, #B91C1C)',
-                        boxShadow: '0 12px 35px rgba(239, 68, 68, 0.4)',
-                      },
-                      '&:disabled': { 
-                        opacity: 0.7,
-                        background: 'linear-gradient(45deg, #EF4444, #DC2626)'
-                      } 
-                    }}
-                  >
-                    {loading ? 'Lösche...' : 'Account unwiderruflich löschen'}
-                  </Button>
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        Telefon
+                      </Typography>
+                      <Box
+                        component="input"
+                        type="tel"
+                        value={settings.phone}
+                        onChange={handleInputChange}
+                        name="phone"
+                        placeholder="+49 123 456789"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          },
+                          '::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.5)'
+                          }
+                        }}
+                      />
+                    </Box>
 
-                  {deleteSuccess && (
-                    <Alert severity="warning" sx={{ mt: 2, borderRadius: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <CheckCircle size={20} />
-                        Account wird gelöscht...
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        Standort
+                      </Typography>
+                      <Box
+                        component="input"
+                        type="text"
+                        value={settings.location}
+                        onChange={handleInputChange}
+                        name="location"
+                        placeholder="Berlin, Deutschland"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          },
+                          '::placeholder': {
+                            color: 'rgba(255, 255, 255, 0.5)'
+                          }
+                        }}
+                      />
+                    </Box>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card sx={{
+                    background: 'rgba(255,255,255,0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 3,
+                    p: 4
+                  }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                      <Calendar size={24} style={{ marginRight: 12 }} />
+                      Geburtsdaten
+                    </Typography>
+                    
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        Geburtsdatum
+                      </Typography>
+                      <Box
+                        component="input"
+                        type="date"
+                        value={settings.birthDate}
+                        onChange={handleInputChange}
+                        name="birthDate"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          }
+                        }}
+                      />
+                    </Box>
+
+                    <Box sx={{ mb: 3 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                        Human Design Typ
+                      </Typography>
+                      <Box
+                        component="select"
+                        sx={{
+                          width: '100%',
+                          p: 1.5,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.3)',
+                          borderRadius: 2,
+                          color: 'white',
+                          '&:focus': {
+                            outline: 'none',
+                            borderColor: '#f59e0b',
+                            boxShadow: '0 0 0 3px rgba(245, 158, 11, 0.3)'
+                          }
+                        }}
+                      >
+                        <option value="">Wähle deinen Typ</option>
+                        <option value="Generator">Generator</option>
+                        <option value="Projector">Projector</option>
+                        <option value="Manifestor">Manifestor</option>
+                        <option value="Reflector">Reflector</option>
                       </Box>
-                    </Alert>
-                  )}
-                </CardContent>
+                    </Box>
+
+                    <Button
+                      variant="contained"
+                      onClick={handleSave}
+                      disabled={loading}
+                      startIcon={loading ? <CircularProgress size={20} /> : <Save size={20} />}
+                      sx={{
+                        background: 'linear-gradient(45deg, #10b981, #059669)',
+                        '&:hover': { background: 'linear-gradient(45deg, #059669, #10b981)' },
+                        width: '100%',
+                        py: 1.5
+                      }}
+                    >
+                      {loading ? 'Speichern...' : 'Änderungen speichern'}
+                    </Button>
+                  </Card>
+                </Grid>
+              </Grid>
+            </motion.div>
+          )}
+
+          {activeTab === 'notifications' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card sx={{
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 3,
+                p: 4
+              }}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                  <Bell size={24} style={{ marginRight: 12 }} />
+                  Benachrichtigungseinstellungen
+                </Typography>
+
+                <List>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Bell size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Alle Benachrichtigungen" 
+                      secondary="Erhalte Updates über neue Matches und Nachrichten"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Switch
+                      checked={settings.notifications}
+                      onChange={(e) => setSettings({...settings, notifications: e.target.checked})}
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: '#FFD700',
+                          '& + .MuiSwitch-track': {
+                            backgroundColor: '#FFD700',
+                          },
+                        },
+                      }}
+                    />
+                  </ListItem>
+
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Mail size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="E-Mail Benachrichtigungen" 
+                      secondary="Erhalte wichtige Updates per E-Mail"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Switch
+                      checked={settings.emailNotifications}
+                      onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: '#FFD700',
+                          '& + .MuiSwitch-track': {
+                            backgroundColor: '#FFD700',
+                          },
+                        },
+                      }}
+                    />
+                  </ListItem>
+
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Bell size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Push-Benachrichtigungen" 
+                      secondary="Erhalte sofortige Benachrichtigungen auf deinem Gerät"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Switch
+                      checked={settings.pushNotifications}
+                      onChange={(e) => setSettings({...settings, pushNotifications: e.target.checked})}
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: '#FFD700',
+                          '& + .MuiSwitch-track': {
+                            backgroundColor: '#FFD700',
+                          },
+                        },
+                      }}
+                    />
+                  </ListItem>
+                </List>
               </Card>
             </motion.div>
+          )}
 
-            {/* Fehleranzeige */}
-            {error && (
-              <Alert severity="error" sx={{ mt: 3, borderRadius: 3 }}>
-                {error}
-              </Alert>
-            )}
-          </motion.div>
+          {activeTab === 'privacy' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card sx={{
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 3,
+                p: 4
+              }}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                  <Shield size={24} style={{ marginRight: 12 }} />
+                  Datenschutz & Sicherheit
+                </Typography>
+
+                <List>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Eye size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Profil-Sichtbarkeit" 
+                      secondary="Wer kann dein Profil sehen"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Box
+                      component="select"
+                      value={settings.privacy}
+                      onChange={(e) => setSettings({...settings, privacy: e.target.value})}
+                      sx={{
+                        p: 1,
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        borderRadius: 1,
+                        color: 'white',
+                        minWidth: 120
+                      }}
+                    >
+                      <option value="public">Öffentlich</option>
+                      <option value="friends">Nur Freunde</option>
+                      <option value="private">Privat</option>
+                    </Box>
+                  </ListItem>
+
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Lock size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Zwei-Faktor-Authentifizierung" 
+                      secondary="Erhöhe die Sicherheit deines Kontos"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        borderColor: '#FFD700',
+                        color: '#FFD700',
+                        '&:hover': { borderColor: '#fbbf24', background: 'rgba(255, 215, 0, 0.1)' }
+                      }}
+                    >
+                      Aktivieren
+                    </Button>
+                  </ListItem>
+                </List>
+              </Card>
+            </motion.div>
+          )}
+
+          {activeTab === 'appearance' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card sx={{
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 3,
+                p: 4
+              }}>
+                <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                  <Palette size={24} style={{ marginRight: 12 }} />
+                  Erscheinungsbild
+                </Typography>
+
+                <List>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      {theme === 'dark' ? <Moon size={20} color="#FFD700" /> : <Sun size={20} color="#FFD700" />}
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Dark Mode" 
+                      secondary="Schalte zwischen hellem und dunklem Modus um"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Switch
+                      checked={theme === 'dark'}
+                      onChange={handleThemeChange}
+                      sx={{
+                        '& .MuiSwitch-switchBase.Mui-checked': {
+                          color: '#FFD700',
+                          '& + .MuiSwitch-track': {
+                            backgroundColor: '#FFD700',
+                          },
+                        },
+                      }}
+                    />
+                  </ListItem>
+
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemIcon>
+                      <Globe size={20} color="#FFD700" />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Sprache" 
+                      secondary="Wähle deine bevorzugte Sprache"
+                      sx={{ 
+                        '& .MuiListItemText-primary': { color: 'white' },
+                        '& .MuiListItemText-secondary': { color: 'rgba(255,255,255,0.7)' }
+                      }}
+                    />
+                    <Box
+                      component="select"
+                      value={settings.language}
+                      onChange={(e) => setSettings({...settings, language: e.target.value})}
+                      sx={{
+                        p: 1,
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                        borderRadius: 1,
+                        color: 'white',
+                        minWidth: 120
+                      }}
+                    >
+                      <option value="de">Deutsch</option>
+                      <option value="en">English</option>
+                      <option value="fr">Français</option>
+                      <option value="es">Español</option>
+                    </Box>
+                  </ListItem>
+                </List>
+              </Card>
+            </motion.div>
+          )}
+
+          {activeTab === 'account' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Card sx={{
+                    background: 'rgba(255,255,255,0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 3,
+                    p: 4
+                  }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                      <Download size={24} style={{ marginRight: 12 }} />
+                      Daten exportieren
+                    </Typography>
+                    
+                    <Typography sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
+                      Lade alle deine Daten als JSON-Datei herunter
+                    </Typography>
+
+                    <Button
+                      variant="contained"
+                      onClick={handleExportData}
+                      disabled={loading}
+                      startIcon={loading ? <CircularProgress size={20} /> : <Download size={20} />}
+                      sx={{
+                        background: 'linear-gradient(45deg, #3b82f6, #2563eb)',
+                        '&:hover': { background: 'linear-gradient(45deg, #2563eb, #3b82f6)' },
+                        width: '100%',
+                        py: 1.5
+                      }}
+                    >
+                      {loading ? 'Exportieren...' : 'Daten exportieren'}
+                    </Button>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Card sx={{
+                    background: 'rgba(255,255,255,0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 3,
+                    p: 4
+                  }}>
+                    <Typography variant="h6" sx={{ color: 'white', mb: 3, display: 'flex', alignItems: 'center' }}>
+                      <LogOut size={24} style={{ marginRight: 12 }} />
+                      Konto verwalten
+                    </Typography>
+                    
+                    <List>
+                      <ListItem sx={{ px: 0, py: 1 }}>
+                        <Button
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            borderColor: '#ef4444',
+                            color: '#ef4444',
+                            '&:hover': { borderColor: '#dc2626', background: 'rgba(239, 68, 68, 0.1)' }
+                          }}
+                        >
+                          <LogOut size={16} style={{ marginRight: 8 }} />
+                          Abmelden
+                        </Button>
+                      </ListItem>
+                      
+                      <ListItem sx={{ px: 0, py: 1 }}>
+                        <Button
+                          variant="outlined"
+                          fullWidth
+                          sx={{
+                            borderColor: '#ef4444',
+                            color: '#ef4444',
+                            '&:hover': { borderColor: '#dc2626', background: 'rgba(239, 68, 68, 0.1)' }
+                          }}
+                        >
+                          <Trash2 size={16} style={{ marginRight: 8 }} />
+                          Konto löschen
+                        </Button>
+                      </ListItem>
+                    </List>
+                  </Card>
+                </Grid>
+              </Grid>
+            </motion.div>
+          )}
+
+          {/* Success/Error Messages */}
+          {success && (
+            <Alert severity="success" sx={{ mt: 3, background: 'rgba(16, 185, 129, 0.1)', color: 'white' }}>
+              <CheckCircle size={20} style={{ marginRight: 8 }} />
+              Änderungen erfolgreich gespeichert!
+            </Alert>
+          )}
+
+          {error && (
+            <Alert severity="error" sx={{ mt: 3, background: 'rgba(239, 68, 68, 0.1)', color: 'white' }}>
+              {error}
+            </Alert>
+          )}
         </Container>
       </Box>
     </AccessControl>

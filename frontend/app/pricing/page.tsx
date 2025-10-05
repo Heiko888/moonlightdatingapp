@@ -1,27 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Chip,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Alert,
-  Divider
-} from '@mui/material';
+import { Box, Container, Typography, Button, Grid, Paper } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Check, Star, Diamond, Crown, ArrowRight, Zap } from 'lucide-react';
+import { Check, Star, Diamond, Crown, ArrowRight, Heart, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import AnimatedStars from '../../components/AnimatedStars';
-import AnimatedMoon from '../../components/AnimatedMoon';
+import Link from 'next/link';
+
 // UserSubscription Interface
 interface UserSubscription {
   userId: string;
@@ -54,7 +39,6 @@ export default function PricingPage() {
         const subscription = JSON.parse(subscriptionData);
         setUserSubscription(subscription);
       } else if (userData) {
-        // Fallback: Erstelle Basic-Subscription für bestehende User
         const user = JSON.parse(userData);
         const basicSubscription = {
           userId: user.id,
@@ -69,12 +53,10 @@ export default function PricingPage() {
         localStorage.setItem('userSubscription', JSON.stringify(basicSubscription));
         setUserSubscription(basicSubscription);
       } else {
-        // Kein User eingeloggt - setze null
         setUserSubscription(null);
       }
     } catch (error) {
       console.error('Fehler beim Laden des Abonnements:', error);
-      // Bei Fehler: setze null
       setUserSubscription(null);
     } finally {
       setIsLoading(false);
@@ -85,13 +67,12 @@ export default function PricingPage() {
     try {
       const userData = localStorage.getItem('userData');
       if (!userData) {
-        // Keine Authentifizierung erforderlich - App ist öffentlich
+        router.push('/register');
         return;
       }
 
       const user = JSON.parse(userData);
       
-      // Erstelle neues Subscription-Objekt
       const newSubscription = {
         userId: user.id,
         packageId: packageId,
@@ -103,18 +84,12 @@ export default function PricingPage() {
         billingCycle: cycle
       };
       
-      // Speichere in localStorage
       localStorage.setItem('userSubscription', JSON.stringify(newSubscription));
-      
-      // Aktualisiere State
       setUserSubscription(newSubscription);
-      
-      // Weiterleitung zum Dashboard
       router.push('/dashboard');
       
     } catch (error) {
       console.error('Fehler beim Auswählen des Pakets:', error);
-      // Bei Fehler: zeige Alert oder redirect zu Login
       alert('Fehler beim Auswählen des Pakets. Bitte versuchen Sie es erneut.');
     }
   };
@@ -146,7 +121,6 @@ export default function PricingPage() {
       priceMonthly: 0,
       priceYearly: 0,
       color: '#6b7280',
-      icon: '⭐',
       features: [
         'Grundlegende Chart-Berechnung',
         'Mondkalender (7 Tage)',
@@ -168,7 +142,6 @@ export default function PricingPage() {
       priceMonthly: 19.99,
       priceYearly: 199.99,
       color: '#8b5cf6',
-      icon: '💎',
       features: [
         'Alle Basic-Features',
         'Erweiterte Chart-Analyse',
@@ -190,7 +163,6 @@ export default function PricingPage() {
       priceMonthly: 49.99,
       priceYearly: 499.99,
       color: '#f59e0b',
-      icon: '👑',
       features: [
         'Alle Premium-Features',
         'Exklusive VIP-Community',
@@ -229,121 +201,170 @@ export default function PricingPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
-      <AnimatedMoon size={120} position="top-right" />
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
         <motion.div
-          
-          
-          
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="h2" sx={{
-              color: 'white',
-              fontWeight: 'bold',
-              mb: 2,
-              background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <Typography variant="h1" sx={{
+              color: '#e6e6fa',
+              textShadow: '0 0 20px rgba(230, 230, 250, 0.8), 0 0 40px rgba(230, 230, 250, 0.6)',
+              fontWeight: 800,
+              mb: 3,
+              fontSize: { xs: '2.5rem', md: '4rem' }
             }}>
               Wählen Sie Ihr Paket
             </Typography>
             
             <Typography variant="h5" sx={{
-              color: 'rgba(255,255,255,0.7)',
+              color: 'rgba(255,255,255,0.8)',
               mb: 4,
               maxWidth: 600,
-              mx: 'auto'
+              mx: 'auto',
+              lineHeight: 1.6
             }}>
-              Entdecken Sie die perfekte Lösung für Ihre Human Design Reise
+              Entdecken Sie die perfekte Lösung für Ihre kosmische Reise
             </Typography>
 
             {/* Billing Cycle Toggle */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-              <FormControl component="fieldset">
-                <RadioGroup
-                  row
-                  value={billingCycle}
-                  onChange={(e) => setBillingCycle(e.target.value as 'monthly' | 'yearly')}
-                >
-                  <FormControlLabel
-                    value="monthly"
-                    control={<Radio sx={{ color: 'white' }} />}
-                    label={<Typography sx={{ color: 'white' }}>Monatlich</Typography>}
-                  />
-                  <FormControlLabel
-                    value="yearly"
-                    control={
-                      <Box>
-                        <Radio sx={{ color: 'white' }} />
-                        <Chip 
-                          label="20% sparen" 
-                          size="small" 
-                          color="success"
-                          sx={{ ml: 1 }}
-                        />
-                      </Box>
+            <Paper sx={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: 3,
+              border: '1px solid rgba(255,255,255,0.2)',
+              p: 2,
+              display: 'inline-block'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Button
+                  variant={billingCycle === 'monthly' ? 'contained' : 'outlined'}
+                  onClick={() => setBillingCycle('monthly')}
+                  sx={{
+                    background: billingCycle === 'monthly' 
+                      ? 'linear-gradient(135deg, #8b5cf6, #a855f7)' 
+                      : 'transparent',
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 2,
+                    '&:hover': {
+                      background: billingCycle === 'monthly' 
+                        ? 'linear-gradient(135deg, #a855f7, #8b5cf6)' 
+                        : 'rgba(255,255,255,0.1)',
+                      borderColor: 'rgba(255,255,255,0.5)'
                     }
-                    label={<Typography sx={{ color: 'white' }}>Jährlich</Typography>}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Box>
+                  }}
+                >
+                  Monatlich
+                </Button>
+                <Button
+                  variant={billingCycle === 'yearly' ? 'contained' : 'outlined'}
+                  onClick={() => setBillingCycle('yearly')}
+                  sx={{
+                    background: billingCycle === 'yearly' 
+                      ? 'linear-gradient(135deg, #8b5cf6, #a855f7)' 
+                      : 'transparent',
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 2,
+                    position: 'relative',
+                    '&:hover': {
+                      background: billingCycle === 'yearly' 
+                        ? 'linear-gradient(135deg, #a855f7, #8b5cf6)' 
+                        : 'rgba(255,255,255,0.1)',
+                      borderColor: 'rgba(255,255,255,0.5)'
+                    }
+                  }}
+                >
+                  Jährlich
+                  <Box sx={{
+                    ml: 1,
+                    background: 'rgba(34, 197, 94, 0.2)',
+                    color: '#22c55e',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    fontSize: '0.7rem',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 1
+                  }}>
+                    20% sparen
+                  </Box>
+                </Button>
+              </Box>
+            </Paper>
           </Box>
         </motion.div>
 
         {/* Package Cards */}
-        <Grid container spacing={4} sx={{ mb: 6 }}>
+        <Grid container spacing={4} sx={{ mb: 8 }}>
           {packages.map((pkg, index) => (
             <Grid item xs={12} md={4} key={pkg.id}>
               <motion.div
-                
-                
-                
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card sx={{
+                <Paper sx={{
                   height: '100%',
                   background: pkg.popular 
-                    ? `linear-gradient(135deg, ${pkg.color}20 0%, ${pkg.color}10 100%)`
+                    ? `linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1))`
                     : 'rgba(255, 255, 255, 0.05)',
-                  border: pkg.popular ? `2px solid ${pkg.color}` : '1px solid rgba(255, 255, 255, 0.1)',
+                  border: pkg.popular ? `2px solid #8b5cf6` : '1px solid rgba(255, 255, 255, 0.1)',
                   backdropFilter: 'blur(20px)',
+                  borderRadius: 4,
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                    border: pkg.popular ? `2px solid #a855f7` : '1px solid rgba(255, 255, 255, 0.3)'
+                  }
                 }}>
                   {pkg.popular && (
-                    <Chip
-                      label="Beliebt"
-                      color="primary"
-                      size="small"
-                      sx={{
-                        position: 'absolute',
-                        top: 16,
-                        right: 16,
-                        zIndex: 1,
-                        background: pkg.color
-                      }}
-                    />
+                    <Box sx={{
+                      position: 'absolute',
+                      top: 16,
+                      right: 16,
+                      zIndex: 1,
+                      background: 'linear-gradient(135deg, #8b5cf6, #a855f7)',
+                      color: 'white',
+                      fontWeight: 600,
+                      px: 2,
+                      py: 0.5,
+                      borderRadius: 2,
+                      fontSize: '0.8rem'
+                    }}>
+                      Beliebt
+                    </Box>
                   )}
                   
                   {getSavings(pkg) && (
-                    <Chip
-                      label="Sparen"
-                      color="success"
-                      size="small"
-                      sx={{
-                        position: 'absolute',
-                        top: 16,
-                        left: 16,
-                        zIndex: 1
-                      }}
-                    />
+                    <Box sx={{
+                      position: 'absolute',
+                      top: 16,
+                      left: 16,
+                      zIndex: 1,
+                      background: 'rgba(34, 197, 94, 0.2)',
+                      color: '#22c55e',
+                      border: '1px solid rgba(34, 197, 94, 0.3)',
+                      px: 2,
+                      py: 0.5,
+                      borderRadius: 2,
+                      fontSize: '0.8rem'
+                    }}>
+                      Sparen
+                    </Box>
                   )}
 
-                  <CardContent sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <Box sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                       <Box sx={{ 
                         color: pkg.color, 
@@ -354,12 +375,13 @@ export default function PricingPage() {
                         width: 48,
                         height: 48,
                         borderRadius: '50%',
-                        background: `${pkg.color}20`
+                        background: `${pkg.color}20`,
+                        border: `1px solid ${pkg.color}40`
                       }}>
                         {getPackageIcon(pkg.id)}
                       </Box>
                       <Box>
-                        <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
+                        <Typography variant="h4" sx={{ color: 'white', fontWeight: 700 }}>
                           {pkg.name}
                         </Typography>
                         <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -371,25 +393,26 @@ export default function PricingPage() {
                     <Box sx={{ mb: 4 }}>
                       <Typography variant="h2" sx={{ 
                         color: pkg.color, 
-                        fontWeight: 'bold',
-                        mb: 1
+                        fontWeight: 800,
+                        mb: 1,
+                        textShadow: `0 0 20px ${pkg.color}40`
                       }}>
                         {getPrice(pkg)}
                       </Typography>
                       {getSavings(pkg) && (
-                        <Typography variant="body2" sx={{ color: '#10b981' }}>
+                        <Typography variant="body2" sx={{ color: '#22c55e', fontWeight: 600 }}>
                           {getSavings(pkg)}
                         </Typography>
                       )}
                     </Box>
 
                     <Box sx={{ flexGrow: 1, mb: 4 }}>
-                      <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                      <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                         Enthaltene Features:
                       </Typography>
                       {pkg.features.map((feature, featureIndex) => (
-                        <Box key={featureIndex} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                          <Check size={16} color="#10b981" style={{ marginRight: 8 }} />
+                        <Box key={featureIndex} sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+                          <Check size={16} color="#22c55e" style={{ marginRight: 12 }} />
                           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                             {feature}
                           </Typography>
@@ -399,7 +422,7 @@ export default function PricingPage() {
 
                     {pkg.limitations.length > 0 && (
                       <Box sx={{ mb: 4 }}>
-                        <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.6)', mb: 1 }}>
+                        <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.6)', mb: 1, fontWeight: 600 }}>
                           Einschränkungen:
                         </Typography>
                         {pkg.limitations.map((limitation, limitationIndex) => (
@@ -416,106 +439,90 @@ export default function PricingPage() {
                       size="large"
                       onClick={() => handlePackageSelect(pkg.id, billingCycle)}
                       sx={{
-                        background: pkg.popular ? pkg.color : 'transparent',
+                        background: pkg.popular 
+                          ? 'linear-gradient(135deg, #8b5cf6, #a855f7)' 
+                          : 'transparent',
                         borderColor: pkg.color,
                         color: 'white',
+                        py: 2,
+                        borderRadius: 3,
+                        fontWeight: 600,
                         '&:hover': {
-                          background: pkg.color,
-                          borderColor: pkg.color
+                          background: pkg.popular 
+                            ? 'linear-gradient(135deg, #a855f7, #8b5cf6)' 
+                            : pkg.color,
+                          borderColor: pkg.color,
+                          transform: 'translateY(-2px)',
+                          boxShadow: `0 8px 25px ${pkg.color}30`
                         }
                       }}
                     >
                       {userSubscription?.packageId === pkg.id ? 'Aktuelles Paket' : 'Auswählen'}
                       {userSubscription?.packageId !== pkg.id && <ArrowRight size={20} style={{ marginLeft: 8 }} />}
                     </Button>
-                  </CardContent>
-                </Card>
+                  </Box>
+                </Paper>
               </motion.div>
             </Grid>
           ))}
         </Grid>
 
-        {/* Features Comparison */}
+        {/* CTA */}
         <motion.div
-          
-          
-          
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Card sx={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: 4
-          }}>
-            <CardContent sx={{ p: 4 }}>
-              <Typography variant="h4" sx={{ color: 'white', textAlign: 'center', mb: 4 }}>
-                Feature-Vergleich
-              </Typography>
-              
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    Basic
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    {['Chart-Berechnung', 'Mondkalender (7 Tage)', 'Community', 'Basis-Support'].map((feature, index) => (
-                      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Check size={16} color="#10b981" style={{ marginRight: 8 }} />
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                          {feature}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12} md={4}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    Premium
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    {['Alle Basic-Features', 'Erweiterte Analytics', 'Vollständiger Mondkalender', 'Coaching', 'Werbefrei'].map((feature, index) => (
-                      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Check size={16} color="#10b981" style={{ marginRight: 8 }} />
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                          {feature}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12} md={4}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    VIP
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    {['Alle Premium-Features', 'VIP-Community', 'Persönlicher Coach', 'Unbegrenzte API', '1:1 Beratung'].map((feature, index) => (
-                      <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Check size={16} color="#10b981" style={{ marginRight: 8 }} />
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                          {feature}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Guarantee */}
-        <motion.div
-          
-          
-          
-        >
-          <Alert severity="info" sx={{ mt: 4, background: 'rgba(59, 130, 246, 0.1)' }}>
-            <Typography variant="body1">
-              <strong>30-Tage Geld-zurück-Garantie:</strong> Sie können Ihr Abonnement jederzeit innerhalb der ersten 30 Tage kündigen und erhalten eine vollständige Rückerstattung. Keine Fragen gestellt.
+          <Box sx={{ textAlign: 'center', mt: 6 }}>
+            <Typography variant="h5" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
+              Noch nicht sicher? Starten Sie kostenlos!
             </Typography>
-          </Alert>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Button
+                component={Link}
+                href="/register"
+                variant="contained"
+                size="large"
+                sx={{
+                  background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+                  px: 4,
+                  py: 2,
+                  borderRadius: 3,
+                  fontWeight: 600,
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #e55a8a, #3bb5b0)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
+                  }
+                }}
+              >
+                <Heart size={20} style={{ marginRight: 8 }} />
+                Kostenlos registrieren
+              </Button>
+              <Button
+                component={Link}
+                href="/community-info"
+                variant="outlined"
+                size="large"
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  px: 4,
+                  py: 2,
+                  borderRadius: 3,
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)'
+                  }
+                }}
+              >
+                <Users size={20} style={{ marginRight: 8 }} />
+                Mehr erfahren
+              </Button>
+            </Box>
+          </Box>
         </motion.div>
       </Container>
     </Box>

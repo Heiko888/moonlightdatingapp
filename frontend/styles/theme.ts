@@ -5,50 +5,146 @@ import { createTheme } from '@mui/material/styles'
 const theme = createTheme({
   palette: {
     mode: 'dark',
-    primary:   { main: '#A259F7' }, // Kräftiges Lila
-    secondary: { main: '#D6B4FC' }, // Helles Lila
-    background: { default: '#1B133D', paper: '#2B1A5A' }, // Lila-Töne
-    text: { primary: '#F5F7FB', secondary: '#C9B6E7' }, // Helles Lila/Weiß
+    primary: { main: '#ff6b9d' }, // Dating Pink
+    secondary: { main: '#4ecdc4' }, // Dating Teal
+    background: { 
+      default: '#0F0F23', 
+      paper: 'rgba(255,255,255,0.05)' 
+    },
+    text: { 
+      primary: '#ffffff', 
+      secondary: 'rgba(255,255,255,0.8)' 
+    },
+    error: { main: '#ef4444' },
+    warning: { main: '#f59e0b' },
+    success: { main: '#10b981' },
+    info: { main: '#3b82f6' }
   },
-  shape: { borderRadius: 14 },
+  shape: { borderRadius: 12 },
   typography: {
     fontFamily: ['Inter','system-ui','Segoe UI','Roboto','Arial'].join(','),
-    h1: { fontWeight: 800, fontSize: '2.4rem' },
-    h2: { fontWeight: 700, fontSize: '1.8rem' },
-    button: { textTransform: 'none', fontWeight: 600 },
+    h1: { 
+      fontWeight: 800, 
+      fontSize: '2.4rem',
+      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+      backgroundClip: 'text',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
+    },
+    h2: { 
+      fontWeight: 700, 
+      fontSize: '1.8rem',
+      color: '#ffffff'
+    },
+    h3: {
+      fontWeight: 700,
+      fontSize: '1.5rem',
+      color: '#ffffff'
+    },
+    button: { 
+      textTransform: 'none', 
+      fontWeight: 600 
+    },
   },
   components: {
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { borderRadius: 12, paddingInline: 16, paddingBlock: 10 },
+        root: { 
+          borderRadius: 12, 
+          paddingInline: 16, 
+          paddingBlock: 10,
+          fontWeight: 600
+        },
+        contained: {
+          background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+          color: 'white',
+          '&:hover': {
+            background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+          }
+        },
+        outlined: {
+          borderColor: 'rgba(255, 255, 255, 0.3)',
+          color: 'white',
+          '&:hover': {
+            borderColor: 'rgba(255, 255, 255, 0.6)',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+          }
+        }
       },
     },
     MuiCard: {
       styleOverrides: {
-        root: { backgroundImage: 'none', border: '1px solid #6C3EB6' },
+        root: { 
+          background: 'rgba(255,255,255,0.05)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 12,
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-4px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+          }
+        },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: { backgroundColor: '#251A3A' },
-        notchedOutline: { borderColor: '#6C3EB6' },
+        root: { 
+          backgroundColor: 'rgba(255,255,255,0.1)',
+          borderRadius: 8
+        },
+        notchedOutline: { 
+          borderColor: 'rgba(255,255,255,0.2)',
+          '&:hover': {
+            borderColor: 'rgba(255,255,255,0.4)'
+          }
+        },
       },
     },
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            backgroundColor: '#fff', // gewünschte Farbe
-          },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-root': {
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderRadius: 8
+          }
         },
       },
-      MuiInputBase: {
-        styleOverrides: {
-          root: {
-            backgroundColor: '#fff', // auch für native Inputs
-          },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255,255,255,0.1)',
+          borderRadius: 8,
+          color: 'white',
+          '&::placeholder': {
+            color: 'rgba(255,255,255,0.6)'
+          }
         },
       },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 215, 0, 0.2)',
+          color: '#FFD700',
+          border: '1px solid #FFD700',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 215, 0, 0.3)'
+          }
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: '#ffffff'
+        }
+      }
+    }
   },
 })
 

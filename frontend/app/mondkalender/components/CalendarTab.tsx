@@ -991,7 +991,7 @@ ${phaseDetails.avoid.map(item => `- ${item}`).join('\n')}` : ''}
             }}>
               Mondphasen Legende:
             </Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               {[
                 { name: 'Neumond', icon: '🌑', color: '#1a1a2e' },
                 { name: 'Zunehmender Sichelmond', icon: '🌒', color: '#2d3748' },

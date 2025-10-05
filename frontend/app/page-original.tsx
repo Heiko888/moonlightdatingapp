@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Head from "next/head";
 import Link from "next/link";
 // import ProtectedRoute from "@/components/ProtectedRoute"; // Removed - app is now public
-import { 
-  Box, 
-  Typography, 
+import {
+  Box,
+  Typography,
   Button,
   Container,
   Grid,
@@ -15,19 +15,19 @@ import {
   Toolbar
 } from "@mui/material";
 import BuildInfo from "@/components/BuildInfo";
-import { 
-  Heart, 
+import {
+  Heart,
   Users,
   Moon,
   ArrowRight,
-  Star, 
+  Star,
   Check,
   Crown,
   Zap,
-  Shield, 
+  Shield,
   Menu,
   Home,
-  UserPlus, 
+  UserPlus,
   LogIn
 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -37,6 +37,7 @@ import { motion } from "framer-motion";
 
 // Import der SSR-sicheren Sterne-Komponente
 import SSRSafeStars from '@/components/SSRSafeStars';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 // Hauptfunktionen der App
 const mainFeatures = [
@@ -109,7 +110,7 @@ const pricingPlans = [
     limitations: [],
     popular: true,
     cta: "Premium werden",
-    href: "/upgrade"
+    href: "/subscription"
   },
   {
     name: "VIP",
@@ -131,7 +132,7 @@ const pricingPlans = [
     limitations: [],
     popular: false,
     cta: "VIP werden",
-    href: "/upgrade"
+    href: "/subscription"
   }
 ];
 
@@ -225,7 +226,7 @@ export default function HomePage() {
         </Toolbar>
       </AppBar>
 
-    <Box sx={{ 
+      <Box sx={{
       minHeight: '100%',
       background: `
         radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
@@ -273,18 +274,18 @@ export default function HomePage() {
 
       {/* Animated Neptune */}
       <Box sx={{ position: 'absolute', top: '15%', right: '8%', zIndex: 1 }}>
-            <motion.div
-              animate={{ 
+        <motion.div
+          animate={{
             y: [0, -15, 0],
             rotate: [0, 360],
             opacity: [0.7, 1, 0.7],
-              }}
-              transition={{ 
+          }}
+          transition={{
             duration: 8,
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-            >
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
           <Box
             sx={{
               width: 150,
@@ -554,9 +555,9 @@ export default function HomePage() {
               fontWeight: 'bold',
               fontSize: { xs: '1.2rem', sm: '1.5rem', md: '2.125rem' },
               background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               textShadow: '0 0 20px rgba(255, 255, 255, 0.6)',
               textAlign: { xs: 'center', sm: 'left' }
             }}
@@ -566,7 +567,7 @@ export default function HomePage() {
           
           {/* App direkt nutzen - Kein Login erforderlich */}
           <Box sx={{ 
-                display: 'flex',
+            display: 'flex', 
             gap: { xs: 1, sm: 2 },
             flexDirection: { xs: 'column', sm: 'row' },
             width: { xs: '100%', sm: 'auto' }
@@ -646,7 +647,7 @@ export default function HomePage() {
             }}
           >
 Kosmische Verbindungen
-              </Typography>
+          </Typography>
           
           <Typography 
             variant="h4" 
@@ -662,7 +663,7 @@ Kosmische Verbindungen
           >
             Hast du dich jemals gefragt, warum manche Beziehungen wie Magie funktionieren, 
             während andere trotz aller Bemühungen einfach nicht gelingen?
-            </Typography>
+          </Typography>
           
           <Typography 
             variant="h5" 
@@ -680,26 +681,26 @@ Kosmische Verbindungen
           </Typography>
 
 
-            <Box sx={{ 
-              display: 'flex', 
+          <Box sx={{ 
+            display: 'flex', 
             gap: { xs: 2, md: 3 }, 
-              justifyContent: 'center', 
-              flexWrap: 'wrap',
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: 'center'
-            }}>
-              <Button
-                component={Link}
+            justifyContent: 'center', 
+            flexWrap: 'wrap',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center'
+          }}>
+            <Button
+              component={Link}
               href="/dating-info"
-                variant="contained"
-                size="large"
+              variant="contained"
+              size="large"
               endIcon={<Heart />}
-                sx={{
+              sx={{
                 background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: '#fff',
                 fontWeight: 'bold',
                 px: 5,
-                  py: 2,
+                py: 2,
                 borderRadius: 4,
                 fontSize: '1.1rem',
                 boxShadow: '0 10px 40px rgba(255, 107, 157, 0.4), 0 0 20px rgba(255, 107, 157, 0.2)',
@@ -715,7 +716,7 @@ Kosmische Verbindungen
                   background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
                   transition: 'left 0.6s ease'
                 },
-                  '&:hover': {
+                '&:hover': {
                   background: 'linear-gradient(135deg, #c44569, #ff6b9d)',
                   transform: 'translateY(-3px) scale(1.02)',
                   boxShadow: '0 15px 50px rgba(255, 107, 157, 0.5), 0 0 30px rgba(255, 107, 157, 0.3)',
@@ -727,20 +728,20 @@ Kosmische Verbindungen
               }}
             >
               💕 Dating starten
-              </Button>
-              
-              <Button
+            </Button>
+            
+            <Button
               component={Link}
               href="/community-info"
               variant="contained"
-                size="large"
+              size="large"
               endIcon={<Users />}
-                sx={{
+              sx={{
                 background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
-                  color: '#fff',
+                color: '#fff',
                 fontWeight: 'bold',
                 px: 5,
-                  py: 2,
+                py: 2,
                 borderRadius: 4,
                 fontSize: '1.1rem',
                 boxShadow: '0 10px 40px rgba(78, 205, 196, 0.4), 0 0 20px rgba(78, 205, 196, 0.2)',
@@ -756,7 +757,7 @@ Kosmische Verbindungen
                   background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
                   transition: 'left 0.6s ease'
                 },
-                  '&:hover': {
+                '&:hover': {
                   background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
                   transform: 'translateY(-3px) scale(1.02)',
                   boxShadow: '0 15px 50px rgba(78, 205, 196, 0.5), 0 0 30px rgba(78, 205, 196, 0.3)',
@@ -809,18 +810,18 @@ Kosmische Verbindungen
               }}
             >
               🌙 Mondkalender
-              </Button>
-            </Box>
+            </Button>
           </Box>
+        </Box>
 
         {/* Friends Community Widget */}
         <Box sx={{ py: 8, mb: 4 }}>
           <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 } }}>
-                  <Card sx={{
+            <Card sx={{
               background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
               backdropFilter: 'blur(15px)',
               border: '1px solid rgba(78, 205, 196, 0.4)',
-                    borderRadius: 4,
+              borderRadius: 4,
               overflow: 'hidden',
               position: 'relative',
               '&::before': {
@@ -981,7 +982,7 @@ Kosmische Verbindungen
           <Typography 
             variant="h3" 
             sx={{ 
-                    textAlign: 'center',
+              textAlign: 'center', 
               color: '#FFD700', 
               mb: 6,
               fontWeight: 'bold'
@@ -1013,7 +1014,7 @@ Kosmische Verbindungen
                     opacity: 0,
                     transition: 'opacity 0.3s ease'
                   },
-                    '&:hover': {
+                  '&:hover': {
                     transform: 'translateY(-8px) scale(1.02)',
                     boxShadow: `0 20px 40px ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}40, 0 0 60px ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}30`,
                     border: `1px solid ${feature.color.replace('linear-gradient(135deg, ', '').replace(')', '')}60`,
@@ -1023,13 +1024,13 @@ Kosmische Verbindungen
                   }
                 }}>
                   <CardContent sx={{ p: 3, position: 'relative', zIndex: 2 }}>
-                      <Box sx={{ 
+                    <Box sx={{ 
                       display: 'flex', 
                       alignItems: 'center', 
                       mb: 3,
-                        color: '#FFD700', 
-                        filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.3))'
-                      }}>
+                      color: '#FFD700',
+                      filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.3))'
+                    }}>
                       {feature.icon}
                       <Typography variant="h5" sx={{ 
                         ml: 2, 
@@ -1038,7 +1039,7 @@ Kosmische Verbindungen
                       }}>
                         {feature.title}
                       </Typography>
-                      </Box>
+                    </Box>
                     <Typography variant="body1" sx={{ 
                       color: 'rgba(255,255,255,0.9)',
                       lineHeight: 1.6,
@@ -1054,7 +1055,7 @@ Kosmische Verbindungen
                         <Box key={idx} sx={{ 
                           display: 'flex', 
                           alignItems: 'center', 
-                        mb: 1,
+                          mb: 1,
                           color: 'rgba(255,255,255,0.8)'
                         }}>
                           <Star size={16} style={{ 
@@ -1068,7 +1069,7 @@ Kosmische Verbindungen
                             lineHeight: 1.4
                           }}>
                             {feat}
-                      </Typography>
+                          </Typography>
                         </Box>
                       ))}
                     </Box>
@@ -1118,7 +1119,7 @@ Kosmische Verbindungen
             variant="h6" 
             sx={{ 
               textAlign: 'center', 
-                        color: 'rgba(255,255,255,0.8)',
+              color: 'rgba(255,255,255,0.8)', 
               mb: 4
             }}
           >
@@ -1145,10 +1146,10 @@ Kosmische Verbindungen
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Dein persönlicher Überblick über Dating, Community und Mondphasen
-                      </Typography>
-                    </CardContent>
-                  </Card>
-              </Grid>
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1172,7 +1173,7 @@ Kosmische Verbindungen
                   </Typography>
                 </CardContent>
               </Card>
-          </Grid>
+            </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{
                 background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
@@ -1240,9 +1241,9 @@ Kosmische Verbindungen
           <Typography 
             variant="h3" 
             sx={{ 
-            textAlign: 'center', 
+              textAlign: 'center', 
               color: '#FFD700', 
-            mb: 6,
+              mb: 6,
               fontWeight: 'bold'
             }}
           >
@@ -1299,7 +1300,7 @@ Kosmische Verbindungen
                       </Box>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                         Erweiterte Analysen
-          </Typography>
+                      </Typography>
                     </Box>
                     
                     <Typography sx={{
@@ -1333,28 +1334,28 @@ Kosmische Verbindungen
 
             {/* Readings */}
             <Grid item xs={12} sm={6} md={4}>
-                <motion.div
+              <motion.div
                 
                 whileInView={{ opacity: 1, y: 0 }}
                 
                 
-                >
-                  <Card sx={{
+              >
+                <Card sx={{
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                   backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                  border: '1px solid rgba(255,255,255,0.2)',
                   borderRadius: 3,
-                    height: '100%',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                  height: '100%',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
                     border: '1px solid rgba(255, 215, 0, 0.3)'
-                    }
-                  }}>
+                  }
+                }}>
                   <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Box sx={{ 
+                      <Box sx={{
                         width: 40,
                         height: 40,
                         borderRadius: '50%',
@@ -1384,7 +1385,7 @@ Kosmische Verbindungen
                     }}>
                       Individuelle Human Design Readings von zertifizierten Beratern. 
                       Erhalte tiefe Einblicke in deine kosmische Konstitution und Lebensweg.
-                      </Typography>
+                    </Typography>
                     
                     <Box sx={{ mb: 3 }}>
                       <Typography component="div" sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, fontSize: '0.875rem' }}>
@@ -1445,14 +1446,14 @@ Kosmische Verbindungen
                     </Box>
                     
                     <Typography sx={{
-                        color: 'rgba(255,255,255,0.8)',
+                      color: 'rgba(255,255,255,0.8)',
                       fontSize: '0.9rem',
                       lineHeight: 1.5,
                       mb: 2
-                      }}>
+                    }}>
                       Vernetze dich mit Gleichgesinnten bei exklusiven Events, Workshops und 
                       spirituellen Meetups in deiner Nähe.
-                      </Typography>
+                    </Typography>
                     
                     <Box sx={{ mb: 3 }}>
                       <Typography sx={{ color: 'rgba(255,255,255,0.9)', mb: 1, fontSize: '0.8rem' }}>
@@ -1468,16 +1469,16 @@ Kosmische Verbindungen
                         ✓ Networking-Community
                       </Typography>
                     </Box>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Grid>
           </Grid>
         </Box>
 
         {/* Call-to-Action Section */}
         <Box sx={{ py: 8 }}>
-        <motion.div
+          <motion.div
             
             whileInView={{ opacity: 1, y: 0 }}
             
@@ -1602,7 +1603,7 @@ Kosmische Verbindungen
                   size="large"
                   sx={{
                     borderColor: 'rgba(255, 255, 255, 0.3)',
-            color: 'white', 
+                    color: 'white',
                     fontWeight: 700,
                     px: 6,
                     py: 2,
@@ -1663,7 +1664,7 @@ Kosmische Verbindungen
           <Typography 
             variant="h3" 
             sx={{ 
-            textAlign: 'center', 
+              textAlign: 'center', 
               color: '#FFD700', 
               mb: 6,
               fontWeight: 'bold'
@@ -1745,7 +1746,7 @@ Kosmische Verbindungen
                         variant="h4" 
                         sx={{ 
                           color: '#FFD700', 
-            fontWeight: 700, 
+                          fontWeight: 700,
                           textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
                         }}
                       >
@@ -1945,7 +1946,7 @@ Kosmische Verbindungen
             sx={{ 
               textAlign: 'center', 
               color: '#FFD700', 
-            mb: 6,
+              mb: 6,
               fontWeight: 'bold'
             }}
           >
@@ -2011,7 +2012,7 @@ Kosmische Verbindungen
                   >
                     &quot;Endlich verstehe ich mich selbst! Mein Human Design Chart hat mir gezeigt, 
                     warum ich als Manifestor so anders bin. Die App ist ein Game-Changer!&quot;
-          </Typography>
+                  </Typography>
                   <Typography 
                     variant="h6" 
                     sx={{ 
@@ -2041,20 +2042,20 @@ Kosmische Verbindungen
 
             {/* Testimonial 2 */}
             <Grid item xs={12} sm={6} md={4}>
-                <motion.div
+              <motion.div
                 
                 whileInView={{ opacity: 1, y: 0 }}
                 
                 
-                >
-                  <Card sx={{
+              >
+                <Card sx={{
                   background: 'linear-gradient(135deg, #FF6B9D15 0%, #FF6B9D08 100%)',
                   backdropFilter: 'blur(15px)',
                   border: '1px solid #FF6B9D40',
                   borderRadius: 3,
                   p: 4,
                   height: '100%',
-                    textAlign: 'center',
+                  textAlign: 'center',
                   transition: 'all 0.4s ease',
                   position: 'relative',
                   overflow: 'hidden',
@@ -2069,7 +2070,7 @@ Kosmische Verbindungen
                     opacity: 0,
                     transition: 'opacity 0.3s ease'
                   },
-                    '&:hover': {
+                  '&:hover': {
                     transform: 'translateY(-8px) scale(1.02)',
                     boxShadow: '0 20px 40px #FF6B9D40, 0 0 60px #FF6B9D30',
                     border: '1px solid #FF6B9D60',
@@ -2284,7 +2285,7 @@ Kosmische Verbindungen
                 }}>
                   {/* Popular Badge */}
                   {plan.popular && (
-                      <Box sx={{
+                    <Box sx={{
                       position: 'absolute',
                       top: -1,
                       left: '50%',
@@ -2368,8 +2369,8 @@ Kosmische Verbindungen
                       <Box sx={{ mb: 2 }}>
                         {plan.features.map((feature, featureIndex) => (
                           <Box key={featureIndex} sx={{ 
-                        display: 'flex',
-                        alignItems: 'center',
+                            display: 'flex', 
+                            alignItems: 'center', 
                             mb: 1.5,
                             py: 0.5
                           }}>
@@ -2538,7 +2539,7 @@ Kosmische Verbindungen
                     opacity: 0,
                     transition: 'opacity 0.3s ease'
                   },
-                        '&:hover': {
+                  '&:hover': {
                     transform: 'translateY(-8px) scale(1.02)',
                     boxShadow: '0 20px 40px #FFD70040, 0 0 60px #FFD70030',
                     border: '1px solid #FFD70060',
@@ -2551,7 +2552,7 @@ Kosmische Verbindungen
                     <Typography variant="h6" sx={{ 
                       color: '#FFD700', 
                       mb: 2,
-                          fontWeight: 700,
+                      fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
                       textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
@@ -2563,7 +2564,7 @@ Kosmische Verbindungen
                         textShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                       }}>🤔</Box>
                       Was ist Human Design?
-                        </Typography>
+                    </Typography>
                     <Typography variant="body1" sx={{ 
                       color: 'rgba(255,255,255,0.9)',
                       lineHeight: 1.6,
@@ -2616,9 +2617,9 @@ Kosmische Verbindungen
                   }
                 }}>
                   <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-                      <Typography variant="h6" sx={{ 
+                    <Typography variant="h6" sx={{ 
                       color: '#FFD700', 
-                        mb: 2,
+                      mb: 2,
                       fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
@@ -2631,45 +2632,45 @@ Kosmische Verbindungen
                         textShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                       }}>💕</Box>
                       Wie funktioniert das Matching?
-                      </Typography>
+                    </Typography>
                     <Typography variant="body1" sx={{ 
                       color: 'rgba(255,255,255,0.9)',
                       lineHeight: 1.6,
-                        textShadow: '0 0 5px rgba(255, 255, 255, 0.2)'
-                      }}>
+                      textShadow: '0 0 5px rgba(255, 255, 255, 0.2)'
+                    }}>
                       Unser Algorithmus analysiert eure Human Design Charts und berechnet die energetische 
                       Kompatibilität. Wir berücksichtigen Typ, Strategie, Autorität und definierte Centers 
                       für das perfekte Match.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </Grid>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </Grid>
 
             {/* FAQ Item 3 */}
             <Grid item xs={12} sm={6} md={6}>
-        <motion.div
+              <motion.div
                 
                 whileInView={{ opacity: 1, y: 0 }}
                 
                 
-        >
-          <Card sx={{
+              >
+                <Card sx={{
                   background: 'linear-gradient(135deg, #667eea15 0%, #667eea08 100%)',
                   backdropFilter: 'blur(15px)',
                   border: '1px solid #667eea40',
                   borderRadius: 3,
                   height: '100%',
                   transition: 'all 0.4s ease',
-            position: 'relative',
-            overflow: 'hidden',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
                     background: 'radial-gradient(circle at 50% 0%, #667eea30 0%, transparent 70%)',
                     opacity: 0,
                     transition: 'opacity 0.3s ease'
@@ -2687,7 +2688,7 @@ Kosmische Verbindungen
                     <Typography variant="h6" sx={{ 
                       color: '#FFD700', 
                       mb: 2,
-                fontWeight: 700, 
+                      fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
                       textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
@@ -2699,7 +2700,7 @@ Kosmische Verbindungen
                         textShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                       }}>🌙</Box>
                       Was ist der Mondkalender?
-              </Typography>
+                    </Typography>
                     <Typography variant="body1" sx={{ 
                       color: 'rgba(255,255,255,0.9)',
                       lineHeight: 1.6,
@@ -2751,7 +2752,7 @@ Kosmische Verbindungen
                   }
                 }}>
                   <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-              <Typography variant="h6" sx={{ 
+                    <Typography variant="h6" sx={{ 
                       color: '#FFD700', 
                       mb: 2,
                       fontWeight: 700,
@@ -2766,7 +2767,7 @@ Kosmische Verbindungen
                         textShadow: '0 0 20px rgba(255, 215, 0, 0.2)'
                       }}>💰</Box>
                       Ist die App kostenlos?
-              </Typography>
+                    </Typography>
                     <Typography variant="body1" sx={{ 
                       color: 'rgba(255,255,255,0.9)',
                       lineHeight: 1.6,
@@ -2826,7 +2827,7 @@ Kosmische Verbindungen
                       alignItems: 'center',
                       textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
                     }}>
-              <Box sx={{ 
+                      <Box sx={{ 
                         mr: 2, 
                         fontSize: '1.5rem',
                         filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.3))',
@@ -2889,7 +2890,7 @@ Kosmische Verbindungen
                       color: '#FFD700', 
                       mb: 2,
                       fontWeight: 700,
-                display: 'flex', 
+                      display: 'flex',
                       alignItems: 'center',
                       textShadow: '0 0 10px rgba(255, 215, 0, 0.3)'
                     }}>
@@ -2923,18 +2924,18 @@ Kosmische Verbindungen
             }}>
               Weitere Fragen?
             </Typography>
-                <Button
-                  component={Link}
+            <Button
+              component={Link}
               href="/support"
               variant="outlined"
-                  sx={{
+              sx={{
                 color: '#FFD700',
                 borderColor: '#FFD700',
                 fontWeight: 'bold',
                 px: 4,
                 py: 1.5,
                 borderRadius: 2,
-                    '&:hover': {
+                '&:hover': {
                   borderColor: '#FFA500',
                   color: '#FFA500',
                   background: 'rgba(255, 215, 0, 0.1)',
@@ -2944,7 +2945,7 @@ Kosmische Verbindungen
               }}
             >
               Support kontaktieren
-                </Button>
+            </Button>
           </Box>
         </Box>
 
@@ -2980,22 +2981,22 @@ Kosmische Verbindungen
             Starte jetzt und entdecke dein einzigartiges Human Design
           </Typography>
           
-                <Button
-                  component={Link}
-                  href="/register"
+          <Button
+            component={Link}
+            href="/register"
             variant="contained"
-                  size="large"
+            size="large"
             endIcon={<ArrowRight />}
-                  sx={{
+            sx={{
               background: 'linear-gradient(45deg, #FFD700, #FFA500)',
               color: '#000',
               fontWeight: 'bold',
               px: 6,
-                    py: 2,
-                    borderRadius: 3,
+              py: 2,
+              borderRadius: 3,
               fontSize: '1.2rem',
               boxShadow: '0 8px 32px rgba(255, 215, 0, 0.3)',
-                    '&:hover': {
+              '&:hover': {
                 background: 'linear-gradient(45deg, #FFA500, #FFD700)',
                 transform: 'translateY(-3px)',
                 boxShadow: '0 12px 40px rgba(255, 215, 0, 0.4)'
@@ -3004,8 +3005,8 @@ Kosmische Verbindungen
             }}
           >
             Jetzt starten
-                </Button>
-              </Box>
+          </Button>
+        </Box>
       </Container>
     </Box>
     <BuildInfo />

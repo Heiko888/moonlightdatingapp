@@ -527,6 +527,27 @@ export default function SwipePage() {
 
     // Lade auch Matches
     const loadMatches = async () => {
+      if (!userId) {
+        console.log('Keine User-ID verfügbar, verwende Mock-Matches');
+        setMatches([
+          {
+            _id: '1',
+            id: '1',
+            userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
+            userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
+            createdAt: new Date().toISOString()
+          },
+          {
+            _id: '2',
+            id: '2',
+            userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
+            userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
+            createdAt: new Date().toISOString()
+          }
+        ]);
+        return;
+      }
+
       try {
         // Verwende Supabase statt Backend-Server
         const { data, error } = await supabase
@@ -541,14 +562,14 @@ export default function SwipePage() {
             {
               _id: '1',
               id: '1',
-              userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+              userA: { _id: userId || 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
               userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
               createdAt: new Date().toISOString()
             },
             {
               _id: '2',
               id: '2',
-              userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+              userA: { _id: userId || 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
               userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
               createdAt: new Date().toISOString()
             }
@@ -563,14 +584,14 @@ export default function SwipePage() {
           {
             _id: '1',
             id: '1',
-            userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+            userA: { _id: userId || 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
             userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
             createdAt: new Date().toISOString()
           },
           {
             _id: '2',
             id: '2',
-            userA: { _id: userId, name: 'Du', image: '/api/placeholder/60/60' },
+            userA: { _id: userId || 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
             userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
             createdAt: new Date().toISOString()
           }
@@ -579,7 +600,18 @@ export default function SwipePage() {
     };
 
     loadProfiles();
-    loadMatches().catch(console.error);
+    
+    // Lade Matches nur wenn userId verfügbar ist
+    if (userId) {
+      loadMatches().catch((error) => {
+        console.error('Fehler beim Laden der Matches:', error);
+        // Fallback zu leeren Matches
+        setMatches([]);
+      });
+    } else {
+      // Verwende Mock-Matches wenn keine User-ID
+      loadMatches();
+    }
   }, [mounted, userId, mockProfiles]);
 
   // Energetische Kompatibilität berechnen

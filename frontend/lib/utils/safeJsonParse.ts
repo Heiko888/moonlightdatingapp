@@ -1,11 +1,10 @@
 /**
- * Sichere JSON-Parse-Utility
- * Verhindert JSON-Parse-Fehler durch robuste Fehlerbehandlung
+ * Sichere JSON.parse Funktion mit umfassender Fehlerbehandlung
  */
 
 /**
- * Parst JSON-String sicher mit Fallback
- * @param jsonString - Der zu parsende JSON-String
+ * Parst JSON-String sicher mit Fehlerbehandlung
+ * @param jsonString - JSON-String zum Parsen
  * @param fallback - Fallback-Wert bei Fehlern
  * @returns Parsed JSON oder Fallback
  */
@@ -18,15 +17,10 @@ export function safeJsonParse<T = any>(
   }
 
   try {
-    // Prüfe ob es gültiges JSON ist
-    if (!jsonString.startsWith('{') && !jsonString.startsWith('[') && !jsonString.startsWith('"')) {
-      console.warn('safeJsonParse: String ist kein gültiges JSON:', jsonString.substring(0, 50) + '...');
-      return fallback;
-    }
-
     return JSON.parse(jsonString);
   } catch (error) {
-    console.warn('safeJsonParse: Fehler beim Parsen von JSON:', error);
+    console.error('JSON.parse Fehler:', error);
+    console.error('Ungültiger JSON-String:', jsonString);
     return fallback;
   }
 }
@@ -60,7 +54,10 @@ export function safeLocalStorageParse<T = any>(
  * @param data - Zu speichernde Daten
  * @returns Erfolg der Speicherung
  */
-export function safeLocalStorageSet(key: string, data: any): boolean {
+export function safeLocalStorageSet(
+  key: string,
+  data: any
+): boolean {
   if (typeof window === 'undefined') {
     return false;
   }
@@ -70,26 +67,30 @@ export function safeLocalStorageSet(key: string, data: any): boolean {
     localStorage.setItem(key, jsonString);
     return true;
   } catch (error) {
-    console.warn(`safeLocalStorageSet: Fehler beim Speichern von ${key}:`, error);
+    console.error(`safeLocalStorageSet: Fehler beim Speichern von ${key}:`, error);
     return false;
   }
 }
 
 /**
- * Löscht localStorage-Item sicher
- * @param key - localStorage-Schlüssel
- * @returns Erfolg der Löschung
+ * Bereinigt localStorage von ungültigen Einträgen
  */
-export function safeLocalStorageRemove(key: string): boolean {
+export function cleanupLocalStorage(): void {
   if (typeof window === 'undefined') {
-    return false;
+    return;
   }
 
-  try {
-    localStorage.removeItem(key);
-    return true;
-  } catch (error) {
-    console.warn(`safeLocalStorageRemove: Fehler beim Löschen von ${key}:`, error);
-    return false;
-  }
+  const keysToCheck = ['userData', 'userSubscription', 'userId', 'userEmail', 'userPackage'];
+  
+  keysToCheck.forEach(key => {
+    try {
+      const item = localStorage.getItem(key);
+      if (item && item.trim() !== '') {
+        JSON.parse(item);
+      }
+    } catch (error) {
+      console.warn(`Bereinige ungültigen localStorage-Eintrag: ${key}`);
+      localStorage.removeItem(key);
+    }
+  });
 }
