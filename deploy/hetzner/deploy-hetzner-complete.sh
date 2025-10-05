@@ -40,7 +40,7 @@ print_info() {
 # Parameter prüfen
 DOMAIN="moonlightdatingapp.werdemeisterdeinergedanken.de"
 EMAIL=""
-GITHUB_REPO="https://github.com/your-username/HD_App_chart.git"
+GITHUB_REPO="https://github.com/Heiko888/moonlightdatingapp.git"
 
 while [[ $# -gt 0 ]]; do
     case $1 in

@@ -8,7 +8,7 @@ set -e
 # Konfiguration für Moonlight Dating App
 DOMAIN="moonlightdatingapp.werdemeisterdeinergedanken.de"
 SERVER_IP="138.199.237.34"
-GITHUB_REPO="https://github.com/your-username/HD_App_chart.git"
+GITHUB_REPO="https://github.com/Heiko888/moonlightdatingapp.git"
 
 # Farben für Output
 RED='\033[0;31m'

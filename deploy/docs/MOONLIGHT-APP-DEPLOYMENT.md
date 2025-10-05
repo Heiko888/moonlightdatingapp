@@ -20,7 +20,7 @@ Deployment-Anleitung für die **Moonlight Dating App** auf dem Hetzner Server mi
 ssh root@138.199.237.34
 
 # 2. Moonlight App Deployment-Skript herunterladen
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/deploy-moonlight-app.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/deploy-moonlight-app.sh
 chmod +x deploy-moonlight-app.sh
 
 # 3. Deployment ausführen
@@ -34,7 +34,7 @@ chmod +x deploy-moonlight-app.sh
 ./deploy-moonlight-app.sh -e your-email@domain.com
 
 # Mit GitHub Repository
-./deploy-moonlight-app.sh -r https://github.com/your-username/HD_App_chart.git
+./deploy-moonlight-app.sh -r https://github.com/Heiko888/moonlightdatingapp.git
 ```
 
 ## 🌐 **Nach dem Deployment verfügbar:**
@@ -200,7 +200,7 @@ deploy:
 
 ```bash
 # Backup-Skript ausführen
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/backup-production.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/backup-production.sh
 chmod +x backup-production.sh
 ./backup-production.sh
 ```
@@ -231,7 +231,7 @@ docker run --rm -v moonlight_app_prometheus_data:/data -v $(pwd):/backup alpine 
 
 ```bash
 ssh root@138.199.237.34
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/deploy-moonlight-app.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/deploy-moonlight-app.sh
 chmod +x deploy-moonlight-app.sh
 ./deploy-moonlight-app.sh
 ```

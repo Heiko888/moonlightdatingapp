@@ -34,11 +34,11 @@ Alle Vorbereitungen für das Hetzner-Deployment sind **abgeschlossen**!
 ssh root@138.199.237.34
 
 # 2. Deployment-Skript herunterladen
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/deploy-hetzner-complete.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/deploy-hetzner-complete.sh
 chmod +x deploy-hetzner-complete.sh
 
 # 3. Mit Domain und SSL ausführen
-./deploy-hetzner-complete.sh -d your-domain.com -e your-email@domain.com -r https://github.com/your-username/HD_App_chart.git
+./deploy-hetzner-complete.sh -d your-domain.com -e your-email@domain.com -r https://github.com/Heiko888/moonlightdatingapp.git
 ```
 
 ### **Option 2: Basis-Deployment (ohne SSL)**
@@ -48,7 +48,7 @@ chmod +x deploy-hetzner-complete.sh
 ssh root@138.199.237.34
 
 # 2. Basis-Deployment
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/deploy-hetzner.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/deploy-hetzner.sh
 chmod +x deploy-hetzner.sh
 ./deploy-hetzner.sh
 ```
@@ -66,7 +66,7 @@ chmod +x deploy-hetzner.sh
 
 ```bash
 # Auf Server ausführen
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/security-hardening.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/security-hardening.sh
 chmod +x security-hardening.sh
 ./security-hardening.sh -a "YOUR_IP,TRUSTED_IP" -p 2222
 ```
@@ -75,7 +75,7 @@ chmod +x security-hardening.sh
 
 ```bash
 # Monitoring-Alerts einrichten
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/setup-monitoring-alerts.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/setup-monitoring-alerts.sh
 chmod +x setup-monitoring-alerts.sh
 ./setup-monitoring-alerts.sh
 ```
@@ -84,7 +84,7 @@ chmod +x setup-monitoring-alerts.sh
 
 ```bash
 # Backup-Skript ausführen
-wget https://raw.githubusercontent.com/your-username/HD_App_chart/main/backup-production.sh
+wget https://raw.githubusercontent.com/Heiko888/moonlightdatingapp/main/backup-production.sh
 chmod +x backup-production.sh
 ./backup-production.sh
 ```
