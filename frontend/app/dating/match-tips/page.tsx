@@ -51,7 +51,7 @@ import {
   Eye
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Floating Stars Animation
 const FloatingStars = () => {
@@ -132,11 +132,16 @@ interface Location {
 
 export default function MatchTipsPage() {
   const theme = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [userType, setUserType] = useState('');
   const [partnerType, setUserPartnerType] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const [partnerProfile, setPartnerProfile] = useState('');
   const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Dating-Tipps basierend auf Human Design Konstellationen
   const getDatingTips = (userType: string, partnerType: string, userProfile: string, partnerProfile: string): DatingTip[] => {
@@ -401,6 +406,25 @@ export default function MatchTipsPage() {
 
   const tips = showResults ? getDatingTips(userType, partnerType, userProfile, partnerProfile) : [];
   const locations = showResults ? getRecommendedLocations(userType, partnerType) : [];
+
+  // Verhindere Hydration-Probleme
+  if (!mounted) {
+    return (
+      <Box
+        sx={{
+          minHeight: '100vh',
+          background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Typography variant="h6" sx={{ color: 'white' }}>
+          Lade...
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ 
