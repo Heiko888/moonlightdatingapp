@@ -708,90 +708,63 @@ const ReadingPage: React.FC = () => {
     >
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
-      
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
-        <div>
-          <Box textAlign="center" mb={6}>
-            <Typography 
-              variant="h2" 
-              component="h1" 
-              sx={{ 
-                background: 'linear-gradient(45deg, #8b5cf6, #a855f7, #c084fc)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 'bold',
-                mb: 3
-              }}
-            >
-              📖 Dein persönliches Reading
-            </Typography>
-            
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.9)',
-                maxWidth: '800px',
-                mx: 'auto',
-                mb: 4,
-                lineHeight: 1.6
-              }}
-            >
-              Tauche ein in die Welt deiner Energie, deines Bewusstseins und deiner einzigartigen Ausstrahlung.
-            </Typography>
-
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)',
-                maxWidth: '900px',
-                mx: 'auto',
-                mb: 4,
-                lineHeight: 1.7,
-                fontSize: '1.1rem'
-              }}
-            >
-              Ein Reading ist mehr als nur eine Analyse – es ist ein Blick in dein energetisches Potenzial. 
-              Gemeinsam entdecken wir, wie deine Energie fließt, welche Stärken in dir verborgen liegen 
-              und wo Blockaden dich vielleicht noch zurückhalten.
-            </Typography>
-
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)',
-                maxWidth: '900px',
-                mx: 'auto',
-                mb: 4,
-                lineHeight: 1.7,
-                fontSize: '1.1rem'
-              }}
-            >
-              Ob Business, Beziehungen oder persönliche Entwicklung:<br/>
-              Ein Reading schenkt dir Klarheit, Orientierung und ein tiefes Verständnis dafür, 
-              <strong> wer du wirklich bist</strong> und wie du dein Leben im Einklang mit deiner inneren Wahrheit gestalten kannst.
-            </Typography>
-          </Box>
-        </div>
-
-        {/* Main Content */}
-        <div>
-          <Paper 
-            elevation={3} 
-            sx={{ 
-              borderRadius: 3,
-              background: 'rgba(255,255,255,0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              overflow: 'hidden'
+        <Box sx={{ 
+          textAlign: 'center', 
+          mb: 6,
+          py: { xs: 4, md: 6 }
+        }}>
+          <Typography
+            variant="h2"
+            sx={{
+              background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 800,
+              fontSize: { xs: '2.5rem', md: '3.5rem' },
+              mb: 2,
+              textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
             }}
           >
+            📖 Dein persönliches Reading
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              color: 'rgba(255,255,255,0.8)', 
+              mb: 3,
+              fontSize: { xs: '1.1rem', md: '1.3rem' },
+              maxWidth: '600px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Tauche ein in die Welt deiner Energie und entdecke dein energetisches Potenzial.
+          </Typography>
+        </Box>
+
+        {/* Main Content */}
+        <Paper 
+          elevation={3} 
+          sx={{ 
+            borderRadius: 3,
+            background: 'rgba(255,255,255,0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            overflow: 'hidden'
+          }}
+        >
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -799,17 +772,19 @@ const ReadingPage: React.FC = () => {
               sx={{
                 '& .MuiTab-root': {
                   color: 'rgba(255,255,255,0.7)',
-                  fontWeight: 'bold',
+                  fontWeight: 600,
                   textTransform: 'none',
                   fontSize: '1.1rem',
                   py: 2,
                   '&.Mui-selected': {
-                    color: '#8b5cf6',
-                    background: 'rgba(139, 92, 246, 0.1)',
+                    color: '#ff6b9d',
+                    background: 'rgba(255, 107, 157, 0.1)',
                   },
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#8b5cf6',
+                  background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+                  height: 3,
+                  borderRadius: 2
                 },
               }}
             >
@@ -830,9 +805,9 @@ const ReadingPage: React.FC = () => {
                       startIcon={<ArrowForward />}
                       onClick={() => setNewReadingDialog(true)}
                       sx={{
-                        background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
+                        background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
                         '&:hover': {
-                          background: 'linear-gradient(45deg, #7c3aed, #9333ea)',
+                          background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
                         }
                       }}
                     >
@@ -862,11 +837,11 @@ const ReadingPage: React.FC = () => {
                             sx={{
                               background: 'rgba(255,255,255,0.05)',
                               border: '1px solid rgba(255,255,255,0.1)',
-                              borderRadius: 2,
+                              borderRadius: 3,
                               transition: 'all 0.3s ease',
                               '&:hover': {
                                 transform: 'translateY(-4px)',
-                                boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)',
+                                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
                               }
                             }}
                           >
@@ -894,8 +869,8 @@ const ReadingPage: React.FC = () => {
                                            reading.category === 'personal' ? '✨ Persönlich' : '🌟 Allgemein'}
                                     size="small"
                                     sx={{
-                                      background: 'rgba(139, 92, 246, 0.2)',
-                                      color: '#8b5cf6',
+                                      background: 'rgba(255, 107, 157, 0.2)',
+                                      color: '#ff6b9d',
                                       fontWeight: 500
                                     }}
                                   />
@@ -912,8 +887,8 @@ const ReadingPage: React.FC = () => {
                                   borderColor: 'rgba(255,255,255,0.3)',
                                   color: 'white',
                                   '&:hover': {
-                                    borderColor: '#8b5cf6',
-                                    backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                                    borderColor: '#ff6b9d',
+                                    backgroundColor: 'rgba(255, 107, 157, 0.1)'
                                   }
                                 }}
                               >
@@ -942,12 +917,12 @@ const ReadingPage: React.FC = () => {
                     size="large"
                     onClick={() => setNewReadingDialog(true)}
                     sx={{
-                      background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
+                      background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
                       py: 2,
                       px: 4,
                       fontSize: '1.1rem',
                       '&:hover': {
-                        background: 'linear-gradient(45deg, #7c3aed, #9333ea)',
+                        background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
                       }
                     }}
                   >
@@ -967,7 +942,16 @@ const ReadingPage: React.FC = () => {
                   
                   <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
-                      <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <Card sx={{ 
+                        background: 'rgba(255,255,255,0.05)', 
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: 3,
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                          boxShadow: '0 8px 25px rgba(255, 107, 157, 0.2)',
+                        }
+                      }}>
                         <CardContent>
                           <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
                             💼 Business & Marketing
@@ -982,6 +966,14 @@ const ReadingPage: React.FC = () => {
                               setSelectedCategory('business');
                               setSelectedDatingType('career');
                               setNewReadingDialog(true);
+                            }}
+                            sx={{
+                              borderColor: 'rgba(255,255,255,0.3)',
+                              color: 'white',
+                              '&:hover': {
+                                borderColor: '#ff6b9d',
+                                backgroundColor: 'rgba(255, 107, 157, 0.1)'
+                              }
                             }}
                           >
                             Business-Reading
@@ -1109,7 +1101,6 @@ const ReadingPage: React.FC = () => {
               )}
             </Box>
           </Paper>
-        </div>
       </Container>
 
       {/* New Reading Dialog */}
@@ -1120,7 +1111,7 @@ const ReadingPage: React.FC = () => {
         fullWidth
         PaperProps={{
           sx: {
-            background: 'rgba(15, 15, 35, 0.95)',
+            background: 'rgba(255,255,255,0.05)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(255,255,255,0.1)',
             borderRadius: 3
@@ -1150,13 +1141,13 @@ const ReadingPage: React.FC = () => {
                   borderColor: 'rgba(255,255,255,0.5)',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#8b5cf6',
+                  borderColor: '#ff6b9d',
                 },
               },
               '& .MuiInputLabel-root': {
                 color: 'rgba(255,255,255,0.7)',
                 '&.Mui-focused': {
-                  color: '#8b5cf6',
+                  color: '#ff6b9d',
                 },
               },
             }}
@@ -1181,13 +1172,13 @@ const ReadingPage: React.FC = () => {
                   borderColor: 'rgba(255,255,255,0.5)',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#8b5cf6',
+                  borderColor: '#ff6b9d',
                 },
               },
               '& .MuiInputLabel-root': {
                 color: 'rgba(255,255,255,0.7)',
                 '&.Mui-focused': {
-                  color: '#8b5cf6',
+                  color: '#ff6b9d',
                 },
               },
             }}
@@ -1377,13 +1368,13 @@ const ReadingPage: React.FC = () => {
                   borderColor: 'rgba(255,255,255,0.5)',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#8b5cf6',
+                  borderColor: '#ff6b9d',
                 },
               },
               '& .MuiInputLabel-root': {
                 color: 'rgba(255,255,255,0.7)',
                 '&.Mui-focused': {
-                  color: '#8b5cf6',
+                  color: '#ff6b9d',
                 },
               },
             }}
@@ -1400,9 +1391,9 @@ const ReadingPage: React.FC = () => {
             onClick={createNewReading}
             variant="contained"
             sx={{
-              background: 'linear-gradient(45deg, #8b5cf6, #a855f7)',
+              background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
               '&:hover': {
-                background: 'linear-gradient(45deg, #7c3aed, #9333ea)',
+                background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
               }
             }}
           >
