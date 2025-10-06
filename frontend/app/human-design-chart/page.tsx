@@ -207,11 +207,19 @@ export default function HumanDesignChartPage() {
   const loadChartData = async () => {
     try {
       const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
-      if (!userId) return;
+      if (!userId) {
+        console.log('⚠️ Keine userId gefunden, lade Demo-Daten');
+        await loadDemoChartData();
+        return;
+      }
 
       // Lade Benutzerdaten aus localStorage
       const userData = typeof window !== 'undefined' ? localStorage.getItem('userData') : null;
-      if (!userData || userData.trim() === '') return;
+      if (!userData || userData.trim() === '') {
+        console.log('⚠️ Keine userData gefunden, lade Demo-Daten');
+        await loadDemoChartData();
+        return;
+      }
 
       try {
         const user = safeJsonParse(userData, {});
@@ -283,9 +291,13 @@ export default function HumanDesignChartPage() {
             return;
           } else {
             console.error('❌ Chart-Berechnung fehlgeschlagen:', response.status, response.statusText);
+            // Fallback zu Demo-Daten
+            await loadDemoChartData();
           }
         } catch (chartError) {
           console.error('❌ Fehler bei Chart-Berechnung:', chartError);
+          // Fallback zu Demo-Daten
+          await loadDemoChartData();
         }
       }
 
@@ -322,6 +334,8 @@ export default function HumanDesignChartPage() {
       }
     } catch (error) {
       console.error('Fehler beim Laden der Chart-Daten:', error);
+      // Fallback zu Demo-Daten
+      await loadDemoChartData();
     }
   };
 
