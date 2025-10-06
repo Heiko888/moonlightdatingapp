@@ -32,7 +32,6 @@ import {
   Star
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import AnimatedStars from '@/components/AnimatedStars';
 
 interface RegistrationData {
   email: string;
@@ -215,7 +214,6 @@ const RegisterPage: React.FC = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
       
       <Container maxWidth="md" sx={{ py: 8, position: 'relative', zIndex: 2 }}>
         <motion.div

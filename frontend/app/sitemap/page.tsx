@@ -36,7 +36,6 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import AnimatedStars from '@/components/AnimatedStars';
 
 export default function SitemapPage() {
   const mainPages = [
@@ -74,7 +73,6 @@ export default function SitemapPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
       
       <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 2 }}>
         {/* Header */}

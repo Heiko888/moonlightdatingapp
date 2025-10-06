@@ -57,54 +57,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-
-// Floating Stars Animation
-const AnimatedStars = () => {
-  const stars = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: Math.random() * 3 + 1,
-    delay: Math.random() * 2
-  }));
-
-  return (
-    <Box sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 1
-    }}>
-      {stars.map((star) => (
-        <motion.div
-          key={star.id}
-          style={{
-            position: 'absolute',
-            left: star.left,
-            top: star.top,
-            width: star.size,
-            height: star.size,
-            background: 'rgba(255, 255, 255, 0.6)',
-            borderRadius: '50%',
-            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
-          }}
-          animate={{
-            opacity: [0.3, 1, 0.3],
-            scale: [0.8, 1.2, 0.8]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: star.delay
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
+import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 export default function HumanDesignInfo() {
   const [isClient, setIsClient] = useState(false);
@@ -367,53 +320,10 @@ export default function HumanDesignInfo() {
   if (!isClient) return null;
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='80' cy='80' r='1'/%3E%3Ccircle cx='40' cy='60' r='0.5'/%3E%3Ccircle cx='60' cy='40' r='0.5'/%3E%3Ccircle cx='90' cy='10' r='0.8'/%3E%3Ccircle cx='10' cy='90' r='0.8'/%3E%3C/g%3E%3C/svg%3E")
-      `,
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <AnimatedStars />
-      
-      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
-        {/* Header */}
-        <motion.div
-          
-          
-          
-        >
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
-              <motion.div
-                animate={{ 
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                <Brain size={48} color="#FFD700" />
-              </motion.div>
-              <Typography variant="h2" sx={{ 
-                color: '#FFD700', 
-                fontWeight: 800, 
-                ml: 2,
-                textShadow: '0 0 20px rgba(255, 215, 0, 0.5)'
-              }}>
-                Human Design
-              </Typography>
-            </Box>
-            <Typography variant="h4" sx={{ color: 'white', mb: 3, fontWeight: 600 }}>
-              🌟 Entdecke deine wahre Natur und lebe authentisch
-            </Typography>
+    <UnifiedPageLayout
+      title="🧠 Human Design"
+      subtitle="Entdecke deine wahre Natur und lebe authentisch"
+    >
             <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)', maxWidth: 800, mx: 'auto', lineHeight: 1.6 }}>
               Human Design ist ein System der Selbsterkenntnis, das dir hilft, deine einzigartige Natur zu verstehen 
               und authentisch zu leben. Entdecke deinen Typ, deine Autorität und dein wahres Potenzial.
@@ -956,7 +866,6 @@ export default function HumanDesignInfo() {
             </motion.div>
           </motion.div>
         )}
-      </Container>
-    </Box>
+    </UnifiedPageLayout>
   );
 }

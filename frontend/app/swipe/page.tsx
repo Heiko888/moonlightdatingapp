@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import ProfileImageCarousel from '../../components/ProfileImageCarousel';
+import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 interface ProfileImage {
   id: string;
@@ -80,216 +81,6 @@ interface Match {
   createdAt: string;
 }
 
-// Floating Stars Animation
-const AnimatedStars = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
-
-  const stars = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: Math.random() * 3 + 1,
-    delay: Math.random() * 2
-  }));
-
-  return (
-    <Box sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 1
-    }}>
-      {stars.map((star) => (
-        <motion.div
-          key={star.id}
-          style={{
-            position: 'absolute',
-            left: star.left,
-            top: star.top,
-            width: star.size,
-            height: star.size,
-            background: 'rgba(255, 255, 255, 0.6)',
-            borderRadius: '50%',
-            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
-          }}
-          animate={{
-            opacity: [0.3, 1, 0.3],
-            scale: [0.8, 1.2, 0.8]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: star.delay
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
-
-// Animated Human Design Symbols Background
-const AnimatedHDSymbols = () => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
-
-  const symbols = [
-    { id: 'head', x: '15%', y: '10%', size: 40, color: '#FFD700', delay: 0 },
-    { id: 'ajna', x: '85%', y: '15%', size: 35, color: '#8B5CF6', delay: 0.5 },
-    { id: 'throat', x: '20%', y: '80%', size: 30, color: '#06B6D4', delay: 1 },
-    { id: 'g', x: '80%', y: '75%', size: 45, color: '#10B981', delay: 1.5 },
-    { id: 'heart', x: '10%', y: '45%', size: 35, color: '#EF4444', delay: 2 },
-    { id: 'spleen', x: '90%', y: '50%', size: 30, color: '#F59E0B', delay: 2.5 },
-    { id: 'sacral', x: '50%', y: '5%', size: 40, color: '#EC4899', delay: 3 },
-    { id: 'solar', x: '50%', y: '90%', size: 35, color: '#F97316', delay: 3.5 },
-    { id: 'root', x: '5%', y: '25%', size: 30, color: '#84CC16', delay: 4 }
-  ];
-
-  return (
-    <Box sx={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 0,
-      overflow: 'hidden'
-    }}>
-      {symbols.map((symbol) => (
-        <motion.div
-          key={symbol.id}
-          initial={{ 
-            opacity: 0, 
-            scale: 0,
-            rotate: 0
-          }}
-          animate={{ 
-            opacity: [0, 0.3, 0.1, 0.3],
-            scale: [0, 1.2, 0.8, 1],
-            rotate: [0, 180, 360]
-          }}
-          transition={{
-            duration: 8,
-            delay: symbol.delay,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: symbol.x,
-            top: symbol.y,
-            width: symbol.size,
-            height: symbol.size,
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${symbol.color}40, ${symbol.color}20, transparent)`,
-            border: `2px solid ${symbol.color}60`,
-            boxShadow: `0 0 20px ${symbol.color}40, inset 0 0 20px ${symbol.color}20`
-          }}
-        />
-      ))}
-      
-      {/* Floating Energy Orbs */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={`orb-${i}`}
-          initial={{ 
-            opacity: 0,
-            x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
-            y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0
-          }}
-          animate={{ 
-            opacity: [0, 0.4, 0],
-            x: [null, typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0],
-            y: [null, typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0]
-          }}
-          transition={{
-            duration: 15 + Math.random() * 10,
-            delay: Math.random() * 5,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{
-            position: 'absolute',
-            width: 20 + Math.random() * 30,
-            height: 20 + Math.random() * 30,
-            borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(255,215,0,0.3), rgba(255,215,0,0.1), transparent)`,
-            boxShadow: '0 0 15px rgba(255,215,0,0.4)'
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
-
-// Floating Stars Animation (Sales-Style)
-const FloatingStars = () => {
-  const stars = [
-    { left: '10%', top: '15%', size: 2 },
-    { left: '85%', top: '25%', size: 3 },
-    { left: '45%', top: '35%', size: 2 },
-    { left: '75%', top: '45%', size: 3 },
-    { left: '20%', top: '55%', size: 2 },
-    { left: '90%', top: '65%', size: 3 },
-    { left: '30%', top: '75%', size: 2 },
-    { left: '60%', top: '85%', size: 3 },
-    { left: '15%', top: '95%', size: 2 },
-    { left: '80%', top: '5%', size: 3 },
-    { left: '50%', top: '15%', size: 2 },
-    { left: '25%', top: '25%', size: 3 },
-    { left: '70%', top: '35%', size: 2 },
-    { left: '40%', top: '45%', size: 3 },
-    { left: '95%', top: '55%', size: 2 },
-    { left: '5%', top: '65%', size: 3 },
-    { left: '55%', top: '75%', size: 2 },
-    { left: '35%', top: '85%', size: 3 },
-    { left: '65%', top: '95%', size: 2 },
-    { left: '90%', top: '10%', size: 3 }
-  ];
-
-  return (
-    <Box sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 1
-    }}>
-      {stars.map((star, i) => (
-        <Box
-          key={i}
-          sx={{
-            position: 'absolute',
-            width: star.size,
-            height: star.size,
-            background: 'rgba(255, 255, 255, 0.6)',
-            borderRadius: '50%',
-            left: star.left,
-            top: star.top,
-            opacity: 0.8,
-            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
 
 export default function SwipePage() {
   const [mounted, setMounted] = useState(false);
@@ -859,187 +650,116 @@ export default function SwipePage() {
 
   if (loading) {
     return (
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
-      </Box>
+      <UnifiedPageLayout
+        title="💕 Swipe & Match"
+        subtitle="Finde deine energetischen Matches"
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+        </Box>
+      </UnifiedPageLayout>
     );
   }
 
   if (current >= profiles.length) {
     return (
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        p: 4
-      }}>
-        <Typography variant="h3" sx={{ color: '#ffffff', mb: 3, textAlign: 'center' }}>
-          🎉 Alle Profile durchgesehen!
-        </Typography>
-        <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, textAlign: 'center' }}>
-          Du hast alle verfügbaren Profile bewertet. Schau später wieder vorbei!
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setCurrent(0);
-            setShowProfile(false);
-            setCompatibility(null);
-          }}
-          sx={{
-            bgcolor: '#FFD700',
-            color: '#23233a',
-            '&:hover': { bgcolor: '#fbbf24' }
-          }}
-        >
-          Von vorne beginnen
-        </Button>
-      </Box>
+      <UnifiedPageLayout
+        title="🎉 Alle Profile durchgesehen!"
+        subtitle="Du hast alle verfügbaren Profile bewertet. Schau später wieder vorbei!"
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setCurrent(0);
+              setShowProfile(false);
+              setCompatibility(null);
+            }}
+            sx={{
+              bgcolor: '#FFD700',
+              color: '#23233a',
+              px: 4,
+              py: 2,
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              '&:hover': { bgcolor: '#fbbf24' }
+            }}
+          >
+            Von vorne beginnen
+          </Button>
+        </Box>
+      </UnifiedPageLayout>
     );
   }
 
   const currentProfile = profiles[current];
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
-      position: 'relative',
-      overflow: 'hidden',
-      py: 4
-    }}>
-      <AnimatedStars />
-      <AnimatedHDSymbols />
-      
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Box sx={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          right: 0, 
-          zIndex: 10,
-          background: 'rgba(255,255,255,0.05)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255,255,255,0.1)',
-          p: 3
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              flexDirection: { xs: 'column', sm: 'row' },
-              gap: 2
-            }}>
-              <Box sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
-                <Typography 
-                  variant="h3" 
-                  sx={{ 
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontWeight: 800,
-                    fontSize: { xs: '2rem', md: '2.5rem' },
-                    mb: 1
-                  }}
-                >
-                  💕 Swipe & Match
-                </Typography>
-                <Typography sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem' }}>
-                  Finde deine energetischen Matches
-                </Typography>
-                {dataSource !== 'unknown' && (
-                  <Typography variant="caption" sx={{ 
-                    color: dataSource === 'real' ? '#10b981' : '#f59e0b',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    display: 'block',
-                    mt: 0.5
-                  }}>
-                    {dataSource === 'real' ? '✅ Echte Profile' : '⚠️ Demo-Daten'}
-                  </Typography>
-                )}
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Button
-                  variant="contained"
-                  startIcon={<Users size={20} />}
-                  onClick={() => setShowMatches(!showMatches)}
-                  sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
-                    color: 'white',
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: 3,
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
-                    }
-                  }}
-                >
-                  Matches ({matches.length})
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<Heart size={20} />}
-                  sx={{
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    color: 'white',
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: 3,
-                    fontWeight: 600,
-                    textTransform: 'none',
-                    '&:hover': {
-                      borderColor: 'rgba(255, 255, 255, 0.6)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                    }
-                  }}
-                >
-                  Swipe weiter
-                </Button>
-              </Box>
-            </Box>
-          </Container>
+    <UnifiedPageLayout
+      title="💕 Swipe & Match"
+      subtitle="Finde deine energetischen Matches"
+    >
+      {/* Header Actions */}
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center', mb: 4 }}>
+        <Button
+          variant="contained"
+          startIcon={<Users size={20} />}
+          onClick={() => setShowMatches(!showMatches)}
+          sx={{
+            background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+            color: 'white',
+            px: 3,
+            py: 1.5,
+            borderRadius: 3,
+            fontWeight: 600,
+            textTransform: 'none',
+            boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+              transform: 'translateY(-2px)',
+              boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+            }
+          }}
+        >
+          Matches ({matches.length})
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<Heart size={20} />}
+          sx={{
+            borderColor: 'rgba(255, 255, 255, 0.3)',
+            color: 'white',
+            px: 3,
+            py: 1.5,
+            borderRadius: 3,
+            fontWeight: 600,
+            textTransform: 'none',
+            '&:hover': {
+              borderColor: 'rgba(255, 255, 255, 0.6)',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            }
+          }}
+        >
+          Swipe weiter
+        </Button>
+      </Box>
+
+      {/* Datenquelle Info */}
+      {dataSource !== 'unknown' && (
+        <Box sx={{ textAlign: 'center', mb: 2 }}>
+          <Typography variant="caption" sx={{ 
+            color: dataSource === 'real' ? '#10b981' : '#f59e0b',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            display: 'block'
+          }}>
+            {dataSource === 'real' ? '✅ Echte Profile' : '⚠️ Demo-Daten'}
+          </Typography>
         </Box>
-      </motion.div>
+      )}
 
       {/* Hauptinhalt */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ pb: 4 }}>
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'center', 
@@ -1651,6 +1371,6 @@ export default function SwipePage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </Box>
+    </UnifiedPageLayout>
   );
 }

@@ -22,7 +22,6 @@ import {
 import { motion } from 'framer-motion';
 import { Check, X, Star, Diamond, Crown, Lock, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import AnimatedStars from '../../components/AnimatedStars';
 import AnimatedMoon from '../../components/AnimatedMoon';
 import { pageAccessConfig } from '../../lib/subscription/accessControl';
 import { subscriptionPackages } from '../../lib/subscription/packages';
@@ -96,7 +95,6 @@ export default function PackageOverviewPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
       <AnimatedMoon size={120} position="top-right" />
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8 }}>

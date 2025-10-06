@@ -28,7 +28,6 @@ import {
   MenuBook,
   ArrowForward
 } from '@mui/icons-material';
-import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';

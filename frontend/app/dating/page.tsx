@@ -50,55 +50,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import SSRSafeStars from '@/components/SSRSafeStars';
-
-// Floating Stars Animation
-const AnimatedStars = () => {
-  const stars = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: Math.random() * 3 + 1,
-    delay: Math.random() * 2
-  }));
-
-  return (
-    <Box sx={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      zIndex: 1
-    }}>
-      {stars.map((star) => (
-        <motion.div
-          key={star.id}
-          style={{
-            position: 'absolute',
-            left: star.left,
-            top: star.top,
-            width: star.size,
-            height: star.size,
-            background: 'rgba(255, 255, 255, 0.6)',
-            borderRadius: '50%',
-            boxShadow: '0 0 4px rgba(255, 255, 255, 0.8)'
-          }}
-          animate={{
-            opacity: [0.3, 1, 0.3],
-            scale: [0.8, 1.2, 0.8]
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: star.delay
-          }}
-        />
-      ))}
-    </Box>
-  );
-};
+import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 export default function DatingDashboard() {
   const [activeTab, setActiveTab] = useState('swipe');
@@ -239,7 +191,6 @@ export default function DatingDashboard() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {isClient && <AnimatedStars />}
       
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
