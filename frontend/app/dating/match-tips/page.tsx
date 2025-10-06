@@ -413,7 +413,12 @@ export default function MatchTipsPage() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+          background: `
+            radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+            linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+          `,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'

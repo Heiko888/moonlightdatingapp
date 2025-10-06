@@ -107,11 +107,27 @@ export default function UpgradePage() {
       userData.subscriptionPlan = planName;
       localStorage.setItem('userData', JSON.stringify(userData));
       
-      localStorage.setItem('userSubscription', JSON.stringify({
-        plan: planName,
+      // Erstelle vollständige Subscription-Daten
+      const subscriptionData = {
+        id: `sub_${Date.now()}`,
+        userId: userData.userId || 'user_123',
+        packageId: planName,
+        plan: plans[planName as keyof typeof plans].name,
         status: 'active',
         startDate: new Date().toISOString(),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 Tage
+        billingCycle: 'monthly',
+        autoRenew: true,
+        paymentMethod: 'credit_card',
         features: plans[planName as keyof typeof plans].features
+      };
+      
+      localStorage.setItem('userSubscription', JSON.stringify(subscriptionData));
+      
+      // Trigger storage event für andere Tabs
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'user-subscription',
+        newValue: JSON.stringify(subscriptionData)
       }));
       
       setCurrentPlan(planName);

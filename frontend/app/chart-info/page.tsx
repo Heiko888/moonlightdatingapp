@@ -19,8 +19,8 @@ import {
   Moon,
   Activity
 } from 'lucide-react';
-import AnimatedStars from '@/components/AnimatedStars';
 import Link from 'next/link';
+import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 export default function ChartInfoPage() {
   const router = useRouter();
@@ -185,71 +185,12 @@ export default function ChartInfoPage() {
       userSubscription={userSubscription} 
       onUpgrade={() => router.push('/pricing')}
     >
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: `
-          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-        `,
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-      <AnimatedStars />
-      
-      <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
-        {/* Header */}
-        <motion.div
-          
-          
-          
-        >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <motion.div
-              animate={{ 
-                textShadow: [
-                  '0 0 20px rgba(255, 215, 0, 0.5)',
-                  '0 0 30px rgba(255, 215, 0, 0.8)',
-                  '0 0 20px rgba(255, 215, 0, 0.5)'
-                ]
-              }}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-            >
-              <Typography variant="h1" sx={{
-                color: 'white',
-                fontWeight: 800,
-                fontSize: { xs: '2.5rem', md: '4rem' },
-                mb: 2,
-                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 2
-              }}>
-                <Star size={64} style={{ color: '#FFD700' }} />
-                Human Design Charts
-                <Star size={64} style={{ color: '#FFD700' }} />
-              </Typography>
-            </motion.div>
-            
-              <Typography variant="h5" sx={{
-              color: 'rgba(255,255,255,0.8)',
-                fontSize: { xs: '1.2rem', md: '1.5rem' },
-                maxWidth: 800,
-                mx: 'auto',
-              lineHeight: 1.6,
-              mb: 4
-              }}>
-                Entdecke dein einzigartiges Human Design Chart und verstehe deine wahre Natur
-              </Typography>
+      <UnifiedPageLayout
+        title="📊 Chart Informationen"
+        subtitle="Verstehe dein Human Design Chart: Zentren, Kanäle, Tore und Profile im Detail"
+        showStars={true}
+      >
+        <Container maxWidth="xl" sx={{ py: 4 }}>
 
             {/* Navigation Tabs */}
             <Paper sx={{
@@ -661,8 +602,8 @@ export default function ChartInfoPage() {
             </Box>
           </Box>
         </motion.div>
-      </Container>
-    </Box>
+        </Container>
+      </UnifiedPageLayout>
     </AccessControl>
   );
 }

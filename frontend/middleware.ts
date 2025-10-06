@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server'
 const subscriptionAccess = {
   'free': ['/chart', '/chart-info', '/human-design-info', '/'],
   'basic': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading'],
-  'premium': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip'],
+  'premium': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/analytics', '/api-access'],
   'vip': ['/chart', '/chart-info', '/human-design-info', '/', '/dashboard', '/profile', '/settings', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip', '/admin']
 }
 
@@ -15,13 +15,16 @@ function getUserSubscriptionFromRequest(request: NextRequest) {
   const cookieSubscription = request.cookies.get('user-subscription')?.value
   if (cookieSubscription) {
     try {
-      return JSON.parse(cookieSubscription)
+      const subscription = JSON.parse(cookieSubscription)
+      console.log('Middleware: Found subscription in cookie:', subscription)
+      return subscription
     } catch (e) {
       console.warn('Invalid subscription cookie:', e)
     }
   }
   
   // Fallback to default free plan
+  console.log('Middleware: No subscription found, using free plan')
   return { packageId: 'free', plan: 'Free', status: 'active' }
 }
 
@@ -97,55 +100,27 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Temporarily allow dashboard without authentication
+  // Öffentliche App - keine Authentifizierung erforderlich
   if (isProtectedRoute) {
-    // Prüfe HttpOnly Cookies für Authentifizierung
+    // Prüfe HttpOnly Cookies für Authentifizierung (optional)
     const accessToken = request.cookies.get('access_token')?.value
     const userId = request.cookies.get('user_id')?.value
     
-    console.log('Middleware Debug:', {
-      pathname: request.nextUrl.pathname,
-      accessToken: accessToken ? 'present' : 'missing',
-      userId: userId ? 'present' : 'missing',
-      allCookies: request.cookies.getAll().map(c => c.name)
-    })
-    
-    if (!accessToken || !userId) {
-      console.log('No auth cookies found, redirecting to login')
+    // Nur für Admin-Bereiche Authentifizierung erforderlich
+    if (request.nextUrl.pathname.startsWith('/admin') && (!accessToken || !userId)) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
 
-    // Subscription-based access control
+    // Subscription-based access control (nur für VIP-Bereiche)
     const subscription = getUserSubscriptionFromRequest(request)
-    
-    // Check if user has access to the requested route
-    const userPlan = subscription.packageId || 'free'
-    const allowedRoutes = subscriptionAccess[userPlan as keyof typeof subscriptionAccess] || subscriptionAccess.free
-    
     const currentPath = request.nextUrl.pathname
-    const hasAccess = allowedRoutes.some(route => currentPath.startsWith(route))
     
-    if (!hasAccess) {
-      // Redirect to upgrade page for premium features
-      if (currentPath.startsWith('/bodygraph-advanced') || 
-          currentPath.startsWith('/chart-comparison') || 
-          currentPath.startsWith('/dating') || 
-          currentPath.startsWith('/coaching') ||
-          currentPath.startsWith('/analytics') ||
-          currentPath.startsWith('/api-access') ||
-          currentPath.startsWith('/vip-community') ||
-          currentPath.startsWith('/personal-coach') ||
-          currentPath.startsWith('/dashboard-vip')) {
-        return NextResponse.redirect(new URL('/pricing', request.url))
-      }
-      
-      // Redirect to basic upgrade for basic features
-      if (currentPath.startsWith('/dashboard') || 
-          currentPath.startsWith('/profile') || 
-          currentPath.startsWith('/settings') ||
-          currentPath.startsWith('/mondkalender') ||
-          currentPath.startsWith('/community') ||
-          currentPath.startsWith('/reading')) {
+    // Nur VIP-Bereiche wirklich blockieren
+    if (currentPath.startsWith('/vip-community') ||
+        currentPath.startsWith('/personal-coach') ||
+        currentPath.startsWith('/dashboard-vip')) {
+      const userPlan = subscription?.packageId || 'free'
+      if (userPlan !== 'vip' && userPlan !== 'admin') {
         return NextResponse.redirect(new URL('/pricing', request.url))
       }
     }

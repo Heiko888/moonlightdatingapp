@@ -1,6 +1,7 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Box, 
   Typography, 
@@ -24,6 +25,57 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Prüfe ob Benutzer eingeloggt ist
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      
+      if (token && userId) {
+        setIsAuthenticated(true);
+        // Weiterleitung zum Dashboard für eingeloggte Benutzer
+        router.push('/dashboard');
+        return;
+      }
+      
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, [router]);
+
+  // Loading-Zustand während der Authentifizierungsprüfung
+  if (isLoading) {
+    return (
+      <Box sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        color: 'white'
+      }}>
+        <Typography variant="h4" sx={{ textAlign: 'center' }}>
+          🌟 Lade...
+        </Typography>
+      </Box>
+    );
+  }
+
+  // Wenn eingeloggt, zeige nichts (Weiterleitung läuft)
+  if (isAuthenticated) {
+    return null;
+  }
   const features = [
     {
       icon: <Heart size={32} />,

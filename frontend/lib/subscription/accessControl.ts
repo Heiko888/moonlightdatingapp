@@ -93,6 +93,16 @@ export const checkPageAccess = (
 
   // Kein Login = trotzdem Zugang (App ist öffentlich)
   if (!userSubscription) {
+    // Nur VIP-Bereiche wirklich blockieren
+    if (pageConfig.requiredPackage === 'vip' || pageConfig.requiredPackage === 'admin') {
+      return {
+        canAccess: false,
+        requiredPackage: pageConfig.requiredPackage,
+        currentPackage: 'free',
+        upgradeRequired: true,
+        message: `Upgrade auf ${pageConfig.requiredPackage} erforderlich`
+      };
+    }
     return {
       canAccess: true,
       requiredPackage: pageConfig.requiredPackage,
@@ -102,6 +112,16 @@ export const checkPageAccess = (
     };
   }
 
+  // Debug: Log subscription data
+  console.log('Access Control Debug:', {
+    path: normalizedPath,
+    userSubscription,
+    requiredPackage: pageConfig.requiredPackage,
+    currentPackage: userSubscription.packageId,
+    packageId: userSubscription.packageId,
+    status: userSubscription.status
+  });
+
   // Prüfe Paket-Berechtigung
   const packageHierarchy = ['free', 'basic', 'premium', 'vip', 'admin'];
   const currentLevel = packageHierarchy.indexOf(userSubscription.packageId);
@@ -109,28 +129,7 @@ export const checkPageAccess = (
 
   // Package Hierarchy Debug entfernt
 
-  // Wenn exactPackage true ist, nur exakt dieses Paket erlauben
-  if (pageConfig.exactPackage) {
-    if (userSubscription.packageId === pageConfig.requiredPackage) {
-      return {
-        canAccess: true,
-        requiredPackage: pageConfig.requiredPackage,
-        currentPackage: userSubscription.packageId,
-        upgradeRequired: false,
-        message: 'Zugang gewährt'
-      };
-    } else {
-      return {
-        canAccess: false,
-        requiredPackage: pageConfig.requiredPackage,
-        currentPackage: userSubscription.packageId,
-        upgradeRequired: true,
-        message: `Diese Seite ist nur für ${pageConfig.requiredPackage} Benutzer verfügbar`
-      };
-    }
-  }
-
-  // Normale Hierarchie-Prüfung für andere Seiten
+  // Normale Hierarchie-Prüfung - höhere Pakete haben Zugang zu niedrigeren
   if (currentLevel >= requiredLevel) {
     return {
       canAccess: true,
@@ -148,6 +147,7 @@ export const checkPageAccess = (
       message: `Upgrade auf ${pageConfig.requiredPackage} erforderlich`
     };
   }
+
 };
 
 export const getAccessiblePages = (userSubscription: UserSubscription | null): PageAccess[] => {

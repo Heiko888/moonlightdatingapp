@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 // Ungenutzte Imports entfernt
 import { 
   Box, 
@@ -394,15 +395,12 @@ function CommunityContent() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/pricing')}
     >
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <AnimatedStars />
-        
-        <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <UnifiedPageLayout
+        title="🌟 Community Hub"
+        subtitle="Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey"
+        showStars={true}
+      >
+        <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Header */}
           <motion.div
             
@@ -410,22 +408,6 @@ function CommunityContent() {
             
           >
             <Box sx={{ textAlign: 'center', mb: 4 }}>
-              <Typography variant="h2" sx={{
-                background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                mb: 2
-              }}>
-                🌟 Community Hub
-              </Typography>
-              <Typography variant="h6" sx={{
-                color: 'rgba(255,255,255,0.8)',
-                mb: 3
-              }}>
-                Dein zentraler Ort für Human Design Austausch
-              </Typography>
               
               {/* Zurück zum Dashboard Button */}
               <Button
@@ -1534,7 +1516,7 @@ function CommunityContent() {
             </Button>
           </DialogActions>
         </Dialog>
-      </Box>
+      </UnifiedPageLayout>
     </AccessControl>
   );
 }

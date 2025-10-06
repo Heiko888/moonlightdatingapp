@@ -39,36 +39,7 @@ import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 import { useRouter } from 'next/navigation';
-
-// Animierte Sterne Komponente
-const AnimatedStars = () => (
-  <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-    {[...Array(20)].map((_, i) => (
-      <motion.div
-        key={i}
-        style={{
-          position: 'absolute',
-          width: '3px',
-          height: '3px',
-          background: '#FFD700',
-          borderRadius: '50%',
-          boxShadow: '0 0 8px #FFD700, 0 0 16px #FFD700, 0 0 24px #FFD700',
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-        }}
-        animate={{
-          opacity: [0.2, 1, 0.2],
-          scale: [0.6, 1.4, 0.6],
-        }}
-        transition={{
-          duration: 2.5 + Math.random() * 3,
-          repeat: Infinity,
-          delay: Math.random() * 3,
-        }}
-      />
-    ))}
-  </Box>
-);
+import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 interface ProfileData {
   user: {
@@ -400,7 +371,12 @@ function ProfilContent() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -416,66 +392,27 @@ function ProfilContent() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/pricing')}
     >
-    <Box sx={{ 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <AnimatedStars />
-      
-      <Container maxWidth="lg" sx={{ py: 8, pt: 12 }}>
-        {/* Header */}
-        <motion.div
-          
-          
-          
-        >
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="h2" sx={{ 
-              color: '#ffffff', 
-              fontWeight: 800,
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
-              mb: 2,
-              textShadow: '0 4px 20px rgba(0,0,0,0.5)'
-            }}>
-              Mein Profil 👤
-            </Typography>
-            <Typography variant="h5" sx={{ 
-              color: 'rgba(255,255,255,0.8)',
-              maxWidth: 800,
-              mx: 'auto'
-            }}>
-              Hier findest du alle deine persönlichen Daten und Aktivitäten
-            </Typography>
-          </Box>
-        </motion.div>
+      <UnifiedPageLayout
+        title="👤 Mein Profil"
+        subtitle="Hier findest du alle deine persönlichen Daten und Aktivitäten"
+        showStars={true}
+      >
+        <Container maxWidth="lg" sx={{ py: 4 }}>
 
         {/* Message Alert */}
         {message && (
-          <motion.div
-            
-            
-            
+          <Alert 
+            severity="success" 
+            sx={{ mb: 3, borderRadius: 2 }}
+            onClose={() => setMessage('')}
           >
-            <Alert 
-              severity="success" 
-              sx={{ mb: 3, borderRadius: 2 }}
-              onClose={() => setMessage('')}
-            >
-              {message}
-            </Alert>
-          </motion.div>
+            {message}
+          </Alert>
         )}
 
         <Grid container spacing={4}>
           {/* Linke Spalte - Profil-Informationen */}
           <Grid item xs={12} lg={8}>
-            <motion.div
-              
-              
-              
-            >
               {/* Profil-Karte */}
               <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.1)',
@@ -744,16 +681,10 @@ function ProfilContent() {
                   </Grid>
                 </CardContent>
               </Card>
-            </motion.div>
           </Grid>
 
           {/* Rechte Spalte - Aktivitäten und Statistiken */}
           <Grid item xs={12} lg={4}>
-            <motion.div
-              
-              
-              
-            >
               {/* Aktivitäts-Statistiken */}
               <Card sx={{ 
                 background: 'rgba(255, 255, 255, 0.1)',
@@ -925,11 +856,10 @@ function ProfilContent() {
                   </CardContent>
                 </Card>
               )}
-            </motion.div>
           </Grid>
         </Grid>
-      </Container>
-    </Box>
+        </Container>
+      </UnifiedPageLayout>
     </AccessControl>
   );
 }

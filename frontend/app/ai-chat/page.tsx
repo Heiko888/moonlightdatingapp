@@ -1,6 +1,10 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import { motion } from 'framer-motion';
+import SSRSafeStars from '@/components/SSRSafeStars';
+import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 import AIChatInterface from '../../components/AIChatInterface';
 import { Bot, Sparkles, BookOpen, Users } from 'lucide-react';
 
@@ -11,10 +15,8 @@ export default function AIChatPage() {
 
   useEffect(() => {
     // Simuliere das Laden von Benutzerdaten
-    // In der echten App würden Sie diese aus dem Auth-Context oder localStorage laden
     const loadUserData = async () => {
       try {
-        // Beispiel: Lade Benutzer-Chart aus localStorage oder API
         const savedChart = localStorage.getItem('userChart');
         const savedUserId = localStorage.getItem('userId');
         
@@ -25,7 +27,6 @@ export default function AIChatPage() {
         if (savedUserId) {
           setUserId(savedUserId);
         } else {
-          // Fallback: Generiere eine temporäre User-ID
           const tempUserId = `temp_${Date.now()}`;
           setUserId(tempUserId);
           localStorage.setItem('userId', tempUserId);
@@ -42,94 +43,153 @@ export default function AIChatPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Lade AI-Chat...</p>
-        </div>
-      </div>
+      <Box sx={{
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white'
+      }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{
+            width: 48,
+            height: 48,
+            border: '3px solid rgba(255, 107, 157, 0.3)',
+            borderTop: '3px solid #ff6b9d',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            mx: 'auto',
+            mb: 2
+          }} />
+          <Typography variant="h6" sx={{ color: 'white' }}>
+            Lade AI-Chat...
+          </Typography>
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full">
-              <Bot className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                AI Human Design Coach
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Ihr persönlicher Berater für Human Design
-              </p>
-            </div>
-          </div>
-        </div>
+    <UnifiedPageLayout
+      title="🤖 AI Human Design Chat"
+      subtitle="Erhalte personalisierte Einblicke in dein Human Design mit unserer KI-gestützten Analyse"
+      icon="🤖"
+    >
+      {/* Features */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <Box sx={{ mb: 6 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 3, mb: 4 }}>
+            <Box sx={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '16px',
+              p: 3,
+              textAlign: 'center'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                <Box sx={{
+                  width: 40,
+                  height: 40,
+                  background: 'rgba(255, 107, 157, 0.2)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Sparkles size={20} color="#ff6b9d" />
+                </Box>
+              </Box>
+              <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                KI-gestützte Beratung
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                Personalisierte Einblicke basierend auf deinem Human Design
+              </Typography>
+            </Box>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg p-6 shadow-lg">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-full">
-                <Sparkles className="w-5 h-5 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900">KI-gestützte Beratung</h3>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Erhalten Sie personalisierte Antworten basierend auf Ihrem Human Design Chart und umfangreichem PDF-Wissen.
-            </p>
-          </div>
+            <Box sx={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '16px',
+              p: 3,
+              textAlign: 'center'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                <Box sx={{
+                  width: 40,
+                  height: 40,
+                  background: 'rgba(78, 205, 196, 0.2)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <BookOpen size={20} color="#4ecdc4" />
+                </Box>
+              </Box>
+              <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                Tiefe Analysen
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                Detaillierte Erklärungen zu deinen Energien und Mustern
+              </Typography>
+            </Box>
 
-          <div className="bg-white rounded-lg p-6 shadow-lg">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900">PDF-Wissen Integration</h3>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Zugriff auf professionelle Human Design Literatur und Dokumentation für fundierte Antworten.
-            </p>
-          </div>
+            <Box sx={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '16px',
+              p: 3,
+              textAlign: 'center'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                <Box sx={{
+                  width: 40,
+                  height: 40,
+                  background: 'rgba(102, 126, 234, 0.2)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Users size={20} color="#667eea" />
+                </Box>
+              </Box>
+              <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
+                Community-Integration
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                Verbinde dich mit anderen und teile deine Erkenntnisse
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </motion.div>
 
-          <div className="bg-white rounded-lg p-6 shadow-lg">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-indigo-100 rounded-full">
-                <Users className="w-5 h-5 text-indigo-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900">Persönlicher Kontext</h3>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Beratung angepasst an Ihr spezifisches Human Design Chart für maximale Relevanz.
-            </p>
-          </div>
-        </div>
-
-        {/* Chat Interface */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
-            <AIChatInterface 
-              userChart={userChart}
-              userId={userId || undefined}
-              className="h-[600px]"
-            />
-          </div>
-        </div>
-
-        {/* Footer Info */}
-        <div className="text-center mt-8 text-gray-500 text-sm">
-          <p>
-            💡 <strong>Tipp:</strong> Stellen Sie spezifische Fragen zu Ihrem Human Design Chart, 
-            Ihrer Strategie, Autorität oder anderen Aspekten Ihres Designs.
-          </p>
-        </div>
-      </div>
-    </div>
+      {/* Chat Interface */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <AIChatInterface 
+          userChart={userChart} 
+          userId={userId} 
+        />
+      </motion.div>
+    </UnifiedPageLayout>
   );
 }
-

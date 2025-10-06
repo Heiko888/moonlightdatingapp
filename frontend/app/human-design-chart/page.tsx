@@ -36,13 +36,13 @@ import {
   Calendar,
   Heart,
 } from 'lucide-react';
-import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
 import { SubscriptionService } from '../../lib/subscription/subscriptionService';
 import { safeJsonParse } from '@/lib/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
+import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -495,52 +495,29 @@ export default function HumanDesignChartPage() {
       userSubscription={userSubscription}
       onUpgrade={() => window.location.href = '/subscription'}
     >
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <AnimatedStars />
-        
-        <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
-          {/* Header */}
+      <UnifiedPageLayout
+        title="🌟 Human Design Chart"
+        subtitle="Dein persönliches Human Design Profil mit vollständiger Bodygraph-Visualisierung"
+        showStars={true}
+      >
+        <Container maxWidth="xl" sx={{ py: 4 }}>
+          {/* Debug Button für Chart-Berechnung */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h2" sx={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 800,
-              mb: 2
-            }}>
-              🌟 Human Design Chart
-            </Typography>
-            <Typography variant="h6" sx={{
-              color: 'rgba(255,255,255,0.8)',
-              mb: 3
-            }}>
-              Dein persönliches Human Design Profil
-            </Typography>
-            
-            {/* Debug Button für Chart-Berechnung */}
-            <Box sx={{ textAlign: 'center', mb: 2 }}>
-              <Button
-                onClick={recalculateChart}
-                variant="outlined"
-                size="small"
-                sx={{
-                  borderColor: 'rgba(255, 215, 0, 0.5)',
-                  color: '#FFD700',
-                  '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)'
-                  }
-                }}
-              >
-                🔄 Chart neu berechnen
-              </Button>
-            </Box>
+            <Button
+              onClick={recalculateChart}
+              variant="outlined"
+              size="small"
+              sx={{
+                borderColor: 'rgba(255, 215, 0, 0.5)',
+                color: '#FFD700',
+                '&:hover': {
+                  borderColor: '#FFD700',
+                  backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                }
+              }}
+            >
+              🔄 Chart neu berechnen
+            </Button>
           </Box>
 
           {/* Type Overview Card */}
@@ -1361,7 +1338,7 @@ export default function HumanDesignChartPage() {
             </Button>
           </Box>
         </Container>
-      </Box>
+      </UnifiedPageLayout>
     </AccessControl>
   );
 }

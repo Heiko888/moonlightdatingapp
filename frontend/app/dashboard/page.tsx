@@ -28,8 +28,11 @@ import {
   Eye,
   Activity
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import EnhancedChartVisuals from '@/components/EnhancedChartVisuals';
+import SeitenuebersichtWidget from '@/components/SeitenuebersichtWidget';
 
 interface DashboardStats {
   moonEntries: number;
@@ -70,6 +73,7 @@ const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [chartData, setChartData] = useState<ChartData | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
 
   useEffect(() => {
     // Prüfe ob Benutzer eingeloggt ist
@@ -84,7 +88,76 @@ const DashboardPage: React.FC = () => {
     
     console.log('Dashboard wird geladen...');
     loadDashboardData();
+    loadUserSubscription();
   }, [router]);
+
+  const loadUserSubscription = useCallback(async () => {
+    try {
+      // Lade Abonnement-Status aus localStorage
+      const storedSubscription = localStorage.getItem('user-subscription');
+      if (storedSubscription) {
+        const subscription = JSON.parse(storedSubscription);
+        setUserSubscription(subscription);
+        console.log('Abonnement geladen:', subscription);
+      } else {
+        // Fallback: Lade aus userData
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          const data = JSON.parse(userData);
+          if (data.subscriptionPlan) {
+            setUserSubscription({
+              packageId: data.subscriptionPlan,
+              status: 'active',
+              plan: data.subscriptionPlan === 'basic' ? 'Basic' : 
+                    data.subscriptionPlan === 'premium' ? 'Premium' : 
+                    data.subscriptionPlan === 'vip' ? 'VIP' : 'Kostenlos'
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden des Abonnements:', error);
+    }
+  }, []);
+
+  // Event Listener für Abonnement-Updates
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'user-subscription' && e.newValue) {
+        try {
+          const subscription = JSON.parse(e.newValue);
+          setUserSubscription(subscription);
+          console.log('Abonnement aktualisiert:', subscription);
+        } catch (error) {
+          console.error('Fehler beim Parsen des Abonnements:', error);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Auch auf localStorage-Änderungen im gleichen Tab hören
+    const handleLocalStorageChange = () => {
+      const storedSubscription = localStorage.getItem('user-subscription');
+      if (storedSubscription) {
+        try {
+          const subscription = JSON.parse(storedSubscription);
+          setUserSubscription(subscription);
+          console.log('Abonnement aktualisiert (local):', subscription);
+        } catch (error) {
+          console.error('Fehler beim Parsen des Abonnements:', error);
+        }
+      }
+    };
+
+    // Polling für localStorage-Änderungen (als Fallback)
+    const interval = setInterval(handleLocalStorageChange, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
 
 
   const loadDashboardData = useCallback(async () => {
@@ -261,9 +334,15 @@ const DashboardPage: React.FC = () => {
         justifyContent: 'center', 
         alignItems: 'center', 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        color: 'white'
       }}>
-        <CircularProgress size={60} sx={{ color: 'white' }} />
+        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
       </Box>
     );
   }
@@ -271,7 +350,12 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%)',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden',
       '&::before': {
@@ -324,6 +408,67 @@ const DashboardPage: React.FC = () => {
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
           </Alert>
+        )}
+
+        {/* Abonnement Status */}
+        {userSubscription && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card sx={{
+              background: userSubscription.packageId === 'vip' ? 'linear-gradient(135deg, #FFD700, #FFA500)' :
+                         userSubscription.packageId === 'premium' ? 'linear-gradient(135deg, #9C27B0, #673AB7)' :
+                         userSubscription.packageId === 'basic' ? 'linear-gradient(135deg, #2196F3, #1976D2)' :
+                         'linear-gradient(135deg, #4CAF50, #388E3C)',
+              mb: 4,
+              borderRadius: 3,
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <CardContent sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: '50%',
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mr: 2
+                    }}>
+                      {userSubscription.packageId === 'vip' ? '👑' :
+                       userSubscription.packageId === 'premium' ? '💎' :
+                       userSubscription.packageId === 'basic' ? '⭐' : '🌱'}
+                    </Box>
+                    <Box>
+                      <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
+                        {userSubscription.plan || 'Kostenlos'} Paket
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                        Status: {userSubscription.status === 'active' ? 'Aktiv' : 'Inaktiv'}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.2)',
+                      color: 'white',
+                      '&:hover': {
+                        background: 'rgba(255, 255, 255, 0.3)'
+                      }
+                    }}
+                    onClick={() => router.push('/pricing')}
+                  >
+                    Upgrade
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          </motion.div>
         )}
 
         {/* Statistik-Karten */}
@@ -1369,6 +1514,57 @@ const DashboardPage: React.FC = () => {
             Abmelden
           </Button>
         </Box>
+
+        {/* Seitenübersicht Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <Grid container spacing={4} sx={{ mb: 4 }}>
+            <Grid item xs={12} md={6}>
+              <SeitenuebersichtWidget 
+                maxHeight={300} 
+                showFilters={true} 
+                compact={true} 
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Card sx={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '16px',
+                boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                height: '100%'
+              }}>
+                <CardContent sx={{ p: 3, textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+                    📊 Dashboard Features
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+                    Entdecke alle verfügbaren Seiten und Features der Human Design App
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    component={Link}
+                    href="/seitenuebersicht"
+                    sx={{
+                      background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #44a08d, #4ecdc4)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)'
+                      }
+                    }}
+                  >
+                    Vollständige Übersicht
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </motion.div>
       </Container>
     </Box>
   );

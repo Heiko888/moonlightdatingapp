@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind CSS entfernt - Design-System bereinigt */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -25,6 +23,7 @@ body {
     radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
     linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%);
   min-height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
 a {

@@ -527,28 +527,28 @@ export default function SwipePage() {
 
     // Lade auch Matches
     const loadMatches = async () => {
-      if (!userId) {
-        console.log('Keine User-ID verfügbar, verwende Mock-Matches');
-        setMatches([
-          {
-            _id: '1',
-            id: '1',
-            userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
-            userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
-            createdAt: new Date().toISOString()
-          },
-          {
-            _id: '2',
-            id: '2',
-            userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
-            userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
-            createdAt: new Date().toISOString()
-          }
-        ]);
-        return;
-      }
-
       try {
+        if (!userId) {
+          console.log('Keine User-ID verfügbar, verwende Mock-Matches');
+          setMatches([
+            {
+              _id: '1',
+              id: '1',
+              userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
+              userB: { _id: '1', name: 'Sarah', image: '/api/placeholder/60/60' },
+              createdAt: new Date().toISOString()
+            },
+            {
+              _id: '2',
+              id: '2',
+              userA: { _id: 'current-user', name: 'Du', image: '/api/placeholder/60/60' },
+              userB: { _id: '2', name: 'Michael', image: '/api/placeholder/60/60' },
+              createdAt: new Date().toISOString()
+            }
+          ]);
+          return;
+        }
+
         // Verwende Supabase statt Backend-Server
         const { data, error } = await supabase
           .from('dating_matches')
@@ -601,17 +601,12 @@ export default function SwipePage() {
 
     loadProfiles();
     
-    // Lade Matches nur wenn userId verfügbar ist
-    if (userId) {
-      loadMatches().catch((error) => {
-        console.error('Fehler beim Laden der Matches:', error);
-        // Fallback zu leeren Matches
-        setMatches([]);
-      });
-    } else {
-      // Verwende Mock-Matches wenn keine User-ID
-      loadMatches();
-    }
+    // Lade Matches - die Funktion behandelt bereits alle Fehler
+    loadMatches().catch((error) => {
+      console.error('Unerwarteter Fehler beim Laden der Matches:', error);
+      // Fallback zu leeren Matches
+      setMatches([]);
+    });
   }, [mounted, userId, mockProfiles]);
 
   // Energetische Kompatibilität berechnen
@@ -866,7 +861,12 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -880,7 +880,12 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

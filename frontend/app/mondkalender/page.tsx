@@ -41,11 +41,9 @@ import {
   Calendar,
   Flower2
 } from 'lucide-react';
-// import AppHeader from '../../components/AppHeader';
-import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import { UserSubscription } from '../../lib/subscription/types';
-// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
+import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 interface MoonPhase {
   name: string;
@@ -826,9 +824,10 @@ export default function MondkalenderPage() {
       <Box sx={{ 
         minHeight: '100vh', 
         background: `
-          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         display: 'flex', 
         justifyContent: 'center',
@@ -836,7 +835,7 @@ export default function MondkalenderPage() {
         flexDirection: 'column',
         gap: 2
       }}>
-        <CircularProgress size={60} sx={{ color: '#8B5CF6' }} />
+        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
           <Typography variant="h6" sx={{ color: 'white', textAlign: 'center' }}>
           Mondkalender wird geladen...
           </Typography>
@@ -859,88 +858,39 @@ export default function MondkalenderPage() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/subscription')}
     >
-    <Box sx={{ 
-      minHeight: '100vh', 
-      background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-      `,
-      position: 'relative',
-      overflow: 'hidden',
-      '@keyframes moonGlow': {
-        '0%': {
-          textShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)',
-        },
-        '100%': {
-          textShadow: '0 0 40px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.6)',
-        }
-      },
-      '@keyframes moonRotate': {
-        '0%': {
-          transform: 'rotate(0deg)',
-        },
-        '100%': {
-          transform: 'rotate(360deg)',
-        }
-      },
-      '@keyframes moonPulse': {
-        '0%': {
-          transform: 'scale(1)',
-          opacity: 0.6,
-        },
-        '50%': {
-          transform: 'scale(1.1)',
-          opacity: 0.8,
-        },
-        '100%': {
-          transform: 'scale(1)',
-          opacity: 0.6,
-        }
-      },
-      '@keyframes moonPhaseGlow': {
-        '0%': {
-          filter: 'brightness(1)',
-          transform: 'scale(1)',
-        },
-        '100%': {
-          filter: 'brightness(1.3)',
-          transform: 'scale(1.05)',
-        }
-      }
-    }}>
-      <AnimatedStars />
-      
-      {/* Animated Moon Background */}
-      <Box sx={{ position: 'absolute', top: '2%', right: '10%', zIndex: 1 }}>
-        <Box
-          sx={{
-            width: 200,
-            height: 200,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
-            boxShadow: '0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.3)',
-            margin: '0 auto',
-            animation: 'moonRotate 20s linear infinite, moonPulse 4s ease-in-out infinite'
-          }}
-        />
-      </Box>
-      
-      <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
-        {/* Header */}
-        <motion.div
+      <UnifiedPageLayout
+        title="🌕 Mondkalender"
+        subtitle="Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben"
+        showStars={true}
+      >
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          {/* Animated Moon Background */}
+          <Box sx={{ position: 'absolute', top: '2%', right: '10%', zIndex: 1 }}>
+            <Box
+              sx={{
+                width: 200,
+                height: 200,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
+                boxShadow: '0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.3)',
+                margin: '0 auto',
+                animation: 'moonRotate 20s linear infinite, moonPulse 4s ease-in-out infinite',
+                '@keyframes moonRotate': {
+                  '0%': { transform: 'rotate(0deg)' },
+                  '100%': { transform: 'rotate(360deg)' }
+                },
+                '@keyframes moonPulse': {
+                  '0%': { transform: 'scale(1)', opacity: 0.6 },
+                  '50%': { transform: 'scale(1.1)', opacity: 0.8 },
+                  '100%': { transform: 'scale(1)', opacity: 0.6 }
+                }
+              }}
+            />
+          </Box>
           
-          
-          
-        >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             {/* Upgrade Promotion für Basic-User */}
             {userSubscription?.packageId === 'basic' && (
-              <motion.div
-                
-                
-                
-              >
                 <Box sx={{
                   background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%)',
                   border: '1px solid rgba(255, 215, 0, 0.3)',
@@ -972,41 +922,9 @@ export default function MondkalenderPage() {
                     🚀 Jetzt upgraden
                   </Button>
                 </Box>
-              </motion.div>
             )}
             
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 4 }}>
-              <Typography variant="h1" sx={{
-                color: '#FFD700',
-                fontWeight: 800,
-                textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4)',
-                fontSize: { xs: '2.5rem', md: '4rem' },
-                background: 'linear-gradient(45deg, #FFD700, #FFA500, #FFD700)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                animation: 'moonGlow 3s ease-in-out infinite alternate'
-            }}>
-                🌙 Mondkalender
-            </Typography>
-            </Box>
-            <motion.div
-              
-              
-              
-            >
-              <Typography variant="h5" sx={{ 
-              color: 'rgba(255,255,255,0.9)',
-                fontSize: { xs: '1.2rem', md: '1.5rem' },
-                maxWidth: 800,
-                mx: 'auto',
-                lineHeight: 1.6
-              }}>
-                Verfolge deine Verbindung zum Mond und deine persönlichen Muster
-            </Typography>
-            </motion.div>
           </Box>
-        </motion.div>
 
         {/* Profil Widget */}
         <motion.div
@@ -2193,8 +2111,8 @@ export default function MondkalenderPage() {
               </motion.div>
           </motion.div>
 
-      </Container>
-    </Box>
+        </Container>
+      </UnifiedPageLayout>
     </AccessControl>
   );
 }

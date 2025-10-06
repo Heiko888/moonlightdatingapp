@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Card,
@@ -15,6 +15,7 @@ import { Lock, Crown, Diamond, Star, ArrowRight } from 'lucide-react';
 import { UserSubscription } from '../lib/subscription/types';
 import { checkPageAccess } from '../lib/subscription/accessControl';
 import { subscriptionPackages } from '../lib/subscription/packages';
+import { loadAndSyncSubscription } from '../lib/subscription/syncSubscription';
 
 interface AccessControlProps {
   path: string;
@@ -29,7 +30,34 @@ export default function AccessControl({
   children,
   onUpgrade
 }: AccessControlProps) {
-  const access = checkPageAccess(path, userSubscription || null);
+  const [syncedSubscription, setSyncedSubscription] = useState<UserSubscription | null>(userSubscription || null);
+
+  // Synchronisiere Subscription beim Mount
+  useEffect(() => {
+    const subscription = loadAndSyncSubscription();
+    if (subscription) {
+      setSyncedSubscription(subscription);
+    }
+  }, []);
+
+  // Höre auf Storage-Events für Updates
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'user-subscription') {
+        if (e.newValue) {
+          const subscription = JSON.parse(e.newValue);
+          setSyncedSubscription(subscription);
+        } else {
+          setSyncedSubscription(null);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const access = checkPageAccess(path, syncedSubscription);
 
   if (access.canAccess) {
     return <>{children}</>;
