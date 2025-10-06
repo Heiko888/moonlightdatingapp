@@ -79,7 +79,6 @@ export default function AIChatPage() {
     <UnifiedPageLayout
       title="🤖 AI Human Design Chat"
       subtitle="Erhalte personalisierte Einblicke in dein Human Design mit unserer KI-gestützten Analyse"
-      icon="🤖"
     >
       {/* Features */}
       <motion.div
@@ -187,7 +186,7 @@ export default function AIChatPage() {
       >
         <AIChatInterface 
           userChart={userChart} 
-          userId={userId} 
+          userId={userId || undefined} 
         />
       </motion.div>
     </UnifiedPageLayout>
