@@ -6,7 +6,7 @@ $ServerIP = "138.199.237.34"
 $Username = "root"
 $ServerPath = "/opt/hd-app/HD_App_chart"
 
-Write-Host "🚀 Production Environment Setup (Port 3000)" -ForegroundColor Blue
+Write-Host "Production Environment Setup (Port 3000)" -ForegroundColor Blue
 Write-Host "===========================================" -ForegroundColor Blue
 Write-Host ""
 
@@ -28,10 +28,10 @@ Write-Host "   Test-NetConnection -ComputerName $ServerIP -Port 3000"
 Write-Host "   Test-NetConnection -ComputerName $ServerIP -Port 3001"
 Write-Host ""
 
-Write-Host "📋 Nach dem Deployment:" -ForegroundColor Green
+Write-Host "Nach dem Deployment:" -ForegroundColor Green
 Write-Host "   • Production App: http://$ServerIP:3000" -ForegroundColor White
 Write-Host "   • Grafana: http://$ServerIP:3001" -ForegroundColor White
 Write-Host "   • Prometheus: http://$ServerIP:9090" -ForegroundColor White
 Write-Host ""
 
-Write-Host "⚠️  WICHTIG: Production-Deployment nur nach ausführlichen Tests!" -ForegroundColor Yellow
+Write-Host "WICHTIG: Production-Deployment nur nach ausführlichen Tests!" -ForegroundColor Yellow
