@@ -230,7 +230,7 @@ export default function ChartInfoPage() {
 
         {/* Tab Content */}
         {activeTab === 0 && (
-        <motion.div
+          <motion.div
           
           
           
