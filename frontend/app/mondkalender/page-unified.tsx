@@ -384,10 +384,47 @@ export default function MondkalenderPage() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/pricing')}
     >
-      <UnifiedPageLayout
-        title="🌙 Mondkalender"
-        subtitle="Verfolge die Mondzyklen und entdecke, wie sie dein Leben beeinflussen. Verbinde dich mit der kosmischen Energie."
-      >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              🌙 Mondkalender
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Verfolge die Mondzyklen und entdecke, wie sie dein Leben beeinflussen. Verbinde dich mit der kosmischen Energie.
+            </Typography>
+          </Box>
         {/* Current Moon Phase */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -416,7 +453,7 @@ export default function MondkalenderPage() {
                     color: 'white', 
                     fontWeight: 700, 
                     mb: 1,
-                    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent'
@@ -669,7 +706,7 @@ export default function MondkalenderPage() {
             borderRadius: 4
           }}>
             <CardContent sx={{ p: 4 }}>
-              <Typography variant="h5" sx={{ color: '#FFD700', mb: 3, fontWeight: 700 }}>
+              <Typography variant="h5" sx={{ color: '#ff6b9d', mb: 3, fontWeight: 700 }}>
                 🕯️ Rituale für {currentMoonPhase.name}
               </Typography>
               <Grid container spacing={2}>
@@ -711,7 +748,8 @@ export default function MondkalenderPage() {
             </CardContent>
           </Card>
         </motion.div>
-      </UnifiedPageLayout>
+        </Box>
+      </Box>
     </AccessControl>
   );
 }
