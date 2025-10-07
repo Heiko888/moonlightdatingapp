@@ -25,6 +25,50 @@ import { useRouter } from 'next/navigation';
 import AnimatedMoon from '../../components/AnimatedMoon';
 // import { pageAccessConfig } from '../../lib/subscription/accessControl'; // Entfernt - nicht mehr benötigt
 // import { subscriptionPackages } from '../../lib/subscription/packages'; // Entfernt - nicht mehr benötigt
+
+// Temporärer Fix - subscriptionPackages definieren
+const subscriptionPackages = [
+  {
+    id: 'free',
+    name: 'Free',
+    color: '#6b7280',
+    priceMonthly: 0,
+    hasAdvancedAnalytics: false,
+    maxCoachingSessions: 0,
+    hasVIPCommunity: false,
+    hasPersonalCoach: false
+  },
+  {
+    id: 'basic',
+    name: 'Basic',
+    color: '#3b82f6',
+    priceMonthly: 9.99,
+    hasAdvancedAnalytics: false,
+    maxCoachingSessions: 2,
+    hasVIPCommunity: false,
+    hasPersonalCoach: false
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    color: '#8b5cf6',
+    priceMonthly: 19.99,
+    hasAdvancedAnalytics: true,
+    maxCoachingSessions: 5,
+    hasVIPCommunity: false,
+    hasPersonalCoach: false
+  },
+  {
+    id: 'vip',
+    name: 'VIP',
+    color: '#f59e0b',
+    priceMonthly: 49.99,
+    hasAdvancedAnalytics: true,
+    maxCoachingSessions: -1,
+    hasVIPCommunity: true,
+    hasPersonalCoach: true
+  }
+];
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
@@ -80,7 +124,24 @@ export default function PackageOverviewPage() {
     return []; // Alle Seiten sind zugänglich
   };
 
-  const groupedPages = {}; // Leere Gruppierung
+  // Temporärer Fix - Mock-Daten für groupedPages
+  const groupedPages = {
+    'Grundfunktionen': [
+      { name: 'Dashboard', path: '/dashboard', requiredPackage: 'free' },
+      { name: 'Profil', path: '/profil', requiredPackage: 'free' },
+      { name: 'Community', path: '/community', requiredPackage: 'basic' }
+    ],
+    'Erweiterte Funktionen': [
+      { name: 'Analytics', path: '/analytics', requiredPackage: 'premium' },
+      { name: 'API Access', path: '/api-access', requiredPackage: 'premium' },
+      { name: 'Dating', path: '/dating', requiredPackage: 'premium' }
+    ],
+    'VIP Funktionen': [
+      { name: 'VIP Community', path: '/vip-community', requiredPackage: 'vip' },
+      { name: 'Personal Coach', path: '/personal-coach', requiredPackage: 'vip' },
+      { name: 'Dashboard VIP', path: '/dashboard-vip', requiredPackage: 'vip' }
+    ]
+  };
 
   return (
     <Box sx={{
@@ -93,7 +154,7 @@ export default function PackageOverviewPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedMoon size={120} position="top-right" />
+      <AnimatedMoon size={120} />
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
         {/* Header */}
@@ -166,7 +227,7 @@ export default function PackageOverviewPage() {
                   <TableHead>
                     <TableRow>
                       <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Feature</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ 
                           color: 'white', 
                           fontWeight: 'bold',
@@ -184,7 +245,7 @@ export default function PackageOverviewPage() {
                   <TableBody>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Preis</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ color: 'white', textAlign: 'center' }}>
                           {pkg.id === 'basic' ? 'Kostenlos' : `${pkg.priceMonthly}€/Monat`}
                         </TableCell>
@@ -192,7 +253,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Chart-Berechnung</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           <Check color="#10b981" size={20} />
                         </TableCell>
@@ -200,7 +261,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Erweiterte Analytics</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasAdvancedAnalytics ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -208,7 +269,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Coaching-Zugang</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.maxCoachingSessions > 0 ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -216,7 +277,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>VIP-Community</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasVIPCommunity ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -224,7 +285,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Persönlicher Coach</TableCell>
-                      {[].map((pkg) => (
+                      {subscriptionPackages.map((pkg: any) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasPersonalCoach ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
