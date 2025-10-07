@@ -332,11 +332,47 @@ export default function CoachingPage() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/pricing')}
     >
-      <UnifiedPageLayout
-        title="👥 Coaching & Community"
-        subtitle="Buche deine persönliche Human Design Session, chatte mit unseren Coaches oder trete unserer Community bei"
-        showStars={true}
-      >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              👥 Coaching & Community
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Buche deine persönliche Human Design Session, chatte mit unseren Coaches oder trete unserer Community bei
+            </Typography>
+          </Box>
         {/* Coaches Grid */}
         <Grid container spacing={4} sx={{ mb: 6 }}>
           {coaches.map((coach, index) => (
@@ -378,7 +414,7 @@ export default function CoachingPage() {
                             label={coach.isOnline ? 'Online' : 'Offline'}
                             size="small"
                             sx={{
-                              background: coach.isOnline ? 'linear-gradient(45deg, #4ecdc4, #44a08d)' : 'rgba(255,255,255,0.2)',
+                              background: coach.isOnline ? 'linear-gradient(135deg, #ff6b9d, #c44569)' : 'rgba(255,255,255,0.2)',
                               color: 'white',
                               fontWeight: 600
                             }}
@@ -442,9 +478,9 @@ export default function CoachingPage() {
                           startIcon={<Calendar size={20} />}
                           onClick={() => handleCoachSelect(coach)}
                           sx={{
-                            background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
+                            background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                             '&:hover': {
-                              background: 'linear-gradient(45deg, #44a08d, #4ecdc4)'
+                              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
                             },
                             borderRadius: 2,
                             py: 1.5
@@ -684,9 +720,9 @@ export default function CoachingPage() {
               variant="contained"
               disabled={loading}
               sx={{
-                background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #44a08d, #4ecdc4)'
+                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
                 },
                 borderRadius: 2,
                 px: 3
@@ -777,9 +813,9 @@ export default function CoachingPage() {
                 variant="contained"
                 disabled={!newMessage.trim()}
                 sx={{
-                  background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #44a08d, #4ecdc4)'
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
                   },
                   borderRadius: 2,
                   minWidth: 'auto',
@@ -791,7 +827,8 @@ export default function CoachingPage() {
             </Box>
           </DialogContent>
         </Dialog>
-      </UnifiedPageLayout>
+        </Container>
+      </Box>
     </AccessControl>
   );
 }
