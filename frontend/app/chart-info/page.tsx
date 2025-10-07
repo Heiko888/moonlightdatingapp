@@ -190,7 +190,6 @@ export default function ChartInfoPage() {
       <UnifiedPageLayout
         title="📊 Chart Informationen"
         subtitle="Verstehe dein Human Design Chart: Zentren, Kanäle, Tore und Profile im Detail"
-        showStars={true}
       >
         <Container maxWidth="xl" sx={{ py: 4 }}>
           <motion.div
@@ -607,7 +606,6 @@ export default function ChartInfoPage() {
             </Box>
           </Box>
         </motion.div>
-        )}
       </Container>
     </UnifiedPageLayout>
   </AccessControl>
