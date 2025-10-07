@@ -28,9 +28,9 @@ const FloatingStars = () => {
             position: 'absolute',
             width: '3px',
             height: '3px',
-            background: '#FFD700',
+            background: '#ff6b9d',
             borderRadius: '50%',
-            boxShadow: '0 0 8px #FFD700, 0 0 16px #FFD700, 0 0 24px #FFD700',
+            boxShadow: '0 0 8px #ff6b9d, 0 0 16px #ff6b9d, 0 0 24px #ff6b9d',
             left: pos.left,
             top: pos.top,
           }}
@@ -208,12 +208,12 @@ export default function SalesDatingPage() {
                   fontSize: '1.2rem',
                   borderRadius: 3,
                   textTransform: 'none',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.4)',
+                  boxShadow: '0 8px 32px rgba(255, 107, 157, 0.4)',
                   backdropFilter: 'blur(10px)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 40px rgba(255, 215, 0, 0.6)',
+                    boxShadow: '0 12px 40px rgba(255, 107, 157, 0.6)',
                   }
                 }}
               >
