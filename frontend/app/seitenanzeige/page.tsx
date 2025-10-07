@@ -60,12 +60,18 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useHydrationSafe } from '../../hooks/useHydrationSafe';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
-// Extended UserSubscription to include 'free' package
-interface UserSubscription extends Omit<BaseUserSubscription, 'packageId'> {
+// Temporärer Fix - UserSubscription Interface
+interface UserSubscription {
   packageId: 'free' | 'basic' | 'premium' | 'vip';
+  status: 'active' | 'inactive' | 'expired';
+  startDate?: string;
+  endDate?: string;
+  autoRenew?: boolean;
+  paymentMethod?: string;
+  billingCycle?: string;
 }
 
 export default function SeitenanzeigePage() {
