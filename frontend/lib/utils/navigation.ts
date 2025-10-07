@@ -48,7 +48,7 @@ export const smartRedirect = (targetPath?: string): string => {
   });
   
   // Erstelle UserSubscription-Objekt für AccessControl
-  const subscription: SubscriptionType = {
+  const subscription: any = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
     plan: `${currentPlan} Plan`,
@@ -172,7 +172,7 @@ export const hasAccess = (path: string): boolean => {
   const userSubscription = getUserSubscription();
   const currentPlan = getCurrentPlan(userData, userSubscription);
   
-  const subscription: SubscriptionType = {
+  const subscription: any = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
     plan: `${currentPlan} Plan`,
@@ -198,7 +198,7 @@ export const getAccessiblePages = (): string[] => {
   const userSubscription = getUserSubscription();
   const currentPlan = getCurrentPlan(userData, userSubscription);
   
-  const subscription: SubscriptionType = {
+  const subscription: any = {
     userId: userData?.id || 'unknown',
     packageId: currentPlan as 'basic' | 'premium' | 'vip',
     plan: `${currentPlan} Plan`,
