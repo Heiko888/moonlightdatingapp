@@ -397,10 +397,47 @@ function CommunityContent() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/pricing')}
     >
-      <UnifiedPageLayout
-        title="🌟 Community Hub"
-        subtitle="Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey"
-      >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              🌟 Community Hub
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey
+            </Typography>
+          </Box>
         <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Header */}
           <motion.div
@@ -415,12 +452,15 @@ function CommunityContent() {
                 variant="outlined"
                 onClick={() => router.push('/dashboard')}
                 sx={{
-                  color: '#FFD700',
-                  borderColor: '#FFD700',
+                  borderColor: 'rgba(255, 107, 157, 0.3)',
+                  color: '#ff6b9d',
+                  fontWeight: 600,
+                  px: 3,
+                  borderRadius: 3,
                   '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                    boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)'
+                    borderColor: '#ff6b9d',
+                    backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                    transform: 'translateY(-2px)'
                   },
                   mb: 2
                 }}
@@ -1517,7 +1557,8 @@ function CommunityContent() {
             </Button>
           </DialogActions>
         </Dialog>
-      </UnifiedPageLayout>
+        </Box>
+      </Box>
     </AccessControl>
   );
 }
