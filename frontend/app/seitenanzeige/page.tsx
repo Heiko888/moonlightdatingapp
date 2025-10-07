@@ -218,7 +218,6 @@ export default function SeitenanzeigePage() {
       <UnifiedPageLayout
         title="🗺️ App-Navigation"
         subtitle="Entdecke alle verfügbaren Funktionen und navigiere durch die App"
-        showStars={isClient}
       >
         {/* Tabs */}
         <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
