@@ -104,10 +104,10 @@ export default function SalesDatingPage() {
       sx={{
         minHeight: '100vh',
         background: `
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-          radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%)
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
@@ -200,8 +200,8 @@ export default function SalesDatingPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                  color: '#23233a',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
                   fontWeight: 700,
                   px: 6,
                   py: 2,
@@ -260,7 +260,7 @@ export default function SalesDatingPage() {
             fontWeight: 800,
             mb: 6,
             textAlign: 'center',
-            background: 'linear-gradient(45deg, #fff, #e0e7ff)',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -396,7 +396,7 @@ export default function SalesDatingPage() {
             fontWeight: 800,
             mb: 6,
             textAlign: 'center',
-            background: 'linear-gradient(45deg, #fff, #e0e7ff)',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -424,8 +424,8 @@ export default function SalesDatingPage() {
                       width: 60,
                       height: 60,
                       borderRadius: '15px',
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
-                      color: '#23233a',
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                      color: 'white',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -452,8 +452,8 @@ export default function SalesDatingPage() {
                     variant="contained"
                     fullWidth
                     sx={{
-                      background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                      color: '#23233a',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                       fontWeight: 700,
                       py: 1.5,
                       borderRadius: 3,
@@ -490,8 +490,8 @@ export default function SalesDatingPage() {
                       width: 60,
                       height: 60,
                       borderRadius: '15px',
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
-                      color: '#23233a',
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                      color: 'white',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -518,8 +518,8 @@ export default function SalesDatingPage() {
                     variant="contained"
                     fullWidth
                     sx={{
-                      background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                      color: '#23233a',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                       fontWeight: 700,
                       py: 1.5,
                       borderRadius: 3,
@@ -550,7 +550,7 @@ export default function SalesDatingPage() {
             fontWeight: 800,
             mb: 6,
             textAlign: 'center',
-            background: 'linear-gradient(45deg, #fff, #e0e7ff)',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -593,7 +593,7 @@ export default function SalesDatingPage() {
                       Basic
                     </Typography>
                     <Typography variant="h2" sx={{ 
-                      color: '#FFD700', 
+                      color: '#ff6b9d', 
                       fontWeight: 800,
                       mb: 1
                     }}>
@@ -696,7 +696,7 @@ export default function SalesDatingPage() {
                       width: 60,
                       height: 60,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -709,7 +709,7 @@ export default function SalesDatingPage() {
                       Premium
                     </Typography>
                     <Typography variant="h2" sx={{ 
-                      color: '#FFD700', 
+                      color: '#ff6b9d', 
                       fontWeight: 800,
                       mb: 1
                     }}>
@@ -734,7 +734,7 @@ export default function SalesDatingPage() {
                           width: 20,
                           height: 20,
                           borderRadius: '50%',
-                          background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
+                          background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -755,8 +755,8 @@ export default function SalesDatingPage() {
                     variant="contained"
                     fullWidth
                     sx={{
-                      background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                      color: '#23233a',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                       fontWeight: 700,
                       py: 1.5,
                       borderRadius: 3,
@@ -970,8 +970,8 @@ export default function SalesDatingPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                  color: '#23233a',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
                   fontWeight: 700,
                   px: 6,
                   py: 2,
