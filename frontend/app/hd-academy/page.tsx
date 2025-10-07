@@ -240,7 +240,12 @@ export default function HDAcademyPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #533483 50%, #8B5CF6 75%, #A855F7 100%)',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -280,12 +285,13 @@ export default function HDAcademyPage() {
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography variant="h2" sx={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%)',
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              fontWeight: 800,
-              mb: 2
+              fontWeight: 'bold',
+              mb: 2,
+              fontSize: { xs: '2.5rem', md: '3.5rem' }
             }}>
               🎓 HD Academy
             </Typography>
@@ -298,12 +304,15 @@ export default function HDAcademyPage() {
               variant="outlined"
               onClick={() => router.push('/premium-dashboard')}
               sx={{
-                color: '#FFD700',
-                borderColor: '#FFD700',
+                borderColor: 'rgba(255, 107, 157, 0.3)',
+                color: '#ff6b9d',
+                fontWeight: 600,
+                px: 3,
+                borderRadius: 3,
                 '&:hover': {
-                  borderColor: '#FFD700',
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                  boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)'
+                  borderColor: '#ff6b9d',
+                  backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                  transform: 'translateY(-2px)'
                 },
                 mb: 2
               }}
@@ -395,16 +404,18 @@ export default function HDAcademyPage() {
                 {courses.map((course) => (
                   <Grid item xs={12} md={6} key={course.id}>
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
-                      backdropFilter: 'blur(20px)',
-                      borderRadius: 3,
-                      border: '1px solid #FFD700',
-                      boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)',
+                      background: 'rgba(255,255,255,0.05)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      borderRadius: 4,
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                       height: '100%',
                       transition: 'all 0.3s ease',
+                      color: 'white',
                       '&:hover': {
-                        transform: 'translateY(-5px)',
-                        boxShadow: '0 20px 40px rgba(255, 215, 0, 0.3)'
+                        transform: 'translateY(-8px)',
+                        background: 'rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(255,255,255,0.2)'
                       }
                     }}>
                       <CardContent sx={{ p: 3 }}>
@@ -491,11 +502,14 @@ export default function HDAcademyPage() {
                 }
               }}
               sx={{
-                borderColor: course.color,
-                color: course.color,
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                color: 'white',
+                border: 'none',
+                borderRadius: 2,
+                fontWeight: 600,
                 '&:hover': {
-                  borderColor: course.color,
-                  backgroundColor: `${course.color}20`
+                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                  transform: 'translateY(-2px)'
                 }
               }}
             >
@@ -518,16 +532,17 @@ export default function HDAcademyPage() {
               
             >
               <Paper sx={{
-                background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
-                backdropFilter: 'blur(20px)',
-                borderRadius: 3,
-                border: '1px solid #FFD700',
-                boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)',
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 4,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                 p: 3,
-                mb: 3
+                mb: 3,
+                color: 'white'
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                  <Star size={24} color="#FFD700" />
+                  <Star size={24} color="#ff6b9d" />
                   <Typography variant="h6" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
                     Achievements
                   </Typography>
