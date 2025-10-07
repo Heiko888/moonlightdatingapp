@@ -858,10 +858,47 @@ export default function MondkalenderPage() {
       userSubscription={userSubscription}
       onUpgrade={() => router.push('/subscription')}
     >
-      <UnifiedPageLayout
-        title="🌕 Mondkalender"
-        subtitle="Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben"
-      >
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              🌕 Mondkalender
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben
+            </Typography>
+          </Box>
         <Container maxWidth="lg" sx={{ py: 4 }}>
           {/* Animated Moon Background */}
           <Box sx={{ position: 'absolute', top: '2%', right: '10%', zIndex: 1 }}>
@@ -891,14 +928,14 @@ export default function MondkalenderPage() {
             {/* Upgrade Promotion für Basic-User */}
             {userSubscription?.packageId === 'basic' && (
                 <Box sx={{
-                  background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)',
+                  background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%)',
+                  border: '1px solid rgba(255, 107, 157, 0.3)',
                   borderRadius: 3,
                   p: 3,
                   mb: 4,
                   backdropFilter: 'blur(10px)'
                 }}>
-                  <Typography variant="h6" sx={{ color: '#FFD700', mb: 1, fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 1, fontWeight: 'bold' }}>
                     🌙 Entdecke den vollständigen Mondkalender
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
@@ -2111,7 +2148,8 @@ export default function MondkalenderPage() {
           </motion.div>
 
         </Container>
-      </UnifiedPageLayout>
+        </Box>
+      </Box>
     </AccessControl>
   );
 }
