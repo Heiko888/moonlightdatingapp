@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { 
   Box, 
   Container, 
@@ -80,7 +80,7 @@ function TabPanel(props: TabPanelProps) {
 
 export default function AdvancedBodygraphDemo() {
   const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -145,7 +145,9 @@ export default function AdvancedBodygraphDemo() {
 
   const loadUserSubscription = async (userId: string) => {
     try {
-      const subscription = await SubscriptionService.getUserSubscription(userId);
+      // Temporärer Fix - SubscriptionService entfernt
+      // const subscription = await SubscriptionService.getUserSubscription(userId);
+      const subscription = null;
       setUserSubscription(subscription);
     } catch (error) {
       console.error('Fehler beim Laden der Subscription:', error);

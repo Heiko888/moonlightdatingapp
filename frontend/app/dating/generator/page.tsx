@@ -216,19 +216,19 @@ export default function MagneticDatingPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                  color: '#23233a',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
                   fontWeight: 700,
                   px: 6,
                   py: 2,
                   fontSize: '1.2rem',
                   borderRadius: 3,
                   textTransform: 'none',
-                  boxShadow: '0 8px 24px rgba(255, 215, 0, 0.3)',
+                  boxShadow: '0 8px 24px rgba(255, 107, 157, 0.3)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 32px rgba(255, 215, 0, 0.4)',
+                    boxShadow: '0 12px 32px rgba(255, 107, 157, 0.4)',
                   }
                 }}
               >
@@ -242,8 +242,8 @@ export default function MagneticDatingPage() {
                 variant="outlined"
                 size="large"
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: 'rgba(255, 107, 157, 0.3)',
+                  color: '#ff6b9d',
                   fontWeight: 600,
                   px: 6,
                   py: 2,
@@ -252,8 +252,8 @@ export default function MagneticDatingPage() {
                   textTransform: 'none',
                   backdropFilter: 'blur(10px)',
                   '&:hover': {
-                    borderColor: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    borderColor: '#ff6b9d',
+                    backgroundColor: 'rgba(255, 107, 157, 0.1)',
                   }
                 }}
               >
@@ -288,14 +288,15 @@ export default function MagneticDatingPage() {
                 <Grid item xs={12} sm={6} lg={4} key={index}>
                     <Card sx={{ 
                       height: '100%',
-                      background: 'rgba(255, 255, 255, 0.1)', 
+                      background: 'rgba(255,255,255,0.05)',
                       borderRadius: 4, 
-                      boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      border: '1px solid rgba(255,255,255,0.1)',
                       transition: 'all 0.3s ease',
+                      color: 'white',
                       '&:hover': {
                         transform: 'scale(1.02)',
-                        boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+                        background: 'rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(255,255,255,0.2)'
                       }
                     }}>
                       <CardContent sx={{ p: 4, textAlign: 'center' }}>
@@ -303,14 +304,14 @@ export default function MagneticDatingPage() {
                           width: 80, 
                           height: 80, 
                           borderRadius: '20px', 
-                          background: 'linear-gradient(135deg, #FFD700, #fbbf24)', 
+                          background: 'linear-gradient(135deg, #ff6b9d, #c44569)', 
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center', 
-                          color: '#23233a', 
+                          color: 'white', 
                           mx: 'auto',
                           mb: 3,
-                          boxShadow: '0 8px 24px rgba(255, 215, 0, 0.4)'
+                          boxShadow: '0 8px 24px rgba(255, 107, 157, 0.4)'
                         }}>
                           {benefit.icon}
                         </Box>
@@ -364,7 +365,7 @@ export default function MagneticDatingPage() {
                           transform: 'translateX(4px)'
                         }
                       }}>
-                        <CheckCircle size={24} style={{ color: '#FFD700', marginRight: 16 }} />
+                        <CheckCircle size={24} style={{ color: '#ff6b9d', marginRight: 16 }} />
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                           {feature}
                         </Typography>
@@ -378,25 +379,25 @@ export default function MagneticDatingPage() {
         {/* Testimonial */}
         <Box sx={{ py: 8 }}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.95)', 
+              background: 'rgba(255,255,255,0.05)',
               borderRadius: 4, 
-              boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-              border: '1px solid rgba(255,255,255,0.2)',
-              p: 6
+              border: '1px solid rgba(255,255,255,0.1)',
+              p: 6,
+              color: 'white'
             }}>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
-                <Typography variant="h3" sx={{ color: '#059669', fontWeight: 800, mb: 2 }}>
+                <Typography variant="h3" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 2 }}>
                   Was andere über magnetische Verbindungen sagen
                 </Typography>
               </Box>
               
               <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 4 }}>
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={24} style={{ color: '#FFD700', fill: '#FFD700' }} />
+                  <Star key={i} size={24} style={{ color: '#ff6b9d', fill: '#ff6b9d' }} />
                 ))}
               </Box>
               
-              <Typography variant="h5" sx={{ color: '#374151', mb: 4, lineHeight: 1.6, fontStyle: 'italic', textAlign: 'center' }}>
+              <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, lineHeight: 1.6, fontStyle: 'italic', textAlign: 'center' }}>
                 &ldquo;Endlich habe ich Menschen kennengelernt, die meine Energie nicht nur bewundern, 
                 sondern wirklich erwidern. Keine Ausbrenner mehr – nur noch echte Verbindungen!&rdquo;
               </Typography>
@@ -411,10 +412,10 @@ export default function MagneticDatingPage() {
                   MS
                 </Avatar>
                 <Box>
-                  <Typography variant="h6" sx={{ color: '#374151', fontWeight: 700 }}>
+                  <Typography variant="h6" sx={{ color: 'white', fontWeight: 700 }}>
                     Maria S.
                   </Typography>
-                  <Typography variant="body2" sx={{ color: '#6B7280' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     Magnetische Anziehung, 28
                   </Typography>
                 </Box>
@@ -425,12 +426,12 @@ export default function MagneticDatingPage() {
         {/* CTA Section */}
         <Box sx={{ py: 8 }}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.1)', 
+              background: 'rgba(255,255,255,0.05)',
               borderRadius: 4, 
-              boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.1)',
               textAlign: 'center',
-              p: 6
+              p: 6,
+              color: 'white'
             }}>
               <Typography variant="h2" sx={{ 
                 color: 'white', 
@@ -454,19 +455,19 @@ export default function MagneticDatingPage() {
                   variant="contained"
                   size="large"
                   sx={{
-                    background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                    color: '#23233a',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                     fontWeight: 700,
                     px: 6,
                     py: 2,
                     fontSize: '1.2rem',
                     borderRadius: 3,
                     textTransform: 'none',
-                    boxShadow: '0 8px 24px rgba(255, 215, 0, 0.3)',
+                    boxShadow: '0 8px 24px rgba(255, 107, 157, 0.3)',
                     '&:hover': {
-                      background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 12px 32px rgba(255, 215, 0, 0.4)',
+                      boxShadow: '0 12px 32px rgba(255, 107, 157, 0.4)',
                     }
                   }}
                 >
@@ -480,8 +481,8 @@ export default function MagneticDatingPage() {
                   variant="outlined"
                   size="large"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    color: 'white',
+                    borderColor: 'rgba(255, 107, 157, 0.3)',
+                    color: '#ff6b9d',
                     fontWeight: 600,
                     px: 6,
                     py: 2,
@@ -490,8 +491,8 @@ export default function MagneticDatingPage() {
                     textTransform: 'none',
                     backdropFilter: 'blur(10px)',
                     '&:hover': {
-                      borderColor: 'white',
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      borderColor: '#ff6b9d',
+                      backgroundColor: 'rgba(255, 107, 157, 0.1)',
                     }
                   }}
                 >
@@ -501,19 +502,19 @@ export default function MagneticDatingPage() {
               
               <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap', mt: 4 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Lock size={16} style={{ color: '#FFD700' }} />
+                  <Lock size={16} style={{ color: '#ff6b9d' }} />
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Sichere Daten
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Clock size={16} style={{ color: '#FFD700' }} />
+                  <Clock size={16} style={{ color: '#ff6b9d' }} />
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Sofortiger Zugang
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Gift size={16} style={{ color: '#FFD700' }} />
+                  <Gift size={16} style={{ color: '#ff6b9d' }} />
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     7 Tage kostenlos
                   </Typography>

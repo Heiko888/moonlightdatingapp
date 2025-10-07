@@ -182,7 +182,7 @@ export default function ProfileSetupPage() {
       case 0:
         return (
           <Box>
-            <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 3, textAlign: 'center' }}>
               Persönliche Daten
             </Typography>
             <TextField
@@ -205,7 +205,7 @@ export default function ProfileSetupPage() {
       case 1:
         return (
           <Box>
-            <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 3, textAlign: 'center' }}>
               Geburtsdaten für Human Design
             </Typography>
             <Grid container spacing={3}>
@@ -239,7 +239,7 @@ export default function ProfileSetupPage() {
       case 2:
         return (
           <Box>
-            <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 3, textAlign: 'center' }}>
               Über mich
             </Typography>
             <TextField
@@ -264,10 +264,13 @@ export default function ProfileSetupPage() {
                   color={profileData.interests.includes(interest) ? 'primary' : 'default'}
                   variant={profileData.interests.includes(interest) ? 'filled' : 'outlined'}
                   sx={{
-                    color: profileData.interests.includes(interest) ? '#1a1a2e' : 'rgba(255,255,255,0.8)',
+                    color: profileData.interests.includes(interest) ? 'white' : 'rgba(255,255,255,0.8)',
                     borderColor: 'rgba(255,255,255,0.3)',
+                    background: profileData.interests.includes(interest) 
+                      ? 'linear-gradient(135deg, #ff6b9d, #c44569)' 
+                      : 'transparent',
                     '&:hover': {
-                      borderColor: '#FFD700'
+                      borderColor: '#ff6b9d'
                     }
                   }}
                 />
@@ -279,7 +282,7 @@ export default function ProfileSetupPage() {
       case 3:
         return (
           <Box>
-            <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 3, textAlign: 'center' }}>
               Beziehungsziele
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -293,15 +296,15 @@ export default function ProfileSetupPage() {
                     py: 2,
                     px: 3,
                     background: profileData.relationshipGoal === goal 
-                      ? 'linear-gradient(45deg, #FFD700, #FFA500)' 
+                      ? 'linear-gradient(135deg, #ff6b9d, #c44569)' 
                       : 'transparent',
-                    color: profileData.relationshipGoal === goal ? '#1a1a2e' : 'rgba(255,255,255,0.8)',
+                    color: profileData.relationshipGoal === goal ? 'white' : 'rgba(255,255,255,0.8)',
                     borderColor: 'rgba(255,255,255,0.3)',
                     '&:hover': {
-                      borderColor: '#FFD700',
+                      borderColor: '#ff6b9d',
                       background: profileData.relationshipGoal === goal 
-                        ? 'linear-gradient(45deg, #FFA500, #FFD700)' 
-                        : 'rgba(255, 215, 0, 0.1)'
+                        ? 'linear-gradient(135deg, #ff5a8a, #b83a5a)' 
+                        : 'rgba(255, 107, 157, 0.1)'
                     }
                   }}
                 >
@@ -328,15 +331,15 @@ export default function ProfileSetupPage() {
                 width: 100,
                 height: 100,
                 borderRadius: '50%',
-                background: 'linear-gradient(45deg, #10b981, #059669)',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 mb: 3,
-                boxShadow: '0 0 30px rgba(16, 185, 129, 0.5)'
+                boxShadow: '0 0 30px rgba(255, 107, 157, 0.5)'
               }}>
                 <CheckCircle size={50} color="white" />
               </Box>
             </motion.div>
             
-            <Typography variant="h5" sx={{ color: '#10b981', mb: 2 }}>
+            <Typography variant="h5" sx={{ color: '#ff6b9d', mb: 2 }}>
               Profil erfolgreich erstellt!
             </Typography>
             <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4 }}>
@@ -349,14 +352,14 @@ export default function ProfileSetupPage() {
               variant="contained"
               size="large"
               sx={{
-                background: 'linear-gradient(45deg, #10b981, #059669)',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: 'white',
                 fontWeight: 'bold',
                 py: 1.5,
                 px: 4,
                 borderRadius: 3,
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #059669, #10b981)',
+                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                   transform: 'translateY(-2px)'
                 }
               }}
@@ -376,9 +379,10 @@ export default function ProfileSetupPage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       py: 4,
       position: 'relative',
@@ -396,10 +400,7 @@ export default function ProfileSetupPage() {
       }}>
         <SSRSafeStars 
           count={20} 
-          minSize={2} 
-          maxSize={6} 
           opacity={0.8}
-          animation={true}
         />
       </Box>
 
@@ -412,12 +413,15 @@ export default function ProfileSetupPage() {
           {/* Header */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography variant="h3" sx={{ 
-              color: '#FFD700', 
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               fontWeight: 'bold', 
               mb: 2,
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>
-              Profil einrichten
+              👤 Profil einrichten
             </Typography>
             <Typography variant="h6" sx={{ 
               color: 'rgba(255,255,255,0.9)',
@@ -429,11 +433,11 @@ export default function ProfileSetupPage() {
 
           {/* Stepper */}
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.08)',
-            backdropFilter: 'blur(20px)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
             borderRadius: 4,
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 25px 50px rgba(0,0,0,0.3)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
             mb: 4
           }}>
             <CardContent sx={{ p: 3 }}>
@@ -456,11 +460,11 @@ export default function ProfileSetupPage() {
 
           {/* Content */}
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.08)',
-            backdropFilter: 'blur(20px)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
             borderRadius: 4,
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 25px 50px rgba(0,0,0,0.3)'
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
           }}>
             <CardContent sx={{ p: 6 }}>
               {/* Fehler-Anzeige */}
@@ -498,7 +502,7 @@ export default function ProfileSetupPage() {
                     disabled={activeStep === 0}
                     sx={{ 
                       color: 'rgba(255,255,255,0.7)',
-                      '&:hover': { color: '#FFD700' }
+                      '&:hover': { color: '#ff6b9d' }
                     }}
                   >
                     Zurück
@@ -507,12 +511,12 @@ export default function ProfileSetupPage() {
                     onClick={handleNext}
                     variant="contained"
                     sx={{
-                      background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                      color: '#1a1a2e',
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                      color: 'white',
                       fontWeight: 'bold',
                       px: 4,
                       '&:hover': {
-                        background: 'linear-gradient(45deg, #FFA500, #FFD700)',
+                        background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                         transform: 'translateY(-2px)'
                       }
                     }}

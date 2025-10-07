@@ -4,8 +4,8 @@ import { Box, Typography, Button, Paper, Chip } from '@mui/material';
 import { Star, Diamond, Crown, Lock, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { subscriptionManager, useSubscription } from '../lib/subscription/subscriptionManager';
-import { subscriptionPackages } from '../lib/subscription/subscriptionManager';
+// import { subscriptionManager, useSubscription } from '../lib/subscription/subscriptionManager'; // Entfernt - nicht mehr benötigt
+// import { subscriptionPackages } from '../lib/subscription/subscriptionManager'; // Entfernt - nicht mehr benötigt
 
 interface ImprovedAccessControlProps {
   path: string;
@@ -21,7 +21,12 @@ export default function ImprovedAccessControl({
   showUpgradePrompt = true
 }: ImprovedAccessControlProps) {
   const router = useRouter();
-  const { subscription, hasPackage, isVIP, isPremium, isBasic } = useSubscription();
+  // Temporärer Fix - useSubscription Hook entfernt
+  const subscription = null;
+  const hasPackage = (pkg: string) => true; // Alle Pakete erlaubt
+  const isVIP = false;
+  const isPremium = false;
+  const isBasic = false;
   const [access, setAccess] = useState({
     canAccess: true,
     requiredPackage: 'free',
@@ -221,7 +226,7 @@ export default function ImprovedAccessControl({
                       size="small"
                       variant="outlined"
                       onClick={() => {
-                        subscriptionManager.setTestSubscription(pkg as any);
+                        // subscriptionManager.setTestSubscription(pkg as any); // Entfernt - nicht mehr verfügbar
                         window.location.reload();
                       }}
                       sx={{
@@ -260,16 +265,34 @@ function getPackageIcon(packageId: string) {
 }
 
 function getPackageColor(packageId: string): string {
-  const pkg = subscriptionPackages.find(p => p.id === packageId);
-  return pkg?.color || '#6b7280';
+  // Temporäre Farben ohne subscriptionPackages
+  const colors: { [key: string]: string } = {
+    'free': '#6b7280',
+    'basic': '#3b82f6',
+    'premium': '#8b5cf6',
+    'vip': '#f59e0b'
+  };
+  return colors[packageId] || '#6b7280';
 }
 
 function getPackageName(packageId: string): string {
-  const pkg = subscriptionPackages.find(p => p.id === packageId);
-  return pkg?.name || 'Free';
+  // Temporäre Namen ohne subscriptionPackages
+  const names: { [key: string]: string } = {
+    'free': 'Free',
+    'basic': 'Basic',
+    'premium': 'Premium',
+    'vip': 'VIP'
+  };
+  return names[packageId] || 'Free';
 }
 
 function getPackageFeatures(packageId: string): string[] {
-  const pkg = subscriptionPackages.find(p => p.id === packageId);
-  return pkg?.features || [];
+  // Temporäre Features ohne subscriptionPackages
+  const features: { [key: string]: string[] } = {
+    'free': ['Grundfunktionen'],
+    'basic': ['Erweiterte Funktionen'],
+    'premium': ['Premium-Funktionen'],
+    'vip': ['VIP-Funktionen']
+  };
+  return features[packageId] || ['Grundfunktionen'];
 }

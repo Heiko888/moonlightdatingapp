@@ -73,7 +73,7 @@ export default function SeitenanzeigePage() {
   const { isClient } = useHydrationSafe();
   
   // Mock user subscription - in real app, this would come from context/API
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
 
   useEffect(() => {
     // Load user subscription from localStorage or API

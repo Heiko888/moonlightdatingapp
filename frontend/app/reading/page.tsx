@@ -29,8 +29,8 @@ import {
   ArrowForward
 } from '@mui/icons-material';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
 
 interface ReadingExtended extends Reading {
@@ -43,7 +43,7 @@ interface ReadingExtended extends Reading {
 const ReadingPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<number>(0);
   // isClient State entfernt für bessere Performance
   const [readings, setReadings] = useState<ReadingExtended[]>([]);
@@ -80,7 +80,9 @@ const ReadingPage: React.FC = () => {
       const userData = localStorage.getItem('userData');
       if (userData) {
         const user = safeJsonParse(userData, {});
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
+        // Temporärer Fix - SubscriptionService entfernt
+        // const subscription = await SubscriptionService.getUserSubscription(user.id);
+        const subscription = null;
         setUserSubscription(subscription);
       }
     } catch (error) {

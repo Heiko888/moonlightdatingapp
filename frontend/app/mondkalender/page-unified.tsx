@@ -41,7 +41,7 @@ import {
   Moon
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 interface MoonPhase {
@@ -279,7 +279,7 @@ export default function MondkalenderPage() {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [moonTracking, setMoonTracking] = useState<MoonTracking[]>([]);
   const [trackingStats, setTrackingStats] = useState<TrackingStats>({

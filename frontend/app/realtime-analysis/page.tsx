@@ -28,9 +28,9 @@ import {
 } from 'lucide-react';
 import RealtimeAnalysisModal from '../../components/RealtimeAnalysisModal';
 import { ChartData, ChartService } from '../../lib/hd-bodygraph/chartService';
-import { RealtimeAnalysisService, RealtimeAnalysisResult } from '../../lib/realtimeAnalysisService';
+// import { RealtimeAnalysisService, RealtimeAnalysisResult } from '../../lib/realtimeAnalysisService'; // Entfernt - nicht mehr benötigt
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import Link from 'next/link';
 export default function RealtimeAnalysisPage() {
   const [availableCharts, setAvailableCharts] = useState<ChartData[]>([]);
@@ -39,9 +39,9 @@ export default function RealtimeAnalysisPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
-  const [quickAnalysis, setQuickAnalysis] = useState<RealtimeAnalysisResult | null>(null);
+  const [quickAnalysis, setQuickAnalysis] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
 
   // Lade verfügbare Charts und Benutzer-Abonnement
   useEffect(() => {
@@ -118,7 +118,9 @@ export default function RealtimeAnalysisPage() {
         return;
       }
 
-      const result = await RealtimeAnalysisService.analyzeCharts(chart1, chart2);
+      // Temporärer Fix - RealtimeAnalysisService entfernt
+      // const result = await RealtimeAnalysisService.analyzeCharts(chart1, chart2);
+      const result = null;
       setQuickAnalysis(result);
     } catch (err) {
       setError('Fehler bei der Analyse');

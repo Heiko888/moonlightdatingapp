@@ -324,6 +324,13 @@ export default function HumanDesignInfo() {
       title="🧠 Human Design"
       subtitle="Entdecke deine wahre Natur und lebe authentisch"
     >
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)', maxWidth: 800, mx: 'auto', lineHeight: 1.6 }}>
               Human Design ist ein System der Selbsterkenntnis, das dir hilft, deine einzigartige Natur zu verstehen 
               und authentisch zu leben. Entdecke deinen Typ, deine Autorität und dein wahres Potenzial.
@@ -866,6 +873,7 @@ export default function HumanDesignInfo() {
             </motion.div>
           </motion.div>
         )}
+      </Container>
     </UnifiedPageLayout>
   );
 }

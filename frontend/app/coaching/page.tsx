@@ -4,14 +4,14 @@ import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Gri
 import { motion } from 'framer-motion';
 import { Users, Calendar, ArrowRight, Clock, MapPin, Phone, Mail, BookOpen, User, Send, X, MessageSquare } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { apiService } from '@/lib/services/apiService';
-import { useLoadingState } from '@/lib/services/loadingService';
+// import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
+// import { useLoadingState } from '@/lib/services/loadingService'; // Entfernt - nicht mehr benötigt
 import UnifiedPageLayout from '@/components/UnifiedPageLayout';
-import { useSubscription } from '../../hooks/useSubscription';
+// import { useSubscription } from '../../hooks/useSubscription'; // Entfernt - nicht mehr benötigt
 
 interface Message {
   id: string;
@@ -58,7 +58,10 @@ export default function CoachingPage() {
   const [messages, setMessages] = useState<{ [coachId: number]: Message[] }>({});
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { subscription: userSubscription, isLoading: subscriptionLoading, forceSync } = useSubscription();
+  // Temporärer Fix - useSubscription Hook entfernt
+  const userSubscription = null;
+  const subscriptionLoading = false;
+  const forceSync = () => {};
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [bookingData, setBookingData] = useState<BookingData>({
     name: '',

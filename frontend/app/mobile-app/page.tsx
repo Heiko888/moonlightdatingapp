@@ -20,12 +20,12 @@ import {
 } from 'lucide-react';
 import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 
 export default function MobileAppPage() {
   const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -56,7 +56,9 @@ export default function MobileAppPage() {
       try {
         const userId = localStorage.getItem('userId');
         if (userId) {
-          const subscription = await SubscriptionService.getUserSubscription(userId);
+          // Temporärer Fix - SubscriptionService entfernt
+          // const subscription = await SubscriptionService.getUserSubscription(userId);
+          const subscription = null;
           setUserSubscription(subscription);
         } else {
           // Demo-Subscription für nicht-authentifizierte Benutzer

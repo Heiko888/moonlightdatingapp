@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 import { Star, BookOpen, BarChart3, Target, Plus, Calendar, TrendingUp, CheckCircle, Filter, Home, Briefcase, Heart, Users, User } from 'lucide-react';
 import SSRSafeStars from '@/components/SSRSafeStars';
 import AccessControl from '@/components/AccessControl';
-import { UserSubscription } from '@/lib/subscription/types';
-import { SubscriptionService } from '@/lib/subscription/subscriptionService';
+// import { UserSubscription } from '@/lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '@/lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 
 
 export default function JournalPage() {
@@ -20,7 +20,7 @@ export default function JournalPage() {
   const [showGoalDialog, setShowGoalDialog] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedCategory, setSelectedCategory] = useState('alle');
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [journalEntries, setJournalEntries] = useState([
     {
       id: 1,
@@ -234,7 +234,9 @@ export default function JournalPage() {
       const userData = localStorage.getItem('userData');
       if (userData) {
         const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
+        // Temporärer Fix - SubscriptionService entfernt
+        // const subscription = await SubscriptionService.getUserSubscription(user.id);
+        const subscription = null;
         setUserSubscription(subscription);
       }
     } catch (error) {

@@ -175,7 +175,7 @@ export default function MondkalenderPage() {
   const router = useRouter();
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [currentPhase, setCurrentPhase] = useState<MoonPhase | null>(null);
   const [loading, setLoading] = useState(true);
   const [, setTrackingData] = useState<MoonTracking[]>([]);

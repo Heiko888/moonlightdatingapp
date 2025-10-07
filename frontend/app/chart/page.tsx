@@ -13,13 +13,12 @@ import {
   CheckCircle
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
-import UnifiedPageLayout from '../../components/UnifiedPageLayout';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt';
 
 export default function ChartPage() {
   const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -39,11 +38,8 @@ export default function ChartPage() {
 
     const loadUserSubscription = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-          const subscription = await SubscriptionService.getUserSubscription(userId);
-          setUserSubscription(subscription);
-        }
+        // Temporär deaktiviert - Supabase Integration
+        setUserSubscription(null);
       } catch (error) {
         console.error('Fehler beim Laden der Subscription:', error);
         setUserSubscription(null);
@@ -57,20 +53,34 @@ export default function ChartPage() {
 
   if (isLoading) {
     return (
-      <UnifiedPageLayout
-        title="📊 Human Design Charts"
-        subtitle="Lade Chart-Funktionen..."
-        showStars={true}
-      >
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          minHeight: '400px'
-        }}>
-          <CircularProgress sx={{ color: '#FFD700' }} />
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <CircularProgress sx={{ color: '#ff6b9d', mb: 2 }} />
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>
+            📊 Lade Chart-Funktionen...
+          </Typography>
         </Box>
-      </UnifiedPageLayout>
+      </Box>
     );
   }
 
@@ -111,12 +121,48 @@ export default function ChartPage() {
       userSubscription={userSubscription} 
       onUpgrade={() => router.push('/pricing')}
     >
-      <UnifiedPageLayout
-        title="📊 Human Design Charts"
-        subtitle="Entdecke alle verfügbaren Chart-Funktionen: Von der vollständigen Bodygraph-Visualisierung bis hin zu interaktiven Vergleichs-Tools"
-        showStars={true}
-      >
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              📊 Human Design Charts
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Entdecke alle verfügbaren Chart-Funktionen: Von der vollständigen Bodygraph-Visualisierung bis hin zu interaktiven Vergleichs-Tools
+            </Typography>
+          </Box>
+
           {/* Quick Action Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -130,16 +176,16 @@ export default function ChartPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                   px: 4,
                   py: 2,
                   borderRadius: 3,
                   fontWeight: 600,
                   fontSize: '1.1rem',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(139, 92, 246, 0.4)'
+                    boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)'
                   }
                 }}
               >
@@ -218,7 +264,7 @@ export default function ChartPage() {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: '#FFD700',
+                          color: '#ff6b9d',
                           fontWeight: 600,
                           mb: 2,
                           fontSize: '0.9rem'
@@ -238,14 +284,14 @@ export default function ChartPage() {
                               fontSize: '0.9rem'
                             }}
                           >
-                            <CheckCircle size={16} color="#4ecdc4" />
+                            <CheckCircle size={16} color="#ff6b9d" />
                             {feat}
                           </Box>
                         ))}
                       </Box>
                     </Box>
                     
-                    <Box sx={{ display: 'flex', alignItems: 'center', color: '#FFD700', mt: 'auto' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', color: '#ff6b9d', mt: 'auto' }}>
                       <Typography variant="body2" sx={{ fontWeight: 600, mr: 1 }}>
                         Entdecken
                       </Typography>
@@ -277,10 +323,10 @@ export default function ChartPage() {
                   borderRadius: 3,
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    borderColor: '#ff6b9d',
+                    backgroundColor: 'rgba(255, 107, 157, 0.1)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(255, 215, 0, 0.3)'
+                    boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
                   }
                 }}
               >
@@ -290,7 +336,7 @@ export default function ChartPage() {
             </Box>
           </motion.div>
         </Container>
-      </UnifiedPageLayout>
+      </Box>
     </AccessControl>
   );
 }

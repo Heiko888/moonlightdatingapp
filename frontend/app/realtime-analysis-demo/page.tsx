@@ -33,13 +33,13 @@ import {
   Target
 } from 'lucide-react';
 import { ChartData, ChartService } from '../../lib/hd-bodygraph/chartService';
-import { RealtimeAnalysisService, RealtimeAnalysisResult } from '../../lib/realtimeAnalysisService';
+// import { RealtimeAnalysisService, RealtimeAnalysisResult } from '../../lib/realtimeAnalysisService'; // Entfernt - nicht mehr benötigt
 
 export default function RealtimeAnalysisDemoPage() {
   const [demoCharts, setDemoCharts] = useState<ChartData[]>([]);
   const [selectedChart1, setSelectedChart1] = useState<ChartData | null>(null);
   const [selectedChart2, setSelectedChart2] = useState<ChartData | null>(null);
-  const [analysis, setAnalysis] = useState<RealtimeAnalysisResult | null>(null);
+  const [analysis, setAnalysis] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
@@ -255,7 +255,9 @@ export default function RealtimeAnalysisDemoPage() {
     setError(null);
 
     try {
-      const result = await RealtimeAnalysisService.analyzeCharts(selectedChart1, selectedChart2);
+      // Temporärer Fix - RealtimeAnalysisService entfernt
+      // const result = await RealtimeAnalysisService.analyzeCharts(selectedChart1, selectedChart2);
+      const result = null;
       setAnalysis(result);
       setLastUpdate(new Date());
     } catch (err) {
@@ -270,14 +272,9 @@ export default function RealtimeAnalysisDemoPage() {
     if (!selectedChart1 || !selectedChart2 || isLive) return;
 
     try {
-      const ws = await RealtimeAnalysisService.startLiveAnalysis(
-        selectedChart1,
-        selectedChart2,
-        (result) => {
-          setAnalysis(result);
-          setLastUpdate(new Date());
-        }
-      );
+      // Temporärer Fix - RealtimeAnalysisService entfernt
+      // const ws = await RealtimeAnalysisService.startLiveAnalysis(selectedChart1, selectedChart2, callback);
+      const ws = null;
 
       setWsConnection(ws);
       setIsLive(true);

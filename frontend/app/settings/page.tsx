@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase/client';
 import { 
   Box, 
   Typography, 
@@ -62,7 +63,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useHydrationSafe } from '../../hooks/useHydrationSafe';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription as BaseUserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import { useRouter } from 'next/navigation';
 
 // Extended UserSubscription to include 'free' package
@@ -79,7 +80,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const { isClient: hydrationSafe, localStorage: safeLocalStorage } = useHydrationSafe();
 
   // Settings states
@@ -204,9 +205,14 @@ export default function SettingsPage() {
     }
     
     try {
-      const resp = await fetch(`/api/user/${userId}`);
-      if (resp.ok) {
-        const data = await resp.json();
+      // Supabase: Benutzerdaten abrufen
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (!error && data) {
         if (typeof window !== 'undefined') {
           const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
           const url = URL.createObjectURL(blob);

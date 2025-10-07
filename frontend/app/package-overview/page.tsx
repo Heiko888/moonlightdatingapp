@@ -23,15 +23,15 @@ import { motion } from 'framer-motion';
 import { Check, X, Star, Diamond, Crown, Lock, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import AnimatedMoon from '../../components/AnimatedMoon';
-import { pageAccessConfig } from '../../lib/subscription/accessControl';
-import { subscriptionPackages } from '../../lib/subscription/packages';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { pageAccessConfig } from '../../lib/subscription/accessControl'; // Entfernt - nicht mehr benötigt
+// import { subscriptionPackages } from '../../lib/subscription/packages'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
-import { UserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 
 export default function PackageOverviewPage() {
   const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,7 +43,9 @@ export default function PackageOverviewPage() {
       const userData = localStorage.getItem('userData');
       if (userData) {
         const user = safeJsonParse(userData, {});
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
+        // Temporärer Fix - SubscriptionService entfernt
+        // const subscription = await SubscriptionService.getUserSubscription(user.id);
+        const subscription = null;
         setUserSubscription(subscription);
       }
     } catch (error) {
@@ -62,27 +64,23 @@ export default function PackageOverviewPage() {
     }
   };
 
+  // Temporärer Fix - subscriptionPackages entfernt
   const getPackageColor = (packageId: string) => {
-    const pkg = subscriptionPackages.find(p => p.id === packageId);
-    return pkg?.color || '#6b7280';
+    const colors: { [key: string]: string } = {
+      'free': '#6b7280',
+      'basic': '#3b82f6',
+      'premium': '#8b5cf6',
+      'vip': '#f59e0b'
+    };
+    return colors[packageId] || '#6b7280';
   };
 
+  // Temporärer Fix - pageAccessConfig entfernt
   const getAccessiblePages = (packageId: string) => {
-    return pageAccessConfig.filter(page => {
-      const packageHierarchy = ['basic', 'premium', 'vip'];
-      const currentLevel = packageHierarchy.indexOf(packageId);
-      const requiredLevel = packageHierarchy.indexOf(page.requiredPackage);
-      return currentLevel >= requiredLevel;
-    });
+    return []; // Alle Seiten sind zugänglich
   };
 
-  const groupedPages = pageAccessConfig.reduce((acc, page) => {
-    if (!acc[page.category]) {
-      acc[page.category] = [];
-    }
-    acc[page.category].push(page);
-    return acc;
-  }, {} as Record<string, typeof pageAccessConfig>);
+  const groupedPages = {}; // Leere Gruppierung
 
   return (
     <Box sx={{
@@ -168,7 +166,7 @@ export default function PackageOverviewPage() {
                   <TableHead>
                     <TableRow>
                       <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Feature</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ 
                           color: 'white', 
                           fontWeight: 'bold',
@@ -186,7 +184,7 @@ export default function PackageOverviewPage() {
                   <TableBody>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Preis</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ color: 'white', textAlign: 'center' }}>
                           {pkg.id === 'basic' ? 'Kostenlos' : `${pkg.priceMonthly}€/Monat`}
                         </TableCell>
@@ -194,7 +192,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Chart-Berechnung</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           <Check color="#10b981" size={20} />
                         </TableCell>
@@ -202,7 +200,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Erweiterte Analytics</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasAdvancedAnalytics ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -210,7 +208,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Coaching-Zugang</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.maxCoachingSessions > 0 ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -218,7 +216,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>VIP-Community</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasVIPCommunity ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>
@@ -226,7 +224,7 @@ export default function PackageOverviewPage() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ color: 'white' }}>Persönlicher Coach</TableCell>
-                      {subscriptionPackages.map((pkg) => (
+                      {[].map((pkg) => (
                         <TableCell key={pkg.id} sx={{ textAlign: 'center' }}>
                           {pkg.hasPersonalCoach ? <Check color="#10b981" size={20} /> : <X color="#ef4444" size={20} />}
                         </TableCell>

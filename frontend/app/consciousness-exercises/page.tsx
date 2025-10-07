@@ -595,28 +595,36 @@ export default function ConsciousnessExercisesPage() {
 
   return (
     <Box sx={{ 
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      minHeight: '100vh',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
       <AnimatedStars />
       
-      <Container maxWidth="lg" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 }, position: 'relative', zIndex: 2 }}>
         {/* Header */}
         <motion.div
-          
-          
-          
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography 
               variant="h2" 
               sx={{ 
-                color: 'white', 
-                fontWeight: 700, 
+                fontWeight: 'bold', 
                 mb: 2,
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
               }}
             >
               🌟 Sieben Stufen des Bewusstseins
@@ -624,30 +632,36 @@ export default function ConsciousnessExercisesPage() {
             <Typography 
               variant="h5" 
               sx={{ 
-                color: 'rgba(255,255,255,0.9)', 
-                mb: 3,
-                textShadow: '1px 1px 2px rgba(0,0,0,0.3)'
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
               }}
             >
               Dein Weg zur vollständigen Bewusstseinsentwicklung
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mt: 3 }}>
               <Chip 
                 icon={<Award size={16} />} 
                 label={`${completedExercises.size} Übungen abgeschlossen`}
                 sx={{ 
-                  background: 'rgba(255,255,255,0.2)', 
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                   color: 'white',
-                  backdropFilter: 'blur(10px)'
+                  fontWeight: 600,
+                  px: 2,
+                  py: 1
                 }} 
               />
               <Chip 
                 icon={<Timer size={16} />} 
                 label="Tägliche Praxis empfohlen"
                 sx={{ 
-                  background: 'rgba(255,255,255,0.2)', 
+                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
                   color: 'white',
-                  backdropFilter: 'blur(10px)'
+                  fontWeight: 600,
+                  px: 2,
+                  py: 1
                 }} 
               />
             </Box>
@@ -659,17 +673,18 @@ export default function ConsciousnessExercisesPage() {
           {consciousnessLevels.map((level, index) => (
             <Grid item xs={12} key={level.id}>
               <motion.div
-                
-                
-                
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Card sx={{ 
-                  background: 'rgba(255,255,255,0.95)',
+                  background: 'rgba(255,255,255,0.05)',
                   backdropFilter: 'blur(10px)',
-                  borderRadius: 3,
+                  borderRadius: 4,
                   overflow: 'hidden',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                  border: `2px solid ${level.color}20`
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'white'
                 }}>
                   <CardContent sx={{ p: 0 }}>
                     {/* Level Header */}
@@ -695,10 +710,10 @@ export default function ConsciousnessExercisesPage() {
                             {level.icon}
                           </Box>
                           <Box>
-                            <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
+                            <Typography variant="h4" sx={{ fontWeight: 600, mb: 1, color: 'white' }}>
                               Stufe {level.id}: {level.title}
                             </Typography>
-                            <Typography variant="h6" sx={{ opacity: 0.9, mb: 2 }}>
+                            <Typography variant="h6" sx={{ opacity: 0.9, mb: 2, color: 'white' }}>
                               {level.description}
                             </Typography>
                             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -707,7 +722,8 @@ export default function ConsciousnessExercisesPage() {
                                 size="small" 
                                 sx={{ 
                                   background: 'rgba(255,255,255,0.2)', 
-                                  color: 'white' 
+                                  color: 'white',
+                                  fontWeight: 600
                                 }} 
                               />
                               <Chip 
@@ -716,7 +732,8 @@ export default function ConsciousnessExercisesPage() {
                                 size="small" 
                                 sx={{ 
                                   background: 'rgba(255,255,255,0.2)', 
-                                  color: 'white' 
+                                  color: 'white',
+                                  fontWeight: 600
                                 }} 
                               />
                             </Box>
@@ -730,13 +747,13 @@ export default function ConsciousnessExercisesPage() {
 
                     {/* Level Content */}
                     <Collapse in={expandedLevel === level.id}>
-                      <Box sx={{ p: 3 }}>
+                      <Box sx={{ p: 3, color: 'white' }}>
                         {/* Benefits & Challenges */}
                         <Grid container spacing={3} sx={{ mb: 4 }}>
                           <Grid item xs={12} md={6}>
                             <Box sx={{ 
                               background: `${level.color}10`, 
-                              borderRadius: 2, 
+                              borderRadius: 3, 
                               p: 2,
                               border: `1px solid ${level.color}30`
                             }}>
@@ -764,7 +781,7 @@ export default function ConsciousnessExercisesPage() {
                                     </ListItemIcon>
                                     <ListItemText 
                                       primary={benefit} 
-                                      primaryTypographyProps={{ fontSize: '0.9rem' }}
+                                      primaryTypographyProps={{ fontSize: '0.9rem', color: 'white' }}
                                     />
                                   </ListItem>
                                 ))}
@@ -773,13 +790,13 @@ export default function ConsciousnessExercisesPage() {
                           </Grid>
                           <Grid item xs={12} md={6}>
                             <Box sx={{ 
-                              background: '#FFF3E0', 
-                              borderRadius: 2, 
+                              background: 'rgba(78, 205, 196, 0.1)', 
+                              borderRadius: 3, 
                               p: 2,
-                              border: '1px solid #FFB74D30'
+                              border: '1px solid rgba(78, 205, 196, 0.3)'
                             }}>
                               <Typography variant="h6" sx={{ 
-                                color: '#F57C00', 
+                                color: '#4ecdc4', 
                                 fontWeight: 600, 
                                 mb: 2,
                                 display: 'flex',
@@ -797,12 +814,12 @@ export default function ConsciousnessExercisesPage() {
                                         width: 6, 
                                         height: 6, 
                                         borderRadius: '50%', 
-                                        background: '#F57C00' 
+                                        background: '#4ecdc4' 
                                       }} />
                                     </ListItemIcon>
                                     <ListItemText 
                                       primary={challenge} 
-                                      primaryTypographyProps={{ fontSize: '0.9rem' }}
+                                      primaryTypographyProps={{ fontSize: '0.9rem', color: 'white' }}
                                     />
                                   </ListItem>
                                 ))}
@@ -819,7 +836,8 @@ export default function ConsciousnessExercisesPage() {
                           mb: 3,
                           display: 'flex',
                           alignItems: 'center',
-                          gap: 1
+                          gap: 1,
+                          color: level.color
                         }}>
                           <BookOpen size={24} />
                           Übungen für diese Stufe
@@ -831,18 +849,19 @@ export default function ConsciousnessExercisesPage() {
                               <Card sx={{ 
                                 border: completedExercises.has(exercise.id) ? 
                                   `2px solid ${level.color}` : 
-                                  '1px solid #E0E0E0',
+                                  '1px solid rgba(255,255,255,0.1)',
                                 background: completedExercises.has(exercise.id) ? 
-                                  `${level.color}05` : 
-                                  'white'
+                                  `${level.color}10` : 
+                                  'rgba(255,255,255,0.05)',
+                                color: 'white'
                               }}>
                                 <CardContent>
                                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                                     <Box sx={{ flex: 1 }}>
-                                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+                                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: 'white' }}>
                                         {exercise.title}
                                       </Typography>
-                                      <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
                                         {exercise.description}
                                       </Typography>
                                       <Chip 
@@ -852,7 +871,8 @@ export default function ConsciousnessExercisesPage() {
                                         sx={{ 
                                           background: `${level.color}20`, 
                                           color: level.color,
-                                          mb: 2
+                                          mb: 2,
+                                          fontWeight: 600
                                         }} 
                                       />
                                     </Box>
@@ -866,9 +886,13 @@ export default function ConsciousnessExercisesPage() {
                                     fullWidth
                                     onClick={() => setActiveExercise(exercise.id)}
                                     sx={{
-                                      background: `linear-gradient(45deg, ${level.color}, ${level.color}80)`,
+                                      background: `linear-gradient(135deg, ${level.color}, ${level.color}80)`,
+                                      color: 'white',
+                                      fontWeight: 600,
                                       '&:hover': {
-                                        background: `linear-gradient(45deg, ${level.color}CC, ${level.color}60)`
+                                        background: `linear-gradient(135deg, ${level.color}CC, ${level.color}60)`,
+                                        transform: 'translateY(-2px)',
+                                        boxShadow: `0 8px 25px ${level.color}30`
                                       }
                                     }}
                                   >

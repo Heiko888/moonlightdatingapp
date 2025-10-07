@@ -52,8 +52,8 @@ import {
 import { motion } from 'framer-motion';
 import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -83,7 +83,7 @@ function TabPanel(props: TabPanelProps) {
 function CommunityContent() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(0);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [newPostDialog, setNewPostDialog] = useState(false);
   const [newPostText, setNewPostText] = useState('');
@@ -116,7 +116,9 @@ function CommunityContent() {
       const userData = localStorage.getItem('userData');
       if (userData) {
         const user = JSON.parse(userData);
-        const subscription = await SubscriptionService.getUserSubscription(user.id);
+        // Temporärer Fix - SubscriptionService entfernt
+        // const subscription = await SubscriptionService.getUserSubscription(user.id);
+        const subscription = null;
         setUserSubscription(subscription);
       }
     } catch (error) {

@@ -108,44 +108,36 @@ export default function CustomReadingsPage() {
 
   const readingTypes = [
     {
-      id: 'basic',
-      name: 'Basis-Reading',
-      description: 'Grundlegende Human Design Analyse',
-      price: '€49',
-      duration: '45 Min',
-      features: ['Chart-Analyse', 'Typ & Strategie', 'Autorität', 'Profil-Übersicht']
+      id: 'friendship',
+      name: 'Energetische Freundschafts-Analyse',
+      description: 'Entdecke deine energetischen Muster in Freundschaften und sozialen Beziehungen',
+      price: '€79',
+      duration: '60 Min',
+      features: ['Freundschafts-Muster', 'Soziale Energie', 'Kommunikationsstil', 'Gruppendynamik', 'Empfehlungen']
     },
     {
-      id: 'detailed',
-      name: 'Detailliertes Reading',
-      description: 'Umfassende Analyse mit Lebensbereichen',
-      price: '€89',
-      duration: '90 Min',
-      features: ['Alles aus Basis', 'Zentren-Analyse', 'Kanäle & Tore', 'Lebensbereiche', 'Empfehlungen']
-    },
-    {
-      id: 'relationship',
-      name: 'Beziehungs-Reading',
-      description: 'Kompatibilität & Partnerschaft',
+      id: 'relationships',
+      name: 'Energetische Analyse Liebesleben',
+      description: 'Tiefgreifende Analyse deiner energetischen Muster in romantischen Beziehungen',
       price: '€129',
-      duration: '120 Min',
-      features: ['Paar-Analyse', 'Kompatibilität', 'Kommunikation', 'Herausforderungen', 'Lösungsansätze']
+      duration: '90 Min',
+      features: ['Liebes-Energie', 'Partnerschafts-Muster', 'Intimität & Verbindung', 'Herausforderungen', 'Lösungsansätze']
     },
     {
       id: 'career',
-      name: 'Karriere-Reading',
-      description: 'Berufliche Ausrichtung & Talente',
+      name: 'Energetische Karriereanalyse',
+      description: 'Deine berufliche Ausrichtung basierend auf deinem energetischen Design',
       price: '€99',
       duration: '75 Min',
-      features: ['Berufliche Talente', 'Ideal-Umgebung', 'Karriere-Pfade', 'Entscheidungsfindung']
+      features: ['Berufliche Energie', 'Ideal-Umgebung', 'Karriere-Pfade', 'Entscheidungsfindung', 'Talente & Fähigkeiten']
     },
     {
-      id: 'custom',
-      name: 'Individuelles Reading',
-      description: 'Maßgeschneiderte Analyse',
-      price: 'Auf Anfrage',
-      duration: 'Variabel',
-      features: ['Persönliche Themen', 'Spezifische Fragen', 'Flexible Gestaltung', 'Nachbetreuung']
+      id: 'individual',
+      name: 'Individuelle Analyse',
+      description: 'Maßgeschneiderte energetische Analyse für deine spezifischen Lebensbereiche',
+      price: '€149',
+      duration: '120 Min',
+      features: ['Persönliche Themen', 'Spezifische Fragen', 'Flexible Gestaltung', 'Nachbetreuung', 'Transformationsplan']
     }
   ];
 
@@ -168,7 +160,12 @@ export default function CustomReadingsPage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -191,9 +188,9 @@ export default function CustomReadingsPage() {
               textAlign: 'center'
             }}>
               <Box sx={{ mb: 4 }}>
-                <CheckCircle size={80} color="#10b981" style={{ margin: '0 auto 24px' }} />
+                <CheckCircle size={80} color="#ff6b9d" style={{ margin: '0 auto 24px' }} />
                 <Typography variant="h3" sx={{ 
-                  color: '#10b981', 
+                  color: '#ff6b9d', 
                   fontWeight: 700, 
                   mb: 2 
                 }}>
@@ -204,7 +201,7 @@ export default function CustomReadingsPage() {
                   mb: 4,
                   lineHeight: 1.6
                 }}>
-                  Vielen Dank für deine Anfrage für ein Custom Reading. 
+                  Vielen Dank für deine Anfrage für eine energetische Analyse. 
                   Wir melden uns innerhalb von 24 Stunden bei dir zurück.
                 </Typography>
               </Box>
@@ -215,19 +212,19 @@ export default function CustomReadingsPage() {
                   href="/reading"
                   variant="contained"
                   sx={{
-                    background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                    color: '#23233a',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                     fontWeight: 700,
                     px: 4,
                     py: 1.5,
                     borderRadius: 3,
                     '&:hover': {
-                      background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                       transform: 'translateY(-2px)'
                     }
                   }}
                 >
-                  Zu den Readings
+                  Zu den Analysen
                 </Button>
                 <Button
                   component={Link}
@@ -259,7 +256,12 @@ export default function CustomReadingsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -274,7 +276,7 @@ export default function CustomReadingsPage() {
         >
           <Box textAlign="center" mb={8}>
             <Chip
-              label="✨ Individuelle Readings"
+              label="✨ Energetische Analysen"
               sx={{
                 bgcolor: 'rgba(255, 255, 255, 0.15)',
                 color: 'white',
@@ -291,18 +293,17 @@ export default function CustomReadingsPage() {
               variant="h1"
               component="h1"
               sx={{
-                color: '#FFD700',
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 mb: 4,
                 fontSize: { xs: '2.5rem', md: '4rem' },
-                textShadow: '0 0 30px rgba(255, 215, 0, 0.8)',
-                background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                textShadow: '0 0 30px rgba(255, 107, 157, 0.8)'
               }}
             >
-              Custom Readings
+              ⚡ Energetische Analysen
             </Typography>
             
             <Typography
@@ -316,7 +317,7 @@ export default function CustomReadingsPage() {
                 fontWeight: 300
               }}
             >
-              Persönliche Human Design Analysen, maßgeschneidert für deine individuellen Fragen und Lebenssituation.
+              Energetische Analysen deines Human Design, maßgeschneidert für deine individuellen Lebensbereiche und Beziehungen.
             </Typography>
           </Box>
         </motion.div>
@@ -337,7 +338,7 @@ export default function CustomReadingsPage() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
-            Verfügbare Reading-Typen
+            Verfügbare Analyse-Typen
           </Typography>
           
           <Grid container spacing={4} sx={{ mb: 8 }}>
@@ -358,7 +359,7 @@ export default function CustomReadingsPage() {
                     '&:hover': {
                       transform: 'translateY(-8px)',
                       boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-                      border: '1px solid rgba(255, 215, 0, 0.3)'
+                      border: '1px solid rgba(255, 107, 157, 0.3)'
                     }
                   }}>
                     <CardContent sx={{ p: 4 }}>
@@ -367,13 +368,13 @@ export default function CustomReadingsPage() {
                           width: 50,
                           height: 50,
                           borderRadius: '12px',
-                          background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
+                          background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           marginRight: '16px'
                         }}>
-                          <BookOpen size={24} color="#23233a" />
+                          <BookOpen size={24} color="white" />
                         </Box>
                         <Box>
                           <Typography variant="h5" sx={{ color: 'white', fontWeight: 700, mb: 1 }}>
@@ -402,9 +403,9 @@ export default function CustomReadingsPage() {
                             sx={{
                               mr: 1,
                               mb: 1,
-                              background: 'rgba(255, 215, 0, 0.2)',
-                              color: '#FFD700',
-                              border: '1px solid rgba(255, 215, 0, 0.3)',
+                              background: 'rgba(255, 107, 157, 0.2)',
+                              color: '#ff6b9d',
+                              border: '1px solid rgba(255, 107, 157, 0.3)',
                               fontWeight: 500
                             }}
                           />
@@ -413,7 +414,7 @@ export default function CustomReadingsPage() {
 
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                         <Typography variant="h4" sx={{ 
-                          color: '#FFD700', 
+                          color: '#ff6b9d', 
                           fontWeight: 800 
                         }}>
                           {reading.price}
@@ -424,13 +425,13 @@ export default function CustomReadingsPage() {
                           onClick={() => handleInputChange('readingType', reading.id)}
                           sx={{
                             background: reading.id === formData.readingType 
-                              ? 'linear-gradient(45deg, #FFD700, #fbbf24)' 
+                              ? 'linear-gradient(135deg, #ff6b9d, #c44569)' 
                               : 'rgba(255, 255, 255, 0.1)',
-                            color: reading.id === formData.readingType ? '#23233a' : 'white',
+                            color: reading.id === formData.readingType ? 'white' : 'white',
                             fontWeight: 600,
                             '&:hover': {
-                              background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                              color: '#23233a'
+                              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                              color: 'white'
                             }
                           }}
                         >
@@ -465,7 +466,7 @@ export default function CustomReadingsPage() {
               mb: 4, 
               textAlign: 'center' 
             }}>
-              Reading anfragen
+              Energetische Analyse anfragen
             </Typography>
             
             <form onSubmit={handleSubmit}>
@@ -484,15 +485,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important'
@@ -516,15 +517,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important'
@@ -549,15 +550,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important'
@@ -582,15 +583,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important'
@@ -613,15 +614,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important'
@@ -646,15 +647,15 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         }
                       },
                       '& .MuiInputLabel-root': {
                         color: 'rgba(255, 255, 255, 0.7)',
-                        '&.Mui-focused': { color: '#FFD700' }
+                        '&.Mui-focused': { color: '#ff6b9d' }
                       },
                       '& .MuiInputBase-input': {
                         color: 'white !important',
@@ -679,10 +680,10 @@ export default function CustomReadingsPage() {
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         color: 'white',
                         '& fieldset': { border: 'none' },
-                        '&:hover': { border: '1px solid rgba(255, 215, 0, 0.5)' },
+                        '&:hover': { border: '1px solid rgba(255, 107, 157, 0.5)' },
                         '&.Mui-focused': { 
-                          border: '1px solid #FFD700',
-                          boxShadow: '0 0 0 2px rgba(255, 215, 0, 0.2)'
+                          border: '1px solid #ff6b9d',
+                          boxShadow: '0 0 0 2px rgba(255, 107, 157, 0.2)'
                         },
                         '& .MuiSelect-select': {
                           color: 'white'
@@ -704,19 +705,19 @@ export default function CustomReadingsPage() {
                       size="large"
                       disabled={loading || !formData.readingType}
                       sx={{
-                        background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                        color: '#23233a',
+                        background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                        color: 'white',
                         fontWeight: 700,
                         px: 6,
                         py: 2,
                         fontSize: '1.2rem',
                         borderRadius: 3,
                         textTransform: 'none',
-                        boxShadow: '0 8px 32px rgba(255, 215, 0, 0.4)',
+                        boxShadow: '0 8px 32px rgba(255, 107, 157, 0.4)',
                         '&:hover': {
-                          background: 'linear-gradient(45deg, #fbbf24, #f59e0b)',
+                          background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 12px 40px rgba(255, 215, 0, 0.6)'
+                          boxShadow: '0 12px 40px rgba(255, 107, 157, 0.6)'
                         },
                         '&:disabled': {
                           background: 'rgba(255, 255, 255, 0.1)',
@@ -726,12 +727,12 @@ export default function CustomReadingsPage() {
                     >
                       {loading ? (
                         <>
-                          <CircularProgress size={20} sx={{ mr: 2, color: '#23233a' }} />
+                          <CircularProgress size={20} sx={{ mr: 2, color: 'white' }} />
                           Wird gesendet...
                         </>
                       ) : (
                         <>
-                          Reading anfragen
+                          Analyse anfragen
                           <ArrowRight size={24} style={{ marginLeft: 8 }} />
                         </>
                       )}
@@ -768,14 +769,14 @@ export default function CustomReadingsPage() {
               gap: 2
             }}>
               <Gift size={32} />
-              Warum Custom Readings?
+              Warum energetische Analysen?
             </Typography>
             <Grid container spacing={4}>
               {[
-                { icon: <User size={24} />, title: 'Persönlich', desc: 'Maßgeschneidert für deine individuelle Situation' },
-                { icon: <Brain size={24} />, title: 'Tiefgreifend', desc: 'Detaillierte Analysen deiner energetischen Muster' },
-                { icon: <Heart size={24} />, title: 'Transformativ', desc: 'Praktische Erkenntnisse für dein Leben' },
-                { icon: <Clock size={24} />, title: 'Flexibel', desc: 'Termine nach deinen Bedürfnissen' }
+                { icon: <User size={24} />, title: 'Energetisch', desc: 'Fokus auf deine energetischen Muster und Design' },
+                { icon: <Brain size={24} />, title: 'Tiefgreifend', desc: 'Detaillierte Analysen deiner energetischen Struktur' },
+                { icon: <Heart size={24} />, title: 'Transformativ', desc: 'Praktische Erkenntnisse für deine Beziehungen' },
+                { icon: <Clock size={24} />, title: 'Spezifisch', desc: 'Fokus auf konkrete Lebensbereiche' }
               ].map((benefit, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <Box sx={{ textAlign: 'center' }}>
@@ -783,12 +784,12 @@ export default function CustomReadingsPage() {
                       width: 60,
                       height: 60,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #FFD700, #fbbf24)',
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       margin: '0 auto 16px',
-                      color: '#23233a'
+                      color: 'white'
                     }}>
                       {benefit.icon}
                     </Box>

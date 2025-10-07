@@ -275,15 +275,16 @@ export default function DynamicDatingPage() {
                   >
                     <Card sx={{ 
                       height: '100%',
-                      background: 'rgba(255, 255, 255, 0.95)', 
+                      background: 'rgba(255,255,255,0.05)',
                       backdropFilter: 'blur(10px)',
                       borderRadius: 4, 
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                      border: '2px solid rgba(255,255,255,0.2)',
+                      border: '1px solid rgba(255,255,255,0.1)',
                       transition: 'all 0.3s ease',
+                      color: 'white',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        boxShadow: '0 30px 60px rgba(0,0,0,0.15)',
+                        background: 'rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(255,255,255,0.2)'
                       }
                     }}>
                       <CardContent sx={{ p: 4, textAlign: 'center' }}>
@@ -367,15 +368,15 @@ export default function DynamicDatingPage() {
           <Box
           >
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.95)', 
+              background: 'rgba(255,255,255,0.05)',
               backdropFilter: 'blur(10px)',
               borderRadius: 4, 
-              boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-              border: '2px solid rgba(255,255,255,0.2)',
-              p: 6
+              border: '1px solid rgba(255,255,255,0.1)',
+              p: 6,
+              color: 'white'
             }}>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
-                <Typography variant="h3" sx={{ color: '#D97706', fontWeight: 800, mb: 2 }}>
+                <Typography variant="h3" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 2 }}>
                   Was andere über dynamische Verbindungen sagen
                 </Typography>
               </Box>
@@ -418,18 +419,18 @@ export default function DynamicDatingPage() {
           <Box
           >
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.95)', 
+              background: 'rgba(255,255,255,0.05)',
               backdropFilter: 'blur(10px)',
               borderRadius: 4, 
-              boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-              border: '2px solid rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.1)',
               textAlign: 'center',
-              p: 6
+              p: 6,
+              color: 'white'
             }}>
-              <Typography variant="h2" sx={{ color: '#D97706', fontWeight: 800, mb: 3 }}>
+              <Typography variant="h2" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 3 }}>
                 Bereit für dynamische Verbindungen?
               </Typography>
-              <Typography variant="h5" sx={{ color: '#6B7280', mb: 4, lineHeight: 1.6 }}>
+              <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, lineHeight: 1.6 }}>
                 Finde dein Match – nicht nur für den Moment, sondern für deine Seele
               </Typography>
               
@@ -440,19 +441,19 @@ export default function DynamicDatingPage() {
                   variant="contained"
                   size="large"
                   sx={{
-                    bgcolor: '#FFD700',
-                    color: '#D97706',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    color: 'white',
                     fontWeight: 700,
                     px: 6,
                     py: 2,
                     fontSize: '1.2rem',
                     borderRadius: 3,
                     textTransform: 'none',
-                    boxShadow: '0 8px 24px rgba(255, 215, 0, 0.3)',
+                    boxShadow: '0 8px 24px rgba(255, 107, 157, 0.3)',
                     '&:hover': {
-                      bgcolor: '#fbbf24',
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 12px 32px rgba(255, 215, 0, 0.4)',
+                      boxShadow: '0 12px 32px rgba(255, 107, 157, 0.4)',
                     }
                   }}
                 >
@@ -466,8 +467,8 @@ export default function DynamicDatingPage() {
                   variant="outlined"
                   size="large"
                   sx={{
-                    borderColor: '#F59E0B',
-                    color: '#F59E0B',
+                    borderColor: 'rgba(255, 107, 157, 0.3)',
+                    color: '#ff6b9d',
                     fontWeight: 700,
                     px: 6,
                     py: 2,
@@ -475,8 +476,8 @@ export default function DynamicDatingPage() {
                     borderRadius: 3,
                     textTransform: 'none',
                     '&:hover': {
-                      borderColor: '#D97706',
-                      backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                      borderColor: '#ff6b9d',
+                      backgroundColor: 'rgba(255, 107, 157, 0.1)',
                     }
                   }}
                 >
@@ -486,20 +487,20 @@ export default function DynamicDatingPage() {
               
               <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap', mt: 4 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Lock size={16} style={{ color: '#F59E0B' }} />
-                  <Typography variant="body2" sx={{ color: '#6B7280' }}>
+                  <Lock size={16} style={{ color: '#ff6b9d' }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     Sichere Daten
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Clock size={16} style={{ color: '#F59E0B' }} />
-                  <Typography variant="body2" sx={{ color: '#6B7280' }}>
+                  <Clock size={16} style={{ color: '#ff6b9d' }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     Sofortiger Zugang
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Gift size={16} style={{ color: '#F59E0B' }} />
-                  <Typography variant="body2" sx={{ color: '#6B7280' }}>
+                  <Gift size={16} style={{ color: '#ff6b9d' }} />
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     7 Tage kostenlos
                   </Typography>
                 </Box>

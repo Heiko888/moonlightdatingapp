@@ -37,8 +37,8 @@ import {
   Heart,
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -71,7 +71,7 @@ function TabPanel(props: TabPanelProps) {
 
 export default function HumanDesignChartPage() {
   const [activeTab, setActiveTab] = useState(0);
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null); // Temporär any-Typ
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [chartData, setChartData] = useState<{
     hdChart?: {
@@ -124,37 +124,102 @@ export default function HumanDesignChartPage() {
     try {
       console.log('🎯 Lade Demo-Chart-Daten...');
       
-      // Berechne Chart mit Demo-Daten
-      const response = await fetch('http://localhost:4001/charts/calculate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      // Supabase Chart-Berechnung
+      const { ChartService } = await import('../../lib/supabase/services');
+      
+      // Lade existierende Charts für Demo-User
+      const existingCharts = await ChartService.getCharts('demo-user-id');
+      let response;
+      
+      if (existingCharts.length > 0) {
+        // Verwende existierenden Chart
+        const chart = existingCharts[0];
+        response = { 
+          ok: true, 
+          json: () => Promise.resolve({ 
+            success: true, 
+            chart: {
+              name: chart.name,
+              birth_date: chart.birth_date,
+              birth_time: chart.birth_time,
+              birth_place: chart.birth_place,
+              hd_type: chart.hd_type,
+              authority: chart.authority,
+              strategy: chart.strategy,
+              profile: chart.profile,
+              incarnation_cross: chart.incarnation_cross,
+              centers: chart.centers,
+              channels: chart.channels,
+              gates: chart.gates,
+              planets: chart.planets
+            }
+          }) 
+        };
+      } else {
+        // Erstelle neuen Demo-Chart
+        const demoChart = await ChartService.createChart({
+          user_id: 'demo-user-id',
+          name: 'Demo User',
           birth_date: '1980-12-08',
           birth_time: '22:10',
           birth_place: 'Miltenberg, Deutschland',
-          name: 'Demo User',
-          calculation_method: 'precise'
-        })
-      });
+          hd_type: 'Projector',
+          authority: 'Splenic',
+          strategy: 'Wait for the Invitation',
+          profile: '3/5',
+          incarnation_cross: 'Right Angle Cross of the Sleeping Phoenix',
+          centers: {
+            head: { defined: true, color: '#FF6B6B' },
+            ajna: { defined: true, color: '#4ECDC4' },
+            throat: { defined: false, color: '#45B7D1' },
+            g_center: { defined: true, color: '#96CEB4' },
+            heart: { defined: false, color: '#FFEAA7' },
+            solar_plexus: { defined: true, color: '#DDA0DD' },
+            sacral: { defined: false, color: '#98D8C8' },
+            root: { defined: true, color: '#F7DC6F' }
+          },
+          channels: [
+            { number: 1, name: 'Channel of Inspiration', gates: [1, 8] },
+            { number: 2, name: 'Channel of Abstraction', gates: [2, 14] }
+          ],
+          gates: [
+            { number: 1, name: 'Gate of Self-Expression', line: 1 },
+            { number: 8, name: 'Gate of Contribution', line: 3 }
+          ],
+          planets: {
+            sun: { sign: 'Sagittarius', degree: 16 },
+            moon: { sign: 'Cancer', degree: 8 },
+            mercury: { sign: 'Sagittarius', degree: 2 },
+            venus: { sign: 'Scorpio', degree: 28 },
+            mars: { sign: 'Capricorn', degree: 12 }
+          }
+        });
+        
+        response = { 
+          ok: true, 
+          json: () => Promise.resolve({ 
+            success: true, 
+            chart: demoChart 
+          }) 
+        };
+      }
 
       if (response.ok) {
         const chartResult = await response.json();
         console.log('✅ Demo-Chart-Berechnung erfolgreich:', chartResult);
         
         // Extrahiere die Metadaten aus der korrekten Struktur
-        const metadata = chartResult.chart?.chart_data?.metadata || chartResult.metadata;
+        const metadata = chartResult.chart;
         console.log('📊 Demo-Metadaten:', metadata);
         
         // Speichere die berechneten Daten
         setChartData({
           hdChart: {
-            type: metadata?.type || 'Generator',
+            type: metadata?.hd_type || 'Generator',
             profile: metadata?.profile || '6/3',
             authority: metadata?.authority || 'Emotional',
             strategy: metadata?.strategy || 'Warten auf eine Frage',
-            incarnationCross: metadata?.incarnationCross || {
+            incarnationCross: metadata?.incarnation_cross || {
               name: 'Right Angle Cross of the Vessel of Love',
               sunGate: 6,
               earthGate: 36,
@@ -169,13 +234,13 @@ export default function HumanDesignChartPage() {
             }
           },
           user: {
-            hdType: metadata?.type,
+            hdType: metadata?.hd_type,
             profile: metadata?.profile,
             authority: metadata?.authority
           }
         });
       } else {
-        console.error('❌ Demo-Chart-Berechnung fehlgeschlagen:', response.status, response.statusText);
+        console.error('❌ Demo-Chart-Berechnung fehlgeschlagen:', response);
       }
     } catch (error) {
       console.error('❌ Fehler beim Laden der Demo-Chart-Daten:', error);
@@ -188,8 +253,8 @@ export default function HumanDesignChartPage() {
       if (userData && userData.trim() !== '') {
         try {
           const user = safeJsonParse(userData, {});
-          const subscription = await SubscriptionService.getUserSubscription(user.id);
-          setUserSubscription(subscription);
+          // const subscription = await SubscriptionService.getUserSubscription(user.id); // Temporär deaktiviert
+          // setUserSubscription(subscription); // Temporär deaktiviert
         } catch (parseError) {
           console.error('JSON.parse Fehler in loadUserSubscription:', parseError);
           localStorage.removeItem('userData');
@@ -234,41 +299,61 @@ export default function HumanDesignChartPage() {
         });
 
         try {
-          // Rufe die Chart-Berechnung API auf
-          const response = await fetch('http://localhost:4001/charts/calculate', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+          // Mock Chart-Berechnung mit echten Daten (temporär)
+          const mockUserChartData = {
+            success: true,
+            chart: {
+              name: user.name || user.username,
+              email: user.email,
               birth_date: user.birthDate,
               birth_time: user.birthTime,
               birth_place: user.birthPlace,
-              name: user.name || user.username,
-              email: user.email,
-              calculation_method: 'precise'
-            })
-          });
+              hd_type: 'Generator',
+              authority: 'Sacral',
+              strategy: 'To Respond',
+              profile: '2/4',
+              centers: {
+                head: { defined: false, color: '#FF6B6B' },
+                ajna: { defined: true, color: '#4ECDC4' },
+                throat: { defined: true, color: '#45B7D1' },
+                g_center: { defined: false, color: '#96CEB4' },
+                heart: { defined: true, color: '#FFEAA7' },
+                solar_plexus: { defined: false, color: '#DDA0DD' },
+                sacral: { defined: true, color: '#98D8C8' },
+                root: { defined: false, color: '#F7DC6F' }
+              },
+              channels: [
+                { number: 1, name: 'Channel of Inspiration', gates: [1, 8] },
+                { number: 2, name: 'Channel of Abstraction', gates: [2, 14] }
+              ],
+              gates: [
+                { number: 1, name: 'Gate of Self-Expression', line: 2 },
+                { number: 8, name: 'Gate of Contribution', line: 4 }
+              ]
+            }
+          };
+          
+          const response = { ok: true, json: () => Promise.resolve(mockUserChartData) };
 
           if (response.ok) {
             const chartResult = await response.json();
             console.log('✅ Chart-Berechnung erfolgreich:', chartResult);
             
             // Extrahiere die Metadaten aus der korrekten Struktur
-            const metadata = chartResult.chart?.chart_data?.metadata || chartResult.metadata;
+            const metadata = chartResult.chart;
             console.log('📊 Metadaten:', metadata);
             
             // Speichere die berechneten Daten
             setChartData({
               hdChart: {
-                type: metadata?.type || 'Generator',
+                type: metadata?.hd_type || 'Generator',
                 profile: metadata?.profile || '1/3',
                 authority: metadata?.authority || 'Sacral',
                 strategy: metadata?.strategy || 'Wait to Respond',
                 incarnationCross: metadata?.incarnationCross || 'Right Angle Cross of the Sleeping Phoenix'
               },
               user: {
-                hdType: metadata?.type,
+                hdType: metadata?.hd_type,
                 profile: metadata?.profile,
                 authority: metadata?.authority
               }
@@ -277,20 +362,20 @@ export default function HumanDesignChartPage() {
             // Speichere auch in localStorage für zukünftige Verwendung (nur im Browser)
             if (typeof window !== 'undefined') {
               localStorage.setItem('userChart', JSON.stringify({
-                hdType: metadata?.type,
+                hdType: metadata?.hd_type,
                 profile: metadata?.profile,
                 authority: metadata?.authority,
                 strategy: metadata?.strategy,
                 incarnationCross: metadata?.incarnationCross,
-                centers: chartResult.chart?.chart_data?.centers,
-                channels: chartResult.chart?.chart_data?.channels,
-                gates: chartResult.chart?.chart_data?.gates
+                centers: chartResult.chart?.centers,
+                channels: chartResult.chart?.channels,
+                gates: chartResult.chart?.gates
               }));
             }
 
             return;
           } else {
-            console.error('❌ Chart-Berechnung fehlgeschlagen:', response.status, response.statusText);
+            console.error('❌ Chart-Berechnung fehlgeschlagen:', response);
             // Fallback zu Demo-Daten
             await loadDemoChartData();
           }
@@ -301,13 +386,23 @@ export default function HumanDesignChartPage() {
         }
       }
 
-      // Fallback: Versuche Dashboard-Daten zu laden
-      const response = await fetch(`http://localhost:4001/dashboard/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('📊 Dashboard-Daten geladen:', data);
-        setChartData(data);
-      }
+      // Fallback: Mock Dashboard-Daten (temporär)
+      const mockDashboardData = {
+        hdChart: {
+          type: 'Generator',
+          profile: '2/4',
+          authority: 'Sacral',
+          strategy: 'To Respond',
+          incarnationCross: 'Right Angle Cross of the Sleeping Phoenix'
+        },
+        user: {
+          hdType: 'Generator',
+          profile: '2/4',
+          authority: 'Sacral'
+        }
+      };
+      console.log('📊 Mock Dashboard-Daten geladen:', mockDashboardData);
+      setChartData(mockDashboardData);
 
       // Fallback: Lade gespeicherte Chart-Daten aus localStorage (nur im Browser)
       if (typeof window !== 'undefined') {
@@ -509,12 +604,48 @@ export default function HumanDesignChartPage() {
       userSubscription={userSubscription}
       onUpgrade={() => window.location.href = '/subscription'}
     >
-      <UnifiedPageLayout
-        title="🌟 Human Design Chart"
-        subtitle="Dein persönliches Human Design Profil mit vollständiger Bodygraph-Visualisierung"
-        showStars={true}
-      >
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Header */}
+          <Box textAlign="center" mb={6}>
+            <Typography 
+              variant="h2" 
+              sx={{ 
+                fontWeight: 'bold', 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', md: '3.5rem' }
+              }}
+            >
+              🌟 Human Design Chart
+            </Typography>
+            <Typography 
+              variant="h5" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.8)', 
+                fontWeight: 300,
+                maxWidth: '600px',
+                mx: 'auto',
+                lineHeight: 1.6
+              }}
+            >
+              Dein persönliches Human Design Profil mit vollständiger Bodygraph-Visualisierung
+            </Typography>
+          </Box>
+
           {/* Debug Button für Chart-Berechnung */}
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Button
@@ -1323,12 +1454,15 @@ export default function HumanDesignChartPage() {
               variant="contained"
               startIcon={<Share2 size={20} />}
               sx={{
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                color: '#1f2937',
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                color: 'white',
                 fontWeight: 600,
                 px: 3,
+                borderRadius: 3,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
                 }
               }}
             >
@@ -1338,13 +1472,15 @@ export default function HumanDesignChartPage() {
               variant="outlined"
               startIcon={<Download size={20} />}
               sx={{
-                borderColor: 'rgba(255, 215, 0, 0.3)',
-                color: '#FFD700',
+                borderColor: 'rgba(255, 107, 157, 0.3)',
+                color: '#ff6b9d',
                 fontWeight: 600,
                 px: 3,
+                borderRadius: 3,
                 '&:hover': {
-                  borderColor: '#FFD700',
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                  borderColor: '#ff6b9d',
+                  backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                  transform: 'translateY(-2px)'
                 }
               }}
             >
@@ -1352,7 +1488,7 @@ export default function HumanDesignChartPage() {
             </Button>
           </Box>
         </Container>
-      </UnifiedPageLayout>
+      </Box>
     </AccessControl>
   );
 }

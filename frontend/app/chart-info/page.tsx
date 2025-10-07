@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
-import { SubscriptionService } from '../../lib/subscription/subscriptionService';
+import UnifiedPageLayout from '../../components/UnifiedPageLayout';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
+// import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Tabs, Tab, CircularProgress } from '@mui/material';
 import { motion } from 'framer-motion';
 import { 
@@ -20,11 +21,10 @@ import {
   Activity
 } from 'lucide-react';
 import Link from 'next/link';
-import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 export default function ChartInfoPage() {
   const router = useRouter();
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -62,7 +62,9 @@ export default function ChartInfoPage() {
 
   const loadUserSubscription = async (userId: string) => {
     try {
-      const subscription = await SubscriptionService.getUserSubscription(userId);
+      // Temporärer Fix - SubscriptionService entfernt
+      // const subscription = await SubscriptionService.getUserSubscription(userId);
+      const subscription = null;
       setUserSubscription(subscription);
     } catch (error) {
       console.error('Fehler beim Laden der Subscription:', error);
@@ -191,7 +193,11 @@ export default function ChartInfoPage() {
         showStars={true}
       >
         <Container maxWidth="xl" sx={{ py: 4 }}>
-
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             {/* Navigation Tabs */}
             <Paper sx={{
               background: 'rgba(255, 255, 255, 0.1)',
@@ -225,16 +231,15 @@ export default function ChartInfoPage() {
                 <Tab label="Grundlagen" />
               </Tabs>
             </Paper>
-          </Box>
-        </motion.div>
+          </motion.div>
 
         {/* Tab Content */}
         {activeTab === 0 && (
           <motion.div
-          
-          
-          
-        >
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             {/* Was ist Human Design */}
           <Card sx={{
               background: 'rgba(255, 255, 255, 0.1)',
@@ -602,8 +607,9 @@ export default function ChartInfoPage() {
             </Box>
           </Box>
         </motion.div>
-        </Container>
-      </UnifiedPageLayout>
-    </AccessControl>
+        )}
+      </Container>
+    </UnifiedPageLayout>
+  </AccessControl>
   );
 }

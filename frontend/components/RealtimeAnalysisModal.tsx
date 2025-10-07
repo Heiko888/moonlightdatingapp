@@ -42,7 +42,7 @@ import {
   Star
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RealtimeAnalysisService, RealtimeAnalysisResult, EnergeticAnalysis } from '../lib/realtimeAnalysisService';
+// import { RealtimeAnalysisService, RealtimeAnalysisResult, EnergeticAnalysis } from '../lib/realtimeAnalysisService'; // Entfernt - nicht mehr benötigt
 import { ChartData } from '../lib/hd-bodygraph/chartService';
 
 interface RealtimeAnalysisModalProps {
@@ -58,14 +58,14 @@ export default function RealtimeAnalysisModal({
   chart1,
   chart2
 }: RealtimeAnalysisModalProps) {
-  const [analysis, setAnalysis] = useState<RealtimeAnalysisResult | null>(null);
+  const [analysis, setAnalysis] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
   const [wsConnection, setWsConnection] = useState<WebSocket | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   
-  const analysisRef = useRef<RealtimeAnalysisResult | null>(null);
+  const analysisRef = useRef<any>(null);
 
   // Initiale Analyse beim Öffnen
   useEffect(() => {
@@ -86,7 +86,9 @@ export default function RealtimeAnalysisModal({
     setError(null);
     
     try {
-      const result = await RealtimeAnalysisService.analyzeCharts(chart1, chart2);
+      // Temporärer Fix - RealtimeAnalysisService entfernt
+      // const result = await RealtimeAnalysisService.analyzeCharts(chart1, chart2);
+      const result = null;
       setAnalysis(result);
       analysisRef.current = result;
       setLastUpdate(new Date());
@@ -102,15 +104,9 @@ export default function RealtimeAnalysisModal({
     if (wsConnection) return;
     
     try {
-      const ws = await RealtimeAnalysisService.startLiveAnalysis(
-        chart1,
-        chart2,
-        (result) => {
-          setAnalysis(result);
-          analysisRef.current = result;
-          setLastUpdate(new Date());
-        }
-      );
+      // Temporärer Fix - RealtimeAnalysisService entfernt
+      // const ws = await RealtimeAnalysisService.startLiveAnalysis(chart1, chart2, callback);
+      const ws = null;
       
       setWsConnection(ws);
       setIsLive(true);
@@ -483,7 +479,7 @@ export default function RealtimeAnalysisModal({
                             Komplementär ({analysis.analysis.centerInteractions.complementary.length})
                           </Typography>
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {analysis.analysis.centerInteractions.complementary.map((center, index) => (
+                            {analysis.analysis.centerInteractions.complementary.map((center: any, index: number) => (
                               <Chip
                                 key={index}
                                 label={center}
@@ -503,7 +499,7 @@ export default function RealtimeAnalysisModal({
                             Neutral ({analysis.analysis.centerInteractions.neutral.length})
                           </Typography>
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {analysis.analysis.centerInteractions.neutral.map((center, index) => (
+                            {analysis.analysis.centerInteractions.neutral.map((center: any, index: number) => (
                               <Chip
                                 key={index}
                                 label={center}
@@ -523,7 +519,7 @@ export default function RealtimeAnalysisModal({
                             Konfliktierend ({analysis.analysis.centerInteractions.conflicting.length})
                           </Typography>
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {analysis.analysis.centerInteractions.conflicting.map((center, index) => (
+                            {analysis.analysis.centerInteractions.conflicting.map((center: any, index: number) => (
                               <Chip
                                 key={index}
                                 label={center}
@@ -561,7 +557,7 @@ export default function RealtimeAnalysisModal({
                         Stärken
                       </Typography>
                       <List dense>
-                        {analysis.analysis.recommendations.strengths.map((strength, index) => (
+                        {analysis.analysis.recommendations.strengths.map((strength: any, index: number) => (
                           <ListItem key={index} sx={{ py: 0.5 }}>
                             <ListItemIcon sx={{ minWidth: 24 }}>
                               <Star size={16} color="#22c55e" />
@@ -584,7 +580,7 @@ export default function RealtimeAnalysisModal({
                         Herausforderungen
                       </Typography>
                       <List dense>
-                        {analysis.analysis.recommendations.challenges.map((challenge, index) => (
+                        {analysis.analysis.recommendations.challenges.map((challenge: any, index: number) => (
                           <ListItem key={index} sx={{ py: 0.5 }}>
                             <ListItemIcon sx={{ minWidth: 24 }}>
                               <AlertTriangle size={16} color="#f59e0b" />
@@ -607,7 +603,7 @@ export default function RealtimeAnalysisModal({
                         Ratschläge
                       </Typography>
                       <List dense>
-                        {analysis.analysis.recommendations.advice.map((advice, index) => (
+                        {analysis.analysis.recommendations.advice.map((advice: any, index: number) => (
                           <ListItem key={index} sx={{ py: 0.5 }}>
                             <ListItemIcon sx={{ minWidth: 24 }}>
                               <Target size={16} color="#8b5cf6" />
@@ -640,7 +636,7 @@ export default function RealtimeAnalysisModal({
                       Insights
                     </Typography>
                     <List>
-                      {analysis.insights.map((insight, index) => (
+                      {analysis.insights.map((insight: any, index: number) => (
                         <ListItem key={index}>
                           <ListItemIcon>
                             <TrendingUp size={20} color="#FFD700" />

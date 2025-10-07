@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { supabase } from '../../lib/supabase/client';
 import { 
   Box, 
   Typography, 
@@ -147,26 +148,25 @@ const RegisterPage: React.FC = () => {
     
     try {
       // Echte API-Registrierung
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          birthDate: convertBirthDateForAPI(formData.birthDate),
-          birthTime: formData.birthTime,
-          birthPlace: formData.birthPlace,
-          subscription: formData.subscription
-        })
+      // Supabase Registrierung
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            birth_date: convertBirthDateForAPI(formData.birthDate),
+            birth_time: formData.birthTime,
+            birth_place: formData.birthPlace
+          }
+        }
       });
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (error) {
+        // Fehler bei der Registrierung
+        setError(error.message || 'Registrierung fehlgeschlagen');
+      } else {
         // Registrierung erfolgreich
         setSuccess(true);
         
@@ -174,9 +174,6 @@ const RegisterPage: React.FC = () => {
         setTimeout(() => {
           router.push('/profile-setup');
         }, 2000);
-      } else {
-        // Fehler bei der Registrierung
-        setError(result.error?.message || 'Registrierung fehlgeschlagen');
       }
 
     } catch (err) {

@@ -3,9 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, Typography, TextField, Button, Alert, CircularProgress, Container, Paper } from '@mui/material';
-import { safeJsonParse } from '@/lib/supabase/client';
-// import { useLoadingState } from '@/lib/api/loading'; // Entfernt - nicht mehr benötigt
-// import { supabase } from '@/lib/supabase/client'; // Temporär deaktiviert
+import { safeJsonParse, supabase } from '@/lib/supabase/client';
 
 interface LoginData {
   email: string;
@@ -54,29 +52,23 @@ const LoginPage: React.FC = () => {
     try {
       console.log('🔄 Starte API Login...');
       
-      // API-basierte Anmeldung (funktioniert)
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
+      // Supabase-basierte Anmeldung
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password
       });
 
-      const result = await response.json();
-      console.log('📊 API Response:', result);
-
-      if (result.success) {
-        console.log('✅ API Login erfolgreich:', result.user.email);
+      if (error) {
+        console.error('Supabase Login Fehler:', error);
+        setError(error.message || 'Anmeldung fehlgeschlagen');
+      } else {
+        console.log('✅ Supabase Login erfolgreich:', data.user?.email);
 
         // Session-Daten in localStorage speichern
-        localStorage.setItem('token', result.token);
-        localStorage.setItem('userId', result.user.id);
-        localStorage.setItem('userEmail', result.user.email);
-        localStorage.setItem('userPackage', result.user.package || 'free');
+        localStorage.setItem('token', data.session?.access_token || '');
+        localStorage.setItem('userId', data.user?.id || '');
+        localStorage.setItem('userEmail', data.user?.email || '');
+        localStorage.setItem('userPackage', data.user?.user_metadata?.package || 'free');
         console.log('💾 Session-Daten in localStorage gespeichert');
 
         // Erfolgsmeldung anzeigen
@@ -89,10 +81,6 @@ const LoginPage: React.FC = () => {
           console.log('🚀 Navigiere zu /dashboard');
           router.push('/dashboard');
         }, 500);
-      } else {
-        console.error('API Login Fehler:', result);
-        const errorMessage = result.error || result.message || 'Anmeldung fehlgeschlagen';
-        setError(errorMessage);
       }
 
     } catch (err) {

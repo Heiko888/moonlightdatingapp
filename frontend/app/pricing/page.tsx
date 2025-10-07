@@ -23,7 +23,7 @@ interface UserSubscription {
 export default function PricingPage() {
   const router = useRouter();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function PricingPage() {
     switch (packageId) {
       case 'basic': return '#4ecdc4';
       case 'premium': return '#ff6b9d';
-      case 'vip': return '#FFD700';
+      case 'vip': return '#ff6b9d';
       default: return '#6b7280';
     }
   };
@@ -177,21 +177,82 @@ export default function PricingPage() {
     return `Sie sparen ${savings.toFixed(2)}€ pro Jahr`;
   };
 
-  return (
-    <UnifiedPageLayout
-      title="💎 Premium Pakete"
-      subtitle="Wähle das perfekte Paket für deine Human Design Journey. Alle Pakete enthalten Zugang zu unserer exklusiven Community."
-      showStars={true}
-    >
-      {isLoading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-          <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-            Lade Pakete...
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>
+            💎 Lade Premium Pakete...
           </Typography>
         </Box>
-      ) : (
-        <>
-          {/* Billing Cycle Toggle */}
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{ 
+      minHeight: '100vh',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        {/* Header */}
+        <Box textAlign="center" mb={6}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              fontWeight: 'bold', 
+              mb: 2,
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '2.5rem', md: '3.5rem' }
+            }}
+          >
+            💎 Premium Pakete
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              color: 'rgba(255,255,255,0.8)', 
+              fontWeight: 300,
+              maxWidth: '600px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Wähle das perfekte Paket für deine Human Design Journey. Alle Pakete enthalten Zugang zu unserer exklusiven Community.
+          </Typography>
+        </Box>
+
+        {/* Billing Cycle Toggle */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -247,7 +308,7 @@ export default function PricingPage() {
                   size="small" 
                   sx={{ 
                     ml: 1, 
-                    background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                    background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
                     color: '#1a1a2e',
                     fontWeight: 700,
                     fontSize: '0.7rem'
@@ -424,7 +485,7 @@ export default function PricingPage() {
               p: 4
             }}>
               <Typography variant="h5" sx={{ 
-                color: '#FFD700', 
+                color: '#ff6b9d', 
                 textAlign: 'center', 
                 mb: 4, 
                 fontWeight: 700 
@@ -456,7 +517,7 @@ export default function PricingPage() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <Box sx={{ textAlign: 'center' }}>
-                    <Star size={48} color="#FFD700" style={{ marginBottom: 16 }} />
+                    <Star size={48} color="#ff6b9d" style={{ marginBottom: 16 }} />
                     <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                       Exklusive Inhalte
                     </Typography>
@@ -498,8 +559,7 @@ export default function PricingPage() {
               </Paper>
             </motion.div>
           )}
-        </>
-      )}
-    </UnifiedPageLayout>
+      </Container>
+    </Box>
   );
 }

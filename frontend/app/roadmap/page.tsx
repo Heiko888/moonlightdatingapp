@@ -10,7 +10,7 @@ import { UserSubscription } from '../../lib/subscription/types';
 import { safeJsonParse } from '@/lib/supabase/client';
 
 export default function RoadmapPage() {
-  const [userSubscription, setUserSubscription] = useState<UserSubscription | null>(null);
+  const [userSubscription, setUserSubscription] = useState<any>(null);
 
   useEffect(() => {
     loadUserSubscription();
@@ -94,12 +94,18 @@ export default function RoadmapPage() {
   // }
 
   return (
+    <AccessControl
+      path="/roadmap"
+      userSubscription={userSubscription}
+      onUpgrade={() => window.location.href = '/pricing'}
+    >
       <Box sx={{ 
         minHeight: '100vh',
         background: `
-          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
@@ -131,29 +137,46 @@ export default function RoadmapPage() {
           ))}
         </Box>
 
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
           <motion.div
-            
-            
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
             <Box sx={{ textAlign: 'center', mb: 6 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                <Target size={48} color="#8B5CF6" />
-                <Typography variant="h2" sx={{ ml: 2, fontWeight: 700, background: 'linear-gradient(45deg, #8B5CF6, #A78BFA)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  AI-Powered Roadmap
-                </Typography>
-              </Box>
-              <Typography variant="h5" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3 }}>
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  fontWeight: 'bold', 
+                  mb: 2,
+                  background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontSize: { xs: '2.5rem', md: '3.5rem' }
+                }}
+              >
+                🗺️ AI-Powered Roadmap
+              </Typography>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.8)', 
+                  fontWeight: 300,
+                  maxWidth: '600px',
+                  mx: 'auto',
+                  lineHeight: 1.6
+                }}
+              >
                 Dein intelligenter Entwicklungsplan basierend auf Human Design & AI-Analyse
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mt: 3 }}>
                 <Chip 
                   icon={<Brain size={16} />} 
                   label="AI-Powered" 
                   sx={{ 
-                    background: 'linear-gradient(45deg, #8B5CF6, #A78BFA)',
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                     color: 'white',
                     fontWeight: 600,
                     px: 2,
@@ -164,7 +187,7 @@ export default function RoadmapPage() {
                   icon={<Sparkles size={16} />} 
                   label="Personalisiert" 
                   sx={{ 
-                    background: 'linear-gradient(45deg, #10B981, #34D399)',
+                    background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
                     color: 'white',
                     fontWeight: 600,
                     px: 2,
@@ -174,19 +197,22 @@ export default function RoadmapPage() {
                 <Button
                   variant="outlined"
                   component={Link}
-                  href="/premium-dashboard"
+                  href="/dashboard"
                   startIcon={<BarChart3 size={20} />}
                   sx={{
-                    color: '#FFD700',
-                    borderColor: '#FFD700',
+                    color: '#ff6b9d',
+                    borderColor: 'rgba(255, 107, 157, 0.3)',
+                    fontWeight: 600,
+                    px: 3,
+                    borderRadius: 3,
                     '&:hover': {
-                      borderColor: '#FFD700',
-                      backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                      boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)'
+                      borderColor: '#ff6b9d',
+                      backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                      transform: 'translateY(-2px)'
                     }
                   }}
                 >
-                  ← Zurück zum Premium Dashboard
+                  ← Zurück zum Dashboard
                 </Button>
               </Box>
             </Box>
@@ -194,37 +220,38 @@ export default function RoadmapPage() {
 
           {/* AI Features Overview */}
           <motion.div
-            
-            
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Paper elevation={0} sx={{
               background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
+              backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: 3,
+              borderRadius: 4,
               p: 4,
-              mb: 4
+              mb: 4,
+              color: 'white'
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <Brain size={24} color="#8B5CF6" />
-                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600 }}>AI-Engine Features</Typography>
+                <Brain size={24} color="#ff6b9d" />
+                <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: '#ff6b9d' }}>AI-Engine Features</Typography>
               </Box>
-              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 2 }}>
-                <Box sx={{ textAlign: 'center', p: 2 }}>
-                  <Target size={32} color="#10B981" />
-                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5 }}>Personalisierte Schritte</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Basierend auf deinem Human Design Profil</Typography>
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+                <Box sx={{ textAlign: 'center', p: 3, background: 'rgba(255, 107, 157, 0.1)', borderRadius: 3 }}>
+                  <Target size={32} color="#ff6b9d" />
+                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5, color: 'white' }}>Personalisierte Schritte</Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Basierend auf deinem Human Design Profil</Typography>
                 </Box>
-                <Box sx={{ textAlign: 'center', p: 2 }}>
-                  <Sparkles size={32} color="#F59E0B" />
-                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5 }}>Journal-Analyse</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Erkenntnisse aus deinen Einträgen</Typography>
+                <Box sx={{ textAlign: 'center', p: 3, background: 'rgba(78, 205, 196, 0.1)', borderRadius: 3 }}>
+                  <Sparkles size={32} color="#4ecdc4" />
+                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5, color: 'white' }}>Journal-Analyse</Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Erkenntnisse aus deinen Einträgen</Typography>
                 </Box>
-                <Box sx={{ textAlign: 'center', p: 2 }}>
-                  <Crown size={32} color="#EF4444" />
-                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5 }}>Dating-Tipps</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Orte & Aktivitäten basierend auf Hobbies</Typography>
+                <Box sx={{ textAlign: 'center', p: 3, background: 'rgba(102, 126, 234, 0.1)', borderRadius: 3 }}>
+                  <Crown size={32} color="#667eea" />
+                  <Typography variant="h6" sx={{ fontWeight: 600, mt: 1, mb: 0.5, color: 'white' }}>Dating-Tipps</Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Orte & Aktivitäten basierend auf Hobbies</Typography>
                 </Box>
               </Box>
             </Paper>
@@ -232,13 +259,14 @@ export default function RoadmapPage() {
 
           {/* Personal Roadmap Component */}
           <motion.div
-            
-            
-            
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             <PersonalRoadmap />
           </motion.div>
         </Container>
       </Box>
+    </AccessControl>
   );
 }
