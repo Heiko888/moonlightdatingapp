@@ -147,7 +147,26 @@ function ProfilContent() {
 
       // Temporärer Fix - apiService entfernt
       // const userData = await apiService.getUserProfile(userId);
-      const userData = null;
+      // Temporärer Fix - Mock-Daten verwenden
+      const userData = {
+        data: {
+          firstName: 'Max',
+          lastName: 'Mustermann',
+          email: 'max@example.com',
+          phone: '+49 123 456789',
+          location: 'Berlin, Deutschland',
+          birthDate: '1990-01-01',
+          birthTime: '12:00',
+          birthPlace: 'Berlin',
+          bio: 'Human Design Enthusiast',
+          interests: ['Astrologie', 'Meditation', 'Yoga'],
+          website: 'https://max-mustermann.de',
+          hdType: 'Generator',
+          hdProfile: '1/3',
+          hdStrategy: 'Warten auf die Antwort',
+          hdAuthority: 'Sakral'
+        }
+      };
       
       if (userData) {
         
@@ -349,8 +368,7 @@ function ProfilContent() {
         setMessage('Profil erfolgreich aktualisiert!');
         setTimeout(() => setMessage(''), 3000);
       } else {
-        const error = response.error || 'Unbekannter Fehler';
-        setMessage(`Fehler beim Speichern: ${error}`);
+        setMessage('Fehler beim Speichern des Profils');
       }
     } catch (error) {
       console.error('Fehler beim Speichern des Profils:', error);

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
 // import { useLoadingState } from '@/lib/services/loadingService'; // Entfernt - nicht mehr benötigt
-import UnifiedPageLayout from '@/components/UnifiedPageLayout';
+// import UnifiedPageLayout from '@/components/UnifiedPageLayout'; // Entfernt - nicht mehr benötigt
 // import { useSubscription } from '../../hooks/useSubscription'; // Entfernt - nicht mehr benötigt
 
 interface Message {
