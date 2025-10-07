@@ -320,10 +320,47 @@ export default function HumanDesignInfo() {
   if (!isClient) return null;
 
   return (
-    <UnifiedPageLayout
-      title="🧠 Human Design"
-      subtitle="Entdecke deine wahre Natur und lebe authentisch"
-    >
+    <Box sx={{ 
+      minHeight: '100vh',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        {/* Header */}
+        <Box textAlign="center" mb={6}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              fontWeight: 'bold', 
+              mb: 2,
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '2.5rem', md: '3.5rem' }
+            }}
+          >
+            🧠 Human Design
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              color: 'rgba(255,255,255,0.8)', 
+              fontWeight: 300,
+              maxWidth: '600px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Entdecke deine wahre Natur und lebe authentisch
+          </Typography>
+        </Box>
       <Container maxWidth="xl" sx={{ py: 4 }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -356,8 +393,8 @@ export default function HumanDesignInfo() {
               onChange={(e, newValue) => setActiveTab(newValue)}
               sx={{
                 '& .MuiTab-root': { color: 'rgba(255,255,255,0.7)' },
-                '& .Mui-selected': { color: '#FFD700' },
-                '& .MuiTabs-indicator': { backgroundColor: '#FFD700' }
+                '& .Mui-selected': { color: '#ff6b9d' },
+                '& .MuiTabs-indicator': { backgroundColor: '#ff6b9d' }
               }}
             >
               <Tab label="Grundlagen" icon={<BookOpen size={20} />} />
@@ -874,6 +911,7 @@ export default function HumanDesignInfo() {
           </motion.div>
         )}
       </Container>
-    </UnifiedPageLayout>
+      </Box>
+    </Box>
   );
 }
