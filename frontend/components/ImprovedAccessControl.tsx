@@ -52,7 +52,7 @@ export default function ImprovedAccessControl({
     }
 
     const canAccess = hasPackage(requiredPackage);
-    const currentPackage = subscription?.packageId || 'free';
+    const currentPackage = 'free';
 
     setAccess({
       canAccess,

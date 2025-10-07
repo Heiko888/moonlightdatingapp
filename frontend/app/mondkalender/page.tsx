@@ -42,7 +42,7 @@ import {
   Flower2
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
-import { UserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 
 interface MoonPhase {
@@ -861,7 +861,6 @@ export default function MondkalenderPage() {
       <UnifiedPageLayout
         title="🌕 Mondkalender"
         subtitle="Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben"
-        showStars={true}
       >
         <Container maxWidth="lg" sx={{ py: 4 }}>
           {/* Animated Moon Background */}

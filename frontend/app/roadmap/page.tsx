@@ -6,7 +6,7 @@ import { BarChart3, Target, Sparkles, Brain, Crown } from 'lucide-react';
 import PersonalRoadmap from '@/components/PersonalRoadmap';
 import AccessControl from '../../components/AccessControl';
 import Link from 'next/link';
-import { UserSubscription } from '../../lib/subscription/types';
+// import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
 
 export default function RoadmapPage() {

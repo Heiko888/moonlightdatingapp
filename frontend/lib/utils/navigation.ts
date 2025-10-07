@@ -1,5 +1,5 @@
 // import { checkPageAccess } from '../subscription/accessControl'; // Entfernt - nicht mehr benötigt
-import type { UserSubscription as SubscriptionType } from '../subscription/types';
+// import type { UserSubscription as SubscriptionType } from '../subscription/types'; // Entfernt - nicht mehr benötigt
 
 export interface UserData {
   subscriptionPlan?: string;

@@ -348,7 +348,7 @@ export default function PackageOverviewPage() {
                                 {page.name}
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-                                {page.description}
+                                {page.name} - {page.requiredPackage}
                               </Typography>
                             </Box>
                             <Chip

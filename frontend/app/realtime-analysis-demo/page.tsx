@@ -593,7 +593,7 @@ export default function RealtimeAnalysisDemoPage() {
                             Insights
                           </Typography>
                           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            {analysis.insights.map((insight, index) => (
+                            {analysis.insights.map((insight: any, index: any) => (
                               <Paper
                                 key={index}
                                 sx={{

@@ -400,7 +400,6 @@ function CommunityContent() {
       <UnifiedPageLayout
         title="🌟 Community Hub"
         subtitle="Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey"
-        showStars={true}
       >
         <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Header */}

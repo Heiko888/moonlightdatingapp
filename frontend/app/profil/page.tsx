@@ -199,7 +199,7 @@ function ProfilContent() {
               totalMoonEntries: 0,
               totalMatchingAnalyses: 0,
               totalCoachingSessions: 0,
-              lastActivity: userData.data?.updatedAt || userData.data?.createdAt || new Date().toISOString()
+              lastActivity: new Date().toISOString()
             }
           };
         });

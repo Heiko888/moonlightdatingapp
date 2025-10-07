@@ -399,8 +399,7 @@ export default function ProfileSetupPage() {
         zIndex: 1
       }}>
         <SSRSafeStars 
-          count={20} 
-          opacity={0.8}
+          count={20}
         />
       </Box>
 
