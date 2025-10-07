@@ -223,7 +223,7 @@ export default function SalesDatingPage() {
               
               <Button
                 component={Link}
-                href="/matching"
+                href="/match"
                 variant="outlined"
                 size="large"
                 sx={{
@@ -514,7 +514,7 @@ export default function SalesDatingPage() {
                   </Typography>
                   <Button
                     component={Link}
-                    href="/matching"
+                    href="/match"
                     variant="contained"
                     fullWidth
                     sx={{
@@ -992,7 +992,7 @@ export default function SalesDatingPage() {
               
               <Button
                 component={Link}
-                href="/matching"
+                href="/match"
                 variant="outlined"
                 size="large"
                 sx={{
