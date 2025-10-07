@@ -554,7 +554,7 @@ export default function RealtimeAnalysisPage() {
                               Top Insights
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                              {quickAnalysis.insights.slice(0, 3).map((insight, index) => (
+                              {quickAnalysis.insights.slice(0, 3).map((insight: any, index: any) => (
                                 <Paper
                                   key={index}
                                   sx={{
