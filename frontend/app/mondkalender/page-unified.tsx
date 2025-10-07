@@ -342,13 +342,13 @@ export default function MondkalenderPage() {
           // Calculate stats
           if (tracking.length > 0) {
             const totalEntries = tracking.length;
-            const averageMood = tracking.reduce((sum, entry) => sum + (entry.mood || 0), 0) / totalEntries;
-            const averageEnergy = tracking.reduce((sum, entry) => sum + (entry.energy || 0), 0) / totalEntries;
-            const averageSleep = tracking.reduce((sum, entry) => sum + (entry.sleep_hours || 0), 0) / totalEntries;
+            const averageMood = tracking.reduce((sum: any, entry: any) => sum + (entry.mood || 0), 0) / totalEntries;
+            const averageEnergy = tracking.reduce((sum: any, entry: any) => sum + (entry.energy || 0), 0) / totalEntries;
+            const averageSleep = tracking.reduce((sum: any, entry: any) => sum + (entry.sleep_hours || 0), 0) / totalEntries;
             
             // Find most frequent phase
             const phaseCounts: { [key: string]: number } = {};
-            tracking.forEach(entry => {
+            tracking.forEach((entry: any) => {
               if (entry.moon_phase) {
                 phaseCounts[entry.moon_phase] = (phaseCounts[entry.moon_phase] || 0) + 1;
               }
@@ -387,7 +387,6 @@ export default function MondkalenderPage() {
       <UnifiedPageLayout
         title="🌙 Mondkalender"
         subtitle="Verfolge die Mondzyklen und entdecke, wie sie dein Leben beeinflussen. Verbinde dich mit der kosmischen Energie."
-        showStars={true}
       >
         {/* Current Moon Phase */}
         <motion.div
