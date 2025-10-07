@@ -350,7 +350,7 @@ export default function HumanDesignChartPage() {
                 profile: metadata?.profile || '1/3',
                 authority: metadata?.authority || 'Sacral',
                 strategy: metadata?.strategy || 'Wait to Respond',
-                incarnationCross: metadata?.incarnation_cross || 'Right Angle Cross of the Sleeping Phoenix'
+                incarnationCross: 'Right Angle Cross of the Sleeping Phoenix'
               },
               user: {
                 hdType: metadata?.hd_type,
@@ -366,7 +366,7 @@ export default function HumanDesignChartPage() {
                 profile: metadata?.profile,
                 authority: metadata?.authority,
                 strategy: metadata?.strategy,
-                incarnationCross: metadata?.incarnation_cross,
+                incarnationCross: 'Right Angle Cross of the Sleeping Phoenix',
                 centers: chartResult.chart?.centers,
                 channels: chartResult.chart?.channels,
                 gates: chartResult.chart?.gates

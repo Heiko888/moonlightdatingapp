@@ -133,7 +133,7 @@ export const getUserSubscription = (): UserSubscription | null => {
     autoRenew: user?.autoRenew || false,
     paymentMethod: user?.paymentMethod || 'none',
     billingCycle: user?.billingCycle || 'monthly',
-  } as SubscriptionType;
+  } as any;
 };
 
 /**
