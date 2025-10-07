@@ -226,11 +226,59 @@ export default function PlanetsPage() {
   const elements = [...new Set(planets.map(planet => planet.element))];
 
   return (
-    <UnifiedPageLayout
-      title="Die Planeten im Human Design"
-      subtitle="Entdecke die kosmischen Kräfte, die dein Leben prägen"
-      description="Jeder Planet im Human Design System repräsentiert eine spezifische Energie und Funktion in unserem Leben. Von der Sonne als Zentrum unseres Bewusstseins bis zu Chiron als dem verwundeten Heiler - lerne die tiefe Bedeutung und Wirkung jedes Planeten kennen."
-    >
+    <Box sx={{ 
+      minHeight: '100vh',
+      background: `
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+      `,
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        {/* Header */}
+        <Box textAlign="center" mb={6}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              fontWeight: 'bold', 
+              mb: 2,
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '2.5rem', md: '3.5rem' }
+            }}
+          >
+            🌟 Die Planeten im Human Design
+          </Typography>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              color: 'rgba(255,255,255,0.8)', 
+              fontWeight: 300,
+              maxWidth: '600px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Entdecke die kosmischen Kräfte, die dein Leben prägen
+          </Typography>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              color: 'rgba(255,255,255,0.6)', 
+              mt: 2,
+              maxWidth: '800px',
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Jeder Planet im Human Design System repräsentiert eine spezifische Energie und Funktion in unserem Leben. Von der Sonne als Zentrum unseres Bewusstseins bis zu Chiron als dem verwundeten Heiler - lerne die tiefe Bedeutung und Wirkung jedes Planeten kennen.
+          </Typography>
+        </Box>
       {/* Search and Filter */}
       <Paper sx={{
         p: 3,
@@ -352,16 +400,18 @@ export default function PlanetsPage() {
               whileHover={{ y: -5 }}
             >
               <Card sx={{
-                background: `linear-gradient(135deg, ${planet.color}15 0%, rgba(11,13,18,0.95) 50%, rgba(26,31,43,0.98) 100%)`,
-                backdropFilter: 'blur(20px)',
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 4,
-                border: `2px solid ${planet.color}40`,
                 height: '100%',
                 transition: 'all 0.3s ease',
+                color: 'white',
                 '&:hover': {
-                  border: `2px solid ${planet.color}`,
-                  boxShadow: `0 8px 32px ${planet.color}30`,
-                  transform: 'translateY(-5px)',
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  transform: 'translateY(-8px)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                 },
               }}>
                 <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -423,15 +473,15 @@ export default function PlanetsPage() {
                     variant="contained"
                     fullWidth
                     sx={{
-                      background: planet.gradient,
+                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                       color: 'white',
                       fontWeight: 600,
                       py: 1.5,
                       borderRadius: 2,
                       '&:hover': {
-                        background: planet.gradient,
+                        background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                         transform: 'translateY(-2px)',
-                        boxShadow: `0 4px 20px ${planet.color}40`,
+                        boxShadow: '0 4px 20px rgba(255, 107, 157, 0.4)',
                       },
                     }}
                   >
@@ -443,6 +493,7 @@ export default function PlanetsPage() {
           </Grid>
         ))}
       </Grid>
-    </UnifiedPageLayout>
+      </Box>
+    </Box>
   );
 }
