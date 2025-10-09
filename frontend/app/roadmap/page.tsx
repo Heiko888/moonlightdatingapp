@@ -33,7 +33,8 @@ export default function RoadmapPage() {
             endDate: user.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             autoRenew: user.autoRenew || false,
             paymentMethod: user.paymentMethod || 'none',
-            billingCycle: user.billingCycle || 'monthly'
+            billingCycle: user.billingCycle || 'monthly',
+            plan: (user.subscriptionPlan === 'premium' ? 'premium' : user.subscriptionPlan) || 'basic'
           };
           
           console.log('💎 Roadmap - Premium-Status:', subscription.packageId);

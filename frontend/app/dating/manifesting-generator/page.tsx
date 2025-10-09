@@ -150,11 +150,7 @@ export default function DynamicDatingPage() {
       
       <Container maxWidth="lg">
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <Box>
           <Box textAlign="center" mb={8}>
             <Chip
               label="🚀 Für dynamische Verbindungen entwickelt"

@@ -238,7 +238,8 @@ export default function MondkalenderPage() {
               endDate: subscription.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
               autoRenew: subscription.autoRenew || false,
               paymentMethod: subscription.paymentMethod || 'none',
-              billingCycle: subscription.billingCycle || 'monthly'
+              billingCycle: subscription.billingCycle || 'monthly',
+              plan: subscription.plan || user.subscriptionPlan || 'basic'
             });
             console.log('✅ Subscription aus localStorage geladen:', subscription.plan || user.subscriptionPlan || 'basic');
             return;
@@ -277,7 +278,8 @@ export default function MondkalenderPage() {
               endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
               autoRenew: false,
               paymentMethod: 'none',
-              billingCycle: 'monthly'
+              billingCycle: 'monthly',
+              plan: planId
             });
             console.log('✅ Subscription aus userData geladen:', planId);
             return;
@@ -298,7 +300,8 @@ export default function MondkalenderPage() {
               endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
               autoRenew: true,
               paymentMethod: 'free',
-              billingCycle: 'monthly'
+              billingCycle: 'monthly',
+              plan: 'basic'
             });
           }
         }
@@ -313,7 +316,8 @@ export default function MondkalenderPage() {
           endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
           autoRenew: true,
           paymentMethod: 'free',
-          billingCycle: 'monthly'
+          billingCycle: 'monthly',
+          plan: 'basic'
         });
       }
     };

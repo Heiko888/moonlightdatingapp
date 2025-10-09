@@ -64,7 +64,8 @@ export default function RealtimeAnalysisPage() {
             endDate: user.subscriptionEndDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             autoRenew: user.autoRenew || false,
             paymentMethod: user.paymentMethod || 'none',
-            billingCycle: user.billingCycle || 'monthly'
+            billingCycle: user.billingCycle || 'monthly',
+            plan: user.subscriptionPlan || 'basic'
           };
           console.log('💎 Realtime-Analysis - Premium-Status:', subscription.packageId);
           setUserSubscription(subscription);
