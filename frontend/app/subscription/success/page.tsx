@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Box,
@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { CheckCircle, ArrowRight, Crown } from 'lucide-react';
 
-export default function SubscriptionSuccessPage() {
+function SubscriptionSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -244,5 +244,40 @@ export default function SubscriptionSuccessPage() {
         </Card>
       </Container>
     </Box>
+  );
+}
+
+export default function SubscriptionSuccessPage() {
+  return (
+    <Suspense fallback={
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <CircularProgress sx={{ color: '#ff6b9d', mb: 2 }} />
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontWeight: 'bold'
+          }}>
+            🔄 Lade...
+          </Typography>
+        </Box>
+      </Box>
+    }>
+      <SubscriptionSuccessContent />
+    </Suspense>
   );
 }
