@@ -56,7 +56,8 @@ export const smartRedirect = (targetPath?: string): string => {
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     autoRenew: false,
     paymentMethod: 'none',
-    billingCycle: 'monthly'
+    billingCycle: 'monthly',
+    plan: currentPlan as 'basic' | 'premium' | 'vip'
   };
   
   // Wenn eine spezifische Seite gewünscht ist, prüfe die Berechtigung
@@ -185,7 +186,8 @@ export const hasAccess = (path: string): boolean => {
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     autoRenew: false,
     paymentMethod: 'none',
-    billingCycle: 'monthly'
+    billingCycle: 'monthly',
+    plan: currentPlan as 'basic' | 'premium' | 'vip'
   };
   
   const access = checkPageAccess(path, subscription);
@@ -208,7 +210,8 @@ export const getAccessiblePages = (): string[] => {
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     autoRenew: false,
     paymentMethod: 'none',
-    billingCycle: 'monthly'
+    billingCycle: 'monthly',
+    plan: currentPlan as 'basic' | 'premium' | 'vip'
   };
   
   // Liste der wichtigsten Seiten

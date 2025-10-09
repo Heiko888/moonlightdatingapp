@@ -212,7 +212,7 @@ export default function JournalPage() {
       const userId = localStorage.getItem('userId');
       
       if (!token || !userId) {
-        setIsAuthenticated(false);
+        // setIsAuthenticated(false); // Temporär deaktiviert
         // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }

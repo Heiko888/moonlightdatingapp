@@ -486,7 +486,7 @@ export default function HDAcademyPage() {
                 } else if (course.id === 'planets') {
                   router.push('/planets');
                 } else {
-                  setSelectedCourse(course.id);
+                  // setSelectedCourse(course.id); // Temporär deaktiviert
                 }
               }}
               sx={{

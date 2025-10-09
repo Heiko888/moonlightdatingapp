@@ -23,7 +23,7 @@ import {
   ArrowLeft,
   Search,
   Filter,
-  Sort
+  ArrowUpDown
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

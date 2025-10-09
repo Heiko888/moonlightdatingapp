@@ -134,7 +134,7 @@ const ReadingPage: React.FC = () => {
       }
 
       // Aktualisiere State
-      setReadings(existingReadings);
+        // setReadings(existingReadings); // Temporär deaktiviert
       setNewReadingDialog(false);
       setNewReadingTitle('');
       setNewReadingQuestion('');

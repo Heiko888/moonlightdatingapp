@@ -161,7 +161,8 @@ export default function SettingsPage() {
             endDate: userSubscriptionData.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             autoRenew: userSubscriptionData.autoRenew || false,
             paymentMethod: userSubscriptionData.paymentMethod || 'none',
-            billingCycle: userSubscriptionData.billingCycle || 'monthly'
+            billingCycle: userSubscriptionData.billingCycle || 'monthly',
+            plan: currentPlan // Hinzugefügt
           });
         } catch (error) {
           console.error('Error loading user subscription:', error);
@@ -173,7 +174,8 @@ export default function SettingsPage() {
             endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
             autoRenew: false,
             paymentMethod: 'none',
-            billingCycle: 'monthly'
+            billingCycle: 'monthly',
+            plan: 'free' // Hinzugefügt
           });
         }
       };
