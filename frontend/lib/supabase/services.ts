@@ -412,6 +412,88 @@ export class ChatService {
   }
 }
 
+// Subscription Service
+export class SubscriptionService {
+  static async getSubscription(userId: string): Promise<any | null> {
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching subscription:', error);
+      return null;
+    }
+
+    return data;
+  }
+
+  static async updateSubscription(userId: string, packageId: string): Promise<boolean> {
+    const { error } = await supabase
+      .from('subscriptions')
+      .upsert({
+        user_id: userId,
+        package_id: packageId,
+        status: 'active',
+        start_date: new Date().toISOString(),
+        end_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 Jahr
+      });
+
+    if (error) {
+      console.error('Error updating subscription:', error);
+      return false;
+    }
+
+    return true;
+  }
+
+  static async setVIP(userId: string): Promise<boolean> {
+    return this.updateSubscription(userId, 'vip');
+  }
+
+  static async setPremium(userId: string): Promise<boolean> {
+    return this.updateSubscription(userId, 'premium');
+  }
+
+  static async setBasic(userId: string): Promise<boolean> {
+    return this.updateSubscription(userId, 'basic');
+  }
+
+  static async setFree(userId: string): Promise<boolean> {
+    return this.updateSubscription(userId, 'free');
+  }
+
+  static async getSubscriptionByStripeId(stripeSubscriptionId: string): Promise<any | null> {
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('*')
+      .eq('stripe_subscription_id', stripeSubscriptionId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching subscription by Stripe ID:', error);
+      return null;
+    }
+
+    return data;
+  }
+
+  static async updateSubscriptionByStripeId(stripeSubscriptionId: string, updates: any): Promise<boolean> {
+    const { error } = await supabase
+      .from('subscriptions')
+      .update(updates)
+      .eq('stripe_subscription_id', stripeSubscriptionId);
+
+    if (error) {
+      console.error('Error updating subscription by Stripe ID:', error);
+      return false;
+    }
+
+    return true;
+  }
+}
+
 // Community Service
 export class CommunityService {
   static async getPosts(limit: number = 20, offset: number = 0): Promise<any[]> {
