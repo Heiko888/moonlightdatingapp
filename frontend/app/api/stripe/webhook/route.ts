@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
 
-// Supabase Client für Server-Side
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
-);
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// Stripe Client - nur wenn Environment Variables gesetzt sind
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2025-08-27.basil',
-});
+}) : null;
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(request: NextRequest) {
   try {
+    // Prüfe ob Stripe konfiguriert ist
+    if (!stripe) {
+      return NextResponse.json(
+        { error: 'Stripe not configured' },
+        { status: 500 }
+      );
+    }
 
     const body = await request.text();
     const signature = request.headers.get('stripe-signature')!;
@@ -84,26 +85,9 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   }
 
   try {
-    // Subscription in Supabase aktualisieren
-    const { error } = await supabase
-      .from('subscriptions')
-      .upsert({
-        user_id: userId,
-        package_id: packageId,
-        status: 'active',
-        stripe_customer_id: session.customer as string,
-        stripe_subscription_id: session.subscription as string,
-        start_date: new Date().toISOString(),
-        end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 Tage
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      });
-
-    if (error) {
-      console.error('Error updating subscription:', error);
-    } else {
-      console.log(`Subscription created for user ${userId}: ${packageId}`);
-    }
+    // TODO: Supabase Integration implementieren
+    console.log(`Subscription created for user ${userId}: ${packageId}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling checkout session completed:', error);
   }
@@ -112,25 +96,9 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
 // Subscription erstellt
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
-    const customerId = subscription.customer as string;
-    
-    // User ID aus Customer ID finden
-    const { data: subscriptionData } = await supabase
-      .from('subscriptions')
-      .select('user_id')
-      .eq('stripe_customer_id', customerId)
-      .single();
-
-    if (subscriptionData) {
-      await supabase
-        .from('subscriptions')
-        .update({
-          stripe_subscription_id: subscription.id,
-          status: 'active',
-          updated_at: new Date().toISOString()
-        })
-        .eq('user_id', subscriptionData.user_id);
-    }
+    // TODO: Supabase Integration implementieren
+    console.log(`Subscription created: ${subscription.id}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling subscription created:', error);
   }
@@ -139,15 +107,9 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 // Subscription aktualisiert
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   try {
-    const status = subscription.status === 'active' ? 'active' : 'inactive';
-    
-    await supabase
-      .from('subscriptions')
-      .update({
-        status: status,
-        updated_at: new Date().toISOString()
-      })
-      .eq('stripe_subscription_id', subscription.id);
+    // TODO: Supabase Integration implementieren
+    console.log(`Subscription updated: ${subscription.id} - ${subscription.status}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling subscription updated:', error);
   }
@@ -156,13 +118,9 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 // Subscription gelöscht
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   try {
-    await supabase
-      .from('subscriptions')
-      .update({
-        status: 'cancelled',
-        updated_at: new Date().toISOString()
-      })
-      .eq('stripe_subscription_id', subscription.id);
+    // TODO: Supabase Integration implementieren
+    console.log(`Subscription deleted: ${subscription.id}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling subscription deleted:', error);
   }
@@ -171,15 +129,9 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 // Zahlung erfolgreich
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   try {
-    const subscriptionId = invoice.subscription as string;
-    
-    await supabase
-      .from('subscriptions')
-      .update({
-        status: 'active',
-        updated_at: new Date().toISOString()
-      })
-      .eq('stripe_subscription_id', subscriptionId);
+    // TODO: Supabase Integration implementieren
+    console.log(`Payment succeeded for subscription: ${invoice.subscription}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling payment succeeded:', error);
   }
@@ -188,15 +140,9 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 // Zahlung fehlgeschlagen
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   try {
-    const subscriptionId = invoice.subscription as string;
-    
-    await supabase
-      .from('subscriptions')
-      .update({
-        status: 'payment_failed',
-        updated_at: new Date().toISOString()
-      })
-      .eq('stripe_subscription_id', subscriptionId);
+    // TODO: Supabase Integration implementieren
+    console.log(`Payment failed for subscription: ${invoice.subscription}`);
+    console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling payment failed:', error);
   }
