@@ -115,7 +115,6 @@ const allPages = [
   { id: 'dating-info', title: 'Dating Info', path: '/dating-info', description: 'Dating-Erklärung', category: 'Dating', package: 'free', icon: '💡', features: ['Info', 'Erklärung'] },
   { id: 'dating-impulse', title: 'Dating Impulse', path: '/dating-impulse', description: 'Dating-Impulse', category: 'Dating', package: 'premium', icon: '⚡', features: ['Impulse', 'Inspiration'] },
   { id: 'swipe', title: 'Swipe', path: '/swipe', description: 'Dating-Swipe-Funktion', category: 'Dating', package: 'premium', icon: '💫', features: ['Swipe', 'Matching', 'Dating'] },
-  { id: 'dating-swipe', title: 'Dating Swipe', path: '/dating/swipe', description: 'Dating-Swipe-System', category: 'Dating', package: 'premium', icon: '👆', features: ['Swipe', 'System'] },
   { id: 'match', title: 'Match', path: '/match', description: 'Match-Übersicht', category: 'Dating', package: 'premium', icon: '💘', features: ['Match', 'Übersicht'] },
   { id: 'match-tips', title: 'Match-Tipps', path: '/dating/match-tips', description: 'Tipps für bessere Matches', category: 'Dating', package: 'premium', icon: '💡', features: ['Tipps', 'Matching', 'Optimierung'] },
   { id: 'friends', title: 'Freunde', path: '/dating/friends', description: 'Freundschaften finden', category: 'Dating', package: 'premium', icon: '👫', features: ['Freunde', 'Networking', 'Community'] },
