@@ -639,9 +639,22 @@ export class CommunityService {
   }
 
   static async likePost(postId: string): Promise<boolean> {
+    // Zuerst aktuellen likes_count abrufen
+    const { data: post, error: fetchError } = await supabase
+      .from('community_posts')
+      .select('likes_count')
+      .eq('id', postId)
+      .single();
+
+    if (fetchError) {
+      console.error('Error fetching post:', fetchError);
+      return false;
+    }
+
+    // Dann likes_count um 1 erhöhen
     const { error } = await supabase
       .from('community_posts')
-      .update({ likes_count: supabase.raw('likes_count + 1') })
+      .update({ likes_count: (post.likes_count || 0) + 1 })
       .eq('id', postId);
 
     if (error) {
