@@ -262,78 +262,13 @@ export default function MatchingPage() {
       } else {
         setUserId('demo-user');
       }
-    }
-    
-    // Demo-Matches sicherstellen
-    if (matches.length === 0) {
-      setMatches([
-        {
-          id: 'demo-1',
-          userId: 'demo-user-1',
-          name: 'Sarah M.',
-          age: 28,
-          location: 'Berlin',
-          avatar: '/api/placeholder/60/60',
-          profile_images: [
-            {
-              id: '1',
-              url: '/api/placeholder/400/600',
-              is_primary: true,
-              uploaded_at: '2024-01-15T10:00:00Z',
-              order: 0,
-              alt_text: 'Sarah am Strand'
-            }
-          ],
-          hdType: 'Generator',
-          compatibility: 92,
-          lastMessage: 'Hey! Wie war dein Tag?',
-          lastMessageTime: 'vor 2 Min',
-          isOnline: true,
-          isNewMatch: false,
-          mutualInterests: ['Astrologie', 'Meditation', 'Yoga'],
-          profile: {
-            bio: 'Liebe es, neue Menschen kennenzulernen und tiefe Gespräche zu führen.',
-            interests: ['Astrologie', 'Meditation', 'Yoga', 'Reisen'],
-            lifestyle: ['Vegetarisch', 'Sportlich', 'Spirituell'],
-            goals: ['Persönliches Wachstum', 'Gesunde Beziehungen']
-          }
-        },
-        {
-          id: 'demo-2',
-          userId: 'demo-user-2',
-          name: 'Michael K.',
-          age: 32,
-          location: 'München',
-          avatar: '/api/placeholder/60/60',
-          profile_images: [
-            {
-              id: '2',
-              url: '/api/placeholder/400/600',
-              is_primary: true,
-              uploaded_at: '2024-01-16T10:00:00Z',
-              order: 0,
-              alt_text: 'Michael beim Coaching'
-            }
-          ],
-          hdType: 'Projector',
-          compatibility: 88,
-          lastMessage: 'Das war ein tolles Gespräch!',
-          lastMessageTime: 'vor 1 Stunde',
-          isOnline: true,
-          isNewMatch: true,
-          mutualInterests: ['Business', 'Coaching'],
-          profile: {
-            bio: 'Business Coach und Human Design Enthusiast.',
-            interests: ['Business', 'Coaching', 'Leadership'],
-            lifestyle: ['Aktiv', 'Beruflich orientiert'],
-            goals: ['Karriere', 'Networking']
-          }
-        }
-      ]);
+    } else {
+      // Fallback für SSR
+      setUserId('demo-user');
     }
     
     setTimeout(() => setLoading(false), 1000);
-  }, [router, matches.length]);
+  }, [router]);
 
   const filteredMatches = matches.filter(match =>
     match.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -428,26 +363,6 @@ export default function MatchingPage() {
     );
   }
 
-  if (!userId) {
-    return (
-      <Box sx={{ 
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-            Demo-Modus aktiviert
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-            Zeige Demo-Matches...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   return (
     <Box sx={{ 
