@@ -130,7 +130,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   try {
     // TODO: Supabase Integration implementieren
-    console.log(`Payment succeeded for subscription: ${invoice.subscription}`);
+    console.log(`Payment succeeded for subscription: ${(invoice as any).subscription || 'N/A'}`);
     console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling payment succeeded:', error);
@@ -141,7 +141,7 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   try {
     // TODO: Supabase Integration implementieren
-    console.log(`Payment failed for subscription: ${invoice.subscription}`);
+    console.log(`Payment failed for subscription: ${(invoice as any).subscription || 'N/A'}`);
     console.log('TODO: Implement Supabase subscription update');
   } catch (error) {
     console.error('Error handling payment failed:', error);
