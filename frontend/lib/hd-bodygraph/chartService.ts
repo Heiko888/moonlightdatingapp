@@ -9,6 +9,7 @@ export interface ChartData {
   type: 'generator' | 'projector' | 'manifestor' | 'reflector' | 'manifesting-generator';
   profile: string;
   authority: string;
+  strategy?: string;
   defined: DefinedState;
   gates: {
     id: GateId;
@@ -26,6 +27,18 @@ export interface ChartData {
     defined: boolean;
     gates: GateId[];
   }[];
+  planets?: {
+    sun?: { gate: number; line: number; sign: string };
+    earth?: { gate: number; line: number; sign: string };
+    moon?: { gate: number; line: number; sign: string };
+    mercury?: { gate: number; line: number; sign: string };
+    venus?: { gate: number; line: number; sign: string };
+    mars?: { gate: number; line: number; sign: string };
+    jupiter?: { gate: number; line: number; sign: string };
+    saturn?: { gate: number; line: number; sign: string };
+  };
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export class ChartService {
