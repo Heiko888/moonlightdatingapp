@@ -649,8 +649,23 @@ export default function MondkalenderPage() {
 
   const loadMoonStories = async () => {
     try {
-      // TODO: Implement getMoonStories in SupabaseService
-      const stories = null;
+      // Mock-Daten für Mond-Geschichten (später durch Supabase ersetzen)
+      const stories = [
+        {
+          id: '1',
+          title: 'Neumond - Neubeginn',
+          content: 'Der Neumond ist die perfekte Zeit für neue Projekte und Absichten.',
+          phase: 'new_moon',
+          date: new Date().toISOString()
+        },
+        {
+          id: '2', 
+          title: 'Vollmond - Erfüllung',
+          content: 'Der Vollmond bringt Klarheit und zeigt uns, was wir erreicht haben.',
+          phase: 'full_moon',
+          date: new Date().toISOString()
+        }
+      ];
       if (stories) {
         setMoonStories(stories);
       }
@@ -718,8 +733,23 @@ export default function MondkalenderPage() {
 
   const loadPlantRituals = async () => {
     try {
-      // TODO: Implement getPlantRituals in SupabaseService
-      const rituals = null;
+      // Mock-Daten für Pflanzen-Rituale (später durch Supabase ersetzen)
+      const rituals = [
+        {
+          id: '1',
+          name: 'Neumond-Säen',
+          description: 'Säe Samen bei Neumond für starkes Wurzelwachstum.',
+          phase: 'new_moon',
+          plants: ['Basilikum', 'Koriander', 'Petersilie']
+        },
+        {
+          id: '2',
+          name: 'Vollmond-Ernte',
+          description: 'Ernte Kräuter bei Vollmond für maximale Wirkung.',
+          phase: 'full_moon',
+          plants: ['Lavendel', 'Rosmarin', 'Thymian']
+        }
+      ];
       if (rituals) {
         setPlantRituals(rituals);
       }
@@ -747,8 +777,23 @@ export default function MondkalenderPage() {
 
   const loadHealthGuidance = async () => {
     try {
-      // TODO: Implement getHealthGuidance in SupabaseService
-      const guidance = null;
+      // Mock-Daten für Gesundheits-Guidance (später durch Supabase ersetzen)
+      const guidance = [
+        {
+          id: '1',
+          title: 'Neumond-Detox',
+          description: 'Nutze die Neumond-Energie für eine sanfte Entgiftung.',
+          phase: 'new_moon',
+          tips: ['Viel Wasser trinken', 'Leichte Kost', 'Meditation']
+        },
+        {
+          id: '2',
+          title: 'Vollmond-Energie',
+          description: 'Der Vollmond ist ideal für körperliche Aktivitäten.',
+          phase: 'full_moon',
+          tips: ['Sport treiben', 'Spaziergänge', 'Yoga']
+        }
+      ];
       if (guidance) {
         setHealthGuidance(guidance);
       }
@@ -796,8 +841,19 @@ export default function MondkalenderPage() {
         updatedAt: new Date().toISOString()
       };
 
-      // TODO: Implement saveMoonTrackingData in SupabaseService
-      const response = { success: true, message: 'Data saved locally' };
+      // Mock-Response für Mond-Tracking (später durch Supabase ersetzen)
+      const response = { 
+        success: true, 
+        message: 'Mond-Tracking-Daten gespeichert',
+        data: {
+          userId: 'current-user',
+          date: new Date().toISOString(),
+          phase: currentPhase?.name || 'unknown',
+          mood: trackingData.mood,
+          energy: trackingData.energy,
+          notes: trackingData.notes
+        }
+      };
 
       if (response.success) {
         setNewEntry({

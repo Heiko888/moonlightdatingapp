@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { AdminService } from './lib/supabase/services'
+import { logger } from './lib/utils/logger'
 
 // Subscription-based access control
 const subscriptionAccess = {
@@ -17,15 +18,15 @@ function getUserSubscriptionFromRequest(request: NextRequest) {
   if (cookieSubscription) {
     try {
       const subscription = JSON.parse(cookieSubscription)
-      console.log('Middleware: Found subscription in cookie:', subscription)
+      logger.debug('Middleware: Found subscription in cookie', subscription)
       return subscription
     } catch (e) {
-      console.warn('Invalid subscription cookie:', e)
+      logger.warn('Invalid subscription cookie', e)
     }
   }
   
   // Fallback to default free plan
-  console.log('Middleware: No subscription found, using free plan')
+  logger.debug('Middleware: No subscription found, using free plan')
   return { packageId: 'free', plan: 'Free', status: 'active' }
 }
 
@@ -130,11 +131,11 @@ export async function middleware(request: NextRequest) {
     try {
       const isAdmin = await AdminService.isAdmin(userId)
       if (!isAdmin) {
-        console.log(`Admin access denied for user ${userId}`)
+        logger.warn(`Admin access denied for user ${userId}`)
         return NextResponse.redirect(new URL('/unauthorized', request.url))
       }
     } catch (error) {
-      console.error('Error checking admin status:', error)
+      logger.error('Error checking admin status', error)
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }

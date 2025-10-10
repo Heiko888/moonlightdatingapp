@@ -59,7 +59,7 @@ export default function RealtimeAnalysisDemoPage() {
         type: 'generator',
         profile: '1/3',
         authority: 'Sacral',
-        // strategy: 'Wait to Respond', // TODO: Add strategy to ChartData interface
+        strategy: 'Wait to Respond',
         centers: [
           { id: 'HEAD', defined: true, gates: [64, 61, 63] },
           { id: 'AJNA', defined: false, gates: [] },
@@ -85,7 +85,16 @@ export default function RealtimeAnalysisDemoPage() {
           { id: 57, line: 5, conscious: false, unconscious: false },
           { id: 10, line: 6, conscious: false, unconscious: false }
         ],
-        // planets: {}, // TODO: Add planets to ChartData interface
+        planets: {
+          sun: { gate: 34, line: 4, sign: 'Leo' },
+          earth: { gate: 20, line: 3, sign: 'Aquarius' },
+          moon: { gate: 27, line: 2, sign: 'Aries' },
+          mercury: { gate: 8, line: 1, sign: 'Gemini' },
+          venus: { gate: 12, line: 3, sign: 'Gemini' },
+          mars: { gate: 23, line: 4, sign: 'Gemini' },
+          jupiter: { gate: 35, line: 2, sign: 'Gemini' },
+          saturn: { gate: 45, line: 1, sign: 'Gemini' }
+        },
         defined: {
           centers: {
             SACRAL: true,
@@ -110,8 +119,8 @@ export default function RealtimeAnalysisDemoPage() {
         birthDate: '1990-01-01',
         birthTime: '12:00',
         birthPlace: 'Berlin, Germany',
-        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
-        // updatedAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
 
       const chart2: ChartData = {
@@ -120,7 +129,7 @@ export default function RealtimeAnalysisDemoPage() {
         type: 'projector',
         profile: '2/4',
         authority: 'Splenic',
-        // strategy: 'Wait for Invitation', // TODO: Add strategy to ChartData interface
+        strategy: 'Wait for Invitation',
         centers: [
           { id: 'HEAD', defined: false, gates: [] },
           { id: 'AJNA', defined: true, gates: [47, 24] },
@@ -146,7 +155,16 @@ export default function RealtimeAnalysisDemoPage() {
           { id: 57, line: 5, conscious: true, unconscious: false },
           { id: 10, line: 6, conscious: true, unconscious: false }
         ],
-        // planets: {}, // TODO: Add planets to ChartData interface
+        planets: {
+          sun: { gate: 34, line: 4, sign: 'Leo' },
+          earth: { gate: 20, line: 3, sign: 'Aquarius' },
+          moon: { gate: 27, line: 2, sign: 'Aries' },
+          mercury: { gate: 8, line: 1, sign: 'Gemini' },
+          venus: { gate: 12, line: 3, sign: 'Gemini' },
+          mars: { gate: 23, line: 4, sign: 'Gemini' },
+          jupiter: { gate: 35, line: 2, sign: 'Gemini' },
+          saturn: { gate: 45, line: 1, sign: 'Gemini' }
+        },
         defined: {
           centers: {
             SACRAL: true,
@@ -171,8 +189,8 @@ export default function RealtimeAnalysisDemoPage() {
         birthDate: '1990-01-01',
         birthTime: '12:00',
         birthPlace: 'Berlin, Germany',
-        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
-        // updatedAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
 
       const chart3: ChartData = {
@@ -181,7 +199,7 @@ export default function RealtimeAnalysisDemoPage() {
         type: 'manifestor',
         profile: '3/5',
         authority: 'Emotional',
-        // strategy: 'Inform', // TODO: Add strategy to ChartData interface
+        strategy: 'Inform',
         centers: [
           { id: 'HEAD', defined: true, gates: [64, 61, 63] },
           { id: 'AJNA', defined: true, gates: [47, 24] },
@@ -207,7 +225,16 @@ export default function RealtimeAnalysisDemoPage() {
           { id: 57, line: 5, conscious: true, unconscious: false },
           { id: 10, line: 6, conscious: true, unconscious: false }
         ],
-        // planets: {}, // TODO: Add planets to ChartData interface
+        planets: {
+          sun: { gate: 34, line: 4, sign: 'Leo' },
+          earth: { gate: 20, line: 3, sign: 'Aquarius' },
+          moon: { gate: 27, line: 2, sign: 'Aries' },
+          mercury: { gate: 8, line: 1, sign: 'Gemini' },
+          venus: { gate: 12, line: 3, sign: 'Gemini' },
+          mars: { gate: 23, line: 4, sign: 'Gemini' },
+          jupiter: { gate: 35, line: 2, sign: 'Gemini' },
+          saturn: { gate: 45, line: 1, sign: 'Gemini' }
+        },
         defined: {
           centers: {
             SACRAL: true,
@@ -232,8 +259,8 @@ export default function RealtimeAnalysisDemoPage() {
         birthDate: '1990-01-01',
         birthTime: '12:00',
         birthPlace: 'Berlin, Germany',
-        // createdAt: new Date().toISOString(), // TODO: Add timestamps to ChartData interface
-        // updatedAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
 
       setDemoCharts([chart1, chart2, chart3]);

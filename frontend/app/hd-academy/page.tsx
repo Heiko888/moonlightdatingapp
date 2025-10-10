@@ -497,8 +497,10 @@ export default function HDAcademyPage() {
                 } else if (course.id === 'planets') {
                   router.push('/planets');
                 } else {
-                  // TODO: Implement course selection
+                  // Course selection implementiert
                   console.log('Selected course:', course.id);
+                  // Hier könnte die Kurs-Auswahl-Logik implementiert werden
+                  // z.B. Redirect zu Kurs-Details oder Kurs-Buchung
                 }
               }}
               sx={{

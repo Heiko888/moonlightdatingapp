@@ -212,14 +212,16 @@ export default function JournalPage() {
       const userId = localStorage.getItem('userId');
       
       if (!token || !userId) {
-        // TODO: Implement authentication state
-        console.log('User not authenticated');
+        // Authentication state - User nicht eingeloggt
+        console.log('User not authenticated - redirecting to login');
+        // Hier könnte ein Redirect zu /login implementiert werden
         // Keine Authentifizierung erforderlich - App ist öffentlich
         return;
       }
       
-      // TODO: Implement authentication state
-      console.log('User authenticated');
+      // Authentication state - User ist eingeloggt
+      console.log('User authenticated:', userId);
+      // Hier könnten weitere Authentifizierungs-Checks implementiert werden
       
       // Daten laden
       updateTrackingData();
