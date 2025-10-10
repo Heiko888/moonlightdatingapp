@@ -260,12 +260,80 @@ export default function MatchingPage() {
         const user = JSON.parse(userData);
         setUserId(user.id);
       } else {
-        // Keine Authentifizierung erforderlich - App ist öffentlich
+        setUserId('demo-user');
       }
     }
     
+    // Demo-Matches sicherstellen
+    if (matches.length === 0) {
+      setMatches([
+        {
+          id: 'demo-1',
+          userId: 'demo-user-1',
+          name: 'Sarah M.',
+          age: 28,
+          location: 'Berlin',
+          avatar: '/api/placeholder/60/60',
+          profile_images: [
+            {
+              id: '1',
+              url: '/api/placeholder/400/600',
+              is_primary: true,
+              uploaded_at: '2024-01-15T10:00:00Z',
+              order: 0,
+              alt_text: 'Sarah am Strand'
+            }
+          ],
+          hdType: 'Generator',
+          compatibility: 92,
+          lastMessage: 'Hey! Wie war dein Tag?',
+          lastMessageTime: 'vor 2 Min',
+          isOnline: true,
+          isNewMatch: false,
+          mutualInterests: ['Astrologie', 'Meditation', 'Yoga'],
+          profile: {
+            bio: 'Liebe es, neue Menschen kennenzulernen und tiefe Gespräche zu führen.',
+            interests: ['Astrologie', 'Meditation', 'Yoga', 'Reisen'],
+            lifestyle: ['Vegetarisch', 'Sportlich', 'Spirituell'],
+            goals: ['Persönliches Wachstum', 'Gesunde Beziehungen']
+          }
+        },
+        {
+          id: 'demo-2',
+          userId: 'demo-user-2',
+          name: 'Michael K.',
+          age: 32,
+          location: 'München',
+          avatar: '/api/placeholder/60/60',
+          profile_images: [
+            {
+              id: '2',
+              url: '/api/placeholder/400/600',
+              is_primary: true,
+              uploaded_at: '2024-01-16T10:00:00Z',
+              order: 0,
+              alt_text: 'Michael beim Coaching'
+            }
+          ],
+          hdType: 'Projector',
+          compatibility: 88,
+          lastMessage: 'Das war ein tolles Gespräch!',
+          lastMessageTime: 'vor 1 Stunde',
+          isOnline: true,
+          isNewMatch: true,
+          mutualInterests: ['Business', 'Coaching'],
+          profile: {
+            bio: 'Business Coach und Human Design Enthusiast.',
+            interests: ['Business', 'Coaching', 'Leadership'],
+            lifestyle: ['Aktiv', 'Beruflich orientiert'],
+            goals: ['Karriere', 'Networking']
+          }
+        }
+      ]);
+    }
+    
     setTimeout(() => setLoading(false), 1000);
-  }, [router]);
+  }, [router, matches.length]);
 
   const filteredMatches = matches.filter(match =>
     match.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -369,9 +437,14 @@ export default function MatchingPage() {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <Typography variant="h6" sx={{ color: 'white' }}>
-          Benutzer nicht gefunden
-        </Typography>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+            Demo-Modus aktiviert
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+            Zeige Demo-Matches...
+          </Typography>
+        </Box>
       </Box>
     );
   }
@@ -597,10 +670,10 @@ export default function MatchingPage() {
                   <Box sx={{ textAlign: 'center', py: 6 }}>
                     <Heart size={64} color="#FF6B6B" style={{ marginBottom: 16 }} />
                     <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                      Keine Matches gefunden
+                      {matches.length === 0 ? 'Demo-Matches werden geladen...' : 'Keine Matches gefunden'}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
-                      {searchTerm ? 'Versuche andere Suchbegriffe.' : 'Starte das Dating und finde deine perfekten Matches!'}
+                      {matches.length === 0 ? 'Lade Demo-Daten...' : (searchTerm ? 'Versuche andere Suchbegriffe.' : 'Starte das Dating und finde deine perfekten Matches!')}
                     </Typography>
                     <Button
                       variant="contained"
