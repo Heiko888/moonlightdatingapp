@@ -236,7 +236,7 @@ export default function DatingDashboard() {
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Button
                 component={Link}
-                href="/dating/swipe"
+                href="/swipe"
                 variant="contained"
                 sx={{
                   background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
