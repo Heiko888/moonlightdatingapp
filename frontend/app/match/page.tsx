@@ -785,22 +785,27 @@ export default function MatchingPage() {
         fullWidth
         PaperProps={{
           sx: {
-            background: 'rgba(255, 255, 255, 0.95)',
+            background: `
+              radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+              linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+            `,
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(0,0,0,0.1)',
+            border: '1px solid rgba(255,255,255,0.2)',
             borderRadius: 4,
             height: '80vh',
-            color: '#1a1a2e'
+            color: 'white'
           }
         }}
       >
         {selectedMatch && (
           <>
             <DialogTitle sx={{ 
-              color: '#1a1a2e', 
+              color: '#FF6B6B', 
               fontWeight: 700, 
               textAlign: 'center',
-              borderBottom: '1px solid rgba(0,0,0,0.1)',
+              borderBottom: '1px solid rgba(255,255,255,0.1)',
               pb: 2
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
@@ -814,7 +819,7 @@ export default function MatchingPage() {
                 />
                 <Box>
                   <Typography variant="h6">{selectedMatch.name}, {selectedMatch.age}</Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(26,26,46,0.7)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
                     {selectedMatch.location} • {selectedMatch.hdType}
                   </Typography>
                   {/* Bildergalerie-Indikator */}
@@ -836,7 +841,7 @@ export default function MatchingPage() {
             <DialogContent sx={{ p: 0, display: 'flex', flexDirection: 'column' }}>
               {/* Profilbilder-Galerie */}
               {selectedMatch.profile_images && selectedMatch.profile_images.length > 0 && (
-                <Box sx={{ p: 3, borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+                <Box sx={{ p: 3, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                   <Typography variant="h6" sx={{ color: '#4ECDC4', mb: 2, fontWeight: 600 }}>
                     📸 Profilbilder
                   </Typography>
@@ -934,7 +939,7 @@ export default function MatchingPage() {
               {/* Message Input */}
               <Box sx={{ 
                 p: 3, 
-                borderTop: '1px solid rgba(0,0,0,0.1)',
+                borderTop: '1px solid rgba(255,255,255,0.1)',
                 display: 'flex',
                 gap: 2
               }}>
@@ -946,10 +951,10 @@ export default function MatchingPage() {
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      background: 'rgba(0, 0, 0, 0.05)',
+                      background: 'rgba(255, 255, 255, 0.1)',
                       borderRadius: 3,
-                      border: '1px solid rgba(0,0,0,0.1)',
-                      color: '#1a1a2e',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                      color: 'white',
                       '& fieldset': {
                         border: 'none'
                       }
@@ -975,10 +980,10 @@ export default function MatchingPage() {
                 </IconButton>
               </Box>
             </DialogContent>
-            <DialogActions sx={{ p: 3, gap: 2, borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+            <DialogActions sx={{ p: 3, gap: 2, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
               <Button
                 onClick={() => setShowMatchDialog(false)}
-                sx={{ color: 'rgba(26,26,46,0.7)' }}
+                sx={{ color: 'rgba(255,255,255,0.7)' }}
               >
                 Schließen
               </Button>
