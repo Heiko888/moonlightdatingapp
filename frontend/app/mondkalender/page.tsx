@@ -650,20 +650,24 @@ export default function MondkalenderPage() {
   const loadMoonStories = async () => {
     try {
       // Mock-Daten für Mond-Geschichten (später durch Supabase ersetzen)
-      const stories = [
+      const stories: MoonStory[] = [
         {
           id: '1',
           title: 'Neumond - Neubeginn',
+          culture: 'German',
           content: 'Der Neumond ist die perfekte Zeit für neue Projekte und Absichten.',
-          phase: 'new_moon',
-          date: new Date().toISOString()
+          moon_phase: 'new_moon',
+          moral: 'Jeder Neubeginn braucht Geduld und Vertrauen.',
+          tags: ['Neubeginn', 'Absichten', 'Geduld']
         },
         {
           id: '2', 
           title: 'Vollmond - Erfüllung',
+          culture: 'German',
           content: 'Der Vollmond bringt Klarheit und zeigt uns, was wir erreicht haben.',
-          phase: 'full_moon',
-          date: new Date().toISOString()
+          moon_phase: 'full_moon',
+          moral: 'Feiere deine Erfolge und erkenne dein Wachstum.',
+          tags: ['Erfüllung', 'Klarheit', 'Erfolg']
         }
       ];
       if (stories) {
@@ -734,20 +738,44 @@ export default function MondkalenderPage() {
   const loadPlantRituals = async () => {
     try {
       // Mock-Daten für Pflanzen-Rituale (später durch Supabase ersetzen)
-      const rituals = [
+      const rituals: PlantRitual[] = [
         {
           id: '1',
           name: 'Neumond-Säen',
-          description: 'Säe Samen bei Neumond für starkes Wurzelwachstum.',
-          phase: 'new_moon',
-          plants: ['Basilikum', 'Koriander', 'Petersilie']
+          moon_phase: 'new_moon',
+          plants: ['Basilikum', 'Koriander', 'Petersilie'],
+          instructions: [
+            'Bereiten Sie die Erde vor',
+            'Säen Sie die Samen bei Sonnenuntergang',
+            'Sprechen Sie Ihre Absicht aus',
+            'Gießen Sie mit Mondwasser'
+          ],
+          benefits: [
+            'Starkes Wurzelwachstum',
+            'Tiefe Verbindung zur Erde',
+            'Intensive Aromen',
+            'Längere Haltbarkeit'
+          ],
+          timing: 'Bei Sonnenuntergang'
         },
         {
           id: '2',
           name: 'Vollmond-Ernte',
-          description: 'Ernte Kräuter bei Vollmond für maximale Wirkung.',
-          phase: 'full_moon',
-          plants: ['Lavendel', 'Rosmarin', 'Thymian']
+          moon_phase: 'full_moon',
+          plants: ['Lavendel', 'Rosmarin', 'Thymian'],
+          instructions: [
+            'Warten Sie bis nach Sonnenuntergang',
+            'Ernten Sie bei trockenem Wetter',
+            'Verwenden Sie eine goldene Schere',
+            'Lagern Sie in dunklen Gläsern'
+          ],
+          benefits: [
+            'Maximale ätherische Öle',
+            'Längere Haltbarkeit',
+            'Stärkere Heilwirkung',
+            'Energetische Reinigung'
+          ],
+          timing: 'Nach Sonnenuntergang'
         }
       ];
       if (rituals) {
@@ -778,20 +806,36 @@ export default function MondkalenderPage() {
   const loadHealthGuidance = async () => {
     try {
       // Mock-Daten für Gesundheits-Guidance (später durch Supabase ersetzen)
-      const guidance = [
+      const guidance: HealthGuidance[] = [
         {
           id: '1',
-          title: 'Neumond-Detox',
-          description: 'Nutze die Neumond-Energie für eine sanfte Entgiftung.',
-          phase: 'new_moon',
-          tips: ['Viel Wasser trinken', 'Leichte Kost', 'Meditation']
+          moon_phase: 'new_moon',
+          nutrition: {
+            recommended: ['Viel Wasser', 'Grüne Smoothies', 'Leichte Kost'],
+            avoid: ['Schwere Mahlzeiten', 'Alkohol', 'Zucker'],
+            timing: 'Frühe Mahlzeiten, spätes Fasten'
+          },
+          health: {
+            activities: ['Meditation', 'Yoga', 'Atemübungen'],
+            rest: ['Früher schlafen gehen', 'Ruhephasen einlegen'],
+            healing: ['Entgiftung', 'Reinigung', 'Reflexion']
+          },
+          supplements: ['Magnesium', 'Vitamin D', 'Probiotika']
         },
         {
           id: '2',
-          title: 'Vollmond-Energie',
-          description: 'Der Vollmond ist ideal für körperliche Aktivitäten.',
-          phase: 'full_moon',
-          tips: ['Sport treiben', 'Spaziergänge', 'Yoga']
+          moon_phase: 'full_moon',
+          nutrition: {
+            recommended: ['Energiereiche Nahrung', 'Proteine', 'Komplexe Kohlenhydrate'],
+            avoid: ['Übermäßiges Essen', 'Schnelle Kohlenhydrate'],
+            timing: 'Regelmäßige Mahlzeiten, ausreichend trinken'
+          },
+          health: {
+            activities: ['Sport', 'Spaziergänge', 'Tanzen'],
+            rest: ['Ausreichend Schlaf', 'Regeneration'],
+            healing: ['Energie tanken', 'Aktivität', 'Geselligkeit']
+          },
+          supplements: ['B-Vitamine', 'Eisen', 'Omega-3']
         }
       ];
       if (guidance) {
@@ -849,9 +893,9 @@ export default function MondkalenderPage() {
           userId: 'current-user',
           date: new Date().toISOString(),
           phase: currentPhase?.name || 'unknown',
-          mood: trackingData.mood,
-          energy: trackingData.energy,
-          notes: trackingData.notes
+          mood: newEntry.mood,
+          energy: newEntry.energy_level,
+          notes: newEntry.notes
         }
       };
 
