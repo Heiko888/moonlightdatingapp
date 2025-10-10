@@ -146,7 +146,7 @@ export default function DynamicDatingPage() {
         pointerEvents: 'none'
       }}>
         <LightweightMoon size={400} />
-      </motion.div>
+      </Box>
       
       <Container maxWidth="lg">
         {/* Hero Section */}
@@ -241,17 +241,13 @@ export default function DynamicDatingPage() {
               >
                 Chart berechnen
               </Button>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            </Box>
+          </Box>
+        </Box>
 
         {/* Benefits Section */}
         <Box sx={{ py: 8 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <Box>
             <Box sx={{ textAlign: 'center', mb: 8 }}>
               <Typography 
                 variant="h2" 
@@ -264,16 +260,12 @@ export default function DynamicDatingPage() {
               >
                 Warum dynamische Verbindungen?
               </Typography>
-            </motion.div>
+            </Box>
             
             <Grid container spacing={4}>
               {benefits.map((benefit, index) => (
                 <Grid item xs={12} sm={6} lg={4} key={index}>
-                  <Box
-                    initial={{ opacity: 0, y: 40 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
+                  <Box>
                     <Card sx={{ 
                       height: '100%',
                       background: 'rgba(255, 255, 255, 0.95)', 
@@ -302,7 +294,7 @@ export default function DynamicDatingPage() {
                           boxShadow: '0 8px 24px rgba(245, 158, 11, 0.4)'
                         }}>
                           {benefit.icon}
-                        </motion.div>
+                        </Box>
                         <Typography variant="h6" sx={{ color: '#D97706', fontWeight: 700, mb: 2 }}>
                           {benefit.title}
                         </Typography>
@@ -311,21 +303,17 @@ export default function DynamicDatingPage() {
                         </Typography>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
-          </motion.div>
-        </motion.div>
+          </Box>
+        </Box>
 
         {/* Features Section */}
         <Box sx={{ py: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 4, mb: 8 }}>
           <Container maxWidth="lg">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <Box>
               <Box sx={{ textAlign: 'center', mb: 6 }}>
                 <Typography 
                   variant="h2" 
@@ -338,16 +326,12 @@ export default function DynamicDatingPage() {
                 >
                   Spezielle Features für dynamische Verbindungen
                 </Typography>
-              </motion.div>
+              </Box>
               
               <Grid container spacing={3}>
                 {features.map((feature, index) => (
                   <Grid item xs={12} sm={6} md={4} key={index}>
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        viewport={{ once: true }}
-      >
+      <Box>
                       <Box sx={{ 
                         display: 'flex', 
                         alignItems: 'center', 
@@ -360,22 +344,18 @@ export default function DynamicDatingPage() {
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                           {feature}
                         </Typography>
-                      </motion.div>
-                    </motion.div>
+                      </Box>
+                    </Box>
                   </Grid>
                 ))}
               </Grid>
-            </motion.div>
+            </Box>
           </Container>
-        </motion.div>
+        </Box>
 
         {/* Testimonial */}
         <Box sx={{ py: 8 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <Box>
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.95)', 
               backdropFilter: 'blur(10px)',
@@ -388,13 +368,13 @@ export default function DynamicDatingPage() {
                 <Typography variant="h3" sx={{ color: '#D97706', fontWeight: 800, mb: 2 }}>
                   Was andere über dynamische Verbindungen sagen
                 </Typography>
-              </motion.div>
+              </Box>
               
               <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 4 }}>
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={24} style={{ color: '#FFD700', fill: '#FFD700' }} />
                 ))}
-              </motion.div>
+              </Box>
               
               <Typography variant="h5" sx={{ color: '#374151', mb: 4, lineHeight: 1.6, fontStyle: 'italic', textAlign: 'center' }}>
                 &ldquo;Endlich habe ich jemanden gefunden, der meine duale Energie versteht. 
@@ -417,19 +397,15 @@ export default function DynamicDatingPage() {
                   <Typography variant="body2" sx={{ color: '#6B7280' }}>
                     Dynamische Verbindung, 31
                   </Typography>
-                </motion.div>
-              </motion.div>
+                </Box>
+              </Box>
             </Card>
-          </motion.div>
-        </motion.div>
+          </Box>
+        </Box>
 
         {/* CTA Section */}
         <Box sx={{ py: 8 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <Box>
             <Card sx={{ 
               background: 'rgba(255, 255, 255, 0.95)', 
               backdropFilter: 'blur(10px)',
@@ -495,7 +471,7 @@ export default function DynamicDatingPage() {
                 >
                   Chart berechnen
                 </Button>
-              </motion.div>
+              </Box>
               
               <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', flexWrap: 'wrap', mt: 4 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -503,23 +479,23 @@ export default function DynamicDatingPage() {
                   <Typography variant="body2" sx={{ color: '#6B7280' }}>
                     Sichere Daten
                   </Typography>
-                </motion.div>
+                </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Clock size={16} style={{ color: '#F59E0B' }} />
                   <Typography variant="body2" sx={{ color: '#6B7280' }}>
                     Sofortiger Zugang
                   </Typography>
-                </motion.div>
+                </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Gift size={16} style={{ color: '#F59E0B' }} />
                   <Typography variant="body2" sx={{ color: '#6B7280' }}>
                     7 Tage kostenlos
                   </Typography>
-                </motion.div>
-              </motion.div>
+                </Box>
+              </Box>
             </Card>
-          </motion.div>
-        </motion.div>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
