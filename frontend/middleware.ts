@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { AdminService } from './lib/supabase/services'
 
 // Subscription-based access control
 const subscriptionAccess = {
@@ -29,7 +30,7 @@ function getUserSubscriptionFromRequest(request: NextRequest) {
 }
 
 // Security middleware for production
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const response = NextResponse.next()
 
   // Security headers
@@ -94,59 +95,59 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Authentication check for protected routes (temporarily disabled for dashboard)
-  const protectedRoutes = ['/profile', '/settings', '/subscription', '/chart', '/chart-info', '/human-design-info', '/mondkalender', '/community', '/reading', '/bodygraph-advanced', '/chart-comparison', '/dating', '/coaching', '/analytics', '/api-access', '/vip-community', '/personal-coach', '/dashboard-vip']
-  const isProtectedRoute = protectedRoutes.some(route => 
+  // Öffentliche App - nur VIP-Bereiche und Admin-Bereiche blockieren
+  const vipRoutes = ['/vip-community', '/personal-coach', '/dashboard-vip']
+  const adminRoutes = ['/admin']
+  
+  const isVipRoute = vipRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+  const isAdminRoute = adminRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Öffentliche App - keine Authentifizierung erforderlich
-  if (isProtectedRoute) {
-    // Prüfe HttpOnly Cookies für Authentifizierung (optional)
+  // Nur VIP-Bereiche blockieren (mit Upgrade-Prompt)
+  if (isVipRoute) {
+    const subscription = getUserSubscriptionFromRequest(request)
+    const userPlan = subscription?.packageId || 'free'
+    
+    if (userPlan !== 'vip' && userPlan !== 'admin') {
+      // Redirect zu Upgrade-Seite statt Blockierung
+      return NextResponse.redirect(new URL('/pricing?upgrade=vip', request.url))
+    }
+  }
+
+  // Admin-Bereiche - Authentifizierung und Admin-Rolle erforderlich
+  if (isAdminRoute) {
     const accessToken = request.cookies.get('access_token')?.value
     const userId = request.cookies.get('user_id')?.value
     
-    // Nur für Admin-Bereiche Authentifizierung erforderlich
-    if (request.nextUrl.pathname.startsWith('/admin') && (!accessToken || !userId)) {
+    if (!accessToken || !userId) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
-
-    // Subscription-based access control (nur für VIP-Bereiche)
-    const subscription = getUserSubscriptionFromRequest(request)
-    const currentPath = request.nextUrl.pathname
     
-    // Nur VIP-Bereiche wirklich blockieren
-    if (currentPath.startsWith('/vip-community') ||
-        currentPath.startsWith('/personal-coach') ||
-        currentPath.startsWith('/dashboard-vip')) {
-      const userPlan = subscription?.packageId || 'free'
-      if (userPlan !== 'vip' && userPlan !== 'admin') {
-        return NextResponse.redirect(new URL('/pricing', request.url))
+    // Admin-Rolle prüfen
+    try {
+      const isAdmin = await AdminService.isAdmin(userId)
+      if (!isAdmin) {
+        console.log(`Admin access denied for user ${userId}`)
+        return NextResponse.redirect(new URL('/unauthorized', request.url))
       }
+    } catch (error) {
+      console.error('Error checking admin status:', error)
+      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
-  // Admin route protection
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    const token = request.cookies.get('auth-token')?.value
-    const userRole = request.cookies.get('user-role')?.value
-    
-    if (!token || userRole !== 'admin') {
-      return NextResponse.redirect(new URL('/unauthorized', request.url))
-    }
-  }
-
-  // Sync subscription data to cookies for client-side access
-  if (isProtectedRoute) {
-    const subscription = getUserSubscriptionFromRequest(request)
-    if (subscription && subscription.packageId !== 'free') {
-      response.cookies.set('user-subscription', JSON.stringify(subscription), {
-        httpOnly: false, // Allow client-side access
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 7 // 7 days
-      })
-    }
+  // Sync subscription data to cookies for client-side access (für alle Routen)
+  const subscription = getUserSubscriptionFromRequest(request)
+  if (subscription && subscription.packageId !== 'free') {
+    response.cookies.set('user-subscription', JSON.stringify(subscription), {
+      httpOnly: false, // Allow client-side access
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    })
   }
 
   return response

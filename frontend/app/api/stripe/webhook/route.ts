@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { SubscriptionService } from '@/lib/supabase/services';
 
 // Stripe Client - nur wenn Environment Variables gesetzt sind
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -85,9 +86,14 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   }
 
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Subscription created for user ${userId}: ${packageId}`);
-    console.log('TODO: Implement Supabase subscription update');
+    // Supabase Subscription aktualisieren
+    const success = await SubscriptionService.updateSubscription(userId, packageId);
+    
+    if (success) {
+      console.log(`✅ Subscription created for user ${userId}: ${packageId}`);
+    } else {
+      console.error(`❌ Failed to update subscription for user ${userId}: ${packageId}`);
+    }
   } catch (error) {
     console.error('Error handling checkout session completed:', error);
   }
@@ -96,9 +102,20 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
 // Subscription erstellt
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Subscription created: ${subscription.id}`);
-    console.log('TODO: Implement Supabase subscription update');
+    const customerId = subscription.customer as string;
+    const packageId = subscription.metadata?.packageId || 'basic';
+    
+    // User ID aus Customer ID ermitteln (falls in Stripe Customer Metadata gespeichert)
+    // Für jetzt verwenden wir die Customer ID als User ID
+    const userId = customerId;
+    
+    const success = await SubscriptionService.updateSubscription(userId, packageId);
+    
+    if (success) {
+      console.log(`✅ Subscription created: ${subscription.id} for user ${userId}`);
+    } else {
+      console.error(`❌ Failed to update subscription: ${subscription.id}`);
+    }
   } catch (error) {
     console.error('Error handling subscription created:', error);
   }
@@ -107,9 +124,26 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 // Subscription aktualisiert
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Subscription updated: ${subscription.id} - ${subscription.status}`);
-    console.log('TODO: Implement Supabase subscription update');
+    const customerId = subscription.customer as string;
+    const packageId = subscription.metadata?.packageId || 'basic';
+    const userId = customerId;
+    
+    // Status-basierte Logik
+    let targetPackage = packageId;
+    
+    if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
+      targetPackage = 'free';
+    } else if (subscription.status === 'active') {
+      targetPackage = packageId;
+    }
+    
+    const success = await SubscriptionService.updateSubscription(userId, targetPackage);
+    
+    if (success) {
+      console.log(`✅ Subscription updated: ${subscription.id} - ${subscription.status} -> ${targetPackage}`);
+    } else {
+      console.error(`❌ Failed to update subscription: ${subscription.id}`);
+    }
   } catch (error) {
     console.error('Error handling subscription updated:', error);
   }
@@ -118,9 +152,17 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 // Subscription gelöscht
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Subscription deleted: ${subscription.id}`);
-    console.log('TODO: Implement Supabase subscription update');
+    const customerId = subscription.customer as string;
+    const userId = customerId;
+    
+    // Subscription auf 'free' setzen
+    const success = await SubscriptionService.updateSubscription(userId, 'free');
+    
+    if (success) {
+      console.log(`✅ Subscription deleted: ${subscription.id} -> user ${userId} set to free`);
+    } else {
+      console.error(`❌ Failed to update subscription after deletion: ${subscription.id}`);
+    }
   } catch (error) {
     console.error('Error handling subscription deleted:', error);
   }
@@ -129,9 +171,18 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 // Zahlung erfolgreich
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Payment succeeded for subscription: ${(invoice as any).subscription || 'N/A'}`);
-    console.log('TODO: Implement Supabase subscription update');
+    const subscriptionId = (invoice as any).subscription as string;
+    const customerId = invoice.customer as string;
+    const userId = customerId;
+    
+    // Bei erfolgreicher Zahlung: Subscription bestätigen
+    const success = await SubscriptionService.updateSubscription(userId, 'premium');
+    
+    if (success) {
+      console.log(`✅ Payment succeeded for subscription: ${subscriptionId} -> user ${userId} confirmed`);
+    } else {
+      console.error(`❌ Failed to confirm subscription after payment: ${subscriptionId}`);
+    }
   } catch (error) {
     console.error('Error handling payment succeeded:', error);
   }
@@ -140,9 +191,18 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 // Zahlung fehlgeschlagen
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   try {
-    // TODO: Supabase Integration implementieren
-    console.log(`Payment failed for subscription: ${(invoice as any).subscription || 'N/A'}`);
-    console.log('TODO: Implement Supabase subscription update');
+    const subscriptionId = (invoice as any).subscription as string;
+    const customerId = invoice.customer as string;
+    const userId = customerId;
+    
+    // Bei fehlgeschlagener Zahlung: Subscription auf 'free' setzen
+    const success = await SubscriptionService.updateSubscription(userId, 'free');
+    
+    if (success) {
+      console.log(`⚠️ Payment failed for subscription: ${subscriptionId} -> user ${userId} set to free`);
+    } else {
+      console.error(`❌ Failed to update subscription after payment failure: ${subscriptionId}`);
+    }
   } catch (error) {
     console.error('Error handling payment failed:', error);
   }

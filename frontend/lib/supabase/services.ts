@@ -21,6 +21,7 @@ export interface Profile {
   planets?: any;
   subscription_package?: string;
   is_active: boolean;
+  is_admin?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -263,6 +264,107 @@ export class MatchingService {
     }
 
     return data || [];
+  }
+}
+
+// Admin Service
+export class AdminService {
+  static async isAdmin(userId: string): Promise<boolean> {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('user_id', userId)
+      .single();
+
+    if (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+
+    return data?.is_admin === true;
+  }
+
+  static async setAdmin(userId: string, isAdmin: boolean): Promise<boolean> {
+    const { error } = await supabase
+      .from('profiles')
+      .update({ is_admin: isAdmin })
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error setting admin status:', error);
+      return false;
+    }
+
+    return true;
+  }
+
+  static async getAllUsers(limit: number = 50, offset: number = 0): Promise<Profile[]> {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    if (error) {
+      console.error('Error fetching all users:', error);
+      return [];
+    }
+
+    return data || [];
+  }
+
+  static async getUserStats(): Promise<any> {
+    const { data: totalUsers, error: totalError } = await supabase
+      .from('profiles')
+      .select('id', { count: 'exact' });
+
+    const { data: activeUsers, error: activeError } = await supabase
+      .from('profiles')
+      .select('id', { count: 'exact' })
+      .eq('is_active', true);
+
+    const { data: adminUsers, error: adminError } = await supabase
+      .from('profiles')
+      .select('id', { count: 'exact' })
+      .eq('is_admin', true);
+
+    if (totalError || activeError || adminError) {
+      console.error('Error fetching user stats:', { totalError, activeError, adminError });
+      return null;
+    }
+
+    return {
+      totalUsers: totalUsers?.length || 0,
+      activeUsers: activeUsers?.length || 0,
+      adminUsers: adminUsers?.length || 0
+    };
+  }
+
+  static async getSubscriptionStats(): Promise<any> {
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('package_id');
+
+    if (error) {
+      console.error('Error fetching subscription stats:', error);
+      return null;
+    }
+
+    const stats = {
+      free: 0,
+      basic: 0,
+      premium: 0,
+      vip: 0,
+      admin: 0
+    };
+
+    data?.forEach(sub => {
+      if (stats.hasOwnProperty(sub.package_id)) {
+        stats[sub.package_id as keyof typeof stats]++;
+      }
+    });
+
+    return stats;
   }
 }
 
