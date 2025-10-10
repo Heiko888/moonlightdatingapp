@@ -1298,7 +1298,7 @@ const DashboardPage: React.FC = () => {
               <Button
                 variant="outlined"
                 startIcon={<Star size={18} />}
-                onClick={() => router.push('/matches')}
+                onClick={() => router.push('/match')}
                 sx={{
                   borderColor: '#ff6b9d',
                   color: '#ff6b9d',

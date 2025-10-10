@@ -765,7 +765,7 @@ export default function SwipePage() {
                             <Button
                               variant="contained"
               startIcon={<MessageCircle />}
-              onClick={() => router.push('/matches')}
+              onClick={() => router.push('/match')}
                               sx={{
                 background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: 'white',
