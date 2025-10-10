@@ -41,11 +41,12 @@ export default function YourPage() {
 ## 🎨 Features der Mobile Navigation
 
 ### ✅ **Vollständige Seitenabdeckung**
+
 - **Hauptseiten:** Start, Dashboard, Chart, Mondkalender
 - **Human Design:** Authority, Centers, Channels, Gates, Profiles
 - **Wissen & Journal:** Knowledge, Journal, Reading, HD Academy
 - **Community & Dating:** Community, Dating, Swipe, Matching
-- **Coaching:** Alle Coach-Seiten (Elisabeth, Heiko, Janine, Louisa)
+- **Coaching:** Alle Coach-Seiten (Elisabeth, Heiko, Janine)
 - **Planeten:** Alle 12 Planeten + Inkarnationskreuz
 - **Premium Features:** Analytics, AI Analysis, Realtime Analysis
 - **Mobile & Apps:** Mobile App, PWA, Mobile Dashboard
@@ -53,12 +54,14 @@ export default function YourPage() {
 - **Admin:** Admin Dashboard, Seitenanzeige
 
 ### ✅ **Intelligente Kategorisierung**
+
 - **Kollapsible Kategorien** für bessere Übersicht
 - **Beschreibungen** für jede Seite
 - **Premium-Badges** für erweiterte Features
 - **NEW-Badges** für neue Funktionen
 
 ### ✅ **User-Experience**
+
 - **Responsive Design** (Mobile/Desktop)
 - **User-Authentication** Integration
 - **Package-basierte Filterung** (Free, Basic, Premium, VIP, Admin)
@@ -66,6 +69,7 @@ export default function YourPage() {
 - **Smooth Animations**
 
 ### ✅ **Mobile-optimiert**
+
 - **Touch-friendly** Buttons
 - **Swipe-Gesten** Support
 - **Hamburger-Menü** für Mobile
@@ -118,6 +122,7 @@ sx={{
 ## 📱 Verwendung auf verschiedenen Seiten
 
 ### Dashboard
+
 ```tsx
 import MobileLayout from '../../components/MobileLayout';
 
@@ -131,6 +136,7 @@ export default function DashboardPage() {
 ```
 
 ### Chart
+
 ```tsx
 import MobileLayout from '../../components/MobileLayout';
 
@@ -144,6 +150,7 @@ export default function ChartPage() {
 ```
 
 ### Dating
+
 ```tsx
 import MobileLayout from '../../components/MobileLayout';
 
@@ -159,20 +166,24 @@ export default function DatingPage() {
 ## 🎯 Best Practices
 
 ### 1. **Konsistente Verwendung**
+
 - Verwenden Sie `MobileLayout` auf allen Hauptseiten
 - Setzen Sie `currentPath` korrekt für aktive Seite Highlighting
 
 ### 2. **Performance**
+
 - Die Navigation ist lazy-loaded
 - Icons werden nur bei Bedarf geladen
 - Smooth Animations ohne Performance-Impact
 
 ### 3. **Accessibility**
+
 - Keyboard Navigation Support
 - Screen Reader Friendly
 - High Contrast Support
 
 ### 4. **Mobile-First**
+
 - Touch-optimierte Buttons
 - Swipe-Gesten für bessere UX
 - Responsive Breakpoints
@@ -180,6 +191,7 @@ export default function DatingPage() {
 ## 🔧 Erweiterte Konfiguration
 
 ### Package-basierte Filterung
+
 ```tsx
 // In MobileNavigation.tsx
 const packageHierarchy: Record<string, number> = {
@@ -197,6 +209,7 @@ const hasAccess = (item: NavigationItem) => {
 ```
 
 ### Custom Styling
+
 ```tsx
 // Theme anpassen
 const customTheme = {

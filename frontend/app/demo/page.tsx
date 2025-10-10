@@ -132,7 +132,6 @@ Deine definierten Zentren geben dir Stabilität in diesen Bereichen, während de
       type: 'community',
       data: {
         coaches: [
-          { name: 'Louisa Ebisch', specialty: 'Beziehungen', rating: 5 },
           { name: 'Heiko Schwaninger', specialty: 'Karriere', rating: 5 },
           { name: 'Janine Christ', specialty: 'Persönlichkeit', rating: 5 }
         ],

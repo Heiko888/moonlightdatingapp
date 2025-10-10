@@ -57,7 +57,7 @@ export interface TimeSlot {
 }
 
 class CoachingService {
-  private baseUrl = process.env.NEXT_PUBLIC_API_URL + '/api/coaching' || 'http://localhost:4001/api/coaching';
+  private baseUrl = process.env.NEXT_PUBLIC_API_URL + '/api/coaching' || 'http://localhost:3005/api/coaching';
 
   // Coaches abrufen
   async getCoaches(): Promise<Coach[]> {

@@ -67,21 +67,6 @@ interface CoachingSession {
 
 const coachingSessions: CoachingSession[] = [
   {
-    id: "louisa-ebisch",
-    title: "Selbstführung, Energie & Verkörperung",
-    description:
-      "Coaching für Energie, innere Stärke und nachhaltige Veränderung. Mut, Resilienz und echte Transformation – egal, wie groß die Herausforderung ist.",
-    duration: "individuell",
-    price: "auf Anfrage",
-    type: "individual",
-    coachName: "Louisa",
-    coachImage: "/coaches/louisa.jpg",
-    coachFocus:
-      "Selbstführung, Energie, Epigenetik, Hypnose, Gesundheitsberatung, VAK- und Impuls-Coaching",
-    coachBio: "",
-    coachSocial: "",
-  },
-  {
     id: "heiko-schwaninger",
     title: "Business & Leadership Coaching",
     description:
@@ -154,10 +139,6 @@ const coachingSessions: CoachingSession[] = [
 ];
 
 const coachReviews: Record<string, Array<{ name: string; rating: number; text: string }>> = {
-  "louisa-ebisch": [
-    { name: "Anna", rating: 5, text: "Sehr inspirierend und hilfreich!" },
-    { name: "Tom", rating: 4, text: "Gute Impulse für den Alltag." },
-  ],
   "heiko-schwaninger": [
     { name: "Michael", rating: 5, text: "Hervorragendes Business Coaching!" },
     { name: "Sarah", rating: 5, text: "Hat mir geholfen, authentisch zu führen." },
@@ -493,7 +474,7 @@ const CoachingContent: React.FC = () => {
                   {/* Action Buttons */}
                   <Box sx={{ display: 'flex', gap: 1.5 }}>
                     {/* Profile Link for specific coaches */}
-                         {["Louisa", "Heiko", "Janine", "Elisabeth"].includes(
+                         {["Heiko", "Janine", "Elisabeth"].includes(
               session.coachName || ""
             ) && (
                       <Button
@@ -514,9 +495,7 @@ const CoachingContent: React.FC = () => {
                         }}
                         component={Link}
                 href={
-                  session.coachName === "Louisa"
-                    ? "/coaching/louisa"
-                                         : session.coachName === "Heiko"
+                  session.coachName === "Heiko"
                     ? "/coaching/heiko"
                                          : session.coachName === "Janine"
                     ? "/coaching/janine"
@@ -543,7 +522,7 @@ const CoachingContent: React.FC = () => {
                         }
                       }}
                       component={Link}
-                      href={`/coaching/${session.coachName?.toLowerCase() || 'louisa'}`}
+                      href={`/coaching/${session.coachName?.toLowerCase() || 'heiko'}`}
                 >
                   Session anfragen
                     </Button>

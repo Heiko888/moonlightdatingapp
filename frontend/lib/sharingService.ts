@@ -42,7 +42,7 @@ class SharingService {
   private apiKey: string;
 
   constructor() {
-    this.baseUrl = 'mock://localhost:4001'; // Temporär deaktiviert
+    this.baseUrl = 'mock://localhost:3005'; // Frontend-only
     this.apiKey = process.env.NEXT_PUBLIC_SHARING_API_KEY || '';
   }
 

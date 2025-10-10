@@ -153,7 +153,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const loadPosts = async () => {
     try {
-      const response = await fetch('http://localhost:4001/community/posts', {
+      const response = await fetch('http://localhost:3005/api/community/posts', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -181,7 +181,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const loadGroups = async () => {
     try {
-      const response = await fetch('http://localhost:4001/community/groups', {
+      const response = await fetch('http://localhost:3005/api/community/groups', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -214,7 +214,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const loadEvents = async () => {
     try {
-      const response = await fetch('http://localhost:4001/community/events', {
+      const response = await fetch('http://localhost:3005/api/community/events', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -247,7 +247,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const loadFriends = async () => {
     try {
-      const response = await fetch('http://localhost:4001/community/friends', {
+      const response = await fetch('http://localhost:3005/api/community/friends', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -280,7 +280,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const createPost = async () => {
     try {
-      const response = await fetch('http://localhost:4001/community/posts', {
+      const response = await fetch('http://localhost:3005/api/community/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -304,7 +304,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const likePost = async (postId: string) => {
     try {
-      await fetch(`http://localhost:4001/community/posts/${postId}/like`, {
+      await fetch(`http://localhost:3005/api/community/posts/${postId}/like`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -318,7 +318,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const joinGroup = async (groupId: string) => {
     try {
-      const response = await fetch(`http://localhost:4001/community/groups/${groupId}/join`, {
+      const response = await fetch(`http://localhost:3005/api/community/groups/${groupId}/join`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -365,7 +365,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
 
   const joinEvent = async (eventId: string) => {
     try {
-      const response = await fetch(`http://localhost:4001/community/events/${eventId}/join`, {
+      const response = await fetch(`http://localhost:3005/api/community/events/${eventId}/join`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -416,7 +416,7 @@ export default function CommunityHub({ userId }: CommunityHubProps) {
     }
 
     try {
-      const response = await fetch(`http://localhost:4001/community/groups/${groupId}/leave`, {
+      const response = await fetch(`http://localhost:3005/api/community/groups/${groupId}/leave`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`

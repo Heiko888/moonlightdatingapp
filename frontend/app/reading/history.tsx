@@ -39,7 +39,7 @@ export default function ReadingHistoryPage() {
       setError(null);
       try {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        const res = await fetch(`http://localhost:4001/readings?userId=${userId}`, {
+        const res = await fetch(`http://localhost:3005/api/readings?userId=${userId}`, {
           headers: {
             ...(token ? { Authorization: `Bearer ${token}` } : {})
           }

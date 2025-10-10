@@ -162,7 +162,7 @@ export default function ChartEditorPage() {
     setIsCalculating(true);
     try {
       // Echte Chart-Berechnung mit Backend API
-      const response = await fetch('http://localhost:4001/charts/calculate', {
+      const response = await fetch('http://localhost:3005/api/charts/calculate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

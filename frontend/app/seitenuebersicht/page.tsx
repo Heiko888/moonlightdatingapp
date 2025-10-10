@@ -133,7 +133,6 @@ const allPages = [
   { id: 'coaching-heiko', title: 'Coaching Heiko', path: '/coaching/heiko', description: 'Coaching mit Heiko', category: 'Coaching', package: 'vip', icon: '👨‍🏫', features: ['Heiko', 'Coaching'] },
   { id: 'coaching-elisabeth', title: 'Coaching Elisabeth', path: '/coaching/elisabeth', description: 'Coaching mit Elisabeth', category: 'Coaching', package: 'vip', icon: '👩‍🏫', features: ['Elisabeth', 'Coaching'] },
   { id: 'coaching-janine', title: 'Coaching Janine', path: '/coaching/janine', description: 'Coaching mit Janine', category: 'Coaching', package: 'vip', icon: '👩‍💼', features: ['Janine', 'Coaching'] },
-  { id: 'coaching-louisa', title: 'Coaching Louisa', path: '/coaching/louisa', description: 'Coaching mit Louisa', category: 'Coaching', package: 'vip', icon: '👩‍🎓', features: ['Louisa', 'Coaching'] },
   { id: 'personal-coach', title: 'Persönlicher Coach', path: '/personal-coach', description: 'Dedizierter persönlicher Coach', category: 'Coaching', package: 'vip', icon: '🧘', features: ['Persönlich', 'Dediziert', 'Exklusiv'] },
 
   // VIP Features

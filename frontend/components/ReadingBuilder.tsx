@@ -120,7 +120,7 @@ export default function ReadingBuilder({ userId }: ReadingBuilderProps) {
 
   const loadTemplates = async () => {
     try {
-      const response = await fetch('http://localhost:4001/reading/templates', {
+      const response = await fetch('http://localhost:3005/api/reading/templates', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -148,7 +148,7 @@ export default function ReadingBuilder({ userId }: ReadingBuilderProps) {
 
   const loadModules = async () => {
     try {
-      const response = await fetch('http://localhost:4001/reading/modules', {
+      const response = await fetch('http://localhost:3005/api/reading/modules', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -257,7 +257,7 @@ Bitte wählen Sie ein Template oder Module aus, um ein detaillierteres Reading z
         }
       };
 
-      const response = await fetch('http://localhost:4001/reading/generate', {
+      const response = await fetch('http://localhost:3005/api/reading/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

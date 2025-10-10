@@ -75,7 +75,7 @@ const MoonCalendarWidget = () => {
 
   const loadCurrentMoonPhase = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/current');
+      const response = await fetch('http://localhost:3005/api/moon-calendar/current');
       
       if (!response.ok) {
         console.log('Mondkalender API nicht verfügbar, verwende Fallback-Daten');

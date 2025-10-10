@@ -112,7 +112,7 @@ export default function KnowledgeAIPage() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:4001/charts/query-pdf', {
+      const response = await axios.post('http://localhost:3005/api/knowledge/query', {
         question: question.trim(),
         context: 'Human Design Wissensdatenbank'
       });

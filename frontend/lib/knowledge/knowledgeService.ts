@@ -36,7 +36,7 @@ export interface KnowledgeCategoriesResponse {
 }
 
 export class KnowledgeService {
-  private static baseUrl = 'http://localhost:4001/knowledge';
+  private static baseUrl = 'http://localhost:3005/api/knowledge'; // Frontend API Route
 
   // Alle Knowledge-Entries abrufen
   static async getKnowledgeEntries(): Promise<KnowledgeEntry[]> {

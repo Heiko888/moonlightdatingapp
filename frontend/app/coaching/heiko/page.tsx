@@ -189,7 +189,7 @@ export default function HeikoProfilePage() {
     setError(null);
     
     try {
-      const res = await fetch("http://localhost:4001/sessionrequest", {
+      const res = await fetch("http://localhost:3005/api/coaching/sessionrequest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, coach: "Heiko Schwaninger" })

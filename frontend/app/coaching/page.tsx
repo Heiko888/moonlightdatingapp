@@ -164,27 +164,6 @@ export default function CoachingPage() {
     },
     {
       id: 3,
-      name: "Louisa",
-      title: "Human Design Coach & Spiritual Guide",
-      avatar: "/coaches/louisa.jpg",
-      rating: 4.9,
-      reviews: 156,
-      experience: "10+ Jahre",
-      specializations: ["Human Design", "Spiritualität", "Meditation", "Energiearbeit"],
-      description: "Louisa verbindet Human Design mit spirituellen Praktiken und hilft Menschen dabei, ihre wahre Essenz zu entdecken und zu leben.",
-      sessions: [
-        { type: "1:1 Coaching", price: "140€", duration: "75 Min" },
-        { type: "Meditation & Design", price: "90€", duration: "60 Min" },
-        { type: "Spiritual Journey", price: "250€", duration: "2 Stunden" }
-      ],
-      availability: ["Mo-Mi: 9:00-18:00", "Do: 14:00-20:00"],
-      languages: ["Deutsch", "Englisch", "Spanisch"],
-      profileUrl: "/coaching/louisa",
-      isOnline: true,
-      lastSeen: "online"
-    },
-    {
-      id: 4,
       name: "Elisabeth",
       title: "Human Design Master & Business Coach",
       avatar: "/coaches/elisabeth.jpg",

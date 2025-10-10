@@ -110,7 +110,6 @@ const navigationItems: NavigationItem[] = [
   { name: "Elisabeth", path: "/coaching/elisabeth", icon: <Person />, category: "Coaching", description: "Coach Elisabeth" },
   { name: "Heiko", path: "/coaching/heiko", icon: <Person />, category: "Coaching", description: "Coach Heiko" },
   { name: "Janine", path: "/coaching/janine", icon: <Person />, category: "Coaching", description: "Coach Janine" },
-  { name: "Louisa", path: "/coaching/louisa", icon: <Person />, category: "Coaching", description: "Coach Louisa" },
   
   // Planeten & Astrologie
   { name: "Planeten", path: "/planets", icon: <Globe />, category: "Planeten & Astrologie", description: "Alle Planeten im Überblick" },

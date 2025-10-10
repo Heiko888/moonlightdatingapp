@@ -29,7 +29,7 @@ export interface ChartData {
 }
 
 export class ChartService {
-  private static baseUrl = 'http://localhost:4001';
+  private static baseUrl = 'http://localhost:3005/api/charts'; // Frontend API Route
 
   // Lade alle verfügbaren Charts
   static async getCharts(): Promise<ChartData[]> {

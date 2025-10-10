@@ -154,7 +154,7 @@ const MoonCalendarTabs = () => {
 
   const loadCurrentMoonPhase = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/current');
+      const response = await fetch('http://localhost:3005/api/moon-calendar/current');
       
       if (!response.ok) {
         console.log('Mondkalender API nicht verfügbar, verwende Fallback-Daten');
@@ -196,7 +196,7 @@ const MoonCalendarTabs = () => {
 
   const loadMoonStories = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/stories');
+      const response = await fetch('http://localhost:3005/api/moon-calendar/stories');
       if (response.ok) {
         const data = await response.json();
         setMoonStories(data.stories || []);
@@ -229,7 +229,7 @@ const MoonCalendarTabs = () => {
 
   const loadPlantRituals = async () => {
     try {
-      const response = await fetch('http://localhost:4001/moon-calendar/plant-rituals');
+      const response = await fetch('http://localhost:3005/api/moon-calendar/plant-rituals');
       if (response.ok) {
         const data = await response.json();
         setPlantRituals(data.rituals || []);

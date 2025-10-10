@@ -59,7 +59,7 @@ export interface Tier {
 }
 
 class VIPService {
-  private baseUrl = 'http://localhost:4001/vip-dashboard';
+  private baseUrl = 'http://localhost:3005/api/vip'; // Frontend API Route
 
   // Benutzer-Details abrufen
   async getUser(userId: string): Promise<User> {
