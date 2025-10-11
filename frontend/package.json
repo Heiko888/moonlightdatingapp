@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3005",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "build:static": "next build",
     "export": "next export",
@@ -22,6 +22,7 @@
     "@types/qrcode": "^1.5.5",
     "@types/three": "^0.180.0",
     "axios": "^1.11.0",
+    "critters": "^0.0.23",
     "framer-motion": "^11.15.0",
     "gray-matter": "^4.0.3",
     "html2canvas": "^1.4.1",
