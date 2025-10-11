@@ -24,39 +24,34 @@ const nextConfig = {
   
   // Experimental Features für Performance
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false, // Deaktiviert für Docker Build
     optimizePackageImports: ['@mui/material', '@mui/icons-material', 'framer-motion'],
   },
   
-  // Webpack-Optimierungen
+  // Docker-spezifische Konfiguration
+  output: 'standalone',
+  
+  // Webpack-Optimierungen (vereinfacht für Docker)
   webpack: (config, { isServer, dev }) => {
-    // Bundle-Size Optimierung
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
+    // Basis-Fallbacks
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+      crypto: false,
+      stream: false,
+      util: false,
+      buffer: false,
+    };
     
-    // Production-Optimierungen
-    if (!dev) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\/]node_modules[\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-          mui: {
-            test: /[\/]node_modules[\/]@mui[\/]/,
-            name: 'mui',
-            chunks: 'all',
-          },
-        },
-      };
+    // Docker-spezifische Fixes
+    if (isServer) {
+      // Server-side rendering fixes
+      config.externals = config.externals || [];
+      config.externals.push({
+        'lightningcss': 'commonjs lightningcss',
+      });
     }
     
     return config;
