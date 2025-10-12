@@ -20,4 +20,4 @@ COPY --from=builder /app ./
 RUN useradd -m nextjs && chown -R nextjs:nextjs /app
 USER nextjs
 EXPOSE 3000
-CMD ["npm","run","start","--","-p","3000","-H","0.0.0.0"]
+CMD ["node", ".next/standalone/server.js"]

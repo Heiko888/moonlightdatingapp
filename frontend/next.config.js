@@ -31,6 +31,12 @@ const nextConfig = {
   // Docker-spezifische Konfiguration
   output: 'standalone',
   
+  // Port-Konfiguration für standalone
+  serverRuntimeConfig: {
+    port: 3000,
+    hostname: '0.0.0.0'
+  },
+  
   // Webpack-Optimierungen (vereinfacht für Docker)
   webpack: (config, { isServer, dev }) => {
     // Basis-Fallbacks
