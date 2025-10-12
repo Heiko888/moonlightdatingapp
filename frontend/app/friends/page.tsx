@@ -405,7 +405,7 @@ export default function FriendsPage() {
             <Typography 
               variant="h5" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'rgba(78, 205, 196, 0.9)', 
                 mb: 3,
                 fontSize: { xs: '1.1rem', md: '1.3rem' },
                 maxWidth: '600px',
@@ -432,16 +432,16 @@ export default function FriendsPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  background: 'rgba(255,255,255,0.05)',
+                  background: 'rgba(78, 205, 196, 0.08)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(78, 205, 196, 0.3)',
                   borderRadius: 3,
                   color: 'white',
                   '&:hover': {
-                    border: '1px solid rgba(255,255,255,0.2)'
+                    border: '1px solid rgba(78, 205, 196, 0.5)'
                   },
                   '&.Mui-focused': {
-                    border: '1px solid #ff6b9d'
+                    border: '1px solid #4ECDC4'
                   }
                 },
                 '& .MuiInputBase-input': {
@@ -479,11 +479,11 @@ export default function FriendsPage() {
           transition={{ duration: 0.3 }}
         >
           {showFilters && (
-            <Box sx={{ mb: 4, p: 3, background: 'rgba(255,255,255,0.05)', borderRadius: 3 }}>
+            <Box sx={{ mb: 4, p: 3, background: 'rgba(78, 205, 196, 0.08)', borderRadius: 3, border: '1px solid rgba(78, 205, 196, 0.2)' }}>
               <Grid container spacing={2}>
                 {/* Sortierung */}
                 <Grid item xs={12} sm={6} md={3}>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.9)', mb: 1 }}>
                     Sortieren nach:
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -499,9 +499,10 @@ export default function FriendsPage() {
                         size="small"
                         onClick={() => setSortBy(option.key as any)}
                         sx={{
-                          background: sortBy === option.key ? '#ff6b9d' : 'rgba(255,255,255,0.1)',
-                          color: sortBy === option.key ? 'white' : 'rgba(255,255,255,0.7)',
-                          cursor: 'pointer'
+                          background: sortBy === option.key ? '#4ECDC4' : 'rgba(78, 205, 196, 0.1)',
+                          color: sortBy === option.key ? 'white' : 'rgba(78, 205, 196, 0.8)',
+                          cursor: 'pointer',
+                          border: '1px solid rgba(78, 205, 196, 0.3)'
                         }}
                       />
                     ))}
@@ -510,7 +511,7 @@ export default function FriendsPage() {
 
                 {/* Filter */}
                 <Grid item xs={12} sm={6} md={3}>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.9)', mb: 1 }}>
                     Filter:
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -594,14 +595,14 @@ export default function FriendsPage() {
               centered
               sx={{
                 '& .MuiTab-root': {
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(78, 205, 196, 0.7)',
                   fontWeight: 600,
                   '&.Mui-selected': {
-                    color: 'white'
+                    color: '#4ECDC4'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+                  background: 'linear-gradient(45deg, #4ECDC4, #78E6D3)',
                   height: 3,
                   borderRadius: 2
                 }
@@ -633,14 +634,14 @@ export default function FriendsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Box sx={{ mb: 4, p: 3, background: 'rgba(255,255,255,0.05)', borderRadius: 3 }}>
+          <Box sx={{ mb: 4, p: 3, background: 'rgba(78, 205, 196, 0.08)', borderRadius: 3, border: '1px solid rgba(78, 205, 196, 0.2)' }}>
             <Grid container spacing={3}>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#ff6b9d', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700 }}>
                     {filteredAndSortedFriends.length}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)' }}>
                     Freunde
                   </Typography>
                 </Box>
@@ -650,27 +651,27 @@ export default function FriendsPage() {
                   <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700 }}>
                     {filteredAndSortedFriends.filter(f => f.isOnline).length}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)' }}>
                     Online
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#8b5cf6', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700 }}>
                     {favorites.length}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)' }}>
                     Favoriten
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#f59e0b', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#4ECDC4', fontWeight: 700 }}>
                     {activities.length}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)' }}>
                     Aktivitäten
                   </Typography>
                 </Box>
@@ -699,18 +700,18 @@ export default function FriendsPage() {
                     >
                       <Card
                         sx={{
-                          background: 'rgba(255,255,255,0.05)',
+                          background: 'rgba(78, 205, 196, 0.08)',
                           backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(255,255,255,0.1)',
+                          border: '1px solid rgba(78, 205, 196, 0.2)',
                           borderRadius: 3,
                           height: '100%',
                           transition: 'all 0.3s ease',
-                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                          boxShadow: '0 8px 32px rgba(78, 205, 196, 0.1)',
                           cursor: 'pointer',
                           '&:hover': {
                             transform: 'translateY(-8px)',
-                            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-                            border: '1px solid rgba(255, 107, 157, 0.3)'
+                            boxShadow: '0 20px 40px rgba(78, 205, 196, 0.2)',
+                            border: '1px solid rgba(78, 205, 196, 0.5)'
                           }
                         }}
                         onClick={() => handleFriendClick(friend)}
@@ -743,16 +744,16 @@ export default function FriendsPage() {
                               />
                             </Badge>
                             <Box sx={{ ml: 2, flex: 1 }}>
-                              <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                              <Typography variant="h6" sx={{ color: '#4ECDC4', fontWeight: 600 }}>
                                 {friend.name}
                               </Typography>
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                <MapPin size={14} color="rgba(255,255,255,0.7)" />
-                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                                <MapPin size={14} color="rgba(78, 205, 196, 0.7)" />
+                                <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)' }}>
                                   {friend.location} • {friend.age} Jahre
                                 </Typography>
                               </Box>
-                              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                              <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.9)' }}>
                                 {friend.hdType} • {friend.compatibility}% Kompatibilität
                               </Typography>
                             </Box>
@@ -761,7 +762,7 @@ export default function FriendsPage() {
                           <Typography 
                             variant="body2" 
                             sx={{ 
-                              color: 'rgba(255,255,255,0.8)', 
+                              color: 'rgba(78, 205, 196, 0.8)', 
                               mb: 2, 
                               lineHeight: 1.5,
                               display: '-webkit-box',
@@ -780,9 +781,9 @@ export default function FriendsPage() {
                                 label={interest}
                                 size="small"
                                 sx={{
-                                  background: 'rgba(255, 107, 157, 0.2)',
-                                  color: '#ff6b9d',
-                                  border: '1px solid rgba(255, 107, 157, 0.3)'
+                                  background: 'rgba(78, 205, 196, 0.2)',
+                                  color: '#4ECDC4',
+                                  border: '1px solid rgba(78, 205, 196, 0.3)'
                                 }}
                               />
                             ))}
@@ -791,8 +792,8 @@ export default function FriendsPage() {
                                 label={`+${friend.interests.length - 3}`}
                                 size="small"
                                 sx={{
-                                  background: 'rgba(255,255,255,0.1)',
-                                  color: 'rgba(255,255,255,0.7)'
+                                  background: 'rgba(78, 205, 196, 0.1)',
+                                  color: 'rgba(78, 205, 196, 0.8)'
                                 }}
                               />
                             )}
@@ -808,12 +809,12 @@ export default function FriendsPage() {
                                 handleToggleFavorite(friend.id);
                               }}
                               sx={{
-                                color: favorites.includes(friend.id) ? '#ff6b9d' : 'white',
-                                borderColor: favorites.includes(friend.id) ? '#ff6b9d' : 'rgba(255,255,255,0.3)',
-                                background: favorites.includes(friend.id) ? 'rgba(255, 107, 157, 0.1)' : 'transparent',
+                                color: favorites.includes(friend.id) ? '#4ECDC4' : 'rgba(78, 205, 196, 0.8)',
+                                borderColor: favorites.includes(friend.id) ? '#4ECDC4' : 'rgba(78, 205, 196, 0.3)',
+                                background: favorites.includes(friend.id) ? 'rgba(78, 205, 196, 0.1)' : 'transparent',
                                 '&:hover': {
-                                  borderColor: favorites.includes(friend.id) ? '#ff6b9d' : 'white',
-                                  background: favorites.includes(friend.id) ? 'rgba(255, 107, 157, 0.2)' : 'rgba(255,255,255,0.1)'
+                                  borderColor: '#4ECDC4',
+                                  background: 'rgba(78, 205, 196, 0.2)'
                                 }
                               }}
                             >
@@ -824,11 +825,11 @@ export default function FriendsPage() {
                               size="small"
                               startIcon={<MessageCircle size={16} />}
                               sx={{
-                                color: 'white',
-                                borderColor: 'rgba(255,255,255,0.3)',
+                                color: 'rgba(78, 205, 196, 0.8)',
+                                borderColor: 'rgba(78, 205, 196, 0.3)',
                                 '&:hover': {
-                                  borderColor: 'white',
-                                  background: 'rgba(255,255,255,0.1)'
+                                  borderColor: '#4ECDC4',
+                                  background: 'rgba(78, 205, 196, 0.1)'
                                 }
                               }}
                             >
