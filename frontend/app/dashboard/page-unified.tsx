@@ -77,7 +77,7 @@ const DashboardPage: React.FC = () => {
 
       // Load dashboard stats
       const { data: moonData } = await supabase
-        .from('moon_entries')
+        .from('moon_tracking')
         .select('*')
         .eq('user_id', user.id);
 

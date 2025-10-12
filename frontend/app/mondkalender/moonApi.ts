@@ -1,5 +1,5 @@
 // Moon Calendar API Client
-const API_BASE_URL = 'http://localhost:3005/api/moon-calendar';
+const API_BASE_URL = 'http://localhost:3000/api/moon-calendar';
 
 export interface MoonPhase {
   name: string;

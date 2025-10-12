@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Box,
@@ -39,7 +39,7 @@ import {
 import Link from 'next/link';
 import SSRSafeStars from '@/components/SSRSafeStars';
 
-// Vollständige Seiten-Datenbank (116 Seiten)
+// Vollständige Seiten-Datenbank (120+ Seiten)
 const allPages = [
   // Öffentliche Seiten
   { id: 'home', title: 'Startseite', path: '/', description: 'Willkommen auf der Human Design App', category: 'Öffentlich', package: 'free', icon: '🏠', features: ['Landing Page', 'Überblick', 'Navigation'] },
@@ -50,6 +50,8 @@ const allPages = [
   { id: 'sitemap', title: 'Sitemap', path: '/sitemap', description: 'Übersicht aller Seiten', category: 'Öffentlich', package: 'free', icon: '🗺️', features: ['Navigation', 'Übersicht'] },
   { id: 'roadmap', title: 'Roadmap', path: '/roadmap', description: 'Entwicklungsplan', category: 'Öffentlich', package: 'free', icon: '🛣️', features: ['Planung', 'Entwicklung'] },
   { id: 'package-overview', title: 'Package Overview', path: '/package-overview', description: 'Paket-Übersicht', category: 'Öffentlich', package: 'free', icon: '📦', features: ['Pakete', 'Übersicht'] },
+  { id: 'seitenuebersicht', title: 'Seitenübersicht', path: '/seitenuebersicht', description: 'Vollständige Übersicht aller App-Seiten', category: 'Öffentlich', package: 'free', icon: '📋', features: ['Übersicht', 'Navigation', 'Alle Seiten'] },
+  { id: 'seitenanzeige', title: 'Seitenanzeige', path: '/seitenanzeige', description: 'Alternative Seitenübersicht', category: 'Öffentlich', package: 'free', icon: '📊', features: ['Alternative', 'Übersicht'] },
 
   // Benutzer-Seiten
   { id: 'dashboard', title: 'Dashboard', path: '/dashboard', description: 'Persönliches Dashboard', category: 'Benutzer', package: 'basic', icon: '📊', features: ['Übersicht', 'Statistiken', 'Schnellzugriff'] },
@@ -59,6 +61,8 @@ const allPages = [
   { id: 'profil-einrichten', title: 'Profil einrichten (Alt)', path: '/profil-einrichten', description: 'Alternative Profil-Einrichtung', category: 'Benutzer', package: 'basic', icon: '🔧', features: ['Setup', 'Einrichtung'] },
   { id: 'settings', title: 'Einstellungen', path: '/settings', description: 'App-Einstellungen', category: 'Benutzer', package: 'basic', icon: '⚙️', features: ['Einstellungen', 'Konfiguration'] },
   { id: 'logout', title: 'Abmelden', path: '/logout', description: 'Benutzer abmelden', category: 'Benutzer', package: 'basic', icon: '🚪', features: ['Abmelden', 'Logout'] },
+  { id: 'chat', title: 'Chat', path: '/chat', description: 'Chat-System', category: 'Benutzer', package: 'basic', icon: '💬', features: ['Chat', 'Kommunikation'] },
+  { id: 'unauthorized', title: 'Zugriff verweigert', path: '/unauthorized', description: 'Seite für nicht autorisierte Zugriffe', category: 'Benutzer', package: 'free', icon: '🚫', features: ['Zugriff', 'Verweigert'] },
 
   // Human Design - Grundlagen
   { id: 'chart', title: 'Human Design Chart', path: '/chart', description: 'Persönliches Human Design Chart', category: 'Human Design', package: 'basic', icon: '🧬', features: ['Chart', 'Analyse', 'Typ'] },
@@ -204,12 +208,19 @@ export default function SeitenuebersichtPage() {
   const [selectedCategory, setSelectedCategory] = useState('Alle');
   const [selectedPackage, setSelectedPackage] = useState('Alle');
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // SSR-sichere Hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Kategorien extrahieren
   const categories = ['Alle', ...new Set(allPages.map(page => page.category))];
 
-  // Gefilterte Seiten
+  // Gefilterte Seiten (SSR-sicher)
   const filteredPages = useMemo(() => {
+    if (!isClient) return allPages; // Server-side: alle Seiten anzeigen
     return allPages.filter(page => {
       const matchesSearch = page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           page.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -220,10 +231,22 @@ export default function SeitenuebersichtPage() {
       
       return matchesSearch && matchesCategory && matchesPackage;
     });
-  }, [searchTerm, selectedCategory, selectedPackage]);
+  }, [searchTerm, selectedCategory, selectedPackage, isClient]);
 
-  // Nach Kategorien gruppieren
+  // Nach Kategorien gruppieren (SSR-sicher)
   const groupedPages = useMemo(() => {
+    if (!isClient) {
+      // Server-side: Standard-Gruppierung
+      const groups: { [key: string]: typeof allPages } = {};
+      allPages.forEach(page => {
+        if (!groups[page.category]) {
+          groups[page.category] = [];
+        }
+        groups[page.category].push(page);
+      });
+      return groups;
+    }
+    
     const groups: { [key: string]: typeof allPages } = {};
     filteredPages.forEach(page => {
       if (!groups[page.category]) {
@@ -232,7 +255,7 @@ export default function SeitenuebersichtPage() {
       groups[page.category].push(page);
     });
     return groups;
-  }, [filteredPages]);
+  }, [filteredPages, isClient]);
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => 
@@ -419,7 +442,7 @@ export default function SeitenuebersichtPage() {
         >
           <Grid container spacing={3} sx={{ mb: 4 }}>
             {Object.entries(packageInfo).map(([packageId, info]) => {
-              const count = allPages.filter(page => page.package === packageId).length;
+              const count = isClient ? allPages.filter(page => page.package === packageId).length : 0;
               return (
                 <Grid item xs={6} sm={4} md={2.4} key={packageId}>
                   <Card sx={{
@@ -439,7 +462,7 @@ export default function SeitenuebersichtPage() {
                       {info.icon}
                     </Box>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
-                      {count}
+                      {isClient ? count : '...'}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
                       {info.name}

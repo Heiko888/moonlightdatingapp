@@ -277,6 +277,7 @@ export default function MatchingPage() {
   );
 
   const handleMatchClick = (match: Match) => {
+    console.log('Match clicked:', match.name); // Debug-Log
     setSelectedMatch(match);
     setShowMatchDialog(true);
     // Simuliere das Laden von Nachrichten
@@ -621,7 +622,10 @@ export default function MatchingPage() {
                               background: 'rgba(255, 255, 255, 0.05)'
                             }
                           }}
-                          onClick={() => handleMatchClick(match)}
+                          onClick={(e) => {
+                            console.log('ListItem clicked for:', match.name); // Debug-Log
+                            handleMatchClick(match);
+                          }}
                         >
                           <ListItemAvatar>
                             <Badge
@@ -761,7 +765,15 @@ export default function MatchingPage() {
                             }
                           />
                           <ListItemSecondaryAction>
-                            <IconButton edge="end" sx={{ color: '#4ECDC4' }}>
+                            <IconButton 
+                              edge="end" 
+                              sx={{ color: '#4ECDC4' }}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Verhindere Event-Bubbling
+                                console.log('Arrow clicked for:', match.name); // Debug-Log
+                                handleMatchClick(match);
+                              }}
+                            >
                               <ChevronRight size={20} />
                             </IconButton>
                           </ListItemSecondaryAction>
