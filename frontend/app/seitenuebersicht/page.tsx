@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { useClientOnly } from '@/lib/hooks/useSSRSafe';
+import { SSRSafeExternalLink } from '@/components/SSRSafe';
 import { motion } from 'framer-motion';
 import {
   Box,
@@ -191,7 +193,24 @@ const allPages = [
 
   // Admin
   { id: 'admin', title: 'Admin Panel', path: '/admin', description: 'Administratives Panel', category: 'Admin', package: 'admin', icon: '⚙️', features: ['Admin', 'Verwaltung', 'System'] },
-  { id: 'admin-public', title: 'Admin Public', path: '/admin-public', description: 'Öffentliche Admin-Seite', category: 'Admin', package: 'admin', icon: '🌐', features: ['Admin', 'Öffentlich'] }
+  { id: 'admin-public', title: 'Admin Public', path: '/admin-public', description: 'Öffentliche Admin-Seite', category: 'Admin', package: 'admin', icon: '🌐', features: ['Admin', 'Öffentlich'] },
+
+  // Fehlende Seiten - Human Design Erweitert
+  { id: 'extended-analysis', title: 'Erweiterte Analyse', path: '/extended-analysis', description: 'Tiefgreifende Human Design Analyse', category: 'Human Design', package: 'premium', icon: '🔬', features: ['Erweiterte Analyse', 'Tiefe', 'Details'] },
+  { id: 'transits', title: 'Transits', path: '/transits', description: 'Planetare Transits und Einflüsse', category: 'Human Design', package: 'premium', icon: '🔄', features: ['Transits', 'Planeten', 'Einflüsse'] },
+  { id: 'relationships', title: 'Beziehungen', path: '/relationships', description: 'Synastry und karmische Verbindungen', category: 'Human Design', package: 'premium', icon: '💕', features: ['Synastry', 'Karmisch', 'Beziehungen'] },
+  { id: 'wellness', title: 'Wellness', path: '/wellness', description: 'Gesundheit und Wohlbefinden', category: 'Human Design', package: 'premium', icon: '🌿', features: ['Gesundheit', 'Wellness', 'PHS'] },
+  { id: 'business-career', title: 'Business & Karriere', path: '/business-career', description: 'Karriere und Business-Insights', category: 'Human Design', package: 'premium', icon: '💼', features: ['Karriere', 'Business', 'Erfolg'] },
+  { id: 'advanced-features', title: 'Erweiterte Features', path: '/advanced-features', description: 'Fortgeschrittene Human Design Features', category: 'Human Design', package: 'vip', icon: '🚀', features: ['Erweitert', 'Fortgeschritten', 'VIP'] },
+
+  // Fehlende Seiten - Tools & Features
+  { id: 'gamification', title: 'Gamification', path: '/gamification', description: 'Spielerische Elemente und Belohnungen', category: 'Tools', package: 'premium', icon: '🎮', features: ['Gamification', 'Belohnungen', 'Spielerisch'] },
+
+  // Fehlende Seiten - Dating & Social
+  { id: 'dating-chat', title: 'Dating Chat', path: '/dating/chat', description: 'Dating-Chat-System', category: 'Dating', package: 'premium', icon: '💬💕', features: ['Chat', 'Dating', 'Kommunikation'] },
+
+  // Fehlende Seiten - Coaching
+  { id: 'coaching-content', title: 'Coaching Content', path: '/coaching/CoachingContent', description: 'Coaching-Inhalte', category: 'Coaching', package: 'vip', icon: '📚', features: ['Content', 'Coaching', 'Materialien'] }
 ];
 
 // Paket-Informationen
@@ -208,11 +227,16 @@ export default function SeitenuebersichtPage() {
   const [selectedCategory, setSelectedCategory] = useState('Alle');
   const [selectedPackage, setSelectedPackage] = useState('Alle');
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useClientOnly();
 
-  // SSR-sichere Hydration
-  useEffect(() => {
-    setIsClient(true);
+  // Statische Berechnungen für SSR-Konsistenz
+  const totalPagesCount = allPages.length;
+  const packageCounts = useMemo(() => {
+    const counts: { [key: string]: number } = {};
+    Object.keys(packageInfo).forEach(packageId => {
+      counts[packageId] = allPages.filter(page => page.package === packageId).length;
+    });
+    return counts;
   }, []);
 
   // Kategorien extrahieren
@@ -220,7 +244,6 @@ export default function SeitenuebersichtPage() {
 
   // Gefilterte Seiten (SSR-sicher)
   const filteredPages = useMemo(() => {
-    if (!isClient) return allPages; // Server-side: alle Seiten anzeigen
     return allPages.filter(page => {
       const matchesSearch = page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           page.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -231,22 +254,10 @@ export default function SeitenuebersichtPage() {
       
       return matchesSearch && matchesCategory && matchesPackage;
     });
-  }, [searchTerm, selectedCategory, selectedPackage, isClient]);
+  }, [searchTerm, selectedCategory, selectedPackage]);
 
   // Nach Kategorien gruppieren (SSR-sicher)
   const groupedPages = useMemo(() => {
-    if (!isClient) {
-      // Server-side: Standard-Gruppierung
-      const groups: { [key: string]: typeof allPages } = {};
-      allPages.forEach(page => {
-        if (!groups[page.category]) {
-          groups[page.category] = [];
-        }
-        groups[page.category].push(page);
-      });
-      return groups;
-    }
-    
     const groups: { [key: string]: typeof allPages } = {};
     filteredPages.forEach(page => {
       if (!groups[page.category]) {
@@ -255,7 +266,7 @@ export default function SeitenuebersichtPage() {
       groups[page.category].push(page);
     });
     return groups;
-  }, [filteredPages, isClient]);
+  }, [filteredPages]);
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => 
@@ -442,7 +453,7 @@ export default function SeitenuebersichtPage() {
         >
           <Grid container spacing={3} sx={{ mb: 4 }}>
             {Object.entries(packageInfo).map(([packageId, info]) => {
-              const count = isClient ? allPages.filter(page => page.package === packageId).length : 0;
+              const count = packageCounts[packageId] || 0;
               return (
                 <Grid item xs={6} sm={4} md={2.4} key={packageId}>
                   <Card sx={{
@@ -462,7 +473,7 @@ export default function SeitenuebersichtPage() {
                       {info.icon}
                     </Box>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
-                      {isClient ? count : '...'}
+                      {count}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
                       {info.name}
@@ -591,13 +602,14 @@ export default function SeitenuebersichtPage() {
                                 </IconButton>
                               </Tooltip>
                               <Tooltip title="In neuem Tab öffnen">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => window.open(page.path, '_blank')}
-                                  sx={{ color: 'rgba(255,255,255,0.7)' }}
-                                >
-                                  <ExternalLink size={16} />
-                                </IconButton>
+                                <SSRSafeExternalLink href={page.path}>
+                                  <IconButton
+                                    size="small"
+                                    sx={{ color: 'rgba(255,255,255,0.7)' }}
+                                  >
+                                    <ExternalLink size={16} />
+                                  </IconButton>
+                                </SSRSafeExternalLink>
                               </Tooltip>
                             </Stack>
                           </Box>
@@ -626,7 +638,7 @@ export default function SeitenuebersichtPage() {
             mt: 4
           }}>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
-              📊 Gesamt: {allPages.length} Seiten | 🔍 Gefiltert: {filteredPages.length} Seiten
+              📊 Gesamt: {totalPagesCount} Seiten | 🔍 Gefiltert: {filteredPages.length} Seiten
             </Typography>
           </Box>
         </motion.div>

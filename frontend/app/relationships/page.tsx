@@ -285,10 +285,10 @@ export default function RelationshipsPage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #16213E 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
@@ -323,7 +323,7 @@ export default function RelationshipsPage() {
             <Typography 
               variant="h5" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'rgba(78, 205, 196, 0.9)', 
                 mb: 3,
                 fontSize: { xs: '1.1rem', md: '1.3rem' },
                 maxWidth: '600px',
@@ -359,18 +359,19 @@ export default function RelationshipsPage() {
 
         {/* Tabs */}
         <Card sx={{
-          background: 'rgba(255,255,255,0.05)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 3,
-          mb: 4
+          background: 'rgba(78, 205, 196, 0.03)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(78, 205, 196, 0.08)',
+          borderRadius: 4,
+          mb: 4,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
         }}>
           <Tabs 
             value={activeTab} 
             onChange={handleTabChange}
             sx={{
               '& .MuiTab-root': {
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(78, 205, 196, 0.7)',
                 fontWeight: 600,
                 '&.Mui-selected': {
                   color: '#FFD700'
@@ -395,7 +396,7 @@ export default function RelationshipsPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Typography variant="h5" sx={{ color: 'white', mb: 3 }}>
+            <Typography variant="h5" sx={{ color: '#4ECDC4', mb: 3, fontWeight: 600 }}>
               Synastry - Planeten-Aspekte
             </Typography>
             
@@ -408,15 +409,23 @@ export default function RelationshipsPage() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <Card sx={{
-                      background: `linear-gradient(135deg, rgba(${getAspectColor(aspect.aspect).slice(1)}, 0.1) 0%, rgba(${getAspectColor(aspect.aspect).slice(1)}, 0.05) 100%)`,
-                      border: `1px solid ${getAspectColor(aspect.aspect)}40`,
-                      borderRadius: 3,
+                      background: `linear-gradient(135deg, rgba(${getAspectColor(aspect.aspect).slice(1)}, 0.12) 0%, rgba(${getAspectColor(aspect.aspect).slice(1)}, 0.05) 100%)`,
+                      border: `1px solid ${getAspectColor(aspect.aspect)}50`,
+                      borderRadius: 4,
                       p: 3,
-                      height: '100%'
+                      height: '100%',
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: `0 4px 20px ${getAspectColor(aspect.aspect)}20`,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: `0 8px 30px ${getAspectColor(aspect.aspect)}30`,
+                        border: `1px solid ${getAspectColor(aspect.aspect)}70`
+                      }
                     }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Star size={24} color={getAspectColor(aspect.aspect)} />
-                        <Typography variant="h6" sx={{ color: 'white', ml: 1, fontWeight: 600 }}>
+                        <Typography variant="h6" sx={{ color: '#4ECDC4', ml: 1, fontWeight: 600 }}>
                           {aspect.planet1} - {aspect.planet2}
                         </Typography>
                         <Chip 
@@ -431,15 +440,15 @@ export default function RelationshipsPage() {
                         />
                       </Box>
                       
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                      <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.8)', mb: 2 }}>
                         Orb: {aspect.orb}° • {aspect.influence}
                       </Typography>
                       
-                      <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3 }}>
+                      <Typography variant="body1" sx={{ color: 'rgba(78, 205, 196, 0.9)', mb: 3 }}>
                         {aspect.description}
                       </Typography>
                       
-                      <Divider sx={{ my: 2, borderColor: 'rgba(255,255,255,0.1)' }} />
+                      <Divider sx={{ my: 2, borderColor: 'rgba(78, 205, 196, 0.1)' }} />
                       
                       <Typography variant="subtitle2" sx={{ color: getAspectColor(aspect.aspect), mb: 1 }}>
                         Empfehlungen:
@@ -453,7 +462,7 @@ export default function RelationshipsPage() {
                             <ListItemText 
                               primary={advice}
                               sx={{ 
-                                color: 'rgba(255,255,255,0.8)',
+                                color: 'rgba(78, 205, 196, 0.8)',
                                 '& .MuiListItemText-primary': {
                                   fontSize: '0.875rem'
                                 }
@@ -477,16 +486,18 @@ export default function RelationshipsPage() {
             transition={{ duration: 0.5 }}
           >
             <Card sx={{
-              background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(196, 69, 105, 0.05) 100%)',
-              border: '1px solid rgba(255, 107, 157, 0.3)',
-              borderRadius: 3,
-              p: 3
+              background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.08) 0%, rgba(196, 69, 105, 0.03) 100%)',
+              border: '1px solid rgba(255, 107, 157, 0.2)',
+              borderRadius: 4,
+              p: 3,
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
             }}>
               <Typography variant="h5" sx={{ color: '#ff6b9d', fontWeight: 700, mb: 3 }}>
                 Composite Chart
               </Typography>
               
-              <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6 }}>
+              <Typography variant="body1" sx={{ color: 'rgba(78, 205, 196, 0.9)', mb: 4, lineHeight: 1.6 }}>
                 {composite.purpose}
               </Typography>
               
@@ -503,7 +514,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={theme}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -522,7 +533,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={strength}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -541,7 +552,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={challenge}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -559,10 +570,12 @@ export default function RelationshipsPage() {
             transition={{ duration: 0.5 }}
           >
             <Card sx={{
-              background: `linear-gradient(135deg, rgba(${getKarmicTypeColor(karmic.type).slice(1)}, 0.1) 0%, rgba(${getKarmicTypeColor(karmic.type).slice(1)}, 0.05) 100%)`,
-              border: `1px solid ${getKarmicTypeColor(karmic.type)}40`,
-              borderRadius: 3,
-              p: 3
+              background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.08) 0%, rgba(78, 205, 196, 0.03) 100%)',
+              border: '1px solid rgba(78, 205, 196, 0.3)',
+              borderRadius: 4,
+              p: 3,
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                 <Heart size={32} color={getKarmicTypeColor(karmic.type)} />
@@ -571,7 +584,7 @@ export default function RelationshipsPage() {
                 </Typography>
               </Box>
               
-              <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6 }}>
+              <Typography variant="body1" sx={{ color: 'rgba(78, 205, 196, 0.9)', mb: 4, lineHeight: 1.6 }}>
                 {karmic.description}
               </Typography>
               
@@ -588,7 +601,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={lesson}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -599,10 +612,10 @@ export default function RelationshipsPage() {
                   <Typography variant="h6" sx={{ color: getKarmicTypeColor(karmic.type), mb: 2 }}>
                     Zweck
                   </Typography>
-                  <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                  <Typography variant="body1" sx={{ color: 'rgba(78, 205, 196, 0.8)', mb: 2 }}>
                     {karmic.purpose}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.6)' }}>
                     Dauer: {karmic.duration}
                   </Typography>
                 </Grid>
@@ -618,17 +631,19 @@ export default function RelationshipsPage() {
             transition={{ duration: 0.5 }}
           >
             <Card sx={{
-              background: 'linear-gradient(135deg, rgba(56, 178, 172, 0.1) 0%, rgba(20, 184, 166, 0.05) 100%)',
-              border: '1px solid rgba(56, 178, 172, 0.3)',
-              borderRadius: 3,
-              p: 3
+              background: 'linear-gradient(135deg, rgba(56, 178, 172, 0.08) 0%, rgba(20, 184, 166, 0.03) 100%)',
+              border: '1px solid rgba(56, 178, 172, 0.2)',
+              borderRadius: 4,
+              p: 3,
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
             }}>
               <Typography variant="h5" sx={{ color: '#38b2ac', fontWeight: 700, mb: 3 }}>
                 Familien-Dynamiken
               </Typography>
               
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h6" sx={{ color: 'white', mr: 2 }}>
+                <Typography variant="h6" sx={{ color: '#4ECDC4', mr: 2, fontWeight: 600 }}>
                   {family.relationship}
                 </Typography>
                 <Chip 
@@ -654,7 +669,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={dynamic}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -673,7 +688,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={challenge}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -692,7 +707,7 @@ export default function RelationshipsPage() {
                         </ListItemIcon>
                         <ListItemText 
                           primary={advice}
-                          sx={{ color: 'rgba(255,255,255,0.8)' }}
+                          sx={{ color: 'rgba(78, 205, 196, 0.8)' }}
                         />
                       </ListItem>
                     ))}
@@ -704,24 +719,67 @@ export default function RelationshipsPage() {
         )}
 
         {/* Dialog for adding new relationship */}
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle sx={{ color: 'white', background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
+        <Dialog 
+          open={openDialog} 
+          onClose={handleCloseDialog} 
+          maxWidth="sm" 
+          fullWidth
+          PaperProps={{
+            sx: {
+              background: 'linear-gradient(135deg, #1a1a2e, #16213e)',
+              borderRadius: 4,
+              border: '1px solid rgba(78, 205, 196, 0.1)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+            }
+          }}
+        >
+          <DialogTitle sx={{ 
+            color: '#4ECDC4', 
+            background: 'transparent',
+            fontWeight: 600,
+            fontSize: '1.25rem'
+          }}>
             Neue Beziehung analysieren
           </DialogTitle>
-          <DialogContent sx={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
+          <DialogContent sx={{ background: 'transparent' }}>
             <TextField
               fullWidth
               label="Person suchen"
               value={selectedPerson}
               onChange={(e) => setSelectedPerson(e.target.value)}
-              sx={{ mt: 2 }}
+              sx={{ 
+                mt: 2,
+                '& .MuiOutlinedInput-root': {
+                  background: 'rgba(78, 205, 196, 0.05)',
+                  borderRadius: 3,
+                  '& fieldset': {
+                    borderColor: 'rgba(78, 205, 196, 0.2)'
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#FFD700'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#FFD700'
+                  }
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(78, 205, 196, 0.7)'
+                }
+              }}
               InputProps={{
                 startAdornment: <Search size={20} style={{ marginRight: 8, color: '#FFD700' }} />
               }}
             />
           </DialogContent>
-          <DialogActions sx={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
-            <Button onClick={handleCloseDialog} sx={{ color: 'rgba(255,255,255,0.7)' }}>
+          <DialogActions sx={{ background: 'transparent', p: 3 }}>
+            <Button 
+              onClick={handleCloseDialog} 
+              sx={{ 
+                color: 'rgba(78, 205, 196, 0.7)',
+                fontWeight: 500
+              }}
+            >
               Abbrechen
             </Button>
             <Button 
@@ -729,7 +787,12 @@ export default function RelationshipsPage() {
               sx={{ 
                 background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: 'white',
-                fontWeight: 600
+                fontWeight: 600,
+                borderRadius: 3,
+                px: 3,
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #c44569, #ff6b9d)'
+                }
               }}
             >
               Analysieren

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useSSRSafeDate } from '@/lib/hooks/useSSRSafe';
 import { 
   Box, 
   Typography, 
@@ -279,8 +280,9 @@ export default function WellnessPage() {
     });
   };
 
+  const today = useSSRSafeDate();
+  
   const handleSaveTracking = () => {
-    const today = new Date().toISOString().split('T')[0];
     const newEntry: WellnessTracking = {
       ...newTracking as WellnessTracking,
       date: today

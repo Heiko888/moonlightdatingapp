@@ -121,6 +121,183 @@ export async function POST(request: NextRequest) {
 }
 
 async function getPHSDiet(userId: string): Promise<PHSDiet> {
+  try {
+    // Hole das Human Design Chart des Benutzers
+    const { data: chartData, error: chartError } = await supabase
+      .from('human_design_charts')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+
+    if (chartError || !chartData) {
+      logger.warn('Kein Human Design Chart gefunden für Benutzer:', userId);
+      return getDefaultPHSDiet();
+    }
+
+    // Berechne PHS basierend auf dem Chart
+    const phsType = calculatePHSType(chartData);
+    const phsDiet = getPHSDietByType(phsType);
+
+    // Speichere PHS-Daten in der Datenbank
+    const { error: saveError } = await supabase
+      .from('phs_analysis')
+      .upsert({
+        user_id: userId,
+        phs_type: phsType,
+        diet_data: phsDiet,
+        created_at: new Date().toISOString()
+      });
+
+    if (saveError) {
+      logger.error('Fehler beim Speichern der PHS-Analyse:', saveError);
+    }
+
+    return phsDiet;
+
+  } catch (error) {
+    logger.error('Fehler bei PHS-Berechnung:', error);
+    return getDefaultPHSDiet();
+  }
+}
+
+function calculatePHSType(chartData: any): string {
+  // PHS-Berechnung basierend auf definierten Zentren
+  const definedCenters = chartData.centers?.filter((center: any) => center.defined) || [];
+  
+  // PHS-Typ basierend auf definierten Zentren
+  if (definedCenters.some((center: any) => center.id === 'SPLEEN')) {
+    return 'Sensitive';
+  } else if (definedCenters.some((center: any) => center.id === 'SOLAR')) {
+    return 'Open';
+  } else if (definedCenters.some((center: any) => center.id === 'SACRAL')) {
+    return 'High Sound';
+  } else if (definedCenters.some((center: any) => center.id === 'ROOT')) {
+    return 'Low Sound';
+  } else {
+    return 'Sensitive'; // Default
+  }
+}
+
+function getPHSDietByType(phsType: string): PHSDiet {
+  const phsDiets: { [key: string]: PHSDiet } = {
+    'Sensitive': {
+      type: 'Sensitive',
+      foods: [
+        'Frische, lokale Zutaten',
+        'Bio-Gemüse und Obst',
+        'Nüsse und Samen',
+        'Vollkornprodukte',
+        'Pflanzliche Proteine',
+        'Fermentierte Lebensmittel'
+      ],
+      avoid: [
+        'Verarbeitete Lebensmittel',
+        'Künstliche Zusatzstoffe',
+        'Fast Food',
+        'Zuckerhaltige Getränke',
+        'Alkohol',
+        'Konservierungsstoffe'
+      ],
+      timing: 'Regelmäßige Mahlzeiten in ruhiger Atmosphäre',
+      environment: 'Ruhige, natürliche Umgebung ohne Ablenkungen',
+      benefits: [
+        'Verbesserte Verdauung',
+        'Höhere Energie',
+        'Besseres Wohlbefinden',
+        'Stärkere Intuition'
+      ],
+      recipes: [
+        'Quinoa-Bowl mit Gemüse',
+        'Grüner Smoothie',
+        'Mediterrane Salate',
+        'Gedämpftes Gemüse'
+      ]
+    },
+    'Open': {
+      type: 'Open',
+      foods: [
+        'Vielseitige Ernährung',
+        'Experimentelle Gerichte',
+        'Internationale Küche',
+        'Neue Geschmäcker',
+        'Saisonale Variationen'
+      ],
+      avoid: [
+        'Eintönige Ernährung',
+        'Rigide Diätpläne',
+        'Zu viele Regeln'
+      ],
+      timing: 'Flexible Essenszeiten',
+      environment: 'Abwechslungsreiche Umgebungen',
+      benefits: [
+        'Kulinarische Vielfalt',
+        'Offenheit für Neues',
+        'Flexibilität'
+      ],
+      recipes: [
+        'Fusion-Küche',
+        'Experimentelle Gerichte',
+        'Internationale Spezialitäten'
+      ]
+    },
+    'High Sound': {
+      type: 'High Sound',
+      foods: [
+        'Energiereiche Lebensmittel',
+        'Komplexe Kohlenhydrate',
+        'Proteinreiche Kost',
+        'Nährstoffdichte Nahrung'
+      ],
+      avoid: [
+        'Leere Kalorien',
+        'Einfache Kohlenhydrate',
+        'Nährstoffarme Lebensmittel'
+      ],
+      timing: 'Strukturierte Mahlzeiten',
+      environment: 'Energiegeladene Umgebung',
+      benefits: [
+        'Hohe Energie',
+        'Starke Verdauung',
+        'Ausdauer'
+      ],
+      recipes: [
+        'Power-Bowls',
+        'Energie-Smoothies',
+        'Proteinreiche Mahlzeiten'
+      ]
+    },
+    'Low Sound': {
+      type: 'Low Sound',
+      foods: [
+        'Einfache, reine Lebensmittel',
+        'Minimal verarbeitete Kost',
+        'Grundnahrungsmittel',
+        'Traditionelle Zubereitung'
+      ],
+      avoid: [
+        'Komplexe Gerichte',
+        'Zu viele Zutaten',
+        'Überverarbeitete Lebensmittel'
+      ],
+      timing: 'Einfache, regelmäßige Mahlzeiten',
+      environment: 'Ruhige, einfache Umgebung',
+      benefits: [
+        'Einfache Verdauung',
+        'Klarheit',
+        'Grundlegende Ernährung'
+      ],
+      recipes: [
+        'Einfache Suppen',
+        'Gedämpftes Gemüse',
+        'Basis-Rezepte'
+      ]
+    }
+  };
+
+  return phsDiets[phsType] || phsDiets['Sensitive'];
+}
+
+function getDefaultPHSDiet(): PHSDiet {
   return {
     type: 'Sensitive',
     foods: [
