@@ -390,7 +390,7 @@ export default function FriendsPage() {
             <Typography
               variant="h2"
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
