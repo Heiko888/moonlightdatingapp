@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Dokumentation
+    url: https://github.com/yourusername/HD_App_chart/wiki
+    about: Besuche unsere Dokumentation für Anleitungen und Informationen
+  - name: 💬 Diskussionen
+    url: https://github.com/yourusername/HD_App_chart/discussions
+    about: Stelle Fragen oder diskutiere mit der Community
+  - name: 🔒 Sicherheitsproblem melden
+    url: https://github.com/yourusername/HD_App_chart/security/advisories/new
+    about: Melde Sicherheitsprobleme vertraulich
+

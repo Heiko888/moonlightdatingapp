@@ -1,0 +1,105 @@
+# ===========================================
+# CODE OWNERS
+# ===========================================
+# Diese Datei definiert, wer für welche Teile des Codes verantwortlich ist.
+# Wenn ein Pull Request Dateien ändert, werden die entsprechenden Code Owners
+# automatisch als Reviewer hinzugefügt.
+
+# ===========================================
+# DEFAULT OWNER
+# ===========================================
+# Alle Dateien, die nicht explizit zugewiesen sind
+* @yourusername
+
+# ===========================================
+# FRONTEND
+# ===========================================
+# Frontend Application
+/frontend/ @yourusername
+/frontend/app/ @yourusername
+/frontend/components/ @yourusername
+/frontend/lib/ @yourusername
+/frontend/hooks/ @yourusername
+/frontend/styles/ @yourusername
+/frontend/types/ @yourusername
+
+# Frontend Configuration
+/frontend/next.config.js @yourusername
+/frontend/tsconfig.json @yourusername
+/frontend/package.json @yourusername
+/frontend/middleware.ts @yourusername
+
+# ===========================================
+# DOCKER & DEVOPS
+# ===========================================
+# Docker Configuration
+/frontend/Dockerfile @yourusername
+/frontend/Dockerfile.dev @yourusername
+docker-compose*.yml @yourusername
+
+# Nginx Configuration
+/nginx/ @yourusername
+
+# ===========================================
+# CI/CD & GITHUB
+# ===========================================
+# GitHub Actions
+/.github/workflows/ @yourusername
+/.github/ISSUE_TEMPLATE/ @yourusername
+/.github/pull_request_template.md @yourusername
+/.github/dependabot.yml @yourusername
+/.github/CODEOWNERS @yourusername
+
+# ===========================================
+# DEPLOYMENT
+# ===========================================
+# Deployment Scripts
+/deploy/ @yourusername
+/scripts/ @yourusername
+
+# ===========================================
+# MONITORING
+# ===========================================
+# Prometheus & Grafana
+/prometheus/ @yourusername
+/grafana/ @yourusername
+/alertmanager/ @yourusername
+prometheus.yml @yourusername
+grafana-cloud-config.yml @yourusername
+
+# ===========================================
+# KUBERNETES
+# ===========================================
+# Kubernetes Configuration
+/k8s/ @yourusername
+
+# ===========================================
+# DATABASE
+# ===========================================
+# Supabase & Database
+*.sql @yourusername
+/supabase-migration/ @yourusername
+
+# ===========================================
+# DOCUMENTATION
+# ===========================================
+# Documentation Files
+*.md @yourusername
+/docs/ @yourusername
+
+# ===========================================
+# SECURITY
+# ===========================================
+# Security-related Files
+SECURITY.md @yourusername
+.env*.template @yourusername
+env.*.template @yourusername
+
+# ===========================================
+# CONFIGURATION
+# ===========================================
+# Root Configuration Files
+package.json @yourusername
+.gitignore @yourusername
+README.md @yourusername
+

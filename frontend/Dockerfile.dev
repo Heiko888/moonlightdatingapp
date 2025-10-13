@@ -1,0 +1,27 @@
+# Development Dockerfile für Port 3005
+FROM node:20-bookworm-slim
+
+# Arbeitsverzeichnis
+WORKDIR /app
+
+# System-Dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Package files kopieren
+COPY package*.json ./
+
+# Dependencies installieren
+RUN npm ci
+
+# Alle Dateien kopieren
+COPY . .
+
+# Port 3005 exponieren
+EXPOSE 3005
+
+# Development-Server starten
+CMD ["npm", "run", "dev"]
+

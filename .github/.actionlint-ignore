@@ -1,0 +1,28 @@
+# ===========================================
+# GitHub Actions Linter Ignore File
+# ===========================================
+#
+# Diese Warnungen sind HARMLOS und können IGNORIERT werden!
+#
+# Warum?
+# - Der Linter kann Repository Secrets nicht sehen (by design)
+# - Secrets sind verschlüsselt und nur zur Laufzeit verfügbar
+# - Das ist ein Sicherheitsfeature, kein Bug!
+#
+# Was tun?
+# 1. Secrets in GitHub konfigurieren (siehe GITHUB-SECRETS-SETUP.md)
+# 2. Workflow testen
+# 3. Diese Warnungen ignorieren
+#
+# Mehr Infos:
+# - .github/LINTER-WARNINGS-ERKLAERUNG.md (detailliert)
+# - .github/QUICK-REFERENCE.md (schnelle Übersicht)
+# - .github/WORKFLOW-WARNINGS.md (alle Warnungen)
+#
+# ===========================================
+
+# Secrets sind in GitHub Repository Settings konfiguriert
+# und müssen nicht in der Workflow-Datei definiert werden
+.github/workflows/ci-cd.yml:69:37 Context access might be invalid: NEXT_PUBLIC_SUPABASE_URL
+.github/workflows/ci-cd.yml:70:42 Context access might be invalid: NEXT_PUBLIC_SUPABASE_ANON_KEY
+.github/workflows/ci-cd.yml:142:28 Context access might be invalid: SSH_PRIVATE_KEY

@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Frontend Development auf Port 3005
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      args:
+        - NODE_ENV=development
+    container_name: hd-app-frontend-dev-3005
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=development
+      - PORT=3005
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - NASA_API_KEY=${NASA_API_KEY}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    networks:
+      - dev-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx Reverse Proxy für Development
+  nginx-dev:
+    image: nginx:alpine
+    container_name: hd-app-nginx-dev-3005
+    ports:
+      - "8005:80"
+    volumes:
+      - ./nginx/nginx-dev-3005.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend-dev
+    restart: unless-stopped
+    networks:
+      - dev-network
+
+  # Redis für Caching (optional)
+  redis-dev:
+    image: redis:7-alpine
+    container_name: hd-app-redis-dev
+    ports:
+      - "6380:6379"
+    restart: unless-stopped
+    networks:
+      - dev-network
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-dev-data:/data
+
+networks:
+  dev-network:
+    driver: bridge
+
+volumes:
+  redis-dev-data:
+

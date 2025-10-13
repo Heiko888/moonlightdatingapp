@@ -15,11 +15,15 @@ receivers:
 - name: 'web.hook'
   email_configs:
   - to: 'admin@your-domain.com'
-    subject: 'HD App Alert: {{ .GroupLabels.alertname }}'
-    body: |
+    headers:
+      Subject: 'HD App Alert: {{ .GroupLabels.alertname }}'
+    html: |
+      <h2>HD App Alert</h2>
       {{ range .Alerts }}
-      Alert: {{ .Annotations.summary }}
-      Description: {{ .Annotations.description }}
+      <p><strong>Alert:</strong> {{ .Annotations.summary }}</p>
+      <p><strong>Description:</strong> {{ .Annotations.description }}</p>
+      <p><strong>Severity:</strong> {{ .Labels.severity }}</p>
+      <hr>
       {{ end }}
 
 inhibit_rules:

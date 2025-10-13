@@ -1,0 +1,99 @@
+name: ✨ Feature Request
+description: Schlage ein neues Feature vor
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für deinen Feature-Vorschlag! Bitte fülle die folgenden Felder aus.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: Welches Problem löst dieses Feature?
+      placeholder: Beschreibe das Problem oder die Motivation
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Vorgeschlagene Lösung
+      description: Wie sollte das Feature funktionieren?
+      placeholder: Beschreibe deine Lösung
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Lösungen
+      description: Hast du alternative Lösungen in Betracht gezogen?
+      placeholder: Beschreibe alternative Ansätze
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priorität
+      description: Wie wichtig ist dieses Feature?
+      options:
+        - Niedrig
+        - Mittel
+        - Hoch
+        - Kritisch
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Kategorie
+      description: Welche Kategorie betrifft das Feature?
+      options:
+        - Frontend / UI
+        - Backend / API
+        - Datenbank
+        - Docker / DevOps
+        - Monitoring
+        - Security
+        - Performance
+        - Dokumentation
+        - Andere
+    validations:
+      required: true
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups / Designs
+      description: Falls zutreffend, füge Mockups oder Designs hinzu
+      placeholder: Ziehe Bilder hierher
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzliche Informationen
+      description: Weitere relevante Informationen
+      placeholder: Weitere Kontext-Informationen
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checkliste
+      description: Bitte bestätige folgende Punkte
+      options:
+        - label: Ich habe nach ähnlichen Feature Requests gesucht
+          required: true
+        - label: Ich bin bereit, bei der Implementierung zu helfen
+          required: false
+

@@ -1,0 +1,108 @@
+name: 🐛 Bug Report
+description: Melde einen Bug oder ein Problem
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke, dass du einen Bug meldest! Bitte fülle die folgenden Felder aus.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung
+      description: Eine klare und präzise Beschreibung des Bugs
+      placeholder: Was ist das Problem?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritte zur Reproduktion
+      description: Schritte, um den Bug zu reproduzieren
+      placeholder: |
+        1. Gehe zu '...'
+        2. Klicke auf '...'
+        3. Scrolle nach unten zu '...'
+        4. Siehe Fehler
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartetes Verhalten
+      description: Was sollte passieren?
+      placeholder: Beschreibe das erwartete Verhalten
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tatsächliches Verhalten
+      description: Was passiert stattdessen?
+      placeholder: Beschreibe das tatsächliche Verhalten
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: In welchem Environment tritt der Bug auf?
+      options:
+        - Development (Port 3005)
+        - Docker-Dev (Port 3000)
+        - Staging (Port 3002)
+        - Production-Local (Port 3004)
+        - Production (Hetzner)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Welcher Browser wird verwendet?
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Andere
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Fehlermeldungen
+      description: Relevante Logs oder Fehlermeldungen
+      placeholder: Füge hier Logs oder Fehlermeldungen ein
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Falls zutreffend, füge Screenshots hinzu
+      placeholder: Ziehe Screenshots hierher
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzliche Informationen
+      description: Weitere relevante Informationen
+      placeholder: Weitere Kontext-Informationen
+    validations:
+      required: false
+

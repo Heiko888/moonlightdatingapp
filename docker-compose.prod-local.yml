@@ -1,0 +1,153 @@
+version: '3.8'
+
+services:
+  # Frontend Application (Production-Local)
+  frontend-prod-local:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    container_name: hd-app-frontend-prod-local
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NEXT_TELEMETRY_DISABLED=1
+      - NODE_OPTIONS=--max-old-space-size=3072
+      - TSC_COMPILE_ON_ERROR=true
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - NASA_API_KEY=${NASA_API_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+    depends_on:
+      - grafana-prod-local
+      - prometheus-prod-local
+      - redis-prod-local
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx Reverse Proxy (Production-Local)
+  nginx-prod-local:
+    image: nginx:alpine
+    container_name: hd-app-nginx-prod-local
+    ports:
+      - "8004:80"
+      - "8443:443"
+    volumes:
+      - ./nginx/nginx-prod-local.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend-prod-local
+      - grafana-prod-local
+      - prometheus-prod-local
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+
+  # Grafana Monitoring (Production-Local)
+  grafana-prod-local:
+    image: grafana/grafana:latest
+    container_name: hd-app-grafana-prod-local
+    ports:
+      - "3005:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-production123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3005
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana-prod-local-storage:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+
+  # Prometheus Metrics (Production-Local)
+  prometheus-prod-local:
+    image: prom/prometheus:latest
+    container_name: hd-app-prometheus-prod-local
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus:/etc/prometheus/rules:ro
+      - prometheus-prod-local-storage:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+
+  # Node Exporter for System Metrics (Production-Local)
+  node-exporter-prod-local:
+    image: prom/node-exporter:latest
+    container_name: hd-app-node-exporter-prod-local
+    ports:
+      - "9101:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+
+  # Alertmanager for Notifications (Production-Local)
+  alertmanager-prod-local:
+    image: prom/alertmanager:latest
+    container_name: hd-app-alertmanager-prod-local
+    ports:
+      - "9094:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-prod-local-storage:/alertmanager
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+
+  # Redis for Caching (Production-Local)
+  redis-prod-local:
+    image: redis:alpine
+    container_name: hd-app-redis-prod-local
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis-prod-local-storage:/data
+    restart: unless-stopped
+    networks:
+      - prod-local-network
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis123}
+
+networks:
+  prod-local-network:
+    driver: bridge
+
+volumes:
+  grafana-prod-local-storage:
+  prometheus-prod-local-storage:
+  alertmanager-prod-local-storage:
+  redis-prod-local-storage:
+

@@ -1,0 +1,134 @@
+name: Code Quality
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  # ===========================================
+  # CODE QUALITY CHECKS
+  # ===========================================
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run ESLint with Report
+        working-directory: ./frontend
+        run: |
+          npm run lint -- --format json --output-file eslint-report.json || true
+          npm run lint || true
+
+      - name: TypeScript Check
+        working-directory: ./frontend
+        run: npx tsc --noEmit --pretty
+
+      - name: Check for Console Logs
+        run: |
+          echo "Checking for console.log statements..."
+          if grep -r "console\.log" frontend/app frontend/components --include="*.tsx" --include="*.ts" | grep -v "// eslint-disable"; then
+            echo "⚠️ Warning: console.log statements found"
+            exit 0
+          else
+            echo "✅ No console.log statements found"
+          fi
+
+      - name: Check for TODO Comments
+        run: |
+          echo "Checking for TODO comments..."
+          if grep -r "TODO" frontend/app frontend/components --include="*.tsx" --include="*.ts"; then
+            echo "⚠️ Warning: TODO comments found"
+            exit 0
+          else
+            echo "✅ No TODO comments found"
+          fi
+
+  # ===========================================
+  # SECURITY SCAN
+  # ===========================================
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        working-directory: ./frontend
+        run: |
+          npm audit --audit-level=moderate || true
+          npm audit --json > audit-report.json || true
+
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: frontend/audit-report.json
+          retention-days: 30
+
+  # ===========================================
+  # DEPENDENCY CHECK
+  # ===========================================
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for outdated packages
+        working-directory: ./frontend
+        run: |
+          npm outdated || true
+          echo "✅ Dependency check completed"
+
+  # ===========================================
+  # CODE COVERAGE (optional)
+  # ===========================================
+  code-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    if: false  # Aktivieren wenn Tests vorhanden sind
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Run Tests with Coverage
+        working-directory: ./frontend
+        run: npm test -- --coverage || true
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: frontend/coverage
+          retention-days: 30
+
