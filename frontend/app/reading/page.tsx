@@ -53,6 +53,11 @@ const ReadingPage: React.FC = () => {
   const [newReadingQuestion, setNewReadingQuestion] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDatingType, setSelectedDatingType] = useState('');
+  const [newReadingBirthdate, setNewReadingBirthdate] = useState('');
+  const [newReadingBirthtime, setNewReadingBirthtime] = useState('');
+  const [newReadingBirthplace, setNewReadingBirthplace] = useState('');
+  const [newReadingEmail, setNewReadingEmail] = useState('');
+  const [newReadingPhone, setNewReadingPhone] = useState('');
 
   // Authentifizierung und Subscription prüfen
   useEffect(() => {
@@ -110,44 +115,79 @@ const ReadingPage: React.FC = () => {
   };
 
   const createNewReading = async () => {
-    if (!newReadingTitle || !newReadingQuestion) {
-      alert('Bitte fülle alle Felder aus!');
+    if (!newReadingTitle || !newReadingQuestion || !newReadingBirthdate || !newReadingBirthtime || !newReadingBirthplace || !newReadingEmail) {
+      alert('Bitte fülle alle Pflichtfelder aus!');
       return;
     }
 
+    setLoading(true);
     try {
-      // Erstelle Reading-Objekt
-      const newReading = {
-        id: Date.now().toString(),
-        title: newReadingTitle,
-        question: newReadingQuestion,
-        category: selectedCategory,
-        datingType: selectedDatingType,
-        content: generateReadingContent(selectedCategory, selectedDatingType, newReadingQuestion),
-        created_at: new Date().toISOString(),
-        status: 'completed'
-      };
+      // Hole User-ID
+      const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') || 'anonymous' : 'anonymous';
 
-      // SSR-sicherer localStorage Zugriff
-      let existingReadings = [];
+      // Sende Reading an Backend-API
+      const response = await fetch('/api/readings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          title: newReadingTitle,
+          question: newReadingQuestion,
+          category: selectedCategory,
+          datingType: selectedDatingType,
+          birthdate: newReadingBirthdate,
+          birthtime: newReadingBirthtime,
+          birthplace: newReadingBirthplace,
+          email: newReadingEmail,
+          phone: newReadingPhone
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Fehler beim Erstellen des Readings');
+      }
+
+      // Speichere auch lokal für Offline-Zugriff
       if (typeof window !== 'undefined') {
-        existingReadings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []);
-        existingReadings.push(newReading);
+        const existingReadings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []);
+        existingReadings.push(data.reading);
         localStorage.setItem('userReadings', JSON.stringify(existingReadings));
+        localStorage.setItem('currentReadingId', data.reading.id);
       }
 
       // Aktualisiere State
-      setReadings(existingReadings);
+      loadReadings();
       setNewReadingDialog(false);
+      
+      // Reset Form
       setNewReadingTitle('');
       setNewReadingQuestion('');
       setSelectedCategory('');
       setSelectedDatingType('');
+      setNewReadingBirthdate('');
+      setNewReadingBirthtime('');
+      setNewReadingBirthplace('');
+      setNewReadingEmail('');
+      setNewReadingPhone('');
 
-      alert('Reading erfolgreich erstellt!');
+      // Weiterleitung zur "Nächste Schritte"-Seite
+      console.log('Reading erfolgreich erstellt, leite weiter...');
+      
+      // Verwende window.location als Fallback für robustere Weiterleitung
+      if (typeof window !== 'undefined') {
+        window.location.href = '/reading/next-steps';
+      } else {
+        router.push('/reading/next-steps');
+      }
     } catch (error) {
       console.error('Fehler beim Erstellen des Readings:', error);
-      alert('Fehler beim Erstellen des Readings');
+      alert(error instanceof Error ? error.message : 'Fehler beim Erstellen des Readings');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -856,10 +896,21 @@ const ReadingPage: React.FC = () => {
                               </Typography>
                               <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
                                 <Chip
-                                  label={reading.status === 'completed' ? 'Abgeschlossen' : 'In Bearbeitung'}
+                                  label={
+                                    reading.status === 'pending' ? '⏳ Warte auf Termin' :
+                                    reading.status === 'zoom-scheduled' ? '📅 Termin vereinbart' :
+                                    reading.status === 'completed' ? '✅ Zoom abgeschlossen' :
+                                    reading.status === 'approved' ? '🎉 Freigegeben' :
+                                    'In Bearbeitung'
+                                  }
                                   size="small"
                                   sx={{
-                                    background: reading.status === 'completed' ? '#10b981' : '#f59e0b',
+                                    background: 
+                                      reading.status === 'pending' ? '#eab308' :
+                                      reading.status === 'zoom-scheduled' ? '#3b82f6' :
+                                      reading.status === 'completed' ? '#8b5cf6' :
+                                      reading.status === 'approved' ? '#10b981' :
+                                      '#f59e0b',
                                     color: 'white',
                                     fontWeight: 500
                                   }}
@@ -878,24 +929,53 @@ const ReadingPage: React.FC = () => {
                                   />
                                 )}
                               </Box>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                onClick={() => {
-                                  // Zeige Reading-Inhalt in einem Dialog
-                                  alert(reading.content || 'Kein Inhalt verfügbar');
-                                }}
-                                sx={{
-                                  borderColor: 'rgba(255,255,255,0.3)',
-                                  color: 'white',
-                                  '&:hover': {
-                                    borderColor: '#ff6b9d',
-                                    backgroundColor: 'rgba(255, 107, 157, 0.1)'
-                                  }
-                                }}
-                              >
-                                Reading anzeigen
-                              </Button>
+                              {reading.status === 'approved' ? (
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  onClick={() => {
+                                    // Download Reading als PDF
+                                    alert('PDF-Download wird implementiert. Reading ist freigegeben!');
+                                  }}
+                                  sx={{
+                                    background: 'linear-gradient(45deg, #10b981, #059669)',
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    '&:hover': {
+                                      background: 'linear-gradient(45deg, #059669, #047857)',
+                                    }
+                                  }}
+                                >
+                                  📥 PDF herunterladen
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="outlined"
+                                  size="small"
+                                  onClick={() => {
+                                    if (reading.status === 'pending') {
+                                      router.push('/reading/next-steps');
+                                    } else if (reading.status === 'zoom-scheduled') {
+                                      alert('Dein Zoom-Termin ist vereinbart. Du erhältst das PDF nach dem Reading und Coach-Freigabe.');
+                                    } else if (reading.status === 'completed') {
+                                      alert('Dein Zoom-Reading ist abgeschlossen. Der Coach bereitet gerade dein PDF vor. Du wirst benachrichtigt, sobald es verfügbar ist.');
+                                    }
+                                  }}
+                                  sx={{
+                                    borderColor: 'rgba(255,255,255,0.3)',
+                                    color: 'white',
+                                    '&:hover': {
+                                      borderColor: '#ff6b9d',
+                                      backgroundColor: 'rgba(255, 107, 157, 0.1)'
+                                    }
+                                  }}
+                                >
+                                  {reading.status === 'pending' ? '📋 Status anzeigen' :
+                                   reading.status === 'zoom-scheduled' ? '📅 Termin-Info' :
+                                   reading.status === 'completed' ? '⏳ In Bearbeitung' :
+                                   'Details anzeigen'}
+                                </Button>
+                              )}
                             </CardContent>
                           </Card>
                         </Grid>
@@ -1124,16 +1204,21 @@ const ReadingPage: React.FC = () => {
           Neues Reading erstellen
         </DialogTitle>
         <DialogContent>
+          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+            Bitte fülle alle Felder aus. Diese Informationen werden für dein persönliches Zoom-Reading mit unserem Coach benötigt.
+          </Typography>
+
           <TextField
             autoFocus
             margin="dense"
-            label="Titel des Readings"
+            label="Titel des Readings *"
             fullWidth
             variant="outlined"
             value={newReadingTitle}
             onChange={(e) => setNewReadingTitle(e.target.value)}
+            placeholder="z.B. Mein Human Design für Business"
             sx={{
-              mb: 3,
+              mb: 2,
               '& .MuiOutlinedInput-root': {
                 color: 'white',
                 '& fieldset': {
@@ -1158,7 +1243,7 @@ const ReadingPage: React.FC = () => {
           <TextField
             select
             margin="dense"
-            label="Kategorie"
+            label="Kategorie *"
             fullWidth
             variant="outlined"
             value={selectedCategory}
@@ -1349,7 +1434,7 @@ const ReadingPage: React.FC = () => {
 
           <TextField
             margin="dense"
-            label="Deine Frage oder dein Anliegen"
+            label="Deine Frage oder dein Anliegen *"
             fullWidth
             multiline
             rows={4}
@@ -1361,6 +1446,7 @@ const ReadingPage: React.FC = () => {
               "Beschreibe dein Anliegen oder deine Frage..."
             }
             sx={{
+              mb: 2,
               '& .MuiOutlinedInput-root': {
                 color: 'white',
                 '& fieldset': {
@@ -1381,6 +1467,189 @@ const ReadingPage: React.FC = () => {
               },
             }}
           />
+
+          <Typography variant="subtitle1" sx={{ color: '#ff6b9d', fontWeight: 600, mt: 3, mb: 2 }}>
+            📅 Geburtsdaten für dein Human Design Chart
+          </Typography>
+
+          <TextField
+            margin="dense"
+            label="Geburtsdatum *"
+            fullWidth
+            type="date"
+            variant="outlined"
+            value={newReadingBirthdate}
+            onChange={(e) => setNewReadingBirthdate(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255,255,255,0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#ff6b9d',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-focused': {
+                  color: '#ff6b9d',
+                },
+              },
+            }}
+          />
+
+          <TextField
+            margin="dense"
+            label="Geburtszeit *"
+            fullWidth
+            type="time"
+            variant="outlined"
+            value={newReadingBirthtime}
+            onChange={(e) => setNewReadingBirthtime(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            helperText="Die genaue Uhrzeit ist wichtig für dein Chart"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255,255,255,0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#ff6b9d',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-focused': {
+                  color: '#ff6b9d',
+                },
+              },
+              '& .MuiFormHelperText-root': {
+                color: 'rgba(255,255,255,0.5)',
+              },
+            }}
+          />
+
+          <TextField
+            margin="dense"
+            label="Geburtsort (Stadt, Land) *"
+            fullWidth
+            variant="outlined"
+            value={newReadingBirthplace}
+            onChange={(e) => setNewReadingBirthplace(e.target.value)}
+            placeholder="z.B. München, Deutschland"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255,255,255,0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#ff6b9d',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-focused': {
+                  color: '#ff6b9d',
+                },
+              },
+            }}
+          />
+
+          <Typography variant="subtitle1" sx={{ color: '#ff6b9d', fontWeight: 600, mt: 3, mb: 2 }}>
+            📞 Kontaktdaten für Zoom-Reading
+          </Typography>
+
+          <TextField
+            margin="dense"
+            label="E-Mail-Adresse *"
+            fullWidth
+            type="email"
+            variant="outlined"
+            value={newReadingEmail}
+            onChange={(e) => setNewReadingEmail(e.target.value)}
+            placeholder="deine@email.de"
+            helperText="Wir senden dir den Zoom-Link an diese E-Mail"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255,255,255,0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#ff6b9d',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-focused': {
+                  color: '#ff6b9d',
+                },
+              },
+              '& .MuiFormHelperText-root': {
+                color: 'rgba(255,255,255,0.5)',
+              },
+            }}
+          />
+
+          <TextField
+            margin="dense"
+            label="Telefonnummer (optional)"
+            fullWidth
+            type="tel"
+            variant="outlined"
+            value={newReadingPhone}
+            onChange={(e) => setNewReadingPhone(e.target.value)}
+            placeholder="+49 123 456789"
+            helperText="Für Rückfragen oder falls du per Telefon erreicht werden möchtest"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                color: 'white',
+                '& fieldset': {
+                  borderColor: 'rgba(255,255,255,0.3)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(255,255,255,0.5)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#ff6b9d',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-focused': {
+                  color: '#ff6b9d',
+                },
+              },
+              '& .MuiFormHelperText-root': {
+                color: 'rgba(255,255,255,0.5)',
+              },
+            }}
+          />
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
           <Button
@@ -1394,12 +1663,14 @@ const ReadingPage: React.FC = () => {
             variant="contained"
             sx={{
               background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
+              fontWeight: 600,
+              px: 3,
               '&:hover': {
                 background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
               }
             }}
           >
-            Reading erstellen
+            Anfrage abschicken →
           </Button>
         </DialogActions>
       </Dialog>
