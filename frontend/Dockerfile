@@ -16,8 +16,17 @@ RUN --mount=type=cache,target=/root/.npm npm run build
 FROM node:20-bookworm-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=builder /app ./
+
+# Kopiere standalone server
+COPY --from=builder /app/.next/standalone ./
+
+# Kopiere public files
+COPY --from=builder /app/public ./public
+
+# ⚠️ KRITISCH: Kopiere static files (wird bei standalone nicht automatisch gemacht!)
+COPY --from=builder /app/.next/static ./.next/static
+
 RUN useradd -m nextjs && chown -R nextjs:nextjs /app
 USER nextjs
 EXPOSE 3000
-CMD ["node", ".next/standalone/server.js"]
+CMD ["node", "server.js"]
