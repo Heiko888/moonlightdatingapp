@@ -13,6 +13,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import AccessControl from '../../components/AccessControl';
+import SocialShare from '@/components/SocialShare';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt';
 
@@ -134,7 +135,18 @@ export default function ChartPage() {
       }}>
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
-          <Box textAlign="center" mb={6}>
+          <Box textAlign="center" mb={6} sx={{ position: 'relative' }}>
+            {/* Social Share Button - Fixed Position */}
+            <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+              <SocialShare
+                title="Mein Human Design Chart"
+                description="Schau dir mein Human Design Chart an und entdecke dein eigenes!"
+                type="chart"
+                onShare={(platform) => {
+                  console.log(`Chart geteilt auf ${platform}`);
+                }}
+              />
+            </Box>
             <Typography 
               variant="h2" 
               sx={{ 

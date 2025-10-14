@@ -32,6 +32,7 @@ import {
   Info
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SocialShare from '@/components/SocialShare';
 
 interface Transit {
   planet: string;
@@ -280,18 +281,30 @@ export default function TransitsPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3, position: 'relative', zIndex: 2 }}>
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Box sx={{ 
-            textAlign: 'center', 
-            mb: 6,
-            py: { xs: 4, md: 6 }
-          }}>
+        <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3, position: 'relative', zIndex: 2 }}>
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Box sx={{ 
+              textAlign: 'center', 
+              mb: 6,
+              py: { xs: 4, md: 6 },
+              position: 'relative'
+            }}>
+              {/* Social Share Button */}
+              <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+                <SocialShare
+                  title="Aktuelle Transite & Kosmisches Timing"
+                  description="Schau dir die aktuellen planetaren Transits und ihre Bedeutung an!"
+                  type="transit"
+                  onShare={(platform) => {
+                    console.log(`Transits geteilt auf ${platform}`);
+                  }}
+                />
+              </Box>
             <Typography
               variant="h2"
               sx={{
@@ -325,6 +338,7 @@ export default function TransitsPage() {
 
         {/* Tabs */}
         <Card sx={{
+          backgroundColor: 'transparent !important',
           background: 'rgba(255,255,255,0.05)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255,255,255,0.1)',
@@ -338,6 +352,8 @@ export default function TransitsPage() {
               '& .MuiTab-root': {
                 color: 'rgba(255,255,255,0.7)',
                 fontWeight: 600,
+                minWidth: 180,
+                px: 4,
                 '&.Mui-selected': {
                   color: '#FFD700'
                 }
@@ -373,11 +389,13 @@ export default function TransitsPage() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <Card sx={{
+                      backgroundColor: 'rgba(30, 35, 60, 0.6) !important',
                       background: `linear-gradient(135deg, rgba(${getIntensityColor(transit.intensity).slice(1)}, 0.1) 0%, rgba(${getIntensityColor(transit.intensity).slice(1)}, 0.05) 100%)`,
                       border: `1px solid ${getIntensityColor(transit.intensity)}40`,
                       borderRadius: 3,
                       p: 3,
-                      height: '100%'
+                      height: '100%',
+                      color: '#FFD700'
                     }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         <Star size={24} color={getIntensityColor(transit.intensity)} />
@@ -442,10 +460,12 @@ export default function TransitsPage() {
             transition={{ duration: 0.5 }}
           >
             <Card sx={{
+              backgroundColor: 'rgba(30, 35, 60, 0.6) !important',
               background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%)',
               border: '1px solid rgba(255, 215, 0, 0.3)',
               borderRadius: 3,
-              p: 3
+              p: 3,
+              color: '#FFD700'
             }}>
               <Typography variant="h5" sx={{ color: '#FFD700', fontWeight: 700, mb: 3 }}>
                 Solar Return {solarReturn.year}
@@ -536,6 +556,7 @@ export default function TransitsPage() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <Card sx={{
+                      backgroundColor: 'rgba(30, 35, 60, 0.6) !important',
                       background: eclipse.type === 'solar' 
                         ? 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%)'
                         : 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%)',
@@ -543,7 +564,8 @@ export default function TransitsPage() {
                         ? '1px solid rgba(255, 215, 0, 0.3)'
                         : '1px solid rgba(139, 92, 246, 0.3)',
                       borderRadius: 3,
-                      p: 3
+                      p: 3,
+                      color: '#FFD700'
                     }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                         {eclipse.type === 'solar' ? <Sun size={24} /> : <Moon size={24} />}

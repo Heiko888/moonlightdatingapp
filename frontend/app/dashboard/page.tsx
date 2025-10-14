@@ -33,6 +33,8 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import EnhancedChartVisuals from '@/components/EnhancedChartVisuals';
 import SeitenuebersichtWidget from '@/components/SeitenuebersichtWidget';
+import ReferralWidget from '@/components/ReferralWidget';
+import SocialShare from '@/components/SocialShare';
 
 interface DashboardStats {
   moonEntries: number;
@@ -781,7 +783,18 @@ const DashboardPage: React.FC = () => {
                 />
               </Box>
               
-              <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+                {/* Social Share Button */}
+                <SocialShare
+                  title={`Mein Human Design: ${chartData.type} ${chartData.profile}`}
+                  description={`Ich bin ein ${chartData.type} mit ${chartData.authority} Autorität. Entdecke dein eigenes Human Design!`}
+                  chartData={chartData}
+                  type="chart"
+                  onShare={(platform) => {
+                    console.log(`Chart geteilt auf ${platform}`);
+                  }}
+                />
+                
                 <Button
                   variant="outlined"
                   startIcon={<Eye size={16} />}
@@ -1436,6 +1449,11 @@ const DashboardPage: React.FC = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Referral Widget */}
+        <Box sx={{ mb: 3 }}>
+          <ReferralWidget />
+        </Box>
 
         {/* Profile & Settings Section */}
         <Card sx={{ 
