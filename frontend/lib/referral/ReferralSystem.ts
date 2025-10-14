@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client';
+import { supabase as supabaseClient } from '@/lib/supabase/client';
 
 export interface ReferralCode {
   code: string;
@@ -17,7 +17,7 @@ export interface ReferralStats {
 }
 
 export class ReferralSystem {
-  private supabase = createClient();
+  private supabase = supabaseClient;
 
   /**
    * Generate a unique referral code for a user
