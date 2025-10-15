@@ -298,15 +298,10 @@ export default function PackageDetailPage() {
         
         if (subscriptionData) {
           const subscription = JSON.parse(subscriptionData);
-          console.log('Geladene Subscription:', subscription);
-          console.log('Aktuelles Paket ID:', packageData.id);
-          console.log('Ist gleich?', subscription.packageId === packageData.id);
           setUserSubscription(subscription);
-        } else {
-          console.log('Keine Subscription gefunden in localStorage');
         }
       } catch (error) {
-        console.error('Fehler beim Laden des Abonnements:', error);
+        // Fehler beim Laden des Abonnements
       }
     };
     loadUserSubscription();
@@ -322,14 +317,9 @@ export default function PackageDetailPage() {
       const userId = localStorage.getItem('userId');
       let userData = localStorage.getItem('userData');
       
-      console.log('Login-Check:', { token: !!token, userId: !!userId, userData: !!userData });
-      
       // Wenn bereits eine Subscription existiert, ist User definitiv eingeloggt
-      if (userSubscription) {
-        console.log('User ist eingeloggt (hat Subscription)');
-      } else if (!token && !userId && !userData) {
+      if (!userSubscription && !token && !userId && !userData) {
         // Kein Login gefunden
-        console.error('Kein Login gefunden - leite zu Register');
         alert('⚠️ Bitte melde dich zuerst an!');
         router.push('/login');
         return;
@@ -342,7 +332,7 @@ export default function PackageDetailPage() {
           const user = JSON.parse(userData);
           userIdValue = user.id;
         } catch (e) {
-          console.error('Fehler beim Parsen von userData', e);
+          // Fehler beim Parsen von userData
         }
       }
       if (!userIdValue && userSubscription) {
@@ -351,8 +341,6 @@ export default function PackageDetailPage() {
       if (!userIdValue) {
         userIdValue = 'user-' + Date.now(); // Fallback mit Timestamp
       }
-      
-      console.log('User ID:', userIdValue);
       
       // Erstelle neue Subscription
       const newSubscription = {
@@ -379,7 +367,6 @@ export default function PackageDetailPage() {
       router.push('/dashboard');
       
     } catch (error) {
-      console.error('Fehler beim Paketwechsel:', error);
       alert('Fehler beim Paketwechsel. Bitte versuchen Sie es erneut.');
     }
   };

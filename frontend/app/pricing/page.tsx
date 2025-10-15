@@ -47,7 +47,6 @@ export default function PricingPage() {
         setUserSubscription(null);
       }
     } catch (error) {
-      console.error('Fehler beim Laden des Abonnements:', error);
       setUserSubscription(null);
     } finally {
       setIsLoading(false);
@@ -62,26 +61,15 @@ export default function PricingPage() {
       let userData = localStorage.getItem('userData');
       const storedSubscription = localStorage.getItem('userSubscription') || localStorage.getItem('user-subscription');
       
-      console.log('Login-Check (Pricing):', { 
-        token: !!token, 
-        userId: !!userId, 
-        userData: !!userData, 
-        userSubscription: !!userSubscription,
-        storedSubscription: !!storedSubscription
-      });
-      
       // User ist eingeloggt wenn mindestens EINE dieser Bedingungen erfüllt ist
       const isLoggedIn = !!(userSubscription || storedSubscription || token || userId || userData);
       
       if (!isLoggedIn) {
         // Kein Login gefunden
-        console.error('Kein Login gefunden - leite zu Login');
         alert('⚠️ Bitte melde dich zuerst an!');
         router.push('/login');
         return;
       }
-      
-      console.log('✅ User ist eingeloggt');
 
       // Hole User ID
       let userIdValue = userId;
@@ -90,7 +78,7 @@ export default function PricingPage() {
           const user = JSON.parse(userData);
           userIdValue = user.id;
         } catch (e) {
-          console.error('Fehler beim Parsen von userData', e);
+          // Fehler beim Parsen von userData
         }
       }
       if (!userIdValue && userSubscription) {
@@ -99,8 +87,6 @@ export default function PricingPage() {
       if (!userIdValue) {
         userIdValue = 'user-' + Date.now();
       }
-      
-      console.log('User ID:', userIdValue);
       
       const newSubscription = {
         userId: userIdValue,
@@ -126,7 +112,6 @@ export default function PricingPage() {
       router.push('/dashboard');
       
     } catch (error) {
-      console.error('Fehler beim Auswählen des Pakets:', error);
       alert('Fehler beim Paketwechsel. Bitte versuchen Sie es erneut.');
     }
   };
