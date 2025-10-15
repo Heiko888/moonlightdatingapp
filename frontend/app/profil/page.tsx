@@ -147,28 +147,25 @@ function ProfilContent() {
         return;
       }
 
-      // Temporärer Fix - apiService entfernt
-      // const userData = await apiService.getUserProfile(userId);
-      // Temporärer Fix - Mock-Daten verwenden
-      const userData = {
-        data: {
-          firstName: 'Max',
-          lastName: 'Mustermann',
-          email: 'max@example.com',
-          phone: '+49 123 456789',
-          location: 'Berlin, Deutschland',
-          birthDate: '1990-01-01',
-          birthTime: '12:00',
-          birthPlace: 'Berlin',
-          bio: 'Human Design Enthusiast',
-          interests: ['Astrologie', 'Meditation', 'Yoga'],
-          website: 'https://max-mustermann.de',
-          hdType: 'Generator',
-          hdProfile: '1/3',
-          hdStrategy: 'Warten auf die Antwort',
-          hdAuthority: 'Sakral'
+      // Lade echte Daten aus localStorage
+      const storedUserData = localStorage.getItem('userData');
+      let userData = null;
+      
+      if (storedUserData) {
+        try {
+          const parsedData = JSON.parse(storedUserData);
+          userData = { data: parsedData };
+        } catch (e) {
+          console.error('Fehler beim Parsen von userData:', e);
         }
-      };
+      }
+      
+      // Wenn keine Daten vorhanden, Fallback auf Test-Daten
+      if (!userData) {
+        await loadTestData();
+        setLocalLoading(false);
+        return;
+      }
       
       if (userData) {
         
@@ -361,13 +358,37 @@ function ProfilContent() {
       const response = { success: true, data: updateData };
 
       if (response.success) {
-        const updatedUser = response.data;
-        console.log('Profil erfolgreich aktualisiert:', updatedUser);
+        console.log('Profil erfolgreich aktualisiert:', response.data);
         
         // Aktualisiere lokalen State
         setProfile(formData);
+        
+        // Speichere auch in localStorage
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+          try {
+            const userData = JSON.parse(storedUserData);
+            const nameParts = formData.name.split(' ');
+            userData.firstName = nameParts[0] || '';
+            userData.lastName = nameParts.slice(1).join(' ') || '';
+            userData.email = formData.email;
+            userData.phone = formData.phone;
+            userData.location = formData.location;
+            userData.birthDate = formData.birthDate;
+            userData.birthTime = formData.birthTime;
+            userData.birthPlace = formData.birthPlace;
+            userData.bio = formData.bio;
+            userData.website = formData.website;
+            userData.profileImage = profileImage || imagePreview;
+            
+            localStorage.setItem('userData', JSON.stringify(userData));
+          } catch (e) {
+            console.error('Fehler beim Speichern in localStorage:', e);
+          }
+        }
+        
         setIsEditing(false);
-        setMessage('Profil erfolgreich aktualisiert!');
+        setMessage('✅ Profil erfolgreich aktualisiert!');
         setTimeout(() => setMessage(''), 3000);
       } else {
         setMessage('Fehler beim Speichern des Profils');
@@ -407,6 +428,19 @@ function ProfilContent() {
     const savedImage = localStorage.getItem('profileImage');
     if (savedImage) {
       setProfileImage(savedImage);
+    }
+    
+    // Lade auch Profildaten für Bio etc.
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      try {
+        const parsedData = JSON.parse(storedUserData);
+        if (parsedData.profileImage) {
+          setProfileImage(parsedData.profileImage);
+        }
+      } catch (e) {
+        console.error('Fehler beim Laden der Profildaten:', e);
+      }
     }
   }, []);
 
