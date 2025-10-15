@@ -106,10 +106,6 @@ async function calculateExtendedAnalysis(birthData: any): Promise<ExtendedAnalys
 
   // Variable Berechnung
   const variable = {
-    environment: "Caves",
-    motivation: "Hope",
-    perspective: "Individual",
-    mind: "Active",
     description: "Du brauchst einen ruhigen, geschützten Raum, um deine individuellen Ideen zu entwickeln und anderen Hoffnung zu geben.",
     environment: "Caves - Du brauchst einen geschützten, ruhigen Raum für tiefes Denken und Kreativität.",
     motivation: "Hope - Du motivierst andere durch deine Vision und Hoffnung für die Zukunft.",

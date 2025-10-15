@@ -9,13 +9,15 @@ interface UnifiedPageLayoutProps {
   subtitle?: string;
   children: React.ReactNode;
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  showStars?: boolean;
 }
 
 const UnifiedPageLayout: React.FC<UnifiedPageLayoutProps> = ({
   title,
   subtitle,
   children,
-  maxWidth = 'lg'
+  maxWidth = 'lg',
+  showStars = false
 }) => {
   return (
     <Box

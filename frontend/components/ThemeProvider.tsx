@@ -17,20 +17,10 @@ export const useTheme = () => {
   return context;
 };
 
-// Dark Theme - Pink/Teal Dating Design
+// Dark Theme - Neutral Base
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    primary: {
-      main: '#ff6b9d',
-      light: '#ff8fb3',
-      dark: '#c44569',
-    },
-    secondary: {
-      main: '#4ecdc4',
-      light: '#7eddd6',
-      dark: '#3dbdb3',
-    },
     background: {
       default: '#0F0F23',
       paper: 'rgba(255, 255, 255, 0.05)',
@@ -49,10 +39,6 @@ const darkTheme = createTheme({
     h1: {
       fontWeight: 800,
       fontSize: '2.5rem',
-      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-      backgroundClip: 'text',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
     },
     h2: {
       fontWeight: 700,
@@ -88,12 +74,6 @@ const darkTheme = createTheme({
           textTransform: 'none',
           fontWeight: 600,
         },
-        contained: {
-          background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
-          '&:hover': {
-            background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
-          },
-        },
       },
     },
     MuiCard: {
@@ -110,20 +90,10 @@ const darkTheme = createTheme({
   },
 });
 
-// Light Theme - Pink/Teal Dating Design
+// Light Theme - Neutral Base
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: {
-      main: '#ff6b9d',
-      light: '#ff8fb3',
-      dark: '#c44569',
-    },
-    secondary: {
-      main: '#4ecdc4',
-      light: '#7eddd6',
-      dark: '#3dbdb3',
-    },
     background: {
       default: '#F8FAFC',
       paper: '#FFFFFF',
@@ -142,10 +112,6 @@ const lightTheme = createTheme({
     h1: {
       fontWeight: 800,
       fontSize: '2.5rem',
-      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-      backgroundClip: 'text',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
     },
     h2: {
       fontWeight: 700,
@@ -179,12 +145,6 @@ const lightTheme = createTheme({
           borderRadius: '12px',
           textTransform: 'none',
           fontWeight: 600,
-        },
-        contained: {
-          background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
-          '&:hover': {
-            background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
-          },
         },
       },
     },

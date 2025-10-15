@@ -26,9 +26,12 @@ import {
 } from '@mui/material';
 import {
   MenuBook,
-  ArrowForward
+  ArrowForward,
+  CompareArrows,
+  PersonAdd
 } from '@mui/icons-material';
 import AccessControl from '../../components/AccessControl';
+import ChartComparisonModal from '../../components/ChartComparisonModal';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { safeJsonParse } from '@/lib/supabase/client';
@@ -58,6 +61,13 @@ const ReadingPage: React.FC = () => {
   const [newReadingBirthplace, setNewReadingBirthplace] = useState('');
   const [newReadingEmail, setNewReadingEmail] = useState('');
   const [newReadingPhone, setNewReadingPhone] = useState('');
+  
+  // Chartvergleich States
+  const [showComparisonModal, setShowComparisonModal] = useState(false);
+  const [chart1Data, setChart1Data] = useState<any>(null);
+  const [chart2Data, setChart2Data] = useState<any>(null);
+  const [selectedChart1, setSelectedChart1] = useState('');
+  const [selectedChart2, setSelectedChart2] = useState('');
 
   // Authentifizierung und Subscription prüfen
   useEffect(() => {
@@ -779,7 +789,7 @@ const ReadingPage: React.FC = () => {
               textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
             }}
           >
-            📖 Dein persönliches Reading
+            the Connection Code - Deine Resonanzanalyse
           </Typography>
           <Typography 
             variant="h5" 
@@ -833,6 +843,7 @@ const ReadingPage: React.FC = () => {
               <Tab label="📚 Meine Readings" />
               <Tab label="✨ Neues Reading" />
               <Tab label="🎯 Empfehlungen" />
+              <Tab label="🔄 Chartvergleich" />
             </Tabs>
 
             <Box sx={{ p: 4 }}>
@@ -1179,6 +1190,314 @@ const ReadingPage: React.FC = () => {
                       </Card>
                     </Grid>
                   </Grid>
+                </Box>
+              )}
+
+              {activeTab === 3 && (
+                <Box>
+                  <Box sx={{ textAlign: 'center', mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
+                      🔄 Chartvergleich - Deine Resonanzanalyse
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
+                      Vergleiche zwei Human Design Charts und entdecke die energetischen Verbindungen
+                    </Typography>
+                  </Box>
+
+                  <Grid container spacing={3}>
+                    {/* Chart 1 Selection */}
+                    <Grid item xs={12} md={6}>
+                      <Card sx={{ 
+                        background: 'rgba(255,255,255,0.05)', 
+                        border: '2px solid rgba(255, 107, 157, 0.3)',
+                        borderRadius: 3,
+                        p: 3
+                      }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                          <PersonAdd sx={{ fontSize: 40, color: '#ff6b9d', mr: 2 }} />
+                          <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                            Chart 1 (Du)
+                          </Typography>
+                        </Box>
+                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+                          Dein eigenes Chart wird automatisch verwendet
+                        </Typography>
+                        <Box sx={{
+                          p: 3,
+                          background: 'rgba(255, 107, 157, 0.1)',
+                          borderRadius: 2,
+                          border: '1px solid rgba(255, 107, 157, 0.3)'
+                        }}>
+                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                            <strong>Typ:</strong> Generator
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                            <strong>Profil:</strong> 2/4
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                            <strong>Autorität:</strong> Sakral
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'white' }}>
+                            <strong>Strategie:</strong> Warten und Reagieren
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </Grid>
+
+                    {/* Chart 2 Selection */}
+                    <Grid item xs={12} md={6}>
+                      <Card sx={{ 
+                        background: 'rgba(255,255,255,0.05)', 
+                        border: '2px solid rgba(78, 205, 196, 0.3)',
+                        borderRadius: 3,
+                        p: 3
+                      }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                          <PersonAdd sx={{ fontSize: 40, color: '#4ecdc4', mr: 2 }} />
+                          <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                            Chart 2 (Partner)
+                          </Typography>
+                        </Box>
+                        <TextField
+                          fullWidth
+                          select
+                          label="Wähle ein Chart zum Vergleich"
+                          value={selectedChart2}
+                          onChange={(e) => setSelectedChart2(e.target.value)}
+                          sx={{
+                            mb: 2,
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' },
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: '#4ecdc4' },
+                              '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                            }
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>Wähle ein Profil...</em>
+                          </MenuItem>
+                          <MenuItem value="partner1">Sarah - Manifestor</MenuItem>
+                          <MenuItem value="partner2">Michael - Projektor</MenuItem>
+                          <MenuItem value="partner3">Emma - Generator</MenuItem>
+                          <MenuItem value="custom">Eigenes Chart eingeben</MenuItem>
+                        </TextField>
+
+                        {selectedChart2 === 'partner1' && (
+                          <Box sx={{
+                            p: 3,
+                            background: 'rgba(78, 205, 196, 0.1)',
+                            borderRadius: 2,
+                            border: '1px solid rgba(78, 205, 196, 0.3)'
+                          }}>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Typ:</strong> Manifestor
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Profil:</strong> 1/3
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Autorität:</strong> Emotional
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              <strong>Strategie:</strong> Informieren
+                            </Typography>
+                          </Box>
+                        )}
+
+                        {selectedChart2 === 'partner2' && (
+                          <Box sx={{
+                            p: 3,
+                            background: 'rgba(78, 205, 196, 0.1)',
+                            borderRadius: 2,
+                            border: '1px solid rgba(78, 205, 196, 0.3)'
+                          }}>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Typ:</strong> Projektor
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Profil:</strong> 2/5
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Autorität:</strong> Milz
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              <strong>Strategie:</strong> Warten auf Einladung
+                            </Typography>
+                          </Box>
+                        )}
+
+                        {selectedChart2 === 'partner3' && (
+                          <Box sx={{
+                            p: 3,
+                            background: 'rgba(78, 205, 196, 0.1)',
+                            borderRadius: 2,
+                            border: '1px solid rgba(78, 205, 196, 0.3)'
+                          }}>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Typ:</strong> Generator
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Profil:</strong> 3/5
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                              <strong>Autorität:</strong> Sakral
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              <strong>Strategie:</strong> Warten und Reagieren
+                            </Typography>
+                          </Box>
+                        )}
+                      </Card>
+                    </Grid>
+                  </Grid>
+
+                  {/* Compare Button */}
+                  <Box sx={{ textAlign: 'center', mt: 4 }}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      startIcon={<CompareArrows />}
+                      onClick={() => {
+                        // Set demo chart data
+                        setChart1Data({
+                          hdType: 'Generator',
+                          profile: '2/4',
+                          authority: 'Sakral',
+                          strategy: 'Warten und Reagieren',
+                          gates: [
+                            { id: '1', active: true, name: 'Tor 1' },
+                            { id: '8', active: true, name: 'Tor 8' },
+                            { id: '13', active: true, name: 'Tor 13' }
+                          ],
+                          channels: [
+                            { id: '1-8', active: true, name: 'Kanal 1-8' }
+                          ],
+                          centers: [
+                            { id: 'sacral', active: true, name: 'Sakral' },
+                            { id: 'throat', active: true, name: 'Kehle' }
+                          ]
+                        });
+                        
+                        setChart2Data({
+                          hdType: selectedChart2 === 'partner1' ? 'Manifestor' : selectedChart2 === 'partner2' ? 'Projektor' : 'Generator',
+                          profile: selectedChart2 === 'partner1' ? '1/3' : selectedChart2 === 'partner2' ? '2/5' : '3/5',
+                          authority: selectedChart2 === 'partner1' ? 'Emotional' : selectedChart2 === 'partner2' ? 'Milz' : 'Sakral',
+                          strategy: selectedChart2 === 'partner1' ? 'Informieren' : selectedChart2 === 'partner2' ? 'Warten auf Einladung' : 'Warten und Reagieren',
+                          gates: [
+                            { id: '2', active: true, name: 'Tor 2' },
+                            { id: '7', active: true, name: 'Tor 7' },
+                            { id: '13', active: true, name: 'Tor 13' }
+                          ],
+                          channels: [
+                            { id: '2-14', active: true, name: 'Kanal 2-14' }
+                          ],
+                          centers: [
+                            { id: 'sacral', active: false, name: 'Sakral' },
+                            { id: 'throat', active: true, name: 'Kehle' }
+                          ]
+                        });
+                        
+                        setShowComparisonModal(true);
+                      }}
+                      disabled={!selectedChart2}
+                      sx={{
+                        background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+                        px: 6,
+                        py: 2,
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        '&:hover': {
+                          background: 'linear-gradient(45deg, #ff5a8a, #3dbdb3)',
+                          transform: 'scale(1.05)',
+                        },
+                        '&:disabled': {
+                          background: 'rgba(255,255,255,0.1)',
+                          color: 'rgba(255,255,255,0.3)'
+                        },
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      Charts vergleichen
+                    </Button>
+                  </Box>
+
+                  {/* Info Box */}
+                  <Card sx={{ 
+                    mt: 4, 
+                    background: 'rgba(78, 205, 196, 0.1)', 
+                    border: '1px solid rgba(78, 205, 196, 0.3)',
+                    borderRadius: 3
+                  }}>
+                    <CardContent>
+                      <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
+                        💡 Was ist der Connection Code?
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
+                        Der Connection Code ist eine tiefgehende Analyse der energetischen Resonanz zwischen zwei Menschen. 
+                        Durch den Vergleich der Human Design Charts erkennen wir:
+                      </Typography>
+                      <Grid container spacing={2} sx={{ mt: 1 }}>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <Box sx={{ 
+                              width: 8, 
+                              height: 8, 
+                              borderRadius: '50%', 
+                              background: '#4ecdc4', 
+                              mr: 2 
+                            }} />
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              Gemeinsame definierte Zentren
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <Box sx={{ 
+                              width: 8, 
+                              height: 8, 
+                              borderRadius: '50%', 
+                              background: '#4ecdc4', 
+                              mr: 2 
+                            }} />
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              Elektromagnetische Verbindungen
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <Box sx={{ 
+                              width: 8, 
+                              height: 8, 
+                              borderRadius: '50%', 
+                              background: '#4ecdc4', 
+                              mr: 2 
+                            }} />
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              Kompatibilität der Strategien
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                            <Box sx={{ 
+                              width: 8, 
+                              height: 8, 
+                              borderRadius: '50%', 
+                              background: '#4ecdc4', 
+                              mr: 2 
+                            }} />
+                            <Typography variant="body2" sx={{ color: 'white' }}>
+                              Potenzielle Herausforderungen
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
                 </Box>
               )}
             </Box>
@@ -1674,6 +1993,16 @@ const ReadingPage: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Chart Comparison Modal */}
+      {showComparisonModal && chart1Data && chart2Data && (
+        <ChartComparisonModal
+          open={showComparisonModal}
+          onClose={() => setShowComparisonModal(false)}
+          chart1Data={chart1Data}
+          chart2Data={chart2Data}
+        />
+      )}
     </Box>
     </AccessControl>
   );

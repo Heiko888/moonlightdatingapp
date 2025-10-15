@@ -21,7 +21,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  useTheme,
   alpha,
   Fade,
   Slide
@@ -262,7 +261,6 @@ const mockActivities: Activity[] = [
 ];
 
 export default function FriendsPage() {
-  const theme = useTheme();
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
