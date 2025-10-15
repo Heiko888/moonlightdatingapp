@@ -483,14 +483,14 @@ function CommunityContent() {
                     background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: 3,
-                    border: '1px solid #FFD700',
+                    border: '1px solid #10b981',
                     textAlign: 'center',
                     p: 2,
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)',
+                    boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 20px 40px rgba(255, 215, 0, 0.3)'
+                      boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)'
                     }
                   }}>
                     <CardContent>
@@ -520,7 +520,7 @@ function CommunityContent() {
               background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
               backdropFilter: 'blur(20px)',
               borderRadius: 3,
-              border: '1px solid #FFD700',
+              border: '1px solid #10b981',
               p: 2,
               mb: 3
             }}>
@@ -540,7 +540,7 @@ function CommunityContent() {
                         borderColor: 'rgba(255,255,255,0.5)',
                       },
                       '&.Mui-focused fieldset': {
-                        borderColor: '#FFD700',
+                        borderColor: '#10b981',
                       },
                     },
                     '& .MuiInputLabel-root': {
@@ -552,11 +552,11 @@ function CommunityContent() {
                   variant="outlined"
                   startIcon={<Filter size={20} />}
                   sx={{
-                    borderColor: 'rgba(255, 215, 0, 0.3)',
-                    color: '#FFD700',
+                    borderColor: 'rgba(16, 185, 129, 0.3)',
+                    color: '#10b981',
                     '&:hover': {
-                      borderColor: '#FFD700',
-                      backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                      borderColor: '#10b981',
+                      backgroundColor: 'rgba(16, 185, 129, 0.1)'
                     }
                   }}
                 >
@@ -571,8 +571,8 @@ function CommunityContent() {
             background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
             backdropFilter: 'blur(20px)',
             borderRadius: 3,
-            border: '1px solid #FFD700',
-            boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)',
+            border: '1px solid #10b981',
+            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
             mb: 3
           }}>
             <Tabs 
@@ -587,11 +587,11 @@ function CommunityContent() {
                   minWidth: 'auto',
                   px: 2,
                   '&.Mui-selected': {
-                    color: '#FFD700'
+                    color: '#10b981'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#FFD700'
+                  backgroundColor: '#10b981'
                 }
               }}
             >
@@ -614,13 +614,13 @@ function CommunityContent() {
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 3,
-                  border: '1px solid #FFD700',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)'
+                  border: '1px solid #10b981',
+                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)'
                 }}>
                   <CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MessageSquare size={24} style={{ color: '#FFD700', marginRight: 12 }} />
+                        <MessageSquare size={24} style={{ color: '#10b981', marginRight: 12 }} />
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                           Community Feed
                         </Typography>
@@ -630,11 +630,11 @@ function CommunityContent() {
                         startIcon={<Plus size={20} />}
                         onClick={() => setNewPostDialog(true)}
                         sx={{
-                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                          background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
                           color: '#1f2937',
                           fontWeight: 600,
                           '&:hover': {
-                            background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                            background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
                           }
                         }}
                       >
@@ -654,7 +654,7 @@ function CommunityContent() {
                           p: 3, 
                           background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', 
                           borderRadius: 3,
-                          border: '1px solid #FFD700',
+                          border: '1px solid #10b981',
                           transition: 'all 0.3s ease',
                           '&:hover': {
                             background: 'linear-gradient(135deg, rgba(11,13,18,0.85) 0%, rgba(26,31,43,0.92) 100%)',
@@ -699,8 +699,8 @@ function CommunityContent() {
                                 label={`#${tag}`}
                                 size="small"
                                 sx={{
-                                  background: 'rgba(255, 215, 0, 0.1)',
-                                  color: '#FFD700',
+                                  background: 'rgba(16, 185, 129, 0.1)',
+                                  color: '#10b981',
                                   fontSize: '0.7rem'
                                 }}
                               />
@@ -741,8 +741,8 @@ function CommunityContent() {
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 3,
-                  border: '1px solid #FFD700',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)',
+                  border: '1px solid #10b981',
+                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
                   mb: 3
                 }}>
                   <CardContent>
@@ -784,8 +784,8 @@ function CommunityContent() {
                   background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 3,
-                  border: '1px solid #FFD700',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)'
+                  border: '1px solid #10b981',
+                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)'
                 }}>
                   <CardContent>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
@@ -827,7 +827,7 @@ function CommunityContent() {
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #FFD700',
+                      border: '1px solid #10b981',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -837,7 +837,7 @@ function CommunityContent() {
                     }}>
                       <CardContent sx={{ p: 3 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                          <Calendar size={20} style={{ color: '#FFD700', marginRight: 8 }} />
+                          <Calendar size={20} style={{ color: '#10b981', marginRight: 8 }} />
                           <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                             {event.title}
                           </Typography>
@@ -873,8 +873,8 @@ function CommunityContent() {
                             label={event.type} 
                             size="small" 
                             sx={{ 
-                              background: 'rgba(255, 215, 0, 0.2)', 
-                              color: '#FFD700'
+                              background: 'rgba(16, 185, 129, 0.2)', 
+                              color: '#10b981'
                             }} 
                           />
                           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
@@ -888,7 +888,7 @@ function CommunityContent() {
                           sx={{
                             mb: 2,
                             '& .MuiLinearProgress-bar': {
-                              backgroundColor: '#FFD700'
+                              backgroundColor: '#10b981'
                             },
                             '& .MuiLinearProgress-root': {
                               backgroundColor: 'rgba(255,255,255,0.1)'
@@ -900,11 +900,11 @@ function CommunityContent() {
                           variant="outlined" 
                           fullWidth
                           sx={{
-                            borderColor: 'rgba(255, 215, 0, 0.3)',
-                            color: '#FFD700',
+                            borderColor: 'rgba(16, 185, 129, 0.3)',
+                            color: '#10b981',
                             '&:hover': {
-                              borderColor: '#FFD700',
-                              backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                              borderColor: '#10b981',
+                              backgroundColor: 'rgba(16, 185, 129, 0.1)'
                             }
                           }}
                         >
@@ -942,7 +942,7 @@ function CommunityContent() {
                           p: 2, 
                           background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', 
                           borderRadius: 2,
-                          border: '1px solid #FFD700',
+                          border: '1px solid #10b981',
                           transition: 'all 0.3s ease',
                           cursor: 'pointer',
                           '&:hover': {
@@ -1072,7 +1072,7 @@ function CommunityContent() {
                             <Avatar sx={{ 
                               width: 32, 
                               height: 32, 
-                              background: notification.read ? 'rgba(255,255,255,0.1)' : '#FFD700',
+                              background: notification.read ? 'rgba(255,255,255,0.1)' : '#10b981',
                               color: notification.read ? 'rgba(255,255,255,0.7)' : '#1f2937'
                             }}>
                               {notification.icon}
@@ -1117,7 +1117,7 @@ function CommunityContent() {
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #FFD700',
+                      border: '1px solid #10b981',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -1138,7 +1138,7 @@ function CommunityContent() {
                           </Box>
                           <Box sx={{ textAlign: 'center' }}>
                             <Typography variant="h4" sx={{ 
-                              color: match.compatibility > 90 ? '#10b981' : match.compatibility > 80 ? '#FFD700' : '#f59e0b',
+                              color: match.compatibility > 90 ? '#10b981' : match.compatibility > 80 ? '#10b981' : '#f59e0b',
                               fontWeight: 700
                             }}>
                               {match.compatibility}%
@@ -1161,7 +1161,7 @@ function CommunityContent() {
                         </Box>
                         
                         <Box sx={{ mb: 2 }}>
-                          <Typography variant="body2" sx={{ color: '#FFD700', fontWeight: 600, mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#10b981', fontWeight: 600, mb: 1 }}>
                             Kompatibilitäts-Faktoren:
                           </Typography>
                           {match.compatibilityFactors.map((factor, idx) => (
@@ -1170,8 +1170,8 @@ function CommunityContent() {
                               label={factor}
                               size="small"
                               sx={{
-                                background: 'rgba(255, 215, 0, 0.1)',
-                                color: '#FFD700',
+                                background: 'rgba(16, 185, 129, 0.1)',
+                                color: '#10b981',
                                 fontSize: '0.7rem',
                                 mr: 0.5,
                                 mb: 0.5
@@ -1186,11 +1186,11 @@ function CommunityContent() {
                             fullWidth
                             onClick={() => handleUserClick(match.user)}
                             sx={{
-                              background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                              background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
                               color: '#1f2937',
                               fontWeight: 600,
                               '&:hover': {
-                                background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                                background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
                               }
                             }}
                           >
@@ -1200,13 +1200,13 @@ function CommunityContent() {
                             variant="outlined"
                             onClick={() => handleCompatibilityCheck(match.user)}
                             sx={{
-                              borderColor: 'rgba(255, 215, 0, 0.3)',
-                              color: '#FFD700',
+                              borderColor: 'rgba(16, 185, 129, 0.3)',
+                              color: '#10b981',
                               minWidth: 'auto',
                               px: 2,
                               '&:hover': {
-                                borderColor: '#FFD700',
-                                backgroundColor: 'rgba(255, 215, 0, 0.1)'
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)'
                               }
                             }}
                           >
@@ -1235,7 +1235,7 @@ function CommunityContent() {
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #FFD700',
+                      border: '1px solid #10b981',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -1274,7 +1274,7 @@ function CommunityContent() {
                             </Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Star size={16} style={{ color: '#FFD700', marginRight: 4 }} />
+                                <Star size={16} style={{ color: '#10b981', marginRight: 4 }} />
                                 <Typography variant="body2" sx={{ color: 'white' }}>
                                   {match.rating}
                                 </Typography>
@@ -1293,7 +1293,7 @@ function CommunityContent() {
                               <strong>Such nach:</strong> {match.lookingFor}
                             </Typography>
                             <Box sx={{ mb: 2 }}>
-                              <Typography variant="body2" sx={{ color: '#FFD700', fontWeight: 600, mb: 1 }}>
+                              <Typography variant="body2" sx={{ color: '#10b981', fontWeight: 600, mb: 1 }}>
                                 Ziele:
                               </Typography>
                               {match.goals?.map((goal, idx) => (
@@ -1302,8 +1302,8 @@ function CommunityContent() {
                                   label={goal}
                                   size="small"
                                   sx={{
-                                    background: 'rgba(255, 215, 0, 0.1)',
-                                    color: '#FFD700',
+                                    background: 'rgba(16, 185, 129, 0.1)',
+                                    color: '#10b981',
                                     fontSize: '0.7rem',
                                     mr: 0.5,
                                     mb: 0.5
@@ -1323,11 +1323,11 @@ function CommunityContent() {
                           fullWidth
                           onClick={() => handleUserClick(match.user)}
                           sx={{
-                            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                            background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
                             color: '#1f2937',
                             fontWeight: 600,
                             '&:hover': {
-                              background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                              background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
                             }
                           }}
                         >
@@ -1354,7 +1354,7 @@ function CommunityContent() {
                       background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #FFD700',
+                      border: '1px solid #10b981',
                       p: 3,
                       textAlign: 'center',
                       transition: 'all 0.3s ease',
@@ -1372,7 +1372,7 @@ function CommunityContent() {
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
                           {topic.topic}
                         </Typography>
-                        <Typography variant="h4" sx={{ color: '#FFD700', fontWeight: 700, mb: 1 }}>
+                        <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 700, mb: 1 }}>
                           {topic.posts}
                         </Typography>
                         <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1394,10 +1394,10 @@ function CommunityContent() {
             position: 'fixed',
             bottom: 24,
             right: 24,
-            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+            background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
             color: '#1f2937',
             '&:hover': {
-              background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+              background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
               transform: 'scale(1.1)'
             }
           }}
@@ -1416,7 +1416,7 @@ function CommunityContent() {
             sx: {
               background: 'rgba(15, 15, 35, 0.95)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid #FFD700',
+              border: '1px solid #10b981',
               borderRadius: 3
             }
           }}
@@ -1443,7 +1443,7 @@ function CommunityContent() {
                     borderColor: 'rgba(255,255,255,0.5)',
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#FFD700',
+                    borderColor: '#10b981',
                   },
                 },
                 '& .MuiInputLabel-root': {
@@ -1463,11 +1463,11 @@ function CommunityContent() {
               onClick={handleNewPost}
               variant="contained"
               sx={{
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
                 color: '#1f2937',
                 fontWeight: 600,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                  background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
                 }
               }}
             >
@@ -1486,7 +1486,7 @@ function CommunityContent() {
             sx: {
               background: 'rgba(15, 15, 35, 0.95)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid #FFD700',
+              border: '1px solid #10b981',
               borderRadius: 3
             }
           }}
@@ -1525,7 +1525,7 @@ function CommunityContent() {
                     borderColor: 'rgba(255,255,255,0.5)',
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#FFD700',
+                    borderColor: '#10b981',
                   },
                 },
                 '& .MuiInputLabel-root': {
@@ -1545,11 +1545,11 @@ function CommunityContent() {
               onClick={handleSendMessage}
               variant="contained"
               sx={{
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
                 color: '#1f2937',
                 fontWeight: 600,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)'
+                  background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
                 }
               }}
             >

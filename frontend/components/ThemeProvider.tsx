@@ -17,19 +17,19 @@ export const useTheme = () => {
   return context;
 };
 
-// Dark Theme
+// Dark Theme - Pink/Teal Dating Design
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#8B5CF6',
-      light: '#A78BFA',
-      dark: '#7C3AED',
+      main: '#ff6b9d',
+      light: '#ff8fb3',
+      dark: '#c44569',
     },
     secondary: {
-      main: '#FFD700',
-      light: '#FFF59D',
-      dark: '#F57F17',
+      main: '#4ecdc4',
+      light: '#7eddd6',
+      dark: '#3dbdb3',
     },
     background: {
       default: '#0F0F23',
@@ -37,22 +37,36 @@ const darkTheme = createTheme({
     },
     text: {
       primary: '#FFFFFF',
-      secondary: 'rgba(255, 255, 255, 0.7)',
+      secondary: 'rgba(255, 255, 255, 0.8)',
     },
+    error: { main: '#ef4444' },
+    warning: { main: '#f59e0b' },
+    success: { main: '#10b981' },
+    info: { main: '#3b82f6' },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "system-ui", "Segoe UI", "Roboto", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
+      fontWeight: 800,
       fontSize: '2.5rem',
+      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+      backgroundClip: 'text',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '2rem',
+      color: '#ffffff',
     },
     h3: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '1.5rem',
+      color: '#ffffff',
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 600,
     },
   },
   components: {
@@ -63,6 +77,7 @@ const darkTheme = createTheme({
           backgroundColor: 'rgba(255, 255, 255, 0.05)',
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '12px',
         },
       },
     },
@@ -72,6 +87,12 @@ const darkTheme = createTheme({
           borderRadius: '12px',
           textTransform: 'none',
           fontWeight: 600,
+        },
+        contained: {
+          background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
+          '&:hover': {
+            background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
+          },
         },
       },
     },
@@ -89,19 +110,19 @@ const darkTheme = createTheme({
   },
 });
 
-// Light Theme
+// Light Theme - Pink/Teal Dating Design
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#8B5CF6',
-      light: '#A78BFA',
-      dark: '#7C3AED',
+      main: '#ff6b9d',
+      light: '#ff8fb3',
+      dark: '#c44569',
     },
     secondary: {
-      main: '#FFD700',
-      light: '#FFF59D',
-      dark: '#F57F17',
+      main: '#4ecdc4',
+      light: '#7eddd6',
+      dark: '#3dbdb3',
     },
     background: {
       default: '#F8FAFC',
@@ -111,20 +132,34 @@ const lightTheme = createTheme({
       primary: '#1F2937',
       secondary: '#6B7280',
     },
+    error: { main: '#ef4444' },
+    warning: { main: '#f59e0b' },
+    success: { main: '#10b981' },
+    info: { main: '#3b82f6' },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "system-ui", "Segoe UI", "Roboto", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
+      fontWeight: 800,
       fontSize: '2.5rem',
+      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+      backgroundClip: 'text',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '2rem',
+      color: '#1F2937',
     },
     h3: {
-      fontWeight: 600,
+      fontWeight: 700,
       fontSize: '1.5rem',
+      color: '#1F2937',
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 600,
     },
   },
   components: {
@@ -134,6 +169,7 @@ const lightTheme = createTheme({
           backgroundImage: 'none',
           backgroundColor: '#FFFFFF',
           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          borderRadius: '12px',
         },
       },
     },
@@ -143,6 +179,12 @@ const lightTheme = createTheme({
           borderRadius: '12px',
           textTransform: 'none',
           fontWeight: 600,
+        },
+        contained: {
+          background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
+          '&:hover': {
+            background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
+          },
         },
       },
     },

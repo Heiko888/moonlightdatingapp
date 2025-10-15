@@ -103,9 +103,9 @@ export default function SeitenanzeigePage() {
   const getPackageColor = (packageId: string) => {
     switch (packageId) {
       case 'free': return '#6b7280';
-      case 'basic': return '#3b82f6';
-      case 'premium': return '#8b5cf6';
-      case 'vip': return '#f59e0b';
+      case 'basic': return '#4ecdc4';      // Teal
+      case 'premium': return '#ff6b9d';    // Pink
+      case 'vip': return '#ffd700';        // Gold
       case 'admin': return '#ef4444';
       default: return '#6b7280';
     }
