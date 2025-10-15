@@ -1173,6 +1173,326 @@ function ProfilContent() {
                 </CardContent>
               </Card>
 
+              {/* Profil-Vollständigkeit */}
+              {(() => {
+                const userData = localStorage.getItem('userData');
+                const profileImage = localStorage.getItem('profileImage');
+                const datingPhotos = userData ? JSON.parse(userData).datingPhotos || [] : [];
+                
+                let completedSteps = 0;
+                let totalSteps = 5;
+                const missingSteps = [];
+                
+                // Check welche Schritte fehlen
+                if (profile.name && profile.name !== 'Unbekannter Benutzer') completedSteps++;
+                else missingSteps.push('Name eingeben');
+                
+                if (profile.email) completedSteps++;
+                else missingSteps.push('E-Mail bestätigen');
+                
+                if (profile.birthDate && profile.birthTime && profile.birthPlace) completedSteps++;
+                else missingSteps.push('Geburtsdaten vervollständigen');
+                
+                if (profileImage || datingPhotos.length > 0) completedSteps++;
+                else missingSteps.push('Fotos hochladen');
+                
+                if (profile.bio && profile.bio.length > 50) completedSteps++;
+                else missingSteps.push('Bio schreiben');
+                
+                const percentage = Math.round((completedSteps / totalSteps) * 100);
+                const isComplete = percentage === 100;
+                
+                return (
+                  <Card sx={{ 
+                    background: isComplete 
+                      ? 'linear-gradient(135deg, rgba(78,205,196,0.2), rgba(42,157,143,0.1))'
+                      : 'rgba(255,255,255,0.05)',
+                    backdropFilter: 'blur(10px)',
+                    border: isComplete 
+                      ? '1px solid rgba(78,205,196,0.3)' 
+                      : '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 4,
+                    mb: 4,
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                  }}>
+                    <CardContent sx={{ p: 3 }}>
+                      <Typography variant="h6" sx={{ color: '#FFD700', mb: 2, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <span>✨</span>
+                        Profil-Vollständigkeit
+                      </Typography>
+                      
+                      <Box sx={{ mb: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                            {completedSteps} von {totalSteps} Schritten
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: '#FFD700', fontWeight: 700 }}>
+                            {percentage}%
+                          </Typography>
+                        </Box>
+                        <Box sx={{ 
+                          width: '100%', 
+                          height: 8, 
+                          background: 'rgba(255,255,255,0.1)', 
+                          borderRadius: 4,
+                          overflow: 'hidden'
+                        }}>
+                          <Box sx={{ 
+                            width: `${percentage}%`, 
+                            height: '100%', 
+                            background: isComplete 
+                              ? 'linear-gradient(90deg, #4ecdc4, #2a9d8f)'
+                              : 'linear-gradient(90deg, #ff6b9d, #FFD700)',
+                            transition: 'width 0.3s ease'
+                          }} />
+                        </Box>
+                      </Box>
+                      
+                      {isComplete ? (
+                        <Box sx={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: 1,
+                          p: 2,
+                          background: 'rgba(78,205,196,0.2)',
+                          borderRadius: 2,
+                          border: '1px solid rgba(78,205,196,0.3)'
+                        }}>
+                          <span style={{ fontSize: '1.5rem' }}>🎉</span>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                            Dein Profil ist vollständig!
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 0.5 }}>
+                            Noch {missingSteps.length} Schritt{missingSteps.length !== 1 ? 'e' : ''} fehlen:
+                          </Typography>
+                          {missingSteps.slice(0, 3).map((step, index) => (
+                            <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Box sx={{ 
+                                width: 4, 
+                                height: 4, 
+                                borderRadius: '50%', 
+                                background: '#ff6b9d' 
+                              }} />
+                              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem' }}>
+                                {step}
+                              </Typography>
+                            </Box>
+                          ))}
+                          <Button
+                            variant="outlined"
+                            href={missingSteps.includes('Fotos hochladen') ? '/profil-einrichten' : '#'}
+                            onClick={!missingSteps.includes('Fotos hochladen') ? () => setIsEditing(true) : undefined}
+                            sx={{
+                              mt: 1,
+                              borderColor: 'rgba(255,107,157,0.3)',
+                              color: '#ff6b9d',
+                              fontSize: '0.85rem',
+                              py: 0.5,
+                              '&:hover': {
+                                borderColor: '#ff6b9d',
+                                background: 'rgba(255,107,157,0.1)'
+                              }
+                            }}
+                          >
+                            Jetzt vervollständigen →
+                          </Button>
+                        </Box>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
+              {/* Schnellaktionen */}
+              <Card sx={{ 
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 4,
+                mb: 4,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+              }}>
+                <CardContent sx={{ p: 3 }}>
+                  <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <span>⚡</span>
+                    Schnellaktionen
+                  </Typography>
+                  
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    <Button
+                      variant="outlined"
+                      href="/friends"
+                      startIcon={<Heart size={18} />}
+                      fullWidth
+                      sx={{
+                        justifyContent: 'flex-start',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        py: 1.5,
+                        '&:hover': {
+                          borderColor: '#ff6b9d',
+                          background: 'rgba(255,107,157,0.1)'
+                        }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                        <span>Matches</span>
+                        <Box sx={{ 
+                          background: '#ff6b9d', 
+                          color: 'white', 
+                          px: 1, 
+                          py: 0.25, 
+                          borderRadius: 2,
+                          fontSize: '0.75rem',
+                          fontWeight: 700
+                        }}>
+                          Neu
+                        </Box>
+                      </Box>
+                    </Button>
+                    
+                    <Button
+                      variant="outlined"
+                      href="/reading"
+                      startIcon={<BookOpen size={18} />}
+                      fullWidth
+                      sx={{
+                        justifyContent: 'flex-start',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        py: 1.5,
+                        '&:hover': {
+                          borderColor: '#4ecdc4',
+                          background: 'rgba(78,205,196,0.1)'
+                        }
+                      }}
+                    >
+                      Neue Analyse starten
+                    </Button>
+                    
+                    <Button
+                      variant="outlined"
+                      href="/moon-cycles"
+                      startIcon={<Moon size={18} />}
+                      fullWidth
+                      sx={{
+                        justifyContent: 'flex-start',
+                        borderColor: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        py: 1.5,
+                        '&:hover': {
+                          borderColor: '#FFD700',
+                          background: 'rgba(255,215,0,0.1)'
+                        }
+                      }}
+                    >
+                      Aktuelle Mondphase
+                    </Button>
+                    
+                    <Button
+                      variant="outlined"
+                      href="/pricing"
+                      startIcon={<span>👑</span>}
+                      fullWidth
+                      sx={{
+                        justifyContent: 'flex-start',
+                        borderColor: 'rgba(255,215,0,0.3)',
+                        color: '#FFD700',
+                        py: 1.5,
+                        '&:hover': {
+                          borderColor: '#FFD700',
+                          background: 'rgba(255,215,0,0.1)'
+                        }
+                      }}
+                    >
+                      Paket upgraden
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+
+              {/* HD-Tipp des Tages */}
+              {(() => {
+                const hdType = profile.hdType || 'Generator';
+                const tips = {
+                  'Generator': {
+                    icon: '🔋',
+                    title: 'Warte auf die Antwort',
+                    text: 'Als Generator bist du heute besonders kraftvoll. Höre auf dein Sakral und warte auf die richtige Antwort, bevor du handelst.',
+                    color: '#ff6b9d'
+                  },
+                  'Manifestor': {
+                    icon: '⚡',
+                    title: 'Informiere andere',
+                    text: 'Als Manifestor hast du heute die Kraft, Dinge in Gang zu setzen. Vergiss nicht, andere zu informieren, bevor du handelst.',
+                    color: '#FFD700'
+                  },
+                  'Projektor': {
+                    icon: '🎯',
+                    title: 'Warte auf Einladung',
+                    text: 'Als Projektor ist heute ein guter Tag, um auf Einladungen zu warten. Deine Weisheit wird gebraucht und anerkannt.',
+                    color: '#4ecdc4'
+                  },
+                  'Reflektor': {
+                    icon: '🌙',
+                    title: 'Beobachte & Reflektiere',
+                    text: 'Als Reflektor spiegelst du heute besonders klar. Nimm dir Zeit, die Energien um dich herum zu beobachten.',
+                    color: '#9ca3af'
+                  }
+                };
+                
+                const tip = tips[hdType as keyof typeof tips] || tips.Generator;
+                
+                return (
+                  <Card sx={{ 
+                    background: `linear-gradient(135deg, ${tip.color}15, ${tip.color}05)`,
+                    backdropFilter: 'blur(10px)',
+                    border: `1px solid ${tip.color}40`,
+                    borderRadius: 4,
+                    mb: 4,
+                    boxShadow: `0 8px 32px ${tip.color}20`
+                  }}>
+                    <CardContent sx={{ p: 3 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+                        <span style={{ fontSize: '2rem' }}>{tip.icon}</span>
+                        <Box>
+                          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.7rem' }}>
+                            DEIN HD-TIPP HEUTE
+                          </Typography>
+                          <Typography variant="h6" sx={{ color: tip.color, fontWeight: 700, lineHeight: 1.2 }}>
+                            {tip.title}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, mb: 2 }}>
+                        {tip.text}
+                      </Typography>
+                      
+                      <Button
+                        variant="text"
+                        href="/reading"
+                        sx={{
+                          color: tip.color,
+                          fontSize: '0.85rem',
+                          p: 0,
+                          minWidth: 'auto',
+                          '&:hover': {
+                            background: 'transparent',
+                            textDecoration: 'underline'
+                          }
+                        }}
+                      >
+                        Mehr über deinen Typ erfahren →
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
+
               {/* Letzte Mond-Einträge */}
               {profileData?.moonData && profileData.moonData.length > 0 && (
                 <Card sx={{ 
