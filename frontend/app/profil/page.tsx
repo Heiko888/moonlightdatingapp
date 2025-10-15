@@ -127,6 +127,8 @@ function ProfilContent() {
   });
 
   const [formData, setFormData] = useState(profile);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Temporärer Fix - useLoadingState Hook entfernt
   const isLoading = false;
@@ -385,6 +387,29 @@ function ProfilContent() {
     }));
   }, []);
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setImagePreview(result);
+        // In einer echten App würde hier der Upload stattfinden
+        setProfileImage(result);
+        localStorage.setItem('profileImage', result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Lade Profilbild aus localStorage
+  useEffect(() => {
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
+  }, []);
+
   // const handleInterestToggle = (interest: string) => {
   //   setFormData(prev => ({
   //     ...prev,
@@ -487,7 +512,7 @@ function ProfilContent() {
         <Grid container spacing={4}>
           {/* Linke Spalte - Profil-Informationen */}
           <Grid item xs={12} lg={8}>
-              {/* Profil-Karte */}
+              {/* Profilbild-Karte */}
               <Card sx={{ 
                 background: 'rgba(255,255,255,0.05)',
                 backdropFilter: 'blur(10px)',
@@ -497,10 +522,90 @@ function ProfilContent() {
                 boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
               }}>
                 <CardContent sx={{ p: 4 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
-                    <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 700 }}>
-                      Persönliche Informationen
-                    </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: 3 }}>
+                    {/* Profilbild */}
+                    <Box sx={{ position: 'relative' }}>
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 150,
+                          borderRadius: '50%',
+                          background: profileImage || imagePreview 
+                            ? `url(${imagePreview || profileImage}) center/cover`
+                            : 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '3rem',
+                          fontWeight: 'bold',
+                          color: 'white',
+                          border: '4px solid rgba(255,255,255,0.2)',
+                          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+                          position: 'relative',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {!profileImage && !imagePreview && (
+                          <Box>{profile.name.split(' ').map(n => n[0]).join('').toUpperCase()}</Box>
+                        )}
+                      </Box>
+                      
+                      {/* Upload Button */}
+                      {isEditing && (
+                        <label htmlFor="profile-image-upload">
+                          <input
+                            id="profile-image-upload"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleImageChange}
+                          />
+                          <Button
+                            component="span"
+                            variant="contained"
+                            size="small"
+                            sx={{
+                              position: 'absolute',
+                              bottom: 5,
+                              right: 5,
+                              minWidth: 'auto',
+                              width: 40,
+                              height: 40,
+                              borderRadius: '50%',
+                              background: 'linear-gradient(135deg, #ff6b9d, #ff8fab)',
+                              '&:hover': {
+                                background: 'linear-gradient(135deg, #ff5087, #ff6b9d)',
+                              }
+                            }}
+                          >
+                            📷
+                          </Button>
+                        </label>
+                      )}
+                    </Box>
+
+                    {/* Name und Basis-Info */}
+                    <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' } }}>
+                      <Typography variant="h3" sx={{ 
+                        color: 'white', 
+                        fontWeight: 'bold',
+                        mb: 1,
+                        background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                      }}>
+                        {profile.name}
+                      </Typography>
+                      <Typography variant="h6" sx={{ color: '#FFD700', mb: 1, fontWeight: 600 }}>
+                        {profile.hdType ? `${profile.hdType} ${profile.hdProfile}` : 'Human Design Profil'}
+                      </Typography>
+                      <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                        {profile.location || 'Standort nicht angegeben'}
+                      </Typography>
+                    </Box>
+
+                    {/* Edit Button */}
                     <Button
                       variant="outlined"
                       startIcon={isEditing ? <Save /> : <Edit />}
@@ -522,6 +627,22 @@ function ProfilContent() {
                       {isEditing ? 'Speichern' : 'Bearbeiten'}
                     </Button>
                   </Box>
+                </CardContent>
+              </Card>
+
+              {/* Persönliche Informationen Karte */}
+              <Card sx={{ 
+                background: 'rgba(255,255,255,0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 4,
+                mb: 4,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+              }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography variant="h5" sx={{ color: '#ffffff', fontWeight: 700, mb: 3 }}>
+                    Persönliche Informationen
+                  </Typography>
 
                   <Grid container spacing={3}>
                     {/* Name */}
