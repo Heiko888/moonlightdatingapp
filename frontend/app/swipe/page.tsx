@@ -134,12 +134,46 @@ export default function SwipePage() {
   ];
 
   useEffect(() => {
-    // Simuliere Ladezeit
-    setTimeout(() => {
-      setProfiles(mockProfiles);
-      setIsLoading(false);
-    }, 1000);
+    loadProfiles();
   }, []);
+
+  const loadProfiles = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/users/discover');
+      const data = await response.json();
+
+      if (data.success && data.users) {
+        // Konvertiere API-Daten zu Profile-Format
+        const formattedProfiles = data.users.map((user: any) => ({
+          _id: user.id,
+          name: user.name,
+          age: user.age || 28,
+          location: user.location || 'Unbekannt',
+          bio: user.bio || 'Noch keine Bio vorhanden.',
+          hd_type: user.hd_type || 'Generator',
+          profile: user.profile || '2/4',
+          authority: user.authority || 'Emotional',
+          strategy: user.strategy || 'Wait to Respond',
+          image: user.image,
+          interests: user.interests || [],
+          compatibility_score: user.compatibility_score || 75
+        }));
+
+        setProfiles(formattedProfiles);
+      } else {
+        // Fallback zu Mock-Daten wenn keine User gefunden
+        console.warn('Keine User gefunden, verwende Mock-Daten');
+        setProfiles(mockProfiles);
+      }
+    } catch (error) {
+      console.error('Error loading profiles:', error);
+      // Fallback zu Mock-Daten bei Fehler
+      setProfiles(mockProfiles);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const revealProfile = () => {
     if (currentProfile) {
@@ -153,31 +187,48 @@ export default function SwipePage() {
     const currentProfile = profiles[currentIndex];
     setSwipeDirection(liked ? 'right' : 'left');
 
-    // Simuliere API-Call
-    setTimeout(async () => {
-      console.log('💕 Swipe verarbeitet:', {
-        userId: 'current-user-id',
-          targetId: currentProfile._id,
-        liked
+    try {
+      // Call echte API
+      const response = await fetch('/api/users/swipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          targetUserId: currentProfile._id,
+          targetFriendId: currentProfile._id,
+          action: liked ? 'like' : 'pass'
+        })
       });
 
-      if (liked && Math.random() > 0.7) {
-        // Match!
-          setShowMatchAnim(true);
-          setTimeout(() => setShowMatchAnim(false), 3000);
-          
-          const newMatch = {
-          _id: Date.now().toString(),
+      const data = await response.json();
+
+      if (data.success && data.isMatch) {
+        // Es ist ein Match!
+        setShowMatchAnim(true);
+        setTimeout(() => setShowMatchAnim(false), 3000);
+        
+        const newMatch = {
+          _id: data.friendship?.id || Date.now().toString(),
           userA: { _id: 'current-user-id', name: 'Du', image: '/api/placeholder/100/100' },
-            userB: { _id: currentProfile._id, name: currentProfile.name, image: currentProfile.image },
-            createdAt: new Date().toISOString()
-          };
-          setMatches(prev => [...prev, newMatch]);
+          userB: { _id: currentProfile._id, name: currentProfile.name, image: currentProfile.image },
+          createdAt: new Date().toISOString()
+        };
+        setMatches(prev => [...prev, newMatch]);
       }
 
-      setCurrentIndex(prev => prev + 1);
-      setSwipeDirection(null);
-    }, 500);
+      // Gehe zum nächsten Profil
+      setTimeout(() => {
+        setCurrentIndex(prev => prev + 1);
+        setSwipeDirection(null);
+      }, 500);
+
+    } catch (error) {
+      console.error('Error processing swipe:', error);
+      // Bei Fehler trotzdem weitergehen
+      setTimeout(() => {
+        setCurrentIndex(prev => prev + 1);
+        setSwipeDirection(null);
+      }, 500);
+    }
   };
 
   const currentProfile = profiles[currentIndex];
