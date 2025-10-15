@@ -822,6 +822,31 @@ const ReadingPage: React.FC = () => {
           >
             Tauche ein in die Welt deiner Energie und entdecke dein energetisches Potenzial.
           </Typography>
+          
+          {/* Booking Button */}
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => router.push('/connection-code/booking')}
+            sx={{
+              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              color: 'white',
+              fontWeight: 700,
+              px: 4,
+              py: 1.5,
+              fontSize: '1.1rem',
+              borderRadius: 3,
+              boxShadow: '0 4px 20px rgba(255, 107, 157, 0.4)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #ff5a8a, #3dbdb3)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 25px rgba(255, 107, 157, 0.5)'
+              },
+              transition: 'all 0.3s ease'
+            }}
+          >
+            💕 Connection Code jetzt buchen
+          </Button>
         </Box>
 
         {/* Main Content */}
