@@ -663,18 +663,58 @@ function ProfilContent() {
 
                     {/* Name und Basis-Info */}
                     <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' } }}>
-                      <Typography variant="h3" sx={{ 
-                        color: 'white', 
-                        fontWeight: 'bold',
-                        mb: 1,
-                        background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
-                        backgroundClip: 'text',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                      }}>
-                        {profile.name}
-                      </Typography>
-                      <Typography variant="h6" sx={{ color: '#FFD700', mb: 1, fontWeight: 600 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: { xs: 'center', sm: 'flex-start' }, flexWrap: 'wrap' }}>
+                        <Typography variant="h3" sx={{ 
+                          color: 'white', 
+                          fontWeight: 'bold',
+                          background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}>
+                          {profile.name}
+                        </Typography>
+                        {/* Package Badge */}
+                        {(() => {
+                          const subscription = localStorage.getItem('userSubscription') || localStorage.getItem('user-subscription');
+                          let packageId = 'free';
+                          if (subscription) {
+                            try {
+                              const parsed = JSON.parse(subscription);
+                              packageId = parsed.packageId || 'free';
+                            } catch (e) {}
+                          }
+                          
+                          const badges = {
+                            vip: { icon: '👑', label: 'VIP', color: '#FFD700', bg: 'linear-gradient(135deg, #FFD700, #FFA500)' },
+                            premium: { icon: '💎', label: 'Premium', color: '#4ecdc4', bg: 'linear-gradient(135deg, #4ecdc4, #2a9d8f)' },
+                            basic: { icon: '⭐', label: 'Basic', color: '#ff6b9d', bg: 'linear-gradient(135deg, #ff6b9d, #ff8fab)' },
+                            free: { icon: '🌙', label: 'Kostenlos', color: '#9ca3af', bg: 'linear-gradient(135deg, #6b7280, #9ca3af)' }
+                          };
+                          
+                          const badge = badges[packageId as keyof typeof badges] || badges.free;
+                          
+                          return (
+                            <Box sx={{ 
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                              px: 2,
+                              py: 0.5,
+                              borderRadius: 3,
+                              background: badge.bg,
+                              boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                              fontWeight: 'bold',
+                              fontSize: '0.9rem',
+                              color: 'white'
+                            }}>
+                              <span>{badge.icon}</span>
+                              <span>{badge.label}</span>
+                            </Box>
+                          );
+                        })()}
+                      </Box>
+                      <Typography variant="h6" sx={{ color: '#FFD700', mb: 1, mt: 1, fontWeight: 600 }}>
                         {profile.hdType ? `${profile.hdType} ${profile.hdProfile}` : 'Human Design Profil'}
                       </Typography>
                       <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -706,6 +746,118 @@ function ProfilContent() {
                   </Box>
                 </CardContent>
               </Card>
+
+              {/* Paket-Status Karte */}
+              {(() => {
+                const subscription = localStorage.getItem('userSubscription') || localStorage.getItem('user-subscription');
+                let packageData = { packageId: 'free', validUntil: null };
+                if (subscription) {
+                  try {
+                    packageData = JSON.parse(subscription);
+                  } catch (e) {}
+                }
+                
+                const packages = {
+                  vip: { 
+                    icon: '👑', 
+                    label: 'VIP Mitglied', 
+                    color: '#FFD700', 
+                    bg: 'linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.1))',
+                    features: ['Unbegrenzte Chart-Analysen', 'Persönlicher Coach', 'Alle Premium-Features', 'VIP-Community Zugang']
+                  },
+                  premium: { 
+                    icon: '💎', 
+                    label: 'Premium Mitglied', 
+                    color: '#4ecdc4', 
+                    bg: 'linear-gradient(135deg, rgba(78,205,196,0.2), rgba(42,157,143,0.1))',
+                    features: ['Erweiterte Analysen', 'Partnermatchings', 'Mondphasen-Tracking', 'Priority Support']
+                  },
+                  basic: { 
+                    icon: '⭐', 
+                    label: 'Basic Mitglied', 
+                    color: '#ff6b9d', 
+                    bg: 'linear-gradient(135deg, rgba(255,107,157,0.2), rgba(255,143,171,0.1))',
+                    features: ['Basis Chart-Analyse', 'Tageshoroskop', 'Community Zugang']
+                  },
+                  free: { 
+                    icon: '🌙', 
+                    label: 'Kostenloses Konto', 
+                    color: '#9ca3af', 
+                    bg: 'linear-gradient(135deg, rgba(107,114,128,0.2), rgba(156,163,175,0.1))',
+                    features: ['Basis-Profil', 'Eingeschränkte Features']
+                  }
+                };
+                
+                const pkg = packages[packageData.packageId as keyof typeof packages] || packages.free;
+                
+                return (
+                  <Card sx={{ 
+                    background: pkg.bg,
+                    backdropFilter: 'blur(10px)',
+                    border: `1px solid ${pkg.color}40`,
+                    borderRadius: 4,
+                    mb: 4,
+                    boxShadow: `0 8px 32px ${pkg.color}20`
+                  }}>
+                    <CardContent sx={{ p: 4 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+                        <Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                            <span style={{ fontSize: '2rem' }}>{pkg.icon}</span>
+                            <Typography variant="h5" sx={{ color: 'white', fontWeight: 700 }}>
+                              {pkg.label}
+                            </Typography>
+                          </Box>
+                          {packageData.validUntil && (
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                              Gültig bis: {new Date(packageData.validUntil).toLocaleDateString('de-DE')}
+                            </Typography>
+                          )}
+                        </Box>
+                        <Button
+                          variant="contained"
+                          href="/pricing"
+                          sx={{
+                            background: `linear-gradient(135deg, ${pkg.color}, ${pkg.color}dd)`,
+                            color: 'white',
+                            fontWeight: 600,
+                            px: 3,
+                            py: 1,
+                            borderRadius: 3,
+                            boxShadow: `0 4px 15px ${pkg.color}40`,
+                            '&:hover': {
+                              background: `linear-gradient(135deg, ${pkg.color}dd, ${pkg.color}bb)`,
+                              transform: 'translateY(-2px)',
+                              boxShadow: `0 6px 20px ${pkg.color}50`
+                            }
+                          }}
+                        >
+                          Paket verwalten
+                        </Button>
+                      </Box>
+                      
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, mb: 0.5 }}>
+                          Deine Vorteile:
+                        </Typography>
+                        {pkg.features.map((feature, index) => (
+                          <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Box sx={{ 
+                              width: 6, 
+                              height: 6, 
+                              borderRadius: '50%', 
+                              background: pkg.color 
+                            }} />
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                              {feature}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    </CardContent>
+                  </Card>
+                );
+              })()}
 
               {/* Persönliche Informationen Karte */}
               <Card sx={{ 
