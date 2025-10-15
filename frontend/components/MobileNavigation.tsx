@@ -96,7 +96,7 @@ const navigationItems: NavigationItem[] = [
   // Wissen & Journal
   { name: "Knowledge", path: "/knowledge", icon: <MenuBook />, category: "Wissen & Journal", description: "Wissensdatenbank" },
   { name: "Journal", path: "/journal", icon: <MenuBook />, category: "Wissen & Journal", description: "Persönliches Journal" },
-  { name: "Reading", path: "/reading", icon: <MenuBook />, category: "Wissen & Journal", description: "Reading-System" },
+  { name: "Resonanzanalyse", path: "/resonanzanalyse", icon: <MenuBook />, category: "Wissen & Journal", description: "Resonanzanalyse-System" },
   { name: "HD Academy", path: "/hd-academy", icon: <BookOpen />, category: "Wissen & Journal", description: "Human Design Akademie", isPremium: true },
   
   // Community & Dating

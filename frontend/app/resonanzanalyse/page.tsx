@@ -189,9 +189,9 @@ const ReadingPage: React.FC = () => {
       
       // Verwende window.location als Fallback für robustere Weiterleitung
       if (typeof window !== 'undefined') {
-        window.location.href = '/reading/next-steps';
+        window.location.href = '/resonanzanalyse/next-steps';
       } else {
-        router.push('/reading/next-steps');
+        router.push('/resonanzanalyse/next-steps');
       }
     } catch (error) {
       console.error('Fehler beim Erstellen des Readings:', error);
@@ -965,7 +965,7 @@ const ReadingPage: React.FC = () => {
                                   size="small"
                                   onClick={() => {
                                     if (reading.status === 'pending') {
-                                      router.push('/reading/next-steps');
+                                      router.push('/resonanzanalyse/next-steps');
                                     } else if (reading.status === 'zoom-scheduled') {
                                       alert('Dein Zoom-Termin ist vereinbart. Du erhältst das PDF nach dem Reading und Coach-Freigabe.');
                                     } else if (reading.status === 'completed') {
@@ -1197,7 +1197,7 @@ const ReadingPage: React.FC = () => {
                 <Box>
                   <Box sx={{ textAlign: 'center', mb: 4 }}>
                     <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
-                      🔄 Chartvergleich - Deine Resonanzanalyse
+                      🔄 Chartvergleich
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
                       Vergleiche zwei Human Design Charts und entdecke die energetischen Verbindungen

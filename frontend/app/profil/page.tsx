@@ -1356,7 +1356,7 @@ function ProfilContent() {
                     
                     <Button
                       variant="outlined"
-                      href="/reading"
+                      href="/resonanzanalyse"
                       startIcon={<BookOpen size={18} />}
                       fullWidth
                       sx={{
@@ -1474,7 +1474,7 @@ function ProfilContent() {
                       
                       <Button
                         variant="text"
-                        href="/reading"
+                        href="/resonanzanalyse"
                         sx={{
                           color: tip.color,
                           fontSize: '0.85rem',

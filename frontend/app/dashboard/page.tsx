@@ -796,7 +796,7 @@ const DashboardPage: React.FC = () => {
                       boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
                     }
                   }}
-                  onClick={() => router.push('/reading')}
+                  onClick={() => router.push('/resonanzanalyse')}
                 >
                   Readings
                 </Button>

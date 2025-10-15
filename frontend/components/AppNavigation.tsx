@@ -68,7 +68,7 @@ const navigationItems: NavigationItem[] = [
   // Wissen & Journal
   { name: "Knowledge", path: "/knowledge", icon: <MenuBook />, category: "Wissen & Journal" },
   { name: "Journal", path: "/journal", icon: <MenuBook />, category: "Wissen & Journal" },
-  { name: "Reading", path: "/reading", icon: <MenuBook />, category: "Wissen & Journal" },
+  { name: "Resonanzanalyse", path: "/resonanzanalyse", icon: <MenuBook />, category: "Wissen & Journal" },
   
   // Community & Dating
   { name: "Community", path: "/community", icon: <Group />, category: "Community & Social" },
