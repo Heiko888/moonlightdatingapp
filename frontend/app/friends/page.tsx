@@ -266,8 +266,10 @@ export default function FriendsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
   const [showFriendDialog, setShowFriendDialog] = useState(false);
-  const [friends, setFriends] = useState<Friend[]>(mockFriends);
+  const [friends, setFriends] = useState<Friend[]>([]);
   const [activities, setActivities] = useState<Activity[]>(mockActivities);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Neue Features
   const [sortBy, setSortBy] = useState<'name' | 'compatibility' | 'lastSeen' | 'mutualFriends'>('compatibility');
@@ -277,11 +279,40 @@ export default function FriendsPage() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
+  // Lade Friends aus Supabase
   useEffect(() => {
+    const loadFriends = async () => {
+      try {
+        setLoading(true);
+        const userId = localStorage.getItem('userId');
+        
+        if (!userId) {
+          console.warn('Kein User eingeloggt');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`/api/friends?userId=${userId}`);
+        const data = await response.json();
+
+        if (data.success && data.friends) {
+          setFriends(data.friends);
+        } else {
+          setError('Fehler beim Laden der Friends');
+        }
+      } catch (err) {
+        console.error('Error loading friends:', err);
+        setError('Fehler beim Laden der Friends');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFriends();
     setMounted(true);
   }, []);
 
-  if (!mounted) {
+  if (!mounted || loading) {
     return (
       <Box
         sx={{
@@ -293,13 +324,20 @@ export default function FriendsPage() {
             linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
           `,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          gap: 2
         }}
       >
         <Typography variant="h6" sx={{ color: 'white' }}>
-          Lade...
+          Lade Friends...
         </Typography>
+        {error && (
+          <Typography variant="body2" sx={{ color: '#ff6b9d' }}>
+            {error}
+          </Typography>
+        )}
       </Box>
     );
   }

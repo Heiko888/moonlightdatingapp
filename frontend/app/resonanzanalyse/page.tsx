@@ -68,6 +68,7 @@ const ReadingPage: React.FC = () => {
   const [chart2Data, setChart2Data] = useState<any>(null);
   const [selectedChart1, setSelectedChart1] = useState('');
   const [selectedChart2, setSelectedChart2] = useState('');
+  const [friends, setFriends] = useState<any[]>([]);
 
   // Authentifizierung und Subscription prüfen
   useEffect(() => {
@@ -85,10 +86,27 @@ const ReadingPage: React.FC = () => {
       // Daten laden
       loadReadings();
       loadUserSubscription();
+      loadFriends();
     };
 
     checkAuth();
   }, [router]);
+
+  const loadFriends = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      const response = await fetch(`/api/friends?userId=${userId}`);
+      const data = await response.json();
+
+      if (data.success && data.friends) {
+        setFriends(data.friends);
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden der Friends:', error);
+    }
+  };
 
   const loadUserSubscription = async () => {
     try {
@@ -1303,55 +1321,39 @@ const ReadingPage: React.FC = () => {
                             Chart 2 (Partner)
                           </Typography>
                         </Box>
-{(() => {
-                          // Lade echte Partner/Matches aus localStorage
-                          const friendsData = typeof window !== 'undefined' ? localStorage.getItem('friends') : null;
-                          let partners: any[] = [];
-                          
-                          if (friendsData) {
-                            try {
-                              partners = JSON.parse(friendsData);
-                            } catch (e) {
-                              console.error('Fehler beim Laden der Partner-Daten:', e);
+<TextField
+                          fullWidth
+                          select
+                          label="Wähle ein Chart zum Vergleich"
+                          value={selectedChart2}
+                          onChange={(e) => setSelectedChart2(e.target.value)}
+                          sx={{
+                            mb: 2,
+                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' },
+                            '& .MuiOutlinedInput-root': {
+                              color: 'white',
+                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                              '&:hover fieldset': { borderColor: '#4ecdc4' },
+                              '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
                             }
-                          }
-                          
-                          return (
-                            <TextField
-                              fullWidth
-                              select
-                              label="Wähle ein Chart zum Vergleich"
-                              value={selectedChart2}
-                              onChange={(e) => setSelectedChart2(e.target.value)}
-                              sx={{
-                                mb: 2,
-                                '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' },
-                                '& .MuiOutlinedInput-root': {
-                                  color: 'white',
-                                  '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                                  '&:hover fieldset': { borderColor: '#4ecdc4' },
-                                  '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
-                                }
-                              }}
-                            >
-                              <MenuItem value="">
-                                <em>Wähle ein Profil...</em>
+                          }}
+                        >
+                          <MenuItem value="">
+                            <em>Wähle ein Profil...</em>
+                          </MenuItem>
+                          {friends.length > 0 ? (
+                            friends.map((friend, index) => (
+                              <MenuItem key={friend.id} value={`partner${index}`}>
+                                {friend.name || `Partner ${index + 1}`} - {friend.hdType || 'Unbekannter Typ'}
                               </MenuItem>
-                              {partners.length > 0 ? (
-                                partners.map((partner, index) => (
-                                  <MenuItem key={index} value={`partner${index}`}>
-                                    {partner.name || `Partner ${index + 1}`} - {partner.hdType || 'Unbekannter Typ'}
-                                  </MenuItem>
-                                ))
-                              ) : (
-                                <MenuItem value="" disabled>
-                                  Noch keine Partner gespeichert
-                                </MenuItem>
-                              )}
-                              <MenuItem value="custom">Eigenes Chart eingeben</MenuItem>
-                            </TextField>
-                          );
-                        })()}
+                            ))
+                          ) : (
+                            <MenuItem value="" disabled>
+                              Noch keine Friends gespeichert - Gehe zu /friends um welche hinzuzufügen
+                            </MenuItem>
+                          )}
+                          <MenuItem value="custom">Eigenes Chart eingeben</MenuItem>
+                        </TextField>
 
 {(() => {
                           // Zeige ausgewählten Partner an
@@ -1388,19 +1390,9 @@ const ReadingPage: React.FC = () => {
                             );
                           }
                           
-                          // Lade Partner-Daten aus localStorage
-                          const friendsData = typeof window !== 'undefined' ? localStorage.getItem('friends') : null;
-                          let partners: any[] = [];
-                          
-                          if (friendsData) {
-                            try {
-                              partners = JSON.parse(friendsData);
-                            } catch (e) {}
-                          }
-                          
-                          // Finde den ausgewählten Partner
+                          // Finde den ausgewählten Partner aus dem friends-State
                           const partnerIndex = parseInt(selectedChart2.replace('partner', ''));
-                          const partner = partners[partnerIndex];
+                          const partner = friends[partnerIndex];
                           
                           if (!partner) {
                             return (
