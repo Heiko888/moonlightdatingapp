@@ -149,6 +149,9 @@ function ProfilContent() {
 
       // Lade echte Daten aus localStorage
       const storedUserData = localStorage.getItem('userData');
+      const userEmail = localStorage.getItem('userEmail');
+      const userPackage = localStorage.getItem('userPackage');
+      
       let userData = null;
       
       if (storedUserData) {
@@ -160,7 +163,36 @@ function ProfilContent() {
         }
       }
       
-      // Wenn keine Daten vorhanden, Fallback auf Test-Daten
+      // Wenn keine userData vorhanden, erstelle minimale Daten aus Login-Info
+      if (!userData && userEmail) {
+        // Generiere Namen aus Email (z.B. "max.mustermann@gmail.com" -> "Max Mustermann")
+        const emailName = userEmail.split('@')[0];
+        const nameParts = emailName.split(/[._-]/);
+        const firstName = nameParts[0]?.charAt(0).toUpperCase() + nameParts[0]?.slice(1) || 'User';
+        const lastName = nameParts[1]?.charAt(0).toUpperCase() + nameParts[1]?.slice(1) || '';
+        
+        userData = {
+          data: {
+            firstName,
+            lastName,
+            email: userEmail,
+            phone: '',
+            location: '',
+            birthDate: '',
+            birthTime: '',
+            birthPlace: '',
+            bio: 'Noch kein Profil ausgefüllt. Klicke auf "Bearbeiten" um dein Profil zu vervollständigen!',
+            interests: [],
+            website: '',
+            hdType: '',
+            hdProfile: '',
+            hdStrategy: '',
+            hdAuthority: ''
+          }
+        };
+      }
+      
+      // Wenn immer noch keine Daten, Fallback auf Test-Daten
       if (!userData) {
         await loadTestData();
         setLocalLoading(false);
@@ -365,26 +397,37 @@ function ProfilContent() {
         
         // Speichere auch in localStorage
         const storedUserData = localStorage.getItem('userData');
+        let userData: any = {};
+        
         if (storedUserData) {
           try {
-            const userData = JSON.parse(storedUserData);
-            const nameParts = formData.name.split(' ');
-            userData.firstName = nameParts[0] || '';
-            userData.lastName = nameParts.slice(1).join(' ') || '';
-            userData.email = formData.email;
-            userData.phone = formData.phone;
-            userData.location = formData.location;
-            userData.birthDate = formData.birthDate;
-            userData.birthTime = formData.birthTime;
-            userData.birthPlace = formData.birthPlace;
-            userData.bio = formData.bio;
-            userData.website = formData.website;
-            userData.profileImage = profileImage || imagePreview;
-            
-            localStorage.setItem('userData', JSON.stringify(userData));
+            userData = JSON.parse(storedUserData);
           } catch (e) {
-            console.error('Fehler beim Speichern in localStorage:', e);
+            console.error('Fehler beim Parsen von userData:', e);
           }
+        }
+        
+        // Namen splitten
+        const nameParts = formData.name.split(' ');
+        userData.firstName = nameParts[0] || '';
+        userData.lastName = nameParts.slice(1).join(' ') || '';
+        userData.email = formData.email;
+        userData.phone = formData.phone;
+        userData.location = formData.location;
+        userData.birthDate = formData.birthDate;
+        userData.birthTime = formData.birthTime;
+        userData.birthPlace = formData.birthPlace;
+        userData.bio = formData.bio;
+        userData.website = formData.website;
+        userData.interests = formData.interests;
+        userData.profileImage = profileImage || imagePreview;
+        
+        // Speichere zurück in localStorage
+        try {
+          localStorage.setItem('userData', JSON.stringify(userData));
+          console.log('✅ Profildaten in localStorage gespeichert');
+        } catch (e) {
+          console.error('Fehler beim Speichern in localStorage:', e);
         }
         
         setIsEditing(false);
