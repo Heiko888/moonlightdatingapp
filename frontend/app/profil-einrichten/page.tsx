@@ -32,10 +32,11 @@ import {
 import { motion } from 'framer-motion';
 import { User, Calendar, MapPin, Heart, Star, CheckCircle, Camera, Upload, Phone, Globe, Lock, Eye } from 'lucide-react';
 import AnimatedStars from '@/components/AnimatedStars';
+import MultiImageUpload from '@/components/MultiImageUpload';
 
 const steps = [
   'Persönliche Daten',
-  'Profilbild & Kontakt',
+  'Dating-Fotos & Kontakt',
   'Geburtsdaten',
   'Interessen & Präferenzen',
   'Privatsphäre',
@@ -53,6 +54,7 @@ export default function ProfilEinrichtenPage() {
     website: '',
     location: '',
     profileImage: '',
+    datingPhotos: [] as any[],
     birthDate: '',
     birthTime: '',
     birthPlace: '',
@@ -157,6 +159,7 @@ export default function ProfilEinrichtenPage() {
         userData.website = formData.website;
         userData.location = formData.location;
         userData.profileImage = formData.profileImage;
+        userData.datingPhotos = formData.datingPhotos;
         userData.birthDate = formData.birthDate;
         userData.birthTime = formData.birthTime;
         userData.birthPlace = formData.birthPlace;
@@ -264,47 +267,32 @@ export default function ProfilEinrichtenPage() {
       case 1:
         return (
           <Grid container spacing={3}>
-            <Grid item xs={12} sx={{ textAlign: 'center', mb: 3 }}>
-              <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                Profilbild
+            <Grid item xs={12}>
+              <Typography variant="h5" sx={{ 
+                color: 'white', 
+                mb: 2,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+                💑 Dating-Fotos
               </Typography>
-              <Box sx={{ position: 'relative', display: 'inline-block' }}>
-                <Avatar
-                  src={formData.profileImage}
-                  sx={{ 
-                    width: 120, 
-                    height: 120, 
-                    mb: 2,
-                    border: '3px solid #FFD700'
-                  }}
-                >
-                  <User size={60} />
-                </Avatar>
-                <IconButton
-                  component="label"
-                  sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    backgroundColor: '#8B5CF6',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: '#7C3AED'
-                    }
-                  }}
-                >
-                  <Camera size={20} />
-                  <input
-                    type="file"
-                    hidden
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </IconButton>
-              </Box>
-              <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                Klicke auf das Kamera-Symbol, um ein Profilbild hochzuladen
+              <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3, textAlign: 'center' }}>
+                Lade bis zu 6 Fotos hoch für dein Dating-Profil. Das erste Foto wird als Hauptbild verwendet.
               </Typography>
+              
+              <MultiImageUpload
+                userId={typeof window !== 'undefined' ? localStorage.getItem('userId') || 'user-demo' : 'user-demo'}
+                existingImages={formData.datingPhotos}
+                onImagesUpdate={(images) => {
+                  setFormData(prev => ({ ...prev, datingPhotos: images }));
+                }}
+                maxImages={6}
+                maxFileSize={5}
+              />
             </Grid>
             
             <Grid item xs={12} md={6}>
