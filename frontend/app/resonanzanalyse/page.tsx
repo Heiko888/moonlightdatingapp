@@ -1369,7 +1369,7 @@ const ReadingPage: React.FC = () => {
                           {friends.length > 0 ? (
                             friends.map((friend, index) => (
                               <MenuItem key={friend.id} value={`partner${index}`}>
-                                {friend.name || `Partner ${index + 1}`} - {friend.hdType || 'Unbekannter Typ'}
+                                {friend.name || `Partner ${index + 1}`} - {friend.hdType || friend.hd_type || 'Unbekannter Typ'}
                               </MenuItem>
                             ))
                           ) : (
@@ -1442,16 +1442,16 @@ const ReadingPage: React.FC = () => {
                               border: '1px solid rgba(78, 205, 196, 0.3)'
                             }}>
                               <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                                <strong>Typ:</strong> {partner.hdType || 'Nicht angegeben'}
+                                <strong>Typ:</strong> {partner.hdType || partner.hd_type || 'Nicht angegeben'}
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                                <strong>Profil:</strong> {partner.hdProfile || 'Nicht angegeben'}
+                                <strong>Profil:</strong> {partner.hdProfile || partner.hd_profile || 'Nicht angegeben'}
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                                <strong>Autorität:</strong> {partner.hdAuthority || 'Nicht angegeben'}
+                                <strong>Autorität:</strong> {partner.hdAuthority || partner.hd_authority || 'Nicht angegeben'}
                               </Typography>
                               <Typography variant="body2" sx={{ color: 'white' }}>
-                                <strong>Strategie:</strong> {partner.hdStrategy || 'Nicht angegeben'}
+                                <strong>Strategie:</strong> {partner.hdStrategy || partner.hd_strategy || 'Nicht angegeben'}
                               </Typography>
                             </Box>
                           );
@@ -1467,44 +1467,66 @@ const ReadingPage: React.FC = () => {
                       size="large"
                       startIcon={<CompareArrows />}
                       onClick={() => {
-                        // Set demo chart data
-                        setChart1Data({
-                          hdType: 'Generator',
-                          profile: '2/4',
-                          authority: 'Sakral',
-                          strategy: 'Warten und Reagieren',
-                          gates: [
-                            { id: '1', active: true, name: 'Tor 1' },
-                            { id: '8', active: true, name: 'Tor 8' },
-                            { id: '13', active: true, name: 'Tor 13' }
-                          ],
-                          channels: [
-                            { id: '1-8', active: true, name: 'Kanal 1-8' }
-                          ],
-                          centers: [
-                            { id: 'sacral', active: true, name: 'Sakral' },
-                            { id: 'throat', active: true, name: 'Kehle' }
-                          ]
-                        });
+                        // Lade echte User-Daten für Chart 1
+                        const userData = localStorage.getItem('userData');
+                        let userChart = null;
                         
-                        setChart2Data({
-                          hdType: selectedChart2 === 'partner1' ? 'Manifestor' : selectedChart2 === 'partner2' ? 'Projektor' : 'Generator',
-                          profile: selectedChart2 === 'partner1' ? '1/3' : selectedChart2 === 'partner2' ? '2/5' : '3/5',
-                          authority: selectedChart2 === 'partner1' ? 'Emotional' : selectedChart2 === 'partner2' ? 'Milz' : 'Sakral',
-                          strategy: selectedChart2 === 'partner1' ? 'Informieren' : selectedChart2 === 'partner2' ? 'Warten auf Einladung' : 'Warten und Reagieren',
-                          gates: [
-                            { id: '2', active: true, name: 'Tor 2' },
-                            { id: '7', active: true, name: 'Tor 7' },
-                            { id: '13', active: true, name: 'Tor 13' }
-                          ],
-                          channels: [
-                            { id: '2-14', active: true, name: 'Kanal 2-14' }
-                          ],
-                          centers: [
-                            { id: 'sacral', active: false, name: 'Sakral' },
-                            { id: 'throat', active: true, name: 'Kehle' }
-                          ]
-                        });
+                        if (userData) {
+                          try {
+                            const parsed = JSON.parse(userData);
+                            userChart = {
+                              hdType: parsed.hdType || 'Noch nicht erstellt',
+                              profile: parsed.hdProfile || 'Noch nicht erstellt',
+                              authority: parsed.hdAuthority || 'Noch nicht erstellt',
+                              strategy: parsed.hdStrategy || 'Noch nicht erstellt',
+                              gates: parsed.gates || [],
+                              channels: parsed.channels || [],
+                              centers: parsed.centers || []
+                            };
+                          } catch (e) {}
+                        }
+                        
+                        // Fallback zu Demo-Daten wenn kein User-Chart vorhanden
+                        if (!userChart) {
+                          userChart = {
+                            hdType: 'Generator',
+                            profile: '2/4',
+                            authority: 'Sakral',
+                            strategy: 'Warten und Reagieren',
+                            gates: [
+                              { id: '1', active: true, name: 'Tor 1' },
+                              { id: '8', active: true, name: 'Tor 8' },
+                              { id: '13', active: true, name: 'Tor 13' }
+                            ],
+                            channels: [
+                              { id: '1-8', active: true, name: 'Kanal 1-8' }
+                            ],
+                            centers: [
+                              { id: 'sacral', active: true, name: 'Sakral' },
+                              { id: 'throat', active: true, name: 'Kehle' }
+                            ]
+                          };
+                        }
+                        
+                        setChart1Data(userChart);
+                        
+                        // Lade echte Partner-Daten für Chart 2
+                        if (selectedChart2 && selectedChart2 !== 'custom') {
+                          const partnerIndex = parseInt(selectedChart2.replace('partner', ''));
+                          const partner = friends[partnerIndex];
+                          
+                          if (partner) {
+                            setChart2Data({
+                              hdType: partner.hdType || partner.hd_type || 'Nicht angegeben',
+                              profile: partner.hdProfile || partner.hd_profile || 'Nicht angegeben',
+                              authority: partner.hdAuthority || partner.hd_authority || 'Nicht angegeben',
+                              strategy: partner.hdStrategy || partner.hd_strategy || 'Nicht angegeben',
+                              gates: partner.gates || [],
+                              channels: partner.channels || [],
+                              centers: partner.centers || []
+                            });
+                          }
+                        }
                         
                         setShowComparisonModal(true);
                       }}
