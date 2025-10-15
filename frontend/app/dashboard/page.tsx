@@ -447,7 +447,9 @@ const DashboardPage: React.FC = () => {
                     </Box>
                     <Box>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
-                        {userSubscription.plan || 'Kostenlos'} Paket
+                        {userSubscription.packageId === 'vip' ? 'VIP' :
+                         userSubscription.packageId === 'premium' ? 'Premium' :
+                         userSubscription.packageId === 'basic' ? 'Basic' : 'Kostenlos'} Paket
                       </Typography>
                       <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                         Status: {userSubscription.status === 'active' ? 'Aktiv' : 'Inaktiv'}
@@ -708,6 +710,233 @@ const DashboardPage: React.FC = () => {
           </Grid>
         </Grid>
 
+        {/* Quick Actions */}
+        <Card sx={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: 3,
+          mb: 4
+        }}>
+          <CardContent>
+            <Typography variant="h6" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
+              🚀 Schnellzugriff
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Star size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/planets')}
+                >
+                  Planeten
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Moon size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/mondkalender')}
+                >
+                  Mondkalender
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Target size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/reading')}
+                >
+                  Readings
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Heart size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/dating')}
+                >
+                  Dating
+                </Button>
+              </Grid>
+              
+              {/* Zweite Reihe */}
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Users size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/community')}
+                >
+                  Community
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<User size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/profil')}
+                >
+                  Profil
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<MessageCircle size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/chat-new')}
+                >
+                  Chat
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Settings size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/settings')}
+                >
+                  Einstellungen
+                </Button>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+
         {/* Human Design Chart Widget */}
         {chartData && (
           <Card sx={{ 
@@ -829,201 +1058,6 @@ const DashboardPage: React.FC = () => {
             </CardContent>
           </Card>
         )}
-
-        {/* Quick Actions */}
-        <Card sx={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: 3,
-          mb: 4
-        }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
-              🚀 Schnellzugriff
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Star size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/planets')}
-                >
-                  Planeten
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Moon size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #44a08d, #4ecdc4)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/mondkalender')}
-                >
-                  Mondkalender
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Target size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #667eea, #764ba2)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #5a6fd8, #6a4190)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/reading')}
-                >
-                  Readings
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Heart size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #ef4444, #dc2626)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #dc2626, #ef4444)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(239, 68, 68, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/dating')}
-                >
-                  Dating
-                </Button>
-              </Grid>
-              
-              {/* Zweite Reihe */}
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Users size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #10b981, #059669)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #059669, #10b981)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/community')}
-                >
-                  Community
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<User size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #8b5cf6, #7c3aed)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #7c3aed, #8b5cf6)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/profil')}
-                >
-                  Profil
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<MessageCircle size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #3b82f6, #2563eb)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #2563eb, #3b82f6)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/chat-new')}
-                >
-                  Chat
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  startIcon={<Settings size={20} />}
-                  sx={{
-                    background: 'linear-gradient(45deg, #6b7280, #4b5563)',
-                    color: 'white',
-                    py: 1.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    '&:hover': {
-                      background: 'linear-gradient(45deg, #4b5563, #6b7280)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(107, 114, 128, 0.3)'
-                    }
-                  }}
-                  onClick={() => router.push('/settings')}
-                >
-                  Einstellungen
-                </Button>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
 
         {/* Friends Community Widget */}
         <Card sx={{ 

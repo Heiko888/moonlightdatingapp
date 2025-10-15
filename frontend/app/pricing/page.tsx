@@ -25,34 +25,24 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     loadUserSubscription();
   }, []);
 
   const loadUserSubscription = async () => {
     try {
-      const userData = localStorage.getItem('userData');
-      const subscriptionData = localStorage.getItem('userSubscription');
+      // Prüfe beide localStorage Keys
+      let subscriptionData = localStorage.getItem('userSubscription');
+      if (!subscriptionData) {
+        subscriptionData = localStorage.getItem('user-subscription');
+      }
       
-      if (userData && subscriptionData) {
-        const user = JSON.parse(userData);
+      if (subscriptionData) {
         const subscription = JSON.parse(subscriptionData);
         setUserSubscription(subscription);
-      } else if (userData) {
-        const user = JSON.parse(userData);
-        const basicSubscription = {
-          userId: user.id,
-          packageId: 'basic',
-          status: 'active',
-          startDate: new Date().toISOString(),
-          endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-          autoRenew: false,
-          paymentMethod: 'none',
-          billingCycle: 'monthly'
-        };
-        localStorage.setItem('userSubscription', JSON.stringify(basicSubscription));
-        setUserSubscription(basicSubscription);
       } else {
         setUserSubscription(null);
       }
@@ -66,16 +56,54 @@ export default function PricingPage() {
 
   const handlePackageSelect = async (packageId: string, cycle: 'monthly' | 'yearly') => {
     try {
-      const userData = localStorage.getItem('userData');
-      if (!userData) {
-        router.push('/register');
+      // Prüfe ob User eingeloggt ist (mehrere mögliche Keys)
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      let userData = localStorage.getItem('userData');
+      const storedSubscription = localStorage.getItem('userSubscription') || localStorage.getItem('user-subscription');
+      
+      console.log('Login-Check (Pricing):', { 
+        token: !!token, 
+        userId: !!userId, 
+        userData: !!userData, 
+        userSubscription: !!userSubscription,
+        storedSubscription: !!storedSubscription
+      });
+      
+      // User ist eingeloggt wenn mindestens EINE dieser Bedingungen erfüllt ist
+      const isLoggedIn = !!(userSubscription || storedSubscription || token || userId || userData);
+      
+      if (!isLoggedIn) {
+        // Kein Login gefunden
+        console.error('Kein Login gefunden - leite zu Login');
+        alert('⚠️ Bitte melde dich zuerst an!');
+        router.push('/login');
         return;
       }
+      
+      console.log('✅ User ist eingeloggt');
 
-      const user = JSON.parse(userData);
+      // Hole User ID
+      let userIdValue = userId;
+      if (!userIdValue && userData) {
+        try {
+          const user = JSON.parse(userData);
+          userIdValue = user.id;
+        } catch (e) {
+          console.error('Fehler beim Parsen von userData', e);
+        }
+      }
+      if (!userIdValue && userSubscription) {
+        userIdValue = userSubscription.userId;
+      }
+      if (!userIdValue) {
+        userIdValue = 'user-' + Date.now();
+      }
+      
+      console.log('User ID:', userIdValue);
       
       const newSubscription = {
-        userId: user.id,
+        userId: userIdValue,
         packageId: packageId,
         status: 'active',
         startDate: new Date().toISOString(),
@@ -85,13 +113,21 @@ export default function PricingPage() {
         billingCycle: cycle
       };
       
+      // Speichere in beiden Keys (für Kompatibilität)
       localStorage.setItem('userSubscription', JSON.stringify(newSubscription));
+      localStorage.setItem('user-subscription', JSON.stringify(newSubscription));
+      
       setUserSubscription(newSubscription);
+      
+      // Erfolgsmeldung mit Upgrade/Downgrade Info
+      const packageNames = { basic: 'Basic', premium: 'Premium', vip: 'VIP' } as const;
+      alert(`✅ Paket zu ${packageNames[packageId as keyof typeof packageNames]} gewechselt!`);
+      
       router.push('/dashboard');
       
     } catch (error) {
       console.error('Fehler beim Auswählen des Pakets:', error);
-      alert('Fehler beim Auswählen des Pakets. Bitte versuchen Sie es erneut.');
+      alert('Fehler beim Paketwechsel. Bitte versuchen Sie es erneut.');
     }
   };
 
@@ -433,38 +469,61 @@ export default function PricingPage() {
                       ))}
                     </Box>
 
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      size="large"
-                      onClick={() => handlePackageSelect(pkg.id, billingCycle)}
-                      disabled={userSubscription?.packageId === pkg.id}
-                      sx={{
-                        background: userSubscription?.packageId === pkg.id
-                          ? 'linear-gradient(45deg, #6b7280, #9ca3af)'
-                          : `linear-gradient(45deg, ${getPackageColor(pkg.id)}, ${getPackageColor(pkg.id)}CC)`,
-                        '&:hover': {
-                          background: userSubscription?.packageId === pkg.id
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        component={Link}
+                        href={`/packages/${pkg.id}`}
+                        sx={{
+                          borderColor: getPackageColor(pkg.id),
+                          color: getPackageColor(pkg.id),
+                          '&:hover': {
+                            borderColor: getPackageColor(pkg.id),
+                            background: `${getPackageColor(pkg.id)}15`,
+                            transform: 'translateY(-2px)'
+                          },
+                          borderRadius: 3,
+                          fontWeight: 600,
+                          py: 1.5
+                        }}
+                      >
+                        📋 Alle Details ansehen
+                      </Button>
+                      
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        size="large"
+                        onClick={() => handlePackageSelect(pkg.id, billingCycle)}
+                        disabled={mounted && userSubscription?.packageId === pkg.id}
+                        sx={{
+                          background: (mounted && userSubscription?.packageId === pkg.id)
                             ? 'linear-gradient(45deg, #6b7280, #9ca3af)'
-                            : `linear-gradient(45deg, ${getPackageColor(pkg.id)}DD, ${getPackageColor(pkg.id)}EE)`,
-                          transform: 'translateY(-2px)',
-                          boxShadow: '0 8px 25px rgba(0,0,0,0.3)'
-                        },
-                        borderRadius: 3,
-                        fontWeight: 700,
-                        py: 2,
-                        fontSize: '1.1rem'
-                      }}
-                    >
-                      {userSubscription?.packageId === pkg.id ? (
-                        'Aktuelles Paket'
-                      ) : (
-                        <>
-                          {pkg.id === 'vip' ? 'VIP werden' : `${pkg.name} wählen`}
-                          <ArrowRight size={20} style={{ marginLeft: 8 }} />
-                        </>
-                      )}
-                    </Button>
+                            : `linear-gradient(45deg, ${getPackageColor(pkg.id)}, ${getPackageColor(pkg.id)}CC)`,
+                          '&:hover': {
+                            background: (mounted && userSubscription?.packageId === pkg.id)
+                              ? 'linear-gradient(45deg, #6b7280, #9ca3af)'
+                              : `linear-gradient(45deg, ${getPackageColor(pkg.id)}DD, ${getPackageColor(pkg.id)}EE)`,
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 8px 25px rgba(0,0,0,0.3)'
+                          },
+                          borderRadius: 3,
+                          fontWeight: 700,
+                          py: 2,
+                          fontSize: '1.1rem'
+                        }}
+                      >
+                        {mounted && userSubscription?.packageId === pkg.id ? (
+                          'Aktuelles Paket'
+                        ) : (
+                          <>
+                            {pkg.id === 'vip' ? 'VIP werden' : `${pkg.name} wählen`}
+                            <ArrowRight size={20} style={{ marginLeft: 8 }} />
+                          </>
+                        )}
+                      </Button>
+                    </Box>
                   </Paper>
                 </motion.div>
               </Grid>
