@@ -60,6 +60,7 @@ const packagesData = {
     color: '#4ecdc4',
     priceMonthly: 9.99,
     priceYearly: 99.99,
+    popular: false,
     description: 'Das Basic-Paket bietet dir alle grundlegenden Tools, um dein Human Design zu verstehen und im Alltag anzuwenden.',
     features: [
       {
@@ -204,6 +205,7 @@ const packagesData = {
     color: '#ffd700',
     priceMonthly: 49.99,
     priceYearly: 499.99,
+    popular: false,
     description: 'Das VIP-Paket bietet dir die komplette Human Design Erfahrung mit persönlichem Coaching, exklusiven Events und White Glove Service.',
     features: [
       {
