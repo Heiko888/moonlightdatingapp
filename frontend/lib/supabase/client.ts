@@ -1,38 +1,29 @@
-import { createClient } from '@supabase/supabase-js';
+// Alias für backwards compatibility
+// Importiert den eigentlichen Client aus utils/supabase/client.ts
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export { createClient } from '@/utils/supabase/client';
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true
-  }
-});
-
-// Hilfsfunktionen für sichere JSON-Operationen
-export const safeJsonParse = (jsonString: string, fallback: any = null) => {
-  if (!jsonString || jsonString.trim() === '') {
-    return fallback;
-  }
-
+// Helper-Funktionen
+export function safeJsonParse<T>(value: string | null, fallback: T): T {
+  if (!value) return fallback;
   try {
-    return JSON.parse(jsonString);
-    } catch (error) {
-    console.error('JSON.parse Fehler:', error);
-    console.error('Ungültiger JSON-String:', jsonString);
+    return JSON.parse(value) as T;
+  } catch {
     return fallback;
   }
-};
+}
 
-// Supabase-spezifische Fehlerbehandlung
-export const handleSupabaseError = (error: any, operation: string) => {
-  console.error(`Supabase ${operation} Error:`, error);
-  
-  if (error?.message) {
-    return error.message;
-  }
-  
-  return `Fehler bei ${operation}`;
-};
+export function getStorageItem(key: string): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(key);
+}
+
+export function setStorageItem(key: string, value: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(key, value);
+}
+
+export function removeStorageItem(key: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(key);
+}
