@@ -1222,25 +1222,70 @@ const ReadingPage: React.FC = () => {
                         <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
                           Dein eigenes Chart wird automatisch verwendet
                         </Typography>
-                        <Box sx={{
-                          p: 3,
-                          background: 'rgba(255, 107, 157, 0.1)',
-                          borderRadius: 2,
-                          border: '1px solid rgba(255, 107, 157, 0.3)'
-                        }}>
-                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                            <strong>Typ:</strong> Generator
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                            <strong>Profil:</strong> 2/4
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                            <strong>Autorität:</strong> Sakral
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'white' }}>
-                            <strong>Strategie:</strong> Warten und Reagieren
-                          </Typography>
-                        </Box>
+                        {(() => {
+                          // Lade echte Daten aus localStorage
+                          const userData = typeof window !== 'undefined' ? localStorage.getItem('userData') : null;
+                          let userChart = {
+                            type: 'Noch nicht erstellt',
+                            profile: '-',
+                            authority: '-',
+                            strategy: '-'
+                          };
+                          
+                          if (userData) {
+                            try {
+                              const parsed = JSON.parse(userData);
+                              userChart = {
+                                type: parsed.hdType || 'Nicht angegeben',
+                                profile: parsed.hdProfile || 'Nicht angegeben',
+                                authority: parsed.hdAuthority || 'Nicht angegeben',
+                                strategy: parsed.hdStrategy || 'Nicht angegeben'
+                              };
+                            } catch (e) {
+                              console.error('Fehler beim Laden der Chart-Daten:', e);
+                            }
+                          }
+                          
+                          return (
+                            <Box sx={{
+                              p: 3,
+                              background: 'rgba(255, 107, 157, 0.1)',
+                              borderRadius: 2,
+                              border: '1px solid rgba(255, 107, 157, 0.3)'
+                            }}>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Typ:</strong> {userChart.type}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Profil:</strong> {userChart.profile}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Autorität:</strong> {userChart.authority}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Strategie:</strong> {userChart.strategy}
+                              </Typography>
+                              {userChart.type === 'Noch nicht erstellt' && (
+                                <Button
+                                  variant="outlined"
+                                  size="small"
+                                  href="/profil-einrichten"
+                                  sx={{
+                                    mt: 2,
+                                    borderColor: '#ff6b9d',
+                                    color: '#ff6b9d',
+                                    '&:hover': {
+                                      borderColor: '#ff5a8a',
+                                      background: 'rgba(255,107,157,0.1)'
+                                    }
+                                  }}
+                                >
+                                  Jetzt Chart erstellen →
+                                </Button>
+                              )}
+                            </Box>
+                          );
+                        })()}
                       </Card>
                     </Grid>
 
@@ -1258,97 +1303,142 @@ const ReadingPage: React.FC = () => {
                             Chart 2 (Partner)
                           </Typography>
                         </Box>
-                        <TextField
-                          fullWidth
-                          select
-                          label="Wähle ein Chart zum Vergleich"
-                          value={selectedChart2}
-                          onChange={(e) => setSelectedChart2(e.target.value)}
-                          sx={{
-                            mb: 2,
-                            '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' },
-                            '& .MuiOutlinedInput-root': {
-                              color: 'white',
-                              '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                              '&:hover fieldset': { borderColor: '#4ecdc4' },
-                              '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+{(() => {
+                          // Lade echte Partner/Matches aus localStorage
+                          const friendsData = typeof window !== 'undefined' ? localStorage.getItem('friends') : null;
+                          let partners: any[] = [];
+                          
+                          if (friendsData) {
+                            try {
+                              partners = JSON.parse(friendsData);
+                            } catch (e) {
+                              console.error('Fehler beim Laden der Partner-Daten:', e);
                             }
-                          }}
-                        >
-                          <MenuItem value="">
-                            <em>Wähle ein Profil...</em>
-                          </MenuItem>
-                          <MenuItem value="partner1">Sarah - Manifestor</MenuItem>
-                          <MenuItem value="partner2">Michael - Projektor</MenuItem>
-                          <MenuItem value="partner3">Emma - Generator</MenuItem>
-                          <MenuItem value="custom">Eigenes Chart eingeben</MenuItem>
-                        </TextField>
+                          }
+                          
+                          return (
+                            <TextField
+                              fullWidth
+                              select
+                              label="Wähle ein Chart zum Vergleich"
+                              value={selectedChart2}
+                              onChange={(e) => setSelectedChart2(e.target.value)}
+                              sx={{
+                                mb: 2,
+                                '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' },
+                                '& .MuiOutlinedInput-root': {
+                                  color: 'white',
+                                  '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                                  '&:hover fieldset': { borderColor: '#4ecdc4' },
+                                  '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                                }
+                              }}
+                            >
+                              <MenuItem value="">
+                                <em>Wähle ein Profil...</em>
+                              </MenuItem>
+                              {partners.length > 0 ? (
+                                partners.map((partner, index) => (
+                                  <MenuItem key={index} value={`partner${index}`}>
+                                    {partner.name || `Partner ${index + 1}`} - {partner.hdType || 'Unbekannter Typ'}
+                                  </MenuItem>
+                                ))
+                              ) : (
+                                <MenuItem value="" disabled>
+                                  Noch keine Partner gespeichert
+                                </MenuItem>
+                              )}
+                              <MenuItem value="custom">Eigenes Chart eingeben</MenuItem>
+                            </TextField>
+                          );
+                        })()}
 
-                        {selectedChart2 === 'partner1' && (
-                          <Box sx={{
-                            p: 3,
-                            background: 'rgba(78, 205, 196, 0.1)',
-                            borderRadius: 2,
-                            border: '1px solid rgba(78, 205, 196, 0.3)'
-                          }}>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Typ:</strong> Manifestor
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Profil:</strong> 1/3
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Autorität:</strong> Emotional
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white' }}>
-                              <strong>Strategie:</strong> Informieren
-                            </Typography>
-                          </Box>
-                        )}
-
-                        {selectedChart2 === 'partner2' && (
-                          <Box sx={{
-                            p: 3,
-                            background: 'rgba(78, 205, 196, 0.1)',
-                            borderRadius: 2,
-                            border: '1px solid rgba(78, 205, 196, 0.3)'
-                          }}>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Typ:</strong> Projektor
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Profil:</strong> 2/5
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Autorität:</strong> Milz
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white' }}>
-                              <strong>Strategie:</strong> Warten auf Einladung
-                            </Typography>
-                          </Box>
-                        )}
-
-                        {selectedChart2 === 'partner3' && (
-                          <Box sx={{
-                            p: 3,
-                            background: 'rgba(78, 205, 196, 0.1)',
-                            borderRadius: 2,
-                            border: '1px solid rgba(78, 205, 196, 0.3)'
-                          }}>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Typ:</strong> Generator
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Profil:</strong> 3/5
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
-                              <strong>Autorität:</strong> Sakral
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'white' }}>
-                              <strong>Strategie:</strong> Warten und Reagieren
-                            </Typography>
-                          </Box>
-                        )}
+{(() => {
+                          // Zeige ausgewählten Partner an
+                          if (!selectedChart2 || selectedChart2 === '') return null;
+                          
+                          if (selectedChart2 === 'custom') {
+                            return (
+                              <Box sx={{
+                                p: 3,
+                                background: 'rgba(78, 205, 196, 0.1)',
+                                borderRadius: 2,
+                                border: '1px solid rgba(78, 205, 196, 0.3)',
+                                textAlign: 'center'
+                              }}>
+                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                                  Eigenes Chart eingeben wird noch implementiert
+                                </Typography>
+                                <Button
+                                  variant="outlined"
+                                  size="small"
+                                  href="/friends"
+                                  sx={{
+                                    borderColor: '#4ecdc4',
+                                    color: '#4ecdc4',
+                                    '&:hover': {
+                                      borderColor: '#3dbdb3',
+                                      background: 'rgba(78,205,196,0.1)'
+                                    }
+                                  }}
+                                >
+                                  Zur Freundesliste →
+                                </Button>
+                              </Box>
+                            );
+                          }
+                          
+                          // Lade Partner-Daten aus localStorage
+                          const friendsData = typeof window !== 'undefined' ? localStorage.getItem('friends') : null;
+                          let partners: any[] = [];
+                          
+                          if (friendsData) {
+                            try {
+                              partners = JSON.parse(friendsData);
+                            } catch (e) {}
+                          }
+                          
+                          // Finde den ausgewählten Partner
+                          const partnerIndex = parseInt(selectedChart2.replace('partner', ''));
+                          const partner = partners[partnerIndex];
+                          
+                          if (!partner) {
+                            return (
+                              <Box sx={{
+                                p: 3,
+                                background: 'rgba(78, 205, 196, 0.1)',
+                                borderRadius: 2,
+                                border: '1px solid rgba(78, 205, 196, 0.3)'
+                              }}>
+                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                                  Partner nicht gefunden
+                                </Typography>
+                              </Box>
+                            );
+                          }
+                          
+                          return (
+                            <Box sx={{
+                              p: 3,
+                              background: 'rgba(78, 205, 196, 0.1)',
+                              borderRadius: 2,
+                              border: '1px solid rgba(78, 205, 196, 0.3)'
+                            }}>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Typ:</strong> {partner.hdType || 'Nicht angegeben'}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Profil:</strong> {partner.hdProfile || 'Nicht angegeben'}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white', mb: 1 }}>
+                                <strong>Autorität:</strong> {partner.hdAuthority || 'Nicht angegeben'}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: 'white' }}>
+                                <strong>Strategie:</strong> {partner.hdStrategy || 'Nicht angegeben'}
+                              </Typography>
+                            </Box>
+                          );
+                        })()}
                       </Card>
                     </Grid>
                   </Grid>
