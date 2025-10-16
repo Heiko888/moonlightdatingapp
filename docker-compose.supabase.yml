@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Frontend Application
   frontend:
-    image: ghcr.io/heiko888/moonlightdatingapp-frontend:latest
+    image: ghcr.io/heiko888/moonlightdatingapp:main
     pull_policy: always
     ports:
       - "3000:3000"
