@@ -114,6 +114,17 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
 
+  # Redis Exporter for Metrics
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    ports:
+      - "9121:9121"
+    environment:
+      - REDIS_ADDR=redis:6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+
 volumes:
   grafana-storage:
   prometheus-storage:

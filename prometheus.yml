@@ -34,7 +34,8 @@ scrape_configs:
     static_configs:
       - targets: ['grafana:3000']
 
-  # Redis (falls verwendet)
+  # Redis Exporter
   - job_name: 'redis'
     static_configs:
-      - targets: ['redis:6379']
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 30s
