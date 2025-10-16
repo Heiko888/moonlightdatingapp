@@ -1,4 +1,7 @@
-import { supabase } from './client';
+import { createClient } from '@/utils/supabase/client';
+
+// Singleton Supabase Client für Services
+const supabase = createClient();
 
 // Types
 export interface Profile {

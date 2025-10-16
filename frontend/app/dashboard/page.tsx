@@ -76,6 +76,7 @@ const DashboardPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [userSubscription, setUserSubscription] = useState<any>(null);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
     // Prüfe ob Benutzer eingeloggt ist
@@ -89,9 +90,40 @@ const DashboardPage: React.FC = () => {
     }
     
     console.log('Dashboard wird geladen...');
+    loadUserName();
     loadDashboardData();
     loadUserSubscription();
   }, [router]);
+
+  const loadUserName = useCallback(async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      // Versuche zuerst aus localStorage zu laden
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        const data = JSON.parse(userData);
+        if (data.firstName || data.first_name) {
+          setUserName(data.firstName || data.first_name);
+          return;
+        }
+      }
+
+      // Andernfalls aus Supabase laden
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('first_name')
+        .eq('user_id', userId)
+        .single();
+
+      if (!error && profile?.first_name) {
+        setUserName(profile.first_name);
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden des Benutzernamens:', error);
+    }
+  }, []);
 
   const loadUserSubscription = useCallback(async () => {
     try {
@@ -375,6 +407,8 @@ const DashboardPage: React.FC = () => {
         {/* Header */}
         <Box sx={{ 
           mb: 6,
+          mt: 4,
+          pt: 3,
           textAlign: 'center',
           position: 'relative'
         }}>
@@ -382,18 +416,14 @@ const DashboardPage: React.FC = () => {
             color: 'white', 
             fontWeight: 'bold',
             mb: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 2,
+            textAlign: 'center',
             textShadow: '0 0 20px rgba(255,255,255,0.5)',
             background: 'linear-gradient(45deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
-            <Home size={40} />
-            🌟 Dashboard
+            {userName ? `${userName}s Dashboard` : 'Dashboard'}
           </Typography>
           <Typography variant="h6" sx={{ 
             color: 'rgba(255,255,255,0.9)',
@@ -402,7 +432,7 @@ const DashboardPage: React.FC = () => {
             mx: 'auto',
             lineHeight: 1.6
           }}>
-            Willkommen zurück! Hier ist dein persönlicher Überblick über deine Human Design Journey.
+            {userName ? `Willkommen zurück, ${userName}!` : 'Willkommen zurück!'} Hier ist dein persönlicher Überblick über deine Human Design Journey.
           </Typography>
         </Box>
 

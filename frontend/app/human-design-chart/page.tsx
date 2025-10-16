@@ -73,6 +73,7 @@ export default function HumanDesignChartPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [userSubscription, setUserSubscription] = useState<any>(null); // Temporär any-Typ
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState<string>('');
   const [chartData, setChartData] = useState<{
     hdChart?: {
       type: string;
@@ -113,12 +114,45 @@ export default function HumanDesignChartPage() {
       }
       
       setIsAuthenticated(true);
+      loadUserName();
       await loadUserSubscription();
       await loadChartData();
     };
 
     checkAuth();
   }, []);
+
+  const loadUserName = async () => {
+    try {
+      const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
+      if (!userId) return;
+
+      // Versuche zuerst aus localStorage zu laden
+      const userData = typeof window !== 'undefined' ? localStorage.getItem('userData') : null;
+      if (userData) {
+        const data = JSON.parse(userData);
+        if (data.firstName || data.first_name) {
+          setUserName(data.firstName || data.first_name);
+          return;
+        }
+      }
+
+      // Andernfalls aus Supabase laden
+      const { createClient } = await import('@/utils/supabase/client');
+      const supabase = createClient();
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('first_name')
+        .eq('user_id', userId)
+        .single();
+
+      if (!error && profile?.first_name) {
+        setUserName(profile.first_name);
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden des Benutzernamens:', error);
+    }
+  };
 
   const loadDemoChartData = async () => {
     try {
@@ -287,7 +321,7 @@ export default function HumanDesignChartPage() {
       }
 
       try {
-        const user = safeJsonParse(userData, {});
+        const user = safeJsonParse(userData, {}) as any;
         console.log('👤 Benutzerdaten:', user);
 
         // Prüfe ob Geburtsdaten vorhanden sind
@@ -408,7 +442,7 @@ export default function HumanDesignChartPage() {
       if (typeof window !== 'undefined') {
         const userChart = localStorage.getItem('userChart');
         if (userChart) {
-          const chartInfo = safeJsonParse(userChart, {});
+          const chartInfo = safeJsonParse(userChart, {}) as any;
           console.log('📋 Chart-Info aus localStorage:', chartInfo);
           
           setChartData(prevData => ({
@@ -617,7 +651,7 @@ export default function HumanDesignChartPage() {
       }}>
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
-          <Box textAlign="center" mb={6}>
+          <Box textAlign="center" mb={6} mt={4} pt={3}>
             <Typography 
               variant="h2" 
               sx={{ 
@@ -627,51 +661,34 @@ export default function HumanDesignChartPage() {
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2.5rem', md: '3.5rem' }
+                fontSize: { xs: '2rem', md: '3rem' }
               }}
             >
-              🌟 Human Design Chart
+              {userName ? `${userName}s Human Design Chart` : 'Dein Human Design Chart'}
             </Typography>
             <Typography 
-              variant="h5" 
+              variant="h6" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'rgba(255,255,255,0.85)', 
                 fontWeight: 300,
-                maxWidth: '600px',
+                maxWidth: '700px',
                 mx: 'auto',
-                lineHeight: 1.6
+                lineHeight: 1.8,
+                fontSize: { xs: '1rem', md: '1.25rem' }
               }}
             >
-              Dein persönliches Human Design Profil mit vollständiger Bodygraph-Visualisierung
+              {userName ? `Willkommen ${userName}! ` : ''}Entdecke dein persönliches Human Design Profil mit vollständiger Bodygraph-Visualisierung
             </Typography>
-          </Box>
-
-          {/* Debug Button für Chart-Berechnung */}
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Button
-              onClick={recalculateChart}
-              variant="outlined"
-              size="small"
-              sx={{
-                borderColor: 'rgba(255, 215, 0, 0.5)',
-                color: '#FFD700',
-                '&:hover': {
-                  borderColor: '#FFD700',
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)'
-                }
-              }}
-            >
-              🔄 Chart neu berechnen
-            </Button>
           </Box>
 
           {/* Type Overview Card */}
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            borderRadius: 3,
-            border: '1px solid rgba(255,255,255,0.2)',
-            mb: 4
+            borderRadius: 4,
+            border: '1px solid rgba(255,255,255,0.15)',
+            mb: 4,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
           }}>
             <CardContent sx={{ p: 4 }}>
               <Grid container spacing={3} alignItems="center">
@@ -732,44 +749,64 @@ export default function HumanDesignChartPage() {
 
           {/* Tabs */}
           <Paper sx={{
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            borderRadius: 3,
-            border: '1px solid rgba(255,255,255,0.2)',
-            mb: 3
+            borderRadius: 4,
+            border: '1px solid rgba(255,255,255,0.15)',
+            mb: 4,
+            overflow: 'hidden',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
           }}>
             <Tabs 
               value={activeTab} 
               onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
               sx={{
+                minHeight: 64,
                 '& .MuiTab-root': {
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.6)',
                   fontWeight: 600,
+                  fontSize: { xs: '0.875rem', md: '1rem' },
+                  minHeight: 64,
+                  px: { xs: 2, md: 3 },
+                  transition: 'all 0.3s ease',
                   '&.Mui-selected': {
-                    color: '#FFD700'
+                    color: '#FFD700',
+                    background: 'rgba(255, 215, 0, 0.1)'
+                  },
+                  '&:hover': {
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: 'rgba(255, 255, 255, 0.9)'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#FFD700'
+                  backgroundColor: '#FFD700',
+                  height: 3,
+                  borderRadius: '3px 3px 0 0'
+                },
+                '& .MuiTabs-flexContainer': {
+                  gap: { xs: 0, md: 1 }
                 }
               }}
             >
-              <Tab label="Bodygraph" icon={<User size={20} />} />
-              <Tab label="Zentren" icon={<Brain size={20} />} />
-              <Tab label="Kanäle" icon={<Activity size={20} />} />
-              <Tab label="Tore" icon={<Star size={20} />} />
-              <Tab label="Profil" icon={<Target size={20} />} />
+              <Tab label="Bodygraph" icon={<User size={20} />} iconPosition="start" />
+              <Tab label="Zentren" icon={<Brain size={20} />} iconPosition="start" />
+              <Tab label="Kanäle" icon={<Activity size={20} />} iconPosition="start" />
+              <Tab label="Tore" icon={<Star size={20} />} iconPosition="start" />
+              <Tab label="Profil & Details" icon={<Target size={20} />} iconPosition="start" />
             </Tabs>
           </Paper>
 
           {/* Tab Content */}
           <TabPanel value={activeTab} index={0}>
             <Card sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.2)',
-              minHeight: 600
+              borderRadius: 4,
+              border: '1px solid rgba(255,255,255,0.15)',
+              minHeight: 600,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
             }}>
               <CardContent sx={{ p: 4, textAlign: 'center' }}>
                 <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
@@ -808,11 +845,17 @@ export default function HumanDesignChartPage() {
               {Object.entries(chartInfo.centers).map(([centerName, center]: [string, any]) => (
                 <Grid item xs={12} sm={6} md={4} key={centerName}>
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 3,
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    height: '100%'
+                    borderRadius: 4,
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    height: '100%',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
+                      borderColor: 'rgba(255,255,255,0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -868,11 +911,17 @@ export default function HumanDesignChartPage() {
               {chartInfo.channels.map((channel: any, index: number) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 3,
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    height: '100%'
+                    borderRadius: 4,
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    height: '100%',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
+                      borderColor: 'rgba(255,255,255,0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -915,11 +964,17 @@ export default function HumanDesignChartPage() {
               {chartInfo.gates.map((gate: any) => (
                 <Grid item xs={12} sm={6} md={4} key={gate.id}>
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 3,
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    height: '100%'
+                    borderRadius: 4,
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    height: '100%',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
+                      borderColor: 'rgba(255,255,255,0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -962,10 +1017,11 @@ export default function HumanDesignChartPage() {
 
           <TabPanel value={activeTab} index={4}>
             <Card sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.2)'
+              borderRadius: 4,
+              border: '1px solid rgba(255,255,255,0.15)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
             }}>
               <CardContent sx={{ p: 4 }}>
                 <Typography variant="h5" sx={{ color: 'white', fontWeight: 600, mb: 3 }}>
@@ -1449,7 +1505,14 @@ export default function HumanDesignChartPage() {
           </TabPanel>
 
           {/* Action Buttons */}
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 4 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            gap: 2, 
+            justifyContent: 'center', 
+            mt: 6,
+            mb: 4,
+            flexWrap: 'wrap'
+          }}>
             <Button
               variant="contained"
               startIcon={<Share2 size={20} />}
@@ -1457,12 +1520,17 @@ export default function HumanDesignChartPage() {
                 background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: 'white',
                 fontWeight: 600,
-                px: 3,
+                px: 4,
+                py: 1.5,
                 borderRadius: 3,
+                fontSize: '1rem',
+                textTransform: 'none',
+                boxShadow: '0 4px 16px rgba(255, 107, 157, 0.3)',
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
+                  transform: 'translateY(-3px)',
+                  boxShadow: '0 8px 32px rgba(255, 107, 157, 0.4)'
                 }
               }}
             >
@@ -1472,15 +1540,21 @@ export default function HumanDesignChartPage() {
               variant="outlined"
               startIcon={<Download size={20} />}
               sx={{
-                borderColor: 'rgba(255, 107, 157, 0.3)',
+                borderColor: 'rgba(255, 107, 157, 0.4)',
                 color: '#ff6b9d',
                 fontWeight: 600,
-                px: 3,
+                px: 4,
+                py: 1.5,
                 borderRadius: 3,
+                fontSize: '1rem',
+                textTransform: 'none',
+                borderWidth: 2,
+                transition: 'all 0.3s ease',
                 '&:hover': {
                   borderColor: '#ff6b9d',
-                  backgroundColor: 'rgba(255, 107, 157, 0.1)',
-                  transform: 'translateY(-2px)'
+                  backgroundColor: 'rgba(255, 107, 157, 0.15)',
+                  transform: 'translateY(-3px)',
+                  borderWidth: 2
                 }
               }}
             >

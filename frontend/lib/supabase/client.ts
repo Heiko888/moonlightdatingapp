@@ -1,7 +1,12 @@
 // Alias für backwards compatibility
 // Importiert den eigentlichen Client aus utils/supabase/client.ts
 
+import { createClient as createSupabaseClient } from '@/utils/supabase/client';
+
 export { createClient } from '@/utils/supabase/client';
+
+// Singleton Client-Instanz für direkten Import
+export const supabase = createSupabaseClient();
 
 // Helper-Funktionen
 export function safeJsonParse<T>(value: string | null, fallback: T): T {

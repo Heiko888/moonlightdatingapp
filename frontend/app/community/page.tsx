@@ -85,6 +85,7 @@ function CommunityContent() {
   const [activeTab, setActiveTab] = useState(0);
   const [userSubscription, setUserSubscription] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState<string>('');
   const [newPostDialog, setNewPostDialog] = useState(false);
   const [newPostText, setNewPostText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -105,11 +106,42 @@ function CommunityContent() {
       }
       
       setIsAuthenticated(true);
+      loadUserName();
       await loadUserSubscription();
     };
 
     checkAuth();
   }, [router]);
+
+  const loadUserName = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+
+      const userData = localStorage.getItem('userData');
+      if (userData) {
+        const data = JSON.parse(userData);
+        if (data.firstName || data.first_name) {
+          setUserName(data.firstName || data.first_name);
+          return;
+        }
+      }
+
+      const { createClient } = await import('@/utils/supabase/client');
+      const supabase = createClient();
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('first_name')
+        .eq('user_id', userId)
+        .single();
+
+      if (!error && profile?.first_name) {
+        setUserName(profile.first_name);
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden des Benutzernamens:', error);
+    }
+  };
 
   const loadUserSubscription = async () => {
     try {
@@ -375,22 +407,6 @@ function CommunityContent() {
     }
   ];
 
-  if (!isAuthenticated) {
-    return (
-      <Box sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center'
-      }}>
-        <Typography variant="h6" sx={{ color: 'white' }}>
-          Lade Community Hub...
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
     <AccessControl 
       path="/community" 
@@ -408,9 +424,9 @@ function CommunityContent() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
-          <Box textAlign="center" mb={6}>
+          <Box textAlign="center" mb={6} mt={4} pt={3}>
             <Typography 
               variant="h2" 
               sx={{ 
@@ -420,55 +436,26 @@ function CommunityContent() {
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2.5rem', md: '3.5rem' }
+                fontSize: { xs: '2rem', md: '3rem' }
               }}
             >
-              🌟 Community Hub
+              {userName ? `${userName}s Community` : 'Community Hub'}
             </Typography>
             <Typography 
-              variant="h5" 
+              variant="h6" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'rgba(255,255,255,0.85)', 
                 fontWeight: 300,
-                maxWidth: '600px',
+                maxWidth: '700px',
                 mx: 'auto',
-                lineHeight: 1.6
+                lineHeight: 1.8,
+                fontSize: { xs: '1rem', md: '1.25rem' },
+                mb: 3
               }}
             >
-              Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey
+              {userName ? `Willkommen ${userName}! ` : ''}Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey
             </Typography>
           </Box>
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          {/* Header */}
-          <motion.div
-            
-            
-            
-          >
-            <Box sx={{ textAlign: 'center', mb: 4 }}>
-              
-              {/* Zurück zum Dashboard Button */}
-              <Button
-                variant="outlined"
-                onClick={() => router.push('/dashboard')}
-                sx={{
-                  borderColor: 'rgba(255, 107, 157, 0.3)',
-                  color: '#ff6b9d',
-                  fontWeight: 600,
-                  px: 3,
-                  borderRadius: 3,
-                  '&:hover': {
-                    borderColor: '#ff6b9d',
-                    backgroundColor: 'rgba(255, 107, 157, 0.1)',
-                    transform: 'translateY(-2px)'
-                  },
-                  mb: 2
-                }}
-              >
-                ← Zurück zum Dashboard
-              </Button>
-            </Box>
-          </motion.div>
 
           {/* Stats Cards */}
           <motion.div
@@ -480,17 +467,18 @@ function CommunityContent() {
               {communityStats.map((stat, index) => (
                 <Grid item xs={6} md={3} key={index}>
                   <Card sx={{
-                    background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     backdropFilter: 'blur(20px)',
-                    borderRadius: 3,
-                    border: '1px solid #10b981',
+                    borderRadius: 4,
+                    border: '1px solid rgba(16, 185, 129, 0.2)',
                     textAlign: 'center',
                     p: 2,
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: '0 20px 40px rgba(16, 185, 129, 0.3)'
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 12px 40px rgba(16, 185, 129, 0.25)',
+                      borderColor: 'rgba(16, 185, 129, 0.4)'
                     }
                   }}>
                     <CardContent>
@@ -517,12 +505,12 @@ function CommunityContent() {
             
           >
             <Paper sx={{
-              background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              borderRadius: 3,
-              border: '1px solid #10b981',
-              p: 2,
-              mb: 3
+              borderRadius: 4,
+              border: '1px solid rgba(16, 185, 129, 0.2)',
+              p: 3,
+              mb: 4
             }}>
               <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                 <TextField
@@ -568,12 +556,13 @@ function CommunityContent() {
 
           {/* Tabs */}
           <Paper sx={{
-            background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            borderRadius: 3,
-            border: '1px solid #10b981',
-            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
-            mb: 3
+            borderRadius: 4,
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            boxShadow: '0 8px 32px rgba(16, 185, 129, 0.15)',
+            mb: 4,
+            overflow: 'hidden'
           }}>
             <Tabs 
               value={activeTab} 
@@ -581,26 +570,39 @@ function CommunityContent() {
               variant="scrollable"
               scrollButtons="auto"
               sx={{
+                minHeight: 64,
                 '& .MuiTab-root': {
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.6)',
                   fontWeight: 600,
-                  minWidth: 'auto',
-                  px: 2,
+                  fontSize: { xs: '0.875rem', md: '1rem' },
+                  minHeight: 64,
+                  px: { xs: 2, md: 3 },
+                  transition: 'all 0.3s ease',
                   '&.Mui-selected': {
-                    color: '#10b981'
+                    color: '#10b981',
+                    background: 'rgba(16, 185, 129, 0.1)'
+                  },
+                  '&:hover': {
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    color: 'rgba(255, 255, 255, 0.9)'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#10b981'
+                  backgroundColor: '#10b981',
+                  height: 3,
+                  borderRadius: '3px 3px 0 0'
+                },
+                '& .MuiTabs-flexContainer': {
+                  gap: { xs: 0, md: 1 }
                 }
               }}
             >
-              <Tab label="Feed" icon={<MessageSquare size={20} />} />
-              <Tab label="Events" icon={<Calendar size={20} />} />
-              <Tab label="Online" icon={<Users size={20} />} />
-              <Tab label="Messages" icon={<MessageCircle size={20} />} />
-              <Tab label="Matches" icon={<Heart size={20} />} />
-              <Tab label="Mentoring" icon={<Award size={20} />} />
+              <Tab label="Feed" icon={<MessageSquare size={20} />} iconPosition="start" />
+              <Tab label="Events" icon={<Calendar size={20} />} iconPosition="start" />
+              <Tab label="Online" icon={<Users size={20} />} iconPosition="start" />
+              <Tab label="Nachrichten" icon={<MessageCircle size={20} />} iconPosition="start" />
+              <Tab label="Matches" icon={<Heart size={20} />} iconPosition="start" />
+              <Tab label="Mentoring" icon={<Award size={20} />} iconPosition="start" />
               <Tab label="Trending" icon={<TrendingUp size={20} />} />
             </Tabs>
           </Paper>
@@ -1385,7 +1387,6 @@ function CommunityContent() {
               ))}
             </Grid>
           </TabPanel>
-        </Container>
 
         {/* Floating Action Button */}
         <Fab
@@ -1557,7 +1558,7 @@ function CommunityContent() {
             </Button>
           </DialogActions>
         </Dialog>
-        </Box>
+      </Container>
       </Box>
     </AccessControl>
   );

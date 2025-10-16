@@ -2,7 +2,26 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, Typography, TextField, Button, Alert, CircularProgress, Container, Paper } from '@mui/material';
+import { 
+  Box, 
+  Typography, 
+  TextField, 
+  Button, 
+  Alert, 
+  CircularProgress, 
+  Container, 
+  Paper,
+  InputAdornment,
+  IconButton,
+  Stack
+} from '@mui/material';
+import { 
+  Email, 
+  Lock, 
+  Visibility, 
+  VisibilityOff 
+} from '@mui/icons-material';
+import { motion } from 'framer-motion';
 import { safeJsonParse, supabase } from '@/lib/supabase/client';
 
 interface LoginData {
@@ -15,6 +34,7 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
   
   const [formData, setFormData] = useState<LoginData>({
     email: '',
@@ -95,60 +115,122 @@ const LoginPage: React.FC = () => {
     <Box sx={{
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
         linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      py: 4
+      overflow: 'hidden'
     }}>
-      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
-        <Paper 
-          elevation={24} 
-          sx={{ 
-            p: 6,
-            background: 'rgba(255,255,255,0.05)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 4,
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
-          }}
+      
+      {/* Navigation */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'rgba(15, 15, 35, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 2
+          }}>
+            <Typography
+              onClick={() => router.push('/')}
+              variant="h5"
+              sx={{
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}
+            >
+              💫 HD App
+            </Typography>
+            
+            <Button
+              onClick={() => router.push('/register')}
+              variant="outlined"
+              disabled={isLoading}
+              sx={{
+                borderColor: 'rgba(255,255,255,0.3)',
+                color: 'white',
+                borderRadius: 3,
+                textTransform: 'none',
+                fontWeight: 600,
+                '&:hover': {
+                  borderColor: '#ff6b9d',
+                  backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 15px rgba(255, 107, 157, 0.2)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Registrieren
+            </Button>
+          </Box>
+        </Container>
+      </Box>
+
+      <Container maxWidth="sm" sx={{ pt: { xs: 14, md: 16 }, pb: 8, position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', minHeight: '100vh' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ width: '100%' }}
         >
-          <Typography 
-            variant="h4" 
-            component="h1" 
-            gutterBottom 
-            align="center" 
+          <Paper 
+            elevation={24} 
             sx={{ 
-              mb: 4,
-              background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 800,
-              fontSize: { xs: '2rem', md: '2.5rem' },
-              textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+              p: { xs: 4, md: 6 },
+              background: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: 4,
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
             }}
           >
-            🔐 HD App - Anmeldung
-          </Typography>
-        
-        <Typography 
-          variant="body1" 
-          align="center" 
-          sx={{ 
-            mb: 3, 
-            color: 'rgba(255,255,255,0.8)',
-            fontSize: '1.1rem'
-          }}
-        >
-          Melden Sie sich in Ihrem Konto an
-        </Typography>
+            <Typography 
+              variant="h2" 
+              component="h1" 
+              gutterBottom 
+              align="center" 
+              sx={{ 
+                mb: 2,
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                fontSize: { xs: '2rem', md: '3rem' }
+              }}
+            >
+              🔐 Anmeldung
+            </Typography>
+          
+            <Typography 
+              variant="h6" 
+              align="center" 
+              sx={{ 
+                mb: 5, 
+                color: 'rgba(255,255,255,0.85)',
+                lineHeight: 1.6,
+                fontSize: { xs: '1rem', md: '1.25rem' }
+              }}
+            >
+              Melde dich in deinem Konto an
+            </Typography>
 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
@@ -162,7 +244,7 @@ const LoginPage: React.FC = () => {
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
             required
             fullWidth
@@ -172,33 +254,23 @@ const LoginPage: React.FC = () => {
             value={formData.email}
             onChange={handleInputChange}
             disabled={isLoading}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Email sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                </InputAdornment>
+              )
+            }}
             sx={{ 
-              mb: 2,
+              mb: 3,
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255,255,255,0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 2,
-                color: 'white',
-                '&:hover': {
-                  border: '1px solid rgba(255,255,255,0.2)'
-                },
-                '&.Mui-focused': {
-                  border: '1px solid #ff6b9d'
-                }
+                background: 'rgba(255, 255, 255, 0.05)',
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
               },
-              '& .MuiInputBase-input': {
-                color: 'white',
-                '&::placeholder': {
-                  color: 'rgba(255,255,255,0.7)'
-                }
-              },
-              '& .MuiInputLabel-root': {
-                color: 'rgba(255,255,255,0.7)',
-                '&.Mui-focused': {
-                  color: '#ff6b9d'
-                }
-              }
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiInputBase-input': { color: 'white' }
             }}
           />
 
@@ -207,37 +279,38 @@ const LoginPage: React.FC = () => {
             fullWidth
             name="password"
             label="Passwort"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={formData.password}
             onChange={handleInputChange}
             disabled={isLoading}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    sx={{ color: 'rgba(255, 255, 255, 0.5)' }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
             sx={{ 
-              mb: 3,
+              mb: 4,
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255,255,255,0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 2,
-                color: 'white',
-                '&:hover': {
-                  border: '1px solid rgba(255,255,255,0.2)'
-                },
-                '&.Mui-focused': {
-                  border: '1px solid #ff6b9d'
-                }
+                background: 'rgba(255, 255, 255, 0.05)',
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+                '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
               },
-              '& .MuiInputBase-input': {
-                color: 'white',
-                '&::placeholder': {
-                  color: 'rgba(255,255,255,0.7)'
-                }
-              },
-              '& .MuiInputLabel-root': {
-                color: 'rgba(255,255,255,0.7)',
-                '&.Mui-focused': {
-                  color: '#ff6b9d'
-                }
-              }
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiInputBase-input': { color: 'white' }
             }}
           />
 
@@ -248,29 +321,33 @@ const LoginPage: React.FC = () => {
             size="large"
             disabled={isLoading}
             sx={{ 
-              mb: 2,
-              background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+              mb: 4,
+              px: 6,
+              py: 2.5,
+              background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
               color: 'white',
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: '1.1rem',
-              py: 1.5,
-              borderRadius: 2,
+              textTransform: 'none',
+              borderRadius: 3,
+              boxShadow: '0 10px 30px rgba(78, 205, 196, 0.4)',
               '&:hover': {
-                background: 'linear-gradient(45deg, #e55a8a, #3bb5b0)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
+                background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                transform: 'translateY(-4px)',
+                boxShadow: '0 15px 40px rgba(78, 205, 196, 0.5)'
               },
               '&:disabled': {
-                background: 'rgba(255,255,255,0.1)',
-                color: 'rgba(255,255,255,0.5)'
-              }
+                background: 'rgba(255, 255, 255, 0.1)',
+                color: 'rgba(255, 255, 255, 0.3)'
+              },
+              transition: 'all 0.3s ease'
             }}
           >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Anmelden'}
+            {isLoading ? <CircularProgress size={24} color="inherit" /> : '🔐 Anmelden'}
           </Button>
 
-          <Box sx={{ textAlign: 'center', mt: 2 }}>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
               Noch kein Konto?{' '}
               <Button 
                 variant="text" 
@@ -278,28 +355,30 @@ const LoginPage: React.FC = () => {
                 disabled={isLoading}
                 sx={{
                   color: '#ff6b9d',
-                  fontWeight: 600,
+                  fontWeight: 700,
+                  textTransform: 'none',
+                  fontSize: '1rem',
                   '&:hover': {
-                    background: 'rgba(255, 107, 157, 0.1)',
-                    color: '#e55a8a'
+                    color: '#e55a8a',
+                    background: 'rgba(255, 107, 157, 0.1)'
                   }
                 }}
               >
-                Registrieren
+                Jetzt registrieren
               </Button>
             </Typography>
-          </Box>
 
-          <Box sx={{ textAlign: 'center', mt: 2 }}>
             <Button 
               variant="text" 
               onClick={() => router.push('/')}
               disabled={isLoading}
               sx={{
-                color: 'rgba(255,255,255,0.7)',
+                color: 'rgba(255,255,255,0.6)',
+                textTransform: 'none',
+                fontSize: '0.9rem',
                 '&:hover': {
-                  background: 'rgba(255,255,255,0.1)',
-                  color: 'white'
+                  color: 'rgba(255,255,255,0.9)',
+                  background: 'rgba(255, 255, 255, 0.05)'
                 }
               }}
             >
@@ -307,8 +386,9 @@ const LoginPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-      </Paper>
-    </Container>
+          </Paper>
+        </motion.div>
+      </Container>
     </Box>
   );
 };

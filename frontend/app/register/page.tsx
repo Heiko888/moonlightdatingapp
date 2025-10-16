@@ -204,43 +204,106 @@ const RegisterPage: React.FC = () => {
     <Box sx={{
       minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
     }}>
       
-      <Container maxWidth="md" sx={{ py: 8, position: 'relative', zIndex: 2 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Paper elevation={8} sx={{ 
-            p: 6, 
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: 4,
-            backdropFilter: 'blur(10px)'
+      {/* Navigation */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'rgba(15, 15, 35, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 2
           }}>
-            <Box sx={{ textAlign: 'center', mb: 4 }}>
-              <Typography variant="h3" sx={{ 
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+            <Typography
+              onClick={() => router.push('/')}
+              variant="h5"
+              sx={{
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
-                mb: 2
+                cursor: 'pointer'
+              }}
+            >
+              💫 HD App
+            </Typography>
+            
+            <Button
+              onClick={() => router.push('/login')}
+              variant="outlined"
+              disabled={loading}
+              sx={{
+                borderColor: 'rgba(255,255,255,0.3)',
+                color: 'white',
+                borderRadius: 3,
+                textTransform: 'none',
+                fontWeight: 600,
+                '&:hover': {
+                  borderColor: '#4ecdc4',
+                  backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Anmelden
+            </Button>
+          </Box>
+        </Container>
+      </Box>
+      
+      <Container maxWidth="md" sx={{ pt: { xs: 14, md: 16 }, pb: 8, position: 'relative', zIndex: 2 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <Paper elevation={8} sx={{ 
+            p: { xs: 3, md: 6 }, 
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: 4,
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
+          }}>
+            <Box sx={{ textAlign: 'center', mb: 5 }}>
+              <Typography variant="h2" sx={{ 
+                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                mb: 2,
+                fontSize: { xs: '2rem', md: '3rem' }
               }}>
-                🌟 HD App - Registrierung
+                ✨ Registrierung
         </Typography>
               <Typography variant="h6" sx={{ 
-                color: 'rgba(255,255,255,0.8)',
-                mb: 4
+                color: 'rgba(255,255,255,0.85)',
+                lineHeight: 1.6,
+                fontSize: { xs: '1rem', md: '1.25rem' }
               }}>
-          Erstellen Sie Ihr Konto und entdecken Sie Ihr Human Design
+          Erstelle dein Konto und entdecke dein Human Design
         </Typography>
             </Box>
 
@@ -584,7 +647,7 @@ const RegisterPage: React.FC = () => {
                 </Grid>
               </Grid>
 
-              <Box sx={{ mt: 4, textAlign: 'center' }}>
+              <Box sx={{ mt: 5, textAlign: 'center' }}>
           <Button
             type="submit"
             variant="contained"
@@ -592,32 +655,49 @@ const RegisterPage: React.FC = () => {
             disabled={loading}
             sx={{ 
                     px: 6,
-                    py: 2,
-                    background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)',
+                    py: 2.5,
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                     borderRadius: 3,
                     fontSize: '1.1rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    textTransform: 'none',
+                    minWidth: { xs: '100%', sm: '300px' },
+                    boxShadow: '0 10px 30px rgba(255, 107, 157, 0.4)',
               '&:hover': {
-                      background: 'linear-gradient(45deg, #e55a8a, #3bb5b0)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)'
-              }
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 15px 40px rgba(255, 107, 157, 0.5)'
+              },
+                    '&:disabled': {
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    transition: 'all 0.3s ease'
             }}
           >
-            {loading ? <CircularProgress size={24} color="inherit" /> : 'Konto erstellen'}
+            {loading ? <CircularProgress size={24} color="inherit" /> : '✨ Konto erstellen'}
           </Button>
               </Box>
 
-              <Box sx={{ textAlign: 'center', mt: 4 }}>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+              <Box sx={{ textAlign: 'center', mt: 5 }}>
+                <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
               Bereits ein Konto?{' '}
               <Button 
                 variant="text" 
                 onClick={() => router.push('/login')}
                 disabled={loading}
-                    sx={{ color: '#4ecdc4', fontWeight: 600 }}
+                    sx={{ 
+                      color: '#4ecdc4', 
+                      fontWeight: 700,
+                      textTransform: 'none',
+                      fontSize: '1rem',
+                      '&:hover': {
+                        color: '#3bb5b0',
+                        background: 'rgba(78, 205, 196, 0.1)'
+                      }
+                    }}
               >
-                Anmelden
+                Jetzt anmelden
               </Button>
             </Typography>
 
@@ -625,7 +705,15 @@ const RegisterPage: React.FC = () => {
               variant="text" 
               onClick={() => router.push('/')}
               disabled={loading}
-                  sx={{ color: 'rgba(255,255,255,0.6)' }}
+                  sx={{ 
+                    color: 'rgba(255,255,255,0.6)',
+                    textTransform: 'none',
+                    fontSize: '0.9rem',
+                    '&:hover': {
+                      color: 'rgba(255,255,255,0.9)',
+                      background: 'rgba(255, 255, 255, 0.05)'
+                    }
+                  }}
             >
               ← Zurück zur Startseite
             </Button>
