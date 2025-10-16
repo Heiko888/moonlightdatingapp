@@ -3,9 +3,8 @@ version: '3.8'
 services:
   # Frontend Application
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: ghcr.io/heiko888/moonlightdatingapp-frontend:latest
+    pull_policy: always
     ports:
       - "3000:3000"
     environment:
@@ -21,10 +20,6 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: unless-stopped
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
     depends_on:
       - grafana
       - prometheus
