@@ -182,7 +182,7 @@ try {
 }
 
 # 9. Domain Test (falls konfiguriert)
-$domain = "moonlightdatingapp.werdemeisterdeinergedanken.de"
+$domain = "www.the-connection-key.de"
 Write-Step "Domain Test: $domain"
 try {
     $response = Invoke-WebRequest -Uri "https://$domain" -TimeoutSec 10 -UseBasicParsing
