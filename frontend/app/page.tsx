@@ -187,13 +187,13 @@ export default function HomePage() {
             py: 2
           }}>
             <Typography variant="h5" sx={{
-              background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 800
             }}>
-              💫 HD App
+              🔑 The Connection Key
             </Typography>
             
             <Stack direction="row" spacing={2}>
@@ -252,16 +252,16 @@ export default function HomePage() {
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography variant="h1" sx={{
-              background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 800,
               mb: 3,
               fontSize: { xs: '2.5rem', md: '4rem' },
-              textShadow: '0 0 40px rgba(255, 107, 157, 0.3)'
+              textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
             }}>
-              💫 Connection Code
+              💫 The Connection Key
             </Typography>
             
             <Typography variant="h5" sx={{

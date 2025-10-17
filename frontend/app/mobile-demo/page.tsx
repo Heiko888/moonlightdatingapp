@@ -78,7 +78,7 @@ export default function MobileDemoPage() {
     },
     {
       title: "Mobile App",
-      description: "Ihre HD App überall dabei",
+      description: "The Connection Key überall dabei",
       icon: <Smartphone size={32} color="#FFD700" />,
       color: "#06b6d4",
       path: "/mobile-app"
@@ -105,7 +105,7 @@ export default function MobileDemoPage() {
                 textShadow: '0 0 20px rgba(255, 255, 255, 0.3)'
               }}
             >
-              🌙 Mobile HD App
+              🌙 Mobile The Connection Key
             </Typography>
             <Typography 
               variant="h6" 

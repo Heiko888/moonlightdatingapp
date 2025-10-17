@@ -99,6 +99,13 @@ export default function HumanDesignChartPage() {
       profile?: string;
       authority?: string;
     };
+    birthData?: {
+      birthDate: string;
+      birthTime: string;
+      birthPlace: string;
+    };
+    centers?: string[];
+    openCenters?: string[];
   } | null>(null);
 
   useEffect(() => {
@@ -156,125 +163,56 @@ export default function HumanDesignChartPage() {
 
   const loadDemoChartData = async () => {
     try {
-      console.log('🎯 Lade Demo-Chart-Daten...');
+      console.log('🎯 Berechne Demo-Chart mit echten astronomischen Daten...');
       
-      // Supabase Chart-Berechnung
-      const { ChartService } = await import('../../lib/supabase/services');
-      
-      // Lade existierende Charts für Demo-User
-      const existingCharts = await ChartService.getCharts('demo-user-id');
-      let response;
-      
-      if (existingCharts.length > 0) {
-        // Verwende existierenden Chart
-        const chart = existingCharts[0];
-        response = { 
-          ok: true, 
-          json: () => Promise.resolve({ 
-            success: true, 
-            chart: {
-              name: chart.name,
-              birth_date: chart.birth_date,
-              birth_time: chart.birth_time,
-              birth_place: chart.birth_place,
-              hd_type: chart.hd_type,
-              authority: chart.authority,
-              strategy: chart.strategy,
-              profile: chart.profile,
-              incarnation_cross: chart.incarnation_cross,
-              centers: chart.centers,
-              channels: chart.channels,
-              gates: chart.gates,
-              planets: chart.planets
-            }
-          }) 
-        };
-      } else {
-        // Erstelle neuen Demo-Chart
-        const demoChart = await ChartService.createChart({
-          user_id: 'demo-user-id',
-          name: 'Demo User',
-          birth_date: '1980-12-08',
-          birth_time: '22:10',
-          birth_place: 'Miltenberg, Deutschland',
-          hd_type: 'Projector',
-          authority: 'Splenic',
-          strategy: 'Wait for the Invitation',
-          profile: '3/5',
-          incarnation_cross: 'Right Angle Cross of the Sleeping Phoenix',
-          centers: {
-            head: { defined: true, color: '#FF6B6B' },
-            ajna: { defined: true, color: '#4ECDC4' },
-            throat: { defined: false, color: '#45B7D1' },
-            g_center: { defined: true, color: '#96CEB4' },
-            heart: { defined: false, color: '#FFEAA7' },
-            solar_plexus: { defined: true, color: '#DDA0DD' },
-            sacral: { defined: false, color: '#98D8C8' },
-            root: { defined: true, color: '#F7DC6F' }
-          },
-          channels: [
-            { number: 1, name: 'Channel of Inspiration', gates: [1, 8] },
-            { number: 2, name: 'Channel of Abstraction', gates: [2, 14] }
-          ],
-          gates: [
-            { number: 1, name: 'Gate of Self-Expression', line: 1 },
-            { number: 8, name: 'Gate of Contribution', line: 3 }
-          ],
-          planets: {
-            sun: { sign: 'Sagittarius', degree: 16 },
-            moon: { sign: 'Cancer', degree: 8 },
-            mercury: { sign: 'Sagittarius', degree: 2 },
-            venus: { sign: 'Scorpio', degree: 28 },
-            mars: { sign: 'Capricorn', degree: 12 }
+      // Verwende Demo-Geburtsdaten für echte Chart-Berechnung
+      const response = await fetch('/api/charts/calculate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          birthDate: '1980-12-08',
+          birthTime: '22:10',
+          birthPlace: {
+            latitude: 49.7036,
+            longitude: 9.2654,
+            timezone: 'Europe/Berlin',
+            name: 'Miltenberg, Deutschland'
           }
-        });
-        
-        response = { 
-          ok: true, 
-          json: () => Promise.resolve({ 
-            success: true, 
-            chart: demoChart 
-          }) 
-        };
-      }
+        }),
+      });
 
       if (response.ok) {
         const chartResult = await response.json();
-        console.log('✅ Demo-Chart-Berechnung erfolgreich:', chartResult);
+        console.log('✅ Demo-Chart erfolgreich berechnet:', chartResult);
         
-        // Extrahiere die Metadaten aus der korrekten Struktur
-        const metadata = chartResult.chart;
-        console.log('📊 Demo-Metadaten:', metadata);
+        const chart = chartResult.chart;
         
         // Speichere die berechneten Daten
         setChartData({
           hdChart: {
-            type: metadata?.hd_type || 'Generator',
-            profile: metadata?.profile || '6/3',
-            authority: metadata?.authority || 'Emotional',
-            strategy: metadata?.strategy || 'Warten auf eine Frage',
-            incarnationCross: metadata?.incarnation_cross || {
-              name: 'Right Angle Cross of the Vessel of Love',
-              sunGate: 6,
-              earthGate: 36,
-              sunLine: 6,
-              earthLine: 3,
-              description: 'Das Inkarnationskreuz des Gefäßes der Liebe - du bist hier, um Liebe zu empfangen und zu geben',
-              lifeTheme: 'Liebe durch Transformation und Wachstum',
-              purpose: 'Andere durch deine Fähigkeit zu lieben und zu transformieren zu inspirieren',
-              challenges: 'Liebe ohne Bedingungen zu geben und zu empfangen',
-              gifts: 'Transformative Liebe, emotionale Tiefe, Heilung',
-              affirmation: 'Ich bin ein Gefäß der Liebe und Transformation'
-            }
+            type: chart.type,
+            profile: chart.profile,
+            authority: chart.authority,
+            strategy: chart.strategy,
+            incarnationCross: chart.incarnationCross
           },
           user: {
-            hdType: metadata?.hd_type,
-            profile: metadata?.profile,
-            authority: metadata?.authority
-          }
+            hdType: chart.type,
+            profile: chart.profile,
+            authority: chart.authority
+          },
+          birthData: {
+            birthDate: '08.12.1980',
+            birthTime: '22:10',
+            birthPlace: 'Miltenberg, Deutschland'
+          },
+          centers: chart.definedCenters,
+          openCenters: chart.openCenters
         });
       } else {
-        console.error('❌ Demo-Chart-Berechnung fehlgeschlagen:', response);
+        console.error('❌ Demo-Chart-Berechnung fehlgeschlagen:', response.status);
       }
     } catch (error) {
       console.error('❌ Fehler beim Laden der Demo-Chart-Daten:', error);
@@ -325,144 +263,104 @@ export default function HumanDesignChartPage() {
         console.log('👤 Benutzerdaten:', user);
 
         // Prüfe ob Geburtsdaten vorhanden sind
-      if (user.birthDate && user.birthTime && user.birthPlace) {
-        console.log('📊 Berechne Chart mit echten Geburtsdaten:', {
-          birthDate: user.birthDate,
-          birthTime: user.birthTime,
-          birthPlace: user.birthPlace
-        });
+        if (user.birthDate && user.birthTime && user.birthPlace) {
+          console.log('📊 Berechne Chart mit echten Geburtsdaten:', {
+            birthDate: user.birthDate,
+            birthTime: user.birthTime,
+            birthPlace: user.birthPlace
+          });
 
-        try {
-          // Mock Chart-Berechnung mit echten Daten (temporär)
-          const mockUserChartData = {
-            success: true,
-            chart: {
-              name: user.name || user.username,
-              email: user.email,
-              birth_date: user.birthDate,
-              birth_time: user.birthTime,
-              birth_place: user.birthPlace,
-              hd_type: 'Generator',
-              authority: 'Sacral',
-              strategy: 'To Respond',
-              profile: '2/4',
-              centers: {
-                head: { defined: false, color: '#FF6B6B' },
-                ajna: { defined: true, color: '#4ECDC4' },
-                throat: { defined: true, color: '#45B7D1' },
-                g_center: { defined: false, color: '#96CEB4' },
-                heart: { defined: true, color: '#FFEAA7' },
-                solar_plexus: { defined: false, color: '#DDA0DD' },
-                sacral: { defined: true, color: '#98D8C8' },
-                root: { defined: false, color: '#F7DC6F' }
-              },
-              channels: [
-                { number: 1, name: 'Channel of Inspiration', gates: [1, 8] },
-                { number: 2, name: 'Channel of Abstraction', gates: [2, 14] }
-              ],
-              gates: [
-                { number: 1, name: 'Gate of Self-Expression', line: 2 },
-                { number: 8, name: 'Gate of Contribution', line: 4 }
-              ]
+          try {
+            // Parse birthPlace wenn es ein String ist
+            let birthPlaceData;
+            if (typeof user.birthPlace === 'string') {
+              // Extrahiere Stadt/Land aus String
+              birthPlaceData = {
+                latitude: 52.52, // Default Berlin
+                longitude: 13.405,
+                timezone: 'Europe/Berlin',
+                name: user.birthPlace
+              };
+            } else {
+              birthPlaceData = user.birthPlace;
             }
-          };
-          
-          const response = { ok: true, json: () => Promise.resolve(mockUserChartData) };
 
-          if (response.ok) {
-            const chartResult = await response.json();
-            console.log('✅ Chart-Berechnung erfolgreich:', chartResult);
-            
-            // Extrahiere die Metadaten aus der korrekten Struktur
-            const metadata = chartResult.chart;
-            console.log('📊 Metadaten:', metadata);
-            
-            // Speichere die berechneten Daten
-            setChartData({
-              hdChart: {
-                type: metadata?.hd_type || 'Generator',
-                profile: metadata?.profile || '1/3',
-                authority: metadata?.authority || 'Sacral',
-                strategy: metadata?.strategy || 'Wait to Respond',
-                incarnationCross: 'Right Angle Cross of the Sleeping Phoenix'
+            // Echte Chart-Berechnung über API
+            const response = await fetch('/api/charts/calculate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
               },
-              user: {
-                hdType: metadata?.hd_type,
-                profile: metadata?.profile,
-                authority: metadata?.authority
-              }
+              body: JSON.stringify({
+                birthDate: user.birthDate,
+                birthTime: user.birthTime,
+                birthPlace: birthPlaceData
+              }),
             });
 
-            // Speichere auch in localStorage für zukünftige Verwendung (nur im Browser)
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('userChart', JSON.stringify({
-                hdType: metadata?.hd_type,
-                profile: metadata?.profile,
-                authority: metadata?.authority,
-                strategy: metadata?.strategy,
-                incarnationCross: 'Right Angle Cross of the Sleeping Phoenix',
-                centers: chartResult.chart?.centers,
-                channels: chartResult.chart?.channels,
-                gates: chartResult.chart?.gates
-              }));
-            }
+            if (response.ok) {
+              const chartResult = await response.json();
+              console.log('✅ Chart erfolgreich berechnet:', chartResult);
+              
+              const chart = chartResult.chart;
+              
+              // Speichere die berechneten Daten
+              setChartData({
+                hdChart: {
+                  type: chart.type,
+                  profile: chart.profile,
+                  authority: chart.authority,
+                  strategy: chart.strategy,
+                  incarnationCross: chart.incarnationCross
+                },
+                user: {
+                  hdType: chart.type,
+                  profile: chart.profile,
+                  authority: chart.authority
+                },
+                birthData: {
+                  birthDate: user.birthDate,
+                  birthTime: user.birthTime,
+                  birthPlace: birthPlaceData.name
+                },
+                centers: chart.definedCenters,
+                openCenters: chart.openCenters
+              });
 
-            return;
-          } else {
-            console.error('❌ Chart-Berechnung fehlgeschlagen:', response);
+              // Speichere auch in localStorage für zukünftige Verwendung
+              if (typeof window !== 'undefined') {
+                localStorage.setItem('userChart', JSON.stringify({
+                  hdType: chart.type,
+                  profile: chart.profile,
+                  authority: chart.authority,
+                  strategy: chart.strategy,
+                  incarnationCross: chart.incarnationCross,
+                  definedCenters: chart.definedCenters,
+                  openCenters: chart.openCenters
+                }));
+              }
+
+              return;
+            } else {
+              console.error('❌ Chart-Berechnung fehlgeschlagen:', response.status);
+              // Fallback zu Demo-Daten
+              await loadDemoChartData();
+            }
+          } catch (chartError) {
+            console.error('❌ Fehler bei Chart-Berechnung:', chartError);
             // Fallback zu Demo-Daten
             await loadDemoChartData();
           }
-        } catch (chartError) {
-          console.error('❌ Fehler bei Chart-Berechnung:', chartError);
-          // Fallback zu Demo-Daten
+        } else {
+          console.log('⚠️ Keine vollständigen Geburtsdaten, lade Demo-Daten');
           await loadDemoChartData();
         }
-      }
-
-      // Fallback: Mock Dashboard-Daten (temporär)
-      const mockDashboardData = {
-        hdChart: {
-          type: 'Generator',
-          profile: '2/4',
-          authority: 'Sacral',
-          strategy: 'To Respond',
-          incarnationCross: 'Right Angle Cross of the Sleeping Phoenix'
-        },
-        user: {
-          hdType: 'Generator',
-          profile: '2/4',
-          authority: 'Sacral'
-        }
-      };
-      console.log('📊 Mock Dashboard-Daten geladen:', mockDashboardData);
-      setChartData(mockDashboardData);
-
-      // Fallback: Lade gespeicherte Chart-Daten aus localStorage (nur im Browser)
-      if (typeof window !== 'undefined') {
-        const userChart = localStorage.getItem('userChart');
-        if (userChart) {
-          const chartInfo = safeJsonParse(userChart, {}) as any;
-          console.log('📋 Chart-Info aus localStorage:', chartInfo);
-          
-          setChartData(prevData => ({
-            ...prevData,
-            hdChart: {
-              type: chartInfo.hdType || prevData?.hdChart?.type,
-              profile: chartInfo.profile || prevData?.hdChart?.profile,
-              authority: chartInfo.authority || prevData?.hdChart?.authority,
-              strategy: chartInfo.strategy || prevData?.hdChart?.strategy,
-              incarnationCross: chartInfo.incarnationCross || prevData?.hdChart?.incarnationCross
-            }
-          }));
-        }
-      }
       } catch (parseError) {
-        console.error('JSON.parse Fehler in loadChartData:', parseError);
-        localStorage.removeItem('userData');
+        console.error('❌ JSON Parse Fehler:', parseError);
+        await loadDemoChartData();
       }
     } catch (error) {
-      console.error('Fehler beim Laden der Chart-Daten:', error);
+      console.error('❌ Fehler beim Laden der Chart-Daten:', error);
       // Fallback zu Demo-Daten
       await loadDemoChartData();
     }
@@ -620,14 +518,92 @@ export default function HumanDesignChartPage() {
     return (
       <Box sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
       }}>
-        <Typography variant="h6" sx={{ color: 'white' }}>
-          Bitte melde dich an, um dein Human Design Chart zu sehen.
-        </Typography>
+        {/* Floating Stars Animation */}
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none',
+          zIndex: 1
+        }}>
+          {[...Array(20)].map((_, i) => (
+            <Box
+              key={i}
+              sx={{
+                position: 'absolute',
+                width: Math.random() * 3 + 1,
+                height: Math.random() * 3 + 1,
+                background: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
+                animationDelay: `${Math.random() * 2}s`,
+                '@keyframes twinkle': {
+                  '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
+                  '50%': { opacity: 1, transform: 'scale(1.2)' }
+                }
+              }}
+            />
+          ))}
+        </Box>
+        
+        <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
+          <Paper 
+            elevation={3} 
+            sx={{ 
+              p: 4, 
+              textAlign: 'center',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: 4,
+              border: '1px solid rgba(78, 205, 196, 0.2)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700, mb: 2 }}>
+              🔐 Anmeldung erforderlich
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 3, color: 'rgba(255,255,255,0.9)' }}>
+              Bitte melde dich an, um dein Human Design Chart zu sehen.
+            </Typography>
+            <Button
+              component={Link}
+              href="/login"
+              variant="contained"
+              sx={{
+                background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                color: 'white',
+                textTransform: 'none',
+                fontWeight: 600,
+                px: 4,
+                py: 1.5,
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                },
+                transition: 'all 0.3s ease'
+              }}
+            >
+              Jetzt anmelden
+            </Button>
+          </Paper>
+        </Container>
       </Box>
     );
   }
@@ -641,27 +617,140 @@ export default function HumanDesignChartPage() {
       <Box sx={{ 
         minHeight: '100vh',
         background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
           linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        
+        {/* Floating Stars Animation */}
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none',
+          zIndex: 1
+        }}>
+          {[...Array(20)].map((_, i) => (
+            <Box
+              key={i}
+              sx={{
+                position: 'absolute',
+                width: Math.random() * 3 + 1,
+                height: Math.random() * 3 + 1,
+                background: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
+                animationDelay: `${Math.random() * 2}s`,
+                '@keyframes twinkle': {
+                  '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
+                  '50%': { opacity: 1, transform: 'scale(1.2)' }
+                }
+              }}
+            />
+          ))}
+        </Box>
+        
+        {/* Fixed Navigation */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: 'rgba(15, 15, 35, 0.95)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: 2
+            }}>
+              <Typography
+                component={Link}
+                href="/"
+                variant="h5"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                🔑 The Connection Key
+              </Typography>
+              
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button
+                  component={Link}
+                  href="/chart-info"
+                  variant="outlined"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    '&:hover': {
+                      borderColor: 'rgba(78, 205, 196, 0.5)',
+                      backgroundColor: 'rgba(78, 205, 196, 0.1)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Info
+                </Button>
+                <Button
+                  component={Link}
+                  href="/dashboard"
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Box>
+            </Box>
+          </Container>
+        </Box>
+        
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
-          <Box textAlign="center" mb={6} mt={4} pt={3}>
+          <Box textAlign="center" mb={6}>
             <Typography 
               variant="h2" 
               sx={{ 
-                fontWeight: 'bold', 
+                fontWeight: 800, 
                 mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2rem', md: '3rem' }
+                fontSize: { xs: '2rem', md: '3rem' },
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}
             >
               {userName ? `${userName}s Human Design Chart` : 'Dein Human Design Chart'}

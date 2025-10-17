@@ -229,7 +229,7 @@ export default function MobileAppPage() {
               }}
             >
               <Smartphone size={32} style={{ color: '#FFD700' }} />
-              HD App Mobile
+              The Connection Key Mobile
               <Smartphone size={32} style={{ color: '#FFD700' }} />
             </Typography>
               </motion.div>
@@ -248,7 +248,7 @@ export default function MobileAppPage() {
                   textShadow: '0 2px 8px rgba(0,0,0,0.3)'
                 }}
               >
-                Deine Human Design Journey immer dabei - mit der offiziellen HD App für iOS und Android
+                Deine Human Design Journey immer dabei - mit The Connection Key für iOS und Android
               </Typography>
 
               <Box sx={{ 

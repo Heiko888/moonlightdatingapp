@@ -34,15 +34,27 @@ import {
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-// Floating Stars Animation
+// Floating Stars Animation - Client only
 const AnimatedStars = () => {
-  const stars = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: Math.random() * 3 + 1,
-    delay: Math.random() * 2
-  }));
+  const [stars, setStars] = React.useState<Array<{
+    id: number;
+    left: string;
+    top: string;
+    size: number;
+    delay: number;
+  }>>([]);
+
+  React.useEffect(() => {
+    setStars(Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: Math.random() * 3 + 1,
+      delay: Math.random() * 2
+    })));
+  }, []);
+
+  if (stars.length === 0) return null;
 
   return (
     <Box sx={{
@@ -83,10 +95,10 @@ const AnimatedStars = () => {
 };
 
 export default function MondkalenderInfo() {
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   React.useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
   const features = [
@@ -346,7 +358,71 @@ export default function MondkalenderInfo() {
         '100%': { transform: 'scale(1)', opacity: 0.6 }
       }
     }}>
-      {isClient && <AnimatedStars />}
+      {/* Fixed Navigation */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        backdropFilter: 'blur(20px)',
+        background: 'rgba(15, 15, 35, 0.8)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            py: 2 
+          }}>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Typography variant="h5" sx={{ 
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}>
+                🔑 The Connection Key
+              </Typography>
+            </Link>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/mondphasen-info"
+                variant="outlined"
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': {
+                    borderColor: '#FFD700',
+                    background: 'rgba(255, 215, 0, 0.1)'
+                  }
+                }}
+              >
+                Mondphasen
+              </Button>
+              <Button
+                component={Link}
+                href="/login"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                  }
+                }}
+              >
+                Anmelden
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      {mounted && <AnimatedStars />}
       
       {/* Animierter Vollmond im Hintergrund */}
       <Box sx={{ 
@@ -368,12 +444,12 @@ export default function MondkalenderInfo() {
         animation: 'moonRotate 20s linear infinite, moonPulse 4s ease-in-out infinite'
       }} />
       
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: 8 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: 8 }}>
         {/* Header */}
         <motion.div
-          
-          
-          
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
@@ -381,12 +457,11 @@ export default function MondkalenderInfo() {
               <Typography variant="h2" sx={{ 
                 fontWeight: 800, 
                 ml: 2,
-                background: 'radial-gradient(circle at 30% 30%, #f8f8ff 0%, #e6e6fa 30%, #d3d3d3 60%, #c0c0c0 100%)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                textShadow: '0 0 30px rgba(248, 248, 255, 0.8), 0 0 60px rgba(230, 230, 250, 0.4)',
-                filter: 'drop-shadow(0 0 20px rgba(248, 248, 255, 0.6))'
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}>
                 Mondkalender
               </Typography>
@@ -403,9 +478,9 @@ export default function MondkalenderInfo() {
 
         {/* Features Grid */}
         <motion.div
-          
-          
-          
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Typography variant="h3" sx={{ color: '#FFD700', textAlign: 'center', mb: 6, fontWeight: 700 }}>
             ✨ Alle Funktionen im Überblick
@@ -804,44 +879,50 @@ export default function MondkalenderInfo() {
                 href="/mondkalender"
                 variant="contained"
                 size="large"
+                endIcon={<ArrowRight />}
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #fbbf24)',
-                  color: '#23233a',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  color: 'white',
                   fontWeight: 700,
                   px: 6,
-                  py: 2,
+                  py: 2.5,
                   fontSize: '1.1rem',
+                  borderRadius: 3,
+                  boxShadow: '0 10px 30px rgba(255, 107, 157, 0.4)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #fbbf24, #FFD700)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 10px 30px rgba(255, 215, 0, 0.4)'
-                  }
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 15px 40px rgba(255, 107, 157, 0.5)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 <Moon size={24} style={{ marginRight: 8 }} />
-                Mondkalender öffnen
+                Zum Mondkalender
               </Button>
               
               <Button
                 component={Link}
-                href="/seitenanzeige"
+                href="/register"
                 variant="outlined"
                 size="large"
                 sx={{
                   borderColor: 'rgba(255,255,255,0.3)',
                   color: 'white',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   px: 6,
-                  py: 2,
+                  py: 2.5,
                   fontSize: '1.1rem',
+                  borderRadius: 3,
                   '&:hover': {
-                    borderColor: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)'
-                  }
+                    borderColor: '#4ecdc4',
+                    background: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-4px)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
-                <Info size={24} style={{ marginRight: 8 }} />
-                Alle Funktionen
+                Jetzt registrieren
               </Button>
             </Box>
           </Card>

@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 interface Profile {
@@ -238,50 +239,88 @@ export default function SwipePage() {
       <Box sx={{ 
         minHeight: '100vh',
         background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
           linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
-          <Box sx={{ 
-            textAlign: 'center', 
-            mb: 6,
-            py: { xs: 4, md: 6 }
-          }}>
-            <Typography
-              variant="h2"
-              sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                fontSize: { xs: '2.5rem', md: '3.5rem' },
-                mb: 2,
-                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
-              }}
-            >
-              💕 Kosmische Verbindungen
-            </Typography>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
-                mb: 3,
-                fontSize: { xs: '1.1rem', md: '1.3rem' },
-                maxWidth: '600px',
-                mx: 'auto',
-                lineHeight: 1.6
-              }}
-            >
-              Finde deine energetische Entsprechung
-            </Typography>
+        {/* Fixed Navigation */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: 'rgba(15, 15, 35, 0.95)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: 2
+            }}>
+              <Typography
+                component={Link}
+                href="/"
+                variant="h5"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                🔑 The Connection Key
+              </Typography>
+              
+              <Stack direction="row" spacing={2}>
+                <Button
+                  component={Link}
+                  href="/dating-info"
+                  variant="outlined"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    '&:hover': {
+                      borderColor: 'rgba(255,107,157,0.5)',
+                      background: 'rgba(255,107,157,0.1)'
+                    }
+                  }}
+                >
+                  Info
+                </Button>
+                <Button
+                  component={Link}
+                  href="/dashboard"
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Stack>
+            </Box>
+          </Container>
         </Box>
-          
+        
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <Box display="flex" flexDirection="column" alignItems="center" py={8}>
             <CircularProgress size={60} sx={{ color: '#ff6b9d', mb: 2 }} />
             <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -298,52 +337,90 @@ export default function SwipePage() {
       <Box sx={{ 
         minHeight: '100vh',
         background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
           linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
-          <Box sx={{ 
-            textAlign: 'center', 
-            mb: 6,
-            py: { xs: 4, md: 6 }
-          }}>
-            <Typography
-              variant="h2"
-              sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                fontSize: { xs: '2.5rem', md: '3.5rem' },
-                mb: 2,
-                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
-              }}
-            >
-              💕 Kosmische Verbindungen
-            </Typography>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
-                mb: 3,
-                fontSize: { xs: '1.1rem', md: '1.3rem' },
-                maxWidth: '600px',
-                mx: 'auto',
-                lineHeight: 1.6
-              }}
-            >
-              Du hast alle Profile durchgesehen!
-            </Typography>
-          </Box>
-          
+        {/* Fixed Navigation */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: 'rgba(15, 15, 35, 0.95)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: 2
+            }}>
+              <Typography
+                component={Link}
+                href="/"
+                variant="h5"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  textDecoration: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                🔑 The Connection Key
+              </Typography>
+              
+              <Stack direction="row" spacing={2}>
+                <Button
+                  component={Link}
+                  href="/dating-info"
+                  variant="outlined"
+                  sx={{
+                    borderColor: 'rgba(255,255,255,0.3)',
+                    color: 'white',
+                    '&:hover': {
+                      borderColor: 'rgba(255,107,157,0.5)',
+                      background: 'rgba(255,107,157,0.1)'
+                    }
+                  }}
+                >
+                  Info
+                </Button>
+                <Button
+                  component={Link}
+                  href="/dashboard"
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Stack>
+            </Box>
+          </Container>
+        </Box>
+        
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <Box textAlign="center" py={8}>
-            <Typography variant="h5" gutterBottom sx={{ color: 'white' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: 'white', mb: 3 }}>
               🎉 Alle Profile durchgesehen!
             </Typography>
             <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
@@ -358,12 +435,15 @@ export default function SwipePage() {
                 background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                 color: 'white',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
-                }
+                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Neu starten
-          </Button>
+            </Button>
         </Box>
         </Container>
       </Box>
@@ -374,16 +454,89 @@ export default function SwipePage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
         linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
     }}>
       
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+      {/* Fixed Navigation */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'rgba(15, 15, 35, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 2
+          }}>
+            <Typography
+              component={Link}
+              href="/"
+              variant="h5"
+              sx={{
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              🔑 The Connection Key
+            </Typography>
+            
+            <Stack direction="row" spacing={2}>
+              <Button
+                component={Link}
+                href="/dating-info"
+                variant="outlined"
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  '&:hover': {
+                    borderColor: 'rgba(255,107,157,0.5)',
+                    background: 'rgba(255,107,157,0.1)'
+                  }
+                }}
+              >
+                Info
+              </Button>
+              <Button
+                component={Link}
+                href="/dashboard"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Dashboard
+              </Button>
+            </Stack>
+          </Box>
+        </Container>
+      </Box>
+      
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -393,19 +546,19 @@ export default function SwipePage() {
           <Box sx={{ 
             textAlign: 'center', 
             mb: 6,
-            py: { xs: 4, md: 6 }
+            py: { xs: 2, md: 4 }
           }}>
           <Typography
               variant="h2"
             sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               fontWeight: 800,
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 mb: 2,
-                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}
             >
               💕 Kosmische Verbindungen
@@ -493,10 +646,11 @@ export default function SwipePage() {
           <Card
             sx={{
               height: '100%',
-              background: 'rgba(255,255,255,0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 107, 157, 0.2)',
               borderRadius: 4,
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.2)',
               overflow: 'hidden',
               position: 'relative',
               color: 'white'

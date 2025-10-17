@@ -275,9 +275,9 @@ export default function SeitenuebersichtPage() {
     <Box sx={{
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
         linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
@@ -286,7 +286,71 @@ export default function SeitenuebersichtPage() {
     }}>
       <SSRSafeStars />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 } }}>
+      {/* Fixed Navigation Bar */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        backdropFilter: 'blur(20px)',
+        background: 'rgba(26, 11, 46, 0.8)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            py: 2 
+          }}>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Typography variant="h5" sx={{ 
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}>
+                🔑 The Connection Key
+              </Typography>
+            </Link>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/dashboard"
+                variant="outlined"
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    background: 'rgba(78, 205, 196, 0.1)'
+                  }
+                }}
+              >
+                Dashboard
+              </Button>
+              <Button
+                component={Link}
+                href="/login"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                  }
+                }}
+              >
+                Anmelden
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: { xs: 4, md: 8 } }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -297,14 +361,14 @@ export default function SeitenuebersichtPage() {
             <Typography
               variant="h2"
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 mb: 2,
-                textShadow: '0 0 30px rgba(255, 107, 157, 0.3)'
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}
             >
               📋 Seitenübersicht
@@ -332,13 +396,13 @@ export default function SeitenuebersichtPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '16px',
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: 4,
             p: 4,
             mb: 4,
-            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}>
             <Grid container spacing={3} alignItems="center">
               <Grid item xs={12} md={6}>
@@ -444,16 +508,18 @@ export default function SeitenuebersichtPage() {
               return (
                 <Grid item xs={6} sm={4} md={2.4} key={packageId}>
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: 4,
                     p: 2,
                     textAlign: 'center',
                     transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 15px 45px rgba(0,0,0,0.4)'
+                      boxShadow: '0 15px 45px rgba(78, 205, 196, 0.3)',
+                      borderColor: 'rgba(78, 205, 196, 0.3)'
                     }
                   }}>
                     <Box sx={{ color: info.color, mb: 1 }}>
@@ -480,12 +546,12 @@ export default function SeitenuebersichtPage() {
         >
           {Object.entries(groupedPages).map(([category, pages]) => (
             <Card key={category} sx={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '16px',
+              background: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: 4,
               mb: 3,
-              boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
             }}>
               <Box
                 sx={{
@@ -515,16 +581,18 @@ export default function SeitenuebersichtPage() {
                     {pages.map((page) => (
                       <Grid item xs={12} sm={6} md={4} key={page.id}>
                         <Card sx={{
-                          background: 'rgba(255, 255, 255, 0.05)',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          borderRadius: '12px',
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          backdropFilter: 'blur(20px)',
+                          border: '1px solid rgba(255,255,255,0.15)',
+                          borderRadius: 4,
                           p: 2,
                           height: '100%',
                           transition: 'all 0.3s ease',
+                          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
                           '&:hover': {
-                            transform: 'translateY(-3px)',
-                            boxShadow: '0 12px 35px rgba(0,0,0,0.4)',
-                            borderColor: getPackageColor(page.package)
+                            transform: 'translateY(-5px)',
+                            boxShadow: '0 12px 35px rgba(78, 205, 196, 0.3)',
+                            borderColor: '#4ecdc4'
                           }
                         }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -583,7 +651,13 @@ export default function SeitenuebersichtPage() {
                                   size="small"
                                   component={Link}
                                   href={page.path}
-                                  sx={{ color: 'rgba(255,255,255,0.7)' }}
+                                  sx={{ 
+                                    color: 'rgba(255,255,255,0.7)',
+                                    '&:hover': {
+                                      color: '#4ecdc4',
+                                      background: 'rgba(78, 205, 196, 0.1)'
+                                    }
+                                  }}
                                 >
                                   <Eye size={16} />
                                 </IconButton>
@@ -592,7 +666,13 @@ export default function SeitenuebersichtPage() {
                                 <SSRSafeExternalLink href={page.path}>
                                   <IconButton
                                     size="small"
-                                    sx={{ color: 'rgba(255,255,255,0.7)' }}
+                                    sx={{ 
+                                      color: 'rgba(255,255,255,0.7)',
+                                      '&:hover': {
+                                        color: '#4ecdc4',
+                                        background: 'rgba(78, 205, 196, 0.1)'
+                                      }
+                                    }}
                                   >
                                     <ExternalLink size={16} />
                                   </IconButton>
@@ -617,12 +697,14 @@ export default function SeitenuebersichtPage() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <Box sx={{
-            background: 'rgba(0,0,0,0.2)',
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.15)',
             py: 4,
             textAlign: 'center',
-            borderTop: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '16px',
-            mt: 4
+            borderRadius: 4,
+            mt: 4,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
               {isClient ? `📊 Gesamt: ${totalPagesCount} Seiten | 🔍 Gefiltert: ${filteredPages.length} Seiten` : '📊 Lädt...'}

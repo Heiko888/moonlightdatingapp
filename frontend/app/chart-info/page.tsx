@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AccessControl from '../../components/AccessControl';
-import UnifiedPageLayout from '../../components/UnifiedPageLayout';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Tabs, Tab, CircularProgress } from '@mui/material';
@@ -79,9 +78,14 @@ export default function ChartInfoPage() {
         justifyContent: 'center', 
         alignItems: 'center', 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `
       }}>
-        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+        <CircularProgress size={60} sx={{ color: '#4ecdc4' }} />
       </Box>
     );
   }
@@ -92,28 +96,28 @@ export default function ChartInfoPage() {
 
   const chartFeatures = [
     {
-      icon: <Zap size={32} />,
+      icon: <Zap size={24} />,
       title: "Energie-Typen",
       description: "Entdecke deinen einzigartigen Energie-Typ: Generator, Manifestor, Projector oder Reflector",
       color: "#f59e0b",
       details: "Jeder Typ hat eine spezifische Art, Energie zu verwenden und zu manifestieren."
     },
     {
-      icon: <Eye size={32} />,
+      icon: <Eye size={24} />,
       title: "Autorität",
       description: "Lerne deine natürliche Entscheidungsmethode kennen",
       color: "#10b981",
       details: "Deine innere Autorität zeigt dir, wie du authentische Entscheidungen triffst."
     },
     {
-      icon: <Heart size={32} />,
+      icon: <Heart size={24} />,
       title: "Strategie",
       description: "Finde deine optimale Lebensstrategie",
       color: "#ef4444",
       details: "Die richtige Strategie hilft dir, im Einklang mit deiner Natur zu leben."
     },
     {
-      icon: <Crown size={32} />,
+      icon: <Crown size={24} />,
       title: "Profil",
       description: "Verstehe deine Lebensrolle und dein Potenzial",
       color: "#8b5cf6",
@@ -187,11 +191,107 @@ export default function ChartInfoPage() {
       userSubscription={userSubscription} 
       onUpgrade={() => router.push('/pricing')}
     >
-      <UnifiedPageLayout
-        title="📊 Chart Informationen"
-        subtitle="Verstehe dein Human Design Chart: Zentren, Kanäle, Tore und Profile im Detail"
-      >
-        <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ 
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Fixed Navigation Bar */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backdropFilter: 'blur(20px)',
+          background: 'rgba(26, 11, 46, 0.8)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <Container maxWidth="xl">
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              py: 2 
+            }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Typography variant="h5" sx={{ 
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  cursor: 'pointer'
+                }}>
+                  🔑 The Connection Key
+                </Typography>
+              </Link>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button
+                  component={Link}
+                  href="/dashboard"
+                  variant="outlined"
+                  sx={{
+                    color: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    '&:hover': {
+                      borderColor: '#4ecdc4',
+                      background: 'rgba(78, 205, 196, 0.1)'
+                    }
+                  }}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  component={Link}
+                  href="/human-design-chart"
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                    }
+                  }}
+                >
+                  Mein Chart
+                </Button>
+              </Box>
+            </Box>
+          </Container>
+        </Box>
+
+        <Container maxWidth="xl" sx={{ pt: 15, pb: 6, position: 'relative', zIndex: 1 }}>
+          {/* Header */}
+          <Box sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography variant="h1" sx={{
+              fontWeight: 800,
+              fontSize: { xs: '2.5rem', md: '4rem' },
+              mb: 2,
+              textShadow: '0 0 30px rgba(78, 205, 196, 0.3)',
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              📊 Chart Informationen
+            </Typography>
+            <Typography variant="h5" sx={{
+              color: 'rgba(255,255,255,0.8)',
+              fontSize: { xs: '1.2rem', md: '1.5rem' },
+              maxWidth: 800,
+              mx: 'auto',
+              lineHeight: 1.6,
+              mb: 4
+            }}>
+              Verstehe dein Human Design Chart: Zentren, Kanäle, Tore und Profile im Detail
+            </Typography>
+          </Box>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -199,13 +299,14 @@ export default function ChartInfoPage() {
           >
             {/* Navigation Tabs */}
             <Paper sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              borderRadius: 3,
-              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 4,
+              border: '1px solid rgba(255,255,255,0.15)',
               maxWidth: 800,
               mx: 'auto',
-              mb: 4
+              mb: 4,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
             }}>
               <Tabs
                 value={activeTab}
@@ -216,11 +317,12 @@ export default function ChartInfoPage() {
                     color: 'rgba(255,255,255,0.7)',
                     fontWeight: 600,
                     '&.Mui-selected': {
-                      color: '#FFD700'
+                      color: '#4ecdc4'
                     }
                   },
                   '& .MuiTabs-indicator': {
-                    backgroundColor: '#FFD700'
+                    backgroundColor: '#4ecdc4',
+                    height: 3
                   }
                 }}
               >
@@ -241,15 +343,16 @@ export default function ChartInfoPage() {
           >
             {/* Was ist Human Design */}
           <Card sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
             borderRadius: 4,
-              border: '1px solid rgba(255,255,255,0.2)',
-            mb: 6
+              border: '1px solid rgba(255,255,255,0.15)',
+            mb: 6,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}>
             <CardContent sx={{ p: 6 }}>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
-                  <Sparkles size={48} color="#FFD700" style={{ marginBottom: 16 }} />
+                  <Sparkles size={48} color="#4ecdc4" style={{ marginBottom: 16 }} />
                   <Typography variant="h3" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>
                   Was ist Human Design?
                 </Typography>
@@ -277,30 +380,34 @@ export default function ChartInfoPage() {
                     
                   >
                     <Card sx={{
-                      background: 'rgba(255, 255, 255, 0.1)',
+                      background: 'rgba(255, 255, 255, 0.08)',
                       backdropFilter: 'blur(20px)',
-                      borderRadius: 3,
-                      border: '1px solid rgba(255,255,255,0.2)',
-                      height: '100%'
+                      borderRadius: 4,
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      height: '100%',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                        boxShadow: '0 12px 35px rgba(78, 205, 196, 0.3)',
+                        borderColor: '#4ecdc4'
+                      }
                     }}>
                       <CardContent sx={{ p: 3 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                           <Box sx={{
-                            width: 40,
-                            height: 40,
+                            width: 48,
+                            height: 48,
                             borderRadius: '50%',
-                            backgroundColor: feature.color,
+                            background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(139, 92, 246, 0.2))',
+                            border: '2px solid rgba(78, 205, 196, 0.3)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            mr: 2
+                            mr: 2,
+                            color: '#4ecdc4'
                           }}>
-                            <Box sx={{
-                              width: 20,
-                              height: 20,
-                              borderRadius: '50%',
-                              backgroundColor: 'white'
-                            }} />
+                            {feature.icon}
                           </Box>
                           <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                             {feature.title}
@@ -354,16 +461,18 @@ export default function ChartInfoPage() {
                     
                 >
                   <Card sx={{
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                    borderRadius: 3,
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      backdropFilter: 'blur(20px)',
+                    borderRadius: 4,
+                      border: '1px solid rgba(255,255,255,0.15)',
                       p: 3,
                       height: '100%',
                     transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
                     '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 15px 30px rgba(0,0,0,0.3)'
+                        transform: 'translateY(-5px)',
+                        boxShadow: '0 12px 35px rgba(78, 205, 196, 0.3)',
+                        borderColor: '#4ecdc4'
                     }
                   }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -447,16 +556,18 @@ export default function ChartInfoPage() {
                     
                   >
                     <Card sx={{
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      borderRadius: 3,
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      backdropFilter: 'blur(20px)',
+                      borderRadius: 4,
+                      border: '1px solid rgba(255,255,255,0.15)',
                       p: 3,
                       height: '100%',
                       transition: 'all 0.3s ease',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
                       '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 15px 30px rgba(0,0,0,0.3)'
+                        transform: 'translateY(-5px)',
+                        boxShadow: '0 12px 35px rgba(78, 205, 196, 0.3)',
+                        borderColor: '#4ecdc4'
                       }
                     }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -493,11 +604,12 @@ export default function ChartInfoPage() {
             
         >
           <Card sx={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
             borderRadius: 4,
-              border: '1px solid rgba(255,255,255,0.2)',
-            mb: 6
+              border: '1px solid rgba(255,255,255,0.15)',
+            mb: 6,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}>
             <CardContent sx={{ p: 6 }}>
               <Typography variant="h3" sx={{ 
@@ -517,7 +629,7 @@ export default function ChartInfoPage() {
                         
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                          <CheckCircle size={24} color="#FFD700" />
+                          <CheckCircle size={24} color="#4ecdc4" />
                         <Typography sx={{
                             color: 'rgba(255,255,255,0.9)',
                           fontSize: '1.1rem'
@@ -564,17 +676,18 @@ export default function ChartInfoPage() {
                variant="contained"
                size="large"
                sx={{
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  color: '#000',
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  color: 'white',
                  fontWeight: 700,
                  px: 6,
                  py: 2,
                  borderRadius: 3,
                  fontSize: '1.2rem',
+                 boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
                  '&:hover': {
-                    background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
                    transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 30px rgba(255, 215, 0, 0.4)'
+                    boxShadow: '0 12px 30px rgba(78, 205, 196, 0.5)'
                  }
                }}
              >
@@ -595,9 +708,11 @@ export default function ChartInfoPage() {
                   borderRadius: 3,
                   fontSize: '1.2rem',
                   '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                    transform: 'translateY(-2px)'
+                    borderColor: '#4ecdc4',
+                    color: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 12px rgba(78, 205, 196, 0.3)'
                   }
                 }}
               >
@@ -607,7 +722,7 @@ export default function ChartInfoPage() {
           </Box>
         </motion.div>
       </Container>
-    </UnifiedPageLayout>
+    </Box>
   </AccessControl>
   );
 }

@@ -91,15 +91,88 @@ export default function SalesPage() {
     <Box sx={{ 
       minHeight: '100vh', 
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%),
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='80' cy='80' r='1'/%3E%3Ccircle cx='40' cy='60' r='0.5'/%3E%3Ccircle cx='60' cy='40' r='0.5'/%3E%3Ccircle cx='90' cy='10' r='0.8'/%3E%3Ccircle cx='10' cy='90' r='0.8'/%3E%3C/g%3E%3C/svg%3E")
+        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
-      overflow: 'hidden',
-      py: 4
-    }}>
+      overflow: 'hidden'
+      }}>
+      
+      {/* Fixed Navigation */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'rgba(15, 15, 35, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 2
+          }}>
+            <Typography
+              component={Link}
+              href="/"
+              variant="h5"
+              sx={{
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              🔑 The Connection Key
+            </Typography>
+            
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/"
+                variant="outlined"
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  '&:hover': {
+                    borderColor: 'rgba(78, 205, 196, 0.5)',
+                    background: 'rgba(78, 205, 196, 0.1)'
+                  }
+                }}
+              >
+                Home
+              </Button>
+              <Button
+                component={Link}
+                href="/dashboard"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Dashboard
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+      
       {/* Floating Stars Animation */}
       <Box sx={{
         position: 'absolute',
@@ -132,7 +205,7 @@ export default function SalesPage() {
         ))}
       </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 } }}>
         {/* Hero Section */}
         <motion.div
           
@@ -162,14 +235,14 @@ export default function SalesPage() {
                 fontWeight: 900,
                 mb: 4,
                 fontSize: { xs: '2.5rem', md: '4rem' },
-                textShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
-                background: 'linear-gradient(45deg, #fff, #e0e7ff)',
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
               }}
             >
-              Human Design Coaching
+              The Connection Key
             </Typography>
             
             <Typography 
@@ -184,7 +257,7 @@ export default function SalesPage() {
               }}
             >
               Entdecke deine einzigartige kosmische Energie und lerne, wie du sie optimal nutzen kannst. 
-              Human Design zeigt dir den Weg zu deinem authentischen Selbst im Universum.
+              The Connection Key zeigt dir den Weg zu deinem authentischen Selbst im Universum.
             </Typography>
 
             <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -194,21 +267,21 @@ export default function SalesPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                  color: '#1a1a2e',
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  color: 'white',
                   fontWeight: 700,
                   px: 6,
                   py: 2,
                   fontSize: '1.2rem',
                   borderRadius: 3,
                   textTransform: 'none',
-                  boxShadow: '0 8px 32px rgba(255, 215, 0, 0.4)',
-                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(78, 205, 196, 0.4)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FFA500, #FFD700)',
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 40px rgba(255, 215, 0, 0.6)',
-                  }
+                    boxShadow: '0 12px 40px rgba(78, 205, 196, 0.6)',
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Jetzt kostenlos starten
@@ -221,7 +294,7 @@ export default function SalesPage() {
                 variant="outlined"
                 size="large"
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
+                  borderColor: 'rgba(78, 205, 196, 0.5)',
                   color: 'white',
                   fontWeight: 700,
                   px: 6,
@@ -229,12 +302,13 @@ export default function SalesPage() {
                   fontSize: '1.2rem',
                   borderRadius: 3,
                   textTransform: 'none',
-                  backdropFilter: 'blur(10px)',
                   '&:hover': {
-                    borderColor: 'white',
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    boxShadow: '0 8px 32px rgba(255,255,255,0.2)',
-                  }
+                    borderColor: 'rgba(78, 205, 196, 0.8)',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    boxShadow: '0 8px 32px rgba(78, 205, 196, 0.2)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Chart berechnen
@@ -262,7 +336,7 @@ export default function SalesPage() {
                   textShadow: '0 0 20px rgba(255, 255, 255, 0.3)'
                 }}
               >
-                Was Human Design für dich bedeutet
+                Was The Connection Key für dich bedeutet
               </Typography>
             </Box>
             
@@ -277,17 +351,17 @@ export default function SalesPage() {
                   >
                     <Card sx={{ 
                       height: '100%',
-                      background: 'rgba(255, 255, 255, 0.1)', 
+                      background: 'rgba(255, 255, 255, 0.05)', 
                       backdropFilter: 'blur(20px)',
                       borderRadius: 4, 
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                      border: '1px solid rgba(255,255,255,0.2)',
+                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                      border: '1px solid rgba(78, 205, 196, 0.2)',
                       transition: 'all 0.3s ease',
                       '&:hover': {
-                        transform: 'translateY(-8px)',
-                        boxShadow: '0 30px 60px rgba(0,0,0,0.4)',
-                        borderColor: 'rgba(255,255,255,0.4)',
-                        background: 'rgba(255, 255, 255, 0.15)',
+                        transform: 'translateY(-4px)',
+                        boxShadow: '0 8px 30px rgba(78, 205, 196, 0.2)',
+                        borderColor: 'rgba(78, 205, 196, 0.4)',
+                        background: 'rgba(255, 255, 255, 0.08)',
                       }
                     }}>
                       <CardContent sx={{ p: 4, textAlign: 'center' }}>
@@ -295,14 +369,14 @@ export default function SalesPage() {
                           width: 64, 
                           height: 64, 
                           borderRadius: '16px', 
-                          background: 'linear-gradient(135deg, #667eea, #764ba2)', 
+                          background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)', 
                           display: 'flex', 
                           alignItems: 'center', 
                           justifyContent: 'center', 
                           color: 'white', 
                           mx: 'auto',
                           mb: 3,
-                          boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4), 0 0 20px rgba(102, 126, 234, 0.2)'
+                          boxShadow: '0 8px 24px rgba(78, 205, 196, 0.4)'
                         }}>
                           {benefit.icon}
                         </Box>
@@ -391,11 +465,11 @@ export default function SalesPage() {
             
           >
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.1)', 
+              background: 'rgba(255, 255, 255, 0.05)', 
               backdropFilter: 'blur(20px)',
               borderRadius: 4, 
-              boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(78, 205, 196, 0.2)',
               p: 6
             }}>
               <Box sx={{ textAlign: 'center', mb: 4 }}>
@@ -406,12 +480,12 @@ export default function SalesPage() {
               
               <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', mb: 4 }}>
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={24} style={{ color: '#FFD700', fill: '#FFD700', filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.5))' }} />
+                  <Star key={i} size={24} style={{ color: '#4ecdc4', fill: '#4ecdc4', filter: 'drop-shadow(0 0 8px rgba(78, 205, 196, 0.5))' }} />
                 ))}
               </Box>
               
               <Typography variant="h5" sx={{ color: 'rgba(255,255,255,0.9)', mb: 4, lineHeight: 1.6, fontStyle: 'italic', textAlign: 'center', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
-                &ldquo;Human Design hat mir geholfen, mich selbst wirklich zu verstehen. 
+                &ldquo;The Connection Key hat mir geholfen, mich selbst wirklich zu verstehen. 
                 Endlich fühle ich mich authentisch und weiß, wie ich meine kosmische Energie optimal nutzen kann!&rdquo;
               </Typography>
               
@@ -420,13 +494,13 @@ export default function SalesPage() {
                   width: 56,
                   height: 56,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
                   fontWeight: 700,
-                  boxShadow: '0 8px 24px rgba(102, 126, 234, 0.4)'
+                  boxShadow: '0 8px 24px rgba(78, 205, 196, 0.4)'
                 }}>
                   AS
                 </Box>
@@ -435,7 +509,7 @@ export default function SalesPage() {
                     Anna S.
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Human Design Coach, 34
+                    Connection Key Coach, 34
                   </Typography>
                 </Box>
               </Box>

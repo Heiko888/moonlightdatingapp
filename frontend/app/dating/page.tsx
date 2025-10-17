@@ -183,9 +183,9 @@ export default function DatingDashboard() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
         linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
@@ -291,9 +291,10 @@ export default function DatingDashboard() {
           >
             <Card sx={{
               background: 'rgba(255,255,255,0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 3,
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.2)',
+              borderRadius: 4,
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               p: 3,
               mb: 4
             }}>
@@ -395,8 +396,13 @@ export default function DatingDashboard() {
                   variant="contained"
                   onClick={applyFilters}
                   sx={{
-                    background: 'linear-gradient(45deg, #10b981, #059669)',
-                    '&:hover': { background: 'linear-gradient(45deg, #059669, #10b981)' }
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': { 
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                  },
+                  transition: 'all 0.3s ease'
                   }}
                 >
                   Filter anwenden
@@ -455,13 +461,21 @@ export default function DatingDashboard() {
                   transition={{ duration: 0.2 }}
                 >
                   <Card sx={{
-                    background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(196, 69, 105, 0.08) 100%)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255, 107, 157, 0.2)',
-                    borderRadius: 3,
+                    borderRadius: 4,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     p: 3,
                     height: '100%',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 30px rgba(255, 107, 157, 0.2)',
+                      border: '1px solid rgba(255, 107, 157, 0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -525,13 +539,21 @@ export default function DatingDashboard() {
                   transition={{ duration: 0.2 }}
                 >
                   <Card sx={{
-                    background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(78, 205, 196, 0.2)',
-                    borderRadius: 3,
+                    borderRadius: 4,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     p: 3,
                     height: '100%',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 30px rgba(78, 205, 196, 0.2)',
+                      border: '1px solid rgba(78, 205, 196, 0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -595,13 +617,21 @@ export default function DatingDashboard() {
                   transition={{ duration: 0.2 }}
               >
                 <Card sx={{
-                    background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.08) 100%)',
-                    border: '1px solid rgba(102, 126, 234, 0.2)',
-                    borderRadius: 3,
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(139, 92, 246, 0.2)',
+                    borderRadius: 4,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     p: 3,
                     height: '100%',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 30px rgba(139, 92, 246, 0.2)',
+                      border: '1px solid rgba(139, 92, 246, 0.3)'
+                    }
                   }}>
                     <CardContent sx={{ p: 0, position: 'relative', zIndex: 2 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -676,12 +706,15 @@ export default function DatingDashboard() {
               onClick={() => setActiveTab(tab.id)}
               startIcon={tab.icon}
             sx={{
-                background: activeTab === tab.id ? 'linear-gradient(45deg, #FFD700, #fbbf24)' : 'transparent',
-                color: activeTab === tab.id ? '#23233a' : '#FFD700',
-                border: '1px solid #FFD700',
+                background: activeTab === tab.id ? 'linear-gradient(135deg, #4ecdc4, #0891b2)' : 'transparent',
+                color: activeTab === tab.id ? 'white' : '#4ecdc4',
+                border: '1px solid rgba(78, 205, 196, 0.3)',
+                fontWeight: activeTab === tab.id ? 700 : 500,
                 '&:hover': {
-                  background: activeTab === tab.id ? 'linear-gradient(45deg, #fbbf24, #FFD700)' : 'rgba(255, 215, 0, 0.1)'
-                }
+                  background: activeTab === tab.id ? 'linear-gradient(135deg, #3bb5b0, #0779a1)' : 'rgba(78, 205, 196, 0.1)',
+                  border: '1px solid rgba(78, 205, 196, 0.5)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               {tab.label}
@@ -710,17 +743,18 @@ export default function DatingDashboard() {
                 variant="contained"
                 size="large"
             sx={{ 
-                  background: 'linear-gradient(45deg, #ef4444, #dc2626)',
+                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
                   color: 'white',
                   fontWeight: 700,
                   px: 6,
                   py: 2,
                   fontSize: '1.2rem',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #dc2626, #ef4444)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 10px 30px rgba(239, 68, 68, 0.4)'
-                  }
+                    boxShadow: '0 10px 30px rgba(255, 107, 157, 0.4)'
+                  },
+                  transition: 'all 0.3s ease'
                 }}
               >
                 <Heart size={24} style={{ marginRight: 8 }} />
@@ -732,11 +766,18 @@ export default function DatingDashboard() {
               <Grid item xs={12} md={4}>
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 3,
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(78, 205, 196, 0.2)',
+                  borderRadius: 4,
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                   textAlign: 'center',
-                  p: 3
+                  p: 3,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 8px 30px rgba(78, 205, 196, 0.2)',
+                    border: '1px solid rgba(78, 205, 196, 0.3)'
+                  }
                 }}>
                   <Heart size={48} color="#ef4444" style={{ marginBottom: 16 }} />
                   <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
@@ -751,11 +792,18 @@ export default function DatingDashboard() {
               <Grid item xs={12} md={4}>
                 <Card sx={{
                   background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 3,
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(78, 205, 196, 0.2)',
+                  borderRadius: 4,
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                   textAlign: 'center',
-                  p: 3
+                  p: 3,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 8px 30px rgba(78, 205, 196, 0.2)',
+                    border: '1px solid rgba(78, 205, 196, 0.3)'
+                  }
                 }}>
                   <Users size={48} color="#3b82f6" style={{ marginBottom: 16 }} />
                   <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
@@ -799,14 +847,16 @@ export default function DatingDashboard() {
               {existingMatches.map((match) => (
                 <Grid item xs={12} md={6} lg={4} key={match.id}>
                   <Card sx={{
-                    background: 'rgba(255,255,255,0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: 3,
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 107, 157, 0.2)',
+                    borderRadius: 4,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                      boxShadow: '0 8px 30px rgba(255, 107, 157, 0.2)',
+                      border: '1px solid rgba(255, 107, 157, 0.3)'
                     }
                   }}>
                     <CardContent sx={{ p: 3 }}>
@@ -860,8 +910,13 @@ export default function DatingDashboard() {
                       variant="contained"
                       fullWidth
                       sx={{
-                            background: 'linear-gradient(45deg, #ef4444, #dc2626)',
-                            '&:hover': { background: 'linear-gradient(45deg, #dc2626, #ef4444)' }
+                            background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                            '&:hover': { 
+                              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                            },
+                            transition: 'all 0.3s ease'
                           }}
                         >
                           <Heart size={16} style={{ marginRight: 8 }} />
@@ -898,14 +953,16 @@ export default function DatingDashboard() {
               {events.map((event) => (
                 <Grid item xs={12} md={6} key={event.id}>
                   <Card sx={{
-                    background: 'rgba(255,255,255,0.05)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    borderRadius: 3,
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(78, 205, 196, 0.2)',
+                    borderRadius: 4,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                     transition: 'all 0.3s ease',
-                        '&:hover': {
+                    '&:hover': {
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+                      boxShadow: '0 8px 30px rgba(78, 205, 196, 0.2)',
+                      border: '1px solid rgba(78, 205, 196, 0.3)'
                     }
                   }}>
                     <CardContent sx={{ p: 3 }}>
@@ -918,9 +975,9 @@ export default function DatingDashboard() {
                             label={event.type} 
                             size="small" 
                             sx={{ 
-                              background: 'rgba(16, 185, 129, 0.2)', 
-                              color: '#10b981',
-                              border: '1px solid #10b981'
+                              background: 'rgba(78, 205, 196, 0.2)', 
+                              color: '#4ecdc4',
+                              border: '1px solid rgba(78, 205, 196, 0.5)'
                             }} 
                           />
                         </Box>
@@ -954,8 +1011,13 @@ export default function DatingDashboard() {
                         variant="contained"
                         fullWidth
                         sx={{
-                          background: 'linear-gradient(45deg, #10b981, #059669)',
-                          '&:hover': { background: 'linear-gradient(45deg, #059669, #10b981)' }
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': { 
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                  },
+                  transition: 'all 0.3s ease'
                         }}
                       >
                         <Calendar size={16} style={{ marginRight: 8 }} />
@@ -976,10 +1038,11 @@ export default function DatingDashboard() {
             
           >
             <Card sx={{
-              background: 'rgba(255,255,255,0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 3
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.2)',
+              borderRadius: 4,
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
             }}>
               <CardContent sx={{ p: 0 }}>
                 <List>
@@ -1031,9 +1094,14 @@ export default function DatingDashboard() {
               variant="outlined"
               startIcon={<Heart size={20} />}
               sx={{ 
-                borderColor: '#FFD700',
-                color: '#FFD700',
-                '&:hover': { borderColor: '#fbbf24', background: 'rgba(255, 215, 0, 0.1)' }
+                borderColor: 'rgba(78, 205, 196, 0.5)',
+                color: '#4ecdc4',
+                '&:hover': { 
+                  borderColor: 'rgba(78, 205, 196, 0.8)', 
+                  background: 'rgba(78, 205, 196, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Dating Info
@@ -1044,9 +1112,14 @@ export default function DatingDashboard() {
               variant="outlined"
               startIcon={<Lightbulb size={20} />}
               sx={{ 
-                borderColor: '#8b5cf6',
+                borderColor: 'rgba(139, 92, 246, 0.5)',
                 color: '#8b5cf6',
-                '&:hover': { borderColor: '#7c3aed', background: 'rgba(139, 92, 246, 0.1)' }
+                '&:hover': { 
+                  borderColor: 'rgba(139, 92, 246, 0.8)', 
+                  background: 'rgba(139, 92, 246, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Match Tipps
@@ -1055,9 +1128,14 @@ export default function DatingDashboard() {
               variant="outlined"
               startIcon={<Search size={20} />}
               sx={{ 
-                borderColor: '#3b82f6',
-                color: '#3b82f6',
-                '&:hover': { borderColor: '#2563eb', background: 'rgba(59, 130, 246, 0.1)' }
+                borderColor: 'rgba(255, 107, 157, 0.5)',
+                color: '#ff6b9d',
+                '&:hover': { 
+                  borderColor: 'rgba(255, 107, 157, 0.8)', 
+                  background: 'rgba(255, 107, 157, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Neue Matches
@@ -1067,9 +1145,14 @@ export default function DatingDashboard() {
               startIcon={<Filter size={20} />}
               onClick={() => setShowFilters(!showFilters)}
             sx={{ 
-                borderColor: '#10b981',
-                color: '#10b981',
-                '&:hover': { borderColor: '#059669', background: 'rgba(16, 185, 129, 0.1)' }
+                borderColor: 'rgba(78, 205, 196, 0.5)',
+                color: '#4ecdc4',
+                '&:hover': { 
+                  borderColor: 'rgba(78, 205, 196, 0.8)', 
+                  background: 'rgba(78, 205, 196, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               {showFilters ? 'Filter schließen' : 'Filter'}
@@ -1080,9 +1163,14 @@ export default function DatingDashboard() {
               variant="outlined"
               startIcon={<Star size={20} />}
               sx={{ 
-                borderColor: '#f59e0b',
-                color: '#f59e0b',
-                '&:hover': { borderColor: '#d97706', background: 'rgba(245, 158, 11, 0.1)' }
+                borderColor: 'rgba(139, 92, 246, 0.5)',
+                color: '#8b5cf6',
+                '&:hover': { 
+                  borderColor: 'rgba(139, 92, 246, 0.8)', 
+                  background: 'rgba(139, 92, 246, 0.1)',
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Reading
@@ -1098,10 +1186,11 @@ export default function DatingDashboard() {
         onClose={handleSettingsClose}
         PaperProps={{
           sx: {
-            background: 'rgba(255,255,255,0.05)',
+            background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 2,
+            border: '1px solid rgba(78, 205, 196, 0.2)',
+            borderRadius: 3,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
             mt: 1,
             minWidth: 200
           }

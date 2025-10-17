@@ -163,7 +163,7 @@ export default function CommunityInfoPage() {
               href="/"
               variant="h5"
               sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -172,7 +172,7 @@ export default function CommunityInfoPage() {
                 cursor: 'pointer'
               }}
             >
-              💫 HD App
+              🔑 The Connection Key
             </Typography>
             
             <Stack direction="row" spacing={2}>

@@ -369,14 +369,14 @@ const DashboardPage: React.FC = () => {
         alignItems: 'center', 
         minHeight: '100vh',
         background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
           linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         color: 'white'
       }}>
-        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+        <CircularProgress size={60} sx={{ color: '#4ECDC4' }} />
       </Box>
     );
   }
@@ -385,52 +385,103 @@ const DashboardPage: React.FC = () => {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
         linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
-      overflow: 'hidden',
-      '&::before': {
-        content: '""',
-        position: 'absolute',
+      overflow: 'hidden'
+    }}>
+      {/* Fixed Navigation Bar */}
+      <Box sx={{
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
-        bottom: 0,
-        background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%)',
-        zIndex: 0
-      }
-    }}>
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 4 }}>
+        zIndex: 1000,
+        backdropFilter: 'blur(20px)',
+        background: 'rgba(26, 11, 46, 0.8)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        <Container maxWidth="lg">
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            py: 2 
+          }}>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Typography variant="h5" sx={{ 
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}>
+                🔑 The Connection Key
+              </Typography>
+            </Link>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                onClick={() => router.push('/seitenuebersicht')}
+                variant="outlined"
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    background: 'rgba(78, 205, 196, 0.1)'
+                  }
+                }}
+              >
+                Übersicht
+              </Button>
+              <Button
+                onClick={handleLogout}
+                variant="contained"
+                startIcon={<LogOut size={18} />}
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                  }
+                }}
+              >
+                Abmelden
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: 15, pb: 4 }}>
         {/* Header */}
         <Box sx={{ 
           mb: 6,
-          mt: 4,
-          pt: 3,
           textAlign: 'center',
           position: 'relative'
         }}>
-          <Typography variant="h3" sx={{ 
-            color: 'white', 
+          <Typography variant="h2" sx={{ 
             fontWeight: 'bold',
             mb: 2,
-            textAlign: 'center',
-            textShadow: '0 0 20px rgba(255,255,255,0.5)',
-            background: 'linear-gradient(45deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%)',
+            background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
+            WebkitTextFillColor: 'transparent',
+            fontSize: { xs: '2rem', md: '3rem' },
+            textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
           }}>
             {userName ? `${userName}s Dashboard` : 'Dashboard'}
           </Typography>
           <Typography variant="h6" sx={{ 
-            color: 'rgba(255,255,255,0.9)',
+            color: 'rgba(255,255,255,0.85)',
             fontWeight: 300,
-            maxWidth: 600,
+            maxWidth: 700,
             mx: 'auto',
-            lineHeight: 1.6
+            lineHeight: 1.8,
+            fontSize: { xs: '1rem', md: '1.25rem' }
           }}>
             {userName ? `Willkommen zurück, ${userName}!` : 'Willkommen zurück!'} Hier ist dein persönlicher Überblick über deine Human Design Journey.
           </Typography>
@@ -447,52 +498,93 @@ const DashboardPage: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
             <Card sx={{
-              background: userSubscription.packageId === 'vip' ? 'linear-gradient(135deg, #FFD700, #FFA500)' :
-                         userSubscription.packageId === 'premium' ? 'linear-gradient(135deg, #9C27B0, #673AB7)' :
-                         userSubscription.packageId === 'basic' ? 'linear-gradient(135deg, #2196F3, #1976D2)' :
-                         'linear-gradient(135deg, #4CAF50, #388E3C)',
+              background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.08)' :
+                         userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.08)' :
+                         userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.08)' :
+                         'rgba(76, 175, 80, 0.08)',
+              backdropFilter: 'blur(20px)',
               mb: 4,
-              borderRadius: 3,
-              border: '1px solid rgba(255, 255, 255, 0.2)'
+              borderRadius: 4,
+              border: userSubscription.packageId === 'vip' ? '1px solid rgba(255, 215, 0, 0.2)' :
+                     userSubscription.packageId === 'premium' ? '1px solid rgba(156, 39, 176, 0.2)' :
+                     userSubscription.packageId === 'basic' ? '1px solid rgba(33, 150, 243, 0.2)' :
+                     '1px solid rgba(76, 175, 80, 0.2)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: userSubscription.packageId === 'vip' ? '0 8px 30px rgba(255, 215, 0, 0.15)' :
+                          userSubscription.packageId === 'premium' ? '0 8px 30px rgba(156, 39, 176, 0.15)' :
+                          userSubscription.packageId === 'basic' ? '0 8px 30px rgba(33, 150, 243, 0.15)' :
+                          '0 8px 30px rgba(76, 175, 80, 0.15)'
+              }
             }}>
               <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{
                       width: 50,
                       height: 50,
                       borderRadius: '50%',
-                      background: 'rgba(255, 255, 255, 0.2)',
+                      background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.15)' :
+                                 userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.15)' :
+                                 userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.15)' :
+                                 'rgba(76, 175, 80, 0.15)',
+                      border: userSubscription.packageId === 'vip' ? '2px solid rgba(255, 215, 0, 0.3)' :
+                             userSubscription.packageId === 'premium' ? '2px solid rgba(156, 39, 176, 0.3)' :
+                             userSubscription.packageId === 'basic' ? '2px solid rgba(33, 150, 243, 0.3)' :
+                             '2px solid rgba(76, 175, 80, 0.3)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      mr: 2
+                      mr: 2,
+                      fontSize: '1.5rem'
                     }}>
                       {userSubscription.packageId === 'vip' ? '👑' :
                        userSubscription.packageId === 'premium' ? '💎' :
                        userSubscription.packageId === 'basic' ? '⭐' : '🌱'}
                     </Box>
                     <Box>
-                      <Typography variant="h6" sx={{ color: 'white', fontWeight: 700, mb: 0.5 }}>
+                      <Typography variant="h6" sx={{ 
+                        color: userSubscription.packageId === 'vip' ? '#FFD700' :
+                               userSubscription.packageId === 'premium' ? '#9C27B0' :
+                               userSubscription.packageId === 'basic' ? '#2196F3' :
+                               '#4CAF50',
+                        fontWeight: 700, 
+                        mb: 0.5 
+                      }}>
                         {userSubscription.packageId === 'vip' ? 'VIP' :
                          userSubscription.packageId === 'premium' ? 'Premium' :
                          userSubscription.packageId === 'basic' ? 'Basic' : 'Kostenlos'} Paket
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                        Status: {userSubscription.status === 'active' ? 'Aktiv' : 'Inaktiv'}
+                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                        Status: {userSubscription.status === 'active' ? 'Aktiv ✓' : 'Inaktiv'}
                       </Typography>
                     </Box>
                   </Box>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     sx={{
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      color: 'white',
+                      borderColor: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.4)' :
+                                  userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.4)' :
+                                  userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.4)' :
+                                  'rgba(76, 175, 80, 0.4)',
+                      color: userSubscription.packageId === 'vip' ? '#FFD700' :
+                            userSubscription.packageId === 'premium' ? '#9C27B0' :
+                            userSubscription.packageId === 'basic' ? '#2196F3' :
+                            '#4CAF50',
                       '&:hover': {
-                        background: 'rgba(255, 255, 255, 0.3)'
+                        borderColor: userSubscription.packageId === 'vip' ? '#FFD700' :
+                                    userSubscription.packageId === 'premium' ? '#9C27B0' :
+                                    userSubscription.packageId === 'basic' ? '#2196F3' :
+                                    '#4CAF50',
+                        background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.1)' :
+                                   userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.1)' :
+                                   userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.1)' :
+                                   'rgba(76, 175, 80, 0.1)'
                       }
                     }}
                     onClick={() => router.push('/pricing')}
@@ -505,58 +597,73 @@ const DashboardPage: React.FC = () => {
           </motion.div>
         )}
 
-        {/* Statistik-Karten */}
-        <Grid container spacing={4} sx={{ mb: 6 }}>
+        {/* ============ STATISTIKEN ============ */}
+        <Box sx={{ mb: 10 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              borderRadius: 2
+            }
+          }}>
+            📊 Deine Statistiken
+          </Typography>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Grid container spacing={4} sx={{ mb: 0 }}>
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.08) 100%)',
-              backdropFilter: 'blur(25px)',
-              border: '1px solid rgba(255, 215, 0, 0.3)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.15)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
-                transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: '0 20px 40px rgba(255, 215, 0, 0.3)',
-                border: '1px solid rgba(255, 215, 0, 0.5)'
-              },
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.2) 0%, transparent 70%)',
-                opacity: 0.6
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
+                border: '1px solid rgba(78, 205, 196, 0.25)',
+                background: 'rgba(78, 205, 196, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  background: 'rgba(78, 205, 196, 0.15)',
+                  border: '2px solid rgba(78, 205, 196, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
-                  mb: 2,
-                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
+                  mb: 2
                 }}>
-                  <Moon size={28} color="white" />
+                  <Moon size={24} color="#4ECDC4" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#FFD700', 
+                  color: '#4ECDC4', 
                   fontWeight: 'bold',
-                  mb: 1,
-                  textShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
+                  mb: 1
                 }}>
                   {stats.moonEntries}
                 </Typography>
-                <Typography variant="h6" sx={{ 
-                  color: 'rgba(255,255,255,0.9)',
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.7)',
                   fontWeight: 500
                 }}>
                   Mond-Einträge
@@ -567,54 +674,45 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 69, 0, 0.08) 100%)',
-              backdropFilter: 'blur(25px)',
-              border: '1px solid rgba(255, 107, 107, 0.3)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.15)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
-                transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: '0 20px 40px rgba(255, 107, 107, 0.3)',
-                border: '1px solid rgba(255, 107, 107, 0.5)'
-              },
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 107, 0.2) 0%, transparent 70%)',
-                opacity: 0.6
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
+                border: '1px solid rgba(78, 205, 196, 0.25)',
+                background: 'rgba(78, 205, 196, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #FF6B6B, #FF4500)',
+                  background: 'rgba(78, 205, 196, 0.15)',
+                  border: '2px solid rgba(78, 205, 196, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
-                  mb: 2,
-                  boxShadow: '0 8px 25px rgba(255, 107, 107, 0.4)'
+                  mb: 2
                 }}>
-                  <Star size={28} color="white" />
+                  <Star size={24} color="#4ECDC4" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#FF6B6B', 
+                  color: '#4ECDC4', 
                   fontWeight: 'bold',
-                  mb: 1,
-                  textShadow: '0 0 10px rgba(255, 107, 107, 0.5)'
+                  mb: 1
                 }}>
                   {stats.readings}
                 </Typography>
-                <Typography variant="h6" sx={{ 
-                  color: 'rgba(255,255,255,0.9)',
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.7)',
                   fontWeight: 500
                 }}>
                   Readings
@@ -625,54 +723,45 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
-              backdropFilter: 'blur(25px)',
-              border: '1px solid rgba(78, 205, 196, 0.3)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.15)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
-                transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)',
-                border: '1px solid rgba(78, 205, 196, 0.5)'
-              },
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.2) 0%, transparent 70%)',
-                opacity: 0.6
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
+                border: '1px solid rgba(78, 205, 196, 0.25)',
+                background: 'rgba(78, 205, 196, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #4ECDC4, #44A08D)',
+                  background: 'rgba(78, 205, 196, 0.15)',
+                  border: '2px solid rgba(78, 205, 196, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
-                  mb: 2,
-                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+                  mb: 2
                 }}>
-                  <Heart size={28} color="white" />
+                  <Heart size={24} color="#4ECDC4" />
                 </Box>
                 <Typography variant="h3" sx={{ 
                   color: '#4ECDC4', 
                   fontWeight: 'bold',
-                  mb: 1,
-                  textShadow: '0 0 10px rgba(78, 205, 196, 0.5)'
+                  mb: 1
                 }}>
                   {stats.matches}
                 </Typography>
-                <Typography variant="h6" sx={{ 
-                  color: 'rgba(255,255,255,0.9)',
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.7)',
                   fontWeight: 500
                 }}>
                   Matches
@@ -683,54 +772,45 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'linear-gradient(135deg, rgba(155, 89, 182, 0.15) 0%, rgba(142, 68, 173, 0.08) 100%)',
-              backdropFilter: 'blur(25px)',
-              border: '1px solid rgba(155, 89, 182, 0.3)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(78, 205, 196, 0.15)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
-                transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: '0 20px 40px rgba(155, 89, 182, 0.3)',
-                border: '1px solid rgba(155, 89, 182, 0.5)'
-              },
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'radial-gradient(circle at 50% 0%, rgba(155, 89, 182, 0.2) 0%, transparent 70%)',
-                opacity: 0.6
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
+                border: '1px solid rgba(78, 205, 196, 0.25)',
+                background: 'rgba(78, 205, 196, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #9B59B6, #8E44AD)',
+                  background: 'rgba(78, 205, 196, 0.15)',
+                  border: '2px solid rgba(78, 205, 196, 0.3)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
-                  mb: 2,
-                  boxShadow: '0 8px 25px rgba(155, 89, 182, 0.4)'
+                  mb: 2
                 }}>
-                  <Users size={28} color="white" />
+                  <Users size={24} color="#4ECDC4" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#9B59B6', 
+                  color: '#4ECDC4', 
                   fontWeight: 'bold',
-                  mb: 1,
-                  textShadow: '0 0 10px rgba(155, 89, 182, 0.5)'
+                  mb: 1
                 }}>
                   {stats.communityActivity}
                 </Typography>
-                <Typography variant="h6" sx={{ 
-                  color: 'rgba(255,255,255,0.9)',
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.7)',
                   fontWeight: 500
                 }}>
                   Community
@@ -739,19 +819,42 @@ const DashboardPage: React.FC = () => {
             </Card>
           </Grid>
         </Grid>
+          </motion.div>
+        </Box>
 
-        {/* Quick Actions */}
-        <Card sx={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: 3,
-          mb: 4
-        }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ color: 'white', mb: 3, textAlign: 'center' }}>
+        {/* ============ SCHNELLZUGRIFF ============ */}
+        <Box sx={{ mb: 10 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              borderRadius: 2
+            }
+          }}>
               🚀 Schnellzugriff
             </Typography>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Card sx={{ 
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(78, 205, 196, 0.15)',
+            borderRadius: 4,
+            mb: 0
+          }}>
+            <CardContent sx={{ p: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
                 <Button
@@ -932,7 +1035,7 @@ const DashboardPage: React.FC = () => {
                       boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
                     }
                   }}
-                  onClick={() => router.push('/chat-new')}
+                  onClick={() => router.push('/chat')}
                 >
                   Chat
                 </Button>
@@ -966,9 +1069,499 @@ const DashboardPage: React.FC = () => {
             </Grid>
           </CardContent>
         </Card>
+          </motion.div>
+        </Box>
 
-        {/* Human Design Chart Widget */}
+        {/* ============ COMMUNITY & DATING ============ */}
+        <Box sx={{ mb: 10 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #4ecdc4, #ff6b9d)',
+              borderRadius: 2
+            }
+          }}>
+            💝 Community & Dating
+          </Typography>
+
+          {/* Friends Community Widget */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+          <Card sx={{ 
+          background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(78, 205, 196, 0.4)',
+          borderRadius: 3,
+          mb: 5,
+          overflow: 'hidden',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.3) 0%, transparent 70%)',
+            opacity: 0.6
+          }
+        }}>
+          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{
+                width: 60,
+                height: 60,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mr: 3,
+                boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+              }}>
+                <Users size={30} color="white" />
+              </Box>
+              <Box>
+                <Typography variant="h5" sx={{ 
+                  color: '#4ecdc4', 
+                  fontWeight: 'bold',
+                  mb: 0.5
+                }}>
+                  👥 Friends Community
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.8)'
+                }}>
+                  Verbinde dich mit Gleichgesinnten
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              mb: 3,
+              lineHeight: 1.6
+            }}>
+              Entdecke eine lebendige Community von Menschen, die Human Design leben und verstehen. 
+              Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
+            </Typography>
+
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    2,500+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Mitglieder
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    150+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Posts/Tag
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    25+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Events/Monat
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                    500+
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Matches
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                startIcon={<Users size={18} />}
+                onClick={() => router.push('/community-info')}
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(78, 205, 196, 0.6)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Community entdecken
+              </Button>
+              
+              <Button
+                variant="outlined"
+                startIcon={<Heart size={18} />}
+                onClick={() => router.push('/friends')}
+                sx={{
+                  borderColor: '#4ecdc4',
+                  color: '#4ecdc4',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  '&:hover': {
+                    borderColor: '#44a08d',
+                    color: '#44a08d',
+                    background: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Freunde finden
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+        </motion.div>
+
+        {/* Dating Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <Card sx={{ 
+          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 107, 157, 0.4)',
+          borderRadius: 3,
+          mb: 5,
+          overflow: 'hidden',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 157, 0.3) 0%, transparent 70%)',
+            opacity: 0.6
+          }
+        }}>
+          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{
+                width: 60,
+                height: 60,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                mr: 3,
+                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)'
+              }}>
+                <Heart size={30} color="white" />
+              </Box>
+              <Box>
+                <Typography variant="h5" sx={{ 
+                  color: '#ff6b9d', 
+                  fontWeight: 'bold',
+                  mb: 0.5
+                }}>
+                  💕 Dating & Matching
+                </Typography>
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.8)'
+                }}>
+                  Finde die Liebe, die wirklich zu dir passt
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ 
+              color: 'rgba(255,255,255,0.9)', 
+              mb: 3,
+              lineHeight: 1.6
+            }}>
+              Entdecke Menschen, die energetisch zu deinem Human Design passen. 
+              Basierend auf deinem Typ, Strategie und Autorität findest du authentische Verbindungen.
+            </Typography>
+
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    {stats.matches}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Aktive Matches
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    95%
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Kompatibilität
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    24h
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Neue Matches
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                    12
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Likes heute
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                startIcon={<Heart size={18} />}
+                onClick={() => router.push('/swipe')}
+                sx={{
+                  background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Dating entdecken
+              </Button>
+              
+              <Button
+                variant="outlined"
+                startIcon={<Star size={18} />}
+                onClick={() => router.push('/match')}
+                sx={{
+                  borderColor: '#ff6b9d',
+                  color: '#ff6b9d',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  '&:hover': {
+                    borderColor: '#ef4444',
+                    color: '#ef4444',
+                    background: 'rgba(255, 107, 157, 0.1)',
+                    transform: 'translateY(-2px)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Matches ansehen
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+        </motion.div>
+
+        {/* Dating Matches Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <Card sx={{ 
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: 3,
+          mb: 0
+        }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Heart size={24} color="#FF69B4" />
+              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
+                Deine Matches
+              </Typography>
+            </Box>
+            
+            {matches.length > 0 ? (
+              <Grid container spacing={2}>
+                {matches.map((match) => (
+                  <Grid item xs={12} sm={6} md={4} key={match.id}>
+                    <Card sx={{ 
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: 2,
+                      '&:hover': {
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        transform: 'translateY(-2px)',
+                        transition: 'all 0.3s ease'
+                      }
+                    }}>
+                      <CardContent sx={{ p: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <Box sx={{ 
+                            width: 50, 
+                            height: 50, 
+                            borderRadius: '50%', 
+                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            mr: 2
+                          }}>
+                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
+                              {match.name.charAt(0)}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                              {match.name}, {match.age}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                              {match.compatibility}% Kompatibilität
+                            </Typography>
+                          </Box>
+                        </Box>
+                        
+                        {match.lastMessage && (
+                          <Box sx={{ mb: 2 }}>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                              &ldquo;{match.lastMessage}&rdquo;
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                              {match.lastMessageTime}
+                            </Typography>
+                          </Box>
+                        )}
+                        
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          startIcon={<MessageCircle size={16} />}
+                          sx={{
+                            background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                            color: 'white',
+                            '&:hover': {
+                              background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
+                            }
+                          }}
+                          onClick={() => router.push(`/dating/chat/${match.id}`)}
+                        >
+                          Nachricht senden
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Heart size={48} color="rgba(255,255,255,0.3)" />
+                <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2 }}>
+                  Noch keine Matches
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mb: 3 }}>
+                  Starte deine Dating-Reise!
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<Heart size={16} />}
+                  sx={{
+                    background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                    color: 'white',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
+                    }
+                  }}
+                  onClick={() => router.push('/dating')}
+                >
+                  Dating starten
+                </Button>
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+          </motion.div>
+        </Box>
+
+        {/* ============ HUMAN DESIGN ============ */}
         {chartData && (
+          <Box sx={{ mb: 10 }}>
+            <Typography variant="h4" sx={{ 
+              color: 'white',
+              fontWeight: 700,
+              mb: 4,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              '&::before': {
+                content: '""',
+                width: 4,
+                height: 32,
+                background: 'linear-gradient(135deg, #8b5cf6, #a855f7)',
+                borderRadius: 2
+              }
+            }}>
+              ✨ Dein Human Design
+            </Typography>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
           <Card sx={{ 
             background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(168, 85, 247, 0.08) 100%)',
             backdropFilter: 'blur(25px)',
@@ -976,7 +1569,7 @@ const DashboardPage: React.FC = () => {
             borderRadius: 4,
             position: 'relative',
             overflow: 'hidden',
-            mb: 6,
+            mb: 0,
             transition: 'all 0.3s ease',
             '&:hover': {
               transform: 'translateY(-4px)',
@@ -1087,9 +1680,36 @@ const DashboardPage: React.FC = () => {
               </Box>
             </CardContent>
           </Card>
+            </motion.div>
+          </Box>
         )}
 
+        {/* ============ WEITERE FEATURES ============ */}
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 3,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #4ecdc4, #ff6b9d)',
+              borderRadius: 2
+            }
+          }}>
+            💝 Community & Dating
+          </Typography>
+
         {/* Friends Community Widget */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
         <Card sx={{ 
           background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
           backdropFilter: 'blur(20px)',
@@ -1243,10 +1863,16 @@ const DashboardPage: React.FC = () => {
             </Box>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Dating Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
         <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(196, 69, 105, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 107, 157, 0.4)',
           borderRadius: 3,
@@ -1270,7 +1896,7 @@ const DashboardPage: React.FC = () => {
                 width: 60,
                 height: 60,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1351,9 +1977,9 @@ const DashboardPage: React.FC = () => {
               <Button
                 variant="contained"
                 startIcon={<Heart size={18} />}
-                onClick={() => router.push('/dating-info')}
+                onClick={() => router.push('/swipe')}
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
                   color: 'white',
                   px: 3,
                   py: 1,
@@ -1362,7 +1988,7 @@ const DashboardPage: React.FC = () => {
                   fontWeight: 'bold',
                   boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #c44569, #ff6b9d)',
+                    background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
                   },
@@ -1385,8 +2011,8 @@ const DashboardPage: React.FC = () => {
                   textTransform: 'none',
                   fontWeight: 'bold',
                   '&:hover': {
-                    borderColor: '#c44569',
-                    color: '#c44569',
+                    borderColor: '#ef4444',
+                    color: '#ef4444',
                     background: 'rgba(255, 107, 157, 0.1)',
                     transform: 'translateY(-2px)'
                   },
@@ -1398,8 +2024,14 @@ const DashboardPage: React.FC = () => {
             </Box>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Dating Matches Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+        >
         <Card sx={{ 
           background: 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
@@ -1471,10 +2103,10 @@ const DashboardPage: React.FC = () => {
                           variant="contained"
                           startIcon={<MessageCircle size={16} />}
                           sx={{
-                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                            background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
                             color: 'white',
                             '&:hover': {
-                              background: 'linear-gradient(45deg, #FF1493, #FF69B4)',
+                              background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
                             }
                           }}
                           onClick={() => router.push(`/dating/chat/${match.id}`)}
@@ -1499,10 +2131,10 @@ const DashboardPage: React.FC = () => {
                   variant="contained"
                   startIcon={<Heart size={16} />}
                   sx={{
-                    background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
+                    background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
                     color: 'white',
                     '&:hover': {
-                      background: 'linear-gradient(45deg, #FF1493, #FF69B4)',
+                      background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
                     }
                   }}
                   onClick={() => router.push('/dating')}
@@ -1513,89 +2145,39 @@ const DashboardPage: React.FC = () => {
             )}
           </CardContent>
         </Card>
-
-        {/* Referral Widget */}
-        <Box sx={{ mb: 3 }}>
-          <ReferralWidget />
+          </motion.div>
         </Box>
 
-        {/* Profile & Settings Section */}
-        <Card sx={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: 3,
-          mb: 3
-        }}>
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <User size={24} color="#4ECDC4" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
-                Profil & Einstellungen
+        {/* ============ WEITERE FEATURES ============ */}
+        <Box sx={{ mb: 10 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              borderRadius: 2
+            }
+          }}>
+            🎁 Weitere Features
               </Typography>
-            </Box>
-            
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<Edit size={20} />}
-                  sx={{
-                    color: 'white',
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    py: 2,
-                    '&:hover': {
-                      borderColor: 'rgba(255, 255, 255, 0.5)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    }
-                  }}
-                  onClick={() => router.push('/profile')}
-                >
-                  Profil bearbeiten
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<Settings size={20} />}
-                  sx={{
-                    color: 'white',
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    py: 2,
-                    '&:hover': {
-                      borderColor: 'rgba(255, 255, 255, 0.5)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    }
-                  }}
-                  onClick={() => router.push('/settings')}
-                >
-                  Einstellungen
-                </Button>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
 
-        {/* Logout Button */}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            variant="outlined"
-            startIcon={<LogOut size={20} />}
-            onClick={handleLogout}
-            sx={{
-              color: 'white',
-              borderColor: 'rgba(255, 255, 255, 0.3)',
-              '&:hover': {
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              }
-            }}
+          {/* Referral Widget */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.75 }}
           >
-            Abmelden
-          </Button>
+            <Box sx={{ mb: 5 }}>
+              <ReferralWidget />
         </Box>
+          </motion.div>
 
         {/* Seitenübersicht Widget */}
         <motion.div
@@ -1603,50 +2185,40 @@ const DashboardPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Grid container spacing={4} sx={{ mb: 4 }}>
-            <Grid item xs={12} md={6}>
-              <SeitenuebersichtWidget 
-                maxHeight={300} 
-                showFilters={true} 
-                compact={true} 
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
               <Card sx={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '16px',
-                boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-                height: '100%'
-              }}>
-                <CardContent sx={{ p: 3, textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-                    📊 Dashboard Features
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: 4,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+            mb: 0
+          }}>
+            <CardContent sx={{ p: 4 }}>
+              <Box sx={{ textAlign: 'center', mb: 4 }}>
+                <Typography variant="h5" sx={{ 
+                  color: 'white', 
+                  mb: 2,
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  📊 Alle Features & Seiten
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
                     Entdecke alle verfügbaren Seiten und Features der Human Design App
                   </Typography>
-                  <Button
-                    variant="contained"
-                    component={Link}
-                    href="/seitenuebersicht"
-                    sx={{
-                      background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
-                      '&:hover': {
-                        background: 'linear-gradient(45deg, #44a08d, #4ecdc4)',
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)'
-                      }
-                    }}
-                  >
-                    Vollständige Übersicht
-                  </Button>
+              </Box>
+              <SeitenuebersichtWidget 
+                maxHeight={400} 
+                showFilters={true} 
+                compact={false} 
+              />
                 </CardContent>
               </Card>
-            </Grid>
-          </Grid>
         </motion.div>
+        </Box>
       </Container>
     </Box>
   );

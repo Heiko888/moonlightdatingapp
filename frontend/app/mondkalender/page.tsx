@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 // Unused imports removed
 // import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
 import { MoonTracking } from '@/types/common.types';
@@ -969,7 +970,69 @@ export default function MondkalenderPage() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Box sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        {/* Fixed Navigation */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backdropFilter: 'blur(20px)',
+          background: 'rgba(15, 15, 35, 0.8)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              py: 2 
+            }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Typography variant="h5" sx={{ 
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  cursor: 'pointer'
+                }}>
+                  🔑 The Connection Key
+                </Typography>
+              </Link>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button
+                  onClick={() => router.push('/mondphasen-info')}
+                  variant="outlined"
+                  sx={{
+                    color: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    '&:hover': {
+                      borderColor: '#FFD700',
+                      background: 'rgba(255, 215, 0, 0.1)'
+                    }
+                  }}
+                >
+                  Mondphasen
+                </Button>
+                <Button
+                  onClick={() => router.push('/dashboard')}
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                    }
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Box>
+            </Box>
+          </Container>
+        </Box>
+
+        <Box sx={{ position: 'relative', zIndex: 2, pt: 15, pb: 8, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
           <Box textAlign="center" mb={6}>
             <Typography 

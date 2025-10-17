@@ -33,6 +33,7 @@ import {
   Star
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface RegistrationData {
   email: string;
@@ -186,17 +187,75 @@ const RegisterPage: React.FC = () => {
 
   if (success) {
     return (
-      <Container maxWidth="sm" sx={{ mt: 8 }}>
-        <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-          <Typography variant="h4" color="success.main" gutterBottom>
-            ✅ Registrierung erfolgreich!
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Willkommen bei der HD App! Sie werden in Kürze zum Dashboard weitergeleitet.
-          </Typography>
-          <CircularProgress />
-        </Paper>
-      </Container>
+      <Box sx={{
+        minHeight: '100vh',
+        background: `
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        `,
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        {/* Floating Stars Animation */}
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none',
+          zIndex: 1
+        }}>
+          {[...Array(20)].map((_, i) => (
+            <Box
+              key={i}
+              sx={{
+                position: 'absolute',
+                width: Math.random() * 3 + 1,
+                height: Math.random() * 3 + 1,
+                background: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '50%',
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
+                animationDelay: `${Math.random() * 2}s`,
+                '@keyframes twinkle': {
+                  '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
+                  '50%': { opacity: 1, transform: 'scale(1.2)' }
+                }
+              }}
+            />
+          ))}
+        </Box>
+        
+        <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
+          <Paper 
+            elevation={3} 
+            sx={{ 
+              p: 4, 
+              textAlign: 'center',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: 4,
+              border: '1px solid rgba(78, 205, 196, 0.2)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700, mb: 2 }}>
+              ✅ Registrierung erfolgreich!
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 3, color: 'rgba(255,255,255,0.9)' }}>
+              Willkommen bei The Connection Key! Sie werden in Kürze zum Dashboard weitergeleitet.
+            </Typography>
+            <CircularProgress sx={{ color: '#4ecdc4' }} />
+          </Paper>
+        </Container>
+      </Box>
     );
   }
 
@@ -233,41 +292,64 @@ const RegisterPage: React.FC = () => {
             py: 2
           }}>
             <Typography
-              onClick={() => router.push('/')}
+              component={Link}
+              href="/"
               variant="h5"
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
+                textDecoration: 'none',
                 cursor: 'pointer'
               }}
             >
-              💫 HD App
+              🔑 The Connection Key
             </Typography>
             
-            <Button
-              onClick={() => router.push('/login')}
-              variant="outlined"
-              disabled={loading}
-              sx={{
-                borderColor: 'rgba(255,255,255,0.3)',
-                color: 'white',
-                borderRadius: 3,
-                textTransform: 'none',
-                fontWeight: 600,
-                '&:hover': {
-                  borderColor: '#4ecdc4',
-                  backgroundColor: 'rgba(78, 205, 196, 0.1)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Anmelden
-            </Button>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/"
+                variant="outlined"
+                disabled={loading}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: 'rgba(78, 205, 196, 0.5)',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Home
+              </Button>
+              <Button
+                component={Link}
+                href="/login"
+                variant="outlined"
+                disabled={loading}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Anmelden
+              </Button>
+            </Box>
           </Box>
         </Container>
       </Box>

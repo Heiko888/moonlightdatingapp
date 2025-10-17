@@ -25,7 +25,7 @@ export default function GrundlagenHDPage() {
     {
       title: "Authority",
       description: "Deine innere Autorität und Entscheidungsfindung",
-      icon: <Shield size={48} />,
+      icon: <Shield size={24} />,
       color: "#10b981",
       path: "/authority",
       details: "Lerne deine natürliche Entscheidungsmethode kennen - von der emotionalen Autorität bis zur sakralen Antwort."
@@ -33,7 +33,7 @@ export default function GrundlagenHDPage() {
     {
       title: "Centers",
       description: "Die 9 Energiezentren - deine energetische Anatomie",
-      icon: <Target size={48} />,
+      icon: <Target size={24} />,
       color: "#8b5cf6",
       path: "/centers",
       details: "Verstehe die 9 Energiezentren und wie sie deine Persönlichkeit und Energie beeinflussen."
@@ -41,7 +41,7 @@ export default function GrundlagenHDPage() {
     {
       title: "Channels",
       description: "Die 36 Kanäle - deine Verbindungen",
-      icon: <Zap size={48} />,
+      icon: <Zap size={24} />,
       color: "#f59e0b",
       path: "/channels",
       details: "Entdecke die 36 Kanäle, die deine Energiezentren verbinden und deine Talente definieren."
@@ -49,7 +49,7 @@ export default function GrundlagenHDPage() {
     {
       title: "Gates",
       description: "Die 64 Tore - deine individuellen Eigenschaften",
-      icon: <Crown size={48} />,
+      icon: <Crown size={24} />,
       color: "#ef4444",
       path: "/gates",
       details: "Erkunde die 64 Tore des I Ging und ihre Bedeutung für dein Human Design."
@@ -57,7 +57,7 @@ export default function GrundlagenHDPage() {
     {
       title: "Profiles",
       description: "Die 12 Profile - deine Lebensrolle",
-      icon: <Star size={48} />,
+      icon: <Star size={24} />,
       color: "#06b6d4",
       path: "/profiles",
       details: "Verstehe dein Profil und deine einzigartige Lebensrolle in diesem Leben."
@@ -68,16 +68,81 @@ export default function GrundlagenHDPage() {
     <Box sx={{ 
       minHeight: '100vh',
       background: `
-        radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-        linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
+        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
       `,
       position: 'relative',
       overflow: 'hidden'
     }}>
       <AnimatedStars />
+
+      {/* Fixed Navigation Bar */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        backdropFilter: 'blur(20px)',
+        background: 'rgba(26, 11, 46, 0.8)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        <Container maxWidth="xl">
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            py: 2 
+          }}>
+            <Link href="/" style={{ textDecoration: 'none' }}>
+              <Typography variant="h5" sx={{ 
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                cursor: 'pointer'
+              }}>
+                🔑 The Connection Key
+              </Typography>
+            </Link>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/dashboard"
+                variant="outlined"
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    background: 'rgba(78, 205, 196, 0.1)'
+                  }
+                }}
+              >
+                Dashboard
+              </Button>
+              <Button
+                component={Link}
+                href="/chart"
+                variant="contained"
+                sx={{
+                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                  }
+                }}
+              >
+                Mein Chart
+              </Button>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
       
-      <Container maxWidth="xl" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="xl" sx={{ pt: 15, pb: 6, position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <motion.div
           
@@ -100,12 +165,11 @@ export default function GrundlagenHDPage() {
               }}
             >
               <Typography variant="h1" sx={{
-                color: 'white',
                 fontWeight: 800,
                 fontSize: { xs: '2.5rem', md: '4rem' },
                 mb: 2,
-                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -114,9 +178,9 @@ export default function GrundlagenHDPage() {
                 justifyContent: 'center',
                 gap: 2
               }}>
-                <Brain size={64} style={{ color: '#FFD700' }} />
+                <Brain size={64} style={{ color: '#4ecdc4' }} />
                 Human Design Grundlagen
-                <Brain size={64} style={{ color: '#FFD700' }} />
+                <Brain size={64} style={{ color: '#8b5cf6' }} />
               </Typography>
             </motion.div>
             
@@ -133,70 +197,6 @@ export default function GrundlagenHDPage() {
           </Box>
         </motion.div>
 
-        {/* Navigation Buttons */}
-        <motion.div
-          
-          
-          
-        >
-          <Box sx={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            gap: 3, 
-            mb: 6,
-            flexWrap: 'wrap'
-          }}>
-            <Link href="/dashboard" passHref>
-              <Button
-                variant="outlined"
-                startIcon={<Home size={20} />}
-                sx={{
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                  color: 'white',
-                  fontWeight: 600,
-                  px: 4,
-                  py: 2,
-                  borderRadius: 3,
-                  fontSize: '1rem',
-                  '&:hover': {
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    color: '#10b981',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)'
-                  }
-                }}
-              >
-                Dashboard
-              </Button>
-            </Link>
-            
-            <Link href="/premium-dashboard" passHref>
-              <Button
-                variant="outlined"
-                startIcon={<BarChart3 size={20} />}
-                sx={{
-                  borderColor: 'rgba(255, 215, 0, 0.3)',
-                  color: '#FFD700',
-                  fontWeight: 600,
-                  px: 4,
-                  py: 2,
-                  borderRadius: 3,
-                  fontSize: '1rem',
-                  '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(255, 215, 0, 0.3)'
-                  }
-                }}
-              >
-                Premium Dashboard
-              </Button>
-            </Link>
-          </Box>
-        </motion.div>
-
         {/* Human Design Grundlagen Cards */}
         <Grid container spacing={3}>
           {hdBasics.map((basic, index) => (
@@ -207,30 +207,34 @@ export default function GrundlagenHDPage() {
                 
               >
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.08)',
                   backdropFilter: 'blur(20px)',
-                  borderRadius: 3,
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  height: '100%'
+                  borderRadius: 4,
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  height: '100%',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: '0 12px 35px rgba(78, 205, 196, 0.3)',
+                    borderColor: '#4ecdc4'
+                  }
                 }}>
                   <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                       <Box sx={{
-                        width: 40,
-                        height: 40,
+                        width: 48,
+                        height: 48,
                         borderRadius: '50%',
-                        backgroundColor: basic.color,
+                        background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(139, 92, 246, 0.2))',
+                        border: '2px solid rgba(78, 205, 196, 0.3)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mr: 2
+                        mr: 2,
+                        color: '#4ecdc4'
                       }}>
-                        <Box sx={{
-                          width: 20,
-                          height: 20,
-                          borderRadius: '50%',
-                          backgroundColor: 'white'
-                        }} />
+                        {basic.icon}
                       </Box>
                       <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                         {basic.title}
@@ -258,15 +262,18 @@ export default function GrundlagenHDPage() {
                         fullWidth
                         endIcon={<ArrowRight size={16} />}
                         sx={{
-                          borderColor: basic.color,
-                          color: basic.color,
+                          borderColor: '#4ecdc4',
+                          color: '#4ecdc4',
                           fontWeight: 600,
-                          py: 1,
+                          py: 1.5,
                           borderRadius: 2,
-                          fontSize: '0.8rem',
+                          fontSize: '0.9rem',
+                          transition: 'all 0.3s ease',
                           '&:hover': {
-                            borderColor: basic.color,
-                            backgroundColor: `${basic.color}20`
+                            borderColor: '#4ecdc4',
+                            backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 12px rgba(78, 205, 196, 0.3)'
                           }
                         }}
                       >
@@ -287,16 +294,17 @@ export default function GrundlagenHDPage() {
           
         >
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(11,13,18,0.95) 0%, rgba(26,31,43,0.98) 100%)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
             borderRadius: 4,
-            border: '1px solid rgba(255,255,255,0.2)',
+            border: '1px solid rgba(255,255,255,0.15)',
             mt: 8,
-            mb: 4
+            mb: 4,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
           }}>
             <CardContent sx={{ p: 6 }}>
               <Box sx={{ textAlign: 'center' }}>
-                <BookOpen size={48} color="#FFD700" style={{ marginBottom: 16 }} />
+                <BookOpen size={48} color="#4ecdc4" style={{ marginBottom: 16 }} />
                 <Typography variant="h3" sx={{ color: 'white', fontWeight: 700, mb: 3 }}>
                   Human Design System
                 </Typography>
@@ -318,16 +326,18 @@ export default function GrundlagenHDPage() {
                       variant="outlined"
                       startIcon={<Eye size={20} />}
                       sx={{
-                        borderColor: 'rgba(255, 215, 0, 0.3)',
-                        color: '#FFD700',
+                        borderColor: 'rgba(255, 255, 255, 0.3)',
+                        color: 'white',
                         fontWeight: 600,
                         px: 4,
                         py: 2,
                         borderRadius: 3,
                         '&:hover': {
-                          borderColor: '#FFD700',
-                          backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                          transform: 'translateY(-2px)'
+                          borderColor: '#4ecdc4',
+                          color: '#4ecdc4',
+                          backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 4px 12px rgba(78, 205, 196, 0.3)'
                         }
                       }}
                     >
@@ -340,16 +350,17 @@ export default function GrundlagenHDPage() {
                       variant="contained"
                       startIcon={<Activity size={20} />}
                       sx={{
-                        background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                        color: '#000',
+                        background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                        color: 'white',
                         fontWeight: 700,
                         px: 4,
                         py: 2,
                         borderRadius: 3,
+                        boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
                         '&:hover': {
-                          background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
+                          background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
+                          boxShadow: '0 12px 30px rgba(78, 205, 196, 0.5)'
                         }
                       }}
                     >

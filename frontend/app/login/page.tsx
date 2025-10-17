@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { safeJsonParse, supabase } from '@/lib/supabase/client';
+import Link from 'next/link';
 
 interface LoginData {
   email: string;
@@ -124,6 +125,38 @@ const LoginPage: React.FC = () => {
       overflow: 'hidden'
     }}>
       
+      {/* Floating Stars Animation */}
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        pointerEvents: 'none',
+        zIndex: 1
+      }}>
+        {[...Array(20)].map((_, i) => (
+          <Box
+            key={i}
+            sx={{
+              position: 'absolute',
+              width: Math.random() * 3 + 1,
+              height: Math.random() * 3 + 1,
+              background: 'rgba(255, 255, 255, 0.8)',
+              borderRadius: '50%',
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
+              animationDelay: `${Math.random() * 2}s`,
+              '@keyframes twinkle': {
+                '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
+                '50%': { opacity: 1, transform: 'scale(1.2)' }
+              }
+            }}
+          />
+        ))}
+      </Box>
+      
       {/* Navigation */}
       <Box sx={{
         position: 'fixed',
@@ -144,41 +177,64 @@ const LoginPage: React.FC = () => {
             py: 2
           }}>
             <Typography
-              onClick={() => router.push('/')}
+              component={Link}
+              href="/"
               variant="h5"
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
+                textDecoration: 'none',
                 cursor: 'pointer'
               }}
             >
-              💫 HD App
+              🔑 The Connection Key
             </Typography>
             
-            <Button
-              onClick={() => router.push('/register')}
-              variant="outlined"
-              disabled={isLoading}
-              sx={{
-                borderColor: 'rgba(255,255,255,0.3)',
-                color: 'white',
-                borderRadius: 3,
-                textTransform: 'none',
-                fontWeight: 600,
-                '&:hover': {
-                  borderColor: '#ff6b9d',
-                  backgroundColor: 'rgba(255, 107, 157, 0.1)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 15px rgba(255, 107, 157, 0.2)'
-                },
-                transition: 'all 0.3s ease'
-              }}
-            >
-              Registrieren
-            </Button>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <Button
+                component={Link}
+                href="/"
+                variant="outlined"
+                disabled={isLoading}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: 'rgba(78, 205, 196, 0.5)',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Home
+              </Button>
+              <Button
+                component={Link}
+                href="/register"
+                variant="outlined"
+                disabled={isLoading}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Registrieren
+              </Button>
+            </Box>
           </Box>
         </Container>
       </Box>
@@ -208,15 +264,16 @@ const LoginPage: React.FC = () => {
               align="center" 
               sx={{ 
                 mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
-                fontSize: { xs: '2rem', md: '3rem' }
+                fontSize: { xs: '2rem', md: '3rem' },
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}
             >
-              🔐 Anmeldung
+              Anmeldung
             </Typography>
           
             <Typography 
@@ -350,17 +407,18 @@ const LoginPage: React.FC = () => {
             <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
               Noch kein Konto?{' '}
               <Button 
+                component={Link}
+                href="/register"
                 variant="text" 
-                onClick={() => router.push('/register')}
                 disabled={isLoading}
                 sx={{
-                  color: '#ff6b9d',
+                  color: '#4ecdc4',
                   fontWeight: 700,
                   textTransform: 'none',
                   fontSize: '1rem',
                   '&:hover': {
-                    color: '#e55a8a',
-                    background: 'rgba(255, 107, 157, 0.1)'
+                    color: '#3bb5b0',
+                    background: 'rgba(78, 205, 196, 0.1)'
                   }
                 }}
               >
@@ -369,8 +427,9 @@ const LoginPage: React.FC = () => {
             </Typography>
 
             <Button 
+              component={Link}
+              href="/"
               variant="text" 
-              onClick={() => router.push('/')}
               disabled={isLoading}
               sx={{
                 color: 'rgba(255,255,255,0.6)',

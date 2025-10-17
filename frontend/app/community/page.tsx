@@ -52,6 +52,7 @@ import {
 import { motion } from 'framer-motion';
 import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
+import Link from 'next/link';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 
@@ -416,27 +417,92 @@ function CommunityContent() {
       <Box sx={{ 
         minHeight: '100vh',
         background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
           linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
         `,
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+
+        {/* Fixed Navigation */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backdropFilter: 'blur(20px)',
+          background: 'rgba(15, 15, 35, 0.95)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between',
+              py: 2 
+            }}>
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Typography variant="h5" sx={{ 
+                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
+                  cursor: 'pointer'
+                }}>
+                  🔑 The Connection Key
+                </Typography>
+              </Link>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button
+                  onClick={() => router.push('/community-info')}
+                  variant="outlined"
+                  sx={{
+                    color: 'white',
+                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    '&:hover': {
+                      borderColor: '#4ecdc4',
+                      background: 'rgba(78, 205, 196, 0.1)'
+                    }
+                  }}
+                >
+                  Info
+                </Button>
+                <Button
+                  onClick={() => router.push('/dashboard')}
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                    }
+                  }}
+                >
+                  Dashboard
+                </Button>
+              </Box>
+            </Box>
+          </Container>
+        </Box>
+
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: 8, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
-          <Box textAlign="center" mb={6} mt={4} pt={3}>
+          <Box textAlign="center" mb={6}>
             <Typography 
               variant="h2" 
               sx={{ 
                 fontWeight: 'bold', 
                 mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2rem', md: '3rem' }
+                fontSize: { xs: '2rem', md: '3rem' },
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
               }}
             >
               {userName ? `${userName}s Community` : 'Community Hub'}
@@ -541,7 +607,7 @@ function CommunityContent() {
                   startIcon={<Filter size={20} />}
                   sx={{
                     borderColor: 'rgba(16, 185, 129, 0.3)',
-                    color: '#10b981',
+                    color: '#4ecdc4',
                     '&:hover': {
                       borderColor: '#10b981',
                       backgroundColor: 'rgba(16, 185, 129, 0.1)'
@@ -579,7 +645,7 @@ function CommunityContent() {
                   px: { xs: 2, md: 3 },
                   transition: 'all 0.3s ease',
                   '&.Mui-selected': {
-                    color: '#10b981',
+                    color: '#4ecdc4',
                     background: 'rgba(16, 185, 129, 0.1)'
                   },
                   '&:hover': {
@@ -613,16 +679,16 @@ function CommunityContent() {
               {/* Feed */}
               <Grid item xs={12} lg={8}>
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
-                  borderRadius: 3,
-                  border: '1px solid #10b981',
-                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)'
+                  borderRadius: 4,
+                  border: '1px solid rgba(78, 205, 196, 0.2)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
                 }}>
                   <CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MessageSquare size={24} style={{ color: '#10b981', marginRight: 12 }} />
+                        <MessageSquare size={24} style={{ color: '#4ecdc4', marginRight: 12 }} />
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                           Community Feed
                         </Typography>
@@ -632,12 +698,15 @@ function CommunityContent() {
                         startIcon={<Plus size={20} />}
                         onClick={() => setNewPostDialog(true)}
                         sx={{
-                          background: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-                          color: '#1f2937',
+                          background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                          color: 'white',
                           fontWeight: 600,
                           '&:hover': {
-                            background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)'
-                          }
+                            background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
+                          },
+                          transition: 'all 0.3s ease'
                         }}
                       >
                         Neuer Post
@@ -654,13 +723,15 @@ function CommunityContent() {
                         <Box sx={{ 
                           mb: 3, 
                           p: 3, 
-                          background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', 
+                          background: 'rgba(255, 255, 255, 0.03)', 
                           borderRadius: 3,
-                          border: '1px solid #10b981',
+                          border: '1px solid rgba(78, 205, 196, 0.15)',
                           transition: 'all 0.3s ease',
                           '&:hover': {
-                            background: 'linear-gradient(135deg, rgba(11,13,18,0.85) 0%, rgba(26,31,43,0.92) 100%)',
-                            transform: 'translateY(-2px)'
+                            background: 'rgba(78, 205, 196, 0.08)',
+                            border: '1px solid rgba(78, 205, 196, 0.25)',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 4px 15px rgba(78, 205, 196, 0.1)'
                           }
                         }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -702,7 +773,7 @@ function CommunityContent() {
                                 size="small"
                                 sx={{
                                   background: 'rgba(16, 185, 129, 0.1)',
-                                  color: '#10b981',
+                                  color: '#4ecdc4',
                                   fontSize: '0.7rem'
                                 }}
                               />
@@ -740,11 +811,11 @@ function CommunityContent() {
               <Grid item xs={12} lg={4}>
                 {/* Online Users */}
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
-                  borderRadius: 3,
-                  border: '1px solid #10b981',
-                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)',
+                  borderRadius: 4,
+                  border: '1px solid rgba(78, 205, 196, 0.2)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
                   mb: 3
                 }}>
                   <CardContent>
@@ -783,11 +854,11 @@ function CommunityContent() {
 
                 {/* Trending Topics */}
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
-                  borderRadius: 3,
-                  border: '1px solid #10b981',
-                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)'
+                  borderRadius: 4,
+                  border: '1px solid rgba(78, 205, 196, 0.2)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
                 }}>
                   <CardContent>
                     <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 2 }}>
@@ -803,7 +874,7 @@ function CommunityContent() {
                             secondaryTypographyProps={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}
                           />
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            {topic.trend === 'up' && <TrendingUp size={16} style={{ color: '#10b981' }} />}
+                            {topic.trend === 'up' && <TrendingUp size={16} style={{ color: '#4ecdc4' }} />}
                             {topic.trend === 'down' && <TrendingUp size={16} style={{ color: '#ef4444', transform: 'rotate(180deg)' }} />}
                             {topic.trend === 'stable' && <Activity size={16} style={{ color: '#f59e0b' }} />}
                           </Box>
@@ -826,10 +897,10 @@ function CommunityContent() {
                     
                   >
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                      background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #10b981',
+                      border: '1px solid rgba(78, 205, 196, 0.2)',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -839,7 +910,7 @@ function CommunityContent() {
                     }}>
                       <CardContent sx={{ p: 3 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                          <Calendar size={20} style={{ color: '#10b981', marginRight: 8 }} />
+                          <Calendar size={20} style={{ color: '#4ecdc4', marginRight: 8 }} />
                           <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                             {event.title}
                           </Typography>
@@ -876,7 +947,7 @@ function CommunityContent() {
                             size="small" 
                             sx={{ 
                               background: 'rgba(16, 185, 129, 0.2)', 
-                              color: '#10b981'
+                              color: '#4ecdc4'
                             }} 
                           />
                           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
@@ -903,7 +974,7 @@ function CommunityContent() {
                           fullWidth
                           sx={{
                             borderColor: 'rgba(16, 185, 129, 0.3)',
-                            color: '#10b981',
+                            color: '#4ecdc4',
                             '&:hover': {
                               borderColor: '#10b981',
                               backgroundColor: 'rgba(16, 185, 129, 0.1)'
@@ -922,7 +993,7 @@ function CommunityContent() {
 
           <TabPanel value={activeTab} index={2}>
             <Card sx={{
-              background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+              background: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(20px)',
               borderRadius: 3,
               border: '1px solid rgba(255,255,255,0.2)'
@@ -942,13 +1013,13 @@ function CommunityContent() {
                         <Box sx={{ 
                           textAlign: 'center', 
                           p: 2, 
-                          background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', 
+                          background: 'rgba(255, 255, 255, 0.03)', 
                           borderRadius: 2,
-                          border: '1px solid #10b981',
+                          border: '1px solid rgba(78, 205, 196, 0.2)',
                           transition: 'all 0.3s ease',
                           cursor: 'pointer',
                           '&:hover': {
-                            background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                            background: 'rgba(255, 255, 255, 0.05)',
                             transform: 'translateY(-2px)'
                           }
                         }}
@@ -987,7 +1058,7 @@ function CommunityContent() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 3,
                   border: '1px solid rgba(255,255,255,0.2)'
@@ -1003,7 +1074,7 @@ function CommunityContent() {
                           sx={{ 
                             p: 2, 
                             mb: 1, 
-                            background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', 
+                            background: 'rgba(255, 255, 255, 0.03)', 
                             borderRadius: 2,
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
@@ -1058,7 +1129,7 @@ function CommunityContent() {
               </Grid>
               <Grid item xs={12} md={4}>
                 <Card sx={{
-                  background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(20px)',
                   borderRadius: 3,
                   border: '1px solid rgba(255,255,255,0.2)'
@@ -1116,10 +1187,10 @@ function CommunityContent() {
                     
                   >
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                      background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #10b981',
+                      border: '1px solid rgba(78, 205, 196, 0.2)',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -1163,7 +1234,7 @@ function CommunityContent() {
                         </Box>
                         
                         <Box sx={{ mb: 2 }}>
-                          <Typography variant="body2" sx={{ color: '#10b981', fontWeight: 600, mb: 1 }}>
+                          <Typography variant="body2" sx={{ color: '#4ecdc4', fontWeight: 600, mb: 1 }}>
                             Kompatibilitäts-Faktoren:
                           </Typography>
                           {match.compatibilityFactors.map((factor, idx) => (
@@ -1173,7 +1244,7 @@ function CommunityContent() {
                               size="small"
                               sx={{
                                 background: 'rgba(16, 185, 129, 0.1)',
-                                color: '#10b981',
+                                color: '#4ecdc4',
                                 fontSize: '0.7rem',
                                 mr: 0.5,
                                 mb: 0.5
@@ -1203,7 +1274,7 @@ function CommunityContent() {
                             onClick={() => handleCompatibilityCheck(match.user)}
                             sx={{
                               borderColor: 'rgba(16, 185, 129, 0.3)',
-                              color: '#10b981',
+                              color: '#4ecdc4',
                               minWidth: 'auto',
                               px: 2,
                               '&:hover': {
@@ -1234,10 +1305,10 @@ function CommunityContent() {
                     
                   >
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                      background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #10b981',
+                      border: '1px solid rgba(78, 205, 196, 0.2)',
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
@@ -1276,7 +1347,7 @@ function CommunityContent() {
                             </Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Star size={16} style={{ color: '#10b981', marginRight: 4 }} />
+                                <Star size={16} style={{ color: '#4ecdc4', marginRight: 4 }} />
                                 <Typography variant="body2" sx={{ color: 'white' }}>
                                   {match.rating}
                                 </Typography>
@@ -1295,7 +1366,7 @@ function CommunityContent() {
                               <strong>Such nach:</strong> {match.lookingFor}
                             </Typography>
                             <Box sx={{ mb: 2 }}>
-                              <Typography variant="body2" sx={{ color: '#10b981', fontWeight: 600, mb: 1 }}>
+                              <Typography variant="body2" sx={{ color: '#4ecdc4', fontWeight: 600, mb: 1 }}>
                                 Ziele:
                               </Typography>
                               {match.goals?.map((goal, idx) => (
@@ -1305,7 +1376,7 @@ function CommunityContent() {
                                   size="small"
                                   sx={{
                                     background: 'rgba(16, 185, 129, 0.1)',
-                                    color: '#10b981',
+                                    color: '#4ecdc4',
                                     fontSize: '0.7rem',
                                     mr: 0.5,
                                     mb: 0.5
@@ -1353,10 +1424,10 @@ function CommunityContent() {
                     
                   >
                     <Card sx={{
-                      background: 'linear-gradient(135deg, rgba(11,13,18,0.9) 0%, rgba(26,31,43,0.95) 100%)',
+                      background: 'rgba(255, 255, 255, 0.05)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: '1px solid #10b981',
+                      border: '1px solid rgba(78, 205, 196, 0.2)',
                       p: 3,
                       textAlign: 'center',
                       transition: 'all 0.3s ease',
@@ -1367,14 +1438,14 @@ function CommunityContent() {
                     }}>
                       <CardContent>
                         <Box sx={{ mb: 2 }}>
-                          {topic.trend === 'up' && <TrendingUp size={32} style={{ color: '#10b981' }} />}
+                          {topic.trend === 'up' && <TrendingUp size={32} style={{ color: '#4ecdc4' }} />}
                           {topic.trend === 'down' && <TrendingUp size={32} style={{ color: '#ef4444', transform: 'rotate(180deg)' }} />}
                           {topic.trend === 'stable' && <Activity size={32} style={{ color: '#f59e0b' }} />}
                         </Box>
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
                           {topic.topic}
                         </Typography>
-                        <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 700, mb: 1 }}>
+                        <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700, mb: 1 }}>
                           {topic.posts}
                         </Typography>
                         <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1417,7 +1488,7 @@ function CommunityContent() {
             sx: {
               background: 'rgba(15, 15, 35, 0.95)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid #10b981',
+              border: '1px solid rgba(78, 205, 196, 0.2)',
               borderRadius: 3
             }
           }}
@@ -1487,7 +1558,7 @@ function CommunityContent() {
             sx: {
               background: 'rgba(15, 15, 35, 0.95)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid #10b981',
+              border: '1px solid rgba(78, 205, 196, 0.2)',
               borderRadius: 3
             }
           }}
@@ -1497,7 +1568,7 @@ function CommunityContent() {
           </DialogTitle>
           <DialogContent>
             {selectedUser && (
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, p: 2, background: 'linear-gradient(135deg, rgba(11,13,18,0.8) 0%, rgba(26,31,43,0.9) 100%)', borderRadius: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, p: 2, background: 'rgba(255, 255, 255, 0.03)', borderRadius: 2 }}>
                 <Avatar src={selectedUser.avatar} sx={{ width: 40, height: 40, mr: 2 }} />
                 <Box>
                   <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600 }}>
@@ -1558,7 +1629,21 @@ function CommunityContent() {
             </Button>
           </DialogActions>
         </Dialog>
-      </Container>
+        </Container>
+
+        {/* CSS Animations */}
+        <style jsx global>{`
+          @keyframes pulse {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.5;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 0.8;
+            }
+          }
+        `}</style>
       </Box>
     </AccessControl>
   );

@@ -144,7 +144,7 @@ export default function SitemapPage() {
               mx: 'auto',
               lineHeight: 1.6
             }}>
-              Alle {allPages.length} Seiten der HD App - Kategorisiert und durchsuchbar
+              Alle {allPages.length} Seiten von The Connection Key - Kategorisiert und durchsuchbar
             </Typography>
           </Box>
         </motion.div>
