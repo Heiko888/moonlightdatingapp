@@ -1931,6 +1931,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
               <Tab label="✨ HD" sx={{ color: 'white', fontWeight: activeTab === 2 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
               <Tab label="🔷 Zentren" sx={{ color: 'white', fontWeight: activeTab === 3 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
               <Tab label="🌍 Planeten" sx={{ color: 'white', fontWeight: activeTab === 4 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
+              <Tab label="👁️ Vorschau" sx={{ color: 'white', fontWeight: activeTab === 5 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
             </Tabs>
 
             {/* Tab 0: Reading Übersicht */}
@@ -2756,6 +2757,213 @@ Details siehe Console und Ergebnis-Anzeige!`);
                 ))}
               </Grid>
               </>
+            )}
+
+            {/* Tab 5: Vorschau */}
+            {activeTab === 5 && (
+              <Box sx={{ 
+                background: 'rgba(255, 255, 255, 0.02)', 
+                p: { xs: 2, md: 3 }, 
+                borderRadius: 2,
+                border: '1px solid rgba(232, 184, 109, 0.2)'
+              }}>
+                <Alert severity="info" sx={{ mb: 3, background: 'rgba(232, 184, 109, 0.2)', color: 'white', border: '1px solid #e8b86d' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                    👁️ Reading-Vorschau
+                  </Typography>
+                  <Typography variant="caption">
+                    Hier siehst du das vollständige Reading, wie es später im PDF aussehen wird. Du kannst Abschnitte direkt hier bearbeiten!
+                  </Typography>
+                </Alert>
+
+                {/* Persönliche Informationen */}
+                {readingData.name && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      📋 Persönliche Informationen
+                    </Typography>
+                    <Box sx={{ p: 2, background: 'rgba(232, 184, 109, 0.1)', borderRadius: 1 }}>
+                      <Typography sx={{ color: 'white', mb: 1 }}><strong>Name:</strong> {readingData.name}</Typography>
+                      {readingData.geburtsdatum && <Typography sx={{ color: 'white', mb: 1 }}><strong>Geburtsdatum:</strong> {readingData.geburtsdatum}</Typography>}
+                      {readingData.geburtszeit && <Typography sx={{ color: 'white', mb: 1 }}><strong>Geburtszeit:</strong> {readingData.geburtszeit}</Typography>}
+                      {readingData.geburtsort && <Typography sx={{ color: 'white', mb: 1 }}><strong>Geburtsort:</strong> {readingData.geburtsort}</Typography>}
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Typ & Strategie */}
+                {(readingData.typ || readingData.strategie) && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      ⚙️ Typ & Strategie
+                    </Typography>
+                    <Box sx={{ p: 2, background: 'rgba(76, 175, 80, 0.15)', borderRadius: 1, border: '2px solid #4caf50' }}>
+                      {readingData.typ && <Typography sx={{ color: 'white', mb: 2 }}><strong>Typ:</strong> {readingData.typ}</Typography>}
+                      {readingData.strategie && <Typography sx={{ color: 'white', mb: 2 }}><strong>Strategie:</strong> {readingData.strategie}</Typography>}
+                      {readingData.signatur && <Typography sx={{ color: 'white', mb: 2 }}><strong>Signatur:</strong> {readingData.signatur}</Typography>}
+                      {readingData.nichtSelbst && <Typography sx={{ color: 'white' }}><strong>Nicht-Selbst:</strong> {readingData.nichtSelbst}</Typography>}
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Profil & Autorität */}
+                {(readingData.profil || readingData.autoritaet) && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      👤 Profil & Autorität
+                    </Typography>
+                    <Box sx={{ p: 2, background: 'rgba(156, 39, 176, 0.15)', borderRadius: 1, border: '2px solid #9c27b0' }}>
+                      {readingData.profil && <Typography sx={{ color: 'white', mb: 2 }}><strong>Profil:</strong> {readingData.profil}</Typography>}
+                      {readingData.autoritaet && <Typography sx={{ color: 'white', mb: 2 }}><strong>Autorität:</strong> {readingData.autoritaet}</Typography>}
+                      {readingData.definition && <Typography sx={{ color: 'white' }}><strong>Definition:</strong> {readingData.definition}</Typography>}
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Inkarnationskreuz */}
+                {readingData.inkarnationskreuz && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      ✨ Inkarnationskreuz
+                    </Typography>
+                    <Box sx={{ p: 2, background: 'rgba(255, 193, 7, 0.15)', borderRadius: 1 }}>
+                      <Typography sx={{ color: 'white', whiteSpace: 'pre-wrap' }}>{readingData.inkarnationskreuz}</Typography>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Zentren */}
+                {(readingData.krone || readingData.ajna || readingData.kehle) && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      🔷 Zentren
+                    </Typography>
+                    <Grid container spacing={2}>
+                      {readingData.krone && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(156, 39, 176, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Krone</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.krone}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.ajna && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(33, 150, 243, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Ajna</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.ajna}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.kehle && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(76, 175, 80, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Kehle</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.kehle}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.gZentrum && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(255, 152, 0, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>G-Zentrum</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.gZentrum}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.herzEgo && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(244, 67, 54, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Herz/Ego</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.herzEgo}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.sakral && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(233, 30, 99, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Sakral</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.sakral}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.solarplexus && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(255, 235, 59, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Solarplexus</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.solarplexus}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.milz && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(76, 175, 80, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Milz</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.milz}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.wurzel && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(121, 85, 72, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>Wurzel</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.wurzel}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Box>
+                )}
+
+                {/* Kanäle */}
+                {readingData.kanaele && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      🔗 Kanäle
+                    </Typography>
+                    <Box sx={{ p: 2, background: 'rgba(103, 58, 183, 0.15)', borderRadius: 1 }}>
+                      <Typography sx={{ color: 'white', whiteSpace: 'pre-wrap' }}>{readingData.kanaele}</Typography>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Planeten */}
+                {(readingData.sonne || readingData.mond) && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      🌍 Planeten
+                    </Typography>
+                    <Grid container spacing={2}>
+                      {readingData.sonne && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(255, 193, 7, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>☉ Sonne</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.sonne}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                      {readingData.mond && (
+                        <Grid item xs={12} md={6}>
+                          <Box sx={{ p: 2, background: 'rgba(158, 158, 158, 0.1)', borderRadius: 1 }}>
+                            <Typography sx={{ color: '#e8b86d', fontWeight: 700, mb: 1 }}>🌙 Mond</Typography>
+                            <Typography sx={{ color: 'white', fontSize: '0.9rem' }}>{readingData.mond}</Typography>
+                          </Box>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </Box>
+                )}
+
+                {/* Hinweis für Bearbeitung */}
+                <Alert severity="success" sx={{ mt: 3, background: 'rgba(76, 175, 80, 0.2)', color: 'white', border: '1px solid #4caf50' }}>
+                  <Typography variant="body2">
+                    ✅ Sieht gut aus? Klicke unten auf <strong>"📥 PDF Exportieren"</strong> um das Reading als PDF zu speichern!
+                  </Typography>
+                  <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
+                    💡 Tipp: Möchtest du noch etwas ändern? Gehe zurück zu den anderen Tabs und bearbeite die Felder!
+                  </Typography>
+                </Alert>
+              </Box>
             )}
 
             {/* Aktions-Buttons */}
