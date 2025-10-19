@@ -62,27 +62,34 @@ export default function CoachHome() {
     >
       <Container maxWidth="lg">
         {/* Logo */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Box sx={{ position: 'relative', width: '100%', maxWidth: 600, height: 280, mx: 'auto' }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 6 } }}>
+          <Box sx={{ 
+            position: 'relative', 
+            width: '100%', 
+            maxWidth: { xs: 300, sm: 400, md: 600 }, 
+            height: { xs: 140, sm: 200, md: 280 }, 
+            mx: 'auto' 
+          }}>
             <Image
               src="/images/connection-key-logo.png"
               alt="The Connection Key"
               fill
               style={{ objectFit: 'contain' }}
               priority
-              sizes="(max-width: 768px) 100vw, 600px"
+              sizes="(max-width: 600px) 300px, (max-width: 960px) 400px, 600px"
             />
           </Box>
         </Box>
 
         {/* Willkommenstext */}
-        <Box sx={{ mb: 6, textAlign: 'center' }}>
+        <Box sx={{ mb: { xs: 4, md: 6 }, textAlign: 'center', px: { xs: 2, sm: 0 } }}>
           <Typography
             variant="h3"
             sx={{
               color: '#ffffff',
               fontWeight: 700,
               mb: 2,
+              fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
             }}
           >
             Willkommen im Coach-Bereich
@@ -94,6 +101,7 @@ export default function CoachHome() {
               fontWeight: 300,
               maxWidth: 600,
               mx: 'auto',
+              fontSize: { xs: '1rem', sm: '1.15rem', md: '1.25rem' },
             }}
           >
             Erstelle professionelle Human Design Readings und verwalte deine Klienten
@@ -129,24 +137,24 @@ export default function CoachHome() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     textAlign: 'center',
-                    p: 4,
+                    p: { xs: 3, md: 4 },
                   }}
                 >
                   {/* Icon */}
                   <Box
                     sx={{
-                      mb: 3,
-                      p: 3,
+                      mb: { xs: 2, md: 3 },
+                      p: { xs: 2, md: 3 },
                       borderRadius: '50%',
                       background: `${item.color}20`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      minWidth: 120,
-                      minHeight: 120,
+                      minWidth: { xs: 80, sm: 100, md: 120 },
+                      minHeight: { xs: 80, sm: 100, md: 120 },
                     }}
                   >
-                    {mounted && <item.icon sx={{ fontSize: 60, color: item.color }} />}
+                    {mounted && <item.icon sx={{ fontSize: { xs: 40, sm: 50, md: 60 }, color: item.color }} />}
                   </Box>
 
                   {/* Titel */}
@@ -156,6 +164,7 @@ export default function CoachHome() {
                       color: '#ffffff',
                       fontWeight: 600,
                       mb: 2,
+                      fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.5rem' },
                     }}
                   >
                     {item.title}
@@ -168,6 +177,7 @@ export default function CoachHome() {
                       color: 'rgba(255, 255, 255, 0.7)',
                       mb: 3,
                       flexGrow: 1,
+                      fontSize: { xs: '0.875rem', md: '0.875rem' },
                     }}
                   >
                     {item.description}
@@ -181,7 +191,8 @@ export default function CoachHome() {
                       background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}cc 100%)`,
                       color: '#000',
                       fontWeight: 600,
-                      py: 1.5,
+                      py: { xs: 1.2, md: 1.5 },
+                      fontSize: { xs: '0.875rem', md: '1rem' },
                       '&:hover': {
                         background: `linear-gradient(135deg, ${item.color}cc 0%, ${item.color} 100%)`,
                       },

@@ -1695,18 +1695,20 @@ Details siehe Console und Ergebnis-Anzeige!`);
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#000000', py: 3 }}>
+    <Box sx={{ minHeight: '100vh', background: '#000000', py: { xs: 2, md: 3 } }}>
       <Container maxWidth="xl">
         {/* Logo oben */}
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'center',
-          mb: 4
+          mb: { xs: 2, md: 4 },
+          px: { xs: 2, sm: 0 }
         }}>
           <Box sx={{ 
             position: 'relative',
-            height: { xs: 150, md: 220 },
-            width: { xs: 600, md: 880 }
+            height: { xs: 100, sm: 150, md: 220 },
+            width: { xs: '100%', sm: 500, md: 880 },
+            maxWidth: '100%'
           }}>
             <Image
               src="/images/connection-key-logo.png"
@@ -1714,6 +1716,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
               fill
               style={{ objectFit: 'contain' }}
               priority
+              sizes="(max-width: 600px) 100vw, (max-width: 960px) 500px, 880px"
             />
           </Box>
         </Box>
@@ -1728,7 +1731,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
           overflow: 'visible'
         }}>
           <CardContent sx={{ overflow: 'visible' }}>
-            <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 700, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 700, mb: { xs: 2, md: 3 }, display: 'flex', alignItems: 'center', gap: 1, fontSize: { xs: '1rem', md: '1.25rem' } }}>
               <Sparkles size={24} color="#FFD700" />
               📋 So nutzt du das Human Design Tool in 4 einfachen Schritten:
             </Typography>
@@ -1888,22 +1891,22 @@ Details siehe Console und Ergebnis-Anzeige!`);
           </CardContent>
         </Card>
 
-        <Box sx={{ display: 'flex', gap: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: { xs: 2, md: 3 } }}>
           {/* Linke Seite: Eingabeformular */}
           <Paper sx={{ 
             flex: 1, 
-            p: 3, 
+            p: { xs: 2, md: 3 }, 
             background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(255, 255, 255, 0.1)'
           }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography variant="h5" sx={{ color: '#FFD700', display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, mb: { xs: 2, md: 3 }, gap: { xs: 2, sm: 0 } }}>
+              <Typography variant="h5" sx={{ color: '#FFD700', display: 'flex', alignItems: 'center', gap: 1, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
                 <Book size={24} />
                 Human Design Daten
               </Typography>
               
-              <FormControl size="small" sx={{ minWidth: 250 }}>
+              <FormControl size="small" sx={{ minWidth: { xs: '100%', sm: 250 } }}>
                 <InputLabel sx={{ color: 'white' }}>Reading-Typ</InputLabel>
                 <Select
                   value={readingType}
@@ -1918,12 +1921,19 @@ Details siehe Console und Ergebnis-Anzeige!`);
               </FormControl>
             </Box>
 
-            <Tabs value={activeTab} onChange={(e, v) => setActiveTab(v)} sx={{ mb: 3 }}>
-              <Tab label="📊 Reading Übersicht" sx={{ color: 'white', fontWeight: activeTab === 0 ? 700 : 400 }} />
-              <Tab label="👤 Persönliches" sx={{ color: 'white', fontWeight: activeTab === 1 ? 700 : 400 }} />
-              <Tab label="✨ Human Design" sx={{ color: 'white', fontWeight: activeTab === 2 ? 700 : 400 }} />
-              <Tab label="🔷 Zentren" sx={{ color: 'white', fontWeight: activeTab === 3 ? 700 : 400 }} />
-              <Tab label="🌍 Planeten" sx={{ color: 'white', fontWeight: activeTab === 4 ? 700 : 400 }} />
+            <Tabs 
+              value={activeTab} 
+              onChange={(e, v) => setActiveTab(v)} 
+              sx={{ mb: { xs: 2, md: 3 } }}
+              variant="scrollable"
+              scrollButtons="auto"
+              allowScrollButtonsMobile
+            >
+              <Tab label="📊 Übersicht" sx={{ color: 'white', fontWeight: activeTab === 0 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
+              <Tab label="👤 Persönlich" sx={{ color: 'white', fontWeight: activeTab === 1 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
+              <Tab label="✨ HD" sx={{ color: 'white', fontWeight: activeTab === 2 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
+              <Tab label="🔷 Zentren" sx={{ color: 'white', fontWeight: activeTab === 3 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
+              <Tab label="🌍 Planeten" sx={{ color: 'white', fontWeight: activeTab === 4 ? 700 : 400, fontSize: { xs: '0.75rem', sm: '0.875rem' }, minWidth: { xs: 'auto', sm: 160 } }} />
             </Tabs>
 
             {/* Tab 0: Reading Übersicht */}
@@ -2951,8 +2961,8 @@ Details siehe Console und Ergebnis-Anzeige!`);
 
           {/* Rechte Seite: Quick Info & Gate Calculator */}
           <Paper sx={{ 
-            width: 400,
-            p: 3,
+            width: { xs: '100%', lg: 400 },
+            p: { xs: 2, md: 3 },
             background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(10px)',
             border: '1px solid rgba(232, 184, 109, 0.2)'
