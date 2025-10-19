@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import {
   Box,
   Container,
@@ -31,7 +32,6 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { User, Calendar, MapPin, Heart, Star, CheckCircle, Camera, Upload, Phone, Globe, Lock, Eye } from 'lucide-react';
-import AnimatedStars from '@/components/AnimatedStars';
 import MultiImageUpload from '@/components/MultiImageUpload';
 
 const steps = [
@@ -74,6 +74,28 @@ export default function ProfilEinrichtenPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Gemeinsames Styling für alle Formularfelder
+  const textFieldStyle = {
+    '& .MuiInputLabel-root': {
+      color: '#FFD700',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: '#FFA500',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#FFD700',
+      },
+      '&:hover fieldset': {
+        borderColor: '#FFA500',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#FFA500',
+        borderWidth: '2px'
+      }
+    }
+  };
 
   const interestOptions = [
     'Human Design',
@@ -225,7 +247,7 @@ export default function ProfilEinrichtenPage() {
                 label="Vorname"
                 value={formData.firstName}
                 onChange={(e) => handleInputChange('firstName', e.target.value)}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 required
               />
             </Grid>
@@ -235,7 +257,7 @@ export default function ProfilEinrichtenPage() {
                 label="Nachname"
                 value={formData.lastName}
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 required
               />
             </Grid>
@@ -247,7 +269,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 disabled
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -258,6 +280,7 @@ export default function ProfilEinrichtenPage() {
                 rows={4}
                 value={formData.bio}
                 onChange={(e) => handleInputChange('bio', e.target.value)}
+                sx={textFieldStyle}
                 placeholder="Erzähle etwas über dich..."
               />
             </Grid>
@@ -273,12 +296,12 @@ export default function ProfilEinrichtenPage() {
                 mb: 2,
                 fontWeight: 'bold',
                 textAlign: 'center',
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}>
-                💑 Dating-Fotos
+                Dating-Fotos
               </Typography>
               <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3, textAlign: 'center' }}>
                 Lade bis zu 6 Fotos hoch für dein Dating-Profil. Das erste Foto wird als Hauptbild verwendet.
@@ -301,9 +324,9 @@ export default function ProfilEinrichtenPage() {
                 label="Telefon (optional)"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 InputProps={{
-                  startAdornment: <Phone size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                  startAdornment: <Phone size={20} style={{ marginRight: 8, color: '#FFA500' }} />
                 }}
               />
             </Grid>
@@ -313,9 +336,9 @@ export default function ProfilEinrichtenPage() {
                 label="Website (optional)"
                 value={formData.website}
                 onChange={(e) => handleInputChange('website', e.target.value)}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 InputProps={{
-                  startAdornment: <Globe size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                  startAdornment: <Globe size={20} style={{ marginRight: 8, color: '#FFA500' }} />
                 }}
               />
             </Grid>
@@ -326,8 +349,9 @@ export default function ProfilEinrichtenPage() {
                 value={formData.location}
                 onChange={(e) => handleInputChange('location', e.target.value)}
                 placeholder="z.B. Berlin, Deutschland"
+                sx={textFieldStyle}
                 InputProps={{
-                  startAdornment: <MapPin size={20} style={{ marginRight: 8, color: '#8B5CF6' }} />
+                  startAdornment: <MapPin size={20} style={{ marginRight: 8, color: '#FFA500' }} />
                 }}
               />
             </Grid>
@@ -345,7 +369,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.birthDate}
                 onChange={(e) => handleInputChange('birthDate', e.target.value)}
                 InputLabelProps={{ shrink: true }}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 required
               />
             </Grid>
@@ -357,7 +381,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.birthTime}
                 onChange={(e) => handleInputChange('birthTime', e.target.value)}
                 InputLabelProps={{ shrink: true }}
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -367,7 +391,7 @@ export default function ProfilEinrichtenPage() {
                 value={formData.birthPlace}
                 onChange={(e) => handleInputChange('birthPlace', e.target.value)}
                 placeholder="z.B. Berlin, Deutschland"
-                sx={{ mb: 3 }}
+                sx={{ ...textFieldStyle, mb: 3 }}
                 required
               />
             </Grid>
@@ -414,32 +438,48 @@ export default function ProfilEinrichtenPage() {
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth>
-                  <FormLabel sx={{ color: 'white', mb: 1 }}>Beziehungsstatus</FormLabel>
+                  <FormLabel sx={{ 
+                    color: '#FFD700',
+                    mb: 1,
+                    '&.Mui-focused': { color: '#FFA500' }
+                  }}>Beziehungsstatus</FormLabel>
                   <RadioGroup
                     value={formData.relationshipStatus}
                     onChange={(e) => handleInputChange('relationshipStatus', e.target.value)}
                   >
                     <FormControlLabel 
                       value="single" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Single" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="in-relationship" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="In einer Beziehung" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="married" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Verheiratet" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="complicated" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Es ist kompliziert" 
                       sx={{ color: 'white' }}
                     />
@@ -449,32 +489,48 @@ export default function ProfilEinrichtenPage() {
               
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth>
-                  <FormLabel sx={{ color: 'white', mb: 1 }}>Suche nach</FormLabel>
+                  <FormLabel sx={{ 
+                    color: '#FFD700',
+                    mb: 1,
+                    '&.Mui-focused': { color: '#FFA500' }
+                  }}>Suche nach</FormLabel>
                   <RadioGroup
                     value={formData.lookingFor}
                     onChange={(e) => handleInputChange('lookingFor', e.target.value)}
                   >
                     <FormControlLabel 
                       value="friendship" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Freundschaft" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="relationship" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Beziehung" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="networking" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Networking" 
                       sx={{ color: 'white' }}
                     />
                     <FormControlLabel 
                       value="mentoring" 
-                      control={<Radio sx={{ color: '#8B5CF6' }} />} 
+                      control={<Radio sx={{ 
+                        color: '#FFD700',
+                        '&.Mui-checked': { color: '#FFA500' }
+                      }} />} 
                       label="Mentoring" 
                       sx={{ color: 'white' }}
                     />
@@ -494,9 +550,15 @@ export default function ProfilEinrichtenPage() {
                   max={80}
                   step={1}
                   sx={{
-                    color: '#8B5CF6',
+                    color: '#FFA500',
                     '& .MuiSlider-thumb': {
-                      backgroundColor: '#8B5CF6'
+                      backgroundColor: '#FFD700',
+                      '&:hover': {
+                        backgroundColor: '#FFA500'
+                      }
+                    },
+                    '& .MuiSlider-track': {
+                      background: 'linear-gradient(90deg, #FFD700, #FFA500)'
                     }
                   }}
                 />
@@ -517,9 +579,15 @@ export default function ProfilEinrichtenPage() {
                   max={200}
                   step={5}
                   sx={{
-                    color: '#8B5CF6',
+                    color: '#FFA500',
                     '& .MuiSlider-thumb': {
-                      backgroundColor: '#8B5CF6'
+                      backgroundColor: '#FFD700',
+                      '&:hover': {
+                        backgroundColor: '#FFA500'
+                      }
+                    },
+                    '& .MuiSlider-track': {
+                      background: 'linear-gradient(90deg, #FFD700, #FFA500)'
                     }
                   }}
                 />
@@ -547,7 +615,17 @@ export default function ProfilEinrichtenPage() {
                         ...formData.privacySettings,
                         showProfile: e.target.checked
                       })}
-                      sx={{ color: '#8B5CF6' }}
+                      sx={{ 
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FFD700',
+                          '&.Mui-checked': {
+                            color: '#FFA500',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: '#FFA500'
+                            }
+                          }
+                        }
+                      }}
                     />
                   }
                   label="Profil öffentlich sichtbar"
@@ -564,7 +642,17 @@ export default function ProfilEinrichtenPage() {
                         ...formData.privacySettings,
                         showBirthDate: e.target.checked
                       })}
-                      sx={{ color: '#8B5CF6' }}
+                      sx={{ 
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FFD700',
+                          '&.Mui-checked': {
+                            color: '#FFA500',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: '#FFA500'
+                            }
+                          }
+                        }
+                      }}
                     />
                   }
                   label="Geburtsdatum anzeigen"
@@ -581,7 +669,17 @@ export default function ProfilEinrichtenPage() {
                         ...formData.privacySettings,
                         showLocation: e.target.checked
                       })}
-                      sx={{ color: '#8B5CF6' }}
+                      sx={{ 
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FFD700',
+                          '&.Mui-checked': {
+                            color: '#FFA500',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: '#FFA500'
+                            }
+                          }
+                        }
+                      }}
                     />
                   }
                   label="Standort anzeigen"
@@ -598,7 +696,17 @@ export default function ProfilEinrichtenPage() {
                         ...formData.privacySettings,
                         allowMessages: e.target.checked
                       })}
-                      sx={{ color: '#8B5CF6' }}
+                      sx={{ 
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FFD700',
+                          '&.Mui-checked': {
+                            color: '#FFA500',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: '#FFA500'
+                            }
+                          }
+                        }
+                      }}
                     />
                   }
                   label="Nachrichten von anderen Benutzern erlauben"
@@ -615,7 +723,17 @@ export default function ProfilEinrichtenPage() {
                         ...formData.privacySettings,
                         showOnlineStatus: e.target.checked
                       })}
-                      sx={{ color: '#8B5CF6' }}
+                      sx={{ 
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FFD700',
+                          '&.Mui-checked': {
+                            color: '#FFA500',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: '#FFA500'
+                            }
+                          }
+                        }
+                      }}
                     />
                   }
                   label="Online-Status anzeigen"
@@ -631,7 +749,7 @@ export default function ProfilEinrichtenPage() {
           <Box sx={{ textAlign: 'center' }}>
             <CheckCircle size={64} color="#22c55e" style={{ marginBottom: '1rem' }} />
             <Typography variant="h5" sx={{ color: 'white', mb: 2 }}>
-              🎉 Perfekt!
+              Perfekt!
             </Typography>
             <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
               Dein Profil ist jetzt vollständig eingerichtet. Du kannst jetzt alle Features der App nutzen!
@@ -650,13 +768,35 @@ export default function ProfilEinrichtenPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+      background: '#000000',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <AnimatedStars />
       
       <Container maxWidth="md" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
+        {/* Logo */}
+        <Box sx={{ 
+          display: 'flex',
+          justifyContent: 'center',
+          mb: { xs: 3, md: 4 }
+        }}>
+          <Box sx={{ 
+            position: 'relative',
+            width: '100%',
+            maxWidth: { xs: 250, sm: 350, md: 500 },
+            height: { xs: 120, sm: 170, md: 240 }
+          }}>
+            <Image
+              src="/images/connection-key-logo.png"
+              alt="Connection Key Logo"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+              sizes="(max-width: 600px) 250px, (max-width: 960px) 350px, 500px"
+            />
+          </Box>
+        </Box>
+
         {/* Header */}
         <motion.div
           
@@ -667,13 +807,16 @@ export default function ProfilEinrichtenPage() {
             <Typography
               variant="h3"
               sx={{
-                color: 'white',
-                mb: 2,
                 fontWeight: 800,
-                textShadow: '0 0 20px rgba(255, 255, 255, 0.3)'
+                mb: 2,
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: 'none'
               }}
             >
-              👤 Profil einrichten
+              Profil einrichten
             </Typography>
             <Typography
               variant="h6"
@@ -695,9 +838,9 @@ export default function ProfilEinrichtenPage() {
           
         >
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.25)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
             borderRadius: 3,
             mb: 4
           }}>
@@ -738,9 +881,9 @@ export default function ProfilEinrichtenPage() {
           
         >
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.25)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
             borderRadius: 3,
             mb: 4
           }}>
@@ -802,13 +945,13 @@ export default function ProfilEinrichtenPage() {
                 onClick={handleNext}
                 variant="contained"
                 sx={{
-                  background: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)',
-                  color: 'white',
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  color: '#000',
                   fontWeight: 'bold',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #7C3AED 0%, #9333EA 100%)',
+                    background: 'linear-gradient(135deg, #FFA500 0%, #FFD700 100%)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 25px rgba(139, 92, 246, 0.4)'
+                    boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
                   }
                 }}
               >

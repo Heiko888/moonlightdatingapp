@@ -8,10 +8,10 @@ import {
   Card,
   CardContent,
   Button,
-  Chip,
-  Alert,
   CircularProgress,
+  Alert,
   Grid,
+  Chip,
   Divider,
   IconButton,
 } from '@mui/material';
@@ -36,7 +36,7 @@ interface Reading {
 export default function ReadingDetail() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id as string;
+  const id = params?.id as string;
 
   const [reading, setReading] = useState<Reading | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,6 +67,32 @@ export default function ReadingDetail() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('Möchtest du dieses Reading wirklich löschen?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/readings/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Löschen');
+      }
+
+      router.push('/coach/readings');
+    } catch (err: any) {
+      console.error('Fehler beim Löschen:', err);
+      setError(err.message || 'Fehler beim Löschen des Readings');
+    }
+  };
+
+  const handleExportPDF = () => {
+    // TODO: PDF-Export Implementierung
+    alert('PDF-Export wird in Kürze verfügbar sein');
   };
 
   const getReadingTypeLabel = (type: string) => {
@@ -102,35 +128,6 @@ export default function ReadingDetail() {
     });
   };
 
-  const renderDataField = (label: string, value: any) => {
-    if (!value) return null;
-
-    return (
-      <Box sx={{ mb: 2 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.5)',
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            letterSpacing: 1,
-          }}
-        >
-          {label}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            color: '#fff',
-            mt: 0.5,
-          }}
-        >
-          {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
-        </Typography>
-      </Box>
-    );
-  };
-
   if (loading) {
     return (
       <Box
@@ -138,11 +135,23 @@ export default function ReadingDetail() {
           minHeight: '100vh',
           background: '#000000',
           display: 'flex',
-          alignItems: 'center',
           justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        <CircularProgress sx={{ color: '#e8b86d' }} />
+        <Box sx={{ textAlign: 'center' }}>
+          <CircularProgress
+            size={70}
+            thickness={4}
+            sx={{
+              color: '#e8b86d',
+              mb: 3,
+            }}
+          />
+          <Typography variant="h6" sx={{ color: '#e8b86d' }}>
+            Lade Reading...
+          </Typography>
+        </Box>
       </Box>
     );
   }
@@ -156,36 +165,18 @@ export default function ReadingDetail() {
           pt: 4,
         }}
       >
-        <Container maxWidth="md">
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Image
-              src="/images/connection-key-logo.png"
-              alt="The Connection Key"
-              width={300}
-              height={150}
-              style={{ maxWidth: '100%', height: 'auto' }}
-            />
-          </Box>
-
-          <Alert severity="error" sx={{ mb: 3 }}>
-            {error || 'Reading nicht gefunden'}
-          </Alert>
-
+        <Container maxWidth="lg">
           <Button
-            variant="outlined"
             startIcon={<BackIcon />}
             onClick={() => router.push('/coach/readings')}
             sx={{
-              borderColor: '#e8b86d',
               color: '#e8b86d',
-              '&:hover': {
-                borderColor: '#ffd89b',
-                background: 'rgba(232, 184, 109, 0.1)',
-              },
+              mb: 4,
             }}
           >
-            Zurück zur Übersicht
+            Zurück zu Readings
           </Button>
+          <Alert severity="error">{error || 'Reading nicht gefunden'}</Alert>
         </Container>
       </Box>
     );
@@ -196,262 +187,295 @@ export default function ReadingDetail() {
       sx={{
         minHeight: '100vh',
         background: '#000000',
-        position: 'relative',
         pt: 4,
         pb: 8,
       }}
     >
-      {/* Logo */}
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Image
-          src="/images/connection-key-logo.png"
-          alt="The Connection Key"
-          width={300}
-          height={150}
-          style={{ maxWidth: '100%', height: 'auto' }}
-        />
-      </Box>
-
       <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 4 }}>
+        {/* Logo */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Box sx={{ position: 'relative', width: '100%', maxWidth: 500, height: 240, mx: 'auto' }}>
+            <Image
+              src="/images/connection-key-logo.png"
+              alt="The Connection Key"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+              sizes="(max-width: 768px) 100vw, 500px"
+            />
+          </Box>
+        </Box>
+
+        {/* Navigation */}
+        <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Button
             startIcon={<BackIcon />}
             onClick={() => router.push('/coach/readings')}
             sx={{
-              color: 'rgba(255, 255, 255, 0.7)',
-              mb: 3,
+              color: '#e8b86d',
               '&:hover': {
-                color: '#e8b86d',
                 background: 'rgba(232, 184, 109, 0.1)',
               },
             }}
           >
-            Zurück zur Übersicht
+            Zurück zu Readings
           </Button>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Chip
-              label={getReadingTypeLabel(reading.reading_type)}
-              sx={{
-                background: getReadingTypeColor(reading.reading_type),
-                color: '#000',
-                fontWeight: 600,
-              }}
-            />
-            <Typography
-              variant="caption"
-              sx={{
-                color: 'rgba(255, 255, 255, 0.5)',
-              }}
-            >
-              Erstellt: {formatDate(reading.created_at)}
-            </Typography>
-          </Box>
-
-          <Typography
-            variant="h3"
-            sx={{
-              color: '#ffffff',
-              fontWeight: 700,
-              mb: 3,
-            }}
-          >
-            {reading.client_name || 'Unbenannt'}
-          </Typography>
-
-          {/* Aktionen */}
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
-              variant="contained"
               startIcon={<EditIcon />}
               onClick={() => router.push(`/coach/readings/create?id=${reading.id}`)}
+              variant="outlined"
               sx={{
-                background: 'linear-gradient(135deg, #e8b86d 0%, #ffd89b 100%)',
-                color: '#000',
-                fontWeight: 600,
+                borderColor: '#4fc3f7',
+                color: '#4fc3f7',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ffd89b 0%, #e8b86d 100%)',
+                  borderColor: '#4fc3f7',
+                  background: 'rgba(79, 195, 247, 0.1)',
                 },
               }}
             >
               Bearbeiten
             </Button>
+            <Button
+              startIcon={<PdfIcon />}
+              onClick={handleExportPDF}
+              variant="outlined"
+              sx={{
+                borderColor: '#e8b86d',
+                color: '#e8b86d',
+                '&:hover': {
+                  borderColor: '#e8b86d',
+                  background: 'rgba(232, 184, 109, 0.1)',
+                },
+              }}
+            >
+              Als PDF
+            </Button>
+            <Button
+              startIcon={<DeleteIcon />}
+              onClick={handleDelete}
+              variant="outlined"
+              sx={{
+                borderColor: '#f44336',
+                color: '#f44336',
+                '&:hover': {
+                  borderColor: '#f44336',
+                  background: 'rgba(244, 67, 54, 0.1)',
+                },
+              }}
+            >
+              Löschen
+            </Button>
           </Box>
         </Box>
 
-        {/* Daten */}
-        <Grid container spacing={3}>
-          {/* Persönliche Daten */}
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                height: '100%',
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h6"
+        {/* Header Card */}
+        <Card
+          sx={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            mb: 3,
+          }}
+        >
+          <CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+              <Box>
+                <Chip
+                  label={getReadingTypeLabel(reading.reading_type)}
+                  size="small"
                   sx={{
-                    color: '#e8b86d',
+                    mb: 2,
+                    background: getReadingTypeColor(reading.reading_type),
+                    color: '#000',
                     fontWeight: 600,
-                    mb: 3,
                   }}
-                >
-                  📋 Persönliche Daten
+                />
+                <Typography variant="h4" sx={{ color: '#fff', fontWeight: 700, mb: 1 }}>
+                  {reading.client_name || 'Unbenannt'}
                 </Typography>
-
-                {renderDataField('Name', reading.reading_data.name)}
-                {renderDataField('Geschlecht', reading.reading_data.geschlecht)}
-                {renderDataField('Geburtsdatum', reading.reading_data.geburtsdatum)}
-                {renderDataField('Geburtszeit', reading.reading_data.geburtszeit)}
-                {renderDataField('Geburtsort', reading.reading_data.geburtsort)}
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Human Design Daten */}
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                height: '100%',
-              }}
-            >
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    color: '#e8b86d',
-                    fontWeight: 600,
-                    mb: 3,
-                  }}
-                >
-                  ✨ Human Design
+                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                  Erstellt: {formatDate(reading.created_at)}
                 </Typography>
-
-                {renderDataField('Typ', reading.reading_data.typ)}
-                {renderDataField('Profil', reading.reading_data.profil)}
-                {renderDataField('Autorität', reading.reading_data.autoritaet)}
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Zentren */}
-          {(reading.reading_data.definiertZentren || reading.reading_data.offenZentren) && (
-            <Grid item xs={12}>
-              <Card
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: '#e8b86d',
-                      fontWeight: 600,
-                      mb: 3,
-                    }}
-                  >
-                    🌟 Zentren
+                {reading.updated_at && reading.updated_at !== reading.created_at && (
+                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                    Aktualisiert: {formatDate(reading.updated_at)}
                   </Typography>
+                )}
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
 
+        {/* Reading Daten */}
+        <Card
+          sx={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" sx={{ color: '#e8b86d', fontWeight: 600, mb: 3 }}>
+              Reading-Daten
+            </Typography>
+
+            <Grid container spacing={3}>
+              {/* Geburtsdaten */}
+              {(reading.reading_data?.geburtsdatum || reading.reading_data?.geburtszeit || reading.reading_data?.geburtsort) && (
+                <Grid item xs={12}>
+                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
+                    Geburtsdaten
+                  </Typography>
                   <Grid container spacing={2}>
-                    {reading.reading_data.definiertZentren && (
-                      <Grid item xs={12} md={6}>
-                        {renderDataField('Definierte Zentren', reading.reading_data.definiertZentren)}
+                    {reading.reading_data.geburtsdatum && (
+                      <Grid item xs={12} sm={4}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Geburtsdatum
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff' }}>
+                          {reading.reading_data.geburtsdatum}
+                        </Typography>
                       </Grid>
                     )}
-                    {reading.reading_data.offenZentren && (
-                      <Grid item xs={12} md={6}>
-                        {renderDataField('Offene Zentren', reading.reading_data.offenZentren)}
+                    {reading.reading_data.geburtszeit && (
+                      <Grid item xs={12} sm={4}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Geburtszeit
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff' }}>
+                          {reading.reading_data.geburtszeit}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {reading.reading_data.geburtsort && (
+                      <Grid item xs={12} sm={4}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Geburtsort
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff' }}>
+                          {reading.reading_data.geburtsort}
+                        </Typography>
                       </Grid>
                     )}
                   </Grid>
-                </CardContent>
-              </Card>
-            </Grid>
-          )}
+                  <Divider sx={{ my: 3, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+                </Grid>
+              )}
 
-          {/* Tore */}
-          {reading.reading_data.definiertTore && (
-            <Grid item xs={12}>
-              <Card
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: '#e8b86d',
-                      fontWeight: 600,
-                      mb: 3,
-                    }}
-                  >
-                    🚪 Definierte Tore
+              {/* Human Design Daten */}
+              {reading.reading_data?.typ && (
+                <Grid item xs={12}>
+                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
+                    Human Design Chart
                   </Typography>
+                  <Grid container spacing={2}>
+                    {reading.reading_data.typ && (
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Typ
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff', fontWeight: 600 }}>
+                          {reading.reading_data.typ}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {reading.reading_data.profil && (
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Profil
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff', fontWeight: 600 }}>
+                          {reading.reading_data.profil}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {reading.reading_data.autorität && (
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Autorität
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff', fontWeight: 600 }}>
+                          {reading.reading_data.autorität}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {reading.reading_data.strategie && (
+                      <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', mb: 0.5 }}>
+                          Strategie
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#fff', fontWeight: 600 }}>
+                          {reading.reading_data.strategie}
+                        </Typography>
+                      </Grid>
+                    )}
+                  </Grid>
+                  <Divider sx={{ my: 3, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+                </Grid>
+              )}
 
-                  {renderDataField('Tore', reading.reading_data.definiertTore)}
-                </CardContent>
-              </Card>
-            </Grid>
-          )}
-
-          {/* Vollständige Daten (für Connection Key) */}
-          {reading.reading_type === 'connectionKey' && (
-            <Grid item xs={12}>
-              <Card
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                }}
-              >
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: '#4fc3f7',
-                      fontWeight: 600,
-                      mb: 3,
-                    }}
-                  >
-                    🩵 Connection Key Daten
+              {/* Reading Text */}
+              {reading.reading_data?.readingText && (
+                <Grid item xs={12}>
+                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
+                    Reading
                   </Typography>
-
                   <Box
                     sx={{
-                      background: 'rgba(0, 0, 0, 0.3)',
-                      p: 2,
-                      borderRadius: 1,
-                      fontFamily: 'monospace',
-                      fontSize: '0.875rem',
-                      color: '#fff',
-                      overflow: 'auto',
-                      maxHeight: '400px',
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 2,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
                     }}
                   >
-                    <pre>{JSON.stringify(reading.reading_data, null, 2)}</pre>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: 'rgba(255, 255, 255, 0.9)',
+                        whiteSpace: 'pre-wrap',
+                        lineHeight: 1.8,
+                      }}
+                    >
+                      {reading.reading_data.readingText}
+                    </Typography>
                   </Box>
-                </CardContent>
-              </Card>
+                </Grid>
+              )}
+
+              {/* Alle anderen Daten */}
+              {Object.keys(reading.reading_data || {}).length > 0 && (
+                <Grid item xs={12}>
+                  <Typography variant="h6" sx={{ color: '#fff', fontWeight: 600, mb: 2 }}>
+                    Weitere Informationen
+                  </Typography>
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 2,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
+                    <pre
+                      style={{
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        fontSize: '0.875rem',
+                        overflow: 'auto',
+                        margin: 0,
+                        fontFamily: 'monospace',
+                      }}
+                    >
+                      {JSON.stringify(reading.reading_data, null, 2)}
+                    </pre>
+                  </Box>
+                </Grid>
+              )}
             </Grid>
-          )}
-        </Grid>
+          </CardContent>
+        </Card>
       </Container>
     </Box>
   );
 }
-

@@ -95,13 +95,13 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: { 
-          backgroundColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.25)',
           borderRadius: 8
         },
         notchedOutline: { 
-          borderColor: 'rgba(255,255,255,0.2)',
+          borderColor: 'rgba(255,255,255,0.4)',
           '&:hover': {
-            borderColor: 'rgba(255,255,255,0.4)'
+            borderColor: 'rgba(255,255,255,0.6)'
           }
         },
       },
@@ -110,7 +110,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputBase-root': {
-            backgroundColor: 'rgba(255,255,255,0.1)',
+            backgroundColor: 'rgba(255,255,255,0.25)',
             borderRadius: 8
           }
         },
@@ -119,11 +119,11 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255,255,255,0.25)',
           borderRadius: 8,
           color: 'white',
           '&::placeholder': {
-            color: 'rgba(255,255,255,0.6)'
+            color: 'rgba(255,255,255,0.7)'
           }
         },
       },

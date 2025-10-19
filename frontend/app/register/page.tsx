@@ -174,7 +174,7 @@ const RegisterPage: React.FC = () => {
         
         // Nach 2 Sekunden zur Profil-Einrichtung weiterleiten
         setTimeout(() => {
-          router.push('/profile-setup');
+          router.push('/profil-einrichten');
         }, 2000);
       }
 

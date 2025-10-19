@@ -44,16 +44,6 @@ interface DashboardStats {
   communityActivity: number;
 }
 
-interface Match {
-  id: string;
-  name: string;
-  age: number;
-  profileImage: string;
-  compatibility: number;
-  lastMessage?: string;
-  lastMessageTime?: string;
-}
-
 interface ChartData {
   type: string;
   profile: string;
@@ -72,7 +62,6 @@ const DashboardPage: React.FC = () => {
     matches: 0,
     communityActivity: 0
   });
-  const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -207,37 +196,6 @@ const DashboardPage: React.FC = () => {
         communityActivity: 8
       };
       
-      // Simuliere Matches
-      const mockMatches: Match[] = [
-        {
-          id: '1',
-          name: 'Sarah',
-          age: 28,
-          profileImage: '/api/placeholder/60/60',
-          compatibility: 87,
-          lastMessage: 'Hey! Wie war dein Tag?',
-          lastMessageTime: '2h'
-        },
-        {
-          id: '2',
-          name: 'Michael',
-          age: 32,
-          profileImage: '/api/placeholder/60/60',
-          compatibility: 92,
-          lastMessage: 'Lass uns mal treffen!',
-          lastMessageTime: '1d'
-        },
-        {
-          id: '3',
-          name: 'Emma',
-          age: 26,
-          profileImage: '/api/placeholder/60/60',
-          compatibility: 78,
-          lastMessage: 'Dein HD-Chart ist faszinierend!',
-          lastMessageTime: '3d'
-        }
-      ];
-      
       // Mock Chart Data
       const mockChartData: ChartData = {
         type: 'Generator',
@@ -325,7 +283,6 @@ const DashboardPage: React.FC = () => {
       
       // Batch State Updates um Re-Renders zu minimieren
       setStats(mockStats);
-      setMatches(mockMatches);
       setChartData(mockChartData);
       
       // Verzögerte Loading-False um State-Updates zu stabilisieren
@@ -366,18 +323,33 @@ const DashboardPage: React.FC = () => {
     return (
       <Box sx={{ 
         display: 'flex', 
+        flexDirection: 'column',
         justifyContent: 'center', 
         alignItems: 'center', 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
-        color: 'white'
+        background: '#000000',
+        gap: 3
       }}>
-        <CircularProgress size={60} sx={{ color: '#4ECDC4' }} />
+        <CircularProgress 
+          size={70} 
+          thickness={4}
+          sx={{ 
+            color: '#e8b86d',
+            '& .MuiCircularProgress-circle': {
+              strokeLinecap: 'round',
+            }
+          }} 
+        />
+        <Typography
+          variant="h6"
+          sx={{
+            color: '#e8b86d',
+            fontWeight: 600,
+            textAlign: 'center'
+          }}
+        >
+          Lädt...
+        </Typography>
       </Box>
     );
   }
@@ -385,39 +357,8 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      position: 'relative',
-      overflow: 'hidden'
+      background: '#000000'
     }}>
-      {/* Hintergrundbild */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 0
-      }}>
-        <Image
-          src="/images/Flammen IM Hintergrund.png"
-          alt="Dashboard Background"
-          fill
-          style={{ objectFit: 'cover' }}
-          quality={90}
-          priority
-        />
-        {/* Dunkles Overlay für bessere Lesbarkeit */}
-        <Box sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(2px)'
-        }} />
-      </Box>
-      
-      <Box sx={{ position: 'relative', zIndex: 1 }}>
       {/* Fixed Navigation Bar */}
       <Box sx={{
         position: 'fixed',
@@ -489,7 +430,7 @@ const DashboardPage: React.FC = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: 20, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ pt: 20, pb: 4 }}>
         {/* Header */}
         <Box sx={{ 
           mb: 6,
@@ -661,7 +602,7 @@ const DashboardPage: React.FC = () => {
               borderRadius: 2
             }
           }}>
-            📊 Deine Statistiken
+            Deine Statistiken
           </Typography>
 
           <motion.div
@@ -886,7 +827,7 @@ const DashboardPage: React.FC = () => {
               borderRadius: 2
             }
           }}>
-              🚀 Schnellzugriff
+              Schnellzugriff
             </Typography>
 
           <motion.div
@@ -1119,7 +1060,7 @@ const DashboardPage: React.FC = () => {
           </motion.div>
         </Box>
 
-        {/* ============ COMMUNITY & DATING ============ */}
+        {/* ============ COMMUNITY ============ */}
         <Box sx={{ mb: 10 }}>
           <Typography variant="h4" sx={{ 
             color: 'white',
@@ -1132,11 +1073,11 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #ff6b9d)',
+              background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
               borderRadius: 2
             }
           }}>
-            💝 Community & Dating
+            Community
           </Typography>
 
           {/* Friends Community Widget */}
@@ -1299,13 +1240,34 @@ const DashboardPage: React.FC = () => {
           </CardContent>
         </Card>
         </motion.div>
+        </Box>
 
-        {/* Dating Widget */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-        >
+        {/* ============ DATING ============ */}
+        <Box sx={{ mb: 10 }}>
+          <Typography variant="h4" sx={{ 
+            color: 'white',
+            fontWeight: 700,
+            mb: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            '&::before': {
+              content: '""',
+              width: 4,
+              height: 32,
+              background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+              borderRadius: 2
+            }
+          }}>
+            Dating
+          </Typography>
+
+          {/* Dating Widget */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
           <Card sx={{ 
           background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
           backdropFilter: 'blur(20px)',
@@ -1460,127 +1422,6 @@ const DashboardPage: React.FC = () => {
           </CardContent>
         </Card>
         </motion.div>
-
-        {/* Dating Matches Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-          <Card sx={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: 3,
-          mb: 0
-        }}>
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <Heart size={24} color="#FF69B4" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
-                Deine Matches
-              </Typography>
-            </Box>
-            
-            {matches.length > 0 ? (
-              <Grid container spacing={2}>
-                {matches.map((match) => (
-                  <Grid item xs={12} sm={6} md={4} key={match.id}>
-                    <Card sx={{ 
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: 2,
-                      '&:hover': {
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        transform: 'translateY(-2px)',
-                        transition: 'all 0.3s ease'
-                      }
-                    }}>
-                      <CardContent sx={{ p: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                          <Box sx={{ 
-                            width: 50, 
-                            height: 50, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            mr: 2
-                          }}>
-                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
-                              {match.name.charAt(0)}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
-                              {match.name}, {match.age}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                              {match.compatibility}% Kompatibilität
-                            </Typography>
-                          </Box>
-                        </Box>
-                        
-                        {match.lastMessage && (
-                          <Box sx={{ mb: 2 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              &ldquo;{match.lastMessage}&rdquo;
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
-                              {match.lastMessageTime}
-                            </Typography>
-                          </Box>
-                        )}
-                        
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          startIcon={<MessageCircle size={16} />}
-                          sx={{
-                            background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                            color: 'white',
-                            '&:hover': {
-                              background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
-                            }
-                          }}
-                          onClick={() => router.push(`/dating/chat/${match.id}`)}
-                        >
-                          Nachricht senden
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Box sx={{ textAlign: 'center', py: 4 }}>
-                <Heart size={48} color="rgba(255,255,255,0.3)" />
-                <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2 }}>
-                  Noch keine Matches
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mb: 3 }}>
-                  Starte deine Dating-Reise!
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<Heart size={16} />}
-                  sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                    color: 'white',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
-                    }
-                  }}
-                  onClick={() => router.push('/dating')}
-                >
-                  Dating starten
-                </Button>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-          </motion.div>
         </Box>
 
         {/* ============ HUMAN DESIGN ============ */}
@@ -1601,7 +1442,7 @@ const DashboardPage: React.FC = () => {
                 borderRadius: 2
               }
             }}>
-              ✨ Dein Human Design
+              Dein Human Design
             </Typography>
 
             <motion.div
@@ -1749,7 +1590,7 @@ const DashboardPage: React.FC = () => {
               borderRadius: 2
             }
           }}>
-            🎁 Weitere Features
+            Weitere Features
               </Typography>
 
           {/* Referral Widget */}
@@ -1788,7 +1629,7 @@ const DashboardPage: React.FC = () => {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent'
                 }}>
-                  📊 Alle Features & Seiten
+                  Alle Features & Seiten
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
                     Entdecke alle verfügbaren Seiten und Features der Human Design App
@@ -1804,7 +1645,6 @@ const DashboardPage: React.FC = () => {
         </motion.div>
         </Box>
       </Container>
-      </Box>
     </Box>
   );
 };

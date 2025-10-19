@@ -16,7 +16,8 @@ npm ci can only install packages when your package.json and package-lock.json ar
 scp fix-hetzner-build.sh root@dein-server-ip:/root/
 
 # 2. Auf Server verbinden
-ssh root@dein-server-ip
+ssh root@ip
+
 
 # 3. Skript ausführbar machen
 chmod +x /root/fix-hetzner-build.sh

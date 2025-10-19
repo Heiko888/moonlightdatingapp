@@ -412,6 +412,9 @@ export default function ReadingCreatorPage() {
   // State für Person 2 Gate Calculator
   const [calculatedGatesPerson2, setCalculatedGatesPerson2] = useState<CalculatedGates | null>(null);
   
+  // Track eingefügte Textbausteine für jedes Feld
+  const [insertedTextbausteine, setInsertedTextbausteine] = useState<{[key: string]: Array<{id: string, title: string, text: string}>}>({});
+  
   const previewRef = useRef<HTMLDivElement>(null);
 
   // Fix hydration error by only rendering certain parts on client
@@ -427,6 +430,53 @@ export default function ReadingCreatorPage() {
         console.error('Error loading custom textbausteine:', e);
       }
     }
+
+    // Load saved reading data from localStorage
+    const savedReadingData = localStorage.getItem('draftReadingData');
+    const savedPerson2Data = localStorage.getItem('draftPerson2Data');
+    const savedReadingType = localStorage.getItem('draftReadingType');
+    const savedActiveTab = localStorage.getItem('draftActiveTab');
+    const savedInsertedTextbausteine = localStorage.getItem('draftInsertedTextbausteine');
+
+    if (savedReadingData) {
+      try {
+        const parsedData = JSON.parse(savedReadingData);
+        setReadingData(parsedData);
+        console.log('✅ Entwurf wiederhergestellt');
+      } catch (e) {
+        console.error('Error loading saved reading data:', e);
+      }
+    }
+
+    if (savedPerson2Data) {
+      try {
+        const parsedData = JSON.parse(savedPerson2Data);
+        setPerson2Data(parsedData);
+      } catch (e) {
+        console.error('Error loading saved person2 data:', e);
+      }
+    }
+
+    if (savedReadingType) {
+      setReadingType(savedReadingType);
+    }
+
+    if (savedActiveTab) {
+      try {
+        setActiveTab(parseInt(savedActiveTab));
+      } catch (e) {
+        console.error('Error loading saved active tab:', e);
+      }
+    }
+
+    if (savedInsertedTextbausteine) {
+      try {
+        const parsedData = JSON.parse(savedInsertedTextbausteine);
+        setInsertedTextbausteine(parsedData);
+      } catch (e) {
+        console.error('Error loading saved textbausteine:', e);
+      }
+    }
   }, []);
 
   // Save custom textbausteine to LocalStorage whenever they change
@@ -435,6 +485,41 @@ export default function ReadingCreatorPage() {
       localStorage.setItem('customTextbausteine', JSON.stringify(customTextbausteine));
     }
   }, [customTextbausteine]);
+
+  // Auto-save reading data to localStorage
+  useEffect(() => {
+    if (isClient && readingData.name) { // Nur speichern wenn mindestens ein Name eingegeben wurde
+      localStorage.setItem('draftReadingData', JSON.stringify(readingData));
+    }
+  }, [readingData, isClient]);
+
+  // Auto-save person2 data to localStorage
+  useEffect(() => {
+    if (isClient && readingType === 'connectionKey' && person2Data.name) {
+      localStorage.setItem('draftPerson2Data', JSON.stringify(person2Data));
+    }
+  }, [person2Data, readingType, isClient]);
+
+  // Auto-save reading type to localStorage
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('draftReadingType', readingType);
+    }
+  }, [readingType, isClient]);
+
+  // Auto-save active tab to localStorage
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('draftActiveTab', activeTab.toString());
+    }
+  }, [activeTab, isClient]);
+
+  // Auto-save inserted textbausteine to localStorage
+  useEffect(() => {
+    if (isClient && Object.keys(insertedTextbausteine).length > 0) {
+      localStorage.setItem('draftInsertedTextbausteine', JSON.stringify(insertedTextbausteine));
+    }
+  }, [insertedTextbausteine, isClient]);
 
   // Funktionen für eigene Textbausteine
   const addCustomTextbaustein = () => {
@@ -1231,6 +1316,82 @@ Details siehe Console und Ergebnis-Anzeige!`);
     alert(`✅ Person 2: Übernommen!\n${filledItems.join('\n')}`);
   };
 
+  const handleClearDraft = () => {
+    if (!window.confirm('Möchtest du den aktuellen Entwurf wirklich löschen? Alle nicht gespeicherten Daten gehen verloren.')) {
+      return;
+    }
+
+    // Lösche alle Entwurfsdaten
+    localStorage.removeItem('draftReadingData');
+    localStorage.removeItem('draftPerson2Data');
+    localStorage.removeItem('draftReadingType');
+    localStorage.removeItem('draftActiveTab');
+    localStorage.removeItem('draftInsertedTextbausteine');
+
+    // Setze alle States zurück
+    setReadingData({
+      name: '',
+      geschlecht: '',
+      geburtsdatum: '',
+      geburtszeit: '',
+      geburtsort: '',
+      typ: '',
+      strategie: '',
+      signatur: '',
+      nichtSelbst: '',
+      profil: '',
+      autoritaet: '',
+      definition: '',
+      inkarnationskreuz: '',
+      bewussteSonne: '',
+      bewussteErde: '',
+      unbewussteSonne: '',
+      unbewussteErde: '',
+      krone: '',
+      ajna: '',
+      kehle: '',
+      gZentrum: '',
+      herzEgo: '',
+      sakral: '',
+      solarplexus: '',
+      milz: '',
+      wurzel: '',
+      kanaele: '',
+      sonne: '',
+      mond: '',
+      merkur: '',
+      venus: '',
+      mars: '',
+      jupiter: '',
+      saturn: '',
+      suedknoten: '',
+      nordknoten: ''
+    });
+
+    setPerson2Data({
+      name: '',
+      geschlecht: '',
+      geburtsdatum: '',
+      geburtszeit: '',
+      geburtsort: '',
+      typ: '',
+      profil: '',
+      autoritaet: '',
+      definierteTore: '',
+      definiertezentren: '',
+      offenezentren: ''
+    });
+
+    setReadingType('erweitert');
+    setActiveTab(0);
+    setInsertedTextbausteine({});
+    setCalculatedGates(null);
+    setCalculatedGatesPerson2(null);
+    setConnectionKeyResult(null);
+
+    alert('✅ Entwurf gelöscht! Du kannst nun von vorne beginnen.');
+  };
+
   const handleSave = async () => {
     try {
       const response = await fetch('/api/readings', {
@@ -1246,11 +1407,21 @@ Details siehe Console und Ergebnis-Anzeige!`);
       });
       
       if (response.ok) {
-        alert('Reading erfolgreich gespeichert!');
+        // Lösche Entwurf aus localStorage nach erfolgreichem Speichern
+        localStorage.removeItem('draftReadingData');
+        localStorage.removeItem('draftPerson2Data');
+        localStorage.removeItem('draftReadingType');
+        localStorage.removeItem('draftActiveTab');
+        localStorage.removeItem('draftInsertedTextbausteine');
+        
+        alert('✅ Reading erfolgreich gespeichert!\nEntwurf wurde gelöscht.');
+        
+        // Optional: Zur Readings-Übersicht navigieren
+        // window.location.href = '/coach/readings';
       }
     } catch (error) {
       console.error('Fehler beim Speichern:', error);
-      alert('Fehler beim Speichern des Readings');
+      alert('❌ Fehler beim Speichern des Readings');
     }
   };
 
@@ -1293,9 +1464,6 @@ Details siehe Console und Ergebnis-Anzeige!`);
       pdf.save(`${readingData.name || 'Reading'}_${readingType}.pdf`);
     }
   };
-
-  // Track eingefügte Textbausteine für jedes Feld
-  const [insertedTextbausteine, setInsertedTextbausteine] = useState<{[key: string]: Array<{id: string, title: string, text: string}>}>({});
 
   const insertTextbaustein = (text: string, field: keyof ReadingData, title: string = 'Textbaustein') => {
     // Füge den Text zum Feld hinzu
@@ -3089,6 +3257,21 @@ Details siehe Console und Ergebnis-Anzeige!`);
                 }}
               >
                 Speichern
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<AlertCircle />}
+                onClick={handleClearDraft}
+                sx={{
+                  borderColor: '#ff6b6b',
+                  color: '#ff6b6b',
+                  '&:hover': {
+                    borderColor: '#ff5252',
+                    background: 'rgba(255, 107, 107, 0.1)'
+                  }
+                }}
+              >
+                Entwurf löschen
               </Button>
               {/* Connection Key Analyse Button - nur bei Connection Key */}
               {readingType === 'connectionKey' && (

@@ -1,14 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import { 
-  User, 
-  BaseComponentProps,
-  FormState 
-} from '@/types/common.types';
-// import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
-// import { useLoadingState } from '@/lib/services/loadingService'; // Entfernt - nicht mehr benötigt
+import Image from 'next/image';
 import { 
   Box, 
   Typography, 
@@ -500,27 +493,28 @@ function ProfilContent() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#000000',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
       }}>
         <Box sx={{ textAlign: 'center' }}>
-          <CircularProgress sx={{ color: '#ff6b9d', mb: 2 }} />
-          <Typography variant="h4" sx={{ 
-            color: 'white',
-            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontWeight: 'bold'
+          <CircularProgress 
+            size={70}
+            thickness={4}
+            sx={{ 
+              color: '#e8b86d',
+              mb: 3,
+              '& .MuiCircularProgress-circle': {
+                strokeLinecap: 'round',
+              }
+            }} 
+          />
+          <Typography variant="h6" sx={{ 
+            color: '#e8b86d',
+            fontWeight: 600
           }}>
-            👤 Lade Profil-Daten...
+            Lade Profil-Daten...
           </Typography>
         </Box>
       </Box>
@@ -535,16 +529,32 @@ function ProfilContent() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
-        position: 'relative',
-        overflow: 'hidden'
+        background: '#000000'
       }}>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Logo */}
+          <Box sx={{ 
+            display: 'flex',
+            justifyContent: 'center',
+            mb: { xs: 4, md: 6 }
+          }}>
+            <Box sx={{ 
+              position: 'relative',
+              width: '100%',
+              maxWidth: { xs: 300, sm: 400, md: 600 },
+              height: { xs: 140, sm: 200, md: 280 }
+            }}>
+              <Image
+                src="/images/connection-key-logo.png"
+                alt="Connection Key Logo"
+                fill
+                style={{ objectFit: 'contain' }}
+                priority
+                sizes="(max-width: 600px) 300px, (max-width: 960px) 400px, 600px"
+              />
+            </Box>
+          </Box>
+
           {/* Header */}
           <Box textAlign="center" mb={6}>
             <Typography 
@@ -559,7 +569,7 @@ function ProfilContent() {
                 fontSize: { xs: '2.5rem', md: '3.5rem' }
               }}
             >
-              👤 Mein Profil
+              Mein Profil
             </Typography>
             <Typography 
               variant="h5" 
@@ -665,9 +675,8 @@ function ProfilContent() {
                     <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' } }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: { xs: 'center', sm: 'flex-start' }, flexWrap: 'wrap' }}>
                         <Typography variant="h3" sx={{ 
-                          color: 'white', 
                           fontWeight: 'bold',
-                          background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                          background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                           backgroundClip: 'text',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
@@ -889,12 +898,19 @@ function ProfilContent() {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
-                              backgroundColor: 'rgba(255,255,255,0.9)',
+                              backgroundColor: 'rgba(255,255,255,0.25)',
+                              color: 'white'
                             }
                           }}
                         />
                       ) : (
-                        <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 600 }}>
+                        <Typography variant="h6" sx={{ 
+                          fontWeight: 600,
+                          background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                          backgroundClip: 'text',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                        }}>
                           {profile.name}
                         </Typography>
                       )}
@@ -915,7 +931,8 @@ function ProfilContent() {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
-                              backgroundColor: 'rgba(255,255,255,0.9)',
+                              backgroundColor: 'rgba(255,255,255,0.25)',
+                              color: 'white'
                             }
                           }}
                         />
@@ -941,7 +958,8 @@ function ProfilContent() {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
-                              backgroundColor: 'rgba(255,255,255,0.9)',
+                              backgroundColor: 'rgba(255,255,255,0.25)',
+                              color: 'white'
                             }
                           }}
                         />
@@ -967,7 +985,8 @@ function ProfilContent() {
                           sx={{
                             '& .MuiOutlinedInput-root': {
                               borderRadius: 2,
-                              backgroundColor: 'rgba(255,255,255,0.9)',
+                              backgroundColor: 'rgba(255,255,255,0.25)',
+                              color: 'white'
                             }
                           }}
                         />
@@ -1123,7 +1142,7 @@ function ProfilContent() {
               }}>
                 <CardContent sx={{ p: 3 }}>
                   <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, fontWeight: 700, textAlign: 'center' }}>
-                    📊 Meine Aktivitäten
+                    Meine Aktivitäten
                   </Typography>
                   
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -1217,7 +1236,6 @@ function ProfilContent() {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ color: '#FFD700', mb: 2, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <span>✨</span>
                         Profil-Vollständigkeit
                       </Typography>
                       
@@ -1258,8 +1276,7 @@ function ProfilContent() {
                           borderRadius: 2,
                           border: '1px solid rgba(78,205,196,0.3)'
                         }}>
-                          <span style={{ fontSize: '1.5rem' }}>🎉</span>
-                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
+                          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>
                             Dein Profil ist vollständig!
                           </Typography>
                         </Box>
@@ -1317,7 +1334,6 @@ function ProfilContent() {
               }}>
                 <CardContent sx={{ p: 3 }}>
                   <Typography variant="h6" sx={{ color: '#FFD700', mb: 3, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <span>⚡</span>
                     Schnellaktionen
                   </Typography>
                   
@@ -1395,7 +1411,6 @@ function ProfilContent() {
                     <Button
                       variant="outlined"
                       href="/pricing"
-                      startIcon={<span>👑</span>}
                       fullWidth
                       sx={{
                         justifyContent: 'flex-start',
