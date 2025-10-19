@@ -1294,9 +1294,40 @@ Details siehe Console und Ergebnis-Anzeige!`);
     }
   };
 
-  const insertTextbaustein = (text: string, field: keyof ReadingData) => {
-    handleInputChange(field, readingData[field] + ' ' + text);
+  // Track eingefügte Textbausteine für jedes Feld
+  const [insertedTextbausteine, setInsertedTextbausteine] = useState<{[key: string]: Array<{id: string, title: string, text: string}>}>({});
+
+  const insertTextbaustein = (text: string, field: keyof ReadingData, title: string = 'Textbaustein') => {
+    // Füge den Text zum Feld hinzu
+    const currentValue = readingData[field] || '';
+    const newValue = currentValue + (currentValue ? '\n\n' : '') + text;
+    handleInputChange(field, newValue);
+    
+    // Track den Textbaustein für späteres Entfernen
+    const textbausteinId = `${field}_${Date.now()}`;
+    setInsertedTextbausteine(prev => ({
+      ...prev,
+      [field]: [...(prev[field] || []), { id: textbausteinId, title, text }]
+    }));
+    
     setShowTextbausteine(false);
+  };
+
+  const removeTextbaustein = (field: keyof ReadingData, textbausteinId: string) => {
+    // Finde den Textbaustein
+    const baustein = insertedTextbausteine[field]?.find(b => b.id === textbausteinId);
+    if (!baustein) return;
+    
+    // Entferne den Text aus dem Feld
+    const currentValue = readingData[field] || '';
+    const newValue = currentValue.replace(baustein.text, '').replace(/\n\n\n+/g, '\n\n').trim();
+    handleInputChange(field, newValue);
+    
+    // Entferne aus dem Tracking
+    setInsertedTextbausteine(prev => ({
+      ...prev,
+      [field]: prev[field]?.filter(b => b.id !== textbausteinId) || []
+    }));
   };
 
   const generateReading = () => {
@@ -2954,6 +2985,58 @@ Details siehe Console und Ergebnis-Anzeige!`);
                   </Box>
                 )}
 
+                {/* Eingefügte Textbausteine - Verwaltung */}
+                {Object.keys(insertedTextbausteine).some(key => insertedTextbausteine[key].length > 0) && (
+                  <Box sx={{ mb: 4 }}>
+                    <Typography variant="h5" sx={{ color: '#e8b86d', mb: 2, fontWeight: 700, borderBottom: '2px solid #e8b86d', pb: 1 }}>
+                      📝 Eingefügte Textbausteine
+                    </Typography>
+                    <Alert severity="info" sx={{ mb: 2, background: 'rgba(102, 126, 234, 0.2)', color: 'white', border: '1px solid #667eea' }}>
+                      <Typography variant="caption">
+                        💡 Hier kannst du sehen, welche Textbausteine du eingefügt hast. Klicke auf das ❌ um einen Textbaustein zu entfernen.
+                      </Typography>
+                    </Alert>
+                    {Object.entries(insertedTextbausteine).map(([field, bausteine]) => (
+                      bausteine.length > 0 && (
+                        <Box key={field} sx={{ mb: 2 }}>
+                          <Typography sx={{ color: '#e8b86d', fontWeight: 600, mb: 1, textTransform: 'capitalize' }}>
+                            {field}:
+                          </Typography>
+                          {bausteine.map((baustein) => (
+                            <Box 
+                              key={baustein.id}
+                              sx={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: 2, 
+                                p: 1.5, 
+                                mb: 1,
+                                background: 'rgba(232, 184, 109, 0.1)', 
+                                borderRadius: 1,
+                                border: '1px solid rgba(232, 184, 109, 0.3)'
+                              }}
+                            >
+                              <Typography sx={{ flex: 1, color: 'white', fontSize: '0.9rem' }}>
+                                {baustein.title}
+                              </Typography>
+                              <IconButton 
+                                size="small" 
+                                onClick={() => removeTextbaustein(field as keyof ReadingData, baustein.id)}
+                                sx={{ 
+                                  color: '#f44336',
+                                  '&:hover': { background: 'rgba(244, 67, 54, 0.2)' }
+                                }}
+                              >
+                                <AlertCircle size={20} />
+                              </IconButton>
+                            </Box>
+                          ))}
+                        </Box>
+                      )
+                    ))}
+                  </Box>
+                )}
+
                 {/* Hinweis für Bearbeitung */}
                 <Alert severity="success" sx={{ mt: 3, background: 'rgba(76, 175, 80, 0.2)', color: 'white', border: '1px solid #4caf50' }}>
                   <Typography variant="body2">
@@ -3986,7 +4069,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
                     onMouseEnter={() => setPreviewText(text)}
                     onMouseLeave={() => setPreviewText('')}
                     secondaryAction={
-                      <IconButton edge="end" onClick={() => { insertTextbaustein(text, 'typ'); setShowTextbausteine(false); }}>
+                      <IconButton edge="end" onClick={() => insertTextbaustein(text, 'typ', `Typ: ${typ}`)}>
                         <Copy size={18} color="#FFD700" />
                       </IconButton>
                     }
@@ -4018,7 +4101,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
                     onMouseEnter={() => setPreviewText(text)}
                     onMouseLeave={() => setPreviewText('')}
                     secondaryAction={
-                      <IconButton edge="end" onClick={() => { insertTextbaustein(text, 'autoritaet'); setShowTextbausteine(false); }}>
+                      <IconButton edge="end" onClick={() => insertTextbaustein(text, 'autoritaet', `Autorität: ${auth}`)}>
                         <Copy size={18} color="#FFD700" />
                       </IconButton>
                     }
@@ -4050,7 +4133,7 @@ Details siehe Console und Ergebnis-Anzeige!`);
                     onMouseEnter={() => setPreviewText(text)}
                     onMouseLeave={() => setPreviewText('')}
                     secondaryAction={
-                      <IconButton edge="end" onClick={() => { insertTextbaustein(text, 'profil'); setShowTextbausteine(false); }}>
+                      <IconButton edge="end" onClick={() => insertTextbaustein(text, 'profil', `Profil: ${profil}`)}>
                         <Copy size={18} color="#FFD700" />
                       </IconButton>
                     }
