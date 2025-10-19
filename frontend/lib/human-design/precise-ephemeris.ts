@@ -264,13 +264,23 @@ export function calculateDesignPositions(birthDate: Date): HumanDesignPlanets {
  * @returns Personality (birth) and Design (88 days before) positions
  */
 export function calculateCompleteChart(birthDate: Date) {
-  const personality = calculatePrecisePlanetaryPositions(birthDate);
-  const design = calculateDesignPositions(birthDate);
-  
-  return {
-    personality,
-    design
-  };
+  try {
+    const personality = calculatePrecisePlanetaryPositions(birthDate);
+    const design = calculateDesignPositions(birthDate);
+    
+    console.log('✅ Using precise ephemeris (Astronomy Engine)');
+    
+    return {
+      personality,
+      design
+    };
+  } catch (error) {
+    console.error('❌ Precise ephemeris failed:', error);
+    console.warn('⚠️ Falling back to simplified ephemeris');
+    
+    // Fallback to simplified calculations
+    throw new Error('Precise ephemeris not available. Please ensure astronomy-engine is properly loaded.');
+  }
 }
 
 /**

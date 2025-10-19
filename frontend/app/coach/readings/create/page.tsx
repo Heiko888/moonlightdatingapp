@@ -87,16 +87,13 @@ import {
   type TypeAuthorityResult,
   type CircuitResult,
   type VariableData,
-  type ConnectionKeyAnalysis
-} from '@/lib/human-design';
-import { 
-  calculateApproximateSunPosition, 
+  type ConnectionKeyAnalysis,
+  calculateApproximateSunPosition,
   calculateEarthPosition,
   calculateDesignSun,
   calculateDesignEarth,
   getZodiacSign,
-  EPHEMERIS_DISCLAIMER
-} from '@/lib/human-design/simplified-ephemeris';
+} from '@/lib/human-design';
 
 interface ReadingData {
   // Persönliche Daten (readingType ist jetzt separater State)

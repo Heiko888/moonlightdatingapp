@@ -17,18 +17,19 @@ export {
   calculateCompleteChart,
   parseBirthDateTime,
   getZodiacSignFromLongitude,
+  getZodiacSignFromLongitude as getZodiacSign,
   isPreciseEphemerisAvailable,
   formatPlanetPosition,
   type PlanetPosition,
   type HumanDesignPlanets,
 } from './precise-ephemeris';
 
+// Note: Precise ephemeris functions are preferred over simplified ones
 export {
   calculateApproximateSunPosition,
   calculateEarthPosition,
   calculateDesignSun,
   calculateDesignEarth,
-  getZodiacSign,
   calculateApproximateMoonPosition,
   calculateApproximatePlanetaryPositions,
   EPHEMERIS_DISCLAIMER,
