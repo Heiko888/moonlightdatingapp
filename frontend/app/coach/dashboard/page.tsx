@@ -39,6 +39,7 @@ import {
   Download,
   Refresh
 } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface Reading {
   id: string;
@@ -198,8 +199,45 @@ const CoachDashboard: React.FC = () => {
     <Box sx={{ 
       minHeight: '100vh',
       background: '#000000',
-      py: 4
+      py: 4,
+      position: 'relative'
     }}>
+      {/* Loading Overlay */}
+      {loading && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(5px)',
+            zIndex: 9999
+          }}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <CircularProgress
+              size={80}
+              thickness={4}
+              sx={{
+                color: '#e8b86d',
+                mb: 3,
+                '& .MuiCircularProgress-circle': {
+                  strokeLinecap: 'round',
+                }
+              }}
+            />
+            <Typography variant="h6" sx={{ color: '#e8b86d', fontWeight: 600 }}>
+              Lade Daten...
+            </Typography>
+          </Box>
+        </Box>
+      )}
+
       <Container maxWidth="xl">
         {/* Logo */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
@@ -392,13 +430,7 @@ const CoachDashboard: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {loading ? (
-                <TableRow>
-                  <TableCell colSpan={6} sx={{ textAlign: 'center', color: 'white' }}>
-                    Lade Daten...
-                  </TableCell>
-                </TableRow>
-              ) : readings.length === 0 ? (
+              {readings.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} sx={{ textAlign: 'center', color: '#ffffff' }}>
                     Keine Readings gefunden
