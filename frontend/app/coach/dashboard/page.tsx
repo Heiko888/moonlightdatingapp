@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import {
   Container,
   Typography,
@@ -196,84 +197,126 @@ const CoachDashboard: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)',
+      background: '#000000',
       py: 4
     }}>
       <Container maxWidth="xl">
-        {/* Header */}
-        <Box sx={{ mb: 4 }}>
-          <Typography
-            variant="h3"
-            sx={{
-              color: 'white',
-              fontWeight: 800,
-              mb: 1
-            }}
-          >
-            🎯 Coach Dashboard
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-            Verwalte alle Reading-Anfragen und deren Status
-          </Typography>
+        {/* Logo */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Box sx={{ position: 'relative', width: '100%', maxWidth: 600, height: 280, mx: 'auto' }}>
+            <Image
+              src="/images/connection-key-logo.png"
+              alt="The Connection Key"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+              sizes="(max-width: 768px) 100vw, 600px"
+            />
+          </Box>
         </Box>
 
         {/* Statistik Cards */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={2.4}>
-            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Card sx={{ 
+              background: 'rgba(232, 184, 109, 0.1)', 
+              border: '1px solid rgba(232, 184, 109, 0.3)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(232, 184, 109, 0.3)',
+              }
+            }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: 'white', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#e8b86d', fontWeight: 700 }}>
                   {stats.total}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                   Gesamt
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
-            <Card sx={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.3)' }}>
+            <Card sx={{ 
+              background: 'rgba(234, 179, 8, 0.1)', 
+              border: '1px solid rgba(234, 179, 8, 0.3)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(234, 179, 8, 0.3)',
+              }
+            }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: '#eab308', fontWeight: 700 }}>
                   {stats.pending}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                   Warte auf Termin
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
-            <Card sx={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+            <Card sx={{ 
+              background: 'rgba(59, 130, 246, 0.1)', 
+              border: '1px solid rgba(59, 130, 246, 0.3)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(59, 130, 246, 0.3)',
+              }
+            }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: '#3b82f6', fontWeight: 700 }}>
                   {stats.zoomScheduled}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                   Termin vereinbart
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
-            <Card sx={{ background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+            <Card sx={{ 
+              background: 'rgba(139, 92, 246, 0.1)', 
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)',
+              }
+            }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: '#8b5cf6', fontWeight: 700 }}>
                   {stats.completed}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                   Zoom abgeschlossen
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
-            <Card sx={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+            <Card sx={{ 
+              background: 'rgba(16, 185, 129, 0.1)', 
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-4px)',
+                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)',
+              }
+            }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 700 }}>
                   {stats.approved}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                   Freigegeben
                 </Typography>
               </CardContent>
@@ -285,7 +328,7 @@ const CoachDashboard: React.FC = () => {
         <Paper sx={{ 
           background: 'rgba(255,255,255,0.05)', 
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          border: '1px solid rgba(232, 184, 109, 0.2)',
           mb: 3
         }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
@@ -294,14 +337,14 @@ const CoachDashboard: React.FC = () => {
               onChange={(e, newValue) => setActiveTab(newValue)}
               sx={{
                 '& .MuiTab-root': {
-                  color: 'rgba(255,255,255,0.7)',
+                  color: '#ffffff',
                   fontWeight: 600,
                   '&.Mui-selected': {
-                    color: '#ff6b9d'
+                    color: '#e8b86d'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#ff6b9d'
+                  backgroundColor: '#e8b86d'
                 }
               }}
             >
@@ -314,7 +357,14 @@ const CoachDashboard: React.FC = () => {
             <Button
               startIcon={<Refresh />}
               onClick={loadReadings}
-              sx={{ color: 'white' }}
+              sx={{ 
+                color: '#e8b86d',
+                borderColor: '#e8b86d',
+                '&:hover': {
+                  background: 'rgba(232, 184, 109, 0.1)',
+                  borderColor: '#ffd89b'
+                }
+              }}
             >
               Aktualisieren
             </Button>
@@ -327,18 +377,18 @@ const CoachDashboard: React.FC = () => {
           sx={{ 
             background: 'rgba(255,255,255,0.05)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.1)'
+            border: '1px solid rgba(232, 184, 109, 0.2)'
           }}
         >
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Status</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Titel</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Kunde</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Kategorie</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Erstellt</TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: 700 }}>Aktionen</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Status</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Titel</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Kunde</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Kategorie</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Erstellt</TableCell>
+                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Aktionen</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -350,7 +400,7 @@ const CoachDashboard: React.FC = () => {
                 </TableRow>
               ) : readings.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} sx={{ textAlign: 'center', color: 'rgba(255,255,255,0.7)' }}>
+                  <TableCell colSpan={6} sx={{ textAlign: 'center', color: '#ffffff' }}>
                     Keine Readings gefunden
                   </TableCell>
                 </TableRow>
@@ -368,14 +418,14 @@ const CoachDashboard: React.FC = () => {
                         }}
                       />
                     </TableCell>
-                    <TableCell sx={{ color: 'white' }}>{reading.title}</TableCell>
-                    <TableCell sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <TableCell sx={{ color: '#ffffff', fontWeight: 600 }}>{reading.title}</TableCell>
+                    <TableCell sx={{ color: '#ffffff' }}>
                       {reading.email}
                     </TableCell>
-                    <TableCell sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <TableCell sx={{ color: '#ffffff' }}>
                       {reading.category}
                     </TableCell>
-                    <TableCell sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <TableCell sx={{ color: '#ffffff' }}>
                       {new Date(reading.createdAt).toLocaleDateString('de-DE')}
                     </TableCell>
                     <TableCell>
@@ -410,20 +460,20 @@ const CoachDashboard: React.FC = () => {
         fullWidth
         PaperProps={{
           sx: {
-            background: 'rgba(255,255,255,0.05)',
+            background: 'rgba(0,0,0,0.95)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            border: '1px solid rgba(232, 184, 109, 0.3)',
             borderRadius: 3
           }
         }}
       >
-        <DialogTitle sx={{ color: 'white', fontWeight: 600 }}>
+        <DialogTitle sx={{ color: '#e8b86d', fontWeight: 600 }}>
           Reading bearbeiten
         </DialogTitle>
         <DialogContent>
           {selectedReading && (
             <Box sx={{ pt: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+              <Typography variant="subtitle2" sx={{ color: '#ffffff', mb: 3 }}>
                 <strong>Kunde:</strong> {selectedReading.email}<br />
                 <strong>Geburtsdaten:</strong> {selectedReading.birthdate} um {selectedReading.birthtime} in {selectedReading.birthplace}<br />
                 <strong>Frage:</strong> {selectedReading.question}
@@ -435,7 +485,7 @@ const CoachDashboard: React.FC = () => {
                 fullWidth
                 value={editStatus}
                 onChange={(e) => setEditStatus(e.target.value)}
-                sx={{ mb: 2, '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
+                sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#ffffff' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
               >
                 <MenuItem value="pending">⏳ Warte auf Termin</MenuItem>
                 <MenuItem value="zoom-scheduled">📅 Termin vereinbart</MenuItem>
@@ -449,7 +499,7 @@ const CoachDashboard: React.FC = () => {
                 value={editZoomLink}
                 onChange={(e) => setEditZoomLink(e.target.value)}
                 placeholder="https://zoom.us/j/..."
-                sx={{ mb: 2, '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
+                sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#ffffff' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
               />
 
               <TextField
@@ -459,7 +509,7 @@ const CoachDashboard: React.FC = () => {
                 value={editZoomDate}
                 onChange={(e) => setEditZoomDate(e.target.value)}
                 InputLabelProps={{ shrink: true }}
-                sx={{ mb: 2, '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
+                sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#ffffff' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
               />
 
               <TextField
@@ -470,21 +520,25 @@ const CoachDashboard: React.FC = () => {
                 value={editCoachNotes}
                 onChange={(e) => setEditCoachNotes(e.target.value)}
                 placeholder="Interne Notizen zum Reading..."
-                sx={{ mb: 2, '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
+                sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#ffffff' }, '& .MuiOutlinedInput-root': { color: 'white' } }}
               />
             </Box>
           )}
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => setEditDialog(false)} sx={{ color: 'rgba(255,255,255,0.7)' }}>
+          <Button onClick={() => setEditDialog(false)} sx={{ color: '#ffffff' }}>
             Abbrechen
           </Button>
           <Button
             onClick={handleSaveEdit}
             variant="contained"
             sx={{
-              background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
-              fontWeight: 600
+              background: 'linear-gradient(135deg, #e8b86d 0%, #ffd89b 100%)',
+              color: '#000',
+              fontWeight: 600,
+              '&:hover': {
+                background: 'linear-gradient(135deg, #ffd89b 0%, #e8b86d 100%)',
+              }
             }}
           >
             Speichern & E-Mail senden

@@ -8,7 +8,16 @@
     "start": "cd frontend && npm start",
     "lint": "cd frontend && npm run lint"
   },
-  "keywords": ["human-design", "dating", "coaching", "supabase", "nextjs"],
+  "keywords": [
+    "human-design",
+    "dating",
+    "coaching",
+    "supabase",
+    "nextjs"
+  ],
   "author": "HD App Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "astronomy-engine": "^2.1.19"
+  }
 }

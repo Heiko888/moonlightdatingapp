@@ -41,6 +41,33 @@ coverage/
 # Misc
 *.swp
 
+# SSH Keys (WICHTIG: Niemals committen!)
+*_connection_Key
+*_connection_Key.pub
+Domain the connection Key
+Domain the connection Key.pub
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+nginx-new.conf
+nginx-docker.conf
+docker-compose.nginx.yml
+
+# Temporary/Test images
+*ohne Titel*.png
+ChatGPT*.png
+test-*.png
+temp-*.png
+
+# Deploy scripts (temporary)
+deploy.sh
+
 # Deploy organization
 # Keep organized deploy structure
 !deploy/

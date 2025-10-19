@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase/client';
 import EnhancedChartVisuals from '@/components/EnhancedChartVisuals';
 import SeitenuebersichtWidget from '@/components/SeitenuebersichtWidget';
@@ -384,15 +385,39 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
       position: 'relative',
       overflow: 'hidden'
     }}>
+      {/* Hintergrundbild */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0
+      }}>
+        <Image
+          src="/images/Flammen IM Hintergrund.png"
+          alt="Dashboard Background"
+          fill
+          style={{ objectFit: 'cover' }}
+          quality={90}
+          priority
+        />
+        {/* Dunkles Overlay für bessere Lesbarkeit */}
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.6)',
+          backdropFilter: 'blur(2px)'
+        }} />
+      </Box>
+      
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
       {/* Fixed Navigation Bar */}
       <Box sx={{
         position: 'fixed',
@@ -401,7 +426,7 @@ const DashboardPage: React.FC = () => {
         right: 0,
         zIndex: 1000,
         backdropFilter: 'blur(20px)',
-        background: 'rgba(26, 11, 46, 0.8)',
+        background: '#000000',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <Container maxWidth="lg">
@@ -409,19 +434,27 @@ const DashboardPage: React.FC = () => {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            py: 2 
+            py: 1 
           }}>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <Typography variant="h5" sx={{ 
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                cursor: 'pointer'
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 50, md: 70 },
+                width: { xs: 200, md: 280 },
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
               }}>
-                🔑 The Connection Key
-              </Typography>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
             </Link>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
@@ -456,22 +489,36 @@ const DashboardPage: React.FC = () => {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: 15, pb: 4 }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, pt: 20, pb: 4 }}>
         {/* Header */}
         <Box sx={{ 
           mb: 6,
           textAlign: 'center',
           position: 'relative'
         }}>
+          {/* Logo über dem Dashboard-Titel */}
+          <Box sx={{ 
+            position: 'relative',
+            height: { xs: 100, md: 150 },
+            width: { xs: 380, md: 560 },
+            mx: 'auto',
+            mb: 3
+          }}>
+            <Image
+              src="/images/connection-key-logo.png"
+              alt="The Connection Key"
+              fill
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+          </Box>
+          
           <Typography variant="h2" sx={{ 
             fontWeight: 'bold',
             mb: 2,
-            background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            color: 'white',
             fontSize: { xs: '2rem', md: '3rem' },
-            textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+            textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)'
           }}>
             {userName ? `${userName}s Dashboard` : 'Dashboard'}
           </Typography>
@@ -1684,469 +1731,6 @@ const DashboardPage: React.FC = () => {
           </Box>
         )}
 
-        {/* ============ WEITERE FEATURES ============ */}
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h4" sx={{ 
-            color: 'white',
-            fontWeight: 700,
-            mb: 3,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-            '&::before': {
-              content: '""',
-              width: 4,
-              height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #ff6b9d)',
-              borderRadius: 2
-            }
-          }}>
-            💝 Community & Dating
-          </Typography>
-
-        {/* Friends Community Widget */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-        <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(78, 205, 196, 0.4)',
-          borderRadius: 3,
-          mb: 4,
-          overflow: 'hidden',
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.3) 0%, transparent 70%)',
-            opacity: 0.6
-          }
-        }}>
-          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <Box sx={{
-                width: 60,
-                height: 60,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mr: 3,
-                boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
-              }}>
-                <Users size={30} color="white" />
-              </Box>
-              <Box>
-                <Typography variant="h5" sx={{ 
-                  color: '#4ecdc4', 
-                  fontWeight: 'bold',
-                  mb: 0.5
-                }}>
-                  👥 Friends Community
-                </Typography>
-                <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.8)'
-                }}>
-                  Verbinde dich mit Gleichgesinnten
-                </Typography>
-              </Box>
-            </Box>
-
-            <Typography variant="body2" sx={{ 
-              color: 'rgba(255,255,255,0.9)', 
-              mb: 3,
-              lineHeight: 1.6
-            }}>
-              Entdecke eine lebendige Community von Menschen, die Human Design leben und verstehen. 
-              Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
-            </Typography>
-
-            <Grid container spacing={2} sx={{ mb: 3 }}>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
-                    2,500+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Mitglieder
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
-                    150+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Posts/Tag
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
-                    25+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Events/Monat
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
-                    500+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Matches
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              <Button
-                variant="contained"
-                startIcon={<Users size={18} />}
-                onClick={() => router.push('/community-info')}
-                sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
-                  color: 'white',
-                  px: 3,
-                  py: 1,
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 35px rgba(78, 205, 196, 0.6)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Community entdecken
-              </Button>
-              
-              <Button
-                variant="outlined"
-                startIcon={<Heart size={18} />}
-                onClick={() => router.push('/friends')}
-                sx={{
-                  borderColor: '#4ecdc4',
-                  color: '#4ecdc4',
-                  px: 3,
-                  py: 1,
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                  '&:hover': {
-                    borderColor: '#44a08d',
-                    color: '#44a08d',
-                    background: 'rgba(78, 205, 196, 0.1)',
-                    transform: 'translateY(-2px)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Freunde finden
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-        </motion.div>
-
-        {/* Dating Widget */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-        >
-        <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 107, 157, 0.4)',
-          borderRadius: 3,
-          mb: 4,
-          overflow: 'hidden',
-          position: 'relative',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 157, 0.3) 0%, transparent 70%)',
-            opacity: 0.6
-          }
-        }}>
-          <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <Box sx={{
-                width: 60,
-                height: 60,
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mr: 3,
-                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)'
-              }}>
-                <Heart size={30} color="white" />
-              </Box>
-              <Box>
-                <Typography variant="h5" sx={{ 
-                  color: '#ff6b9d', 
-                  fontWeight: 'bold',
-                  mb: 0.5
-                }}>
-                  💕 Dating & Matching
-                </Typography>
-                <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.8)'
-                }}>
-                  Finde die Liebe, die wirklich zu dir passt
-                </Typography>
-              </Box>
-            </Box>
-
-            <Typography variant="body2" sx={{ 
-              color: 'rgba(255,255,255,0.9)', 
-              mb: 3,
-              lineHeight: 1.6
-            }}>
-              Entdecke Menschen, die energetisch zu deinem Human Design passen. 
-              Basierend auf deinem Typ, Strategie und Autorität findest du authentische Verbindungen.
-            </Typography>
-
-            <Grid container spacing={2} sx={{ mb: 3 }}>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
-                    {stats.matches}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Aktive Matches
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
-                    95%
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Kompatibilität
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
-                    24h
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Neue Matches
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
-                    12
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Likes heute
-                  </Typography>
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-              <Button
-                variant="contained"
-                startIcon={<Heart size={18} />}
-                onClick={() => router.push('/swipe')}
-                sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                  color: 'white',
-                  px: 3,
-                  py: 1,
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Dating entdecken
-              </Button>
-              
-              <Button
-                variant="outlined"
-                startIcon={<Star size={18} />}
-                onClick={() => router.push('/match')}
-                sx={{
-                  borderColor: '#ff6b9d',
-                  color: '#ff6b9d',
-                  px: 3,
-                  py: 1,
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                  '&:hover': {
-                    borderColor: '#ef4444',
-                    color: '#ef4444',
-                    background: 'rgba(255, 107, 157, 0.1)',
-                    transform: 'translateY(-2px)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Matches ansehen
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-        </motion.div>
-
-        {/* Dating Matches Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-        >
-        <Card sx={{ 
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: 3,
-          mb: 3
-        }}>
-          <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <Heart size={24} color="#FF69B4" />
-              <Typography variant="h5" sx={{ ml: 2, fontWeight: 600, color: 'white' }}>
-                Deine Matches
-              </Typography>
-            </Box>
-            
-            {matches.length > 0 ? (
-              <Grid container spacing={2}>
-                {matches.map((match) => (
-                  <Grid item xs={12} sm={6} md={4} key={match.id}>
-                    <Card sx={{ 
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: 2,
-                      '&:hover': {
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        transform: 'translateY(-2px)',
-                        transition: 'all 0.3s ease'
-                      }
-                    }}>
-                      <CardContent sx={{ p: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                          <Box sx={{ 
-                            width: 50, 
-                            height: 50, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(45deg, #FF69B4, #FFB6C1)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            mr: 2
-                          }}>
-                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
-                              {match.name.charAt(0)}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
-                              {match.name}, {match.age}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                              {match.compatibility}% Kompatibilität
-                            </Typography>
-                          </Box>
-                        </Box>
-                        
-                        {match.lastMessage && (
-                          <Box sx={{ mb: 2 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              &ldquo;{match.lastMessage}&rdquo;
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
-                              {match.lastMessageTime}
-                            </Typography>
-                          </Box>
-                        )}
-                        
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          startIcon={<MessageCircle size={16} />}
-                          sx={{
-                            background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                            color: 'white',
-                            '&:hover': {
-                              background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
-                            }
-                          }}
-                          onClick={() => router.push(`/dating/chat/${match.id}`)}
-                        >
-                          Nachricht senden
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Box sx={{ textAlign: 'center', py: 4 }}>
-                <Heart size={48} color="rgba(255,255,255,0.3)" />
-                <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mt: 2 }}>
-                  Noch keine Matches
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mb: 3 }}>
-                  Starte deine Dating-Reise!
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<Heart size={16} />}
-                  sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
-                    color: 'white',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
-                    }
-                  }}
-                  onClick={() => router.push('/dating')}
-                >
-                  Dating starten
-                </Button>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-          </motion.div>
-        </Box>
 
         {/* ============ WEITERE FEATURES ============ */}
         <Box sx={{ mb: 10 }}>
@@ -2220,6 +1804,7 @@ const DashboardPage: React.FC = () => {
         </motion.div>
         </Box>
       </Container>
+      </Box>
     </Box>
   );
 };

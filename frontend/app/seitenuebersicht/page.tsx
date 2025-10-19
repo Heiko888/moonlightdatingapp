@@ -39,6 +39,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import SSRSafeStars from '@/components/SSRSafeStars';
 
 // Vollständige Seiten-Datenbank (120+ Seiten)
@@ -274,12 +275,7 @@ export default function SeitenuebersichtPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#000000',
       position: 'relative',
       overflow: 'hidden',
       color: 'white',
@@ -294,7 +290,7 @@ export default function SeitenuebersichtPage() {
         right: 0,
         zIndex: 1000,
         backdropFilter: 'blur(20px)',
-        background: 'rgba(26, 11, 46, 0.8)',
+        background: '#000000',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <Container maxWidth="lg">
@@ -302,19 +298,27 @@ export default function SeitenuebersichtPage() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'space-between',
-            py: 2 
+            py: 1 
           }}>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <Typography variant="h5" sx={{ 
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                cursor: 'pointer'
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 50, md: 70 },
+                width: { xs: 200, md: 280 },
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
               }}>
-                🔑 The Connection Key
-              </Typography>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
             </Link>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button

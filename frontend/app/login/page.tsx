@@ -24,6 +24,7 @@ import {
 import { motion } from 'framer-motion';
 import { safeJsonParse, supabase } from '@/lib/supabase/client';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface LoginData {
   email: string;
@@ -115,12 +116,7 @@ const LoginPage: React.FC = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#000000',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -164,7 +160,7 @@ const LoginPage: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: 'rgba(15, 15, 35, 0.95)',
+        background: '#000000',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -174,24 +170,28 @@ const LoginPage: React.FC = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            py: 2
+            py: 1
           }}>
-            <Typography
-              component={Link}
-              href="/"
-              variant="h5"
-              sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                textDecoration: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              🔑 The Connection Key
-            </Typography>
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 50, md: 70 },
+                width: { xs: 200, md: 280 },
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
+              }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
+            </Link>
             
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
@@ -244,7 +244,7 @@ const LoginPage: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{ width: '100%' }}
+          style={{ width: '100%' } as React.CSSProperties}
         >
           <Paper 
             elevation={24} 

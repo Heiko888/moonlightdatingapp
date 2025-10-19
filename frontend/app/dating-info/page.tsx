@@ -30,6 +30,7 @@ import {
   Award
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 // Dating Features
 const datingFeatures = [
@@ -175,7 +176,7 @@ export default function DatingInfoPage() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: 'rgba(15, 15, 35, 0.95)',
+        background: '#000000',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -185,24 +186,28 @@ export default function DatingInfoPage() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            py: 2
+            py: 1
           }}>
-            <Typography
-              component={Link}
-              href="/"
-              variant="h5"
-              sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                textDecoration: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              🔑 The Connection Key
-            </Typography>
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 50, md: 70 },
+                width: { xs: 200, md: 280 },
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
+              }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
+            </Link>
             
             <Stack direction="row" spacing={2}>
               <Button

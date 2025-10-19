@@ -3,7 +3,7 @@ Write-Host "Hetzner Server Check" -ForegroundColor Blue
 Write-Host "===================" -ForegroundColor Blue
 
 $HETZNER_IP = "138.199.237.34"
-$DOMAIN = "moonlightdatingapp.werdemeisterdeinergedanken.de"
+$DOMAIN = "www.the-connection-key.de"
 
 # Ping Test
 Write-Host "Ping Test zu $HETZNER_IP..."

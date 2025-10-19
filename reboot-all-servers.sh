@@ -225,7 +225,7 @@ else
 fi
 
 # 14. Domain Test (falls konfiguriert)
-DOMAIN="moonlightdatingapp.werdemeisterdeinergedanken.de"
+DOMAIN="www.the-connection-key.de"
 print_step "Domain Test: $DOMAIN"
 if curl -f https://$DOMAIN > /dev/null 2>&1; then
     print_success "Domain ist erreichbar: https://$DOMAIN"

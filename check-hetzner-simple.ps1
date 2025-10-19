@@ -5,7 +5,7 @@ Write-Host ""
 
 # Server Details
 $HETZNER_IP = "138.199.237.34"
-$DOMAIN = "moonlightdatingapp.werdemeisterdeinergedanken.de"
+$DOMAIN = "www.the-connection-key.de"
 
 # 1. Lokale System Checks
 Write-Host "=== LOKALE SYSTEM CHECKS ===" -ForegroundColor Cyan

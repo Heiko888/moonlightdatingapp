@@ -1,7 +1,64 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { AdminService } from './lib/supabase/services'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { logger } from './lib/utils/logger'
+
+// Helper function to create Supabase client for middleware
+function createMiddlewareClient(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
+
+  return { supabase, response }
+}
 
 // Subscription-based access control
 const subscriptionAccess = {
@@ -118,26 +175,16 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Admin-Bereiche - Authentifizierung und Admin-Rolle erforderlich
+  // Admin-Bereiche - Authentifizierung erforderlich (Admin-Check wird in der Page gemacht)
   if (isAdminRoute) {
     const accessToken = request.cookies.get('access_token')?.value
-    const userId = request.cookies.get('user_id')?.value
     
-    if (!accessToken || !userId) {
+    if (!accessToken) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
     
-    // Admin-Rolle prüfen
-    try {
-      const isAdmin = await AdminService.isAdmin(userId)
-      if (!isAdmin) {
-        logger.warn(`Admin access denied for user ${userId}`)
-        return NextResponse.redirect(new URL('/unauthorized', request.url))
-      }
-    } catch (error) {
-      logger.error('Error checking admin status', error)
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+    // Admin-Prüfung wird in der Admin-Page selbst durchgeführt
+    // um Edge Runtime Kompatibilität zu gewährleisten
   }
 
   // Sync subscription data to cookies for client-side access (für alle Routen)

@@ -74,7 +74,7 @@ echo "==================================================="
 echo "  DEPLOYMENT COMPLETE!"
 echo "==================================================="
 echo ""
-echo "Check your app at: https://moonlightdatingapp.werdemeisterdeinergedanken.de"
+echo "Check your app at: https://www.the-connection-key.de"
 echo ""
 "@
 
@@ -87,7 +87,7 @@ Write-Host "  DONE!"
 Write-Host "==================================================="
 Write-Host ""
 Write-Host "Teste jetzt deine App unter:"
-Write-Host "https://moonlightdatingapp.werdemeisterdeinergedanken.de"
+Write-Host "https://www.the-connection-key.de"
 Write-Host ""
 Write-Host "Die /_next/static/ Dateien sollten jetzt erreichbar sein!"
 

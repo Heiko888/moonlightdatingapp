@@ -7,7 +7,7 @@ Write-Host ""
 
 # Server Details
 $HETZNER_IP = "138.199.237.34"
-$DOMAIN = "moonlightdatingapp.werdemeisterdeinergedanken.de"
+$DOMAIN = "www.the-connection-key.de"
 
 # Farben für Output
 function Write-Info { param($msg) Write-Host "[INFO] $msg" -ForegroundColor Cyan }

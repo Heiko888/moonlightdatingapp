@@ -34,7 +34,7 @@ if ($LASTEXITCODE -eq 0) {
     
     Write-Host "🌐 Teste jetzt:" -ForegroundColor Cyan
     Write-Host "   http://$HETZNER_IP/reading" -ForegroundColor White
-    Write-Host "   http://moonlightdatingapp.werdemeisterdeinergedanken.de/reading" -ForegroundColor White
+    Write-Host "   http://www.the-connection-key.de/reading" -ForegroundColor White
     Write-Host ""
 } else {
     Write-Host "`n❌ FEHLER beim Fix!" -ForegroundColor Red

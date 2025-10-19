@@ -36,6 +36,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HomePage() {
   const router = useRouter();
@@ -174,7 +175,7 @@ export default function HomePage() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: 'rgba(15, 15, 35, 0.95)',
+        background: '#000000',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -184,17 +185,28 @@ export default function HomePage() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            py: 2
+            py: 1
           }}>
-            <Typography variant="h5" sx={{
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 800
-            }}>
-              🔑 The Connection Key
-            </Typography>
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 50, md: 70 },
+                width: { xs: 200, md: 280 },
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
+              }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
+            </Link>
             
             <Stack direction="row" spacing={2}>
               <Button
@@ -251,16 +263,22 @@ export default function HomePage() {
           transition={{ duration: 0.8 }}
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h1" sx={{
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 800,
-              mb: 3,
-              fontSize: { xs: '2.5rem', md: '4rem' },
-              textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
-            }}>
+            <Typography 
+              variant="h2" 
+              component="h1" 
+              gutterBottom 
+              align="center" 
+              sx={{ 
+                mb: 2,
+                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 800,
+                fontSize: { xs: '2rem', md: '3rem' },
+                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+              }}
+            >
               💫 The Connection Key
             </Typography>
             
@@ -277,6 +295,32 @@ export default function HomePage() {
             </Typography>
             
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" sx={{ mb: 6, flexWrap: 'wrap' }}>
+              <Button
+                component={Link}
+                href="/landing"
+                variant="contained"
+                size="large"
+                sx={{
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  color: '#1A1A2E',
+                  px: 5,
+                  py: 2,
+                  borderRadius: 3,
+                  fontWeight: 700,
+                  fontSize: '1.1rem',
+                  textTransform: 'none',
+                  minWidth: { xs: '100%', sm: 'auto' },
+                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #FFA500, #FF8C00)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 12px 35px rgba(255, 215, 0, 0.6)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                🔑 The Connection Key
+              </Button>
               <Button
                 component={Link}
                 href="/register"

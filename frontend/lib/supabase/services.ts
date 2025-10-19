@@ -1,7 +1,26 @@
-import { createClient } from '@/utils/supabase/client';
+// WICHTIG: Dieses File sollte nur auf der Server-Seite verwendet werden
+// Für Client-Seite verwende '@/utils/supabase/client' direkt
+
+import { createClient as createBrowserClient } from '@/utils/supabase/client';
+
+// Helper function um zu prüfen, ob wir im Browser oder Server sind
+function getSupabaseClient() {
+  // Im Browser: Verwende Browser-Client
+  if (typeof window !== 'undefined') {
+    return createBrowserClient();
+  }
+  
+  // Im Server: Erstelle einen einfachen Client ohne Cookie-Management
+  // Dies ist ein Fallback für Server-Side-Rendering
+  const { createClient: createSimpleClient } = require('@supabase/supabase-js');
+  return createSimpleClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
 
 // Singleton Supabase Client für Services
-const supabase = createClient();
+const supabase = getSupabaseClient();
 
 // Types
 export interface Profile {
@@ -361,7 +380,7 @@ export class AdminService {
       admin: 0
     };
 
-    data?.forEach(sub => {
+    data?.forEach((sub: { package_id: string }) => {
       if (stats.hasOwnProperty(sub.package_id)) {
         stats[sub.package_id as keyof typeof stats]++;
       }

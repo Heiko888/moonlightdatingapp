@@ -12,7 +12,7 @@ rm -f /etc/nginx/sites-enabled/hd-app-dev
 cat > /etc/nginx/sites-enabled/hd-app-dev << 'EOF'
 server {
     listen 80;
-    server_name 138.199.237.34 moonlightdatingapp.werdemeisterdeinergedanken.de;
+    server_name 138.199.237.34 www.the-connection-key.de;
     
     location / {
         proxy_pass http://localhost:3000;

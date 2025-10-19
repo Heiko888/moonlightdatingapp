@@ -1,103 +1,88 @@
 import { NextRequest, NextResponse } from 'next/server';
-import emailService from '@/lib/email/emailService';
+import { createClient } from '@/lib/supabase/server';
 
-// Temporärer In-Memory Store (später durch Datenbank ersetzen)
-// In Produktion: MongoDB, PostgreSQL, oder Supabase
-let readingsStore: any[] = [];
-
-// GET /api/readings - Alle Readings eines Users abrufen
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
+    const body = await request.json();
+    const { type, data, createdAt } = body;
 
-    if (!userId) {
+    const supabase = await createClient();
+
+    // Prüfen ob Benutzer authentifiziert ist
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
       return NextResponse.json(
-        { error: 'userId ist erforderlich' },
-        { status: 400 }
+        { error: 'Nicht authentifiziert' },
+        { status: 401 }
       );
     }
 
-    // Filtere Readings nach User
-    const userReadings = readingsStore.filter(r => r.userId === userId);
+    // Reading in Datenbank speichern
+    const { data: reading, error } = await supabase
+      .from('readings')
+      .insert({
+        user_id: user.id,
+        reading_type: type,
+        reading_data: data,
+        client_name: data.name,
+        created_at: createdAt || new Date().toISOString()
+      })
+      .select()
+      .single();
 
-    return NextResponse.json(userReadings, { status: 200 });
+    if (error) {
+      console.error('Fehler beim Speichern des Readings:', error);
+      return NextResponse.json(
+        { error: 'Fehler beim Speichern' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ success: true, reading });
   } catch (error) {
-    console.error('Fehler beim Abrufen der Readings:', error);
+    console.error('Server-Fehler:', error);
     return NextResponse.json(
-      { error: 'Interner Serverfehler' },
+      { error: 'Interner Server-Fehler' },
       { status: 500 }
     );
   }
 }
 
-// POST /api/readings - Neues Reading erstellen
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const body = await request.json();
+    const supabase = await createClient();
+
+    // Prüfen ob Benutzer authentifiziert ist
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
     
-    // Validierung
-    const requiredFields = ['title', 'question', 'birthdate', 'birthtime', 'birthplace', 'email', 'category'];
-    for (const field of requiredFields) {
-      if (!body[field]) {
-        return NextResponse.json(
-          { error: `Feld "${field}" ist erforderlich` },
-          { status: 400 }
-        );
-      }
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Nicht authentifiziert' },
+        { status: 401 }
+      );
     }
 
-    // Erstelle neues Reading
-    const newReading = {
-      id: `reading_${Date.now()}`,
-      userId: body.userId || 'anonymous',
-      title: body.title,
-      question: body.question,
-      category: body.category,
-      datingType: body.datingType || '',
-      birthdate: body.birthdate,
-      birthtime: body.birthtime,
-      birthplace: body.birthplace,
-      email: body.email,
-      phone: body.phone || '',
-      status: 'pending', // pending, zoom-scheduled, completed, approved
-      content: '', // Wird nach Zoom-Reading befüllt
-      pdfUrl: null,
-      zoomLink: null,
-      zoomDate: null,
-      coachNotes: '',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
+    // Alle Readings des Benutzers abrufen
+    const { data: readings, error } = await supabase
+      .from('readings')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
 
-    // Speichere Reading
-    readingsStore.push(newReading);
-
-    // Sende E-Mails
-    try {
-      await emailService.sendReadingConfirmation({
-        email: newReading.email,
-        title: newReading.title,
-        status: newReading.status
-      });
-
-      await emailService.notifyCoachNewReading(newReading);
-    } catch (emailError) {
-      console.error('E-Mail-Fehler:', emailError);
-      // Fahre trotzdem fort, auch wenn E-Mail fehlschlägt
+    if (error) {
+      console.error('Fehler beim Abrufen der Readings:', error);
+      return NextResponse.json(
+        { error: 'Fehler beim Abrufen' },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json(
-      { 
-        message: 'Reading erfolgreich erstellt',
-        reading: newReading 
-      },
-      { status: 201 }
-    );
+    return NextResponse.json({ readings });
   } catch (error) {
-    console.error('Fehler beim Erstellen des Readings:', error);
+    console.error('Server-Fehler:', error);
     return NextResponse.json(
-      { error: 'Interner Serverfehler' },
+      { error: 'Interner Server-Fehler' },
       { status: 500 }
     );
   }
