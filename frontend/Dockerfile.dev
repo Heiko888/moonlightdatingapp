@@ -1,5 +1,5 @@
 # Development Dockerfile für Port 3005
-FROM node:20-bookworm-slim
+FROM node:25-bookworm-slim
 
 # Arbeitsverzeichnis
 WORKDIR /app
