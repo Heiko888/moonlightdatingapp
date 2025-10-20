@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ThemeProvider as MuiThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
 interface ThemeContextType {
   isDarkMode: boolean;
@@ -167,6 +168,7 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Load theme preference from localStorage
@@ -178,6 +180,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setIsDarkMode(prefersDark);
     }
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
@@ -192,7 +195,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        {/* Verhindert sichtbare Mismatches vor dem Mount */}
+        <div style={{ visibility: mounted ? 'visible' : 'hidden' }}>
+          {children}
+        </div>
       </MuiThemeProvider>
     </ThemeContext.Provider>
   );

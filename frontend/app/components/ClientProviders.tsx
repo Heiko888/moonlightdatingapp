@@ -2,7 +2,7 @@
 import React from 'react';
 import ClientErrorBoundary from '@/app/components/ClientErrorBoundary'
 import { NotificationProvider } from '@/components/NotificationService'
-import { ThemeProvider as ToggleThemeProvider } from '@/components/ThemeProvider'
+import ThemeRegistry from '@/components/ThemeRegistry'
 
 interface ClientProvidersProps {
   children: React.ReactNode;
@@ -11,11 +11,11 @@ interface ClientProvidersProps {
 export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
     <ClientErrorBoundary>
-      <ToggleThemeProvider>
+      <ThemeRegistry>
         <NotificationProvider>
           {children}
         </NotificationProvider>
-      </ToggleThemeProvider>
+      </ThemeRegistry>
     </ClientErrorBoundary>
   );
 }
