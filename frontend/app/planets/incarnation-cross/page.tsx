@@ -255,17 +255,17 @@ const knownCrosses: IncarnationCross[] = [
 const getCrossColor = (crossType: string): string => {
   switch (crossType) {
     case 'Führungskreuz':
-      return '#8B5CF6'; // Lila
+      return '#F29F05';
     case 'Transformationskreuz':
-      return '#EF4444'; // Rot
+      return '#8C1D04';
     case 'Liebeskreuz':
-      return '#EC4899'; // Pink
+      return '#590A03';
     case 'Weisheitskreuz':
-      return '#3B82F6'; // Blau
+      return '#260A0A';
     case 'Kreativkreuz':
-      return '#F59E0B'; // Orange
+      return '#F29F05';
     case 'Mystisches Kreuz':
-      return '#8B5CF6'; // Lila
+      return '#8C1D04';
     default:
       return '#6B7280'; // Grau
   }
@@ -373,7 +373,7 @@ export default function IncarnationCrossPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ padding: 4 }}>
+    <Container maxWidth="lg" sx={{ padding: 4, background: '#02000D' }}>
       {/* Header */}
       <motion.div
         
@@ -382,11 +382,11 @@ export default function IncarnationCrossPage() {
       >
         <Box sx={{ textAlign: 'center', marginBottom: 6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 2 }}>
-            <Cross size={48} color="#8B5CF6" />
+            <Cross size={48} color="#F29F05" />
             <Typography variant="h2" component="h1" sx={{ 
               marginLeft: 2, 
               fontWeight: 'bold',
-              background: 'linear-gradient(45deg, #8B5CF6, #EC4899)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -419,11 +419,11 @@ export default function IncarnationCrossPage() {
         
         
       >
-        <Card sx={{ marginBottom: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <Card sx={{ marginBottom: 4, background: 'rgba(242, 159, 5, 0.06)', border: '1px solid rgba(242,159,5,0.15)' }}>
           <CardContent sx={{ p: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
-              <Calculator size={24} color="white" />
-              <Typography variant="h5" sx={{ marginLeft: 2, color: 'white', fontWeight: 'bold' }}>
+              <Calculator size={24} color="#F29F05" />
+              <Typography variant="h5" sx={{ marginLeft: 2, color: '#F29F05', fontWeight: 'bold' }}>
                 Inkarnationskreuz berechnen
               </Typography>
             </Box>
@@ -439,16 +439,13 @@ export default function IncarnationCrossPage() {
                   inputProps={{ min: 1, max: 64 }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      '& fieldset': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      backgroundColor: 'rgba(242,159,5,0.10)',
+                      '& fieldset': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover fieldset': { borderColor: 'rgba(242,159,5,0.45)' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': {
-                      color: 'white',
+                      color: 'rgba(255,255,255,0.8)',
                     },
                     '& .MuiOutlinedInput-input': {
                       color: 'white',
@@ -467,16 +464,13 @@ export default function IncarnationCrossPage() {
                   inputProps={{ min: 1, max: 64 }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      '& fieldset': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      backgroundColor: 'rgba(242,159,5,0.10)',
+                      '& fieldset': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover fieldset': { borderColor: 'rgba(242,159,5,0.45)' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': {
-                      color: 'white',
+                      color: 'rgba(255,255,255,0.8)',
                     },
                     '& .MuiOutlinedInput-input': {
                       color: 'white',
@@ -495,16 +489,13 @@ export default function IncarnationCrossPage() {
                   inputProps={{ min: 1, max: 6 }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      '& fieldset': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      backgroundColor: 'rgba(242,159,5,0.10)',
+                      '& fieldset': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover fieldset': { borderColor: 'rgba(242,159,5,0.45)' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': {
-                      color: 'white',
+                      color: 'rgba(255,255,255,0.8)',
                     },
                     '& .MuiOutlinedInput-input': {
                       color: 'white',
@@ -523,16 +514,13 @@ export default function IncarnationCrossPage() {
                   inputProps={{ min: 1, max: 6 }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      '& fieldset': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      backgroundColor: 'rgba(242,159,5,0.10)',
+                      '& fieldset': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover fieldset': { borderColor: 'rgba(242,159,5,0.45)' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': {
-                      color: 'white',
+                      color: 'rgba(255,255,255,0.8)',
                     },
                     '& .MuiOutlinedInput-input': {
                       color: 'white',
@@ -550,9 +538,9 @@ export default function IncarnationCrossPage() {
                 disabled={loading}
                 startIcon={loading ? <CircularProgress size={20} /> : <Calculator />}
                 sx={{
-                  background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FF5252, #26A69A)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                   },
                   padding: 16
                 }}
@@ -571,11 +559,11 @@ export default function IncarnationCrossPage() {
           
           
         >
-          <Card sx={{ marginBottom: 4, border: '2px solid #8B5CF6' }}>
+          <Card sx={{ marginBottom: 4, border: '1px solid rgba(242,159,5,0.30)', background: 'rgba(242,159,5,0.06)' }}>
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
-                <Star size={24} color="#8B5CF6" />
-                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 'bold', color: '#8B5CF6' }}>
+                <Star size={24} color="#F29F05" />
+                <Typography variant="h5" sx={{ marginLeft: 2, fontWeight: 'bold', color: '#F29F05' }}>
                   Dein Inkarnationskreuz
                 </Typography>
               </Box>
@@ -603,8 +591,8 @@ export default function IncarnationCrossPage() {
               
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
-                  <Box sx={{ p: 2, backgroundColor: '#F3F4F6', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
+                  <Box sx={{ p: 2, backgroundColor: 'rgba(242,159,5,0.10)', borderRadius: 2, border: '1px solid rgba(242,159,5,0.25)' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#F29F05' }}>
                       Lebensaufgabe
                     </Typography>
                     <Typography variant="body2">
@@ -614,8 +602,8 @@ export default function IncarnationCrossPage() {
                 </Grid>
                 
                 <Grid item xs={12} md={6}>
-                  <Box sx={{ p: 2, backgroundColor: '#F3F4F6', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#8B5CF6' }}>
+                  <Box sx={{ p: 2, backgroundColor: 'rgba(242,159,5,0.10)', borderRadius: 2, border: '1px solid rgba(242,159,5,0.25)' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#F29F05' }}>
                       Zweck
                     </Typography>
                     <Typography variant="body2">
@@ -625,8 +613,8 @@ export default function IncarnationCrossPage() {
                 </Grid>
                 
                 <Grid item xs={12} md={6}>
-                  <Box sx={{ p: 2, backgroundColor: '#FEF2F2', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#DC2626' }}>
+                  <Box sx={{ p: 2, backgroundColor: 'rgba(140,29,4,0.10)', borderRadius: 2, border: '1px solid rgba(140,29,4,0.25)' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#8C1D04' }}>
                       Herausforderungen
                     </Typography>
                     <Typography variant="body2">
@@ -636,8 +624,8 @@ export default function IncarnationCrossPage() {
                 </Grid>
                 
                 <Grid item xs={12} md={6}>
-                  <Box sx={{ p: 2, backgroundColor: '#F0FDF4', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#16A34A' }}>
+                  <Box sx={{ p: 2, backgroundColor: 'rgba(89,10,3,0.10)', borderRadius: 2, border: '1px solid rgba(89,10,3,0.25)' }}>
+                    <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: '#590A03' }}>
                       Gaben
                     </Typography>
                     <Typography variant="body2">
@@ -647,7 +635,7 @@ export default function IncarnationCrossPage() {
                 </Grid>
               </Grid>
               
-              <Box sx={{ marginTop: 3, p: 2, backgroundColor: '#8B5CF6', borderRadius: 2 }}>
+              <Box sx={{ marginTop: 3, p: 2, background: 'linear-gradient(135deg, #F29F05, #8C1D04)', borderRadius: 2 }}>
                 <Typography variant="h6" sx={{ marginBottom: 1, fontWeight: 'bold', color: 'white' }}>
                   Affirmation
                 </Typography>
@@ -666,11 +654,11 @@ export default function IncarnationCrossPage() {
         
         
       >
-        <Card sx={{ marginBottom: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <Card sx={{ marginBottom: 4, background: 'rgba(242,159,5,0.06)', border: '1px solid rgba(242,159,5,0.15)' }}>
           <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 3 }}>
-              <Search size={24} color="white" />
-              <Typography variant="h5" sx={{ marginLeft: 2, color: 'white', fontWeight: 'bold' }}>
+              <Search size={24} color="#F29F05" />
+              <Typography variant="h5" sx={{ marginLeft: 2, color: '#F29F05', fontWeight: 'bold' }}>
                 Kreuze durchsuchen & filtern
               </Typography>
             </Box>
@@ -684,16 +672,13 @@ export default function IncarnationCrossPage() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'rgba(255,255,255,0.1)',
-                      '& fieldset': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      backgroundColor: 'rgba(242,159,5,0.10)',
+                      '& fieldset': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover fieldset': { borderColor: 'rgba(242,159,5,0.45)' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': {
-                      color: 'white',
+                      color: 'rgba(255,255,255,0.8)',
                     },
                     '& .MuiOutlinedInput-input': {
                       color: 'white',
@@ -704,19 +689,15 @@ export default function IncarnationCrossPage() {
               
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth>
-                  <InputLabel style={{ color: 'white' }}>Kategorie</InputLabel>
+                  <InputLabel style={{ color: 'rgba(255,255,255,0.8)' }}>Kategorie</InputLabel>
                   <Select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                     sx={{
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backgroundColor: 'rgba(242,159,5,0.10)',
                       color: 'white',
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242,159,5,0.45)' },
                       '& .MuiSvgIcon-root': {
                         color: 'white',
                       }
@@ -733,19 +714,15 @@ export default function IncarnationCrossPage() {
               
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth>
-                  <InputLabel style={{ color: 'white' }}>Sortieren nach</InputLabel>
+                  <InputLabel style={{ color: 'rgba(255,255,255,0.8)' }}>Sortieren nach</InputLabel>
                   <Select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
                     sx={{
-                      backgroundColor: 'rgba(255,255,255,0.1)',
+                      backgroundColor: 'rgba(242,159,5,0.10)',
                       color: 'white',
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(255,255,255,0.3)',
-                      },
-                      '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(255,255,255,0.5)',
-                      },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242,159,5,0.30)' },
+                      '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242,159,5,0.45)' },
                       '& .MuiSvgIcon-root': {
                         color: 'white',
                       }

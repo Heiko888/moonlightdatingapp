@@ -144,7 +144,9 @@ export default function SwipePage() {
       const response = await fetch('/api/users/discover');
       const data = await response.json();
 
-      if (data.success && data.users) {
+      const hasUsers = Array.isArray(data?.users) && data.users.length > 0;
+
+      if (response.ok && data?.success && hasUsers) {
         // Konvertiere API-Daten zu Profile-Format
         const formattedProfiles = data.users.map((user: any) => ({
           _id: user.id,
@@ -161,10 +163,11 @@ export default function SwipePage() {
           compatibility_score: user.compatibility_score || 75
         }));
 
+        console.log(`Geladene Nutzer für Swipe: ${formattedProfiles.length}`);
         setProfiles(formattedProfiles);
       } else {
-        // Fallback zu Mock-Daten wenn keine User gefunden
-        console.warn('Keine User gefunden, verwende Mock-Daten');
+        // Fallback zu Mock-Daten bei 0 Nutzern oder Fehler/401
+        console.warn('Keine oder 0 User von der API – verwende Mock-Daten');
         setProfiles(mockProfiles);
       }
     } catch (error) {
@@ -238,12 +241,7 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -271,7 +269,7 @@ export default function SwipePage() {
                 href="/"
                 variant="h5"
                 sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -289,11 +287,11 @@ export default function SwipePage() {
                   href="/dating-info"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                     '&:hover': {
-                      borderColor: 'rgba(255,107,157,0.5)',
-                      background: 'rgba(255,107,157,0.1)'
+                    borderColor: '#8C1D04',
+                    background: 'rgba(242,159,5,0.10)'
                     }
                   }}
                 >
@@ -304,11 +302,11 @@ export default function SwipePage() {
                   href="/dashboard"
                   variant="contained"
                   sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -336,12 +334,7 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -369,7 +362,7 @@ export default function SwipePage() {
                 href="/"
                 variant="h5"
                 sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -387,11 +380,11 @@ export default function SwipePage() {
                   href="/dating-info"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                     '&:hover': {
-                      borderColor: 'rgba(255,107,157,0.5)',
-                      background: 'rgba(255,107,157,0.1)'
+                    borderColor: '#8C1D04',
+                    background: 'rgba(242,159,5,0.10)'
                     }
                   }}
                 >
@@ -402,11 +395,11 @@ export default function SwipePage() {
                   href="/dashboard"
                   variant="contained"
                   sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -432,12 +425,12 @@ export default function SwipePage() {
               onClick={() => setCurrentIndex(0)}
             sx={{
                 mt: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                   transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                  boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
                 },
                 transition: 'all 0.3s ease'
               }}
@@ -453,12 +446,7 @@ export default function SwipePage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -487,7 +475,7 @@ export default function SwipePage() {
               href="/"
               variant="h5"
               sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -500,31 +488,31 @@ export default function SwipePage() {
             </Typography>
             
             <Stack direction="row" spacing={2}>
-              <Button
+            <Button
                 component={Link}
                 href="/dating-info"
                 variant="outlined"
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                borderColor: '#F29F05',
+                color: '#F29F05',
                   '&:hover': {
-                    borderColor: 'rgba(255,107,157,0.5)',
-                    background: 'rgba(255,107,157,0.1)'
+                  borderColor: '#8C1D04',
+                  background: 'rgba(242,159,5,0.10)'
                   }
                 }}
               >
                 Info
               </Button>
-              <Button
+            <Button
                 component={Link}
                 href="/dashboard"
                 variant="contained"
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                  boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -551,14 +539,14 @@ export default function SwipePage() {
           <Typography
               variant="h2"
             sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               fontWeight: 800,
                 fontSize: { xs: '2.5rem', md: '3.5rem' },
                 mb: 2,
-                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.25)'
               }}
             >
               💕 Kosmische Verbindungen
@@ -591,7 +579,7 @@ export default function SwipePage() {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               zIndex: 9999,
-              background: 'linear-gradient(45deg, #ff6b6b, #ff8e8e)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               borderRadius: '20px',
               padding: '40px',
               textAlign: 'center',
@@ -646,9 +634,9 @@ export default function SwipePage() {
           <Card
             sx={{
               height: '100%',
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(242, 159, 5, 0.06)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 107, 157, 0.2)',
+              border: '1px solid rgba(242, 159, 5, 0.15)',
               borderRadius: 4,
               boxShadow: '0 8px 30px rgba(0, 0, 0, 0.2)',
               overflow: 'hidden',
@@ -684,7 +672,7 @@ export default function SwipePage() {
                   position: 'absolute',
                   top: 16,
                   right: 16,
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   backdropFilter: 'blur(10px)',
                   borderRadius: 2,
                   p: 1,
@@ -715,7 +703,7 @@ export default function SwipePage() {
           variant="contained"
                     onClick={revealProfile}
           sx={{
-            background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
             color: 'white',
                       px: 4,
             py: 1.5,
@@ -723,11 +711,11 @@ export default function SwipePage() {
             fontWeight: 600,
             textTransform: 'none',
                       fontSize: '1.1rem',
-            boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
+            boxShadow: '0 8px 25px rgba(242, 159, 5, 0.30)',
             '&:hover': {
-              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+              background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
               transform: 'translateY(-2px)',
-              boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+              boxShadow: '0 12px 35px rgba(242, 159, 5, 0.40)'
             }
           }}
         >
@@ -760,11 +748,11 @@ export default function SwipePage() {
                 borderRadius: '3px',
               },
               '&::-webkit-scrollbar-thumb': {
-                background: 'rgba(255,107,157,0.5)',
+                background: 'rgba(242,159,5,0.45)',
                 borderRadius: '3px',
               },
               '&::-webkit-scrollbar-thumb:hover': {
-                background: 'rgba(255,107,157,0.7)',
+                background: 'rgba(242,159,5,0.65)',
               }
             }}>
               <Stack spacing={1.5}>
@@ -807,8 +795,8 @@ export default function SwipePage() {
                         label={value} 
                                 size="small"
                                 sx={{
-                          background: 'rgba(255, 107, 157, 0.2)', 
-                          color: 'white',
+                          background: 'rgba(242, 159, 5, 0.20)', 
+                          color: '#F29F05',
                           fontSize: '0.7rem',
                           height: '20px'
                                 }}
@@ -831,8 +819,8 @@ export default function SwipePage() {
                         label={trait} 
                         size="small" 
                           sx={{
-                          background: 'rgba(78, 205, 196, 0.2)', 
-                          color: 'white',
+                          background: 'rgba(140, 29, 4, 0.20)', 
+                          color: '#8C1D04',
                           fontSize: '0.7rem',
                           height: '20px'
                         }}
@@ -868,17 +856,17 @@ export default function SwipePage() {
                     <Chip 
                       label={currentProfile.hd_type} 
                       size="small" 
-                      sx={{ background: 'linear-gradient(135deg, #ff6b9d, #c44569)', color: 'white' }}
+                      sx={{ background: 'linear-gradient(135deg, #F29F05, #8C1D04)', color: 'white' }}
                     />
                     <Chip 
                       label={currentProfile.profile} 
                       size="small" 
-                      sx={{ background: 'linear-gradient(135deg, #ff6b9d, #c44569)', color: 'white' }}
+                      sx={{ background: 'linear-gradient(135deg, #F29F05, #8C1D04)', color: 'white' }}
                     />
                     <Chip 
                       label={currentProfile.authority} 
                       size="small" 
-                      sx={{ background: 'linear-gradient(135deg, #ff6b9d, #c44569)', color: 'white' }}
+                      sx={{ background: 'linear-gradient(135deg, #F29F05, #8C1D04)', color: 'white' }}
                     />
                   </Stack>
                             </Box>
@@ -894,7 +882,7 @@ export default function SwipePage() {
                         key={index}
                         label={interest} 
                         size="small" 
-                        sx={{ background: 'rgba(255, 107, 157, 0.2)', color: 'white' }}
+                        sx={{ background: 'rgba(242, 159, 5, 0.20)', color: '#F29F05' }}
                       />
                     ))}
                   </Stack>
@@ -914,13 +902,13 @@ export default function SwipePage() {
               width: 60,
               height: 60,
               background: revealedProfiles.has(currentProfile._id) 
-                ? 'linear-gradient(135deg, #ff6b6b, #ff8e8e)' 
+                ? 'linear-gradient(135deg, #8C1D04, #590A03)' 
                 : 'rgba(255, 255, 255, 0.2)',
               color: 'white',
               opacity: revealedProfiles.has(currentProfile._id) ? 1 : 0.5,
                               '&:hover': { 
                 background: revealedProfiles.has(currentProfile._id)
-                  ? 'linear-gradient(135deg, #ff5252, #ff7979)'
+                  ? 'linear-gradient(135deg, #590A03, #260A0A)'
                   : 'rgba(255, 255, 255, 0.2)',
                 transform: revealedProfiles.has(currentProfile._id) ? 'scale(1.1)' : 'none'
               }
@@ -936,13 +924,13 @@ export default function SwipePage() {
               width: 60,
               height: 60,
               background: revealedProfiles.has(currentProfile._id)
-                ? 'linear-gradient(135deg, #ff6b9d, #c44569)'
+                ? 'linear-gradient(135deg, #F29F05, #8C1D04)'
                 : 'rgba(255, 255, 255, 0.2)',
               color: 'white',
               opacity: revealedProfiles.has(currentProfile._id) ? 1 : 0.5,
               '&:hover': {
                 background: revealedProfiles.has(currentProfile._id)
-                  ? 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
+                  ? 'linear-gradient(135deg, #8C1D04, #F29F05)'
                   : 'rgba(255, 255, 255, 0.2)',
                 transform: revealedProfiles.has(currentProfile._id) ? 'scale(1.1)' : 'none'
               }
@@ -967,15 +955,15 @@ export default function SwipePage() {
             <Typography variant="h6" sx={{ color: 'white', mb: 1 }}>
               🎉 {matches.length} Match{matches.length > 1 ? 'es' : ''} gefunden!
                       </Typography>
-                            <Button
+                          <Button
                               variant="contained"
               startIcon={<MessageCircle />}
               onClick={() => router.push('/match')}
                               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
                 }
               }}
             >

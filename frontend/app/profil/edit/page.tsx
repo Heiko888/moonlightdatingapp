@@ -2,13 +2,11 @@
 
 import * as React from "react";
 import { Box, Paper, Typography, Button } from "@mui/material";
-import AppHeader from "@/components/AppHeader";
 import Link from "next/link";
 
 export default function EditProfilPage() {
   return (
     <>
-      <AppHeader />
       <Box
         sx={{
           minHeight: "100vh",

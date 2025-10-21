@@ -176,12 +176,13 @@ const CoachDashboard: React.FC = () => {
   };
 
   const getStatusColor = (status: string) => {
+    // Harmonisiert auf die Markenpalette
     switch (status) {
-      case 'pending': return '#eab308';
-      case 'zoom-scheduled': return '#3b82f6';
-      case 'completed': return '#8b5cf6';
-      case 'approved': return '#10b981';
-      default: return '#6b7280';
+      case 'pending': return '#F29F05';
+      case 'zoom-scheduled': return '#8C1D04';
+      case 'completed': return '#590A03';
+      case 'approved': return '#F29F05';
+      default: return '#260A0A';
     }
   };
 
@@ -198,7 +199,7 @@ const CoachDashboard: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#000000',
+      background: '#02000D',
       py: 4,
       position: 'relative'
     }}>
@@ -224,14 +225,14 @@ const CoachDashboard: React.FC = () => {
               size={80}
               thickness={4}
               sx={{
-                color: '#e8b86d',
+                color: '#F29F05',
                 mb: 3,
                 '& .MuiCircularProgress-circle': {
                   strokeLinecap: 'round',
                 }
               }}
             />
-            <Typography variant="h6" sx={{ color: '#e8b86d', fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 600 }}>
               Lade Daten...
             </Typography>
           </Box>
@@ -257,17 +258,17 @@ const CoachDashboard: React.FC = () => {
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(232, 184, 109, 0.1)', 
-              border: '1px solid rgba(232, 184, 109, 0.3)',
+              background: 'rgba(242, 159, 5, 0.10)', 
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(232, 184, 109, 0.3)',
+                boxShadow: '0 8px 24px rgba(242, 159, 5, 0.30)',
               }
             }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: '#e8b86d', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                   {stats.total}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
@@ -278,17 +279,17 @@ const CoachDashboard: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(234, 179, 8, 0.1)', 
-              border: '1px solid rgba(234, 179, 8, 0.3)',
+              background: 'rgba(242, 159, 5, 0.10)', 
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(234, 179, 8, 0.3)',
+                boxShadow: '0 8px 24px rgba(242, 159, 5, 0.30)',
               }
             }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: '#eab308', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                   {stats.pending}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
@@ -299,17 +300,17 @@ const CoachDashboard: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(59, 130, 246, 0.1)', 
-              border: '1px solid rgba(59, 130, 246, 0.3)',
+              background: 'rgba(140, 29, 4, 0.10)', 
+              border: '1px solid rgba(140, 29, 4, 0.30)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(59, 130, 246, 0.3)',
+                boxShadow: '0 8px 24px rgba(140, 29, 4, 0.30)',
               }
             }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: '#3b82f6', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#8C1D04', fontWeight: 700 }}>
                   {stats.zoomScheduled}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
@@ -320,17 +321,17 @@ const CoachDashboard: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(139, 92, 246, 0.1)', 
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              background: 'rgba(89, 10, 3, 0.10)', 
+              border: '1px solid rgba(89, 10, 3, 0.30)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(139, 92, 246, 0.3)',
+                boxShadow: '0 8px 24px rgba(89, 10, 3, 0.30)',
               }
             }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: '#8b5cf6', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#590A03', fontWeight: 700 }}>
                   {stats.completed}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
@@ -341,17 +342,17 @@ const CoachDashboard: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(16, 185, 129, 0.1)', 
-              border: '1px solid rgba(16, 185, 129, 0.3)',
+              background: 'rgba(242, 159, 5, 0.10)', 
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)',
+                boxShadow: '0 8px 24px rgba(242, 159, 5, 0.30)',
               }
             }}>
               <CardContent>
-                <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 700 }}>
+                <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                   {stats.approved}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
@@ -366,7 +367,7 @@ const CoachDashboard: React.FC = () => {
         <Paper sx={{ 
           background: 'rgba(255,255,255,0.05)', 
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(232, 184, 109, 0.2)',
+          border: '1px solid rgba(242, 159, 5, 0.20)',
           mb: 3
         }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
@@ -378,11 +379,11 @@ const CoachDashboard: React.FC = () => {
                   color: '#ffffff',
                   fontWeight: 600,
                   '&.Mui-selected': {
-                    color: '#e8b86d'
+                    color: '#F29F05'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#e8b86d'
+                  backgroundColor: '#F29F05'
                 }
               }}
             >
@@ -396,11 +397,11 @@ const CoachDashboard: React.FC = () => {
               startIcon={<Refresh />}
               onClick={loadReadings}
               sx={{ 
-                color: '#e8b86d',
-                borderColor: '#e8b86d',
+                color: '#F29F05',
+                borderColor: '#F29F05',
                 '&:hover': {
-                  background: 'rgba(232, 184, 109, 0.1)',
-                  borderColor: '#ffd89b'
+                  background: 'rgba(242, 159, 5, 0.10)',
+                  borderColor: '#8C1D04'
                 }
               }}
             >
@@ -415,18 +416,18 @@ const CoachDashboard: React.FC = () => {
           sx={{ 
             background: 'rgba(255,255,255,0.05)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(232, 184, 109, 0.2)'
+            border: '1px solid rgba(242, 159, 5, 0.20)'
           }}
         >
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Status</TableCell>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Titel</TableCell>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Kunde</TableCell>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Kategorie</TableCell>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Erstellt</TableCell>
-                <TableCell sx={{ color: '#e8b86d', fontWeight: 700 }}>Aktionen</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Status</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Titel</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Kunde</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Kategorie</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Erstellt</TableCell>
+                <TableCell sx={{ color: '#F29F05', fontWeight: 700 }}>Aktionen</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -464,14 +465,14 @@ const CoachDashboard: React.FC = () => {
                       <IconButton
                         size="small"
                         onClick={() => handleEditClick(reading)}
-                        sx={{ color: '#3b82f6', mr: 1 }}
+                        sx={{ color: '#F29F05', mr: 1 }}
                       >
                         <Edit />
                       </IconButton>
                       <IconButton
                         size="small"
                         onClick={() => handleDelete(reading.id)}
-                        sx={{ color: '#ef4444' }}
+                        sx={{ color: '#8C1D04' }}
                       >
                         <Delete />
                       </IconButton>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabase/client';
 import { 
@@ -50,6 +50,7 @@ interface RegistrationData {
 
 const RegisterPage: React.FC = () => {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState<RegistrationData>({
     email: '',
     password: '',
@@ -67,6 +68,10 @@ const RegisterPage: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -186,53 +191,21 @@ const RegisterPage: React.FC = () => {
     }
   };
 
+  if (!mounted) {
+    return null;
+  }
+
   if (success) {
     return (
       <Box sx={{
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        {/* Floating Stars Animation */}
-        <Box sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          pointerEvents: 'none',
-          zIndex: 1
-        }}>
-          {[...Array(20)].map((_, i) => (
-            <Box
-              key={i}
-              sx={{
-                position: 'absolute',
-                width: Math.random() * 3 + 1,
-                height: Math.random() * 3 + 1,
-                background: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: '50%',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
-                animationDelay: `${Math.random() * 2}s`,
-                '@keyframes twinkle': {
-                  '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
-                  '50%': { opacity: 1, transform: 'scale(1.2)' }
-                }
-              }}
-            />
-          ))}
-        </Box>
         
         <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
           <Paper 
@@ -243,17 +216,17 @@ const RegisterPage: React.FC = () => {
               background: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(20px)',
               borderRadius: 4,
-              border: '1px solid rgba(78, 205, 196, 0.2)',
+              border: '1px solid rgba(242, 159, 5, 0.25)',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
             }}
           >
-            <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700, mb: 2 }}>
+            <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700, mb: 2 }}>
               ✅ Registrierung erfolgreich!
             </Typography>
             <Typography variant="body1" sx={{ mb: 3, color: 'rgba(255,255,255,0.9)' }}>
               Willkommen bei The Connection Key! Sie werden in Kürze zum Dashboard weitergeleitet.
             </Typography>
-            <CircularProgress sx={{ color: '#4ecdc4' }} />
+            <CircularProgress sx={{ color: '#F29F05' }} />
           </Paper>
         </Container>
       </Box>
@@ -263,12 +236,7 @@ const RegisterPage: React.FC = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -280,7 +248,7 @@ const RegisterPage: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: '#000000',
+        background: '#02000D',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -320,13 +288,13 @@ const RegisterPage: React.FC = () => {
                 variant="outlined"
                 disabled={loading}
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   textTransform: 'none',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: 'rgba(78, 205, 196, 0.5)',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)'
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -339,15 +307,15 @@ const RegisterPage: React.FC = () => {
                 variant="outlined"
                 disabled={loading}
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   textTransform: 'none',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -369,13 +337,13 @@ const RegisterPage: React.FC = () => {
             p: { xs: 3, md: 6 }, 
             background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
+            border: '1px solid rgba(242, 159, 5, 0.15)',
             borderRadius: 4,
             boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
           }}>
             <Box sx={{ textAlign: 'center', mb: 5 }}>
               <Typography variant="h2" sx={{ 
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -405,7 +373,7 @@ const RegisterPage: React.FC = () => {
                 {/* Persönliche Daten */}
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <Person sx={{ mr: 1, color: '#ff6b9d' }} />
+                    <Person sx={{ mr: 1, color: '#F29F05' }} />
                     Persönliche Daten
                   </Typography>
                 </Grid>
@@ -421,10 +389,10 @@ const RegisterPage: React.FC = () => {
               disabled={loading}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -443,10 +411,10 @@ const RegisterPage: React.FC = () => {
               disabled={loading}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -457,7 +425,7 @@ const RegisterPage: React.FC = () => {
                 {/* Kontakt */}
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <Email sx={{ mr: 1, color: '#4ecdc4' }} />
+                    <Email sx={{ mr: 1, color: '#F29F05' }} />
                     Kontakt
                   </Typography>
                 </Grid>
@@ -481,10 +449,10 @@ const RegisterPage: React.FC = () => {
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -495,7 +463,7 @@ const RegisterPage: React.FC = () => {
                 {/* Passwort */}
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <Lock sx={{ mr: 1, color: '#8b5cf6' }} />
+                    <Lock sx={{ mr: 1, color: '#8C1D04' }} />
                     Passwort
                   </Typography>
                 </Grid>
@@ -531,10 +499,10 @@ const RegisterPage: React.FC = () => {
             helperText="Mindestens 6 Zeichen"
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8b5cf6' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' },
@@ -573,10 +541,10 @@ const RegisterPage: React.FC = () => {
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#8b5cf6' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -587,7 +555,7 @@ const RegisterPage: React.FC = () => {
                 {/* Geburtsdaten */}
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <CalendarToday sx={{ mr: 1, color: '#f59e0b' }} />
+                    <CalendarToday sx={{ mr: 1, color: '#F29F05' }} />
                     Geburtsdaten
                   </Typography>
                 </Grid>
@@ -612,10 +580,10 @@ const RegisterPage: React.FC = () => {
                     helperText="Format: dd/mm/yyyy (z.B. 15/03/1990)"
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#f59e0b' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' },
@@ -643,10 +611,10 @@ const RegisterPage: React.FC = () => {
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#f59e0b' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -671,10 +639,10 @@ const RegisterPage: React.FC = () => {
                     }}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: '#f59e0b' }
+                        background: 'rgba(242, 159, 5, 0.10)',
+                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                       },
                       '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
                       '& .MuiInputBase-input': { color: 'white' }
@@ -685,24 +653,24 @@ const RegisterPage: React.FC = () => {
                 {/* Subscription */}
                 <Grid item xs={12}>
                   <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <Star sx={{ mr: 1, color: '#ff6b9d' }} />
+                    <Star sx={{ mr: 1, color: '#F29F05' }} />
                     Abonnement wählen
                   </Typography>
                 </Grid>
                 
                 <Grid item xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Abonnement</InputLabel>
+                    <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Abonnement</InputLabel>
                     <Select
                       value={formData.subscription}
                       onChange={(e) => setFormData(prev => ({ ...prev, subscription: e.target.value as any }))}
                       disabled={loading}
                       sx={{
-                        background: 'rgba(255, 255, 255, 0.05)',
+                        background: 'rgba(242, 159, 5, 0.10)',
                         color: 'white',
-                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#ff6b9d' }
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                        '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#F29F05' }
                       }}
                     >
                       <MenuItem value="free">
@@ -725,7 +693,7 @@ const RegisterPage: React.FC = () => {
                       </MenuItem>
                       <MenuItem value="vip">
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Chip label="VIP" size="small" sx={{ background: 'linear-gradient(45deg, #ff6b9d, #4ecdc4)' }} />
+                          <Chip label="VIP" size="small" sx={{ background: 'linear-gradient(45deg, #F29F05, #8C1D04)', color: 'white' }} />
                           <Typography>Premium + Coaching</Typography>
                         </Box>
                       </MenuItem>
@@ -743,17 +711,17 @@ const RegisterPage: React.FC = () => {
             sx={{ 
                     px: 6,
                     py: 2.5,
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     borderRadius: 3,
                     fontSize: '1.1rem',
                     fontWeight: 700,
                     textTransform: 'none',
                     minWidth: { xs: '100%', sm: '300px' },
-                    boxShadow: '0 10px 30px rgba(255, 107, 157, 0.4)',
+              boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)',
               '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 15px 40px rgba(255, 107, 157, 0.5)'
+                      boxShadow: '0 15px 40px rgba(242, 159, 5, 0.45)'
               },
                     '&:disabled': {
                       background: 'rgba(255, 255, 255, 0.1)',
@@ -774,13 +742,13 @@ const RegisterPage: React.FC = () => {
                 onClick={() => router.push('/login')}
                 disabled={loading}
                     sx={{ 
-                      color: '#4ecdc4', 
+                      color: '#F29F05', 
                       fontWeight: 700,
                       textTransform: 'none',
                       fontSize: '1rem',
                       '&:hover': {
-                        color: '#3bb5b0',
-                        background: 'rgba(78, 205, 196, 0.1)'
+                        color: '#8C1D04',
+                        background: 'rgba(242, 159, 5, 0.10)'
                       }
                     }}
               >

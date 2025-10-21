@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { 
   Box, 
   Typography, 
@@ -33,6 +32,7 @@ import AccessControl from '../../components/AccessControl';
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
 import { useRouter } from 'next/navigation';
 // import UnifiedPageLayout from '../../components/UnifiedPageLayout'; // Entfernt - verwende Dating-Design
+import Image from 'next/image';
 
 interface ProfileData {
   user: {
@@ -529,31 +529,83 @@ function ProfilContent() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: '#000000'
+        background: '#02000D'
       }}>
-        <Container maxWidth="xl" sx={{ py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
-          {/* Logo */}
-          <Box sx={{ 
-            display: 'flex',
-            justifyContent: 'center',
-            mb: { xs: 4, md: 6 }
-          }}>
-            <Box sx={{ 
-              position: 'relative',
-              width: '100%',
-              maxWidth: { xs: 300, sm: 400, md: 600 },
-              height: { xs: 140, sm: 200, md: 280 }
+        {/* Header (ohne Logo) */}
+        <Box sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: '#02000D',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(242, 159, 5, 0.2)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
+        }}>
+          <Container maxWidth="lg">
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: 1
             }}>
-              <Image
-                src="/images/connection-key-logo.png"
-                alt="Connection Key Logo"
-                fill
-                style={{ objectFit: 'contain' }}
-                priority
-                sizes="(max-width: 600px) 300px, (max-width: 960px) 400px, 600px"
-              />
+              <Box sx={{ position: 'relative', width: { xs: 140, md: 200 }, height: { xs: 36, md: 48 } }}>
+                <Image
+                  src="/images/Design%20ohne%20Titel%2815%29.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
+              <Box>
+                <Button
+                  href="/dashboard"
+                  variant="outlined"
+                  sx={{
+                    borderColor: '#F29F05',
+                    color: '#F29F05',
+                    borderRadius: 3,
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    mr: 1.5,
+                    '&:hover': {
+                      borderColor: '#8C1D04',
+                      backgroundColor: 'rgba(242, 159, 5, 0.1)',
+                      transform: 'translateY(-2px)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  href="/profil"
+                  variant="contained"
+                  sx={{
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    borderRadius: 3,
+                    textTransform: 'none',
+                    fontWeight: 600,
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 25px rgba(242, 159, 5, 0.4)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Profil
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          </Container>
+        </Box>
+
+        <Container maxWidth="xl" sx={{ pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+          {/* Logo entfernt */}
 
           {/* Header */}
           <Box textAlign="center" mb={6}>
@@ -562,7 +614,7 @@ function ProfilContent() {
               sx={{ 
                 fontWeight: 'bold', 
                 mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -619,7 +671,7 @@ function ProfilContent() {
                           borderRadius: '50%',
                           background: profileImage || imagePreview 
                             ? `url(${imagePreview || profileImage}) center/cover`
-                            : 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                            : 'linear-gradient(135deg, #F29F05, #8C1D04)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -659,9 +711,9 @@ function ProfilContent() {
                               width: 40,
                               height: 40,
                               borderRadius: '50%',
-                              background: 'linear-gradient(135deg, #ff6b9d, #ff8fab)',
+                              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                               '&:hover': {
-                                background: 'linear-gradient(135deg, #ff5087, #ff6b9d)',
+                                background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                               }
                             }}
                           >
@@ -738,14 +790,14 @@ function ProfilContent() {
                       onClick={isEditing ? handleSave : () => setIsEditing(true)}
                       disabled={isLoading}
                       sx={{
-                        borderColor: 'rgba(255, 107, 157, 0.3)',
-                        color: '#ff6b9d',
+                        borderColor: 'rgba(242, 159, 5, 0.30)',
+                        color: '#F29F05',
                         fontWeight: 600,
                         px: 3,
                         borderRadius: 3,
                         '&:hover': {
-                          borderColor: '#ff6b9d',
-                          backgroundColor: 'rgba(255, 107, 157, 0.1)',
+                          borderColor: '#8C1D04',
+                          backgroundColor: 'rgba(242, 159, 5, 0.10)',
                           transform: 'translateY(-2px)'
                         }
                       }}
@@ -1260,7 +1312,7 @@ function ProfilContent() {
                             height: '100%', 
                             background: isComplete 
                               ? 'linear-gradient(90deg, #4ecdc4, #2a9d8f)'
-                              : 'linear-gradient(90deg, #ff6b9d, #FFD700)',
+                : 'linear-gradient(90deg, #F29F05, #8C1D04)',
                             transition: 'width 0.3s ease'
                           }} />
                         </Box>
@@ -1291,7 +1343,7 @@ function ProfilContent() {
                                 width: 4, 
                                 height: 4, 
                                 borderRadius: '50%', 
-                                background: '#ff6b9d' 
+                              background: '#F29F05' 
                               }} />
                               <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem' }}>
                                 {step}

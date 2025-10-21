@@ -158,7 +158,7 @@ export default function LandingPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#000000',
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -180,11 +180,11 @@ export default function LandingPage() {
               position: 'absolute',
               width: '3px',
               height: '3px',
-              background: '#FFD700',
+              background: '#F29F05',
               borderRadius: '50%',
               left: `${pos.left}%`,
               top: `${pos.top}%`,
-              boxShadow: '0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FF8C00'
+              boxShadow: '0 0 10px rgba(242,159,5,0.9), 0 0 20px rgba(140,29,4,0.6), 0 0 30px rgba(89,10,3,0.5)'
             }}
             animate={{
               opacity: [0, 1, 0],
@@ -208,7 +208,7 @@ export default function LandingPage() {
               position: 'absolute',
               width: '4px',
               height: '4px',
-              background: 'linear-gradient(45deg, #FFD700, #FFA500, #FF8C00)',
+              background: 'linear-gradient(45deg, #F29F05, #8C1D04, #590A03)',
               borderRadius: '50%',
               left: `${pos.left}%`,
               top: `${pos.top}%`,
@@ -241,9 +241,9 @@ export default function LandingPage() {
           <Box sx={{ 
             position: 'relative',
             zIndex: 2,
-            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)',
-            borderBottom: '3px solid rgba(255, 215, 0, 0.5)',
-            boxShadow: '0 4px 20px rgba(255, 215, 0, 0.4)',
+            background: 'linear-gradient(135deg, #F29F05 0%, #8C1D04 100%)',
+            borderBottom: '1px solid rgba(242, 159, 5, 0.45)',
+            boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
             py: 2,
             px: 3
           }}>
@@ -266,15 +266,15 @@ export default function LandingPage() {
                     ease: "easeInOut"
                   }}
                 >
-                  <Gift size={28} color="#000" />
+                  <Gift size={28} color="#ffffff" />
                 </motion.div>
                 
                 <Typography sx={{
-                  color: '#000',
+                  color: '#ffffff',
                   fontWeight: 700,
                   fontSize: { xs: '0.9rem', md: '1.2rem' },
                   textAlign: 'center',
-                  textShadow: '0 2px 4px rgba(255, 255, 255, 0.3)'
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.25)'
                 }}>
                   🎉 Limitiertes Angebot: Jetzt kostenlos anmelden und lebenslangen Premium-Zugang sichern! 🎉
                 </Typography>
@@ -300,7 +300,7 @@ export default function LandingPage() {
                     }
                   }}
                 >
-                  <X size={20} color="#000" />
+                  <X size={20} color="#ffffff" />
                 </Box>
               </Box>
             </Container>
@@ -318,14 +318,17 @@ export default function LandingPage() {
       }}>
         <Box sx={{ 
           position: 'relative',
-          height: { xs: 160, md: 240 },
-          width: { xs: 600, md: 900 }
+          height: { xs: 120, md: 240 },
+          width: { xs: '100%', md: 900 },
+          maxWidth: 900,
+          px: { xs: 2, md: 0 }
         }}>
           <Image
             src="/images/connection-key-logo.png"
             alt="The Connection Key"
             fill
             style={{ objectFit: 'contain' }}
+            sizes="(max-width: 600px) 100vw, (max-width: 1200px) 70vw, 900px"
             priority
           />
         </Box>
@@ -357,14 +360,16 @@ export default function LandingPage() {
             
             {/* Haupttitel */}
             <Typography variant="h2" sx={{
-              color: '#FFD700',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               mb: 4,
               maxWidth: 900,
               mx: 'auto',
               lineHeight: 1.2,
               fontSize: { xs: '1.8rem', md: '2.8rem' },
               fontWeight: 800,
-              textShadow: '0 0 30px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 165, 0, 0.8)',
               fontFamily: '"Playfair Display", serif',
               textAlign: 'center'
             }}>
@@ -373,14 +378,16 @@ export default function LandingPage() {
             
             {/* Emotionale Geschichte */}
             <Typography variant="h4" sx={{
-              color: '#FFD700',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               mb: 3,
               maxWidth: 800,
               mx: 'auto',
               lineHeight: 1.3,
               fontSize: { xs: '1.3rem', md: '1.8rem' },
               fontWeight: 600,
-              textShadow: '0 0 25px rgba(255, 215, 0, 0.9), 0 0 50px rgba(255, 165, 0, 0.7)',
               fontFamily: '"Playfair Display", serif',
               fontStyle: 'italic'
             }}>
@@ -418,14 +425,16 @@ export default function LandingPage() {
             </Typography>
             
             <Typography variant="h6" sx={{
-              color: '#FFD700',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               mb: 4,
               maxWidth: 700,
               mx: 'auto',
               lineHeight: 1.6,
               fontSize: { xs: '1.1rem', md: '1.4rem' },
               fontWeight: 600,
-              textShadow: '0 0 25px rgba(255, 215, 0, 0.9)',
               fontFamily: '"Playfair Display", serif',
               fontStyle: 'italic'
             }}>
@@ -439,8 +448,8 @@ export default function LandingPage() {
               variant="contained"
               size="large"
               sx={{
-                background: 'linear-gradient(135deg, #FFD700, #FFA500, #FF8C00)',
-                color: '#000',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                color: 'white',
                 px: 12,
                 py: 4,
                 borderRadius: 12,
@@ -448,13 +457,13 @@ export default function LandingPage() {
                 fontSize: '1.3rem',
                 textTransform: 'none',
                 fontFamily: '"Playfair Display", serif',
-                boxShadow: '0 0 40px rgba(255, 215, 0, 0.8), 0 10px 30px rgba(255, 165, 0, 0.5)',
-                border: '3px solid rgba(255, 215, 0, 0.9)',
+                boxShadow: '0 0 40px rgba(242, 159, 5, 0.55), 0 10px 30px rgba(140, 29, 4, 0.35)',
+                border: '1px solid rgba(242, 159, 5, 0.45)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #FFA500, #FF8C00, #FF7F00)',
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                   transform: 'translateY(-4px) scale(1.05)',
-                  boxShadow: '0 0 50px rgba(255, 215, 0, 1), 0 15px 40px rgba(255, 165, 0, 0.7)',
-                  border: '3px solid rgba(255, 215, 0, 1)'
+                  boxShadow: '0 0 50px rgba(242, 159, 5, 0.7), 0 15px 40px rgba(140, 29, 4, 0.5)',
+                  border: '1px solid rgba(242, 159, 5, 0.6)'
                 },
                 transition: 'all 0.5s ease',
                 position: 'relative',
@@ -492,7 +501,7 @@ export default function LandingPage() {
             mb: 6,
             color: 'white',
             fontWeight: 700,
-            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
@@ -510,9 +519,9 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                 >
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.05)',
+                    background: 'rgba(242, 159, 5, 0.06)',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(242, 159, 5, 0.15)',
                     borderRadius: 4,
                     p: 4,
                     textAlign: 'center',
@@ -520,12 +529,12 @@ export default function LandingPage() {
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-10px)',
-                      border: '1px solid rgba(255, 215, 0, 0.3)',
-                      boxShadow: '0 20px 40px rgba(255, 215, 0, 0.1)'
+                      border: '1px solid rgba(242, 159, 5, 0.3)',
+                      boxShadow: '0 20px 40px rgba(242, 159, 5, 0.15)'
                     }
                   }}>
                     <Box sx={{
-                      color: '#FFD700',
+                      color: '#F29F05',
                       mb: 3,
                       display: 'flex',
                       justifyContent: 'center'
@@ -584,20 +593,20 @@ export default function LandingPage() {
                       width: 80,
                       height: 80,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       mx: 'auto',
                       mb: 3,
-                      color: '#000',
+                      color: '#fff',
                       fontWeight: 800,
                       fontSize: '1.2rem'
                     }}>
                       {step.step}
                     </Box>
                     <Box sx={{
-                      color: '#FFD700',
+                      color: '#F29F05',
                       mb: 2,
                       display: 'flex',
                       justifyContent: 'center'
@@ -652,16 +661,16 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                 >
                   <Card sx={{
-                    background: 'rgba(255, 255, 255, 0.05)',
+                    background: 'rgba(242, 159, 5, 0.06)',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(242, 159, 5, 0.15)',
                     borderRadius: 4,
                     p: 4,
                     height: '100%',
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      border: '1px solid rgba(255, 215, 0, 0.3)'
+                      border: '1px solid rgba(242, 159, 5, 0.3)'
                     }
                   }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
@@ -669,12 +678,12 @@ export default function LandingPage() {
                         width: 50,
                         height: 50,
                         borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                        background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         mr: 2,
-                        color: '#000',
+                        color: '#fff',
                         fontWeight: 700
                       }}>
                         {story.name.charAt(0)}
@@ -701,16 +710,16 @@ export default function LandingPage() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <Box sx={{ display: 'flex' }}>
                         {[...Array(story.rating)].map((_, i) => (
-                          <Star key={i} size={16} fill="#FFD700" color="#FFD700" />
+                          <Star key={i} size={16} fill="#F29F05" color="#F29F05" />
                         ))}
                       </Box>
                       <Chip
                         label={story.type}
                         size="small"
                         sx={{
-                          background: 'rgba(255, 215, 0, 0.2)',
-                          color: '#FFD700',
-                          border: '1px solid rgba(255, 215, 0, 0.3)'
+                          background: 'rgba(242, 159, 5, 0.2)',
+                          color: '#F29F05',
+                          border: '1px solid rgba(242, 159, 5, 0.3)'
                         }}
                       />
                     </Box>
@@ -800,9 +809,9 @@ export default function LandingPage() {
           viewport={{ once: true }}
         >
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05))',
+                  background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.10), rgba(140, 29, 4, 0.06))',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 215, 0, 0.3)',
+                  border: '1px solid rgba(242, 159, 5, 0.30)',
             borderRadius: 6,
             p: 6,
             textAlign: 'center'
@@ -811,7 +820,7 @@ export default function LandingPage() {
               color: 'white',
               mb: 3,
               fontWeight: 700,
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
@@ -836,19 +845,19 @@ export default function LandingPage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                  color: '#000',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
                   px: 6,
                   py: 2,
                   borderRadius: 4,
                   fontWeight: 700,
                   fontSize: '1.1rem',
                   textTransform: 'none',
-                  boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #FFA500, #FF8C00)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 12px 35px rgba(255, 215, 0, 0.6)'
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -863,8 +872,8 @@ export default function LandingPage() {
                 variant="outlined"
                 size="large"
                 sx={{
-                  borderColor: 'rgba(255, 215, 0, 0.6)',
-                  color: '#FFD700',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   px: 6,
                   py: 2,
                   borderRadius: 4,
@@ -873,10 +882,10 @@ export default function LandingPage() {
                   textTransform: 'none',
                   borderWidth: 2,
                   '&:hover': {
-                    borderColor: '#FFD700',
-                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 10px 30px rgba(255, 215, 0, 0.3)'
+                    boxShadow: '0 10px 30px rgba(242, 159, 5, 0.30)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -888,7 +897,7 @@ export default function LandingPage() {
             </Stack>
             
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-              <CheckCircle size={20} color="#4ecdc4" />
+              <CheckCircle size={20} color="#F29F05" />
               <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
                 100% kostenlos • Keine Kreditkarte erforderlich • Sofortige Ergebnisse
               </Typography>

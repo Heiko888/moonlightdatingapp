@@ -327,14 +327,14 @@ const DashboardPage: React.FC = () => {
         justifyContent: 'center', 
         alignItems: 'center', 
         minHeight: '100vh',
-        background: '#000000',
+        background: '#02000D',
         gap: 3
       }}>
         <CircularProgress 
           size={70} 
           thickness={4}
           sx={{ 
-            color: '#e8b86d',
+            color: '#F29F05',
             '& .MuiCircularProgress-circle': {
               strokeLinecap: 'round',
             }
@@ -343,7 +343,7 @@ const DashboardPage: React.FC = () => {
         <Typography
           variant="h6"
           sx={{
-            color: '#e8b86d',
+            color: '#F29F05',
             fontWeight: 600,
             textAlign: 'center'
           }}
@@ -357,104 +357,39 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#000000'
+      background: '#02000D'
     }}>
-      {/* Fixed Navigation Bar */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        backdropFilter: 'blur(20px)',
-        background: '#000000',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            py: 1 
-          }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ 
-                position: 'relative',
-                height: { xs: 50, md: 70 },
-                width: { xs: 200, md: 280 },
-                cursor: 'pointer',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)'
-                }
-              }}>
-                <Image
-                  src="/images/connection-key-logo.png"
-                  alt="The Connection Key Logo"
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </Box>
-            </Link>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+      {/* Fixed Navigation Bar entfernt */}
+
+      <Container maxWidth="lg" sx={{ pt: 6, pb: 4 }}>
+        {/* Header-Actions */}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
               <Button
-                onClick={() => router.push('/seitenuebersicht')}
+            onClick={handleLogout}
                 variant="outlined"
                 sx={{
-                  color: 'white',
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
+              borderColor: '#F29F05',
+              color: '#F29F05',
+              textTransform: 'none',
+              fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    background: 'rgba(78, 205, 196, 0.1)'
-                  }
-                }}
-              >
-                Übersicht
-              </Button>
-              <Button
-                onClick={handleLogout}
-                variant="contained"
-                startIcon={<LogOut size={18} />}
-                sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                borderColor: '#8C1D04',
+                background: 'rgba(242, 159, 5, 0.10)'
                   }
                 }}
               >
                 Abmelden
               </Button>
             </Box>
-          </Box>
-        </Container>
-      </Box>
-
-      <Container maxWidth="lg" sx={{ pt: 20, pb: 4 }}>
         {/* Header */}
         <Box sx={{ 
           mb: 6,
           textAlign: 'center',
           position: 'relative'
         }}>
-          {/* Logo über dem Dashboard-Titel */}
-          <Box sx={{ 
-            position: 'relative',
-            height: { xs: 100, md: 150 },
-            width: { xs: 380, md: 560 },
-            mx: 'auto',
-            mb: 3
-          }}>
-            <Image
-              src="/images/connection-key-logo.png"
-              alt="The Connection Key"
-              fill
-              style={{ objectFit: 'contain' }}
-              priority
-            />
-          </Box>
+          {/* Logo über dem Dashboard-Titel entfernt */}
           
-          <Typography variant="h2" sx={{ 
+          <Typography variant="h2" suppressHydrationWarning sx={{ 
             fontWeight: 'bold',
             mb: 2,
             color: 'white',
@@ -489,25 +424,16 @@ const DashboardPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <Card sx={{
-              background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.08)' :
-                         userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.08)' :
-                         userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.08)' :
-                         'rgba(76, 175, 80, 0.08)',
+              background: 'rgba(242, 159, 5, 0.08)',
               backdropFilter: 'blur(20px)',
               mb: 4,
               borderRadius: 4,
-              border: userSubscription.packageId === 'vip' ? '1px solid rgba(255, 215, 0, 0.2)' :
-                     userSubscription.packageId === 'premium' ? '1px solid rgba(156, 39, 176, 0.2)' :
-                     userSubscription.packageId === 'basic' ? '1px solid rgba(33, 150, 243, 0.2)' :
-                     '1px solid rgba(76, 175, 80, 0.2)',
+              border: '1px solid rgba(242, 159, 5, 0.2)',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-2px)',
-                boxShadow: userSubscription.packageId === 'vip' ? '0 8px 30px rgba(255, 215, 0, 0.15)' :
-                          userSubscription.packageId === 'premium' ? '0 8px 30px rgba(156, 39, 176, 0.15)' :
-                          userSubscription.packageId === 'basic' ? '0 8px 30px rgba(33, 150, 243, 0.15)' :
-                          '0 8px 30px rgba(76, 175, 80, 0.15)'
+                boxShadow: '0 8px 30px rgba(242, 159, 5, 0.15)'
               }
             }}>
               <CardContent sx={{ p: 3 }}>
@@ -517,14 +443,8 @@ const DashboardPage: React.FC = () => {
                       width: 50,
                       height: 50,
                       borderRadius: '50%',
-                      background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.15)' :
-                                 userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.15)' :
-                                 userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.15)' :
-                                 'rgba(76, 175, 80, 0.15)',
-                      border: userSubscription.packageId === 'vip' ? '2px solid rgba(255, 215, 0, 0.3)' :
-                             userSubscription.packageId === 'premium' ? '2px solid rgba(156, 39, 176, 0.3)' :
-                             userSubscription.packageId === 'basic' ? '2px solid rgba(33, 150, 243, 0.3)' :
-                             '2px solid rgba(76, 175, 80, 0.3)',
+                      background: 'rgba(242, 159, 5, 0.15)',
+                      border: '2px solid rgba(242, 159, 5, 0.3)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -537,10 +457,7 @@ const DashboardPage: React.FC = () => {
                     </Box>
                     <Box>
                       <Typography variant="h6" sx={{ 
-                        color: userSubscription.packageId === 'vip' ? '#FFD700' :
-                               userSubscription.packageId === 'premium' ? '#9C27B0' :
-                               userSubscription.packageId === 'basic' ? '#2196F3' :
-                               '#4CAF50',
+                        color: '#F29F05',
                         fontWeight: 700, 
                         mb: 0.5 
                       }}>
@@ -556,23 +473,11 @@ const DashboardPage: React.FC = () => {
                   <Button
                     variant="outlined"
                     sx={{
-                      borderColor: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.4)' :
-                                  userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.4)' :
-                                  userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.4)' :
-                                  'rgba(76, 175, 80, 0.4)',
-                      color: userSubscription.packageId === 'vip' ? '#FFD700' :
-                            userSubscription.packageId === 'premium' ? '#9C27B0' :
-                            userSubscription.packageId === 'basic' ? '#2196F3' :
-                            '#4CAF50',
+                      borderColor: 'rgba(242, 159, 5, 0.4)',
+                      color: '#F29F05',
                       '&:hover': {
-                        borderColor: userSubscription.packageId === 'vip' ? '#FFD700' :
-                                    userSubscription.packageId === 'premium' ? '#9C27B0' :
-                                    userSubscription.packageId === 'basic' ? '#2196F3' :
-                                    '#4CAF50',
-                        background: userSubscription.packageId === 'vip' ? 'rgba(255, 215, 0, 0.1)' :
-                                   userSubscription.packageId === 'premium' ? 'rgba(156, 39, 176, 0.1)' :
-                                   userSubscription.packageId === 'basic' ? 'rgba(33, 150, 243, 0.1)' :
-                                   'rgba(76, 175, 80, 0.1)'
+                        borderColor: '#F29F05',
+                        background: 'rgba(242, 159, 5, 0.1)'
                       }
                     }}
                     onClick={() => router.push('/pricing')}
@@ -598,7 +503,7 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               borderRadius: 2
             }
           }}>
@@ -613,9 +518,9 @@ const DashboardPage: React.FC = () => {
             <Grid container spacing={4} sx={{ mb: 0 }}>
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(242, 159, 5, 0.05)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(78, 205, 196, 0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
@@ -623,9 +528,9 @@ const DashboardPage: React.FC = () => {
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
-                border: '1px solid rgba(78, 205, 196, 0.25)',
-                background: 'rgba(78, 205, 196, 0.08)'
+                boxShadow: '0 8px 30px rgba(242, 159, 5, 0.20)',
+                border: '1px solid rgba(242, 159, 5, 0.30)',
+                background: 'rgba(242, 159, 5, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
@@ -633,18 +538,18 @@ const DashboardPage: React.FC = () => {
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(78, 205, 196, 0.15)',
-                  border: '2px solid rgba(78, 205, 196, 0.3)',
+                  background: 'rgba(242, 159, 5, 0.15)',
+                  border: '2px solid rgba(242, 159, 5, 0.30)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Moon size={24} color="#4ECDC4" />
+                  <Moon size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#4ECDC4', 
+                  color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
@@ -662,9 +567,9 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(242, 159, 5, 0.05)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(78, 205, 196, 0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
@@ -672,9 +577,9 @@ const DashboardPage: React.FC = () => {
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
-                border: '1px solid rgba(78, 205, 196, 0.25)',
-                background: 'rgba(78, 205, 196, 0.08)'
+                boxShadow: '0 8px 30px rgba(242, 159, 5, 0.20)',
+                border: '1px solid rgba(242, 159, 5, 0.30)',
+                background: 'rgba(242, 159, 5, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
@@ -682,18 +587,18 @@ const DashboardPage: React.FC = () => {
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(78, 205, 196, 0.15)',
-                  border: '2px solid rgba(78, 205, 196, 0.3)',
+                  background: 'rgba(242, 159, 5, 0.15)',
+                  border: '2px solid rgba(242, 159, 5, 0.30)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Star size={24} color="#4ECDC4" />
+                  <Star size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#4ECDC4', 
+                  color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
@@ -711,9 +616,9 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(242, 159, 5, 0.05)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(78, 205, 196, 0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
@@ -721,9 +626,9 @@ const DashboardPage: React.FC = () => {
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
-                border: '1px solid rgba(78, 205, 196, 0.25)',
-                background: 'rgba(78, 205, 196, 0.08)'
+                boxShadow: '0 8px 30px rgba(242, 159, 5, 0.20)',
+                border: '1px solid rgba(242, 159, 5, 0.30)',
+                background: 'rgba(242, 159, 5, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
@@ -731,18 +636,18 @@ const DashboardPage: React.FC = () => {
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(78, 205, 196, 0.15)',
-                  border: '2px solid rgba(78, 205, 196, 0.3)',
+                  background: 'rgba(242, 159, 5, 0.15)',
+                  border: '2px solid rgba(242, 159, 5, 0.30)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Heart size={24} color="#4ECDC4" />
+                  <Heart size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#4ECDC4', 
+                  color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
@@ -760,9 +665,9 @@ const DashboardPage: React.FC = () => {
 
           <Grid item xs={12} sm={6} md={3}>
             <Card sx={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(242, 159, 5, 0.05)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(78, 205, 196, 0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
@@ -770,9 +675,9 @@ const DashboardPage: React.FC = () => {
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(78, 205, 196, 0.15)',
-                border: '1px solid rgba(78, 205, 196, 0.25)',
-                background: 'rgba(78, 205, 196, 0.08)'
+                boxShadow: '0 8px 30px rgba(242, 159, 5, 0.20)',
+                border: '1px solid rgba(242, 159, 5, 0.30)',
+                background: 'rgba(242, 159, 5, 0.08)'
               }
             }}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
@@ -780,18 +685,18 @@ const DashboardPage: React.FC = () => {
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(78, 205, 196, 0.15)',
-                  border: '2px solid rgba(78, 205, 196, 0.3)',
+                  background: 'rgba(242, 159, 5, 0.15)',
+                  border: '2px solid rgba(242, 159, 5, 0.30)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Users size={24} color="#4ECDC4" />
+                  <Users size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
-                  color: '#4ECDC4', 
+                  color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
@@ -823,7 +728,7 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               borderRadius: 2
             }
           }}>
@@ -836,9 +741,9 @@ const DashboardPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <Card sx={{ 
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(242, 159, 5, 0.05)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(78, 205, 196, 0.15)',
+            border: '1px solid rgba(242, 159, 5, 0.20)',
             borderRadius: 4,
             mb: 0
           }}>
@@ -1073,7 +978,7 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               borderRadius: 2
             }
           }}>
@@ -1087,9 +992,9 @@ const DashboardPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
           <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(68, 160, 141, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.12) 0%, rgba(140, 29, 4, 0.08) 100%)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(78, 205, 196, 0.4)',
+          border: '1px solid rgba(242, 159, 5, 0.30)',
           borderRadius: 3,
           mb: 5,
           overflow: 'hidden',
@@ -1101,7 +1006,7 @@ const DashboardPage: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(78, 205, 196, 0.3) 0%, transparent 70%)',
+                background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.30) 0%, transparent 70%)',
             opacity: 0.6
           }
         }}>
@@ -1111,18 +1016,18 @@ const DashboardPage: React.FC = () => {
                 width: 60,
                 height: 60,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 mr: 3,
-                boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)'
+                boxShadow: '0 8px 25px rgba(255, 215, 0, 0.35)'
               }}>
                 <Users size={30} color="white" />
               </Box>
               <Box>
                 <Typography variant="h5" sx={{ 
-                  color: '#4ecdc4', 
+                  color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 0.5
                 }}>
@@ -1148,7 +1053,7 @@ const DashboardPage: React.FC = () => {
             <Grid container spacing={2} sx={{ mb: 3 }}>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     2,500+
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1158,7 +1063,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     150+
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1168,7 +1073,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     25+
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1178,7 +1083,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#4ecdc4', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     500+
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1194,18 +1099,18 @@ const DashboardPage: React.FC = () => {
                 startIcon={<Users size={18} />}
                 onClick={() => router.push('/community-info')}
                 sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   color: 'white',
                   px: 3,
                   py: 1,
                   borderRadius: 2,
                   textTransform: 'none',
                   fontWeight: 'bold',
-                  boxShadow: '0 8px 25px rgba(78, 205, 196, 0.4)',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 35px rgba(78, 205, 196, 0.6)'
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -1218,17 +1123,17 @@ const DashboardPage: React.FC = () => {
                 startIcon={<Heart size={18} />}
                 onClick={() => router.push('/friends')}
                 sx={{
-                  borderColor: '#4ecdc4',
-                  color: '#4ecdc4',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   px: 3,
                   py: 1,
                   borderRadius: 2,
                   textTransform: 'none',
                   fontWeight: 'bold',
                   '&:hover': {
-                    borderColor: '#44a08d',
-                    color: '#44a08d',
-                    background: 'rgba(78, 205, 196, 0.1)',
+                    borderColor: '#8C1D04',
+                    color: '#F29F05',
+                    background: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-2px)'
                   },
                   transition: 'all 0.3s ease'
@@ -1255,19 +1160,19 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
               borderRadius: 2
             }
           }}>
             Dating
           </Typography>
 
-          {/* Dating Widget */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
+        {/* Dating Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
           <Card sx={{ 
           background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
           backdropFilter: 'blur(20px)',
@@ -1293,7 +1198,7 @@ const DashboardPage: React.FC = () => {
                 width: 60,
                 height: 60,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1304,7 +1209,7 @@ const DashboardPage: React.FC = () => {
               </Box>
               <Box>
                 <Typography variant="h5" sx={{ 
-                  color: '#ff6b9d', 
+                  color: '#FFD700', 
                   fontWeight: 'bold',
                   mb: 0.5
                 }}>
@@ -1330,7 +1235,7 @@ const DashboardPage: React.FC = () => {
             <Grid container spacing={2} sx={{ mb: 3 }}>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                     {stats.matches}
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1340,7 +1245,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                     95%
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1350,7 +1255,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                     24h
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1360,7 +1265,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                     12
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1376,7 +1281,7 @@ const DashboardPage: React.FC = () => {
                 startIcon={<Heart size={18} />}
                 onClick={() => router.push('/swipe')}
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #ef4444)',
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                   color: 'white',
                   px: 3,
                   py: 1,
@@ -1385,7 +1290,7 @@ const DashboardPage: React.FC = () => {
                   fontWeight: 'bold',
                   boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #dc2626)',
+                    background: 'linear-gradient(135deg, #FF5a8a, #dc2626)',
                     transform: 'translateY(-2px)',
                     boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
                   },
@@ -1400,8 +1305,8 @@ const DashboardPage: React.FC = () => {
                 startIcon={<Star size={18} />}
                 onClick={() => router.push('/match')}
                 sx={{
-                  borderColor: '#ff6b9d',
-                  color: '#ff6b9d',
+                  borderColor: '#FFD700',
+                  color: '#FFD700',
                   px: 3,
                   py: 1,
                   borderRadius: 2,
@@ -1421,7 +1326,7 @@ const DashboardPage: React.FC = () => {
             </Box>
           </CardContent>
         </Card>
-        </motion.div>
+          </motion.div>
         </Box>
 
         {/* ============ HUMAN DESIGN ============ */}
@@ -1438,7 +1343,7 @@ const DashboardPage: React.FC = () => {
                 content: '""',
                 width: 4,
                 height: 32,
-                background: 'linear-gradient(135deg, #8b5cf6, #a855f7)',
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                 borderRadius: 2
               }
             }}>
@@ -1451,9 +1356,9 @@ const DashboardPage: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
           <Card sx={{ 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(168, 85, 247, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.15) 0%, rgba(140, 29, 4, 0.08) 100%)',
             backdropFilter: 'blur(25px)',
-            border: '1px solid rgba(139, 92, 246, 0.3)',
+          border: '1px solid rgba(242, 159, 5, 0.30)',
             borderRadius: 4,
             position: 'relative',
             overflow: 'hidden',
@@ -1461,8 +1366,8 @@ const DashboardPage: React.FC = () => {
             transition: 'all 0.3s ease',
             '&:hover': {
               transform: 'translateY(-4px)',
-              boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',
-              border: '1px solid rgba(139, 92, 246, 0.5)'
+            boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)',
+            border: '1px solid rgba(242, 159, 5, 0.45)'
             },
             '&::before': {
               content: '""',
@@ -1471,7 +1376,7 @@ const DashboardPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 70%)',
+            background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.20) 0%, transparent 70%)',
               opacity: 0.6
             }
           }}>
@@ -1481,21 +1386,21 @@ const DashboardPage: React.FC = () => {
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #8B5CF6, #A855F7)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mr: 2,
-                  boxShadow: '0 8px 25px rgba(139, 92, 246, 0.4)'
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)'
                 }}>
                   <Target size={24} color="white" />
                 </Box>
                 <Box>
                   <Typography variant="h5" sx={{ 
-                    color: '#8B5CF6', 
+                    color: '#F29F05', 
                     fontWeight: 'bold',
                     mb: 0.5,
-                    textShadow: '0 0 10px rgba(139, 92, 246, 0.5)'
+                    textShadow: '0 0 10px rgba(242, 159, 5, 0.45)'
                   }}>
                     Dein Human Design Chart
                   </Typography>
@@ -1539,11 +1444,11 @@ const DashboardPage: React.FC = () => {
                   variant="outlined"
                   startIcon={<Eye size={16} />}
                   sx={{
-                    borderColor: 'rgba(139, 92, 246, 0.5)',
-                    color: '#8B5CF6',
+                    borderColor: 'rgba(255, 215, 0, 0.5)',
+                    color: '#FFD700',
                     '&:hover': {
-                      borderColor: '#8B5CF6',
-                      backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                      borderColor: '#FFD700',
+                      backgroundColor: 'rgba(255, 215, 0, 0.1)'
                     }
                   }}
                   onClick={() => router.push('/human-design-chart')}
@@ -1554,11 +1459,11 @@ const DashboardPage: React.FC = () => {
                   variant="outlined"
                   startIcon={<Activity size={16} />}
                   sx={{
-                    borderColor: 'rgba(139, 92, 246, 0.5)',
-                    color: '#8B5CF6',
+                    borderColor: 'rgba(255, 215, 0, 0.5)',
+                    color: '#FFD700',
                     '&:hover': {
-                      borderColor: '#8B5CF6',
-                      backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                      borderColor: '#FFD700',
+                      backgroundColor: 'rgba(255, 215, 0, 0.1)'
                     }
                   }}
                   onClick={() => router.push('/centers')}
@@ -1586,7 +1491,7 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
               borderRadius: 2
             }
           }}>
@@ -1624,7 +1529,7 @@ const DashboardPage: React.FC = () => {
                   color: 'white', 
                   mb: 2,
                   fontWeight: 700,
-                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent'

@@ -57,7 +57,7 @@ const packagesData = {
     name: 'Basic',
     tagline: 'Perfekt für den Einstieg in deine Human Design Reise',
     icon: <Star size={48} />,
-    color: '#4ecdc4',
+    color: '#F29F05',
     priceMonthly: 9.99,
     priceYearly: 99.99,
     popular: false,
@@ -126,7 +126,7 @@ const packagesData = {
     name: 'Premium',
     tagline: 'Für ernsthafte Human Design Enthusiasten',
     icon: <Diamond size={48} />,
-    color: '#ff6b9d',
+    color: '#8C1D04',
     priceMonthly: 19.99,
     priceYearly: 199.99,
     popular: true,
@@ -202,7 +202,7 @@ const packagesData = {
     name: 'VIP',
     tagline: 'Das ultimative Human Design Erlebnis',
     icon: <Crown size={48} />,
-    color: '#ffd700',
+    color: '#590A03',
     priceMonthly: 49.99,
     priceYearly: 499.99,
     popular: false,
@@ -416,11 +416,7 @@ export default function PackageDetailPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       py: 6
     }}>
       <Container maxWidth="lg">
@@ -467,7 +463,7 @@ export default function PackageDetailPage() {
             <Chip 
               label="🔥 BELIEBTESTE WAHL" 
               sx={{ 
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 fontWeight: 'bold',
                 mb: 2
@@ -495,9 +491,9 @@ export default function PackageDetailPage() {
 
         {/* Pricing Card */}
         <Card sx={{ 
-          background: `linear-gradient(135deg, ${packageData.color}15 0%, ${packageData.color}08 100%)`,
+          background: `linear-gradient(135deg, ${packageData.color}22 0%, ${packageData.color}18 100%)`,
           backdropFilter: 'blur(20px)',
-          border: `2px solid ${packageData.color}`,
+          border: `1px solid ${packageData.color}55`,
           borderRadius: 4,
           mb: 6,
           maxWidth: '600px',
@@ -514,7 +510,7 @@ export default function PackageDetailPage() {
                   color: billingCycle === 'monthly' ? 'white' : packageData.color,
                   background: billingCycle === 'monthly' ? packageData.color : 'transparent',
                   '&:hover': {
-                    background: billingCycle === 'monthly' ? packageData.color : `${packageData.color}20`
+                    background: billingCycle === 'monthly' ? packageData.color : 'rgba(242,159,5,0.10)'
                   }
                 }}
               >
@@ -528,7 +524,7 @@ export default function PackageDetailPage() {
                   color: billingCycle === 'yearly' ? 'white' : packageData.color,
                   background: billingCycle === 'yearly' ? packageData.color : 'transparent',
                   '&:hover': {
-                    background: billingCycle === 'yearly' ? packageData.color : `${packageData.color}20`
+                    background: billingCycle === 'yearly' ? packageData.color : 'rgba(242,159,5,0.10)'
                   }
                 }}
               >
@@ -547,7 +543,7 @@ export default function PackageDetailPage() {
 
             {getSavings() && (
               <Typography sx={{ 
-                color: '#10b981',
+                color: '#F29F05',
                 textAlign: 'center',
                 fontWeight: 'bold',
                 mb: 3
@@ -564,7 +560,7 @@ export default function PackageDetailPage() {
               sx={{
                 background: isCurrentPackage
                   ? 'linear-gradient(135deg, #6b7280, #9ca3af)'
-                  : `linear-gradient(135deg, ${packageData.color}, ${packageData.color}dd)`,
+                  : 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 py: 2,
                 fontSize: '1.1rem',
@@ -572,7 +568,7 @@ export default function PackageDetailPage() {
                 '&:hover': {
                   background: isCurrentPackage
                     ? 'linear-gradient(135deg, #6b7280, #9ca3af)'
-                    : `linear-gradient(135deg, ${packageData.color}dd, ${packageData.color})`,
+                    : 'linear-gradient(135deg, #8C1D04, #F29F05)',
                   transform: isCurrentPackage ? 'none' : 'scale(1.02)'
                 }
               }}
@@ -604,11 +600,11 @@ export default function PackageDetailPage() {
                 >
                   <Card sx={{ 
                     background: feature.included 
-                      ? `linear-gradient(135deg, ${packageData.color}15 0%, ${packageData.color}08 100%)`
+                      ? 'rgba(242,159,5,0.08)'
                       : 'rgba(255,255,255,0.05)',
                     backdropFilter: 'blur(20px)',
                     border: feature.included 
-                      ? `1px solid ${packageData.color}50`
+                      ? '1px solid rgba(242,159,5,0.30)'
                       : '1px solid rgba(255,255,255,0.1)',
                     borderRadius: 3,
                     height: '100%',
@@ -668,7 +664,7 @@ export default function PackageDetailPage() {
               {packageData.useCases.map((useCase, index) => (
                 <Grid item xs={12} sm={6} key={index}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Check size={20} color={packageData.color} />
+                    <Check size={20} color="#F29F05" />
                     <Typography sx={{ color: 'rgba(255,255,255,0.9)' }}>
                       {useCase}
                     </Typography>
@@ -696,9 +692,9 @@ export default function PackageDetailPage() {
               expanded={expanded === `panel${index}`}
               onChange={handleAccordionChange(`panel${index}`)}
               sx={{
-                background: 'rgba(255,255,255,0.05)',
+                background: 'rgba(242,159,5,0.06)',
                 backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid rgba(242,159,5,0.15)',
                 borderRadius: 2,
                 mb: 2,
                 '&:before': { display: 'none' },

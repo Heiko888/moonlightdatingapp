@@ -228,12 +228,7 @@ export default function PlanetsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -245,7 +240,7 @@ export default function PlanetsPage() {
             sx={{ 
               fontWeight: 'bold', 
               mb: 2,
-              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -283,9 +278,9 @@ export default function PlanetsPage() {
       <Paper sx={{
         p: 3,
         mb: 4,
-        background: 'rgba(255, 255, 255, 0.05)',
+        background: 'rgba(242, 159, 5, 0.06)',
         backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        border: '1px solid rgba(242, 159, 5, 0.15)',
         borderRadius: 3
       }}>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -296,7 +291,7 @@ export default function PlanetsPage() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search size={20} color="#FFD700" />
+                  <Search size={20} color="#F29F05" />
                 </InputAdornment>
               ),
             }}
@@ -305,35 +300,23 @@ export default function PlanetsPage() {
               minWidth: 200,
               '& .MuiOutlinedInput-root': {
                 color: 'white',
-                '& fieldset': {
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#FFD700',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#FFD700',
-                },
+                '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                '&.Mui-focused fieldset': { borderColor: '#F29F05' },
               },
             }}
           />
           
           <FormControl sx={{ minWidth: 120 }}>
-            <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Element</InputLabel>
+            <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Element</InputLabel>
             <Select
               value={selectedElement}
               onChange={(e) => setSelectedElement(e.target.value)}
               sx={{
                 color: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFD700',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFD700',
-                },
+                '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#F29F05' },
               }}
             >
               <MenuItem value="">Alle Elemente</MenuItem>
@@ -344,21 +327,15 @@ export default function PlanetsPage() {
           </FormControl>
           
           <FormControl sx={{ minWidth: 120 }}>
-            <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Sortieren</InputLabel>
+            <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>Sortieren</InputLabel>
             <Select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               sx={{
                 color: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFD700',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#FFD700',
-                },
+                '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#F29F05' },
               }}
             >
               <MenuItem value="name">Name</MenuItem>
@@ -375,11 +352,11 @@ export default function PlanetsPage() {
                 setSelectedElement('');
               }}
               sx={{
-                color: '#FFD700',
-                borderColor: '#FFD700',
+                color: '#F29F05',
+                borderColor: '#F29F05',
                 '&:hover': {
-                  borderColor: '#FFD700',
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                  borderColor: '#8C1D04',
+                  backgroundColor: 'rgba(242, 159, 5, 0.10)',
                 },
               }}
             >
@@ -400,16 +377,16 @@ export default function PlanetsPage() {
               whileHover={{ y: -5 }}
             >
               <Card sx={{
-                background: 'rgba(255,255,255,0.05)',
+                background: 'rgba(242, 159, 5, 0.06)',
                 backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid rgba(242, 159, 5, 0.15)',
                 borderRadius: 4,
                 height: '100%',
                 transition: 'all 0.3s ease',
                 color: 'white',
                 '&:hover': {
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.2)',
+                  background: 'rgba(242, 159, 5, 0.10)',
+                  border: '1px solid rgba(242, 159, 5, 0.30)',
                   transform: 'translateY(-8px)',
                   boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
                 },
@@ -431,9 +408,9 @@ export default function PlanetsPage() {
                         label={planet.element} 
                         size="small" 
                         sx={{ 
-                          bgcolor: `${planet.color}20`,
-                          color: planet.color,
-                          border: `1px solid ${planet.color}40`,
+                          bgcolor: 'rgba(242, 159, 5, 0.12)',
+                          color: '#F29F05',
+                          border: '1px solid rgba(242, 159, 5, 0.30)',
                           fontSize: '0.75rem'
                         }} 
                       />
@@ -473,15 +450,15 @@ export default function PlanetsPage() {
                     variant="contained"
                     fullWidth
                     sx={{
-                      background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                       color: 'white',
                       fontWeight: 600,
                       py: 1.5,
                       borderRadius: 2,
                       '&:hover': {
-                        background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                        background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                         transform: 'translateY(-2px)',
-                        boxShadow: '0 4px 20px rgba(255, 107, 157, 0.4)',
+                        boxShadow: '0 4px 20px rgba(242, 159, 5, 0.35)',
                       },
                     }}
                   >

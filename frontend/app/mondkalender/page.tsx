@@ -6,7 +6,20 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 // Unused imports removed
 // import { apiService } from '@/lib/services/apiService'; // Entfernt - nicht mehr benötigt
-import { MoonTracking } from '@/types/common.types';
+// Lokales Fallback-Interface, da '@/types/common.types' kein MoonTracking exportiert
+interface MoonTracking {
+  id: string;
+  date: string;
+  mood: number;
+  energy_level: number;
+  sleep_quality: number;
+  notes?: string;
+  moon_phase: string;
+  user_id?: string;
+  created_at?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
 import { safeJsonParse } from '@/lib/supabase/client';
 import { 
   Box, 
@@ -240,11 +253,11 @@ export default function MondkalenderPage() {
             // Versuche zuerst localStorage
             if (userSubscription && userSubscription.trim() !== '') {
               try {
-                const subscription = safeJsonParse(userSubscription, {});
+            const subscription: any = safeJsonParse(userSubscription, {} as any);
                 setUserSubscription({
-                  userId: user.id || 'unknown',
-                  packageId: subscription.plan || user.subscriptionPlan || 'basic',
-                  plan: subscription.plan || user.subscriptionPlan || 'basic',
+                  userId: (user as any).id || 'unknown',
+                  packageId: subscription.plan || (user as any).subscriptionPlan || 'basic',
+                  plan: subscription.plan || (user as any).subscriptionPlan || 'basic',
                   status: subscription.status || 'active',
                   startDate: subscription.startDate || new Date().toISOString(),
                   endDate: subscription.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -252,7 +265,7 @@ export default function MondkalenderPage() {
                   paymentMethod: subscription.paymentMethod || 'none',
                   billingCycle: subscription.billingCycle || 'monthly'
                 });
-                console.log('✅ Subscription aus localStorage geladen:', subscription.plan || user.subscriptionPlan || 'basic');
+                console.log('✅ Subscription aus localStorage geladen:', subscription.plan || (user as any).subscriptionPlan || 'basic');
                 return;
               } catch (parseError) {
                 console.error('JSON.parse Fehler für userSubscription:', parseError);
@@ -261,13 +274,14 @@ export default function MondkalenderPage() {
             }
           
           // Fallback: Direkt aus userData
-          if (user.subscriptionPlan) {
-            const planId = user.subscriptionPlan === 'free' ? 'basic' : user.subscriptionPlan;
+          const subscriptionPlan = (user as any).subscriptionPlan as string | undefined;
+          if (subscriptionPlan) {
+            const planId = subscriptionPlan === 'free' ? 'basic' : subscriptionPlan;
             
             // Auto-Upgrade für bestehende free-Accounts
-            if (user.subscriptionPlan === 'free') {
+            if ((user as any).subscriptionPlan === 'free') {
               console.log('🔄 Auto-Upgrade: free → basic');
-              user.subscriptionPlan = 'basic';
+              (user as any).subscriptionPlan = 'basic';
               localStorage.setItem('userData', JSON.stringify(user));
               
               // Aktualisiere auch userSubscription
@@ -286,7 +300,7 @@ export default function MondkalenderPage() {
             }
             
             setUserSubscription({
-              userId: user.id || 'unknown',
+              userId: (user as any).id || 'unknown',
               packageId: planId,
               plan: planId,
               status: 'active',
@@ -309,7 +323,7 @@ export default function MondkalenderPage() {
           } catch {
             console.log('⚠️ SubscriptionService nicht verfügbar, verwende Basic-Plan');
             setUserSubscription({
-              userId: user.id,
+              userId: (user as any).id,
               packageId: 'basic',
               plan: 'basic',
               status: 'active',
@@ -924,19 +938,14 @@ export default function MondkalenderPage() {
     return (
       <Box sx={{ 
         minHeight: '100vh', 
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         display: 'flex', 
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         gap: 2
       }}>
-        <CircularProgress size={60} sx={{ color: '#FFD700' }} />
+        <CircularProgress size={60} sx={{ color: '#F29F05' }} />
           <Typography variant="h6" sx={{ color: 'white', textAlign: 'center' }}>
           Mondkalender wird geladen...
           </Typography>
@@ -961,12 +970,7 @@ export default function MondkalenderPage() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -990,7 +994,7 @@ export default function MondkalenderPage() {
             }}>
               <Link href="/" style={{ textDecoration: 'none' }}>
                 <Typography variant="h5" sx={{ 
-                  background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -1005,11 +1009,11 @@ export default function MondkalenderPage() {
                   onClick={() => router.push('/mondphasen-info')}
                   variant="outlined"
                   sx={{
-                    color: 'white',
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    color: '#F29F05',
+                    borderColor: '#F29F05',
                     '&:hover': {
-                      borderColor: '#FFD700',
-                      background: 'rgba(255, 215, 0, 0.1)'
+                      borderColor: '#8C1D04',
+                      background: 'rgba(242, 159, 5, 0.10)'
                     }
                   }}
                 >
@@ -1019,9 +1023,9 @@ export default function MondkalenderPage() {
                   onClick={() => router.push('/dashboard')}
                   variant="contained"
                   sx={{
-                    background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
                     }
                   }}
                 >
@@ -1040,7 +1044,7 @@ export default function MondkalenderPage() {
               sx={{ 
                 fontWeight: 'bold', 
                 mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -1064,24 +1068,34 @@ export default function MondkalenderPage() {
           </Box>
         <Container maxWidth="lg" sx={{ py: 4 }}>
           {/* Animated Moon Background */}
-          <Box sx={{ position: 'absolute', top: '2%', right: '10%', zIndex: 1 }}>
+          <Box sx={{ position: 'absolute', top: 'calc(2% + 1cm)', right: '10%', zIndex: 0 }}>
             <Box
               sx={{
-                width: 200,
-                height: 200,
+                width: { xs: 220, md: 300 },
+                height: { xs: 220, md: 300 },
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #f0f0f0 40%, #e0e0e0 60%, #d0d0d0 100%)',
-                boxShadow: '0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.3)',
+                background: 'radial-gradient(circle at 30% 30%, #f3f3f3 0%, #e9e9e9 40%, #e0e0e0 60%, #d2d2d2 100%)',
+                boxShadow: '0 0 10px rgba(255, 255, 255, 0.18), inset 0 0 8px rgba(255, 255, 255, 0.10)',
+                opacity: 0.32,
+                mixBlendMode: 'screen',
                 margin: '0 auto',
-                animation: 'moonRotate 20s linear infinite, moonPulse 4s ease-in-out infinite',
+                position: 'relative',
+                animation: 'moonRotate 36s linear infinite',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: '-18%',
+                  left: '-18%',
+                  right: '-18%',
+                  bottom: '-18%',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 40%, rgba(255,255,255,0.02) 70%, transparent 80%)',
+                  filter: 'blur(16px)',
+                  pointerEvents: 'none'
+                },
                 '@keyframes moonRotate': {
                   '0%': { transform: 'rotate(0deg)' },
                   '100%': { transform: 'rotate(360deg)' }
-                },
-                '@keyframes moonPulse': {
-                  '0%': { transform: 'scale(1)', opacity: 0.6 },
-                  '50%': { transform: 'scale(1.1)', opacity: 0.8 },
-                  '100%': { transform: 'scale(1)', opacity: 0.6 }
                 }
               }}
             />
@@ -1091,14 +1105,14 @@ export default function MondkalenderPage() {
             {/* Upgrade Promotion für Basic-User */}
             {userSubscription?.packageId === 'basic' && (
                 <Box sx={{
-                  background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%)',
-                  border: '1px solid rgba(255, 107, 157, 0.3)',
+                  background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.10) 0%, rgba(140, 29, 4, 0.10) 100%)',
+                  border: '1px solid rgba(242, 159, 5, 0.30)',
                   borderRadius: 3,
                   p: 3,
                   mb: 4,
                   backdropFilter: 'blur(10px)'
                 }}>
-                  <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 1, fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', mb: 1, fontWeight: 'bold' }}>
                     🌙 Entdecke den vollständigen Mondkalender
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', mb: 2 }}>
@@ -1109,11 +1123,11 @@ export default function MondkalenderPage() {
                     size="small"
                     onClick={() => router.push('/subscription')}
                     sx={{
-                      background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                      color: '#000',
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                      color: 'white',
                       fontWeight: 'bold',
                       '&:hover': {
-                        background: 'linear-gradient(135deg, #FFA500, #FFD700)',
+                        background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                         transform: 'translateY(-2px)'
                       }
                     }}
@@ -1132,9 +1146,9 @@ export default function MondkalenderPage() {
           
         >
           <Card sx={{ 
-            background: 'rgba(139, 92, 246, 0.1)',
+            background: 'rgba(242, 159, 5, 0.06)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(139, 92, 246, 0.3)',
+            border: '1px solid rgba(242, 159, 5, 0.15)',
             borderRadius: 3, 
             mb: 4
           }}>
@@ -1145,14 +1159,14 @@ export default function MondkalenderPage() {
                     width: 60, 
                     height: 60, 
                     mr: 3,
-                    background: 'linear-gradient(45deg, #8B5CF6, #A855F7)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     fontSize: '1.5rem'
                   }}
                 >
                   👤
                 </Avatar>
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="h5" sx={{ color: '#8B5CF6', fontWeight: 600, mb: 1 }}>
+                  <Typography variant="h5" sx={{ color: '#F29F05', fontWeight: 600, mb: 1 }}>
                     Dein Human Design Profil
                   </Typography>
                   <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)' }}>
@@ -1162,8 +1176,8 @@ export default function MondkalenderPage() {
                 <Chip 
                   label="Premium" 
                   sx={{ 
-                    background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                    color: '#1a1a2e',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    color: 'white',
                     fontWeight: 600
                   }} 
                 />
@@ -1172,7 +1186,7 @@ export default function MondkalenderPage() {
               <Grid container spacing={4}>
                 <Grid item xs={12} md={3}>
                   <Box sx={{ textAlign: 'center', p: 2 }}>
-                    <Typography variant="h4" sx={{ color: '#8B5CF6', mb: 1 }}>
+                    <Typography variant="h4" sx={{ color: '#F29F05', mb: 1 }}>
                       🧬
                     </Typography>
                     <Typography variant="h6" sx={{ color: '#fff', mb: 1 }}>
@@ -1272,7 +1286,7 @@ export default function MondkalenderPage() {
 
                   <Grid container spacing={4}>
                     <Grid item xs={12} md={6}>
-                      <Typography variant="h6" sx={{ color: '#8B5CF6', mb: 2 }}>
+                      <Typography variant="h6" sx={{ color: '#F29F05', mb: 2 }}>
                         💡 Empfehlung
                       </Typography>
                       <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)' }}>
@@ -1280,7 +1294,7 @@ export default function MondkalenderPage() {
                       </Typography>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                      <Typography variant="h6" sx={{ color: '#8B5CF6', mb: 2 }}>
+                      <Typography variant="h6" sx={{ color: '#F29F05', mb: 2 }}>
                         ⚡ Energie-Level
                       </Typography>
                       <Chip 
@@ -1322,11 +1336,11 @@ export default function MondkalenderPage() {
                     fontSize: '1rem',
                     py: 2,
                     '&.Mui-selected': {
-                      color: '#8B5CF6'
+                      color: '#F29F05'
                     }
                   },
                   '& .MuiTabs-indicator': {
-                    backgroundColor: '#8B5CF6',
+                    backgroundColor: '#F29F05',
                     height: 3
                   }
                 }}
@@ -1379,12 +1393,12 @@ export default function MondkalenderPage() {
                             fullWidth
                             onClick={() => setSelectedMonth(index + 1)}
                             sx={{
-                              color: selectedMonth === index + 1 ? '#fff' : '#8B5CF6',
-                              borderColor: selectedMonth === index + 1 ? '#8B5CF6' : 'rgba(139, 92, 246, 0.3)',
-                              backgroundColor: selectedMonth === index + 1 ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                              color: selectedMonth === index + 1 ? '#02000D' : '#F29F05',
+                              borderColor: selectedMonth === index + 1 ? '#F29F05' : 'rgba(242, 159, 5, 0.30)',
+                              backgroundColor: selectedMonth === index + 1 ? 'rgba(242, 159, 5, 0.20)' : 'transparent',
                               '&:hover': {
-                                borderColor: '#8B5CF6',
-                                backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                                borderColor: '#F29F05',
+                                backgroundColor: 'rgba(242, 159, 5, 0.10)'
                               }
                             }}
                           >
@@ -1400,7 +1414,8 @@ export default function MondkalenderPage() {
                     background: 'rgba(255, 255, 255, 0.05)', 
                     border: '1px solid rgba(255,255,255,0.1)',
                     borderRadius: 2,
-                    p: 3
+                    p: 3,
+                    mb: 4
                   }}>
                     <Typography variant="h6" sx={{ color: '#fff', mb: 3, textAlign: 'center' }}>
                       {[
@@ -1414,7 +1429,7 @@ export default function MondkalenderPage() {
                       {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day) => (
                         <Grid item xs key={day}>
                           <Typography variant="subtitle2" sx={{ 
-                            color: '#8B5CF6', 
+                            color: '#F29F05', 
                             textAlign: 'center', 
                             fontWeight: 600,
                             py: 1
@@ -1431,10 +1446,10 @@ export default function MondkalenderPage() {
                         <Grid item xs={12/7} key={index} sx={{ aspectRatio: '1' }}>
                           <Card sx={{
                             background: day.isCurrentMonth 
-                              ? (day.isToday ? 'rgba(139, 92, 246, 0.3)' : 'rgba(255, 255, 255, 0.05)')
+                              ? (day.isToday ? 'rgba(242, 159, 5, 0.25)' : 'rgba(255, 255, 255, 0.05)')
                               : 'rgba(255, 255, 255, 0.02)',
                             border: day.isToday 
-                              ? '2px solid #8B5CF6' 
+                              ? '2px solid #F29F05' 
                               : '1px solid rgba(255,255,255,0.1)',
                             borderRadius: 1,
                             height: '100%',
@@ -1446,7 +1461,7 @@ export default function MondkalenderPage() {
                             justifyContent: 'space-between',
                             '&:hover': {
                               backgroundColor: day.isCurrentMonth 
-                                ? 'rgba(139, 92, 246, 0.1)' 
+                                ? 'rgba(242, 159, 5, 0.10)' 
                                 : 'rgba(255, 255, 255, 0.05)'
                             }
                           }}>
@@ -1461,7 +1476,7 @@ export default function MondkalenderPage() {
                             
                             {day.isCurrentMonth && (
                               <Box sx={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                <Typography variant="h6" sx={{ color: '#8B5CF6', mb: 0.5, fontSize: '1.2rem' }}>
+                                <Typography variant="h6" sx={{ color: '#F29F05', mb: 0.5, fontSize: '1.2rem' }}>
                                   {getMoonPhaseIcon(day.date)}
                                 </Typography>
                                 <Typography variant="caption" sx={{ 
@@ -1502,7 +1517,7 @@ export default function MondkalenderPage() {
                             {currentPhase.reflectionExercises.map((exercise, index) => (
                               <ListItem key={index} sx={{ px: 0 }}>
                                 <ListItemIcon>
-                                  <Star size={16} style={{ color: '#8B5CF6' }} />
+                                  <Star size={16} style={{ color: '#F29F05' }} />
                                 </ListItemIcon>
                                 <ListItemText 
                                   primary={exercise}
@@ -1521,7 +1536,7 @@ export default function MondkalenderPage() {
                             {currentPhase.moonRituals.map((ritual, index) => (
                               <ListItem key={index} sx={{ px: 0 }}>
                                 <ListItemIcon>
-                                  <Star size={16} style={{ color: '#8B5CF6' }} />
+                                  <Star size={16} style={{ color: '#F29F05' }} />
                                 </ListItemIcon>
                                 <ListItemText 
                                   primary={ritual}
@@ -1710,7 +1725,7 @@ export default function MondkalenderPage() {
                                 borderColor: 'rgba(255,255,255,0.5)'
                               },
                               '&.Mui-focused fieldset': {
-                                borderColor: '#8B5CF6'
+                                borderColor: '#F29F05'
                               }
                             }
                           }}
@@ -1723,14 +1738,14 @@ export default function MondkalenderPage() {
                           onClick={handleSaveEntry}
                           startIcon={<Plus size={20} />}
                           sx={{
-                            background: 'linear-gradient(45deg, #8B5CF6, #A855F7)',
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                             color: '#fff',
                             py: 1.5,
                             fontSize: '1rem',
                             fontWeight: 600,
                             borderRadius: 3,
                             '&:hover': { 
-                              background: 'linear-gradient(45deg, #7C3AED, #9333EA)'
+                              background: 'linear-gradient(135deg, #8C1D04, #590A03)'
                             }
                           }}
                         >
@@ -1754,7 +1769,7 @@ export default function MondkalenderPage() {
                           borderRadius: 2
                         }}>
                           <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                            <Typography variant="h4" sx={{ color: '#8B5CF6', fontWeight: 700 }}>
+                            <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                               {stats.totalEntries}
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -1859,7 +1874,7 @@ export default function MondkalenderPage() {
                                   label={story.culture} 
                                   size="small" 
                                   sx={{ 
-                                    background: '#8B5CF6', 
+                                    background: '#F29F05', 
                                     color: '#fff', 
                                     mb: 2 
                                   }} 
@@ -2017,10 +2032,10 @@ export default function MondkalenderPage() {
                           })}
                           sx={{
                             '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#8B5CF6'
+                              color: '#F29F05'
                             },
                             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#8B5CF6'
+                              backgroundColor: '#F29F05'
                             }
                           }}
                         />
@@ -2039,10 +2054,10 @@ export default function MondkalenderPage() {
                           })}
                           sx={{
                             '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#8B5CF6'
+                              color: '#F29F05'
                             },
                             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#8B5CF6'
+                              backgroundColor: '#F29F05'
                             }
                           }}
                         />
@@ -2061,10 +2076,10 @@ export default function MondkalenderPage() {
                           })}
                           sx={{
                             '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#8B5CF6'
+                              color: '#F29F05'
                             },
                             '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#8B5CF6'
+                              backgroundColor: '#F29F05'
                             }
                           }}
                         />
@@ -2078,236 +2093,7 @@ export default function MondkalenderPage() {
 
               </Card>
 
-              {/* Dating-Tipps Widget - nach den Tabs */}
-              <motion.div
-                
-                
-                
-              >
-                <Card sx={{ 
-                  background: 'rgba(255, 215, 0, 0.1)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 215, 0, 0.3)',
-                  borderRadius: 3, 
-                  mb: 4
-                }}>
-                  <CardContent sx={{ p: 4 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                      <Heart size={32} color="#FFD700" style={{ marginRight: 12 }} />
-                      <Typography variant="h4" sx={{ color: '#FFD700', fontWeight: 600 }}>
-                        💕 Dating-Tipps für {currentPhase?.name || 'diese Mondphase'}
-                      </Typography>
-                    </Box>
-                    
-                    <Grid container spacing={4}>
-                      {/* Human Design Dating-Tipps */}
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
-                          🧬 Human Design Dating-Strategie
-                        </Typography>
-                        
-                        {currentPhase?.name === 'Vollmond' && (
-                          <Box sx={{ mb: 3 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2 }}>
-                              <strong>🌕 Vollmond-Energie nutzen:</strong> Diese Phase verstärkt deine natürlichen Talente. 
-                              Zeige deinem Date deine authentische Persönlichkeit!
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              <strong>💡 Tipp:</strong> Nutze deine Human Design-Strategie für den perfekten ersten Eindruck.
-                            </Typography>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Neumond' && (
-                          <Box sx={{ mb: 3 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2 }}>
-                              <strong>🌑 Neumond-Energie nutzen:</strong> Perfekt für neue Anfänge! 
-                              Diese Phase unterstützt neue Verbindungen und frische Energie.
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              <strong>💡 Tipp:</strong> Höre auf deine innere Autorität bei Dating-Entscheidungen.
-                            </Typography>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Zunehmender Mond' && (
-                          <Box sx={{ mb: 3 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2 }}>
-                              <strong>🌙 Zunehmender Mond-Energie nutzen:</strong> Ideale Zeit für das Kennenlernen! 
-                              Diese Phase unterstützt Wachstum und Entwicklung.
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              <strong>💡 Tipp:</strong> Nutze deine Intuition für die richtigen Dating-Entscheidungen.
-                            </Typography>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Abnehmender Mond' && (
-                          <Box sx={{ mb: 3 }}>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 2 }}>
-                              <strong>🌘 Abnehmender Mond-Energie nutzen:</strong> Perfekt für tiefere Gespräche! 
-                              Diese Phase unterstützt Reflexion und emotionale Verbindung.
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                              <strong>💡 Tipp:</strong> Lass alte Dating-Muster los und sei authentisch.
-                            </Typography>
-                          </Box>
-                        )}
-                      </Grid>
-
-                      {/* Konkrete Orte & Aktivitäten */}
-                      <Grid item xs={12} md={6}>
-                        <Typography variant="h6" sx={{ color: '#fff', mb: 2 }}>
-                          📍 Konkrete Orte & Aktivitäten
-                        </Typography>
-                        
-                        {currentPhase?.name === 'Vollmond' && (
-                          <Box>
-                            <Typography variant="body2" sx={{ color: '#FFD700', mb: 1, fontWeight: 600 }}>
-                              🌕 Vollmond-Dating-Spots:
-                            </Typography>
-                            <List dense>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#FFD700' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Rooftop-Bar mit Stadtblick" 
-                                  secondary="Berlin: Klunkerkranich, München: 181 Restaurant"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#FFD700' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Mondlicht-Spaziergang am See" 
-                                  secondary="München: Englischer Garten, Hamburg: Alster"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#FFD700' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Romantisches Restaurant" 
-                                  secondary="Köln: Ox & Klee, Frankfurt: Lafleur"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                            </List>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Neumond' && (
-                          <Box>
-                            <Typography variant="body2" sx={{ color: '#22c55e', mb: 1, fontWeight: 600 }}>
-                              🌑 Neumond-Dating-Spots:
-                            </Typography>
-                            <List dense>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#22c55e' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Cozy Café mit Kerzenlicht" 
-                                  secondary="Berlin: The Barn, München: Man vs Machine"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#22c55e' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Kunstmuseum oder Galerie" 
-                                  secondary="Hamburg: Kunsthalle, Düsseldorf: K20"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#22c55e' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Wellness & Spa" 
-                                  secondary="Stuttgart: Le Meridien, Dresden: Taschenbergpalais"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                            </List>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Zunehmender Mond' && (
-                          <Box>
-                            <Typography variant="body2" sx={{ color: '#3b82f6', mb: 1, fontWeight: 600 }}>
-                              🌙 Zunehmender Mond-Dating-Spots:
-                            </Typography>
-                            <List dense>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#3b82f6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Aktivitäten & Erlebnisse" 
-                                  secondary="Berlin: Escape Room, München: Kletterhalle"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#3b82f6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Food-Markt oder Street Food" 
-                                  secondary="Hamburg: Schanzenviertel, Köln: Belgisches Viertel"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#3b82f6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Konzert oder Live-Musik" 
-                                  secondary="Frankfurt: Alte Oper, Leipzig: Gewandhaus"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                            </List>
-                          </Box>
-                        )}
-                        
-                        {currentPhase?.name === 'Abnehmender Mond' && (
-                          <Box>
-                            <Typography variant="body2" sx={{ color: '#8b5cf6', mb: 1, fontWeight: 600 }}>
-                              🌘 Abnehmender Mond-Dating-Spots:
-                            </Typography>
-                            <List dense>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#8b5cf6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Ruhige Parks & Gärten" 
-                                  secondary="München: Nymphenburg, Berlin: Tiergarten"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#8b5cf6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Bibliothek oder Buchhandlung" 
-                                  secondary="Hamburg: Elbphilharmonie, Köln: Mayersche"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                              <ListItem sx={{ px: 0 }}>
-                                <ListItemIcon><Star size={16} style={{ color: '#8b5cf6' }} /></ListItemIcon>
-                                <ListItemText 
-                                  primary="Therme oder Sauna" 
-                                  secondary="Stuttgart: Mineraltherme, Dresden: Elbamare"
-                                  sx={{ color: 'rgba(255,255,255,0.8)' }}
-                                />
-                              </ListItem>
-                            </List>
-                          </Box>
-                        )}
-                      </Grid>
-                    </Grid>
-                    
-                    <Box sx={{ mt: 3, p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
-                      <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', textAlign: 'center', fontStyle: 'italic' }}>
-                        &ldquo;Nutze die Mondenergie für authentische Verbindungen. 
-                        Dein Human Design zeigt dir den Weg zu echten, tiefen Beziehungen.&rdquo;
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </motion.div>
+				{/* Dating-Tipps Widget entfernt – Inhalte auf der Dating-Seite integriert */}
           </motion.div>
 
         </Container>

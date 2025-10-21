@@ -127,9 +127,9 @@ export default function PricingPage() {
 
   const getPackageColor = (packageId: string) => {
     switch (packageId) {
-      case 'basic': return '#4ecdc4';
-      case 'premium': return '#ff6b9d';
-      case 'vip': return '#ff6b9d';
+      case 'basic': return '#F29F05';
+      case 'premium': return '#8C1D04';
+      case 'vip': return '#590A03';
       default: return '#6b7280';
     }
   };
@@ -202,12 +202,7 @@ export default function PricingPage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -217,7 +212,7 @@ export default function PricingPage() {
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="h4" sx={{ 
             color: 'white',
-            background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -233,12 +228,7 @@ export default function PricingPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -250,7 +240,7 @@ export default function PricingPage() {
             sx={{ 
               fontWeight: 'bold', 
               mb: 2,
-              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -283,9 +273,9 @@ export default function PricingPage() {
               display: 'flex', 
               justifyContent: 'center', 
               mb: 6,
-              background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(242, 159, 5, 0.06)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(242, 159, 5, 0.15)',
               borderRadius: 3,
               p: 2,
               maxWidth: 400,
@@ -295,14 +285,14 @@ export default function PricingPage() {
                 variant={billingCycle === 'monthly' ? 'contained' : 'text'}
                 onClick={() => setBillingCycle('monthly')}
                 sx={{
-                  background: billingCycle === 'monthly' ? 'linear-gradient(45deg, #4ecdc4, #44a08d)' : 'transparent',
+                background: billingCycle === 'monthly' ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'transparent',
                   color: billingCycle === 'monthly' ? 'white' : 'rgba(255,255,255,0.7)',
                   borderRadius: 2,
                   px: 3,
                   py: 1,
                   mr: 1,
                   '&:hover': {
-                    background: billingCycle === 'monthly' ? 'linear-gradient(45deg, #44a08d, #4ecdc4)' : 'rgba(255,255,255,0.1)'
+                  background: billingCycle === 'monthly' ? 'linear-gradient(135deg, #8C1D04, #F29F05)' : 'rgba(242,159,5,0.10)'
                   }
                 }}
               >
@@ -312,14 +302,14 @@ export default function PricingPage() {
                 variant={billingCycle === 'yearly' ? 'contained' : 'text'}
                 onClick={() => setBillingCycle('yearly')}
                 sx={{
-                  background: billingCycle === 'yearly' ? 'linear-gradient(45deg, #ff6b9d, #c44569)' : 'transparent',
+                background: billingCycle === 'yearly' ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'transparent',
                   color: billingCycle === 'yearly' ? 'white' : 'rgba(255,255,255,0.7)',
                   borderRadius: 2,
                   px: 3,
                   py: 1,
                   ml: 1,
                   '&:hover': {
-                    background: billingCycle === 'yearly' ? 'linear-gradient(45deg, #c44569, #ff6b9d)' : 'rgba(255,255,255,0.1)'
+                  background: billingCycle === 'yearly' ? 'linear-gradient(135deg, #8C1D04, #F29F05)' : 'rgba(242,159,5,0.10)'
                   }
                 }}
               >
@@ -329,8 +319,8 @@ export default function PricingPage() {
                   size="small" 
                   sx={{ 
                     ml: 1, 
-                    background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
-                    color: '#1a1a2e',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
                     fontWeight: 700,
                     fontSize: '0.7rem'
                   }} 
@@ -352,12 +342,12 @@ export default function PricingPage() {
                     elevation={pkg.popular ? 12 : 6}
                     sx={{
                       background: pkg.popular 
-                        ? 'linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(196, 69, 105, 0.1) 100%)'
-                        : 'rgba(255, 255, 255, 0.05)',
+                        ? 'linear-gradient(135deg, rgba(242, 159, 5, 0.10) 0%, rgba(140, 29, 4, 0.10) 100%)'
+                        : 'rgba(242, 159, 5, 0.06)',
                       backdropFilter: 'blur(20px)',
                       border: pkg.popular 
-                        ? '2px solid rgba(255, 107, 157, 0.3)'
-                        : '1px solid rgba(255, 255, 255, 0.1)',
+                        ? '2px solid rgba(242, 159, 5, 0.30)'
+                        : '1px solid rgba(242, 159, 5, 0.15)',
                       borderRadius: 4,
                       p: 4,
                       height: '100%',
@@ -376,7 +366,7 @@ export default function PricingPage() {
                         top: -1,
                         left: '50%',
                         transform: 'translateX(-50%)',
-                        background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
+                        background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                         color: 'white',
                         px: 3,
                         py: 1,
@@ -423,7 +413,7 @@ export default function PricingPage() {
                           label={getSavings(pkg)} 
                           size="small"
                           sx={{ 
-                            background: 'linear-gradient(45deg, #4ecdc4, #44a08d)',
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                             color: 'white',
                             fontWeight: 600
                           }}
@@ -465,7 +455,7 @@ export default function PricingPage() {
                           color: getPackageColor(pkg.id),
                           '&:hover': {
                             borderColor: getPackageColor(pkg.id),
-                            background: `${getPackageColor(pkg.id)}15`,
+                            background: 'rgba(242, 159, 5, 0.10)',
                             transform: 'translateY(-2px)'
                           },
                           borderRadius: 3,
@@ -484,14 +474,14 @@ export default function PricingPage() {
                         disabled={mounted && userSubscription?.packageId === pkg.id}
                         sx={{
                           background: (mounted && userSubscription?.packageId === pkg.id)
-                            ? 'linear-gradient(45deg, #6b7280, #9ca3af)'
-                            : `linear-gradient(45deg, ${getPackageColor(pkg.id)}, ${getPackageColor(pkg.id)}CC)`,
+                            ? 'linear-gradient(135deg, #6b7280, #9ca3af)'
+                            : 'linear-gradient(135deg, #F29F05, #8C1D04)',
                           '&:hover': {
                             background: (mounted && userSubscription?.packageId === pkg.id)
-                              ? 'linear-gradient(45deg, #6b7280, #9ca3af)'
-                              : `linear-gradient(45deg, ${getPackageColor(pkg.id)}DD, ${getPackageColor(pkg.id)}EE)`,
+                              ? 'linear-gradient(135deg, #6b7280, #9ca3af)'
+                              : 'linear-gradient(135deg, #8C1D04, #F29F05)',
                             transform: 'translateY(-2px)',
-                            boxShadow: '0 8px 25px rgba(0,0,0,0.3)'
+                            boxShadow: '0 8px 25px rgba(242,159,5,0.35)'
                           },
                           borderRadius: 3,
                           fontWeight: 700,
@@ -522,14 +512,14 @@ export default function PricingPage() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Paper sx={{
-              background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(242, 159, 5, 0.06)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(242, 159, 5, 0.15)',
               borderRadius: 4,
               p: 4
             }}>
-              <Typography variant="h5" sx={{ 
-                color: '#ff6b9d', 
+            <Typography variant="h5" sx={{ 
+              color: '#F29F05', 
                 textAlign: 'center', 
                 mb: 4, 
                 fontWeight: 700 
@@ -539,7 +529,7 @@ export default function PricingPage() {
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <Box sx={{ textAlign: 'center' }}>
-                    <Heart size={48} color="#ff6b9d" style={{ marginBottom: 16 }} />
+                  <Heart size={48} color="#F29F05" style={{ marginBottom: 16 }} />
                     <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                       Persönliches Wachstum
                     </Typography>
@@ -550,7 +540,7 @@ export default function PricingPage() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <Box sx={{ textAlign: 'center' }}>
-                    <Users size={48} color="#4ecdc4" style={{ marginBottom: 16 }} />
+                  <Users size={48} color="#8C1D04" style={{ marginBottom: 16 }} />
                     <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                       Community & Dating
                     </Typography>
@@ -561,7 +551,7 @@ export default function PricingPage() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <Box sx={{ textAlign: 'center' }}>
-                    <Star size={48} color="#ff6b9d" style={{ marginBottom: 16 }} />
+                  <Star size={48} color="#F29F05" style={{ marginBottom: 16 }} />
                     <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 600 }}>
                       Exklusive Inhalte
                     </Typography>
@@ -582,13 +572,13 @@ export default function PricingPage() {
               transition={{ duration: 0.5, delay: 0.5 }}
             >
               <Paper sx={{
-                background: 'rgba(78, 205, 196, 0.1)',
-                border: '1px solid rgba(78, 205, 196, 0.3)',
+                background: 'rgba(242, 159, 5, 0.10)',
+                border: '1px solid rgba(242, 159, 5, 0.30)',
                 borderRadius: 3,
                 p: 3,
                 mt: 4
               }}>
-                <Typography variant="h6" sx={{ color: '#4ecdc4', mb: 2, fontWeight: 700 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2, fontWeight: 700 }}>
                   ✅ Dein aktuelles Abonnement
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'white', mb: 1 }}>

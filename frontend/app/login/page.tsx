@@ -116,42 +116,12 @@ const LoginPage: React.FC = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#000000',
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
       
-      {/* Floating Stars Animation */}
-      <Box sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        pointerEvents: 'none',
-        zIndex: 1
-      }}>
-        {[...Array(20)].map((_, i) => (
-          <Box
-            key={i}
-            sx={{
-              position: 'absolute',
-              width: Math.random() * 3 + 1,
-              height: Math.random() * 3 + 1,
-              background: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: '50%',
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `twinkle ${Math.random() * 3 + 2}s infinite ease-in-out`,
-              animationDelay: `${Math.random() * 2}s`,
-              '@keyframes twinkle': {
-                '0%, 100%': { opacity: 0.3, transform: 'scale(1)' },
-                '50%': { opacity: 1, transform: 'scale(1.2)' }
-              }
-            }}
-          />
-        ))}
-      </Box>
+      
       
       {/* Navigation */}
       <Box sx={{
@@ -160,7 +130,7 @@ const LoginPage: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: '#000000',
+        background: '#02000D',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -200,13 +170,13 @@ const LoginPage: React.FC = () => {
                 variant="outlined"
                 disabled={isLoading}
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   textTransform: 'none',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: 'rgba(78, 205, 196, 0.5)',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)'
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -219,15 +189,15 @@ const LoginPage: React.FC = () => {
                 variant="outlined"
                 disabled={isLoading}
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   textTransform: 'none',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -252,7 +222,7 @@ const LoginPage: React.FC = () => {
               p: { xs: 4, md: 6 },
               background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.15)',
               borderRadius: 4,
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
             }}
@@ -264,13 +234,13 @@ const LoginPage: React.FC = () => {
               align="center" 
               sx={{ 
                 mb: 2,
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 fontSize: { xs: '2rem', md: '3rem' },
-                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.25)'
               }}
             >
               Anmeldung
@@ -321,10 +291,10 @@ const LoginPage: React.FC = () => {
             sx={{ 
               mb: 3,
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255, 255, 255, 0.05)',
-                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                background: 'rgba(242, 159, 5, 0.10)',
+                '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                '&.Mui-focused fieldset': { borderColor: '#F29F05' }
               },
               '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
               '& .MuiInputBase-input': { color: 'white' }
@@ -361,10 +331,10 @@ const LoginPage: React.FC = () => {
             sx={{ 
               mb: 4,
               '& .MuiOutlinedInput-root': {
-                background: 'rgba(255, 255, 255, 0.05)',
-                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                background: 'rgba(242, 159, 5, 0.10)',
+                '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
+                '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
+                '&.Mui-focused fieldset': { borderColor: '#F29F05' }
               },
               '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
               '& .MuiInputBase-input': { color: 'white' }
@@ -381,17 +351,17 @@ const LoginPage: React.FC = () => {
               mb: 4,
               px: 6,
               py: 2.5,
-              background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               color: 'white',
               fontWeight: 700,
               fontSize: '1.1rem',
               textTransform: 'none',
               borderRadius: 3,
-              boxShadow: '0 10px 30px rgba(78, 205, 196, 0.4)',
+              boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                 transform: 'translateY(-4px)',
-                boxShadow: '0 15px 40px rgba(78, 205, 196, 0.5)'
+                boxShadow: '0 15px 40px rgba(242, 159, 5, 0.45)'
               },
               '&:disabled': {
                 background: 'rgba(255, 255, 255, 0.1)',
@@ -412,13 +382,13 @@ const LoginPage: React.FC = () => {
                 variant="text" 
                 disabled={isLoading}
                 sx={{
-                  color: '#4ecdc4',
+                  color: '#F29F05',
                   fontWeight: 700,
                   textTransform: 'none',
                   fontSize: '1rem',
                   '&:hover': {
-                    color: '#3bb5b0',
-                    background: 'rgba(78, 205, 196, 0.1)'
+                    color: '#8C1D04',
+                    background: 'rgba(242, 159, 5, 0.10)'
                   }
                 }}
               >

@@ -90,42 +90,42 @@ const settingsFeatures = [
     icon: <User size={32} />,
     title: "Profil-Einstellungen",
     description: "Verwalte deine persönlichen Daten und Profilinformationen",
-    color: "linear-gradient(135deg, #4ecdc4, #44a08d)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "100% Sicher"
   },
   {
     icon: <Bell size={32} />,
     title: "Benachrichtigungen",
     description: "Passe deine Benachrichtigungseinstellungen nach deinen Wünschen an",
-    color: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "Vollständig anpassbar"
   },
   {
     icon: <Shield size={32} />,
     title: "Sicherheit & Datenschutz",
     description: "Schütze deine Daten und kontrolliere deine Privatsphäre",
-    color: "linear-gradient(135deg, #06b6d4, #0284c7)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "DSGVO-konform"
   },
   {
     icon: <Palette size={32} />,
     title: "Design & Erscheinungsbild",
     description: "Personalisiere das Aussehen der App nach deinen Vorlieben",
-    color: "linear-gradient(135deg, #10b981, #059669)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "Mehrere Themes"
   },
   {
     icon: <Database size={32} />,
     title: "Daten & Export",
     description: "Verwalte deine Daten und exportiere sie bei Bedarf",
-    color: "linear-gradient(135deg, #f59e0b, #d97706)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "Vollständige Kontrolle"
   },
   {
     icon: <Key size={32} />,
     title: "Konto & Abonnement",
     description: "Verwalte dein Abonnement und Konto-Einstellungen",
-    color: "linear-gradient(135deg, #ec4899, #db2777)",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "Transparent"
   }
 ];
@@ -339,12 +339,7 @@ export default function SettingsPage() {
     >
       <Box sx={{
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
+        background: '#02000D',
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -356,9 +351,9 @@ export default function SettingsPage() {
           left: 0,
           right: 0,
           zIndex: 1000,
-          background: '#000000',
+          background: '#02000D',
           backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '1px solid rgba(242, 159, 5, 0.2)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
         }}>
           <Container maxWidth="lg">
@@ -395,16 +390,16 @@ export default function SettingsPage() {
                   href="/dashboard"
                   variant="outlined"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    color: 'white',
+                    borderColor: '#F29F05',
+                    color: '#F29F05',
                     borderRadius: 3,
                     textTransform: 'none',
                     fontWeight: 600,
                     '&:hover': {
-                      borderColor: '#4ecdc4',
-                      backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                      borderColor: '#8C1D04',
+                      backgroundColor: 'rgba(242, 159, 5, 0.1)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                      boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -416,15 +411,15 @@ export default function SettingsPage() {
                   href="/profile"
                   variant="contained"
                   sx={{
-                    background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     borderRadius: 3,
                     textTransform: 'none',
                     fontWeight: 600,
-                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)',
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 6px 25px rgba(78, 205, 196, 0.4)'
+                      boxShadow: '0 6px 25px rgba(242, 159, 5, 0.4)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -445,14 +440,14 @@ export default function SettingsPage() {
           >
             <Box sx={{ textAlign: 'center', mb: 8 }}>
               <Typography variant="h1" sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 mb: 3,
                 fontSize: { xs: '2.5rem', md: '4rem' },
-                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.30)'
               }}>
                 ⚙️ Einstellungen
               </Typography>
@@ -480,7 +475,7 @@ export default function SettingsPage() {
                   variant="contained"
                   size="large"
                   sx={{
-                    background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     px: 5,
                     py: 2,
                     borderRadius: 3,
@@ -488,11 +483,11 @@ export default function SettingsPage() {
                     fontSize: '1.1rem',
                     textTransform: 'none',
                     minWidth: { xs: '100%', sm: 'auto' },
-                    boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)',
+                    boxShadow: '0 8px 25px rgba(242, 159, 5, 0.30)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-3px)',
-                      boxShadow: '0 12px 35px rgba(78, 205, 196, 0.4)'
+                      boxShadow: '0 12px 35px rgba(242, 159, 5, 0.40)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -506,8 +501,8 @@ export default function SettingsPage() {
                   variant="outlined"
                   size="large"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.3)',
-                    color: 'white',
+                    borderColor: '#F29F05',
+                    color: '#F29F05',
                     px: 5,
                     py: 2,
                     borderRadius: 3,
@@ -516,10 +511,10 @@ export default function SettingsPage() {
                     textTransform: 'none',
                     minWidth: { xs: '100%', sm: 'auto' },
                     '&:hover': {
-                      borderColor: '#8b5cf6',
-                      backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                      borderColor: '#8C1D04',
+                      backgroundColor: 'rgba(242, 159, 5, 0.1)',
                       transform: 'translateY(-3px)',
-                      boxShadow: '0 8px 25px rgba(139, 92, 246, 0.2)'
+                      boxShadow: '0 8px 25px rgba(242, 159, 5, 0.25)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -534,19 +529,19 @@ export default function SettingsPage() {
               <Grid container spacing={3} sx={{ mb: 8 }}>
                 <Grid item xs={6} md={3}>
                   <Card sx={{
-                    background: 'rgba(78, 205, 196, 0.1)',
+                    background: 'rgba(242, 159, 5, 0.1)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: 3,
-                    border: '1px solid rgba(78, 205, 196, 0.3)',
+                    border: '1px solid rgba(242, 159, 5, 0.3)',
                     textAlign: 'center',
                     p: 3,
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 10px 30px rgba(78, 205, 196, 0.3)'
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.3)'
                     }
                   }}>
-                    <Typography variant="h3" sx={{ color: '#4ecdc4', fontWeight: 800, mb: 1 }}>
+                    <Typography variant="h3" sx={{ color: '#F29F05', fontWeight: 800, mb: 1 }}>
                       100%
                     </Typography>
                     <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -556,19 +551,19 @@ export default function SettingsPage() {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Card sx={{
-                    background: 'rgba(139, 92, 246, 0.1)',
+                    background: 'rgba(242, 159, 5, 0.1)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: 3,
-                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                    border: '1px solid rgba(242, 159, 5, 0.3)',
                     textAlign: 'center',
                     p: 3,
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 10px 30px rgba(139, 92, 246, 0.3)'
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.3)'
                     }
                   }}>
-                    <Typography variant="h3" sx={{ color: '#8b5cf6', fontWeight: 800, mb: 1 }}>
+                    <Typography variant="h3" sx={{ color: '#F29F05', fontWeight: 800, mb: 1 }}>
                       DSGVO
                     </Typography>
                     <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -578,19 +573,19 @@ export default function SettingsPage() {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Card sx={{
-                    background: 'rgba(255, 107, 157, 0.1)',
+                    background: 'rgba(242, 159, 5, 0.1)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: 3,
-                    border: '1px solid rgba(255, 107, 157, 0.3)',
+                    border: '1px solid rgba(242, 159, 5, 0.3)',
                     textAlign: 'center',
                     p: 3,
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 10px 30px rgba(255, 107, 157, 0.3)'
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.3)'
                     }
                   }}>
-                    <Typography variant="h3" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 1 }}>
+                    <Typography variant="h3" sx={{ color: '#F29F05', fontWeight: 800, mb: 1 }}>
                       24/7
                     </Typography>
                     <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -600,19 +595,19 @@ export default function SettingsPage() {
                 </Grid>
                 <Grid item xs={6} md={3}>
                   <Card sx={{
-                    background: 'rgba(245, 158, 11, 0.1)',
+                    background: 'rgba(242, 159, 5, 0.1)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: 3,
-                    border: '1px solid rgba(245, 158, 11, 0.3)',
+                    border: '1px solid rgba(242, 159, 5, 0.3)',
                     textAlign: 'center',
                     p: 3,
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-5px)',
-                      boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)'
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.3)'
                     }
                   }}>
-                    <Typography variant="h3" sx={{ color: '#f59e0b', fontWeight: 800, mb: 1 }}>
+                    <Typography variant="h3" sx={{ color: '#F29F05', fontWeight: 800, mb: 1 }}>
                       SSL
                     </Typography>
                     <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -628,7 +623,7 @@ export default function SettingsPage() {
           <Box sx={{ mb: 10 }}>
             <Typography variant="h2" sx={{
               textAlign: 'center',
-              background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -657,17 +652,17 @@ export default function SettingsPage() {
                     transition={{ duration: 0.5, delay: 0.1 * index }}
                   >
                     <Card sx={{
-                      background: 'rgba(255, 255, 255, 0.08)',
+                      background: 'rgba(242, 159, 5, 0.08)',
                       backdropFilter: 'blur(20px)',
                       borderRadius: 4,
-                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      border: '1px solid rgba(242, 159, 5, 0.20)',
                       p: 4,
                       height: '100%',
                       transition: 'all 0.3s ease',
                       '&:hover': {
                         transform: 'translateY(-10px)',
-                        background: 'rgba(255, 255, 255, 0.12)',
-                        boxShadow: '0 15px 45px rgba(0, 0, 0, 0.4)',
+                        background: 'rgba(242, 159, 5, 0.12)',
+                        boxShadow: '0 15px 45px rgba(242, 159, 5, 0.25)',
                         '& .feature-icon': {
                           transform: 'scale(1.1) rotate(5deg)'
                         }
@@ -721,7 +716,7 @@ export default function SettingsPage() {
           <Box sx={{ mb: 10 }}>
             <Typography variant="h2" sx={{
               textAlign: 'center',
-              background: 'linear-gradient(135deg, #8b5cf6, #ff6b9d)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -750,11 +745,11 @@ export default function SettingsPage() {
                       boxShadow: '0 12px 35px rgba(0, 0, 0, 0.3)'
                     }
                   }}>
-                    <Box sx={{
+                  <Box sx={{
                       width: 60,
                       height: 60,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1420,10 +1415,10 @@ export default function SettingsPage() {
             transition={{ duration: 0.6 }}
           >
             <Card sx={{
-              background: 'rgba(255, 255, 255, 0.08)',
+              background: 'rgba(242, 159, 5, 0.08)',
               backdropFilter: 'blur(20px)',
               borderRadius: 4,
-              border: '1px solid rgba(255,255,255,0.15)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
               textAlign: 'center',
               p: { xs: 4, md: 8 },
               position: 'relative',
@@ -1437,13 +1432,13 @@ export default function SettingsPage() {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(139, 92, 246, 0.1))',
+                background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.10), rgba(140, 29, 4, 0.10))',
                 zIndex: 0
               }
             }}>
               <Box sx={{ position: 'relative', zIndex: 1 }}>
                 <Box sx={{ mb: 3 }}>
-                  <Settings size={48} color="#4ecdc4" style={{ marginBottom: 16 }} />
+                  <Settings size={48} color="#F29F05" style={{ marginBottom: 16 }} />
                 </Box>
                 <Typography variant="h3" sx={{ 
                   color: 'white', 
@@ -1480,7 +1475,7 @@ export default function SettingsPage() {
                     variant="contained"
                     size="large"
                     sx={{
-                      background: 'linear-gradient(135deg, #4ecdc4, #44a08d)',
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                       px: 6,
                       py: 2.5,
                       borderRadius: 3,
@@ -1488,11 +1483,11 @@ export default function SettingsPage() {
                       fontSize: '1.1rem',
                       textTransform: 'none',
                       minWidth: { xs: '100%', sm: '300px' },
-                      boxShadow: '0 10px 30px rgba(78, 205, 196, 0.4)',
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)',
                       '&:hover': {
-                        background: 'linear-gradient(135deg, #44a08d, #4ecdc4)',
+                        background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 15px 40px rgba(78, 205, 196, 0.5)'
+                        boxShadow: '0 15px 40px rgba(242, 159, 5, 0.45)'
                       },
                       transition: 'all 0.3s ease'
                     }}
@@ -1507,8 +1502,8 @@ export default function SettingsPage() {
                     variant="outlined"
                     size="large"
                     sx={{
-                      borderColor: 'rgba(255,255,255,0.3)',
-                      color: 'white',
+                      borderColor: '#F29F05',
+                      color: '#F29F05',
                       px: 6,
                       py: 2.5,
                       borderRadius: 3,
@@ -1517,10 +1512,10 @@ export default function SettingsPage() {
                       textTransform: 'none',
                       minWidth: { xs: '100%', sm: '300px' },
                       '&:hover': {
-                        borderColor: '#8b5cf6',
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        borderColor: '#8C1D04',
+                        backgroundColor: 'rgba(242, 159, 5, 0.10)',
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 8px 25px rgba(139, 92, 246, 0.2)'
+                        boxShadow: '0 8px 25px rgba(242, 159, 5, 0.25)'
                       },
                       transition: 'all 0.3s ease'
                     }}

@@ -90,7 +90,7 @@ const FloatingStars = () => {
             top: star.top,
             width: `${star.size}px`,
             height: `${star.size}px`,
-            background: 'rgba(255, 255, 255, 0.6)',
+            background: 'rgba(242, 159, 5, 0.7)',
             borderRadius: '50%',
             animation: `twinkle ${2 + Math.random() * 3}s ease-in-out infinite alternate`,
             '@keyframes twinkle': {
@@ -413,12 +413,7 @@ export default function MatchTipsPage() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: `
-            radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-            linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-          `,
+          background: '#02000D',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -434,11 +429,7 @@ export default function MatchTipsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(ellipse at top, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(66, 165, 245, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -459,14 +450,14 @@ export default function MatchTipsPage() {
               mb: 3,
               gap: 2
             }}>
-              <Heart size={48} color="#ff6b6b" />
+              <Heart size={48} color="#F29F05" />
               <Typography
                 variant="h2"
                 sx={{
                   color: 'white',
                   fontWeight: 800,
                   fontSize: { xs: '2.5rem', md: '3.5rem' },
-                  background: 'linear-gradient(45deg, #ff6b6b, #ffa726, #42a5f5)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -475,7 +466,7 @@ export default function MatchTipsPage() {
               >
                 Match-Tips
               </Typography>
-              <Sparkles size={48} color="#ffa726" />
+              <Sparkles size={48} color="#F29F05" />
             </Box>
             <Typography sx={{ 
               color: alpha(theme.palette.common.white, 0.9), 
@@ -497,9 +488,9 @@ export default function MatchTipsPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Card sx={{
-            background: alpha(theme.palette.common.white, 0.08),
+            background: 'rgba(242, 159, 5, 0.06)',
             backdropFilter: 'blur(20px)',
-            border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+            border: '1px solid rgba(242, 159, 5, 0.15)',
             borderRadius: 4,
             mb: 4
         }}>
@@ -604,16 +595,16 @@ export default function MatchTipsPage() {
                   disabled={!userType || !partnerType || !userProfile || !partnerProfile}
                   startIcon={<Zap size={20} />}
                   sx={{
-                    background: 'linear-gradient(45deg, #ff6b6b, #ffa726)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     color: 'white',
                     fontWeight: 700,
                     px: 6,
                     py: 2,
                     borderRadius: 3,
-                    boxShadow: '0 8px 32px rgba(255, 107, 107, 0.3)',
+                    boxShadow: '0 8px 32px rgba(242, 159, 5, 0.3)',
                     '&:hover': {
-                      background: 'linear-gradient(45deg, #ff5252, #ff9800)',
-                      boxShadow: '0 12px 40px rgba(255, 107, 107, 0.4)',
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                      boxShadow: '0 12px 40px rgba(242, 159, 5, 0.4)',
                     transform: 'translateY(-2px)'
                   }
                 }}
@@ -667,9 +658,9 @@ export default function MatchTipsPage() {
                         whileHover={{ y: -8 }}
                       >
                         <Card sx={{
-                          background: alpha(theme.palette.common.white, 0.08),
+                          background: 'rgba(242, 159, 5, 0.06)',
                           backdropFilter: 'blur(20px)',
-                          border: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+                          border: '1px solid rgba(242, 159, 5, 0.15)',
                           borderRadius: 4,
                           height: '100%',
                           transition: 'all 0.3s ease',
@@ -677,7 +668,7 @@ export default function MatchTipsPage() {
                           '&:hover': {
                             transform: 'translateY(-8px)',
                             boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-                            border: `1px solid ${alpha(tip.color, 0.5)}`
+                            border: '1px solid rgba(242, 159, 5, 0.30)'
                           }
                         }}>
                         <CardContent sx={{ p: 3 }}>
@@ -699,18 +690,18 @@ export default function MatchTipsPage() {
                               label={tip.duration}
                               size="small"
                               icon={<Clock size={16} />}
-                              sx={{ background: 'rgba(255, 215, 0, 0.2)', color: '#FFD700' }}
+                              sx={{ background: 'rgba(242, 159, 5, 0.20)', color: '#F29F05' }}
                             />
                             <Chip
                               label={tip.energy}
                               size="small"
-                              sx={{ background: 'rgba(16, 185, 129, 0.2)', color: '#10b981' }}
+                              sx={{ background: 'rgba(89, 10, 3, 0.20)', color: '#590A03' }}
                             />
                             <Chip
                               label={tip.cost}
                               size="small"
                               icon={<DollarSign size={16} />}
-                              sx={{ background: 'rgba(59, 130, 246, 0.2)', color: '#3b82f6' }}
+                              sx={{ background: 'rgba(38, 10, 10, 0.20)', color: '#260A0A' }}
                             />
                           </Box>
                         </CardContent>

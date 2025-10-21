@@ -5,20 +5,20 @@ import { createTheme } from '@mui/material/styles'
 const theme = createTheme({
   palette: {
     mode: 'dark',
-    primary: { main: '#ff6b9d' }, // Dating Pink
-    secondary: { main: '#4ecdc4' }, // Dating Teal
+    primary: { main: '#F29F05' }, // Akzent 1
+    secondary: { main: '#8C1D04' }, // Akzent 2
     background: { 
-      default: '#0F0F23', 
-      paper: 'rgba(255,255,255,0.05)' 
+      default: '#02000D', // Tiefes Schwarzblau
+      paper: 'rgba(242, 159, 5, 0.05)'
     },
     text: { 
       primary: '#ffffff', 
-      secondary: 'rgba(255,255,255,0.8)' 
+      secondary: 'rgba(255,255,255,0.8)'
     },
-    error: { main: '#ef4444' },
-    warning: { main: '#f59e0b' },
-    success: { main: '#10b981' },
-    info: { main: '#3b82f6' }
+    error: { main: '#8C1D04' },
+    warning: { main: '#F29F05' },
+    success: { main: '#590A03' },
+    info: { main: '#260A0A' }
   },
   shape: { borderRadius: 12 },
   typography: {
@@ -26,7 +26,7 @@ const theme = createTheme({
     h1: { 
       fontWeight: 800, 
       fontSize: '2.4rem',
-      background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
       backgroundClip: 'text',
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent'
@@ -57,20 +57,26 @@ const theme = createTheme({
           fontWeight: 600
         },
         contained: {
-          background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+          background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
           color: 'white',
           '&:hover': {
-            background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+            background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
             transform: 'translateY(-2px)',
-            boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
+            boxShadow: '0 12px 35px rgba(242, 159, 5, 0.35)'
           }
         },
         outlined: {
-          borderColor: 'rgba(255, 255, 255, 0.3)',
-          color: 'white',
+          borderColor: '#F29F05',
+          color: '#F29F05',
           '&:hover': {
-            borderColor: 'rgba(255, 255, 255, 0.6)',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)'
+            borderColor: '#8C1D04',
+            backgroundColor: 'rgba(242, 159, 5, 0.10)'
+          }
+        },
+        text: {
+          color: '#F29F05',
+          '&:hover': {
+            backgroundColor: 'rgba(242, 159, 5, 0.08)'
           }
         }
       },
@@ -79,15 +85,15 @@ const theme = createTheme({
       styleOverrides: {
         root: { 
           backgroundColor: 'transparent',
-          background: 'rgba(255,255,255,0.05)',
+          background: 'rgba(242, 159, 5, 0.05)',
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          border: '1px solid rgba(242, 159, 5, 0.15)',
           borderRadius: 12,
           transition: 'all 0.3s ease',
-          color: '#FFD700',
+          color: '#F29F05',
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+            boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)'
           }
         },
       },
@@ -95,13 +101,13 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: { 
-          backgroundColor: 'rgba(255, 255, 255, 0.25)',
+          backgroundColor: 'rgba(242, 159, 5, 0.1)',
           borderRadius: 8
         },
         notchedOutline: { 
-          borderColor: 'rgba(255,255,255,0.4)',
+          borderColor: 'rgba(242, 159, 5, 0.4)',
           '&:hover': {
-            borderColor: 'rgba(255,255,255,0.6)'
+            borderColor: 'rgba(242, 159, 5, 0.6)'
           }
         },
       },
@@ -110,7 +116,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputBase-root': {
-            backgroundColor: 'rgba(255,255,255,0.25)',
+            backgroundColor: 'rgba(242, 159, 5, 0.1)',
             borderRadius: 8
           }
         },
@@ -119,7 +125,7 @@ const theme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(255,255,255,0.25)',
+          backgroundColor: 'rgba(242, 159, 5, 0.1)',
           borderRadius: 8,
           color: 'white',
           '&::placeholder': {
@@ -131,11 +137,11 @@ const theme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(255, 215, 0, 0.2)',
-          color: '#FFD700',
-          border: '1px solid #FFD700',
+          backgroundColor: 'rgba(242, 159, 5, 0.2)',
+          color: '#F29F05',
+          border: '1px solid #F29F05',
           '&:hover': {
-            backgroundColor: 'rgba(255, 215, 0, 0.3)'
+            backgroundColor: 'rgba(242, 159, 5, 0.3)'
           }
         }
       }

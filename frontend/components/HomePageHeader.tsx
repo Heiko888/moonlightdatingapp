@@ -10,6 +10,7 @@ import {
   Button,
   Container
 } from '@mui/material';
+import Image from 'next/image';
 import {
   Home,
   Heart,
@@ -92,7 +93,19 @@ export default function HomePageHeader() {
       >
         <Container maxWidth="lg">
           <Toolbar sx={{ justifyContent: 'space-between', px: 0 }}>
-            {/* MOONLIGHT Schriftzug entfernt */}
+            {/* Logo sichtbar machen (SSR-Placeholder) */}
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ position: 'relative', width: { xs: 120, sm: 160 }, height: { xs: 36, sm: 48 } }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="Connection Key"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                  sizes="(max-width: 600px) 120px, 160px"
+                />
+              </Box>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
@@ -112,9 +125,18 @@ export default function HomePageHeader() {
     >
       <Container maxWidth="lg">
         <Toolbar sx={{ justifyContent: 'space-between', px: 0 }}>
-          {/* Logo/Brand - Entfernt */}
+          {/* Logo/Brand */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {/* MOONLIGHT Schriftzug entfernt */}
+            <Box sx={{ position: 'relative', width: { xs: 120, sm: 160 }, height: { xs: 36, sm: 48 } }}>
+              <Image
+                src="/images/connection-key-logo.png"
+                alt="Connection Key"
+                fill
+                style={{ objectFit: 'contain' }}
+                priority
+                sizes="(max-width: 600px) 120px, 160px"
+              />
+            </Box>
           </Box>
 
           {/* Hauptnavigation */}
@@ -126,22 +148,22 @@ export default function HomePageHeader() {
                 href={item.path}
                 startIcon={item.icon}
                 sx={{
-                  color: pathname === item.path ? '#FFD700' : 'rgba(255, 255, 255, 0.8)',
+                  color: pathname === item.path ? '#F29F05' : 'rgba(255, 255, 255, 0.8)',
                   fontWeight: pathname === item.path ? 700 : 500,
                   px: 2,
                   py: 1,
                   borderRadius: 2,
                   textTransform: 'none',
                   fontSize: '0.95rem',
-                  background: pathname === item.path ? 'rgba(255, 215, 0, 0.1)' : 'transparent',
-                  border: pathname === item.path ? '1px solid rgba(255, 215, 0, 0.3)' : '1px solid transparent',
+                  background: pathname === item.path ? 'rgba(242, 159, 5, 0.10)' : 'transparent',
+                  border: pathname === item.path ? '1px solid rgba(242, 159, 5, 0.30)' : '1px solid transparent',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: '#FFD700',
-                    background: 'rgba(255, 215, 0, 0.1)',
-                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    color: '#F29F05',
+                    background: 'rgba(242, 159, 5, 0.10)',
+                    border: '1px solid rgba(242, 159, 5, 0.30)',
                     transform: 'translateY(-1px)',
-                    boxShadow: '0 4px 12px rgba(255, 215, 0, 0.2)'
+                    boxShadow: '0 4px 12px rgba(242, 159, 5, 0.20)'
                   }
                 }}
               >
@@ -160,7 +182,7 @@ export default function HomePageHeader() {
                 startIcon={item.icon}
                 variant={item.path === '/register' ? 'contained' : 'outlined'}
                 sx={{
-                  color: item.path === '/register' ? '#1a1a2e' : 'rgba(255, 255, 255, 0.8)',
+                  color: item.path === '/register' ? '#02000D' : 'rgba(255, 255, 255, 0.8)',
                   fontWeight: 600,
                   px: 2,
                   py: 1,
@@ -168,20 +190,20 @@ export default function HomePageHeader() {
                   textTransform: 'none',
                   fontSize: '0.9rem',
                   background: item.path === '/register' 
-                    ? 'linear-gradient(45deg, #FFD700, #FFA500)' 
+                    ? 'linear-gradient(45deg, #F29F05, #8C1D04)' 
                     : 'transparent',
                   border: item.path === '/register' 
                     ? 'none' 
                     : '1px solid rgba(255, 255, 255, 0.3)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    color: item.path === '/register' ? '#1a1a2e' : '#FFD700',
+                    color: item.path === '/register' ? '#02000D' : '#F29F05',
                     background: item.path === '/register' 
-                      ? 'linear-gradient(45deg, #FFA500, #FFD700)' 
+                      ? 'linear-gradient(45deg, #8C1D04, #F29F05)' 
                       : 'rgba(255, 255, 255, 0.1)',
                     border: item.path === '/register' 
                       ? 'none' 
-                      : '1px solid rgba(255, 215, 0, 0.5)',
+                      : '1px solid rgba(242, 159, 5, 0.50)',
                     transform: 'translateY(-1px)',
                     boxShadow: item.path === '/register' 
                       ? '0 4px 12px rgba(255, 215, 0, 0.4)' 
@@ -201,8 +223,8 @@ export default function HomePageHeader() {
               href="/dating"
               variant="contained"
               sx={{
-                background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                color: '#1a1a2e',
+                background: 'linear-gradient(45deg, #F29F05, #8C1D04)',
+                color: '#02000D',
                 fontWeight: 700,
                 px: 2,
                 py: 1,
@@ -210,9 +232,9 @@ export default function HomePageHeader() {
                 textTransform: 'none',
                 fontSize: '0.9rem',
                 '&:hover': {
-                  background: 'linear-gradient(45deg, #FFA500, #FFD700)',
+                  background: 'linear-gradient(45deg, #8C1D04, #F29F05)',
                   transform: 'translateY(-1px)',
-                  boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4)'
+                  boxShadow: '0 4px 12px rgba(242, 159, 5, 0.40)'
                 }
               }}
             >

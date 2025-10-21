@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import AppHeader from "../../components/AppHeader";
 import { Box, Typography, Card, CardContent, Button, CircularProgress } from "@mui/material";
 import { Sparkles, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -62,7 +61,6 @@ export default function ReadingHistoryPage() {
 
   return (
     <>
-      <AppHeader />
       <Box sx={{ maxWidth: 700, mx: "auto", py: 7, px: 2 }}>
         <Typography variant="h4" sx={{ fontWeight: 800, mb: 4, color: '#eab308', textShadow: '0 2px 12px #7c3aed' }}>
           <Sparkles style={{ color: '#eab308', marginRight: 8, fontSize: 32 }} /> Deine Reading-Historie

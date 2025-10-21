@@ -103,57 +103,57 @@ export default function HomePage() {
       icon: <Heart size={32} />,
       title: "Human Design Dating",
       description: "Finde Menschen, die zu deinem Human Design passen und erlebe authentische Verbindungen",
-      color: "linear-gradient(135deg, #ff6b9d, #c44569)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/dating"
     },
     {
       icon: <BookOpen size={32} />,
       title: "Persönliche Readings",
       description: "Erhalte tiefe Einblicke in dein Human Design mit professionellen Analysen",
-      color: "linear-gradient(135deg, #8b5cf6, #6d28d9)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/reading"
     },
     {
       icon: <Users size={32} />,
       title: "Community",
       description: "Verbinde dich mit Gleichgesinnten und teile deine Journey",
-      color: "linear-gradient(135deg, #06b6d4, #0891b2)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/community"
     },
     {
       icon: <Moon size={32} />,
       title: "Mondkalender",
       description: "Verfolge die kosmischen Zyklen und plane mit den Sternen",
-      color: "linear-gradient(135deg, #10b981, #059669)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/moon-calendar"
     },
     {
       icon: <Sparkles size={32} />,
       title: "VIP Zugang",
       description: "Exklusive Features und Inhalte für Premium Mitglieder",
-      color: "linear-gradient(135deg, #f59e0b, #d97706)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/pricing"
     },
     {
       icon: <Target size={32} />,
       title: "Human Design Chart",
       description: "Dein persönlicher Bodygraph mit detaillierten Analysen",
-      color: "linear-gradient(135deg, #ec4899, #db2777)",
+      color: "linear-gradient(135deg, #F29F05, #8C1D04)",
       link: "/human-design-chart"
     }
   ];
 
   const stats = [
-    { label: "Aktive Mitglieder", value: "2,500+", icon: <Users size={24} />, color: "#4ecdc4" },
-    { label: "Erfolgreiche Matches", value: "500+", icon: <Heart size={24} />, color: "#ff6b9d" },
-    { label: "Community Events", value: "25+", icon: <Calendar size={24} />, color: "#8b5cf6" },
-    { label: "Zufriedene Nutzer", value: "98%", icon: <Star size={24} />, color: "#f59e0b" }
+    { label: "Aktive Mitglieder", value: "2,500+", icon: <Users size={24} />, color: "#F29F05" },
+    { label: "Erfolgreiche Matches", value: "500+", icon: <Heart size={24} />, color: "#8C1D04" },
+    { label: "Community Events", value: "25+", icon: <Calendar size={24} />, color: "#F29F05" },
+    { label: "Zufriedene Nutzer", value: "98%", icon: <Star size={24} />, color: "#F29F05" }
   ];
 
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#000000',
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -165,7 +165,7 @@ export default function HomePage() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: '#000000',
+        background: '#02000D',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -204,16 +204,16 @@ export default function HomePage() {
                 href="/login"
                 variant="outlined"
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   borderRadius: 3,
                   textTransform: 'none',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(78, 205, 196, 0.2)'
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -225,15 +225,15 @@ export default function HomePage() {
                 href="/register"
                 variant="contained"
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   borderRadius: 3,
                   textTransform: 'none',
                   fontWeight: 600,
-                  boxShadow: '0 4px 15px rgba(255, 107, 157, 0.3)',
+                  boxShadow: '0 4px 15px rgba(242, 159, 5, 0.30)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 6px 25px rgba(255, 107, 157, 0.4)'
+                    boxShadow: '0 6px 25px rgba(242, 159, 5, 0.35)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -260,7 +260,7 @@ export default function HomePage() {
               align="center" 
               sx={{ 
                 mb: 2,
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -291,8 +291,8 @@ export default function HomePage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
-                  color: '#1A1A2E',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
                   px: 5,
                   py: 2,
                   borderRadius: 3,
@@ -302,9 +302,9 @@ export default function HomePage() {
                   minWidth: { xs: '100%', sm: 'auto' },
                   boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #FFA500, #FF8C00)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 12px 35px rgba(255, 215, 0, 0.6)'
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.40)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -317,7 +317,7 @@ export default function HomePage() {
                 variant="contained"
                 size="large"
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   px: 5,
                   py: 2,
                   borderRadius: 3,
@@ -327,7 +327,7 @@ export default function HomePage() {
                   minWidth: { xs: '100%', sm: 'auto' },
                   boxShadow: '0 8px 25px rgba(255, 107, 157, 0.3)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-3px)',
                     boxShadow: '0 12px 35px rgba(255, 107, 157, 0.4)'
                   },
@@ -344,8 +344,8 @@ export default function HomePage() {
                 variant="outlined"
                 size="large"
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   px: 5,
                   py: 2,
                   borderRadius: 3,
@@ -354,10 +354,10 @@ export default function HomePage() {
                   textTransform: 'none',
                   minWidth: { xs: '100%', sm: 'auto' },
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
                     transform: 'translateY(-3px)',
-                    boxShadow: '0 8px 25px rgba(78, 205, 196, 0.2)'
+                    boxShadow: '0 8px 25px rgba(242, 159, 5, 0.25)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -375,9 +375,9 @@ export default function HomePage() {
                 transition={{ duration: 0.3 }}
               >
                 <Paper sx={{
-                  background: 'rgba(16, 185, 129, 0.15)',
+                  background: 'rgba(242, 159, 5, 0.12)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  border: '1px solid rgba(242, 159, 5, 0.30)',
                   borderRadius: 3,
                   p: 3,
                   maxWidth: 500,
@@ -386,8 +386,8 @@ export default function HomePage() {
                   alignItems: 'center',
                   gap: 2
                 }}>
-                  <CheckCircle size={24} color="#10b981" />
-                  <Typography sx={{ color: '#10b981', fontWeight: 600 }}>
+                  <CheckCircle size={24} color="#F29F05" />
+                  <Typography sx={{ color: '#F29F05', fontWeight: 600 }}>
                     Connection Code gespeichert! Weiterleitung zur Registrierung...
                   </Typography>
                 </Paper>
@@ -404,7 +404,7 @@ export default function HomePage() {
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, justifyContent: 'center' }}>
-                  <Link2 size={28} color="#4ecdc4" />
+                  <Link2 size={28} color="#F29F05" />
                   <Typography variant="h5" sx={{ color: 'white', fontWeight: 700 }}>
                     Connection Code
                   </Typography>
@@ -430,7 +430,7 @@ export default function HomePage() {
                           borderColor: 'rgba(255, 255, 255, 0.3)'
                         },
                         '&.Mui-focused fieldset': {
-                          borderColor: '#4ecdc4'
+                          borderColor: '#F29F05'
                         }
                       },
                       '& .MuiInputBase-input::placeholder': {
@@ -443,7 +443,7 @@ export default function HomePage() {
                     onClick={handleConnectionCode}
                     disabled={!connectionCode.trim()}
                     sx={{
-                      background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                       px: 4,
                       py: 1.5,
                       borderRadius: 2,
@@ -451,9 +451,9 @@ export default function HomePage() {
                       minWidth: { xs: '100%', sm: 'auto' },
                       whiteSpace: 'nowrap',
                       '&:hover': {
-                        background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
+                        background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                         transform: 'translateY(-2px)',
-                        boxShadow: '0 8px 25px rgba(78, 205, 196, 0.3)'
+                        boxShadow: '0 8px 25px rgba(242, 159, 5, 0.30)'
                       },
                       '&:disabled': {
                         background: 'rgba(255, 255, 255, 0.1)',
@@ -534,7 +534,7 @@ export default function HomePage() {
         {/* Features */}
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="h2" sx={{ 
-            background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -623,7 +623,7 @@ export default function HomePage() {
                     alignItems: 'center', 
                     gap: 1, 
                     mt: 3,
-                    color: '#4ecdc4'
+                    color: '#F29F05'
                   }}>
                     <Typography sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
                       Mehr erfahren
@@ -659,7 +659,7 @@ export default function HomePage() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(78, 205, 196, 0.1))',
+                background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.10), rgba(140, 29, 4, 0.10))',
               zIndex: 0
             }
           }}>
@@ -672,7 +672,7 @@ export default function HomePage() {
                 fontWeight: 800, 
                 mb: 3,
                 fontSize: { xs: '1.8rem', md: '2.5rem' },
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -702,7 +702,7 @@ export default function HomePage() {
                   variant="contained"
                   size="large"
                   sx={{
-                    background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                     px: 6,
                     py: 2.5,
                     borderRadius: 3,
@@ -710,11 +710,11 @@ export default function HomePage() {
                     fontSize: '1.1rem',
                     textTransform: 'none',
                     minWidth: { xs: '100%', sm: '220px' },
-                    boxShadow: '0 10px 30px rgba(255, 107, 157, 0.4)',
+                    boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)',
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 15px 40px rgba(255, 107, 157, 0.5)'
+                      boxShadow: '0 15px 40px rgba(242, 159, 5, 0.45)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -728,9 +728,9 @@ export default function HomePage() {
                   variant="outlined"
                   size="large"
                   sx={{
-                    borderColor: 'rgba(255,255,255,0.4)',
+                    borderColor: '#F29F05',
                     borderWidth: 2,
-                    color: 'white',
+                    color: '#F29F05',
                     px: 6,
                     py: 2.5,
                     borderRadius: 3,
@@ -739,11 +739,11 @@ export default function HomePage() {
                     textTransform: 'none',
                     minWidth: { xs: '100%', sm: '220px' },
                     '&:hover': {
-                      borderColor: '#4ecdc4',
+                      borderColor: '#8C1D04',
                       borderWidth: 2,
-                      backgroundColor: 'rgba(78, 205, 196, 0.15)',
+                      backgroundColor: 'rgba(242, 159, 5, 0.10)',
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 10px 30px rgba(78, 205, 196, 0.3)'
+                      boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)'
                     },
                     transition: 'all 0.3s ease'
                   }}
@@ -761,7 +761,7 @@ export default function HomePage() {
                 mt: 5
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Shield size={20} color="#10b981" />
+                  <Shield size={20} color="#F29F05" />
                   <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
                     100% Sicher
                   </Typography>
@@ -773,7 +773,7 @@ export default function HomePage() {
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <TrendingUp size={20} color="#4ecdc4" />
+                  <TrendingUp size={20} color="#F29F05" />
                   <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
                     Kostenlos testen
                   </Typography>

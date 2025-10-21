@@ -102,7 +102,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 15,
     category: 'Wellness',
     icon: <Activity size={20} />,
-    color: '#10b981'
+    color: '#F29F05'
   },
   {
     id: '2',
@@ -114,7 +114,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 10,
     category: 'Kultur',
     icon: <Camera size={20} />,
-    color: '#10b981'
+    color: '#F29F05'
   },
   {
     id: '3',
@@ -126,7 +126,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 6,
     category: 'Gesellschaft',
     icon: <Coffee size={20} />,
-    color: '#34d399'
+    color: '#F29F05'
   },
   {
     id: '4',
@@ -138,7 +138,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 20,
     category: 'Bildung',
     icon: <Brain size={20} />,
-    color: '#10b981'
+    color: '#F29F05'
   },
   {
     id: '5',
@@ -150,7 +150,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 12,
     category: 'Kunst',
     icon: <Music size={20} />,
-    color: '#34d399'
+    color: '#F29F05'
   },
   {
     id: '6',
@@ -162,7 +162,7 @@ const mockActivities: Activity[] = [
     maxParticipants: 8,
     category: 'Sport',
     icon: <Zap size={20} />,
-    color: '#059669'
+    color: '#F29F05'
   }
 ];
 
@@ -224,12 +224,7 @@ export default function FriendsPage() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: `
-            radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-            linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-          `,
+          background: '#02000D',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -309,12 +304,7 @@ export default function FriendsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: `
-        radial-gradient(circle at 20% 20%, rgba(52, 211, 153, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-      `,
+      background: '#02000D',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -326,7 +316,7 @@ export default function FriendsPage() {
         right: 0,
         zIndex: 1000,
         backdropFilter: 'blur(20px)',
-        background: 'rgba(26, 11, 46, 0.8)',
+        background: 'rgba(2, 0, 13, 0.80)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <Container maxWidth="lg">
@@ -338,7 +328,7 @@ export default function FriendsPage() {
           }}>
             <Link href="/" style={{ textDecoration: 'none' }}>
               <Typography variant="h5" sx={{ 
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -356,8 +346,8 @@ export default function FriendsPage() {
                   color: 'white',
                   borderColor: 'rgba(255, 255, 255, 0.3)',
                   '&:hover': {
-                    borderColor: '#4ecdc4',
-                    background: 'rgba(78, 205, 196, 0.1)'
+                    borderColor: '#F29F05',
+                    background: 'rgba(242, 159, 5, 0.10)'
                   }
                 }}
               >
@@ -368,9 +358,9 @@ export default function FriendsPage() {
                 variant="contained"
                 startIcon={<Home size={18} />}
                 sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
                   }
                 }}
               >
@@ -395,14 +385,14 @@ export default function FriendsPage() {
             <Typography
               variant="h2"
               sx={{
-                background: 'linear-gradient(135deg, #4ecdc4, #8b5cf6, #ff6b9d)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 fontSize: { xs: '2rem', md: '3rem' },
                 mb: 2,
-                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+                textShadow: '0 0 24px rgba(242, 159, 5, 0.30)'
               }}
             >
               👥 Freunde & Community
@@ -438,16 +428,16 @@ export default function FriendsPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  background: 'rgba(16, 185, 129, 0.08)',
+                  background: 'rgba(242, 159, 5, 0.08)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  border: '1px solid rgba(242, 159, 5, 0.30)',
                   borderRadius: 3,
                   color: 'white',
                   '&:hover': {
-                    border: '1px solid rgba(16, 185, 129, 0.5)'
+                    border: '1px solid rgba(242, 159, 5, 0.50)'
                   },
                   '&.Mui-focused': {
-                    border: '1px solid #10b981'
+                    border: '1px solid #F29F05'
                   }
                 },
                 '& .MuiInputBase-input': {
@@ -513,10 +503,10 @@ export default function FriendsPage() {
                         size="small"
                         onClick={() => setSortBy(option.key as any)}
                         sx={{
-                          background: sortBy === option.key ? '#4ecdc4' : 'rgba(78, 205, 196, 0.1)',
-                          color: sortBy === option.key ? 'white' : 'rgba(78, 205, 196, 0.9)',
+                          background: sortBy === option.key ? 'rgba(242, 159, 5, 0.20)' : 'rgba(255, 255, 255, 0.10)',
+                          color: sortBy === option.key ? '#F29F05' : 'rgba(255, 255, 255, 0.8)',
                           cursor: 'pointer',
-                          border: '1px solid rgba(78, 205, 196, 0.3)'
+                          border: sortBy === option.key ? '1px solid rgba(242, 159, 5, 0.30)' : '1px solid rgba(255,255,255,0.15)'
                         }}
                       />
                     ))}
@@ -540,8 +530,8 @@ export default function FriendsPage() {
                         size="small"
                         onClick={() => setFilterBy(option.key as any)}
                         sx={{
-                          background: filterBy === option.key ? '#10b981' : 'rgba(255,255,255,0.1)',
-                          color: filterBy === option.key ? 'white' : 'rgba(255,255,255,0.7)',
+                          background: filterBy === option.key ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'rgba(255,255,255,0.1)',
+                          color: 'white',
                           cursor: 'pointer'
                         }}
                       />
@@ -565,8 +555,8 @@ export default function FriendsPage() {
                           setSelectedHdType(hdType);
                         }}
                         sx={{
-                          background: selectedHdType === hdType ? '#4ecdc4' : 'rgba(255,255,255,0.1)',
-                          color: selectedHdType === hdType ? 'white' : 'rgba(255,255,255,0.7)',
+                          background: selectedHdType === hdType ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'rgba(255,255,255,0.1)',
+                          color: 'white',
                           cursor: 'pointer'
                         }}
                       />
@@ -609,14 +599,14 @@ export default function FriendsPage() {
               centered
               sx={{
                 '& .MuiTab-root': {
-                  color: 'rgba(16, 185, 129, 0.7)',
+                  color: 'rgba(242, 159, 5, 0.80)',
                   fontWeight: 600,
                   '&.Mui-selected': {
-                    color: '#10b981'
+                    color: '#F29F05'
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  background: 'linear-gradient(45deg, #10b981, #34d399)',
+                  background: 'linear-gradient(45deg, #F29F05, #8C1D04)',
                   height: 3,
                   borderRadius: 2
                 }
@@ -660,7 +650,7 @@ export default function FriendsPage() {
             <Grid container spacing={3}>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                     {filteredAndSortedFriends.length}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
@@ -670,7 +660,7 @@ export default function FriendsPage() {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                     {filteredAndSortedFriends.filter(f => f.isOnline).length}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
@@ -680,7 +670,7 @@ export default function FriendsPage() {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                     {favorites.length}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
@@ -690,7 +680,7 @@ export default function FriendsPage() {
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700 }}>
                     {activities.length}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
@@ -732,8 +722,8 @@ export default function FriendsPage() {
                           cursor: 'pointer',
                           '&:hover': {
                             transform: 'translateY(-8px)',
-                            boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)',
-                            border: '1px solid rgba(78, 205, 196, 0.5)'
+                            boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)',
+                            border: '1px solid rgba(242, 159, 5, 0.40)'
                           }
                         }}
                         onClick={() => handleFriendClick(friend)}
@@ -749,7 +739,7 @@ export default function FriendsPage() {
                                     width: 12,
                                     height: 12,
                                     borderRadius: '50%',
-                                    background: friend.isOnline ? '#10b981' : '#6b7280',
+                                    background: friend.isOnline ? '#F29F05' : '#6b7280',
                                     border: '2px solid white'
                                   }}
                                 />
@@ -761,7 +751,7 @@ export default function FriendsPage() {
                                   width: 60,
                                   height: 60,
                                   border: '3px solid',
-                                  borderColor: friend.isOnline ? 'success.main' : 'grey.500'
+                                  borderColor: friend.isOnline ? 'primary.main' : 'grey.500'
                                 }}
                               />
                             </Badge>
@@ -775,7 +765,7 @@ export default function FriendsPage() {
                                   {friend.location} • {friend.age} Jahre
                                 </Typography>
                               </Box>
-                              <Typography variant="body2" sx={{ color: 'rgba(78, 205, 196, 0.9)' }}>
+                              <Typography variant="body2" sx={{ color: 'rgba(242, 159, 5, 0.9)' }}>
                                 {friend.hdType} • {friend.compatibility}% Kompatibilität
                               </Typography>
                             </Box>
@@ -803,9 +793,9 @@ export default function FriendsPage() {
                                 label={interest}
                                 size="small"
                                 sx={{
-                                  background: 'rgba(78, 205, 196, 0.2)',
-                                  color: '#4ecdc4',
-                                  border: '1px solid rgba(78, 205, 196, 0.3)'
+                                  background: 'rgba(242, 159, 5, 0.20)',
+                                  color: '#F29F05',
+                                  border: '1px solid rgba(242, 159, 5, 0.30)'
                                 }}
                               />
                             ))}
@@ -814,8 +804,8 @@ export default function FriendsPage() {
                                 label={`+${friend.interests.length - 3}`}
                                 size="small"
                                 sx={{
-                                  background: 'rgba(78, 205, 196, 0.1)',
-                                  color: 'rgba(78, 205, 196, 0.8)'
+                                  background: 'rgba(242, 159, 5, 0.10)',
+                                  color: 'rgba(242, 159, 5, 0.85)'
                                 }}
                               />
                             )}
@@ -831,12 +821,12 @@ export default function FriendsPage() {
                                 handleToggleFavorite(friend.id);
                               }}
                               sx={{
-                                color: favorites.includes(friend.id) ? '#4ecdc4' : 'white',
-                                borderColor: favorites.includes(friend.id) ? '#4ecdc4' : 'rgba(255, 255, 255, 0.3)',
-                                background: favorites.includes(friend.id) ? 'rgba(78, 205, 196, 0.1)' : 'transparent',
+                                color: favorites.includes(friend.id) ? '#F29F05' : 'white',
+                                borderColor: favorites.includes(friend.id) ? '#F29F05' : 'rgba(255, 255, 255, 0.3)',
+                                background: favorites.includes(friend.id) ? 'rgba(242, 159, 5, 0.10)' : 'transparent',
                                 '&:hover': {
-                                  borderColor: '#4ecdc4',
-                                  background: 'rgba(78, 205, 196, 0.2)'
+                                  borderColor: '#F29F05',
+                                  background: 'rgba(242, 159, 5, 0.15)'
                                 }
                               }}
                             >
@@ -850,8 +840,8 @@ export default function FriendsPage() {
                                 color: 'white',
                                 borderColor: 'rgba(255, 255, 255, 0.3)',
                                 '&:hover': {
-                                  borderColor: '#4ecdc4',
-                                  background: 'rgba(78, 205, 196, 0.1)'
+                                  borderColor: '#F29F05',
+                                  background: 'rgba(242, 159, 5, 0.10)'
                                 }
                               }}
                             >
@@ -894,8 +884,8 @@ export default function FriendsPage() {
                           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                           '&:hover': {
                             transform: 'translateY(-8px)',
-                            boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)',
-                            border: '1px solid rgba(78, 205, 196, 0.5)'
+                            boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)',
+                            border: '1px solid rgba(242, 159, 5, 0.40)'
                           }
                         }}
                       >
@@ -944,7 +934,7 @@ export default function FriendsPage() {
                               sx={{
                                 background: `${activity.color}20`,
                                 color: activity.color,
-                                border: `1px solid ${activity.color}50`
+                                border: `1px solid ${activity.color}55`
                               }}
                             />
                           </Box>
@@ -954,11 +944,11 @@ export default function FriendsPage() {
                             fullWidth
                             startIcon={<UserPlus size={16} />}
                             sx={{
-                              background: `linear-gradient(45deg, ${activity.color}, ${activity.color}cc)`,
+                              background: `linear-gradient(45deg, ${activity.color}, #8C1D04)`,
                               color: 'white',
                               fontWeight: 600,
                               '&:hover': {
-                                background: `linear-gradient(45deg, ${activity.color}cc, ${activity.color})`
+                                background: `linear-gradient(45deg, #8C1D04, ${activity.color})`
                               }
                             }}
                           >
@@ -1022,8 +1012,8 @@ export default function FriendsPage() {
                     key={idx}
                     label={interest}
                     sx={{
-                      background: 'rgba(78, 205, 196, 0.2)',
-                      color: '#4ecdc4'
+                      background: 'rgba(242, 159, 5, 0.20)',
+                      color: '#F29F05'
                     }}
                   />
                 ))}
@@ -1040,10 +1030,10 @@ export default function FriendsPage() {
                 variant="contained"
                 startIcon={<MessageCircle size={16} />}
                 sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   color: 'white',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
                   }
                 }}
               >
