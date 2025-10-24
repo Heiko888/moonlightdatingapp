@@ -32,7 +32,7 @@ if ($LASTEXITCODE -ne 0) {
         if ($LASTEXITCODE -ne 0 -or -not (Test-Path $archive)) { throw "git archive fehlgeschlagen" }
 
         Write-Host "   • Lade Archiv per SCP hoch..." -ForegroundColor Gray
-        & scp @sshOpts "$archive" "$Username@$ServerIP:/tmp/hd_app_chart.tar"
+        & scp @sshOpts "$archive" "$Username@$($ServerIP):/tmp/hd_app_chart.tar"
         if ($LASTEXITCODE -ne 0) { throw "scp fehlgeschlagen" }
 
         Write-Host "   • Entpacke Archiv auf Server..." -ForegroundColor Gray
@@ -149,8 +149,8 @@ Write-Host ""
 Write-Host "🎉 Social Sharing System ist jetzt auf Hetzner live!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Naechste Schritte:" -ForegroundColor Yellow
-Write-Host "   1. Teste Social Share: http://$ServerIP`:3000/chart" -ForegroundColor White
-Write-Host "   2. Teste Dashboard: http://$ServerIP`:3000/dashboard" -ForegroundColor White
-Write-Host "   3. Teste Transits: http://$ServerIP`:3000/transits" -ForegroundColor White
+Write-Host "   1. Teste Social Share: http://$($ServerIP):3000/chart" -ForegroundColor White
+Write-Host "   2. Teste Dashboard: http://$($ServerIP):3000/dashboard" -ForegroundColor White
+Write-Host "   3. Teste Transits: http://$($ServerIP):3000/transits" -ForegroundColor White
 Write-Host ""
 
