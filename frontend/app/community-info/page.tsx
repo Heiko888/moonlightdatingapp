@@ -129,93 +129,9 @@ export default function CommunityInfoPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#02000D',
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
-      
-      {/* Navigation */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        background: 'rgba(15, 15, 35, 0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 2
-          }}>
-            <Typography
-              component={Link}
-              href="/"
-              variant="h5"
-              sx={{
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                textDecoration: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              🔑 The Connection Key
-            </Typography>
-            
-            <Stack direction="row" spacing={2}>
-              <Button
-                component={Link}
-                href="/"
-                variant="outlined"
-                sx={{
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  color: 'white',
-                  borderRadius: 3,
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#F29F05',
-                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Startseite
-              </Button>
-              <Button
-                component={Link}
-                href="/register"
-                variant="contained"
-                sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  borderRadius: 3,
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  boxShadow: '0 4px 15px rgba(242, 159, 5, 0.30)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 6px 25px rgba(242, 159, 5, 0.40)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Jetzt beitreten
-              </Button>
-            </Stack>
-          </Box>
-        </Container>
-      </Box>
+      {/* Globaler Header kommt aus AppHeader */}
 
       {/* Hero Section */}
       <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8 }}>

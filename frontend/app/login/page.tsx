@@ -116,98 +116,12 @@ const LoginPage: React.FC = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#02000D',
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
       
       
       
-      {/* Navigation */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        background: '#02000D',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 1
-          }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ 
-                position: 'relative',
-                height: { xs: 50, md: 70 },
-                width: { xs: 200, md: 280 },
-                cursor: 'pointer',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)'
-                }
-              }}>
-                <Image
-                  src="/images/connection-key-logo.png"
-                  alt="The Connection Key Logo"
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </Box>
-            </Link>
-            
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                component={Link}
-                href="/"
-                variant="outlined"
-                disabled={isLoading}
-                sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#8C1D04',
-                    backgroundColor: 'rgba(242, 159, 5, 0.10)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Home
-              </Button>
-              <Button
-                component={Link}
-                href="/register"
-                variant="outlined"
-                disabled={isLoading}
-                sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#8C1D04',
-                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Registrieren
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
+      {/* Globaler Header kommt aus AppHeader */}
 
       <Container maxWidth="sm" sx={{ pt: { xs: 14, md: 16 }, pb: 8, position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', minHeight: '100vh' }}>
         <motion.div
@@ -217,15 +131,8 @@ const LoginPage: React.FC = () => {
           style={{ width: '100%' } as React.CSSProperties}
         >
           <Paper 
-            elevation={24} 
-            sx={{ 
-              p: { xs: 4, md: 6 },
-              background: 'rgba(255, 255, 255, 0.08)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(242, 159, 5, 0.15)',
-              borderRadius: 4,
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
-            }}
+            elevation={0} 
+            sx={{ p: { xs: 4, md: 6 }, borderRadius: 4 }}
           >
             <Typography 
               variant="h2" 
@@ -249,12 +156,7 @@ const LoginPage: React.FC = () => {
             <Typography 
               variant="h6" 
               align="center" 
-              sx={{ 
-                mb: 5, 
-                color: 'rgba(255,255,255,0.85)',
-                lineHeight: 1.6,
-                fontSize: { xs: '1rem', md: '1.25rem' }
-              }}
+              sx={{ mb: 5, color: 'text.secondary', lineHeight: 1.6, fontSize: { xs: '1rem', md: '1.25rem' } }}
             >
               Melde dich in deinem Konto an
             </Typography>
@@ -284,21 +186,11 @@ const LoginPage: React.FC = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Email sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                  <Email color="inherit" sx={{ opacity: 0.7 }} />
                 </InputAdornment>
               )
             }}
-            sx={{ 
-              mb: 3,
-              '& .MuiOutlinedInput-root': {
-                background: 'rgba(242, 159, 5, 0.10)',
-                '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
-                '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
-                '&.Mui-focused fieldset': { borderColor: '#F29F05' }
-              },
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiInputBase-input': { color: 'white' }
-            }}
+            sx={{ mb: 3 }}
           />
 
           <TextField
@@ -313,7 +205,7 @@ const LoginPage: React.FC = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Lock sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                  <Lock color="inherit" sx={{ opacity: 0.7 }} />
                 </InputAdornment>
               ),
               endAdornment: (
@@ -321,24 +213,14 @@ const LoginPage: React.FC = () => {
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
-                    sx={{ color: 'rgba(255, 255, 255, 0.5)' }}
+                    color="inherit"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               )
             }}
-            sx={{ 
-              mb: 4,
-              '& .MuiOutlinedInput-root': {
-                background: 'rgba(242, 159, 5, 0.10)',
-                '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
-                '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
-                '&.Mui-focused fieldset': { borderColor: '#F29F05' }
-              },
-              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-              '& .MuiInputBase-input': { color: 'white' }
-            }}
+            sx={{ mb: 4 }}
           />
 
           <Button
@@ -347,50 +229,20 @@ const LoginPage: React.FC = () => {
             variant="contained"
             size="large"
             disabled={isLoading}
-            sx={{ 
-              mb: 4,
-              px: 6,
-              py: 2.5,
-              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-              color: 'white',
-              fontWeight: 700,
-              fontSize: '1.1rem',
-              textTransform: 'none',
-              borderRadius: 3,
-              boxShadow: '0 10px 30px rgba(242, 159, 5, 0.35)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                transform: 'translateY(-4px)',
-                boxShadow: '0 15px 40px rgba(242, 159, 5, 0.45)'
-              },
-              '&:disabled': {
-                background: 'rgba(255, 255, 255, 0.1)',
-                color: 'rgba(255, 255, 255, 0.3)'
-              },
-              transition: 'all 0.3s ease'
-            }}
+            sx={{ mb: 4, px: 6, py: 2.5, textTransform: 'none', borderRadius: 3 }}
           >
             {isLoading ? <CircularProgress size={24} color="inherit" /> : '🔐 Anmelden'}
           </Button>
 
           <Box sx={{ textAlign: 'center', mt: 4 }}>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
               Noch kein Konto?{' '}
               <Button 
                 component={Link}
                 href="/register"
                 variant="text" 
                 disabled={isLoading}
-                sx={{
-                  color: '#F29F05',
-                  fontWeight: 700,
-                  textTransform: 'none',
-                  fontSize: '1rem',
-                  '&:hover': {
-                    color: '#8C1D04',
-                    background: 'rgba(242, 159, 5, 0.10)'
-                  }
-                }}
+                sx={{ fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}
               >
                 Jetzt registrieren
               </Button>
@@ -401,15 +253,7 @@ const LoginPage: React.FC = () => {
               href="/"
               variant="text" 
               disabled={isLoading}
-              sx={{
-                color: 'rgba(255,255,255,0.6)',
-                textTransform: 'none',
-                fontSize: '0.9rem',
-                '&:hover': {
-                  color: 'rgba(255,255,255,0.9)',
-                  background: 'rgba(255, 255, 255, 0.05)'
-                }
-              }}
+              sx={{ textTransform: 'none', fontSize: '0.9rem' }}
             >
               ← Zurück zur Startseite
             </Button>

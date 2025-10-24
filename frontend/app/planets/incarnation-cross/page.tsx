@@ -373,7 +373,7 @@ export default function IncarnationCrossPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ padding: 4, background: '#02000D' }}>
+    <Container maxWidth="lg" sx={{ padding: 4, background: 'transparent' }}>
       {/* Header */}
       <motion.div
         

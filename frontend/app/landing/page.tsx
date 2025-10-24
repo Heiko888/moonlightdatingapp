@@ -154,13 +154,12 @@ const flameAnimations = [
 
 export default function LandingPage() {
   const [bannerVisible, setBannerVisible] = React.useState(true);
+  const [logoSrc, setLogoSrc] = React.useState('/images/connection-key-logo.png');
 
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#02000D',
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
       {/* Feurige Animation */}
       <Box sx={{
@@ -173,7 +172,7 @@ export default function LandingPage() {
         pointerEvents: 'none'
       }}>
         {/* Funken */}
-        {sparklePositions.map((pos, i) => (
+        {sparklePositions.slice(0, 6).map((pos, i) => (
           <motion.div
             key={i}
             style={{
@@ -200,34 +199,7 @@ export default function LandingPage() {
           />
         ))}
         
-        {/* Feurige Partikel */}
-        {flamePositions.map((pos, i) => (
-          <motion.div
-            key={`flame-${i}`}
-            style={{
-              position: 'absolute',
-              width: '4px',
-              height: '4px',
-              background: 'linear-gradient(45deg, #F29F05, #8C1D04, #590A03)',
-              borderRadius: '50%',
-              left: `${pos.left}%`,
-              top: `${pos.top}%`,
-              filter: 'blur(1px)'
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, flameAnimations[i].x, 0],
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0]
-            }}
-            transition={{
-              duration: flameAnimations[i].duration,
-              repeat: Infinity,
-              delay: flameAnimations[i].delay,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+        {/* Feurige Partikel (entfernt) */}
       </Box>
       
       {/* Promotion Banner */}
@@ -324,12 +296,13 @@ export default function LandingPage() {
           px: { xs: 2, md: 0 }
         }}>
           <Image
-            src="/images/connection-key-logo.png"
+            src={logoSrc}
             alt="The Connection Key"
             fill
             style={{ objectFit: 'contain' }}
             sizes="(max-width: 600px) 100vw, (max-width: 1200px) 70vw, 900px"
             priority
+            onError={() => setLogoSrc('/images/Design ohne Titel(15).png')}
           />
         </Box>
       </Box>

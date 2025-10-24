@@ -34,7 +34,6 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface RegistrationData {
   email: string;
@@ -199,31 +198,18 @@ const RegisterPage: React.FC = () => {
     return (
       <Box sx={{
         minHeight: '100vh',
-        background: '#02000D',
         position: 'relative',
-        overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
       }}>
         
         <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 2 }}>
-          <Paper 
-            elevation={3} 
-            sx={{ 
-              p: 4, 
-              textAlign: 'center',
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              borderRadius: 4,
-              border: '1px solid rgba(242, 159, 5, 0.25)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
-            }}
-          >
+          <Paper elevation={0} sx={{ p: { xs: 4, md: 6 }, textAlign: 'center', borderRadius: 4 }}>
             <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 700, mb: 2 }}>
               ✅ Registrierung erfolgreich!
             </Typography>
-            <Typography variant="body1" sx={{ mb: 3, color: 'rgba(255,255,255,0.9)' }}>
+            <Typography variant="body1" sx={{ mb: 3, color: 'text.secondary' }}>
               Willkommen bei The Connection Key! Sie werden in Kürze zum Dashboard weitergeleitet.
             </Typography>
             <CircularProgress sx={{ color: '#F29F05' }} />
@@ -236,111 +222,19 @@ const RegisterPage: React.FC = () => {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#02000D',
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
       
-      {/* Navigation */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        background: '#02000D',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 1
-          }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ 
-                position: 'relative',
-                height: { xs: 50, md: 70 },
-                width: { xs: 200, md: 280 },
-                cursor: 'pointer',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)'
-                }
-              }}>
-                <Image
-                  src="/images/connection-key-logo.png"
-                  alt="The Connection Key Logo"
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </Box>
-            </Link>
-            
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                component={Link}
-                href="/"
-                variant="outlined"
-                disabled={loading}
-                sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#8C1D04',
-                    backgroundColor: 'rgba(242, 159, 5, 0.10)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Home
-              </Button>
-              <Button
-                component={Link}
-                href="/login"
-                variant="outlined"
-                disabled={loading}
-                sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#8C1D04',
-                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Anmelden
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
+      {/* Globaler Header kommt aus AppHeader */}
       
-      <Container maxWidth="md" sx={{ pt: { xs: 14, md: 16 }, pb: 8, position: 'relative', zIndex: 2 }}>
+      <Container maxWidth="sm" sx={{ pt: { xs: 14, md: 16 }, pb: 8, position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', minHeight: '100vh' }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          style={{ width: '100%' } as React.CSSProperties}
         >
-          <Paper elevation={8} sx={{ 
-            p: { xs: 3, md: 6 }, 
-            background: 'rgba(255, 255, 255, 0.08)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(242, 159, 5, 0.15)',
-            borderRadius: 4,
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
-          }}>
+          <Paper elevation={0} sx={{ p: { xs: 4, md: 6 }, borderRadius: 4 }}>
             <Box sx={{ textAlign: 'center', mb: 5 }}>
               <Typography variant="h2" sx={{ 
                 background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
@@ -349,12 +243,13 @@ const RegisterPage: React.FC = () => {
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 mb: 2,
-                fontSize: { xs: '2rem', md: '3rem' }
+                fontSize: { xs: '2rem', md: '3rem' },
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.25)'
               }}>
                 ✨ Registrierung
         </Typography>
               <Typography variant="h6" sx={{ 
-                color: 'rgba(255,255,255,0.85)',
+                color: 'text.secondary',
                 lineHeight: 1.6,
                 fontSize: { xs: '1rem', md: '1.25rem' }
               }}>
@@ -362,11 +257,11 @@ const RegisterPage: React.FC = () => {
         </Typography>
             </Box>
 
-        {error && (
-              <Alert severity="error" sx={{ mb: 4, background: 'rgba(244, 67, 54, 0.1)' }}>
-            {error}
-          </Alert>
-        )}
+            {error && (
+              <Alert severity="error" sx={{ mb: 4 }}>
+                {error}
+              </Alert>
+            )}
 
             <Box component="form" onSubmit={handleSubmit}>
               <Grid container spacing={3}>
@@ -735,44 +630,29 @@ const RegisterPage: React.FC = () => {
               </Box>
 
               <Box sx={{ textAlign: 'center', mt: 5 }}>
-                <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
-              Bereits ein Konto?{' '}
-              <Button 
-                variant="text" 
-                onClick={() => router.push('/login')}
-                disabled={loading}
-                    sx={{ 
-                      color: '#F29F05', 
-                      fontWeight: 700,
-                      textTransform: 'none',
-                      fontSize: '1rem',
-                      '&:hover': {
-                        color: '#8C1D04',
-                        background: 'rgba(242, 159, 5, 0.10)'
-                      }
-                    }}
-              >
-                Jetzt anmelden
-              </Button>
-            </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
+                  Bereits ein Konto?{' '}
+                  <Button 
+                    component={Link}
+                    href="/login"
+                    variant="text" 
+                    disabled={loading}
+                    sx={{ fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}
+                  >
+                    Jetzt anmelden
+                  </Button>
+                </Typography>
 
-            <Button 
-              variant="text" 
-              onClick={() => router.push('/')}
-              disabled={loading}
-                  sx={{ 
-                    color: 'rgba(255,255,255,0.6)',
-                    textTransform: 'none',
-                    fontSize: '0.9rem',
-                    '&:hover': {
-                      color: 'rgba(255,255,255,0.9)',
-                      background: 'rgba(255, 255, 255, 0.05)'
-                    }
-                  }}
-            >
-              ← Zurück zur Startseite
-            </Button>
-          </Box>
+                <Button 
+                  component={Link}
+                  href="/"
+                  variant="text" 
+                  disabled={loading}
+                  sx={{ textTransform: 'none', fontSize: '0.9rem' }}
+                >
+                  ← Zurück zur Startseite
+                </Button>
+              </Box>
         </Box>
       </Paper>
         </motion.div>

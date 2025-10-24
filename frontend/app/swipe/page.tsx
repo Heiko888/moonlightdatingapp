@@ -30,7 +30,6 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import UnifiedPageLayout from '@/components/UnifiedPageLayout';
 
 interface Profile {
   _id: string;
@@ -241,87 +240,12 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: '#02000D',
-        position: 'relative',
-        overflow: 'hidden'
+        position: 'relative'
       }}>
-        {/* Fixed Navigation */}
-        <Box sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: 'rgba(15, 15, 35, 0.95)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              py: 2
-            }}>
-              <Typography
-                component={Link}
-                href="/"
-                variant="h5"
-                sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 800,
-                  textDecoration: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                🔑 The Connection Key
-              </Typography>
-              
-              <Stack direction="row" spacing={2}>
-                <Button
-                  component={Link}
-                  href="/dating-info"
-                  variant="outlined"
-                  sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                    '&:hover': {
-                    borderColor: '#8C1D04',
-                    background: 'rgba(242,159,5,0.10)'
-                    }
-                  }}
-                >
-                  Info
-                </Button>
-                <Button
-                  component={Link}
-                  href="/dashboard"
-                  variant="contained"
-                  sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                    '&:hover': {
-                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                      transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Dashboard
-                </Button>
-              </Stack>
-            </Box>
-          </Container>
-        </Box>
-        
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 4 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <Box display="flex" flexDirection="column" alignItems="center" py={8}>
-            <CircularProgress size={60} sx={{ color: '#ff6b9d', mb: 2 }} />
-            <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+            <CircularProgress size={60} sx={{ color: 'primary.main', mb: 2 }} />
+            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
               Lade passende Profile...
             </Typography>
           </Box>
@@ -334,89 +258,14 @@ export default function SwipePage() {
     return (
       <Box sx={{ 
         minHeight: '100vh',
-        background: '#02000D',
-        position: 'relative',
-        overflow: 'hidden'
+        position: 'relative'
       }}>
-        {/* Fixed Navigation */}
-        <Box sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: 'rgba(15, 15, 35, 0.95)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              py: 2
-            }}>
-              <Typography
-                component={Link}
-                href="/"
-                variant="h5"
-                sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 800,
-                  textDecoration: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                🔑 The Connection Key
-              </Typography>
-              
-              <Stack direction="row" spacing={2}>
-                <Button
-                  component={Link}
-                  href="/dating-info"
-                  variant="outlined"
-                  sx={{
-                  borderColor: '#F29F05',
-                  color: '#F29F05',
-                    '&:hover': {
-                    borderColor: '#8C1D04',
-                    background: 'rgba(242,159,5,0.10)'
-                    }
-                  }}
-                >
-                  Info
-                </Button>
-                <Button
-                  component={Link}
-                  href="/dashboard"
-                  variant="contained"
-                  sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                    '&:hover': {
-                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                      transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Dashboard
-                </Button>
-              </Stack>
-            </Box>
-          </Container>
-        </Box>
-        
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 4 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
           <Box textAlign="center" py={8}>
-            <Typography variant="h5" gutterBottom sx={{ color: 'white', mb: 3 }}>
+            <Typography variant="h5" gutterBottom sx={{ color: 'text.primary', mb: 3 }}>
               🎉 Alle Profile durchgesehen!
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 3 }}>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
               Schau später wieder vorbei für neue kosmische Verbindungen.
             </Typography>
           <Button
@@ -446,85 +295,11 @@ export default function SwipePage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, rgba(242,159,5,0.06), rgba(140,29,4,0.04))',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      
-      {/* Fixed Navigation */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        background: 'rgba(15, 15, 35, 0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            py: 2
-          }}>
-            <Typography
-              component={Link}
-              href="/"
-              variant="h5"
-              sx={{
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                textDecoration: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              🔑 The Connection Key
-            </Typography>
-            
-            <Stack direction="row" spacing={2}>
-            <Button
-                component={Link}
-                href="/dating-info"
-                variant="outlined"
-                sx={{
-                borderColor: '#F29F05',
-                color: '#F29F05',
-                  '&:hover': {
-                  borderColor: '#8C1D04',
-                  background: 'rgba(242,159,5,0.10)'
-                  }
-                }}
-              >
-                Info
-              </Button>
-            <Button
-                component={Link}
-                href="/dashboard"
-                variant="contained"
-                sx={{
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  '&:hover': {
-                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                    transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)'
-                  },
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Dashboard
-              </Button>
-            </Stack>
-          </Box>
-        </Container>
-      </Box>
-      
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 12, md: 15 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 4 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -554,7 +329,7 @@ export default function SwipePage() {
             <Typography 
               variant="h5" 
               sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'text.secondary', 
                 mb: 3,
                 fontSize: { xs: '1.1rem', md: '1.3rem' },
                 maxWidth: '600px',
@@ -634,14 +409,11 @@ export default function SwipePage() {
           <Card
             sx={{
               height: '100%',
-              background: 'rgba(242, 159, 5, 0.06)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(242, 159, 5, 0.15)',
               borderRadius: 4,
-              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.2)',
               overflow: 'hidden',
               position: 'relative',
-              color: 'white'
+              background: 'none',
+              bgcolor: 'background.paper'
             }}
           >
             {/* Profile Image */}

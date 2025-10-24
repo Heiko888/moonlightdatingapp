@@ -938,7 +938,15 @@ export default function MondkalenderPage() {
     return (
       <Box sx={{ 
         minHeight: '100vh', 
-        background: '#02000D',
+        background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
+        },
         display: 'flex', 
         justifyContent: 'center',
         alignItems: 'center',
@@ -970,7 +978,14 @@ export default function MondkalenderPage() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: '#02000D',
+        background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
+        },
         position: 'relative',
         overflow: 'hidden'
       }}>

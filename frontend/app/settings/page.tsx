@@ -339,97 +339,10 @@ export default function SettingsPage() {
     >
       <Box sx={{
         minHeight: '100vh',
-        background: '#02000D',
-        position: 'relative',
-        overflow: 'hidden'
+        position: 'relative'
       }}>
         
-        {/* Navigation */}
-        <Box sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: '#02000D',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(242, 159, 5, 0.2)',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              py: 1
-            }}>
-              <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                <Box sx={{ 
-                  position: 'relative',
-                  height: { xs: 50, md: 70 },
-                  width: { xs: 200, md: 280 },
-                  cursor: 'pointer',
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)'
-                  }
-                }}>
-                  <Image
-                    src="/images/connection-key-logo.png"
-                    alt="The Connection Key Logo"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                    priority
-                  />
-                </Box>
-              </Link>
-              
-              <Stack direction="row" spacing={2}>
-                <Button
-                  component={Link}
-                  href="/dashboard"
-                  variant="outlined"
-                  sx={{
-                    borderColor: '#F29F05',
-                    color: '#F29F05',
-                    borderRadius: 3,
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    '&:hover': {
-                      borderColor: '#8C1D04',
-                      backgroundColor: 'rgba(242, 159, 5, 0.1)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 15px rgba(242, 159, 5, 0.25)'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  component={Link}
-                  href="/profile"
-                  variant="contained"
-                  sx={{
-                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                    borderRadius: 3,
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.35)',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 6px 25px rgba(242, 159, 5, 0.4)'
-                    },
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  Profil
-                </Button>
-              </Stack>
-            </Box>
-          </Container>
-        </Box>
+        {/* Globaler Header kommt aus AppHeader */}
 
         {/* Hero Section */}
         <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8 }}>
@@ -1498,7 +1411,7 @@ export default function SettingsPage() {
                   
                   <Button
                     component={Link}
-                    href="/profile"
+                    href="/profil"
                     variant="outlined"
                     size="large"
                     sx={{

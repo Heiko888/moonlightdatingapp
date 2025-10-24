@@ -413,7 +413,7 @@ export default function MatchTipsPage() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: '#02000D',
+        background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -429,7 +429,7 @@ export default function MatchTipsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       position: 'relative',
       overflow: 'hidden'
     }}>

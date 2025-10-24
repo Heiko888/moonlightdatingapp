@@ -224,7 +224,7 @@ export default function FriendsPage() {
       <Box
         sx={{
           minHeight: '100vh',
-          background: '#02000D',
+          background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -304,7 +304,7 @@ export default function FriendsPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       position: 'relative',
       overflow: 'hidden'
     }}>

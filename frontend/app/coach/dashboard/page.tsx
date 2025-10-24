@@ -199,9 +199,16 @@ const CoachDashboard: React.FC = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       py: 4,
-      position: 'relative'
+      position: 'relative',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
+      }
     }}>
       {/* Loading Overlay */}
       {loading && (
@@ -244,7 +251,7 @@ const CoachDashboard: React.FC = () => {
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box sx={{ position: 'relative', width: '100%', maxWidth: 600, height: 280, mx: 'auto' }}>
             <Image
-              src="/images/connection-key-logo.png"
+              src="/images/Design%20ohne%20Titel%2815%29.png"
               alt="The Connection Key"
               fill
               style={{ objectFit: 'contain' }}
@@ -258,13 +265,13 @@ const CoachDashboard: React.FC = () => {
         <Grid container spacing={3} sx={{ mb: 4 }}>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(242, 159, 5, 0.10)', 
-              border: '1px solid rgba(242, 159, 5, 0.30)',
+              bgcolor: 'background.paper',
+              border: '1px solid rgba(242, 159, 5, 0.15)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(242, 159, 5, 0.30)',
+                boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)',
               }
             }}>
               <CardContent>
@@ -279,13 +286,13 @@ const CoachDashboard: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={2.4}>
             <Card sx={{ 
-              background: 'rgba(242, 159, 5, 0.10)', 
-              border: '1px solid rgba(242, 159, 5, 0.30)',
+              bgcolor: 'background.paper',
+              border: '1px solid rgba(242, 159, 5, 0.15)',
               backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 24px rgba(242, 159, 5, 0.30)',
+                boxShadow: '0 20px 40px rgba(242, 159, 5, 0.25)',
               }
             }}>
               <CardContent>

@@ -416,7 +416,7 @@ export default function PackageDetailPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       py: 6
     }}>
       <Container maxWidth="lg">

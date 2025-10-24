@@ -8,8 +8,8 @@ const theme = createTheme({
     primary: { main: '#F29F05' }, // Akzent 1
     secondary: { main: '#8C1D04' }, // Akzent 2
     background: { 
-      default: '#02000D', // Tiefes Schwarzblau
-      paper: 'rgba(242, 159, 5, 0.05)'
+      default: '#0b0a0f',
+      paper: 'rgba(255,255,255,0.06)'
     },
     text: { 
       primary: '#ffffff', 
@@ -47,6 +47,31 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          background: 'radial-gradient(1200px 600px at 50% 10%, rgba(242,159,5,0.08), transparent), linear-gradient(180deg, #0b0a0f 0%, #0b0a0f 60%)',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'fixed',
+            inset: 0,
+            pointerEvents: 'none',
+            background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.24), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.18), transparent 78%)',
+            zIndex: -1
+          }
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(242, 159, 5, 0.15)',
+          backdropFilter: 'blur(10px)'
+        }
+      }
+    },
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
@@ -98,6 +123,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent'
+        }
+      }
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: { 
@@ -134,6 +166,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiSelect: {
+      styleOverrides: {
+        icon: {
+          color: '#F29F05'
+        }
+      }
+    },
     MuiChip: {
       styleOverrides: {
         root: {
@@ -143,6 +182,56 @@ const theme = createTheme({
           '&:hover': {
             backgroundColor: 'rgba(242, 159, 5, 0.3)'
           }
+        }
+      }
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          border: '1px solid rgba(242, 159, 5, 0.25)',
+          backdropFilter: 'blur(8px)'
+        },
+        standardInfo: {
+          backgroundColor: 'rgba(38,10,10,0.25)',
+          color: '#ffffff'
+        },
+        standardSuccess: {
+          backgroundColor: 'rgba(89,10,3,0.25)',
+          color: '#ffffff'
+        },
+        standardWarning: {
+          backgroundColor: 'rgba(242,159,5,0.18)',
+          color: '#ffffff'
+        },
+        standardError: {
+          backgroundColor: 'rgba(140,29,4,0.22)',
+          color: '#ffffff'
+        }
+      }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(242, 159, 5, 0.25)',
+          backdropFilter: 'blur(8px)'
+        }
+      }
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255,255,255,0.06)',
+          borderBottom: '1px solid rgba(242, 159, 5, 0.25)'
+        }
+      }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255,255,255,0.06)',
+          borderTop: '1px solid rgba(242, 159, 5, 0.25)'
         }
       }
     },

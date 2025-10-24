@@ -10,7 +10,7 @@ export default function CoachingLoading() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        background: '#000000',
+        background: 'radial-gradient(1200px 600px at 50% 10%, rgba(242,159,5,0.08), transparent), linear-gradient(180deg, #0b0a0f 0%, #0b0a0f 60%)',
         gap: 4,
         padding: 3
       }}
@@ -39,7 +39,7 @@ export default function CoachingLoading() {
         size={70}
         thickness={4}
         sx={{
-          color: '#e8b86d',
+          color: '#F29F05',
           '& .MuiCircularProgress-circle': {
             strokeLinecap: 'round',
           }
@@ -50,7 +50,7 @@ export default function CoachingLoading() {
       <Typography
         variant="h6"
         sx={{
-          color: '#e8b86d',
+          color: '#F29F05',
           fontWeight: 600,
           textAlign: 'center'
         }}

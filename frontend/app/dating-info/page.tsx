@@ -159,9 +159,16 @@ export default function DatingInfoPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#02000D',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
+      }
     }}>
       
       {/* Navigation */}
@@ -171,7 +178,7 @@ export default function DatingInfoPage() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: '#000000',
+        background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
@@ -195,7 +202,7 @@ export default function DatingInfoPage() {
                 }
               }}>
                 <Image
-                  src="/images/connection-key-logo.png"
+                  src="/images/Design%20ohne%20Titel%2815%29.png"
                   alt="The Connection Key Logo"
                   fill
                   style={{ objectFit: 'contain' }}
