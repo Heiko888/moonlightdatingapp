@@ -5,7 +5,13 @@
 $ServerIP = "138.199.237.34"
 $Username = "root"
 $ServerPath = "/opt/hd-app/HD_App_chart"
-$SSH = "ssh -o ConnectTimeout=7 -o ServerAliveInterval=15 -o ServerAliveCountMax=4 -o StrictHostKeyChecking=no"
+$sshExe = "ssh"
+$sshOpts = @(
+  "-o","ConnectTimeout=7",
+  "-o","ServerAliveInterval=15",
+  "-o","ServerAliveCountMax=4",
+  "-o","StrictHostKeyChecking=no"
+)
 
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host "  HETZNER DEPLOYMENT - Social Sharing Update" -ForegroundColor Cyan
@@ -14,7 +20,7 @@ Write-Host ""
 
 # 1. GitHub auf Hetzner pullen
 Write-Host "1️⃣  GitHub Repository auf Hetzner Server pullen..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath && git pull origin main"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && git pull origin main"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Git Pull fehlgeschlagen!" -ForegroundColor Red
@@ -26,7 +32,7 @@ Write-Host ""
 
 # 2. Dependencies installieren
 Write-Host "2️⃣  Dependencies installieren (html2canvas, nanoid)..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath/frontend && npm install"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath/frontend && npm install"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "⚠️  npm install hatte Fehler, aber weiter..." -ForegroundColor Yellow
@@ -37,14 +43,14 @@ Write-Host ""
 
 # 3. Docker Container stoppen
 Write-Host "3️⃣  Stoppe laufende Docker Container..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml down"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml down"
 
 Write-Host "✅ Container gestoppt!" -ForegroundColor Green
 Write-Host ""
 
 # 4. Frontend neu bauen (ohne Cache)
 Write-Host "4️⃣  Frontend neu bauen..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml build --no-cache frontend"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml build --no-cache frontend"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Frontend Build fehlgeschlagen!" -ForegroundColor Red
@@ -56,7 +62,7 @@ Write-Host ""
 
 # 5. Alle Services starten
 Write-Host "5️⃣  Starte alle Services..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml up -d"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml up -d"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "❌ Services konnten nicht gestartet werden!" -ForegroundColor Red
@@ -114,7 +120,7 @@ Write-Host ""
 
 # 8. Docker Container Status
 Write-Host "7️⃣  Docker Container Status..." -ForegroundColor Yellow
-& $SSH "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml ps"
+& $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && docker-compose -f docker-compose.supabase.yml ps"
 
 Write-Host ""
 Write-Host "================================================" -ForegroundColor Cyan
