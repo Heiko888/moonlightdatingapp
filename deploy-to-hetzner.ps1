@@ -23,8 +23,27 @@ Write-Host "1️⃣  GitHub Repository auf Hetzner Server pullen..." -Foreground
 & $sshExe @sshOpts "$Username@$ServerIP" "cd $ServerPath && git pull origin main"
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ Git Pull fehlgeschlagen!" -ForegroundColor Red
-    exit 1
+    Write-Host "⚠️  Git Pull fehlgeschlagen – Fallback: Code-Paket wird hochgeladen..." -ForegroundColor Yellow
+    try {
+        $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+        $archive = Join-Path $env:TEMP "hd_app_chart_$timestamp.tar"
+        Write-Host "   • Erzeuge Archiv aus aktuellem Commit..." -ForegroundColor Gray
+        & git -C "$PSScriptRoot" archive -o "$archive" HEAD
+        if ($LASTEXITCODE -ne 0 -or -not (Test-Path $archive)) { throw "git archive fehlgeschlagen" }
+
+        Write-Host "   • Lade Archiv per SCP hoch..." -ForegroundColor Gray
+        & scp @sshOpts "$archive" "$Username@$ServerIP:/tmp/hd_app_chart.tar"
+        if ($LASTEXITCODE -ne 0) { throw "scp fehlgeschlagen" }
+
+        Write-Host "   • Entpacke Archiv auf Server..." -ForegroundColor Gray
+        & $sshExe @sshOpts "$Username@$ServerIP" "mkdir -p $ServerPath && tar -xf /tmp/hd_app_chart.tar -C $ServerPath && rm -f /tmp/hd_app_chart.tar"
+        if ($LASTEXITCODE -ne 0) { throw "Remote-Entpacken fehlgeschlagen" }
+
+        Write-Host "✅ Fallback-Upload erfolgreich!" -ForegroundColor Green
+    } catch {
+        Write-Host "❌ Fallback fehlgeschlagen: $($_.Exception.Message)" -ForegroundColor Red
+        exit 1
+    }
 }
 
 Write-Host "✅ Git Pull erfolgreich!" -ForegroundColor Green
