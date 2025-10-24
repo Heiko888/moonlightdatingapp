@@ -46,18 +46,18 @@ export default function AppHeader() {
       borderBottom: '1px solid rgba(242, 159, 5, 0.15)',
       boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
     }}>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" disableGutters sx={{ px: { xs: 1.5, sm: 2 } }}>
         <Box sx={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          py: 1
+          py: { xs: 0.5, md: 1 }
         }}>
           <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <Box sx={{
               position: 'relative',
-              height: { xs: 50, md: 70 },
-              width: { xs: 200, md: 280 },
+              height: { xs: 40, md: 70 },
+              width: { xs: 140, md: 280 },
               cursor: 'pointer',
               transition: 'transform 0.3s ease',
               '&:hover': { transform: 'scale(1.05)' }
@@ -73,12 +73,27 @@ export default function AppHeader() {
             </Box>
           </Link>
 
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{
+            display: 'flex',
+            gap: { xs: 1, sm: 2 },
+            overflowX: { xs: 'auto', sm: 'visible' },
+            maxWidth: { xs: '60%', sm: 'unset' },
+            ml: { xs: 1, sm: 2 },
+            '::-webkit-scrollbar': { height: 6 },
+            '::-webkit-scrollbar-thumb': { background: 'rgba(255,255,255,0.2)', borderRadius: 4 }
+          }}>
             <Button
               component={Link}
               href="/"
               variant="outlined"
-              sx={{ textTransform: 'none', fontWeight: 600 }}
+              size="small"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 600,
+                minWidth: { xs: 'auto', sm: 120 },
+                px: { xs: 1.5, sm: 2.5 },
+                whiteSpace: 'nowrap'
+              }}
             >
               Home
             </Button>
@@ -86,7 +101,14 @@ export default function AppHeader() {
               <Button
                 onClick={handleLogout}
                 variant="outlined"
-                sx={{ textTransform: 'none', fontWeight: 600 }}
+                size="small"
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  minWidth: { xs: 'auto', sm: 120 },
+                  px: { xs: 1.5, sm: 2.5 },
+                  whiteSpace: 'nowrap'
+                }}
               >
                 Abmelden
               </Button>
@@ -95,7 +117,14 @@ export default function AppHeader() {
                 component={Link}
                 href="/register"
                 variant="outlined"
-                sx={{ textTransform: 'none', fontWeight: 600 }}
+                size="small"
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  minWidth: { xs: 'auto', sm: 120 },
+                  px: { xs: 1.5, sm: 2.5 },
+                  whiteSpace: 'nowrap'
+                }}
               >
                 Registrieren
               </Button>
