@@ -63,6 +63,17 @@ ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $free80
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $free443
 Write-Host ""
 
+Write-Step "Stoppe systemweiten nginx (falls vorhanden)"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "systemctl stop nginx 2>/dev/null || true; service nginx stop 2>/dev/null || true; nginx -s stop 2>/dev/null || true; pkill -f nginx 2>/dev/null || true"
+Write-Host ""
+
+Write-Step "Kille Prozesse, die Ports 80/443 belegen (docker-proxy etc.)"
+$kill80 = "for p in $(ss -ltnp | grep -E ':80 ' | sed -n \"s/.*pid=\\([0-9]\\+\\).*/\\1/p\"); do kill -9 $p 2>/dev/null || true; done"
+$kill443 = "for p in $(ss -ltnp | grep -E ':443 ' | sed -n \"s/.*pid=\\([0-9]\\+\\).*/\\1/p\"); do kill -9 $p 2>/dev/null || true; done"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $kill80
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $kill443
+Write-Host ""
+
 Write-Step "Starte Container mit neuem Image"
 $remoteUp = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE up -d --force-recreate frontend nginx"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remoteUp
