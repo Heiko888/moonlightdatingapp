@@ -56,6 +56,11 @@ Write-Step "Stoppe laufende Container (compose down)"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE down"
 Write-Host ""
 
+Write-Step "Raeume blockierende Port-Container auf (80/443)"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "docker ps -q --filter \"publish=80\" | xargs -r docker stop"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "docker ps -q --filter \"publish=443\" | xargs -r docker stop"
+Write-Host ""
+
 Write-Step "Starte Container mit neuem Image"
 $remoteUp = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE up -d --force-recreate frontend nginx"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remoteUp
