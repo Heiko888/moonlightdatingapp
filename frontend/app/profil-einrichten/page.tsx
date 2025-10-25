@@ -75,6 +75,10 @@ export default function ProfilEinrichtenPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Helper: Ermitteln, ob Registrierungsdaten bereits vorhanden sind
+  const hasPersonalData = !!(formData.firstName && formData.lastName && formData.email);
+  const hasBirthData = !!(formData.birthDate && formData.birthPlace);
+
   // Gemeinsames Styling für alle Formularfelder
   const textFieldStyle = {
     '& .MuiInputLabel-root': {
@@ -129,6 +133,16 @@ export default function ProfilEinrichtenPage() {
           birthTime: user.birthTime || '',
           birthPlace: user.birthPlace || ''
         }));
+
+        // Initialen Schritt dynamisch wählen: überspringe bereits erfasste Schritte
+        let initialStep = 0;
+        const hasPersonal = !!(user.firstName && user.lastName && user.email);
+        const hasBirth = !!(user.birthDate && user.birthPlace);
+        if (hasPersonal) initialStep = 1; // Step 0 überspringen
+        if (hasBirth) initialStep = Math.max(initialStep, 3); // Step 2 zusätzlich überspringen
+        if (initialStep !== 0) {
+          setActiveStep(initialStep);
+        }
       } catch (error) {
         console.error('Fehler beim Laden der User-Daten:', error);
       }
@@ -151,15 +165,35 @@ export default function ProfilEinrichtenPage() {
     }));
   }, []);
 
+  const shouldSkip = useCallback((stepIndex: number) => {
+    // Step 0: Persönliche Daten → überspringen, wenn aus Registrierung vorhanden
+    if (stepIndex === 0) {
+      return !!(formData.firstName && formData.lastName && formData.email);
+    }
+    // Step 2: Geburtsdaten → überspringen, wenn bereits vorhanden
+    if (stepIndex === 2) {
+      return !!(formData.birthDate && formData.birthPlace);
+    }
+    return false;
+  }, [formData.firstName, formData.lastName, formData.email, formData.birthDate, formData.birthPlace]);
+
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
-      setActiveStep(prev => prev + 1);
+      let next = activeStep + 1;
+      while (next < steps.length - 1 && shouldSkip(next)) {
+        next += 1;
+      }
+      setActiveStep(next);
     }
   };
 
   const handleBack = () => {
     if (activeStep > 0) {
-      setActiveStep(prev => prev - 1);
+      let prev = activeStep - 1;
+      while (prev > 0 && shouldSkip(prev)) {
+        prev -= 1;
+      }
+      setActiveStep(prev);
     }
   };
 
@@ -239,6 +273,24 @@ export default function ProfilEinrichtenPage() {
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
+        // Wenn Daten bereits vorhanden sind, zeige eine kurze Zusammenfassung statt erneut abzufragen
+        if (hasPersonalData) {
+          return (
+            <Card sx={{ p: 2, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <CardContent>
+                <Typography variant="subtitle1" sx={{ color: 'white', mb: 1, fontWeight: 700 }}>
+                  Registrierungsdaten übernommen
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  {formData.firstName} {formData.lastName} &middot; {formData.email}
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Diese Angaben wurden bereits während der Registrierung erfasst.
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        }
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
@@ -359,6 +411,24 @@ export default function ProfilEinrichtenPage() {
         );
 
       case 2:
+        // Wenn Geburtsdaten vorhanden sind, zeige eine Zusammenfassung und frage nicht erneut ab
+        if (hasBirthData) {
+          return (
+            <Card sx={{ p: 2, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <CardContent>
+                <Typography variant="subtitle1" sx={{ color: 'white', mb: 1, fontWeight: 700 }}>
+                  Geburtsdaten übernommen
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                  {formData.birthDate || 'unbekannt'} {formData.birthTime ? `· ${formData.birthTime}` : ''} {formData.birthPlace ? `· ${formData.birthPlace}` : ''}
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Diese Angaben wurden bereits während der Registrierung erfasst.
+                </Typography>
+              </CardContent>
+            </Card>
+          );
+        }
         return (
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
