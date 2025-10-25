@@ -43,6 +43,11 @@ Write-Step "Aktueller Container-Status"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE ps"
 Write-Host ""
 
+# Schritt 3.1: Code vom GitHub Repo ziehen
+Write-Step "Synchronisiere Code (git pull)"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && git pull origin main"
+Write-Host ""
+
 # Schritt 4: Neues Image pullen
 Write-Step "Ziehe neues Docker-Image"
 Write-Info "Registry: ghcr.io/heiko888/moonlightdatingapp:main"
@@ -78,6 +83,12 @@ Write-Step "Starte Container mit neuem Image"
 $remoteUp = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE up -d --force-recreate frontend nginx"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remoteUp
 if ($LASTEXITCODE -ne 0) { Write-Error "Fehler beim Neustart der Container"; exit 1 }
+Write-Host ""
+
+# Schritt 5.1: Frontend neu bauen (falls build verwendet wird)
+Write-Step "Baue Frontend neu (no-cache)"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE build --no-cache frontend"
+if ($LASTEXITCODE -ne 0) { Write-Error "Fehler beim Frontend-Build"; exit 1 }
 Write-Host ""
 
 # Schritt 6: Warte auf Container-Start
