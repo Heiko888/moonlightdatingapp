@@ -18,7 +18,7 @@ Write-Host "================================================" -ForegroundColor C
 Write-Host "  HETZNER DEPLOYMENT (Wrapper)" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "⚠️  Hinweis: Dieses Skript ist veraltet und startet 'update-hetzner-after-build.ps1'." -ForegroundColor Yellow
+Write-Host "Hinweis: Dieses Skript ist veraltet und startet 'update-hetzner-after-build.ps1'." -ForegroundColor Yellow
 Write-Host ""
 
 $updateScript = Join-Path $PSScriptRoot "update-hetzner-after-build.ps1"
