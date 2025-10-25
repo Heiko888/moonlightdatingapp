@@ -308,70 +308,8 @@ export default function FriendsPage() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Fixed Navigation Bar */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        backdropFilter: 'blur(20px)',
-        background: 'rgba(2, 0, 13, 0.80)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            py: 2 
-          }}>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <Typography variant="h5" sx={{ 
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 800,
-                cursor: 'pointer'
-              }}>
-                🔑 The Connection Key
-              </Typography>
-            </Link>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                onClick={() => router.push('/community-info')}
-                variant="outlined"
-                sx={{
-                  color: 'white',
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                  '&:hover': {
-                    borderColor: '#F29F05',
-                    background: 'rgba(242, 159, 5, 0.10)'
-                  }
-                }}
-              >
-                Info
-              </Button>
-              <Button
-                onClick={() => router.push('/dashboard')}
-                variant="contained"
-                startIcon={<Home size={18} />}
-                sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
-                  }
-                }}
-              >
-                Dashboard
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 3 }, pb: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
