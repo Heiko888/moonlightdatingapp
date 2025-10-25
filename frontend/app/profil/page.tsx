@@ -1256,7 +1256,13 @@ function ProfilContent() {
               {(() => {
                 const userData = localStorage.getItem('userData');
                 const profileImage = localStorage.getItem('profileImage');
-                const datingPhotos = userData ? JSON.parse(userData).datingPhotos || [] : [];
+                let parsedUserData: any = null;
+                try {
+                  parsedUserData = userData ? JSON.parse(userData) : null;
+                } catch (e) {
+                  parsedUserData = null;
+                }
+                const datingPhotos = Array.isArray(parsedUserData?.datingPhotos) ? parsedUserData.datingPhotos : [];
                 
                 let completedSteps = 0;
                 let totalSteps = 5;
