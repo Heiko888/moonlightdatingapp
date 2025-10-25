@@ -175,6 +175,31 @@ const RegisterPage: React.FC = () => {
       } else {
         // Registrierung erfolgreich
         setSuccess(true);
+        // Profildaten lokal speichern, damit /profil sie direkt lesen kann
+        try {
+          if (typeof window !== 'undefined') {
+            const userProfile = {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              birthDate: convertBirthDateForAPI(formData.birthDate),
+              birthTime: formData.birthTime,
+              birthPlace: formData.birthPlace
+            } as any;
+
+            localStorage.setItem('userEmail', formData.email);
+            localStorage.setItem('userData', JSON.stringify(userProfile));
+            localStorage.setItem('user-subscription', JSON.stringify({ packageId: formData.subscription }));
+
+            // Optional: userId/Token setzen, falls Supabase sie sofort liefert
+            if (data?.user?.id) {
+              localStorage.setItem('userId', data.user.id);
+            }
+            if (data?.session?.access_token) {
+              localStorage.setItem('token', data.session.access_token);
+            }
+          }
+        } catch {}
         
         // Nach 2 Sekunden zur Profil-Einrichtung weiterleiten
         setTimeout(() => {
@@ -257,11 +282,11 @@ const RegisterPage: React.FC = () => {
         </Typography>
             </Box>
 
-            {error && (
+        {error && (
               <Alert severity="error" sx={{ mb: 4 }}>
-                {error}
-              </Alert>
-            )}
+            {error}
+          </Alert>
+        )}
 
             <Box component="form" onSubmit={handleSubmit}>
               <Grid container spacing={3}>
@@ -631,28 +656,28 @@ const RegisterPage: React.FC = () => {
 
               <Box sx={{ textAlign: 'center', mt: 5 }}>
                 <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
-                  Bereits ein Konto?{' '}
-                  <Button 
+              Bereits ein Konto?{' '}
+              <Button 
                     component={Link}
                     href="/login"
-                    variant="text" 
-                    disabled={loading}
+                variant="text" 
+                disabled={loading}
                     sx={{ fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}
-                  >
-                    Jetzt anmelden
-                  </Button>
-                </Typography>
+              >
+                Jetzt anmelden
+              </Button>
+            </Typography>
 
-                <Button 
+            <Button 
                   component={Link}
                   href="/"
-                  variant="text" 
-                  disabled={loading}
+              variant="text" 
+              disabled={loading}
                   sx={{ textTransform: 'none', fontSize: '0.9rem' }}
-                >
-                  ← Zurück zur Startseite
-                </Button>
-              </Box>
+            >
+              ← Zurück zur Startseite
+            </Button>
+          </Box>
         </Box>
       </Paper>
         </motion.div>
