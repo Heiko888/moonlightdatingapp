@@ -13,7 +13,8 @@ Write-Host ""
 $SERVER_IP = "138.199.237.34"
 $SSH_USER = "root"
 $SSH_KEY = ".\Domain the connection Key"
-$SERVER_PATH = "/opt/hd-app"
+$SERVER_PATH = "/opt/hd-app/HD_App_chart"
+$COMPOSE_FILE = "docker-compose.supabase.yml"
 
 function Write-Step { param($Message) Write-Host "[->] $Message" -ForegroundColor Cyan }
 function Write-Success { param($Message) Write-Host "[OK] $Message" -ForegroundColor Green }
@@ -39,20 +40,20 @@ Write-Host ""
 
 # Schritt 3: Aktuellen Container-Status
 Write-Step "Aktueller Container-Status"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose ps"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE ps"
 Write-Host ""
 
 # Schritt 4: Neues Image pullen
 Write-Step "Ziehe neues Docker-Image"
 Write-Info "Registry: ghcr.io/heiko888/moonlightdatingapp:main"
-$remotePull = "cd $SERVER_PATH; docker-compose pull"
+$remotePull = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE pull"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remotePull
 if ($LASTEXITCODE -ne 0) { Write-Error "Fehler beim Pullen des Images"; exit 1 }
 Write-Host ""
 
 # Schritt 5: Container mit neuem Image starten
 Write-Step "Starte Container mit neuem Image"
-$remoteUp = "cd $SERVER_PATH; docker-compose up -d --force-recreate frontend nginx"
+$remoteUp = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE up -d --force-recreate frontend nginx"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remoteUp
 if ($LASTEXITCODE -ne 0) { Write-Error "Fehler beim Neustart der Container"; exit 1 }
 Write-Host ""
@@ -64,17 +65,17 @@ Write-Host ""
 
 # Schritt 7: Neuer Container-Status
 Write-Step "Neuer Container-Status"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose ps"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE ps"
 Write-Host ""
 
 # Schritt 8: Nginx-Logs pruefen
 Write-Step "Nginx-Logs (letzte 20 Zeilen)"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose logs --tail=20 nginx"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE logs --tail=20 nginx"
 Write-Host ""
 
 # Schritt 9: Frontend-Logs pruefen
 Write-Step "Frontend-Logs (letzte 10 Zeilen)"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose logs --tail=10 frontend"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE logs --tail=10 frontend"
 Write-Host ""
 
 # Schritt 10: HTTPS Test
