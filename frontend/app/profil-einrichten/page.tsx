@@ -838,34 +838,12 @@ export default function ProfilEinrichtenPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      background: '#000000',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       position: 'relative',
       overflow: 'hidden'
     }}>
       
-      <Container maxWidth="md" sx={{ py: 4, position: 'relative', zIndex: 2 }}>
-        {/* Logo */}
-        <Box sx={{ 
-          display: 'flex',
-          justifyContent: 'center',
-          mb: { xs: 3, md: 4 }
-        }}>
-          <Box sx={{ 
-            position: 'relative',
-            width: '100%',
-            maxWidth: { xs: 250, sm: 350, md: 500 },
-            height: { xs: 120, sm: 170, md: 240 }
-          }}>
-            <Image
-              src="/images/connection-key-logo.png"
-              alt="Connection Key Logo"
-              fill
-              style={{ objectFit: 'contain' }}
-              priority
-              sizes="(max-width: 600px) 250px, (max-width: 960px) 350px, 500px"
-            />
-          </Box>
-        </Box>
+      <Container maxWidth="md" sx={{ pt: { xs: 2, md: 3 }, pb: 4, position: 'relative', zIndex: 2 }}>
 
         {/* Header */}
         <motion.div
