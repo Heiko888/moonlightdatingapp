@@ -57,8 +57,10 @@ ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $
 Write-Host ""
 
 Write-Step "Raeume blockierende Port-Container auf (80/443)"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "docker ps -q --filter \"publish=80\" | xargs -r docker stop"
-ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "docker ps -q --filter \"publish=443\" | xargs -r docker stop"
+$free80 = 'docker ps -q --filter "publish=80" | xargs -r docker rm -f'
+$free443 = 'docker ps -q --filter "publish=443" | xargs -r docker rm -f'
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $free80
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $free443
 Write-Host ""
 
 Write-Step "Starte Container mit neuem Image"
