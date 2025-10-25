@@ -52,6 +52,10 @@ if ($LASTEXITCODE -ne 0) { Write-Error "Fehler beim Pullen des Images"; exit 1 }
 Write-Host ""
 
 # Schritt 5: Container mit neuem Image starten
+Write-Step "Stoppe laufende Container (compose down)"
+ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} "cd $SERVER_PATH && docker-compose -f $COMPOSE_FILE down"
+Write-Host ""
+
 Write-Step "Starte Container mit neuem Image"
 $remoteUp = "cd $SERVER_PATH; docker-compose -f $COMPOSE_FILE up -d --force-recreate frontend nginx"
 ssh -i $SSH_KEY ${SSH_USER}@${SERVER_IP} $remoteUp
