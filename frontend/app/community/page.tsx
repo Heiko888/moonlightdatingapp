@@ -428,70 +428,7 @@ function CommunityContent() {
         }
       }}>
 
-        {/* Fixed Navigation */}
-        <Box sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          backdropFilter: 'blur(20px)',
-          background: 'rgba(15, 15, 35, 0.95)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3)'
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              py: 2 
-            }}>
-              <Link href="/" style={{ textDecoration: 'none' }}>
-                <Typography variant="h5" sx={{ 
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 800,
-                  cursor: 'pointer'
-                }}>
-                  🔑 The Connection Key
-                </Typography>
-              </Link>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button
-                  onClick={() => router.push('/community-info')}
-                  variant="outlined"
-                  sx={{
-                    color: 'white',
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
-                    '&:hover': {
-                      borderColor: '#F29F05',
-                      background: 'rgba(242, 159, 5, 0.10)'
-                    }
-                  }}
-                >
-                  Info
-                </Button>
-                <Button
-                  onClick={() => router.push('/dashboard')}
-                  variant="contained"
-                  sx={{
-                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
-                    }
-                  }}
-                >
-                  Dashboard
-                </Button>
-              </Box>
-            </Box>
-          </Container>
-        </Box>
-
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: 8, px: { xs: 1, sm: 2 } }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 3 }, pb: 8, px: { xs: 1, sm: 2 } }}>
           {/* Header */}
           <Box textAlign="center" mb={6}>
             <Typography 
