@@ -40,7 +40,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SSRSafeStars from '@/components/SSRSafeStars';
+ 
 
 // Vollständige Seiten-Datenbank (120+ Seiten)
 const allPages = [
@@ -274,86 +274,19 @@ export default function SeitenuebersichtPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      background: '#000000',
+      background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
       position: 'relative',
       overflow: 'hidden',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
+      },
       color: 'white',
     }}>
-      <SSRSafeStars />
-
-      {/* Fixed Navigation Bar */}
-      <Box sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        backdropFilter: 'blur(20px)',
-        background: '#000000',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-      }}>
-        <Container maxWidth="lg">
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'space-between',
-            py: 1 
-          }}>
-            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ 
-                position: 'relative',
-                height: { xs: 50, md: 70 },
-                width: { xs: 200, md: 280 },
-                cursor: 'pointer',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)'
-                }
-              }}>
-                <Image
-                  src="/images/connection-key-logo.png"
-                  alt="The Connection Key Logo"
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </Box>
-            </Link>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                component={Link}
-                href="/dashboard"
-                variant="outlined"
-                sx={{
-                  color: 'white',
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                  '&:hover': {
-                    borderColor: '#4ecdc4',
-                    background: 'rgba(78, 205, 196, 0.1)'
-                  }
-                }}
-              >
-                Dashboard
-              </Button>
-              <Button
-                component={Link}
-                href="/login"
-                variant="contained"
-                sx={{
-                  background: 'linear-gradient(135deg, #4ecdc4, #0891b2)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #3bb5b0, #0779a1)'
-                  }
-                }}
-              >
-                Anmelden
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: 15, pb: { xs: 4, md: 8 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 3 }, pb: { xs: 4, md: 8 } }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
