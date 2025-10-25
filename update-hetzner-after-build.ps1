@@ -1,6 +1,10 @@
 # 🚀 Hetzner Server Update nach GitHub Build
 # Zieht das neue Docker-Image und startet die Container neu
 
+param(
+    [switch]$AutoConfirmBuild = $false
+)
+
 Write-Host "🚀 Hetzner Server Update" -ForegroundColor Blue
 Write-Host "========================" -ForegroundColor Blue
 Write-Host ""
@@ -48,10 +52,12 @@ Write-Step "GitHub Actions Status..."
 Write-Info "Bitte überprüfe, ob der GitHub Actions Workflow abgeschlossen ist:"
 Write-Host "   https://github.com/Heiko888/moonlightdatingapp/actions" -ForegroundColor Blue
 Write-Host ""
-$continue = Read-Host "Ist der Docker Image Build abgeschlossen? (ja/nein)"
-if ($continue -ne "ja") {
-    Write-Host "Warte auf Build-Abschluss..." -ForegroundColor Yellow
-    exit 0
+if (-not $AutoConfirmBuild) {
+    $continue = Read-Host "Ist der Docker Image Build abgeschlossen? (ja/nein)"
+    if ($continue -ne "ja") {
+        Write-Host "Warte auf Build-Abschluss..." -ForegroundColor Yellow
+        exit 0
+    }
 }
 Write-Host ""
 
