@@ -33,7 +33,7 @@
     "lucide-react": "^0.539.0",
     "marked": "^16.2.0",
     "nanoid": "^5.1.6",
-    "next": "14.2.15",
+    "next": "14.2.33",
     "openai": "^5.16.0",
     "pdfkit": "^0.17.1",
     "prom-client": "^15.1.3",
