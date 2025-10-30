@@ -5,10 +5,9 @@
 $SERVER = "root@138.199.237.34"
 $APP_DIR = "/opt/hd-app/HD_App_chart"
 
-Write-Host "==================================================="
-Write-Host "  HETZNER DEPLOYMENT - STATIC FILES FIX"
-Write-Host "==================================================="
-Write-Host ""
+Write-Host "Dieses Skript ist legacy. Bitte verwende 'deploy-to-hetzner-fixed.ps1'" -ForegroundColor Yellow
+& "$PSScriptRoot/deploy-to-hetzner-fixed.ps1"
+exit $LASTEXITCODE
 
 # 1. Push changes to GitHub
 Write-Host "1. Pushing changes to GitHub..."
@@ -78,16 +77,5 @@ echo "Check your app at: https://www.the-connection-key.de"
 echo ""
 "@
 
-# Execute on server
-ssh $SERVER $deployScript
-
-Write-Host ""
-Write-Host "==================================================="
-Write-Host "  DONE!"
-Write-Host "==================================================="
-Write-Host ""
-Write-Host "Teste jetzt deine App unter:"
-Write-Host "https://www.the-connection-key.de"
-Write-Host ""
-Write-Host "Die /_next/static/ Dateien sollten jetzt erreichbar sein!"
+return
 

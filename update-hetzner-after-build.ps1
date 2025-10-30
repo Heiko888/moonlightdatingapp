@@ -5,9 +5,15 @@ param(
     [switch]$AutoConfirmBuild = $false
 )
 
-Write-Host "Hetzner Server Update" -ForegroundColor Blue
-Write-Host "======================" -ForegroundColor Blue
-Write-Host ""
+Write-Host "Dieses Skript ist legacy. Bitte verwende 'deploy-to-hetzner-fixed.ps1'" -ForegroundColor Yellow
+Write-Host "Starte Weiterleitung..." -ForegroundColor Yellow
+try {
+  & "$PSScriptRoot\deploy-to-hetzner-fixed.ps1"
+  exit $LASTEXITCODE
+} catch {
+  Write-Host "Weiterleitung fehlgeschlagen. Bitte manuell 'deploy-to-hetzner-fixed.ps1' ausführen." -ForegroundColor Red
+  exit 1
+}
 
 # Server-Daten
 $SERVER_IP = "138.199.237.34"
