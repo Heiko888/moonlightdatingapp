@@ -523,11 +523,12 @@ const DashboardPage: React.FC = () => {
               overflow: 'hidden',
               transition: 'all 0.3s ease',
               boxShadow: '0 6px 24px rgba(0, 0, 0, 0.35)',
+              cursor: 'pointer',
               '&:hover': {
                 transform: 'translateY(-4px)',
                 boxShadow: '0 10px 34px rgba(0, 0, 0, 0.45)'
               }
-            }}>
+            }} onClick={() => router.push('/journal')}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
                   width: 50,

@@ -123,20 +123,6 @@ const RegisterPage: React.FC = () => {
       return 'Das Passwort muss mindestens 6 Zeichen lang sein.';
     }
     
-    if (!formData.birthDate || formData.birthDate.length !== 10) {
-      return 'Bitte geben Sie Ihr Geburtsdatum im Format dd/mm/yyyy an.';
-    }
-    
-    // Validierung des Datums
-    const [day, month, year] = formData.birthDate.split('/');
-    const dayNum = parseInt(day);
-    const monthNum = parseInt(month);
-    const yearNum = parseInt(year);
-    
-    if (dayNum < 1 || dayNum > 31 || monthNum < 1 || monthNum > 12 || yearNum < 1900 || yearNum > new Date().getFullYear()) {
-      return 'Bitte geben Sie ein gültiges Geburtsdatum ein.';
-    }
-    
     return null;
   };
 
@@ -161,10 +147,7 @@ const RegisterPage: React.FC = () => {
         options: {
           data: {
             first_name: formData.firstName,
-            last_name: formData.lastName,
-            birth_date: convertBirthDateForAPI(formData.birthDate),
-            birth_time: formData.birthTime,
-            birth_place: formData.birthPlace
+            last_name: formData.lastName
           }
         }
       });
@@ -181,10 +164,7 @@ const RegisterPage: React.FC = () => {
             const userProfile = {
               firstName: formData.firstName,
               lastName: formData.lastName,
-              email: formData.email,
-              birthDate: convertBirthDateForAPI(formData.birthDate),
-              birthTime: formData.birthTime,
-              birthPlace: formData.birthPlace
+              email: formData.email
             } as any;
 
             localStorage.setItem('userEmail', formData.email);
@@ -472,103 +452,7 @@ const RegisterPage: React.FC = () => {
                   />
                 </Grid>
 
-                {/* Geburtsdaten */}
-                <Grid item xs={12}>
-                  <Typography variant="h6" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center' }}>
-                    <CalendarToday sx={{ mr: 1, color: '#F29F05' }} />
-                    Geburtsdaten
-                  </Typography>
-                </Grid>
-                
-                <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            name="birthDate"
-                    label="Geburtsdatum (dd/mm/yyyy)"
-                    placeholder="dd/mm/yyyy"
-            value={formData.birthDate}
-                    onChange={handleBirthDateChange}
-            disabled={loading}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <CalendarToday sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
-                        </InputAdornment>
-                      )
-                    }}
-                    helperText="Format: dd/mm/yyyy (z.B. 15/03/1990)"
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        background: 'rgba(242, 159, 5, 0.10)',
-                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
-                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
-                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
-                      },
-                      '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-                      '& .MuiInputBase-input': { color: 'white' },
-                      '& .MuiFormHelperText-root': { color: 'rgba(255, 255, 255, 0.6)' }
-                    }}
-                  />
-                </Grid>
-                
-                <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            name="birthTime"
-            label="Geburtszeit (optional)"
-            type="time"
-            value={formData.birthTime}
-            onChange={handleInputChange}
-            disabled={loading}
-            InputLabelProps={{ shrink: true }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccessTime sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        background: 'rgba(242, 159, 5, 0.10)',
-                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
-                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
-                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
-                      },
-                      '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-                      '& .MuiInputBase-input': { color: 'white' }
-                    }}
-                  />
-                </Grid>
-                
-                <Grid item xs={12}>
-          <TextField
-            fullWidth
-            name="birthPlace"
-            label="Geburtsort (optional)"
-            value={formData.birthPlace}
-            onChange={handleInputChange}
-            disabled={loading}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <LocationOn sx={{ color: 'rgba(255, 255, 255, 0.5)' }} />
-                        </InputAdornment>
-                      )
-                    }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        background: 'rgba(242, 159, 5, 0.10)',
-                        '& fieldset': { borderColor: 'rgba(242, 159, 5, 0.30)' },
-                        '&:hover fieldset': { borderColor: 'rgba(242, 159, 5, 0.45)' },
-                        '&.Mui-focused fieldset': { borderColor: '#F29F05' }
-                      },
-                      '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
-                      '& .MuiInputBase-input': { color: 'white' }
-                    }}
-                  />
-                </Grid>
+                {/* Geburtsdaten entfernt */}
 
                 {/* Subscription */}
                 <Grid item xs={12}>

@@ -989,99 +989,19 @@ export default function MondkalenderPage() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Fixed Navigation */}
-        <Box sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          backdropFilter: 'blur(20px)',
-          background: 'rgba(15, 15, 35, 0.8)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <Container maxWidth="lg">
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'space-between',
-              py: 2 
-            }}>
-              <Link href="/" style={{ textDecoration: 'none' }}>
-                <Typography variant="h5" sx={{ 
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  fontWeight: 800,
-                  cursor: 'pointer'
-                }}>
-                  🔑 The Connection Key
-                </Typography>
-              </Link>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <Button
-                  onClick={() => router.push('/mondphasen-info')}
-                  variant="outlined"
-                  sx={{
-                    color: '#F29F05',
-                    borderColor: '#F29F05',
-                    '&:hover': {
-                      borderColor: '#8C1D04',
-                      background: 'rgba(242, 159, 5, 0.10)'
-                    }
-                  }}
-                >
-                  Mondphasen
-                </Button>
-                <Button
-                  onClick={() => router.push('/dashboard')}
-                  variant="contained"
-                  sx={{
-                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
-                    }
-                  }}
-                >
-                  Dashboard
-                </Button>
-              </Box>
-            </Box>
-          </Container>
-        </Box>
-
-        <Box sx={{ position: 'relative', zIndex: 2, pt: 15, pb: 8, px: { xs: 1, sm: 2 } }}>
-          {/* Header */}
-          <Box textAlign="center" mb={6}>
-            <Typography 
-              variant="h2" 
-              sx={{ 
-                fontWeight: 'bold', 
-                mb: 2,
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2.5rem', md: '3.5rem' }
-              }}
-            >
-              🌕 Mondkalender
-            </Typography>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
-                fontWeight: 300,
-                maxWidth: '600px',
-                mx: 'auto',
-                lineHeight: 1.6
-              }}
-            >
-              Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben
-            </Typography>
-          </Box>
+        <Box sx={{ position: 'relative', zIndex: 2, pt: 4, pb: 8, px: { xs: 1, sm: 2 } }}>
         <Container maxWidth="lg" sx={{ py: 4 }}>
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h1" sx={{ fontWeight: 700, mb: 2 }}>
+                🌕 Mondkalender
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{ color: 'text.secondary', maxWidth: 700, mx: 'auto', lineHeight: 1.6 }}
+              >
+                Entdecke die Kraft der Mondzyklen und ihre Auswirkungen auf dein Leben
+              </Typography>
+            </Box>
           {/* Animated Moon Background */}
           <Box sx={{ position: 'absolute', top: 'calc(2% + 1cm)', right: '10%', zIndex: 0 }}>
             <Box

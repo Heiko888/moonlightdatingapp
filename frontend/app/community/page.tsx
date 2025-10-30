@@ -429,36 +429,9 @@ function CommunityContent() {
       }}>
 
         <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 3 }, pb: 8, px: { xs: 1, sm: 2 } }}>
-          {/* Header */}
-          <Box textAlign="center" mb={6}>
-            <Typography 
-              variant="h2" 
-              sx={{ 
-                fontWeight: 'bold', 
-                mb: 2,
-                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2rem', md: '3rem' },
-                textShadow: '0 0 24px rgba(242, 159, 5, 0.30)'
-              }}
-            >
-              {userName ? `${userName}s Community` : 'Community Hub'}
-            </Typography>
-            <Typography 
-              variant="h6" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.85)', 
-                fontWeight: 300,
-                maxWidth: '700px',
-                mx: 'auto',
-                lineHeight: 1.8,
-                fontSize: { xs: '1rem', md: '1.25rem' },
-                mb: 3
-              }}
-            >
-              {userName ? `Willkommen ${userName}! ` : ''}Verbinde dich mit Gleichgesinnten und teile deine Human Design Journey
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700 }}>
+              {userName ? `${userName}s Community` : 'Community'}
             </Typography>
           </Box>
 

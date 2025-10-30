@@ -198,8 +198,9 @@ const DashboardPage: React.FC = () => {
               backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: 3,
-              height: '100%'
-            }}>
+              height: '100%',
+              cursor: 'pointer'
+            }} onClick={() => router.push('/journal')}>
               <CardContent sx={{ textAlign: 'center', p: 3 }}>
                 <Moon size={32} color="#4ecdc4" style={{ marginBottom: 8 }} />
                 <Typography variant="h4" sx={{ color: '#4ecdc4', fontWeight: 700, mb: 1 }}>

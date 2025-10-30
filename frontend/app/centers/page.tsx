@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Container, Typography, Box, Grid, Card, CardContent, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Shield, Target, Users, Zap, Crown, ArrowRight, Heart, Brain, Eye, Gauge } from 'lucide-react';
-import AnimatedStars from '@/components/AnimatedStars';
+ 
 import Link from 'next/link';
 
 export default function CentersPage() {
@@ -115,17 +115,9 @@ export default function CentersPage() {
       </Head>
     <Box sx={{ 
       minHeight: '100vh',
-        background: `
-          radial-gradient(ellipse at top, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(ellipse at bottom, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)
-        `,
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
-      <AnimatedStars />
-      
-      <Container maxWidth="lg" sx={{ py: 8, position: 'relative', zIndex: 1 }}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         {/* Header */}
           <motion.div
             
@@ -133,32 +125,16 @@ export default function CentersPage() {
             
           >
             <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Typography variant="h2" sx={{
-                color: 'white',
-              fontWeight: 800,
-                fontSize: { xs: '2.5rem', md: '4rem' },
-                mb: 2,
-                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 2
-              }}>
-                <Target size={64} style={{ color: '#FFD700' }} />
+              <Typography variant="h1" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 2 }}>
+                <Box component="span" sx={{ color: 'primary.main' }}>
+                  <Target size={64} color="currentColor" />
+                </Box>
                 Die 9 Energiezentren
-                <Target size={64} style={{ color: '#FFD700' }} />
-            </Typography>
-              <Typography variant="h5" sx={{
-                color: 'rgba(255,255,255,0.8)',
-                fontSize: { xs: '1.2rem', md: '1.5rem' },
-                maxWidth: 800,
-                mx: 'auto',
-                lineHeight: 1.6
-              }}>
+                <Box component="span" sx={{ color: 'primary.main' }}>
+                  <Target size={64} color="currentColor" />
+                </Box>
+              </Typography>
+              <Typography variant="h5" sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, maxWidth: 800, mx: 'auto', lineHeight: 1.6 }}>
                 Entdecke deine energetische Anatomie und verstehe, wie deine Zentren deine Energie beeinflussen
           </Typography>
         </Box>
@@ -168,19 +144,8 @@ export default function CentersPage() {
           <Grid container spacing={3}>
             {centers.map((center, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
-                <motion.div
-                  
-                  
-                  
-                >
-                  <Card sx={{
-                    background: 'rgba(0, 0, 0, 0.3)',
-                    backdropFilter: 'blur(20px)',
-                    borderRadius: 3,
-                    border: '2px solid #FFD700',
-                    height: '100%',
-                    boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)'
-                  }}>
+                <motion.div>
+                  <Card sx={{ height: '100%' }}>
                     <CardContent sx={{ p: 3 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                     <Box sx={{
@@ -200,33 +165,23 @@ export default function CentersPage() {
                             backgroundColor: 'white'
                           }} />
                     </Box>
-                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                        <Typography variant="h6">
                           {center.title}
                     </Typography>
                       </Box>
-                    <Typography sx={{
-                        color: 'rgba(255,255,255,0.8)',
-                      fontSize: '0.9rem',
-                        lineHeight: 1.5,
-                      mb: 2
-                    }}>
-                      {center.description}
-                    </Typography>
-                      <Typography sx={{
-                        color: 'rgba(255,255,255,0.7)',
-                        fontSize: '0.8rem',
-                        lineHeight: 1.4,
-                        mb: 3
-                      }}>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        {center.description}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                         {center.details}
                       </Typography>
                       
                       {/* Gates */}
                       <Box sx={{ mb: 2 }}>
-                        <Typography sx={{ color: '#FFD700', fontSize: '0.8rem', fontWeight: 600, mb: 1 }}>
+                        <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, mb: 1, display: 'block' }}>
                           Tore:
                         </Typography>
-                        <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem' }}>
+                        <Typography variant="caption" color="text.secondary">
                           {center.gates.slice(0, 3).join(', ')}
                           {center.gates.length > 3 && '...'}
                         </Typography>
@@ -234,10 +189,10 @@ export default function CentersPage() {
 
                       {/* Defined/Undefined */}
                       <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ color: '#4CAF50', fontSize: '0.7rem', fontWeight: 600, mb: 0.5 }}>
+                        <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 600, mb: 0.5, display: 'block' }}>
                           {center.defined}
                         </Typography>
-                        <Typography sx={{ color: '#FF9800', fontSize: '0.7rem', fontWeight: 600 }}>
+                        <Typography variant="caption" sx={{ color: 'warning.main', fontWeight: 600 }}>
                           {center.undefined}
                         </Typography>
                     </Box>
@@ -249,30 +204,19 @@ export default function CentersPage() {
           </Grid>
 
           {/* Info Section */}
-          <motion.div
-            
-            
-            
-          >
-              <Card sx={{
-              background: 'rgba(0, 0, 0, 0.3)',
-              backdropFilter: 'blur(20px)',
-                borderRadius: 4,
-              border: '2px solid #FFD700',
-              mt: 8,
-              boxShadow: '0 8px 32px rgba(255, 215, 0, 0.2)'
-            }}>
+          <motion.div>
+            <Card sx={{ mt: 8 }}>
               <CardContent sx={{ p: 6 }}>
-                <Typography variant="h4" sx={{ color: 'white', fontWeight: 700, mb: 3, textAlign: 'center' }}>
+                <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
                   Definiert vs. Undefiniert
                 </Typography>
                 <Grid container spacing={4}>
                   <Grid item xs={12} md={6}>
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="h6" sx={{ color: '#4CAF50', mb: 2 }}>
+                      <Typography variant="h6" sx={{ color: 'success.main', mb: 2 }}>
                         🟢 Definiert
                       </Typography>
-                      <Typography sx={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
+                      <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
                         Definierten Zentren sind konstant aktiv und geben dir eine feste energetische Qualität. 
                         Sie sind deine Stärken und deine zuverlässigen Energiequellen.
                       </Typography>
@@ -280,10 +224,10 @@ export default function CentersPage() {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Box sx={{ textAlign: 'center' }}>
-                      <Typography variant="h6" sx={{ color: '#FF9800', mb: 2 }}>
+                      <Typography variant="h6" sx={{ color: 'warning.main', mb: 2 }}>
                         ⚪ Undefiniert
                     </Typography>
-                      <Typography sx={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
+                      <Typography color="text.secondary" sx={{ lineHeight: 1.6 }}>
                         Undefinierte Zentren sind flexibel und absorbieren die Energie anderer. 
                         Sie sind deine Lernbereiche und deine Weisheitsquellen.
                     </Typography>
@@ -295,34 +239,18 @@ export default function CentersPage() {
           </motion.div>
 
           {/* Back to Grundlagen */}
-          <motion.div
-            
-            
-            
-          >
+          <motion.div>
             <Box sx={{ textAlign: 'center', mt: 6 }}>
               <Link href="/grundlagen-hd" passHref>
-                          <Button
+                <Button
                   variant="outlined"
+                  color="primary"
                   startIcon={<ArrowRight size={20} />}
-                            sx={{
-                    borderColor: '#FFD700',
-                    color: '#FFD700',
-                              fontWeight: 600,
-                              px: 4,
-                    py: 2,
-                              borderRadius: 3,
-                    fontSize: '1.1rem',
-                              '&:hover': {
-                      borderColor: '#FFD700',
-                      backgroundColor: 'rgba(255, 215, 0, 0.1)'
-                              }
-                            }}
-                          >
+                >
                   Zurück zu den Grundlagen
-                          </Button>
+                </Button>
               </Link>
-                        </Box>
+            </Box>
           </motion.div>
       </Container>
     </Box>
