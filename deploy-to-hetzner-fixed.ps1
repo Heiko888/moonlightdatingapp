@@ -1,28 +1,32 @@
+param(
+  [string]$Commit = "origin/main"
+)
+
 # Fixed Deployment Script fuer Hetzner
-Write-Host "Starting Hetzner Deployment..." -ForegroundColor Green
+Write-Host "Starting Hetzner Deployment... (Commit: $Commit)" -ForegroundColor Green
 
 $server = "root@138.199.237.34"
 $path = "/opt/hd-app/HD_App_chart"
 
-# 1. Pull latest code from GitHub
-Write-Host "Pulling latest code from GitHub..." -ForegroundColor Yellow
-ssh $server "cd $path; git pull origin main"
+# 1. Sync repo to target commit (hard reset)
+Write-Host "Syncing repo to $Commit..." -ForegroundColor Yellow
+ssh $server "set -e; cd $path; git fetch --all; git reset --hard $Commit; git clean -fdx; git rev-parse --short HEAD"
 
-# 2. Pull latest Docker image from GitHub Container Registry
-Write-Host "Pulling latest Docker image from GitHub..." -ForegroundColor Yellow
-ssh $server "docker pull ghcr.io/heiko888/moonlightdatingapp:main"
+# 2. Pull latest image from GHCR (compose pull)
+Write-Host "Pulling frontend image (GHCR)..." -ForegroundColor Yellow
+ssh $server "set -e; cd $path; docker-compose -f docker-compose.supabase.yml pull frontend"
 
 # 3. Stop containers
 Write-Host "Stopping containers..." -ForegroundColor Yellow
-ssh $server "cd $path; docker-compose -f docker-compose.supabase.yml down"
+ssh $server "set -e; cd $path; docker-compose -f docker-compose.supabase.yml down"
 
-# 4. Start containers with new image
+# 4. Start containers with pulled image
 Write-Host "Starting containers..." -ForegroundColor Yellow
-ssh $server "cd $path; docker-compose -f docker-compose.supabase.yml up -d"
+ssh $server "set -e; cd $path; docker-compose -f docker-compose.supabase.yml up -d --force-recreate frontend nginx"
 
 # 5. Check status
 Write-Host "Checking container status..." -ForegroundColor Yellow
-ssh $server "cd $path; docker-compose -f docker-compose.supabase.yml ps"
+ssh $server "cd $path; git rev-parse --short HEAD; docker-compose -f docker-compose.supabase.yml ps"
 
 Write-Host "Deployment completed!" -ForegroundColor Green
 Write-Host "App available at: http://138.199.237.34" -ForegroundColor Cyan
