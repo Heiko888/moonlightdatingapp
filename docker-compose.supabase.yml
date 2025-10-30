@@ -3,7 +3,9 @@ version: '3.8'
 services:
   # Frontend Application
   frontend:
-    image: ghcr.io/heiko888/moonlightdatingapp:main
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
