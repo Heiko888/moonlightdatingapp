@@ -21,6 +21,8 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: unless-stopped
+    networks:
+      - app-network
     depends_on:
       - grafana
       - prometheus
@@ -39,6 +41,8 @@ services:
       - grafana
       - prometheus
     restart: unless-stopped
+    networks:
+      - app-network
 
   # Grafana Monitoring
   grafana:
@@ -54,6 +58,8 @@ services:
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
       - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
     restart: unless-stopped
+    networks:
+      - app-network
 
   # Prometheus Metrics
   prometheus:
@@ -72,6 +78,8 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     restart: unless-stopped
+    networks:
+      - app-network
 
   # Node Exporter for System Metrics
   node-exporter:
@@ -88,6 +96,8 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
+    networks:
+      - app-network
 
   # Alertmanager for Notifications
   alertmanager:
@@ -98,6 +108,8 @@ services:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
       - alertmanager-storage:/alertmanager
     restart: unless-stopped
+    networks:
+      - app-network
 
   # Redis for Caching (optional)
   redis:
@@ -108,6 +120,8 @@ services:
       - redis-storage:/data
     restart: unless-stopped
     command: redis-server --appendonly yes
+    networks:
+      - app-network
 
   # Redis Exporter for Metrics
   redis-exporter:
@@ -119,6 +133,12 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   grafana-storage:

@@ -127,8 +127,8 @@ jobs:
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: deploy-staging
-    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    needs: [lint-and-typecheck, build-test, docker-build-test]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || github.event_name == 'push')
     # environment:
     #   name: production
     #   url: http://138.199.237.34:3000
