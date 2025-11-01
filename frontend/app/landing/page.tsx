@@ -142,21 +142,24 @@ export default function LandingPage() {
       author: "Sarah",
       age: 35,
       profil: "Generator",
-      grundtyp: "Manifestor"
+      grundtyp: "Manifestor",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
     },
     {
       text: "„Es ist, als würde jemand Licht auf das Unsichtbare werfen.\nIch verstehe endlich, warum mich manche Menschen so stark triggern – und was das mit mir zu tun hat.",
       author: "Luca",
       age: 29,
       profil: "Manifestor",
-      grundtyp: "Manifestor"
+      grundtyp: "Manifestor",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
     },
     {
       text: "„Diese App hat nichts mit Dating zu tun.\nSie zeigt, wie Energie wirklich wirkt – und warum Verbindung Bewusstsein braucht.",
       author: "Alina",
       age: 41,
       profil: "Projector",
-      grundtyp: "Projector"
+      grundtyp: "Projector",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face"
     },
     ...successStories.map(story => ({
       text: `"${story.story}"`,
@@ -501,21 +504,21 @@ export default function LandingPage() {
               component={Link}
               href="/register"
               variant="contained"
-              size="large"
+              size="medium"
               sx={{
                 background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
-                px: { xs: 3.5, sm: 5, md: 12 },
-                py: { xs: 1.5, sm: 2, md: 4 },
+                px: { xs: 4, sm: 5, md: 6 },
+                py: { xs: 1.5, sm: 2, md: 2.5 },
                 borderRadius: { xs: 2, md: 3 },
                 fontWeight: 700,
-                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.3rem' },
+                fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
                 textTransform: 'none',
                 fontFamily: '"Playfair Display", serif',
                 width: { xs: '100%', sm: 'auto' },
                 maxWidth: { xs: 360, sm: 'none' },
                 mb: 0,
-                boxShadow: { xs: '0 6px 18px rgba(242, 159, 5, 0.35)', md: '0 0 40px rgba(242, 159, 5, 0.55), 0 10px 30px rgba(140, 29, 4, 0.35)' },
+                boxShadow: { xs: '0 6px 18px rgba(242, 159, 5, 0.35)', md: '0 8px 25px rgba(242, 159, 5, 0.40)' },
                 border: '1px solid rgba(242, 159, 5, 0.45)',
                 '&:hover': {
                   background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
@@ -589,54 +592,6 @@ export default function LandingPage() {
             mx: 'auto',
             px: { xs: 2, md: 4 }
           }}>
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              mb: 4,
-              position: 'relative'
-            }}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <Box sx={{
-                  width: { xs: 120, md: 180 },
-                  height: { xs: 120, md: 180 },
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.2), rgba(140, 29, 4, 0.15))',
-                  border: '3px solid rgba(242, 159, 5, 0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 0 40px rgba(242, 159, 5, 0.3), inset 0 0 40px rgba(242, 159, 5, 0.1)',
-                  position: 'relative',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: -10,
-                    left: -10,
-                    right: -10,
-                    bottom: -10,
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(242, 159, 5, 0.2), transparent)',
-                    animation: 'pulse 3s ease infinite',
-                    '@keyframes pulse': {
-                      '0%, 100%': { opacity: 0.5, transform: 'scale(1)' },
-                      '50%': { opacity: 0.8, transform: 'scale(1.1)' }
-                    }
-                  }
-                }}>
-                  <Sparkles size={64} color="#F29F05" style={{ 
-                    filter: 'drop-shadow(0 0 10px rgba(242, 159, 5, 0.6))',
-                    position: 'relative',
-                    zIndex: 1
-                  }} />
-                </Box>
-              </motion.div>
-            </Box>
-
             <Typography variant="h2" sx={{
             textAlign: 'center',
               mb: 4,
@@ -1081,39 +1036,6 @@ export default function LandingPage() {
             mx: 'auto',
             px: { xs: 2, md: 4 }
           }}>
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              mb: 4,
-              position: 'relative'
-            }}>
-                <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                    <Box sx={{
-                  width: { xs: 100, md: 150 },
-                  height: { xs: 100, md: 150 },
-                      borderRadius: '50%',
-                  background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.2), rgba(140, 29, 4, 0.15))',
-                  border: '3px solid rgba(242, 159, 5, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                  boxShadow: '0 0 40px rgba(242, 159, 5, 0.3), inset 0 0 40px rgba(242, 159, 5, 0.1)',
-                  position: 'relative'
-                }}>
-                  <Heart size={56} color="#F29F05" style={{ 
-                    filter: 'drop-shadow(0 0 10px rgba(242, 159, 5, 0.6))',
-                    position: 'relative',
-                    zIndex: 1
-                  }} />
-                </Box>
-              </motion.div>
-            </Box>
-
             <Typography variant="h2" sx={{
               textAlign: 'center',
                       mb: 3,
@@ -1705,8 +1627,7 @@ export default function LandingPage() {
                   style={{ width: '100%' }}
                 >
                   {visibleTestimonials.map((testimonial, idx) => {
-                    // Avatar-URL basierend auf dem Namen generieren
-                    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&size=120&background=F29F05&color=fff&bold=true&font-size=0.5`;
+                    const hasImage = (testimonial as any).image;
                     const initials = testimonial.author.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
                     
                     return (
@@ -1719,22 +1640,48 @@ export default function LandingPage() {
                       }}
                     >
                       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-                        <Avatar
-                          src={avatarUrl}
-                          alt={testimonial.author}
-                          sx={{
-                            width: { xs: 80, md: 100 },
-                            height: { xs: 80, md: 100 },
-                            border: '3px solid rgba(242, 159, 5, 0.5)',
-                            boxShadow: '0 8px 24px rgba(242, 159, 5, 0.3)',
-                            bgcolor: '#F29F05',
-                            fontSize: { xs: '1.5rem', md: '2rem' },
-                            fontWeight: 700,
-                            fontFamily: '"Playfair Display", serif'
-                          }}
-                        >
-                          {initials}
-                        </Avatar>
+                        {hasImage ? (
+                          <Box
+                            sx={{
+                              width: { xs: 80, md: 100 },
+                              height: { xs: 80, md: 100 },
+                              borderRadius: '50%',
+                              overflow: 'hidden',
+                              border: '3px solid rgba(242, 159, 5, 0.5)',
+                              boxShadow: '0 8px 24px rgba(242, 159, 5, 0.3)',
+                              position: 'relative'
+                            }}
+                          >
+                            <Image
+                              src={(testimonial as any).image}
+                              alt={testimonial.author}
+                              width={100}
+                              height={100}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                              }}
+                              unoptimized
+                            />
+                          </Box>
+                        ) : (
+                          <Avatar
+                            alt={testimonial.author}
+                            sx={{
+                              width: { xs: 80, md: 100 },
+                              height: { xs: 80, md: 100 },
+                              border: '3px solid rgba(242, 159, 5, 0.5)',
+                              boxShadow: '0 8px 24px rgba(242, 159, 5, 0.3)',
+                              bgcolor: '#F29F05',
+                              fontSize: { xs: '1.5rem', md: '2rem' },
+                              fontWeight: 700,
+                              fontFamily: '"Playfair Display", serif'
+                            }}
+                          >
+                            {initials}
+                          </Avatar>
+                        )}
                       </Box>
                       <Typography variant="body1" sx={{
                         color: 'rgba(255, 255, 255, 0.9)',
@@ -1849,6 +1796,38 @@ export default function LandingPage() {
                   <ChevronRight size={20} />
                 </Button>
               </Box>
+            </Box>
+
+            {/* Button: Erfahre mehr über unsere Community */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 4, md: 5 }, mb: 2 }}>
+              <Button
+                component={Link}
+                href="/community-info"
+                variant="outlined"
+                size="large"
+                sx={{
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
+                  px: { xs: 4, md: 6 },
+                  py: { xs: 1.5, md: 2 },
+                  borderRadius: 4,
+                  fontWeight: 700,
+                  fontSize: { xs: '1rem', md: '1.1rem' },
+                  textTransform: 'none',
+                  borderWidth: 2,
+                  '&:hover': {
+                    borderColor: '#8C1D04',
+                    backgroundColor: 'rgba(242, 159, 5, 0.10)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 10px 30px rgba(242, 159, 5, 0.30)',
+                    color: '#F29F05'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Erfahre mehr über unsere Community
+                <ArrowRight size={20} style={{ marginLeft: 8 }} />
+              </Button>
             </Box>
 
             {/* Erfolgsgeschichten */}
@@ -2164,94 +2143,6 @@ export default function LandingPage() {
         }} />
       </Box>
 
-      {/* Bereit, zu sehen, was zwischen euch lebt? */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 8 }, pb: { xs: 6, md: 8 } }}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
-                >
-                  <Box sx={{
-            maxWidth: '900px',
-            mx: 'auto',
-            px: { xs: 2, md: 4 },
-            textAlign: 'center'
-          }}>
-            <Typography variant="body1" sx={{
-              color: 'rgba(255, 255, 255, 0.85)',
-              mb: 3,
-              lineHeight: 1.8,
-              fontSize: { xs: '1.1rem', md: '1.3rem' },
-              textAlign: 'center',
-              fontFamily: '"Crimson Text", serif'
-            }}>
-              Starte noch heute deine Reise zu mehr Selbsterkenntnis und tiefen Verbindungen.
-            </Typography>
-
-            <Typography variant="h2" sx={{
-                    textAlign: 'center',
-              mb: 4,
-              color: 'white',
-              fontWeight: 800,
-              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: { xs: '1.8rem', md: '2.5rem' }
-            }}>
-              Bereit, zu sehen, was zwischen euch lebt?
-            </Typography>
-
-            <Box sx={{ mt: 4 }}>
-              <Button
-                component={Link}
-                href="/register"
-                variant="contained"
-                size="large"
-                        sx={{
-                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                  color: 'white',
-                  px: { xs: 4, sm: 6, md: 10 },
-                  py: { xs: 2, sm: 2.5, md: 3.5 },
-                  borderRadius: { xs: 2, md: 3 },
-                  fontWeight: 700,
-                  fontSize: { xs: '1.1rem', sm: '1.2rem', md: '1.4rem' },
-                  textTransform: 'none',
-                  fontFamily: '"Playfair Display", serif',
-                  fontStyle: 'italic',
-                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
-                  border: '1px solid rgba(242, 159, 5, 0.45)',
-                    '&:hover': {
-                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
-                    transform: 'translateY(-4px) scale(1.05)',
-                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)',
-                    border: '1px solid rgba(242, 159, 5, 0.6)'
-                  },
-                  transition: 'all 0.5s ease',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-                    transition: 'left 0.8s ease'
-                  },
-                  '&:hover::before': {
-                    left: '100%'
-                  }
-                }}
-              >
-                💎 Finde eure Resonanz – jetzt starten
-              </Button>
-                    </Box>
-          </Box>
-        </motion.div>
-      </Container>
 
       {/* How it Works */}
       <Container maxWidth="lg" sx={{ py: { xs: 3, md: 4 } }}>
@@ -2263,9 +2154,14 @@ export default function LandingPage() {
         >
           <Typography variant="h3" sx={{
             textAlign: 'center',
-            mb: 3,
+            mb: 4,
             color: 'white',
-            fontWeight: 700
+            fontWeight: 800,
+            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            fontSize: { xs: '2rem', md: '2.5rem' }
           }}>
             So funktioniert's
           </Typography>
@@ -2364,7 +2260,7 @@ export default function LandingPage() {
               WebkitTextFillColor: 'transparent',
               fontSize: { xs: '2rem', md: '2.5rem' }
             }}>
-              Bereit für deine Transformation?
+              Bereit, zu sehen, was zwischen euch lebt?
             </Typography>
             
             <Typography variant="h6" sx={{
@@ -2404,7 +2300,7 @@ export default function LandingPage() {
                 }}
               >
                 <Key size={24} style={{ marginRight: 12 }} />
-                Kostenlos starten
+                Finde eure Resonanz – jetzt starten
               </Button>
               
               <Button
@@ -2446,6 +2342,7 @@ export default function LandingPage() {
           </Card>
         </motion.div>
       </Container>
+
     </Box>
   );
 }

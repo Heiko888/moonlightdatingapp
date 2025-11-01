@@ -17,7 +17,13 @@ const nextConfig = {
   
   // Image-Optimierung
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
   },

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Box, 
   Typography, 
@@ -32,6 +33,23 @@ import {
   Share2
 } from "lucide-react";
 import { motion } from "framer-motion";
+
+// Sparkle-Positionen für animierte Hintergrund-Funken
+const sparklePositions = [
+  { left: 15, top: 20 }, { left: 75, top: 35 }, { left: 45, top: 60 },
+  { left: 85, top: 15 }, { left: 25, top: 80 }, { left: 65, top: 45 },
+  { left: 10, top: 55 }, { left: 90, top: 70 }, { left: 35, top: 25 },
+  { left: 55, top: 85 }, { left: 70, top: 10 }, { left: 30, top: 90 },
+  { left: 50, top: 40 }, { left: 20, top: 65 }, { left: 80, top: 50 }
+];
+
+const sparkleAnimations = [
+  { duration: 2.5, delay: 0.3 }, { duration: 3.2, delay: 1.1 }, { duration: 2.8, delay: 0.7 },
+  { duration: 3.5, delay: 1.5 }, { duration: 2.3, delay: 0.5 }, { duration: 3.8, delay: 1.8 },
+  { duration: 2.6, delay: 0.9 }, { duration: 3.0, delay: 1.2 }, { duration: 2.9, delay: 0.4 },
+  { duration: 3.3, delay: 1.6 }, { duration: 2.7, delay: 0.8 }, { duration: 3.6, delay: 1.4 },
+  { duration: 2.4, delay: 0.6 }, { duration: 3.1, delay: 1.3 }, { duration: 2.5, delay: 0.9 }
+];
 
 // Community Features
 const communityFeatures = [
@@ -129,18 +147,153 @@ export default function CommunityInfoPage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      position: 'relative'
+      position: 'relative',
+      background: 'radial-gradient(ellipse at top, rgba(242, 159, 5, 0.15) 0%, rgba(0, 0, 0, 1) 50%), radial-gradient(ellipse at bottom, rgba(140, 29, 4, 0.1) 0%, rgba(0, 0, 0, 1) 70%)',
+      backgroundAttachment: 'fixed'
     }}>
+      {/* Dynamischer animierter Hintergrund */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0,
+        pointerEvents: 'none',
+        overflow: 'hidden'
+      }}>
+        {/* Animierter Gradient Hintergrund */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '-50%',
+            left: '-50%',
+            width: '200%',
+            height: '200%',
+            background: 'radial-gradient(circle, rgba(242, 159, 5, 0.1) 0%, transparent 50%)',
+          }}
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            right: '-50%',
+            width: '200%',
+            height: '200%',
+            background: 'radial-gradient(circle, rgba(140, 29, 4, 0.08) 0%, transparent 50%)',
+          }}
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 5
+          }}
+        />
+        
+        {/* Mehr Funken mit unterschiedlichen Größen */}
+        {sparklePositions.map((pos, i) => (
+          <motion.div
+            key={i}
+            style={{
+              position: 'absolute',
+              width: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+              height: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+              background: i % 2 === 0 ? '#F29F05' : '#FFD700',
+              borderRadius: '50%',
+              left: `${pos.left}%`,
+              top: `${pos.top}%`,
+              boxShadow: `0 0 ${i % 3 === 0 ? '15px' : '10px'} ${i % 2 === 0 ? 'rgba(242,159,5,0.9)' : 'rgba(255,215,0,0.8)'}, 0 0 ${i % 3 === 0 ? '25px' : '20px'} ${i % 2 === 0 ? 'rgba(140,29,4,0.6)' : 'rgba(242,159,5,0.5)'}`
+            }}
+            animate={{
+              opacity: [0, 1, 0.5, 1, 0],
+              scale: [0.3, 1.5, 0.8, 1.3, 0.3],
+              y: [0, -50, -20, -40, 0],
+              x: [0, i % 2 === 0 ? 20 : -20, 0]
+            }}
+            transition={{
+              duration: sparkleAnimations[i].duration * 1.5,
+              repeat: Infinity,
+              delay: sparkleAnimations[i].delay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+        
+        {/* Zusätzliche Partikel-Effekte */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
+            style={{
+              position: 'absolute',
+              width: '2px',
+              height: '2px',
+              background: '#F29F05',
+              borderRadius: '50%',
+              left: `${(i * 12.5) % 100}%`,
+              top: `${(i * 15) % 100}%`,
+            }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 2, 0],
+              y: [0, -100, -200],
+            }}
+            transition={{
+              duration: 3 + (i * 0.5),
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeOut"
+            }}
+          />
+        ))}
+      </Box>
       {/* Globaler Header kommt aus AppHeader */}
 
       {/* Hero Section */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8 }}>
+      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8, position: 'relative', zIndex: 1 }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
+            {/* Logo */}
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              mb: 4,
+              position: 'relative'
+            }}>
+              <Box sx={{
+                position: 'relative',
+                height: { xs: 120, md: 180 },
+                width: { xs: 300, md: 450 },
+                mx: 'auto'
+              }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </Box>
+            </Box>
+            
             <Typography variant="h1" sx={{
               background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',

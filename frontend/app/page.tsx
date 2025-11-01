@@ -39,6 +39,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function HomePage() {
+  // Sparkle-Positionen für animierte Hintergrund-Funken
+  const sparklePositions = React.useMemo(() => {
+    return Array.from({ length: 15 }, (_, i) => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+    }));
+  }, []);
+
+  const sparkleAnimations = React.useMemo(() => {
+    return sparklePositions.map(() => ({
+      duration: 3 + Math.random() * 4,
+      delay: Math.random() * 5,
+    }));
+  }, [sparklePositions]);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -153,19 +167,159 @@ export default function HomePage() {
   return (
     <Box sx={{
       minHeight: '100vh',
-      position: 'relative'
+      position: 'relative',
+      background: 'radial-gradient(ellipse at top, rgba(242, 159, 5, 0.15) 0%, rgba(0, 0, 0, 1) 50%), radial-gradient(ellipse at bottom, rgba(140, 29, 4, 0.1) 0%, rgba(0, 0, 0, 1) 70%)',
+      backgroundAttachment: 'fixed'
     }}>
+      {/* Dynamischer animierter Hintergrund */}
+      <Box sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0,
+        pointerEvents: 'none',
+        overflow: 'hidden'
+      }}>
+        {/* Animierter Gradient Hintergrund */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '-50%',
+            left: '-50%',
+            width: '200%',
+            height: '200%',
+            background: 'radial-gradient(circle, rgba(242, 159, 5, 0.1) 0%, transparent 50%)',
+          }}
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            right: '-50%',
+            width: '200%',
+            height: '200%',
+            background: 'radial-gradient(circle, rgba(140, 29, 4, 0.08) 0%, transparent 50%)',
+          }}
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 5
+          }}
+        />
+        
+        {/* Mehr Funken mit unterschiedlichen Größen */}
+        {sparklePositions.map((pos, i) => (
+          <motion.div
+            key={i}
+            style={{
+              position: 'absolute',
+              width: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+              height: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+              background: i % 2 === 0 ? '#F29F05' : '#FFD700',
+              borderRadius: '50%',
+              left: `${pos.left}%`,
+              top: `${pos.top}%`,
+              boxShadow: `0 0 ${i % 3 === 0 ? '15px' : '10px'} ${i % 2 === 0 ? 'rgba(242,159,5,0.9)' : 'rgba(255,215,0,0.8)'}, 0 0 ${i % 3 === 0 ? '25px' : '20px'} ${i % 2 === 0 ? 'rgba(140,29,4,0.6)' : 'rgba(242,159,5,0.5)'}`
+            }}
+            animate={{
+              opacity: [0, 1, 0.5, 1, 0],
+              scale: [0.3, 1.5, 0.8, 1.3, 0.3],
+              y: [0, -50, -20, -40, 0],
+              x: [0, i % 2 === 0 ? 20 : -20, 0]
+            }}
+            transition={{
+              duration: sparkleAnimations[i].duration * 1.5,
+              repeat: Infinity,
+              delay: sparkleAnimations[i].delay,
+              ease: "easeInOut"
+            }}
+          />
+        ))}
+        
+        {/* Zusätzliche Partikel-Effekte */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
+            style={{
+              position: 'absolute',
+              width: '2px',
+              height: '2px',
+              background: '#F29F05',
+              borderRadius: '50%',
+              left: `${(i * 12.5) % 100}%`,
+              top: `${(i * 15) % 100}%`,
+            }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 2, 0],
+              y: [0, -100, -200],
+            }}
+            transition={{
+              duration: 3 + (i * 0.5),
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeOut"
+            }}
+          />
+        ))}
+      </Box>
       
       {/* Globaler Header kommt aus AppHeader */}
 
       {/* Hero Section */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8 }}>
+      <Container maxWidth="lg" sx={{ pt: { xs: 16, md: 20 }, pb: 8, position: 'relative', zIndex: 1 }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
+            {/* Logo */}
+            <Box sx={{ 
+              position: 'relative',
+              zIndex: 1,
+              pt: { xs: 6, md: 8 },
+              pb: 0,
+              mb: 4,
+              display: 'flex',
+              justifyContent: 'center'
+            }}>
+              <Box sx={{ 
+                position: 'relative',
+                height: { xs: 120, md: 240 },
+                width: { xs: '100%', md: 900 },
+                maxWidth: 900,
+                px: { xs: 2, md: 0 }
+              }}>
+                <Image
+                  src="/images/connection-key-logo.png"
+                  alt="The Connection Key"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  sizes="(max-width: 600px) 100vw, (max-width: 1200px) 70vw, 900px"
+                  priority
+                />
+              </Box>
+            </Box>
+            
             <Typography 
               variant="h2" 
               component="h1" 
@@ -179,7 +333,7 @@ export default function HomePage() {
                 WebkitTextFillColor: 'transparent',
                 fontWeight: 800,
                 fontSize: { xs: '2rem', md: '3rem' },
-                textShadow: '0 0 30px rgba(78, 205, 196, 0.3)'
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.3)'
               }}
             >
               💫 The Connection Key
@@ -386,16 +540,19 @@ export default function HomePage() {
         {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Grid container spacing={3} sx={{ mb: 10 }}>
             {stats.map((stat, index) => (
               <Grid item xs={6} md={3} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.1 * index }}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 * index }}
+                  whileHover={{ scale: 1.05, y: -5 }}
                 >
                   <Card sx={{
                     background: 'rgba(255, 255, 255, 0.08)',
@@ -445,35 +602,44 @@ export default function HomePage() {
         </motion.div>
 
         {/* Features */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography variant="h2" sx={{ 
-            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            fontWeight: 800, 
-            mb: 2,
-            fontSize: { xs: '2rem', md: '3rem' }
-          }}>
-            ✨ Was macht uns besonders?
-          </Typography>
-          <Typography variant="h6" sx={{
-            color: 'rgba(255,255,255,0.7)',
-            maxWidth: 600,
-            mx: 'auto',
-            mb: 6
-          }}>
-            Entdecke alle Features, die deine Human Design Journey unvergesslich machen
-          </Typography>
-        </Box>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 6 }}>
+            <Typography variant="h2" sx={{ 
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 800, 
+              mb: 2,
+              fontSize: { xs: '2rem', md: '3rem' }
+            }}>
+              ✨ Was macht uns besonders?
+            </Typography>
+            <Typography variant="h6" sx={{
+              color: 'rgba(255,255,255,0.7)',
+              maxWidth: 600,
+              mx: 'auto',
+              mb: 6
+            }}>
+              Entdecke alle Features, die deine Human Design Journey unvergesslich machen
+            </Typography>
+          </Box>
+        </motion.div>
         
         <Grid container spacing={3} sx={{ mb: 8 }}>
           {features.map((feature, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.1 * index }}
+                whileHover={{ y: -10 }}
               >
                 <Card
                   component={Link}
@@ -551,9 +717,10 @@ export default function HomePage() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
           <Card sx={{
             background: 'rgba(255, 255, 255, 0.08)',

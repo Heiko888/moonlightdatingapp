@@ -1,5 +1,13 @@
 # 🚀 Deployment Workflow - GitHub Actions → Hetzner
 
+> ⚠️ **WICHTIG:** Ab sofort gilt die neue Deployment-Strategie!
+> 
+> **Siehe:** `DEPLOYMENT-STRATEGY-FINAL.md` für die aktuelle Strategie:
+> - ✅ Nur noch über GitHub deployen
+> - ✅ Nur noch über die 3 Server-Skripte (`scripts/git-pull.sh`, `scripts/docker-build.sh`, `scripts/docker-start.sh`)
+> 
+> Diese Dokumentation dient als Referenz für GitHub Actions.
+
 ## Übersicht
 
 Der Deployment-Workflow läuft über **GitHub Actions** und **Docker Container Registry**.

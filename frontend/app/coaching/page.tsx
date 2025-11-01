@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Container, Typography, Card, CardContent, Box, Button, Paper, Chip, Grid, Avatar, Rating, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Tabs, Tab, IconButton, Divider, Alert, CircularProgress, MenuItem } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Users, Calendar, ArrowRight, Clock, MapPin, Phone, Mail, BookOpen, User, Send, X, MessageSquare } from 'lucide-react';
+import Image from 'next/image';
 import AccessControl from '../../components/AccessControl';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
 // import { SubscriptionService } from '../../lib/subscription/subscriptionService'; // Entfernt - nicht mehr benötigt
@@ -313,45 +314,76 @@ export default function CoachingPage() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: `
-          radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-          linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
-        `,
         position: 'relative',
-        overflow: 'hidden'
+        background: `
+          radial-gradient(circle at 50% 20%, rgba(242, 159, 5, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(140, 29, 4, 0.12) 0%, transparent 50%),
+          radial-gradient(circle at 20% 60%, rgba(89, 10, 3, 0.10) 0%, transparent 50%),
+          #000000
+        `,
+        backgroundAttachment: 'fixed'
       }}>
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, py: { xs: 4, md: 8 }, px: { xs: 1, sm: 2 } }}>
-          {/* Header */}
-          <Box textAlign="center" mb={6}>
-            <Typography 
-              variant="h2" 
-              sx={{ 
-                fontWeight: 'bold', 
-                mb: 2,
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontSize: { xs: '2.5rem', md: '3.5rem' }
-              }}
-            >
-              👥 Coaching & Community
-            </Typography>
-            <Typography 
-              variant="h5" 
-              sx={{ 
-                color: 'rgba(255,255,255,0.8)', 
-                fontWeight: 300,
-                maxWidth: '600px',
-                mx: 'auto',
-                lineHeight: 1.6
-              }}
-            >
-              Buche deine persönliche Human Design Session, chatte mit unseren Coaches oder trete unserer Community bei
-            </Typography>
-          </Box>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, pt: { xs: 6, md: 8 }, pb: { xs: 6, md: 8 }, px: { xs: 2, md: 4 } }}>
+          {/* Header mit Logo */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Box sx={{ textAlign: 'center', mb: 8 }}>
+              {/* Logo */}
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                mb: 4,
+                position: 'relative'
+              }}>
+                <Box sx={{
+                  position: 'relative',
+                  height: { xs: 120, md: 180 },
+                  width: { xs: 300, md: 450 },
+                  mx: 'auto'
+                }}>
+                  <Image
+                    src="/images/connection-key-logo.png"
+                    alt="The Connection Key Logo"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </Box>
+              </Box>
+              
+              <Typography 
+                variant="h1" 
+                sx={{ 
+                  fontWeight: 800, 
+                  mb: 3,
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontSize: { xs: '2.5rem', md: '4rem' },
+                  textShadow: '0 0 32px rgba(242, 159, 5, 0.30)'
+                }}
+              >
+                👥 Coaching & Community
+              </Typography>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  color: 'rgba(255,255,255,0.85)', 
+                  mb: 6,
+                  maxWidth: 700,
+                  mx: 'auto',
+                  lineHeight: 1.8,
+                  fontSize: { xs: '1.1rem', md: '1.3rem' }
+                }}
+              >
+                Buche deine persönliche Human Design Session, chatte mit unseren Coaches oder trete unserer Community bei
+              </Typography>
+            </Box>
+          </motion.div>
         {/* Coaches Grid */}
         <Grid container spacing={4} sx={{ mb: 6 }}>
           {coaches.map((coach, index) => (
@@ -362,16 +394,18 @@ export default function CoachingPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Card sx={{
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'rgba(255, 255, 255, 0.08)',
                   backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(242, 159, 5, 0.3)',
                   borderRadius: 4,
                   height: '100%',
+                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
-                  },
-                  transition: 'all 0.3s ease'
+                    transform: 'translateY(-10px)',
+                    background: 'rgba(255, 255, 255, 0.12)',
+                    boxShadow: '0 15px 45px rgba(0, 0, 0, 0.4)',
+                    border: '1px solid rgba(242, 159, 5, 0.5)'
+                  }
                 }}>
                   <CardContent sx={{ p: 4 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
@@ -393,7 +427,7 @@ export default function CoachingPage() {
                             label={coach.isOnline ? 'Online' : 'Offline'}
                             size="small"
                             sx={{
-                              background: coach.isOnline ? 'linear-gradient(135deg, #ff6b9d, #c44569)' : 'rgba(255,255,255,0.2)',
+                              background: coach.isOnline ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'rgba(255,255,255,0.2)',
                               color: 'white',
                               fontWeight: 600
                             }}
@@ -419,7 +453,7 @@ export default function CoachingPage() {
                     </Typography>
 
                     <Box sx={{ mb: 3 }}>
-                      <Typography variant="subtitle2" sx={{ color: '#FFD700', mb: 1, fontWeight: 600 }}>
+                      <Typography variant="subtitle2" sx={{ color: '#F29F05', mb: 1, fontWeight: 600 }}>
                         Spezialisierungen:
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -429,9 +463,10 @@ export default function CoachingPage() {
                             label={spec}
                             size="small"
                             sx={{
-                              background: 'rgba(255, 255, 255, 0.1)',
-                              color: 'rgba(255,255,255,0.8)',
-                              border: '1px solid rgba(255,255,255,0.2)'
+                              background: 'rgba(242, 159, 5, 0.25)',
+                              color: '#F29F05',
+                              border: '1px solid rgba(242, 159, 5, 0.4)',
+                              fontWeight: 600
                             }}
                           />
                         ))}
@@ -439,7 +474,7 @@ export default function CoachingPage() {
                     </Box>
 
                     <Box sx={{ mb: 3 }}>
-                      <Typography variant="subtitle2" sx={{ color: '#FFD700', mb: 1, fontWeight: 600 }}>
+                      <Typography variant="subtitle2" sx={{ color: '#F29F05', mb: 1, fontWeight: 600 }}>
                         Verfügbarkeit:
                       </Typography>
                       {coach.availability.map((time, idx) => (
@@ -457,12 +492,15 @@ export default function CoachingPage() {
                           startIcon={<Calendar size={20} />}
                           onClick={() => handleCoachSelect(coach)}
                           sx={{
-                            background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                             '&:hover': {
-                              background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
+                              background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)'
                             },
-                            borderRadius: 2,
-                            py: 1.5
+                            borderRadius: 3,
+                            py: 1.5,
+                            fontWeight: 700
                           }}
                         >
                           Buchen
@@ -475,14 +513,16 @@ export default function CoachingPage() {
                           startIcon={<MessageSquare size={20} />}
                           onClick={() => handleChatOpen(coach)}
                           sx={{
-                            color: 'rgba(255,255,255,0.8)',
-                            borderColor: 'rgba(255,255,255,0.3)',
+                            color: '#F29F05',
+                            borderColor: 'rgba(242, 159, 5, 0.5)',
                             '&:hover': {
-                              borderColor: '#ff6b9d',
-                              backgroundColor: 'rgba(255, 107, 157, 0.1)'
+                              borderColor: '#F29F05',
+                              backgroundColor: 'rgba(242, 159, 5, 0.10)',
+                              transform: 'translateY(-2px)'
                             },
-                            borderRadius: 2,
-                            py: 1.5
+                            borderRadius: 3,
+                            py: 1.5,
+                            fontWeight: 700
                           }}
                         >
                           Chat
@@ -503,16 +543,31 @@ export default function CoachingPage() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(242, 159, 5, 0.3)',
             borderRadius: 4,
-            p: 4
+            p: { xs: 4, md: 6 }
           }}>
-            <Typography variant="h5" sx={{ color: '#FFD700', mb: 3, fontWeight: 700, textAlign: 'center' }}>
+            <Typography variant="h3" sx={{ 
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              mb: 3, 
+              fontWeight: 800, 
+              textAlign: 'center',
+              fontSize: { xs: '1.8rem', md: '2.5rem' }
+            }}>
               🌟 VIP Community
             </Typography>
-            <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, textAlign: 'center' }}>
+            <Typography variant="body1" sx={{ 
+              color: 'rgba(255,255,255,0.85)', 
+              mb: 4, 
+              textAlign: 'center',
+              fontSize: { xs: '1rem', md: '1.15rem' },
+              lineHeight: 1.8
+            }}>
               Tritt unserer exklusiven VIP Community bei und verbinde dich mit Gleichgesinnten auf ihrer Human Design Journey.
             </Typography>
             <Box sx={{ textAlign: 'center' }}>
@@ -522,15 +577,18 @@ export default function CoachingPage() {
                 startIcon={<Users size={24} />}
                 onClick={() => router.push('/vip-community')}
                 sx={{
-                  background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #FFA500, #FFD700)'
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
                   },
                   borderRadius: 3,
-                  px: 4,
-                  py: 2,
+                  px: 6,
+                  py: 2.5,
                   fontSize: '1.1rem',
-                  fontWeight: 700
+                  fontWeight: 700,
+                  transition: 'all 0.3s ease'
                 }}
               >
                 Community beitreten
@@ -569,7 +627,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -586,7 +644,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -602,7 +660,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -619,7 +677,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -643,7 +701,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -661,7 +719,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -679,7 +737,7 @@ export default function CoachingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -699,12 +757,15 @@ export default function CoachingPage() {
               variant="contained"
               disabled={loading}
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)'
                 },
-                borderRadius: 2,
-                px: 3
+                borderRadius: 3,
+                px: 3,
+                fontWeight: 700
               }}
             >
               {loading ? <CircularProgress size={20} /> : 'Buchen'}
@@ -748,7 +809,7 @@ export default function CoachingPage() {
                       p: 2,
                       maxWidth: '70%',
                       background: message.sender === 'user' 
-                        ? 'linear-gradient(45deg, #4ecdc4, #44a08d)'
+                        ? 'linear-gradient(135deg, #F29F05, #8C1D04)'
                         : 'rgba(255, 255, 255, 0.1)',
                       color: 'white',
                       borderRadius: 3
@@ -792,13 +853,16 @@ export default function CoachingPage() {
                 variant="contained"
                 disabled={!newMessage.trim()}
                 sx={{
-                  background: 'linear-gradient(135deg, #ff6b9d, #c44569)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #ff5a8a, #b83a5a)'
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)'
                   },
-                  borderRadius: 2,
+                  borderRadius: 3,
                   minWidth: 'auto',
-                  px: 2
+                  px: 2,
+                  fontWeight: 700
                 }}
               >
                 <Send size={20} />

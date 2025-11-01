@@ -6,7 +6,7 @@ import AppHeader from '@/app/components/AppHeader';
 
 export default function ClientLayoutFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const hideHeader = pathname?.startsWith('/landing') ?? false;
+  const hideHeader = (pathname === '/' || pathname?.startsWith('/landing') || pathname?.startsWith('/community-info') || pathname === '/register' || pathname === '/login') ?? false;
 
   return (
     <>

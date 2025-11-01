@@ -61,3 +61,56 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// POST /api/coach/readings - Neues Reading erstellen
+export async function POST(request: NextRequest) {
+  try {
+    // Authentifizierung prüfen (später implementieren)
+    const authHeader = request.headers.get('authorization');
+    
+    // TODO: Prüfe ob User Coach-Rechte hat
+    // if (!isCoach(authHeader)) {
+    //   return NextResponse.json({ error: 'Keine Berechtigung' }, { status: 403 });
+    // }
+
+    const body = await request.json();
+    const { reading_type, client_name, reading_data } = body;
+
+    // Validierung
+    if (!reading_type || !client_name || !reading_data) {
+      return NextResponse.json(
+        { error: 'Bitte fülle alle Pflichtfelder aus' },
+        { status: 400 }
+      );
+    }
+
+    // Erstelle neues Reading-Objekt
+    const newReading = {
+      id: `reading_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      reading_type,
+      client_name,
+      reading_data,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    // Speichere im In-Memory Store (später durch Datenbank ersetzen)
+    readingsStore.push(newReading);
+
+    return NextResponse.json(
+      { 
+        success: true,
+        reading: newReading,
+        message: 'Reading erfolgreich erstellt'
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Fehler beim Erstellen des Readings:', error);
+    return NextResponse.json(
+      { error: 'Interner Serverfehler' },
+      { status: 500 }
+    );
+  }
+}
+

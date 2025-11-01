@@ -2,6 +2,25 @@
 
 Eine moderne Webanwendung für Human Design Dating, Coaching und persönliche Entwicklung.
 
+---
+
+## 🚀 DEPLOYMENT-STRATEGIE ⚠️
+
+> **WICHTIG:** Neue Deployment-Regeln ab sofort!
+> 
+> **Siehe:** [`DEPLOYMENT-STRATEGY-FINAL.md`](./DEPLOYMENT-STRATEGY-FINAL.md)
+> 
+> **Regeln:**
+> - ✅ Nur noch über GitHub deployen
+> - ✅ Nur noch über die 3 Server-Skripte:
+>   - `scripts/git-pull.sh`
+>   - `scripts/docker-build.sh`
+>   - `scripts/docker-start.sh`
+> 
+> **Alle anderen Deployment-Wege sind ab sofort VERBOTEN!**
+
+---
+
 ## 🚀 **Architektur**
 
 **Frontend-only mit Supabase Backend:**
