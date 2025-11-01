@@ -1392,6 +1392,153 @@ export default function LandingPage() {
         }} />
       </Box>
 
+      {/* Die Resonanzanalyse - Energetischer Kompass */}
+      <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 8 }, pb: { xs: 6, md: 8 } }}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <Box sx={{
+            maxWidth: '900px',
+            mx: 'auto',
+            px: { xs: 2, md: 4 }
+          }}>
+            <Typography variant="h2" sx={{
+              textAlign: 'center',
+              mb: 4,
+              color: 'white',
+              fontWeight: 800,
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontSize: { xs: '1.8rem', md: '2.5rem' }
+            }}>
+              🧭 Die Resonanzanalyse
+            </Typography>
+
+            <Typography variant="h5" sx={{
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              mb: 3,
+              fontWeight: 700,
+              fontSize: { xs: '1.3rem', md: '1.6rem' },
+              textAlign: 'center',
+              fontFamily: '"Playfair Display", serif'
+            }}>
+              Der energetische Kompass des Systems
+            </Typography>
+
+            <Typography variant="body1" sx={{
+              color: 'rgba(255, 255, 255, 0.85)',
+              mb: 4,
+              lineHeight: 1.8,
+              fontSize: { xs: '1.1rem', md: '1.3rem' },
+              textAlign: 'center',
+              fontFamily: '"Crimson Text", serif'
+            }}>
+              Sie zeigt, wie stark die Verbindung zwischen Bewusstsein, Energie und System (Server, Daten, Mensch) schwingt – also wie „sauber" der energetische Fluss ist.
+            </Typography>
+
+            <Box sx={{
+              background: 'rgba(242, 159, 5, 0.08)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(242, 159, 5, 0.2)',
+              borderRadius: 4,
+              p: { xs: 3, md: 4 },
+              mb: 4
+            }}>
+              <Typography variant="h6" sx={{
+                color: '#F29F05',
+                mb: 3,
+                fontWeight: 700,
+                fontSize: { xs: '1.1rem', md: '1.3rem' },
+                textAlign: 'center',
+                fontFamily: '"Playfair Display", serif'
+              }}>
+                Sie dient als diagnostischer Teil des „Connecting Keys":
+              </Typography>
+
+              <Stack spacing={2} sx={{ mt: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <Typography sx={{ 
+                    color: '#F29F05', 
+                    fontSize: '1.5rem',
+                    fontWeight: 700,
+                    lineHeight: 1
+                  }}>
+                    →
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    color: 'rgba(255, 255, 255, 0.85)',
+                    lineHeight: 1.8,
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    fontFamily: '"Crimson Text", serif',
+                    flex: 1
+                  }}>
+                    <strong>Wo besteht Resonanz</strong> (Harmonie, Synchronität)?
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                  <Typography sx={{ 
+                    color: '#F29F05', 
+                    fontSize: '1.5rem',
+                    fontWeight: 700,
+                    lineHeight: 1
+                  }}>
+                    →
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    color: 'rgba(255, 255, 255, 0.85)',
+                    lineHeight: 1.8,
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    fontFamily: '"Crimson Text", serif',
+                    flex: 1
+                  }}>
+                    <strong>Wo Dissonanz</strong> (Blockaden, Fehlkommunikation, Energieverlust)?
+                  </Typography>
+                </Box>
+              </Stack>
+            </Box>
+          </Box>
+        </motion.div>
+      </Container>
+
+      {/* Visueller Divider */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        py: { xs: 4, md: 6 },
+        position: 'relative'
+      }}>
+        <Box sx={{
+          width: '60%',
+          maxWidth: 400,
+          height: 2,
+          background: 'linear-gradient(90deg, transparent, rgba(242, 159, 5, 0.5), rgba(242, 159, 5, 0.8), rgba(242, 159, 5, 0.5), transparent)',
+          borderRadius: 2,
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 16,
+            height: 16,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(242, 159, 5, 0.8), transparent)',
+            boxShadow: '0 0 20px rgba(242, 159, 5, 0.6)'
+          }
+        }} />
+      </Box>
+
       {/* Die Sprache der Energie */}
       <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 8 }, pb: { xs: 6, md: 8 } }}>
         <motion.div

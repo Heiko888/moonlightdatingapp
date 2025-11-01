@@ -21,71 +21,114 @@ import {
   Schedule,
   Download,
   ArrowBack,
-  Email
+  Email,
+  TrendingUp
 } from '@mui/icons-material';
 import { safeJsonParse } from '@/lib/supabase/client';
 
 interface ReadingData {
   id: string;
   title: string;
-  email: string;
-  birthdate: string;
-  birthtime: string;
-  birthplace: string;
-  status: string;
-  category: string;
+  email?: string;
+  birthdate?: string;
+  birthtime?: string;
+  birthplace?: string;
+  status?: string;
+  category?: string;
+  reading_type?: string;
+  reading_data?: any;
 }
 
 const NextStepsPage: React.FC = () => {
   const router = useRouter();
   const [readingData, setReadingData] = useState<ReadingData | null>(null);
   const [activeStep, setActiveStep] = useState(0);
+  const [isConnectionKey, setIsConnectionKey] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const currentReadingId = localStorage.getItem('currentReadingId');
       if (currentReadingId) {
-        const readings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []);
+        const readings = safeJsonParse(localStorage.getItem('userReadings') || '[]', []) as ReadingData[];
         const currentReading = readings.find((r: ReadingData) => r.id === currentReadingId);
         if (currentReading) {
           setReadingData(currentReading);
+          // Prüfe ob es ein Connection Key Reading ist
+          const isCK = currentReading.reading_type === 'connectionKey' || 
+                       currentReading.category === 'connection-key' ||
+                       (currentReading.reading_data && currentReading.reading_data.type === 'connectionKey');
+          setIsConnectionKey(isCK);
         }
       }
     }
   }, []);
 
-  const steps = [
-    {
-      label: 'Anmeldung erfolgreich ✅',
-      description: 'Deine Reading-Anfrage wurde erfolgreich gespeichert.',
-      icon: <CheckCircle sx={{ color: '#10b981', fontSize: 48 }} />,
-      status: 'completed'
-    },
-    {
-      label: 'Bestätigungs-E-Mail',
-      description: `Wir haben dir eine Bestätigung an ${readingData?.email || 'deine E-Mail'} gesendet. Bitte prüfe auch deinen Spam-Ordner.`,
-      icon: <Email sx={{ color: '#3b82f6', fontSize: 48 }} />,
-      status: 'current'
-    },
-    {
-      label: 'Zoom-Termin vereinbaren',
-      description: 'Unser Coach wird sich innerhalb von 24-48 Stunden bei dir melden, um einen Termin für dein persönliches Live-Reading via Zoom zu vereinbaren.',
-      icon: <Schedule sx={{ color: '#eab308', fontSize: 48 }} />,
-      status: 'pending'
-    },
-    {
-      label: 'Live-Reading via Zoom',
-      description: 'In einer 60-90 minütigen Zoom-Session analysiert unser zertifizierter Human Design Coach dein Chart und beantwortet alle deine Fragen persönlich.',
-      icon: <VideoCall sx={{ color: '#8b5cf6', fontSize: 48 }} />,
-      status: 'pending'
-    },
-    {
-      label: 'Download deines Readings',
-      description: 'Nach dem Live-Reading und der Coach-Freigabe erhältst du dein vollständiges Reading als PDF-Datei zum Download.',
-      icon: <Download sx={{ color: '#ff6b9d', fontSize: 48 }} />,
-      status: 'pending'
+  // Unterschiedliche Schritte für Connection Key vs normale Readings
+  const getSteps = () => {
+    if (isConnectionKey) {
+      return [
+        {
+          label: 'Connection Key erfolgreich erstellt ✅',
+          description: 'Deine Resonanzanalyse wurde erfolgreich gespeichert und wird nun berechnet.',
+          icon: <CheckCircle sx={{ color: '#F29F05', fontSize: 48 }} />,
+          status: 'completed'
+        },
+        {
+          label: 'Berechnung läuft',
+          description: 'Die Resonanzanalyse zwischen den beiden Personen wird jetzt berechnet. Dies kann einige Minuten dauern.',
+          icon: <Schedule sx={{ color: '#F29F05', fontSize: 48 }} />,
+          status: 'current'
+        },
+        {
+          label: 'Ergebnisse verfügbar',
+          description: 'Sobald die Berechnung abgeschlossen ist, werden deine Ergebnisse in deinem Dashboard angezeigt. Du erhältst Einblicke in Goldadern, komplementäre Tore und die energetische Verbindung.',
+          icon: <TrendingUp sx={{ color: '#F29F05', fontSize: 48 }} />,
+          status: 'pending'
+        },
+        {
+          label: 'Reading ansehen',
+          description: 'Das vollständige Connection Key Reading ist in deiner Reading-Liste verfügbar und zeigt dir die Resonanz zwischen beiden Personen auf.',
+          icon: <Download sx={{ color: '#F29F05', fontSize: 48 }} />,
+          status: 'pending'
+        }
+      ];
     }
-  ];
+    
+    return [
+      {
+        label: 'Anmeldung erfolgreich ✅',
+        description: 'Deine Reading-Anfrage wurde erfolgreich gespeichert.',
+        icon: <CheckCircle sx={{ color: '#10b981', fontSize: 48 }} />,
+        status: 'completed'
+      },
+      {
+        label: 'Bestätigungs-E-Mail',
+        description: `Wir haben dir eine Bestätigung an ${readingData?.email || readingData?.reading_data?.person1?.email || 'deine E-Mail'} gesendet. Bitte prüfe auch deinen Spam-Ordner.`,
+        icon: <Email sx={{ color: '#3b82f6', fontSize: 48 }} />,
+        status: 'current'
+      },
+      {
+        label: 'Zoom-Termin vereinbaren',
+        description: 'Unser Coach wird sich innerhalb von 24-48 Stunden bei dir melden, um einen Termin für dein persönliches Live-Reading via Zoom zu vereinbaren.',
+        icon: <Schedule sx={{ color: '#eab308', fontSize: 48 }} />,
+        status: 'pending'
+      },
+      {
+        label: 'Live-Reading via Zoom',
+        description: 'In einer 60-90 minütigen Zoom-Session analysiert unser zertifizierter Human Design Coach dein Chart und beantwortet alle deine Fragen persönlich.',
+        icon: <VideoCall sx={{ color: '#8b5cf6', fontSize: 48 }} />,
+        status: 'pending'
+      },
+      {
+        label: 'Download deines Readings',
+        description: 'Nach dem Live-Reading und der Coach-Freigabe erhältst du dein vollständiges Reading als PDF-Datei zum Download.',
+        icon: <Download sx={{ color: '#ff6b9d', fontSize: 48 }} />,
+        status: 'pending'
+      }
+    ];
+  };
+
+  const steps = getSteps();
 
   return (
     <Box sx={{ 
@@ -118,7 +161,9 @@ const NextStepsPage: React.FC = () => {
           <Typography
             variant="h2"
             sx={{
-              background: 'linear-gradient(135deg, #10b981, #4ecdc4)',
+              background: isConnectionKey 
+                ? 'linear-gradient(135deg, #F29F05, #8C1D04)' 
+                : 'linear-gradient(135deg, #10b981, #4ecdc4)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -127,7 +172,7 @@ const NextStepsPage: React.FC = () => {
               mb: 2
             }}
           >
-            Glückwunsch! 🎉
+            {isConnectionKey ? 'Connection Key erstellt! 🎉' : 'Glückwunsch! 🎉'}
           </Typography>
           <Typography 
             variant="h5" 
@@ -137,7 +182,9 @@ const NextStepsPage: React.FC = () => {
               fontSize: { xs: '1.1rem', md: '1.3rem' }
             }}
           >
-            Deine Reading-Anfrage wurde erfolgreich gespeichert
+            {isConnectionKey 
+              ? 'Deine Resonanzanalyse wurde erfolgreich erstellt' 
+              : 'Deine Reading-Anfrage wurde erfolgreich gespeichert'}
           </Typography>
           {readingData && (
             <Chip 
@@ -172,8 +219,17 @@ const NextStepsPage: React.FC = () => {
           </Typography>
           
           <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.8)', mb: 4, lineHeight: 1.8 }}>
-            Dein Human Design Reading ist mehr als nur ein Dokument – es ist eine <strong>persönliche Reise zu deinem authentischen Selbst</strong>. 
-            Deshalb begleitet dich einer unserer zertifizierten Human Design Coaches durch den gesamten Prozess.
+            {isConnectionKey ? (
+              <>
+                Deine Connection Key Resonanzanalyse wird jetzt berechnet. Sie zeigt dir die <strong>energetische Verbindung zwischen beiden Personen</strong> – 
+                Goldadern, komplementäre Tore und die unsichtbaren Linien der Resonanz.
+              </>
+            ) : (
+              <>
+                Dein Human Design Reading ist mehr als nur ein Dokument – es ist eine <strong>persönliche Reise zu deinem authentischen Selbst</strong>. 
+                Deshalb begleitet dich einer unserer zertifizierten Human Design Coaches durch den gesamten Prozess.
+              </>
+            )}
           </Typography>
 
           {/* Stepper */}
@@ -256,10 +312,30 @@ const NextStepsPage: React.FC = () => {
 
         {/* Action Buttons */}
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+          {isConnectionKey && (
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBack />}
+              onClick={() => router.push('/connection-key/results')}
+              sx={{
+                borderColor: 'rgba(242, 159, 5, 0.5)',
+                color: '#F29F05',
+                fontWeight: 600,
+                px: 4,
+                py: 1.5,
+                '&:hover': {
+                  borderColor: '#F29F05',
+                  backgroundColor: 'rgba(242, 159, 5, 0.1)'
+                }
+              }}
+            >
+              Zur Results-Seite
+            </Button>
+          )}
           <Button
             variant="outlined"
             startIcon={<ArrowBack />}
-            onClick={() => router.push('/reading')}
+            onClick={() => router.push(isConnectionKey ? '/connection-key/create' : '/resonanzanalyse')}
             sx={{
               borderColor: 'rgba(255,255,255,0.3)',
               color: 'white',
@@ -267,23 +343,27 @@ const NextStepsPage: React.FC = () => {
               px: 4,
               py: 1.5,
               '&:hover': {
-                borderColor: '#ff6b9d',
-                backgroundColor: 'rgba(255, 107, 157, 0.1)'
+                borderColor: isConnectionKey ? '#F29F05' : '#ff6b9d',
+                backgroundColor: isConnectionKey ? 'rgba(242, 159, 5, 0.1)' : 'rgba(255, 107, 157, 0.1)'
               }
             }}
           >
-            Zurück zu Readings
+            {isConnectionKey ? 'Neues Connection Key' : 'Zurück zu Readings'}
           </Button>
           <Button
             variant="contained"
             onClick={() => router.push('/dashboard')}
             sx={{
-              background: 'linear-gradient(45deg, #ff6b9d, #c44569)',
+              background: isConnectionKey
+                ? 'linear-gradient(135deg, #F29F05, #8C1D04)'
+                : 'linear-gradient(45deg, #ff6b9d, #c44569)',
               fontWeight: 600,
               px: 4,
               py: 1.5,
               '&:hover': {
-                background: 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
+                background: isConnectionKey
+                  ? 'linear-gradient(135deg, #8C1D04, #F29F05)'
+                  : 'linear-gradient(45deg, #ff5a8a, #b83a5a)',
               }
             }}
           >

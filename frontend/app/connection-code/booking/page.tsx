@@ -37,6 +37,7 @@ import {
   ArrowRight,
   ArrowLeft
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface Package {
   id: string;
@@ -48,6 +49,13 @@ interface Package {
   popular: boolean;
   description: string;
 }
+
+// Stripe Payment Links
+const STRIPE_PAYMENT_LINKS = {
+  single: 'https://buy.stripe.com/bJe5kE4qM02Bf6VaQFf7i00', // Connection Key Einzelsession
+  triple: 'https://buy.stripe.com/4gM9AUg9u6qZ2k91g5f7i01', // Connection Key 3er-Paket
+  five: 'https://buy.stripe.com/4gMdRa1eA5mV2k9e2Rf7i02', // Connection Key 5er-Paket
+};
 
 const packages: Package[] = [
   {
@@ -177,7 +185,6 @@ export default function ConnectionCodeBookingPage() {
 
   const handleBooking = async () => {
     try {
-      setLoading(true);
       setError(null);
 
       // Speichere Buchungsdaten
@@ -191,7 +198,24 @@ export default function ConnectionCodeBookingPage() {
 
       localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
 
-      // Erstelle Stripe Checkout Session
+      // Verwende direkten Payment Link wenn vorhanden, sonst API-Route
+      const paymentLink = selectedPackage?.id === 'single' ? STRIPE_PAYMENT_LINKS.single :
+                         selectedPackage?.id === 'triple' ? STRIPE_PAYMENT_LINKS.triple :
+                         selectedPackage?.id === 'five' ? STRIPE_PAYMENT_LINKS.five :
+                         null;
+      
+      if (paymentLink) {
+        // Direkter Redirect zu Stripe Payment Link
+        console.log('Redirecting to Stripe Payment Link:', paymentLink, 'for package:', selectedPackage?.id);
+        // Verwende window.location.replace() für bessere Browser-Kompatibilität
+        window.location.replace(paymentLink);
+        return;
+      }
+
+      // Nur für API-Route setLoading setzen
+      setLoading(true);
+
+      // Erstelle Stripe Checkout Session für andere Pakete
       const response = await fetch('/api/payment/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -243,18 +267,19 @@ export default function ConnectionCodeBookingPage() {
                     sx={{
                       cursor: 'pointer',
                       background: selectedPackage?.id === pkg.id
-                        ? 'linear-gradient(135deg, rgba(255,107,157,0.3), rgba(78,205,196,0.3))'
+                        ? 'linear-gradient(135deg, rgba(242,159,5,0.3), rgba(140,29,4,0.3))'
                         : 'rgba(255,255,255,0.05)',
                       backdropFilter: 'blur(10px)',
                       border: selectedPackage?.id === pkg.id
-                        ? '2px solid #ff6b9d'
+                        ? '2px solid #F29F05'
                         : '1px solid rgba(255,255,255,0.1)',
                       borderRadius: 3,
                       transition: 'all 0.3s',
                       position: 'relative',
                       '&:hover': {
                         transform: 'translateY(-5px)',
-                        boxShadow: '0 10px 40px rgba(255,107,157,0.3)'
+                        boxShadow: '0 10px 40px rgba(242,159,5,0.3)',
+                        borderColor: '#F29F05'
                       }
                     }}
                   >
@@ -279,7 +304,7 @@ export default function ConnectionCodeBookingPage() {
                       <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
                         {pkg.description}
                       </Typography>
-                      <Typography variant="h3" sx={{ color: '#ff6b9d', fontWeight: 800, mb: 1 }}>
+                      <Typography variant="h3" sx={{ color: '#F29F05', fontWeight: 800, mb: 1 }}>
                         €{pkg.price}
                       </Typography>
                       <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
@@ -345,13 +370,13 @@ export default function ConnectionCodeBookingPage() {
                                 borderColor: 'rgba(255,255,255,0.3)',
                                 color: selectedDate === slot.date && selectedTime === slot.time ? 'white' : 'rgba(255,255,255,0.8)',
                                 background: selectedDate === slot.date && selectedTime === slot.time 
-                                  ? 'linear-gradient(135deg, #ff6b9d, #4ecdc4)'
+                                  ? 'linear-gradient(135deg, #F29F05, #8C1D04)'
                                   : 'transparent',
                                 '&:hover': {
-                                  borderColor: '#ff6b9d',
+                                  borderColor: '#F29F05',
                                   background: selectedDate === slot.date && selectedTime === slot.time
-                                    ? 'linear-gradient(135deg, #ff5a8a, #3dbdb3)'
-                                    : 'rgba(255,107,157,0.1)'
+                                    ? 'linear-gradient(135deg, #8C1D04, #F29F05)'
+                                    : 'rgba(242,159,5,0.1)'
                                 }
                               }}
                             >
@@ -378,7 +403,7 @@ export default function ConnectionCodeBookingPage() {
             <Grid container spacing={3}>
               {/* Kontaktdaten */}
               <Grid item xs={12}>
-                <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 2 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2 }}>
                   📞 Deine Daten
                 </Typography>
               </Grid>
@@ -393,8 +418,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#ff6b9d' },
-                      '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -412,8 +437,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#ff6b9d' },
-                      '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -430,8 +455,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#ff6b9d' },
-                      '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -440,7 +465,7 @@ export default function ConnectionCodeBookingPage() {
 
               {/* Partner 1 */}
               <Grid item xs={12}>
-                <Typography variant="h6" sx={{ color: '#4ecdc4', mb: 2, mt: 2 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2, mt: 2 }}>
                   💕 Partner 1 Daten
                 </Typography>
               </Grid>
@@ -455,8 +480,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -475,8 +500,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -495,8 +520,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -513,8 +538,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -523,7 +548,7 @@ export default function ConnectionCodeBookingPage() {
 
               {/* Partner 2 */}
               <Grid item xs={12}>
-                <Typography variant="h6" sx={{ color: '#4ecdc4', mb: 2, mt: 2 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2, mt: 2 }}>
                   💕 Partner 2 Daten
                 </Typography>
               </Grid>
@@ -538,8 +563,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -558,8 +583,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -578,8 +603,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -596,8 +621,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#4ecdc4' },
-                      '&.Mui-focused fieldset': { borderColor: '#4ecdc4' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -617,8 +642,8 @@ export default function ConnectionCodeBookingPage() {
                     '& .MuiOutlinedInput-root': {
                       color: 'white',
                       '& fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
-                      '&:hover fieldset': { borderColor: '#ff6b9d' },
-                      '&.Mui-focused fieldset': { borderColor: '#ff6b9d' }
+                      '&:hover fieldset': { borderColor: '#F29F05' },
+                      '&.Mui-focused fieldset': { borderColor: '#F29F05' }
                     },
                     '& .MuiInputLabel-root': { color: 'rgba(255,255,255,0.7)' }
                   }}
@@ -637,13 +662,13 @@ export default function ConnectionCodeBookingPage() {
             
             <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', mb: 3 }}>
               <CardContent>
-                <Typography variant="h6" sx={{ color: '#ff6b9d', mb: 2 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2 }}>
                   📦 Gewähltes Paket
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'white', mb: 1 }}>
                   {selectedPackage?.name} - {selectedPackage?.sessions} Session(s)
                 </Typography>
-                <Typography variant="h4" sx={{ color: '#ff6b9d', fontWeight: 800 }}>
+                <Typography variant="h4" sx={{ color: '#F29F05', fontWeight: 800 }}>
                   €{selectedPackage?.price}
                 </Typography>
                 {selectedPackage && selectedPackage.savings > 0 && (
@@ -658,7 +683,7 @@ export default function ConnectionCodeBookingPage() {
 
             <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', mb: 3 }}>
               <CardContent>
-                <Typography variant="h6" sx={{ color: '#4ecdc4', mb: 2 }}>
+                <Typography variant="h6" sx={{ color: '#F29F05', mb: 2 }}>
                   📅 Dein Termin
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'white', mb: 1 }}>
@@ -709,19 +734,96 @@ export default function ConnectionCodeBookingPage() {
     <Box sx={{
       minHeight: '100vh',
       background: `
-        radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%)
+        radial-gradient(circle at 20% 20%, rgba(242, 159, 5, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(140, 29, 4, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(242, 159, 5, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, #0b0a0f 0%, #0b0a0f 60%)
       `,
+      backgroundAttachment: 'fixed',
+      position: 'relative',
+      overflow: 'hidden',
       py: { xs: 4, md: 8 }
     }}>
-      <Container maxWidth="lg">
+      {/* Animated Gradient Circles */}
+      {Array.from({ length: 3 }).map((_, i) => (
+        <motion.div
+          key={i}
+          style={{
+            position: 'absolute',
+            width: `${600 + i * 200}px`,
+            height: `${600 + i * 200}px`,
+            borderRadius: '50%',
+            background: `radial-gradient(circle, rgba(242, 159, 5, ${0.08 - i * 0.02}), transparent)`,
+            left: `${20 + i * 30}%`,
+            top: `${10 + i * 20}%`,
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, Math.sin(i) * 50, 0],
+            y: [0, Math.cos(i) * 50, 0],
+          }}
+          transition={{
+            duration: 8 + i * 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+
+      {/* Sparkles */}
+      {[
+        { left: 15, top: 20, duration: 2.5, delay: 0.3 },
+        { left: 75, top: 35, duration: 3.2, delay: 1.1 },
+        { left: 45, top: 60, duration: 2.8, delay: 0.7 },
+        { left: 85, top: 15, duration: 3.5, delay: 1.5 },
+        { left: 25, top: 80, duration: 2.3, delay: 0.5 },
+        { left: 65, top: 45, duration: 3.8, delay: 1.8 },
+        { left: 10, top: 55, duration: 2.6, delay: 0.9 },
+        { left: 90, top: 70, duration: 3.0, delay: 1.2 },
+        { left: 35, top: 25, duration: 2.9, delay: 0.4 },
+        { left: 55, top: 85, duration: 3.3, delay: 1.6 },
+        { left: 70, top: 10, duration: 2.7, delay: 0.8 },
+        { left: 30, top: 90, duration: 3.6, delay: 1.4 },
+        { left: 50, top: 40, duration: 2.4, delay: 0.6 },
+        { left: 20, top: 65, duration: 3.1, delay: 1.3 },
+        { left: 80, top: 50, duration: 2.5, delay: 0.9 },
+      ].map((sparkle, i) => (
+        <motion.div
+          key={i}
+          style={{
+            position: 'absolute',
+            left: `${sparkle.left}%`,
+            top: `${sparkle.top}%`,
+            width: '4px',
+            height: '4px',
+            background: '#F29F05',
+            borderRadius: '50%',
+            boxShadow: '0 0 6px rgba(242, 159, 5, 0.8)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+          animate={{
+            opacity: [0, 1, 0],
+            scale: [0, 1.5, 0],
+          }}
+          transition={{
+            duration: sparkle.duration,
+            delay: sparkle.delay,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         {/* Header */}
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography
             variant="h2"
             sx={{
-              background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -743,11 +845,11 @@ export default function ConnectionCodeBookingPage() {
             <Step key={label}>
               <StepLabel sx={{
                 '& .MuiStepLabel-label': { color: 'rgba(255,255,255,0.7)' },
-                '& .MuiStepLabel-label.Mui-active': { color: '#ff6b9d' },
-                '& .MuiStepLabel-label.Mui-completed': { color: '#4ecdc4' },
+                '& .MuiStepLabel-label.Mui-active': { color: '#F29F05' },
+                '& .MuiStepLabel-label.Mui-completed': { color: '#F29F05' },
                 '& .MuiStepIcon-root': { color: 'rgba(255,255,255,0.3)' },
-                '& .MuiStepIcon-root.Mui-active': { color: '#ff6b9d' },
-                '& .MuiStepIcon-root.Mui-completed': { color: '#4ecdc4' }
+                '& .MuiStepIcon-root.Mui-active': { color: '#F29F05' },
+                '& .MuiStepIcon-root.Mui-completed': { color: '#F29F05' }
               }}>
                 {label}
               </StepLabel>
@@ -800,16 +902,19 @@ export default function ConnectionCodeBookingPage() {
               disabled={loading}
               endIcon={loading ? <CircularProgress size={20} /> : <CreditCard size={20} />}
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 fontWeight: 700,
                 px: 4,
                 py: 1.5,
                 fontSize: '1.1rem',
+                boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #3dbdb3)',
-                  transform: 'scale(1.05)'
-                }
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 6px 25px rgba(242, 159, 5, 0.5)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               {loading ? 'Verarbeite...' : `Jetzt für €${selectedPackage?.price} buchen`}
@@ -820,14 +925,19 @@ export default function ConnectionCodeBookingPage() {
               onClick={handleNext}
               endIcon={<ArrowRight size={20} />}
               sx={{
-                background: 'linear-gradient(135deg, #ff6b9d, #4ecdc4)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
                 fontWeight: 700,
                 px: 4,
                 py: 1.5,
+                fontSize: '1.1rem',
+                boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #ff5a8a, #3dbdb3)'
-                }
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 6px 25px rgba(242, 159, 5, 0.5)'
+                },
+                transition: 'all 0.3s ease'
               }}
             >
               Weiter
