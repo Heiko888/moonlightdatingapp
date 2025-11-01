@@ -55,6 +55,7 @@ id_ed25519*
 *.tmp
 *.bak
 *.backup
+*.original
 nginx-new.conf
 nginx-docker.conf
 docker-compose.nginx.yml
