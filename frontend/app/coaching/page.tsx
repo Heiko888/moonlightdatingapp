@@ -489,8 +489,9 @@ export default function CoachingPage() {
                         <Button
                           fullWidth
                           variant="contained"
+                          component={Link}
+                          href="/connection-key/booking"
                           startIcon={<Calendar size={20} />}
-                          onClick={() => handleCoachSelect(coach)}
                           sx={{
                             background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                             '&:hover': {

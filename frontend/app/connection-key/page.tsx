@@ -22,6 +22,12 @@ import {
   Users,
   Zap,
   Target,
+  CheckCircle,
+  Calendar,
+  Video,
+  FileText,
+  User,
+  Mail,
 } from 'lucide-react';
 
 // Sparkle-Positionen für animierte Hintergrund-Funken
@@ -73,7 +79,7 @@ export default function ConnectionKeyPage() {
           radial-gradient(circle at 20% 20%, rgba(242, 159, 5, 0.1) 0%, transparent 50%),
           radial-gradient(circle at 80% 80%, rgba(140, 29, 4, 0.1) 0%, transparent 50%),
           radial-gradient(circle at 40% 60%, rgba(242, 159, 5, 0.08) 0%, transparent 50%),
-          linear-gradient(180deg, #0b0a0f 0%, #0b0a0f 60%)
+          linear-gradient(180deg, #1a1820 0%, #1a1820 60%)
         `,
         backgroundAttachment: 'fixed',
         position: 'relative',
@@ -91,7 +97,7 @@ export default function ConnectionKeyPage() {
             width: `${600 + i * 200}px`,
             height: `${600 + i * 200}px`,
             borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(242, 159, 5, ${0.08 - i * 0.02}), transparent)`,
+            background: `radial-gradient(circle, rgba(242, 159, 5, ${0.12 - i * 0.03}), transparent)`,
             left: `${20 + i * 30}%`,
             top: `${10 + i * 20}%`,
             pointerEvents: 'none',
@@ -245,7 +251,7 @@ export default function ConnectionKeyPage() {
               >
                 <Card
                   sx={{
-                    background: 'rgba(255, 255, 255, 0.05)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     backdropFilter: 'blur(10px)',
                     border: '1px solid rgba(242, 159, 5, 0.3)',
                     borderRadius: 3,
@@ -318,6 +324,385 @@ export default function ConnectionKeyPage() {
               Ein Zentrum beginnt zu pulsieren. Ein Raum öffnet sich. Das ist Resonanz – der Moment, in dem Begegnung dich verändert.
             </Typography>
           </Card>
+        </motion.div>
+
+        {/* Ablauf / Process Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <Box sx={{ mb: 8 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                mb: 6,
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2rem', md: '2.5rem' },
+              }}
+            >
+              🔄 So funktioniert's
+            </Typography>
+
+            <Grid container spacing={4}>
+              {[
+                {
+                  step: 1,
+                  icon: <User size={40} />,
+                  title: 'Daten eingeben',
+                  description: 'Gib die Geburtsdaten von dir und der anderen Person ein. Das ist alles, was wir brauchen.',
+                  color: '#F29F05',
+                },
+                {
+                  step: 2,
+                  icon: <Calendar size={40} />,
+                  title: 'Session buchen',
+                  description: 'Wähle ein Paket und buche deine Connection Key Session mit einem unserer zertifizierten Coaches.',
+                  color: '#F29F05',
+                },
+                {
+                  step: 3,
+                  icon: <Video size={40} />,
+                  title: 'Live-Analyse',
+                  description: 'In einer 60-90 minütigen Zoom-Session analysiert der Coach eure Resonanz live mit dir.',
+                  color: '#F29F05',
+                },
+                {
+                  step: 4,
+                  icon: <FileText size={40} />,
+                  title: 'Ergebnis erhalten',
+                  description: 'Du erhältst eine detaillierte PDF-Analyse mit allen Goldadern, Toren und Resonanzen.',
+                  color: '#8C1D04',
+                },
+              ].map((item, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 + index * 0.1 }}
+                  >
+                    <Card
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(242, 159, 5, 0.3)',
+                        borderRadius: 3,
+                        p: 3,
+                        height: '100%',
+                        textAlign: 'center',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        '&:hover': {
+                          transform: 'translateY(-5px)',
+                          borderColor: item.color,
+                          boxShadow: `0 8px 25px rgba(242, 159, 5, 0.3)`,
+                        },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: -15,
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: 40,
+                          height: 40,
+                          borderRadius: '50%',
+                          background: `linear-gradient(135deg, ${item.color}, ${item.color === '#F29F05' ? '#8C1D04' : '#F29F05'})`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'white',
+                          fontWeight: 800,
+                          fontSize: '1.2rem',
+                          boxShadow: '0 4px 15px rgba(242, 159, 5, 0.4)',
+                        }}
+                      >
+                        {item.step}
+                      </Box>
+                      <Box sx={{ color: item.color, mb: 2, mt: 3, display: 'flex', justifyContent: 'center' }}>
+                        {item.icon}
+                      </Box>
+                      <Typography variant="h6" sx={{ color: '#fff', mb: 1.5, fontWeight: 700 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.7 }}>
+                        {item.description}
+                      </Typography>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Box sx={{ textAlign: 'center', mt: 5 }}>
+              <Button
+                component={Link}
+                href="/connection-key/booking"
+                variant="contained"
+                size="large"
+                endIcon={<ArrowRight size={24} />}
+                sx={{
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
+                  fontWeight: 700,
+                  px: 5,
+                  py: 2,
+                  fontSize: '1.1rem',
+                  borderRadius: 3,
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.4)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.5)',
+                  },
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                <Calendar size={20} style={{ marginRight: 8 }} />
+                Jetzt Session buchen
+              </Button>
+            </Box>
+          </Box>
+        </motion.div>
+
+        {/* Coaches Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1 }}
+        >
+          <Box sx={{ mb: 8 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                mb: 2,
+                textAlign: 'center',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2rem', md: '2.5rem' },
+              }}
+            >
+              👥 Unsere Connection Key Coaches
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                textAlign: 'center',
+                mb: 5,
+                maxWidth: 700,
+                mx: 'auto',
+                fontSize: '1.1rem',
+              }}
+            >
+              Unsere zertifizierten Coaches führen dich durch deine Connection Key Analyse und helfen dir, die energetische Verbindung zwischen euch zu verstehen.
+            </Typography>
+
+            <Grid container spacing={4}>
+              {[
+                {
+                  name: 'Heiko',
+                  title: 'Human Design Experte & Life Coach',
+                  avatar: '/coaches/heiko.jpg',
+                  rating: 4.9,
+                  reviews: 127,
+                  experience: '8+ Jahre',
+                  specializations: ['Human Design', 'Life Coaching', 'Beziehungen'],
+                  description: 'Heiko ist ein zertifizierter Human Design Experte mit über 8 Jahren Erfahrung. Er hilft dir dabei, eure Resonanz zu verstehen und im Alltag zu leben.',
+                  bookingLink: '/connection-key/booking',
+                },
+                {
+                  name: 'Janine',
+                  title: 'Human Design Beraterin & Therapeutin',
+                  avatar: '/coaches/janine.jpg',
+                  rating: 4.8,
+                  reviews: 89,
+                  experience: '6+ Jahre',
+                  specializations: ['Human Design', 'Psychologie', 'Beziehungen'],
+                  description: 'Janine ist eine erfahrene Human Design Beraterin mit psychologischem Hintergrund. Sie spezialisiert sich auf Beziehungs- und Resonanzdynamiken.',
+                  bookingLink: '/connection-key/booking',
+                },
+                {
+                  name: 'Elisabeth',
+                  title: 'Human Design Master & Business Coach',
+                  avatar: '/coaches/elisabeth.jpg',
+                  rating: 4.7,
+                  reviews: 98,
+                  experience: '7+ Jahre',
+                  specializations: ['Human Design', 'Business', 'Team-Dynamik'],
+                  description: 'Elisabeth hilft dir dabei, eure Resonanz zu verstehen und diese im beruflichen und privaten Kontext zu nutzen.',
+                  bookingLink: '/connection-key/booking',
+                },
+              ].map((coach, index) => (
+                <Grid item xs={12} md={4} key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.2 + index * 0.1 }}
+                  >
+                    <Card
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(242, 159, 5, 0.3)',
+                        borderRadius: 4,
+                        p: 3,
+                        height: '100%',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-5px)',
+                          borderColor: '#F29F05',
+                          boxShadow: '0 8px 25px rgba(242, 159, 5, 0.3)',
+                        },
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Box
+                          sx={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '2rem',
+                            fontWeight: 700,
+                            color: 'white',
+                            mr: 2,
+                            flexShrink: 0,
+                          }}
+                        >
+                          {coach.name.charAt(0)}
+                        </Box>
+                        <Box sx={{ flex: 1 }}>
+                          <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, mb: 0.5 }}>
+                            {coach.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 1 }}>
+                            {coach.title}
+                          </Typography>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Star size={16} fill="#F29F05" color="#F29F05" />
+                            <Typography variant="body2" sx={{ color: '#F29F05', fontWeight: 600 }}>
+                              {coach.rating}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                              ({coach.reviews} Bewertungen)
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+
+                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2, lineHeight: 1.7 }}>
+                        {coach.description}
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+                        {coach.specializations.slice(0, 3).map((spec, idx) => (
+                          <Box
+                            key={idx}
+                            sx={{
+                              px: 1.5,
+                              py: 0.5,
+                              borderRadius: 2,
+                              background: 'rgba(242, 159, 5, 0.15)',
+                              border: '1px solid rgba(242, 159, 5, 0.3)',
+                            }}
+                          >
+                            <Typography variant="caption" sx={{ color: '#F29F05', fontWeight: 600 }}>
+                              {spec}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+
+                      <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Button
+                          component={Link}
+                          href={coach.bookingLink}
+                          variant="contained"
+                          fullWidth
+                          sx={{
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                            color: 'white',
+                            fontWeight: 700,
+                            py: 1.5,
+                            borderRadius: 2,
+                            boxShadow: '0 4px 15px rgba(242, 159, 5, 0.3)',
+                            '&:hover': {
+                              background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 6px 20px rgba(242, 159, 5, 0.4)',
+                            },
+                            transition: 'all 0.3s ease',
+                          }}
+                        >
+                          Session buchen
+                        </Button>
+                        <Button
+                          component={Link}
+                          href="/coaching"
+                          variant="outlined"
+                          sx={{
+                            borderColor: 'rgba(242, 159, 5, 0.5)',
+                            color: '#F29F05',
+                            fontWeight: 600,
+                            py: 1.5,
+                            px: 2,
+                            borderRadius: 2,
+                            minWidth: 'auto',
+                            '&:hover': {
+                              borderColor: '#F29F05',
+                              background: 'rgba(242, 159, 5, 0.1)',
+                            },
+                          }}
+                        >
+                          <User size={18} />
+                        </Button>
+                      </Box>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+            </Grid>
+
+            <Box sx={{ textAlign: 'center', mt: 5 }}>
+              <Button
+                component={Link}
+                href="/coaching"
+                variant="outlined"
+                size="large"
+                endIcon={<ArrowRight size={20} />}
+                sx={{
+                  borderColor: 'rgba(242, 159, 5, 0.5)',
+                  color: '#F29F05',
+                  fontWeight: 700,
+                  px: 5,
+                  py: 2,
+                  fontSize: '1rem',
+                  borderRadius: 3,
+                  borderWidth: 2,
+                  '&:hover': {
+                    borderColor: '#F29F05',
+                    background: 'rgba(242, 159, 5, 0.1)',
+                    borderWidth: 2,
+                  },
+                }}
+              >
+                Alle Coaches ansehen
+              </Button>
+            </Box>
+          </Box>
         </motion.div>
 
         {/* CTA */}

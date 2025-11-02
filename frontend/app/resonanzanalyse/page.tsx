@@ -913,7 +913,7 @@ const ReadingPage: React.FC = () => {
             <Button
               variant="contained"
               size="large"
-              onClick={() => router.push('/connection-code/booking')}
+              onClick={() => router.push('/connection-key')}
               sx={{
                 background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 color: 'white',
@@ -931,7 +931,7 @@ const ReadingPage: React.FC = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              💕 Connection Code jetzt buchen
+              💫 Entdecke den Connection Key
             </Button>
             <Button
               variant="contained"

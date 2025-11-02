@@ -33,7 +33,7 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ConnectionKeyFormData {
   name1: string;
@@ -192,11 +192,7 @@ export default function ConnectionKeyCreatePage() {
     switch (activeStep) {
       case 0: // Willkommen
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <Box>
             <Box sx={{ textAlign: 'center', py: 4 }}>
               <Typography
                 variant="h4"
@@ -281,16 +277,12 @@ export default function ConnectionKeyCreatePage() {
                 </Grid>
               </Grid>
             </Box>
-          </motion.div>
+          </Box>
         );
 
       case 1: // Person 1
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <Box>
             <Box sx={{ py: 4 }}>
               <Typography
                 variant="h5"
@@ -316,7 +308,7 @@ export default function ConnectionKeyCreatePage() {
                     value={formData.name1}
                     onChange={(e) => handleChange('name1', e.target.value)}
                     required
-                      InputProps={{
+                    InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
                           <Person sx={{ color: '#F29F05' }} />
@@ -397,7 +389,7 @@ export default function ConnectionKeyCreatePage() {
                     value={formData.birthplace1}
                     onChange={(e) => handleChange('birthplace1', e.target.value)}
                     required
-                      InputProps={{
+                    InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
                           <LocationOn sx={{ color: '#F29F05' }} />
@@ -468,16 +460,12 @@ export default function ConnectionKeyCreatePage() {
                 </Grid>
               </Grid>
             </Box>
-          </motion.div>
+          </Box>
         );
 
       case 2: // Person 2
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <Box>
             <Box sx={{ py: 4 }}>
               <Typography
                 variant="h5"
@@ -508,7 +496,7 @@ export default function ConnectionKeyCreatePage() {
                     value={formData.name2}
                     onChange={(e) => handleChange('name2', e.target.value)}
                     required
-                      InputProps={{
+                    InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
                           <Person sx={{ color: '#F29F05' }} />
@@ -589,7 +577,7 @@ export default function ConnectionKeyCreatePage() {
                     value={formData.birthplace2}
                     onChange={(e) => handleChange('birthplace2', e.target.value)}
                     required
-                      InputProps={{
+                    InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
                           <LocationOn sx={{ color: '#F29F05' }} />
@@ -635,16 +623,12 @@ export default function ConnectionKeyCreatePage() {
                 </Grid>
               </Grid>
             </Box>
-          </motion.div>
+          </Box>
         );
 
       case 3: // Frage
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <Box>
             <Box sx={{ py: 4 }}>
               <Typography
                 variant="h5"
@@ -707,16 +691,12 @@ export default function ConnectionKeyCreatePage() {
                 />
               </Box>
             </Box>
-          </motion.div>
+          </Box>
         );
 
       case 4: // Übersicht
         return (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <Box>
             <Box sx={{ py: 4 }}>
               <Typography
                 variant="h5"
@@ -847,7 +827,7 @@ export default function ConnectionKeyCreatePage() {
                 )}
               </Grid>
             </Box>
-          </motion.div>
+          </Box>
         );
 
       default:
@@ -1018,7 +998,7 @@ export default function ConnectionKeyCreatePage() {
           }}
         >
           <CardContent sx={{ p: 4 }}>
-            <AnimatePresence mode="wait">{renderStepContent()}</AnimatePresence>
+            {renderStepContent()}
           </CardContent>
         </Card>
 

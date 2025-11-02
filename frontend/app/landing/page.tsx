@@ -2488,6 +2488,7 @@ export default function LandingPage() {
             </Box>
           </Card>
         </motion.div>
+
       </Container>
 
     </Box>

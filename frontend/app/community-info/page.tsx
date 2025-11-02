@@ -30,7 +30,8 @@ import {
   Target,
   BookOpen,
   UserPlus,
-  Share2
+  Share2,
+  Key
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -51,49 +52,49 @@ const sparkleAnimations = [
   { duration: 2.4, delay: 0.6 }, { duration: 3.1, delay: 1.3 }, { duration: 2.5, delay: 0.9 }
 ];
 
-// Community Features
+// Community & Connection Key Features
 const communityFeatures = [
   {
     icon: <Users size={32} />,
     title: "Community Hub",
-    description: "Verbinde dich mit über 2.500+ Gleichgesinnten aus der ganzen Welt",
+    description: "Verbinde dich mit über 2.500+ Gleichgesinnten aus der ganzen Welt und teile deine Connection Key Resonanzen",
     color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "2.500+ Mitglieder"
   },
   {
+    icon: <Key size={32} />,
+    title: "Connection Key Sharing",
+    description: "Teile deine Connection Key Analysen mit der Community und entdecke die energetischen Verbindungen zwischen euch",
+    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
+    stats: "1.000+ Keys geteilt"
+  },
+  {
     icon: <MessageCircle size={32} />,
     title: "Austausch & Support",
-    description: "Teile Erfahrungen, stelle Fragen und lerne von anderen auf ihrer Human Design Journey",
+    description: "Diskutiere über Resonanzen, Goldadern und energetische Verbindungen - unterstützt durch Connection Key Insights",
     color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "10.000+ Posts"
   },
   {
     icon: <Calendar size={32} />,
     title: "Events & Meetups",
-    description: "Nimm an exklusiven Workshops, Webinaren und lokalen Meetups teil",
+    description: "Nimm an exklusiven Connection Key Workshops, Webinaren und lokalen Meetups teil",
     color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "25+ Events/Monat"
   },
   {
     icon: <Heart size={32} />,
-    title: "Matching & Dating",
-    description: "Finde Menschen, die energetisch zu dir passen - für Freundschaft oder Liebe",
+    title: "Resonanz Matching",
+    description: "Finde Menschen durch Connection Key Analysen - entdecke die energetische Verbindung für Freundschaft oder Liebe",
     color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "500+ Matches"
   },
   {
     icon: <BookOpen size={32} />,
     title: "Wissens-Bibliothek",
-    description: "Zugang zu umfangreichen Ressourcen, Artikeln und Guides über Human Design",
+    description: "Zugang zu Connection Key Guides, Human Design Ressourcen und Artikeln über energetische Resonanz",
     color: "linear-gradient(135deg, #F29F05, #8C1D04)",
     stats: "100+ Artikel"
-  },
-  {
-    icon: <Share2 size={32} />,
-    title: "Teilen & Wachsen",
-    description: "Teile deine Erkenntnisse und helfe anderen auf ihrem Weg der Selbstentdeckung",
-    color: "linear-gradient(135deg, #F29F05, #8C1D04)",
-    stats: "5.000+ Shares"
   }
 ];
 
@@ -304,7 +305,7 @@ export default function CommunityInfoPage() {
               fontSize: { xs: '2.5rem', md: '4rem' },
               textShadow: '0 0 32px rgba(242, 159, 5, 0.30)'
             }}>
-              👥 Community Hub
+              👥 Community & Connection Key
             </Typography>
             
             <Typography variant="h5" sx={{
@@ -316,7 +317,8 @@ export default function CommunityInfoPage() {
               fontSize: { xs: '1.1rem', md: '1.3rem' }
             }}>
               Verbinde dich mit über 2.500+ Menschen auf ihrer Human Design Journey. 
-              Teile Erfahrungen, finde Freunde und wachse gemeinsam.
+              Teile deine Connection Key Resonanzen, entdecke energetische Verbindungen 
+              und wachse gemeinsam mit Gleichgesinnten.
             </Typography>
             
             <Stack 
@@ -350,6 +352,35 @@ export default function CommunityInfoPage() {
               >
                 <UserPlus size={22} style={{ marginRight: 10 }} />
                 Kostenlos beitreten
+              </Button>
+              
+              <Button
+                component={Link}
+                href="/connection-key/create"
+                variant="contained"
+                size="large"
+                sx={{
+                  background: 'rgba(242, 159, 5, 0.15)',
+                  border: '1px solid rgba(242, 159, 5, 0.4)',
+                  color: '#F29F05',
+                  px: 5,
+                  py: 2,
+                  borderRadius: 3,
+                  fontWeight: 600,
+                  fontSize: '1.1rem',
+                  textTransform: 'none',
+                  minWidth: { xs: '100%', sm: 'auto' },
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    color: 'white',
+                    transform: 'translateY(-3px)',
+                    boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <Key size={22} style={{ marginRight: 10 }} />
+                Connection Key erstellen
               </Button>
               
               <Button
@@ -420,10 +451,10 @@ export default function CommunityInfoPage() {
                   }
                 }}>
                   <Typography variant="h3" sx={{ color: '#8C1D04', fontWeight: 800, mb: 1 }}>
-                    500+
+                    1.000+
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Matches
+                    Connection Keys
                   </Typography>
                 </Card>
               </Grid>
@@ -442,10 +473,10 @@ export default function CommunityInfoPage() {
                   }
                 }}>
                   <Typography variant="h3" sx={{ color: '#590A03', fontWeight: 800, mb: 1 }}>
-                    25+
+                    500+
                   </Typography>
                   <Typography sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Events/Monat
+                    Geteilte Resonanzen
                   </Typography>
                 </Card>
               </Grid>
@@ -475,7 +506,7 @@ export default function CommunityInfoPage() {
           </Box>
         </motion.div>
 
-        {/* Community Features */}
+        {/* Community & Connection Key Features */}
         <Box sx={{ mb: 10 }}>
           <Typography variant="h2" sx={{
             textAlign: 'center',
@@ -487,7 +518,7 @@ export default function CommunityInfoPage() {
             mb: 2,
             fontSize: { xs: '2rem', md: '3rem' }
           }}>
-            ✨ Community Features
+            ✨ Community & Connection Key Features
           </Typography>
           <Typography variant="h6" sx={{
             textAlign: 'center',
@@ -496,7 +527,7 @@ export default function CommunityInfoPage() {
             maxWidth: 600,
             mx: 'auto'
           }}>
-            Alles, was du brauchst, um dich zu vernetzen und zu wachsen
+            Verbinde dich, teile deine Resonanzen und entdecke die energetischen Verbindungen zwischen euch
           </Typography>
 
           <Grid container spacing={3}>
@@ -745,7 +776,7 @@ export default function CommunityInfoPage() {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
               }}>
-                🚀 Bereit, Teil der Community zu werden?
+                🚀 Bereit, Teil der Community & Connection Key zu werden?
               </Typography>
               <Typography variant="h6" sx={{ 
                 color: 'rgba(255,255,255,0.85)', 
@@ -755,7 +786,8 @@ export default function CommunityInfoPage() {
                 lineHeight: 1.8,
                 fontSize: { xs: '1rem', md: '1.2rem' }
               }}>
-                Werde Teil einer wachsenden Community von Menschen, die ihr wahres Selbst entdecken und leben.
+                Werde Teil einer wachsenden Community von Menschen, die ihr wahres Selbst entdecken, Connection Keys teilen 
+                und die energetischen Verbindungen zwischen sich und anderen erforschen.
               </Typography>
               
               <Button

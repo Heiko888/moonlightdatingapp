@@ -185,11 +185,29 @@ Nach der Synchronisation sollten folgende Dateien vorhanden sein:
 
 ## 🚀 Schnell-Befehl (Alles in einem)
 
+**Direkt auf dem Server ausführen:**
+
 ```bash
-ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && git fetch origin main && git reset --hard origin/main && git rev-parse --short HEAD && git log -1 --oneline"
+cd /opt/hd-app/HD_App_chart
+git fetch origin main
+git reset --hard origin/main
+git clean -fd
+git rev-parse --short HEAD
+git log -1 --oneline
+```
+
+**Von lokal ausführen:**
+
+```bash
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && git fetch origin main && git reset --hard origin/main && git clean -fd && git rev-parse --short HEAD && git log -1 --oneline"
 ```
 
 **WARNUNG:** `git reset --hard` verwirft alle lokalen Änderungen auf dem Server!
+
+**Nach dem Sync prüfen:**
+```bash
+ssh root@138.199.237.34 "cd /opt/hd-app/HD_App_chart && ls -la scripts/*.sh && ls -la DEPLOYMENT-STRATEGY-FINAL.md"
+```
 
 ---
 

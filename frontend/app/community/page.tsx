@@ -47,10 +47,10 @@ import {
   Share2,
   MoreVertical,
   TrendingUp,
-  Clock
+  Clock,
+  Key
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import AnimatedStars from '../../components/AnimatedStars';
 import AccessControl from '../../components/AccessControl';
 import Link from 'next/link';
 // import { UserSubscription } from '../../lib/subscription/types'; // Entfernt - nicht mehr benötigt
@@ -93,10 +93,24 @@ function CommunityContent() {
   const [messagesDialog, setMessagesDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<{ name: string; type: string; avatar: string } | null>(null);
   const [messageText, setMessageText] = useState('');
+  const [posts, setPosts] = useState<any[]>([]);
+  const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
+  const [mounted, setMounted] = useState(false);
+  const [commentDialog, setCommentDialog] = useState<{ open: boolean; postId: number | null }>({ open: false, postId: null });
+  const [commentText, setCommentText] = useState('');
+  const [postComments, setPostComments] = useState<Record<number, any[]>>({});
+  const [sharedEvents, setSharedEvents] = useState<Set<number>>(new Set());
 
   // Authentifizierung und Subscription prüfen
   useEffect(() => {
     const checkAuth = async () => {
+      // Prüfe, ob Onboarding bereits abgeschlossen wurde
+      const hasSeenOnboarding = localStorage.getItem('community-onboarding-completed');
+      if (!hasSeenOnboarding) {
+        router.push('/community/onboarding');
+        return;
+      }
+
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       
@@ -112,7 +126,14 @@ function CommunityContent() {
     };
 
     checkAuth();
+    setMounted(true);
   }, [router]);
+
+  useEffect(() => {
+    if (mounted) {
+      loadPosts();
+    }
+  }, [mounted, userName]);
 
   const loadUserName = async () => {
     try {
@@ -163,13 +184,190 @@ function CommunityContent() {
     setActiveTab(newValue);
   };
 
+  const loadPosts = () => {
+    if (typeof window === 'undefined') return; // Server-side guard
+    
+    try {
+      const savedPosts = localStorage.getItem('community-posts');
+      if (savedPosts) {
+        const parsedPosts = JSON.parse(savedPosts);
+        setPosts(parsedPosts);
+      } else {
+        // Initiale Mock-Posts
+        setPosts([
+          {
+            id: 1,
+            author: "Sarah M.",
+            avatar: "/api/placeholder/48/48",
+            content: "Als Manifesting Generator fühle ich mich heute besonders energiegeladen! 🌟 Wer hat Lust auf einen spontanen Austausch?",
+            timestamp: "vor 2 Stunden",
+            likes: 24,
+            comments: 8,
+            shares: 3,
+            type: "Manifesting Generator",
+            typeColor: "#f59e0b",
+            tags: ["Energie", "Austausch", "Manifesting Generator"]
+          },
+          {
+            id: 2,
+            author: "Michael K.",
+            avatar: "/api/placeholder/48/48",
+            content: "Hat jemand Erfahrung mit Projector-Strategien in Beziehungen? Ich bin neu in der Community und würde gerne von euren Erfahrungen lernen.",
+            timestamp: "vor 4 Stunden",
+            likes: 18,
+            comments: 12,
+            shares: 2,
+            type: "Projector",
+            typeColor: "#8b5cf6",
+            tags: ["Beziehungen", "Strategien", "Projector"]
+          },
+          {
+            id: 3,
+            author: "Lisa W.",
+            avatar: "/api/placeholder/48/48",
+            content: "Neuer Mondkalender-Eintrag: Vollmond in 3 Tagen! 🌕 Perfekt für Reflector-Energie. Wie geht ihr mit Mondphasen um?",
+            timestamp: "vor 6 Stunden",
+            likes: 31,
+            comments: 15,
+            shares: 7,
+            type: "Reflector",
+            typeColor: "#06b6d4",
+            tags: ["Mondkalender", "Vollmond", "Reflector"]
+          },
+          {
+            id: 4,
+            author: "Tom R.",
+            avatar: "/api/placeholder/48/48",
+            content: "Generator-Tipp: Wenn ihr euch müde fühlt, prüft eure Energie-Zentren! Oft liegt es an ungenutzter kreativer Energie.",
+            timestamp: "vor 8 Stunden",
+            likes: 42,
+            comments: 9,
+            shares: 11,
+            type: "Generator",
+            typeColor: "#F29F05",
+            tags: ["Energie", "Tipps", "Generator"]
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error('Fehler beim Laden der Posts:', error);
+    }
+  };
+
+  const savePosts = (updatedPosts: any[]) => {
+    if (typeof window === 'undefined') return; // Server-side guard
+    try {
+      localStorage.setItem('community-posts', JSON.stringify(updatedPosts));
+    } catch (error) {
+      console.error('Fehler beim Speichern der Posts:', error);
+    }
+  };
+
   const handleNewPost = () => {
     if (newPostText.trim()) {
-      // Hier würde der Post gespeichert werden
-      console.log('Neuer Post:', newPostText);
+      const newPost = {
+        id: Date.now(),
+        author: userName || 'Du',
+        avatar: userName ? `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F29F05&color=fff` : "/api/placeholder/48/48",
+        content: newPostText,
+        timestamp: "gerade eben",
+        likes: 0,
+        comments: 0,
+        shares: 0,
+        type: "Community",
+        typeColor: "#F29F05",
+        tags: []
+      };
+      
+      const updatedPosts = [newPost, ...posts];
+      setPosts(updatedPosts);
+      savePosts(updatedPosts);
       setNewPostText('');
       setNewPostDialog(false);
     }
+  };
+
+  const handleLikePost = (postId: number) => {
+    const isLiked = likedPosts.has(postId);
+    const updatedLikedPosts = new Set(likedPosts);
+    
+    if (isLiked) {
+      updatedLikedPosts.delete(postId);
+    } else {
+      updatedLikedPosts.add(postId);
+    }
+    
+    setLikedPosts(updatedLikedPosts);
+    
+    const updatedPosts = posts.map(post => {
+      if (post.id === postId) {
+        return {
+          ...post,
+          likes: isLiked ? post.likes - 1 : post.likes + 1
+        };
+      }
+      return post;
+    });
+    
+    setPosts(updatedPosts);
+    savePosts(updatedPosts);
+  };
+
+  const handleCommentClick = (postId: number) => {
+    setCommentDialog({ open: true, postId });
+    setCommentText('');
+  };
+
+  const handleCommentSubmit = () => {
+    if (commentText.trim() && commentDialog.postId !== null) {
+      const newComment = {
+        id: Date.now(),
+        author: userName || 'Du',
+        avatar: userName ? `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F29F05&color=fff` : "/api/placeholder/40/40",
+        content: commentText,
+        timestamp: "gerade eben"
+      };
+
+      const currentComments = postComments[commentDialog.postId] || [];
+      setPostComments({
+        ...postComments,
+        [commentDialog.postId]: [...currentComments, newComment]
+      });
+
+      // Update post comment count
+      const updatedPosts = posts.map(post => {
+        if (post.id === commentDialog.postId) {
+          return {
+            ...post,
+            comments: (post.comments || 0) + 1
+          };
+        }
+        return post;
+      });
+      setPosts(updatedPosts);
+      savePosts(updatedPosts);
+
+      setCommentText('');
+      setCommentDialog({ open: false, postId: null });
+    }
+  };
+
+  const handleShareConnectionKey = () => {
+    router.push('/connection-key');
+  };
+
+  const handleJoinEvent = (eventId: number) => {
+    const isJoined = sharedEvents.has(eventId);
+    const updatedEvents = new Set(sharedEvents);
+    
+    if (isJoined) {
+      updatedEvents.delete(eventId);
+    } else {
+      updatedEvents.add(eventId);
+    }
+    
+    setSharedEvents(updatedEvents);
+    // Hier könnte die Event-Teilnahme gespeichert werden
   };
 
   const handleSendMessage = () => {
@@ -196,64 +394,9 @@ function CommunityContent() {
   // Mock-Daten für Community Hub
   const communityStats = [
     { label: "Aktive Mitglieder", value: "2,847", icon: <Users size={24} />, color: "#F29F05" },
-    { label: "Posts heute", value: "156", icon: <MessageSquare size={24} />, color: "#F29F05" },
+    { label: "Posts heute", value: posts.length.toString(), icon: <MessageSquare size={24} />, color: "#F29F05" },
     { label: "Events", value: "23", icon: <Calendar size={24} />, color: "#8C1D04" },
     { label: "Matches", value: "89", icon: <Heart size={24} />, color: "#8C1D04" }
-  ];
-
-  const recentPosts = [
-    {
-      id: 1,
-      author: "Sarah M.",
-      avatar: "/api/placeholder/48/48",
-      content: "Als Manifesting Generator fühle ich mich heute besonders energiegeladen! 🌟 Wer hat Lust auf einen spontanen Austausch?",
-      timestamp: "vor 2 Stunden",
-      likes: 24,
-      comments: 8,
-      shares: 3,
-      type: "Manifesting Generator",
-      typeColor: "#f59e0b",
-      tags: ["Energie", "Austausch", "Manifesting Generator"]
-    },
-    {
-      id: 2,
-      author: "Michael K.",
-      avatar: "/api/placeholder/48/48",
-      content: "Hat jemand Erfahrung mit Projector-Strategien in Beziehungen? Ich bin neu in der Community und würde gerne von euren Erfahrungen lernen.",
-      timestamp: "vor 4 Stunden",
-      likes: 18,
-      comments: 12,
-      shares: 2,
-      type: "Projector",
-      typeColor: "#8b5cf6",
-      tags: ["Beziehungen", "Strategien", "Projector"]
-    },
-    {
-      id: 3,
-      author: "Lisa W.",
-      avatar: "/api/placeholder/48/48",
-      content: "Neuer Mondkalender-Eintrag: Vollmond in 3 Tagen! 🌕 Perfekt für Reflector-Energie. Wie geht ihr mit Mondphasen um?",
-      timestamp: "vor 6 Stunden",
-      likes: 31,
-      comments: 15,
-      shares: 7,
-      type: "Reflector",
-      typeColor: "#06b6d4",
-      tags: ["Mondkalender", "Vollmond", "Reflector"]
-    },
-    {
-      id: 4,
-      author: "Tom R.",
-      avatar: "/api/placeholder/48/48",
-      content: "Generator-Tipp: Wenn ihr euch müde fühlt, prüft eure Energie-Zentren! Oft liegt es an ungenutzter kreativer Energie.",
-      timestamp: "vor 8 Stunden",
-      likes: 42,
-      comments: 9,
-      shares: 11,
-      type: "Generator",
-      typeColor: "#F29F05",
-      tags: ["Energie", "Tipps", "Generator"]
-    }
   ];
 
   const upcomingEvents = [
@@ -416,7 +559,8 @@ function CommunityContent() {
     >
       <Box sx={{ 
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0F1220 0%, #1A0E08 100%)',
+        background: 'radial-gradient(ellipse at top, rgba(242, 159, 5, 0.15) 0%, rgba(0, 0, 0, 1) 50%), radial-gradient(ellipse at bottom, rgba(140, 29, 4, 0.1) 0%, rgba(0, 0, 0, 1) 70%)',
+        backgroundAttachment: 'fixed',
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
@@ -427,20 +571,77 @@ function CommunityContent() {
           background: 'radial-gradient(90% 70% at 50% 28%, rgba(242, 159, 5, 0.36), transparent 78%), radial-gradient(60% 50% at 82% 82%, rgba(140, 29, 4, 0.24), transparent 78%)'
         }
       }}>
+        {/* Animierte Sparkles - nur client-side */}
+        {mounted && (
+          <Box sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1,
+            pointerEvents: 'none',
+            overflow: 'hidden'
+          }}>
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                style={{
+                  position: 'absolute',
+                  width: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+                  height: i % 3 === 0 ? '4px' : i % 3 === 1 ? '6px' : '3px',
+                  background: i % 2 === 0 ? '#F29F05' : '#FFD700',
+                  borderRadius: '50%',
+                  left: `${(i * 7) % 100}%`,
+                  top: `${(i * 11) % 100}%`,
+                  boxShadow: `0 0 ${i % 3 === 0 ? '15px' : '10px'} ${i % 2 === 0 ? 'rgba(242,159,5,0.9)' : 'rgba(255,215,0,0.8)'}`
+                }}
+                animate={{
+                  opacity: [0, 1, 0.5, 1, 0],
+                  scale: [0.3, 1.5, 0.8, 1.3, 0.3],
+                  y: [0, -50, -20, -40, 0],
+                }}
+                transition={{
+                  duration: 2 + (i * 0.3),
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </Box>
+        )}
 
-        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: { xs: 2, md: 3 }, pb: 8, px: { xs: 1, sm: 2 } }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700 }}>
-              {userName ? `${userName}s Community` : 'Community'}
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 2, pt: { xs: 4, md: 6 }, pb: 8, px: { xs: 1, sm: 2 } }}>
+          <Box sx={{ mb: 4 }}>
+            <Typography 
+              variant="h3" 
+              sx={{ 
+                fontWeight: 800,
+                fontSize: { xs: '2rem', md: '2.5rem' },
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 0 30px rgba(242, 159, 5, 0.3)'
+              }}
+            >
+              {userName ? `👥 ${userName}s Community` : '👥 Community & Connection Key'}
+            </Typography>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: 'rgba(255,255,255,0.7)', 
+                mt: 1,
+                fontSize: { xs: '0.9rem', md: '1rem' }
+              }}
+            >
+              Verbinde dich, teile Resonanzen und entdecke energetische Verbindungen
             </Typography>
           </Box>
 
           {/* Stats Cards */}
-          <motion.div
-            
-            
-            
-          >
+          <Box>
             <Grid container spacing={3} sx={{ mb: 4 }}>
               {communityStats.map((stat, index) => (
                 <Grid item xs={6} md={3} key={index}>
@@ -474,14 +675,10 @@ function CommunityContent() {
                 </Grid>
               ))}
             </Grid>
-          </motion.div>
+          </Box>
 
           {/* Search and Filter */}
-          <motion.div
-            
-            
-            
-          >
+          <Box>
             <Paper sx={{
               background: 'rgba(255, 255, 255, 0.08)',
               backdropFilter: 'blur(20px)',
@@ -530,7 +727,7 @@ function CommunityContent() {
                 </Button>
               </Box>
             </Paper>
-          </motion.div>
+          </Box>
 
           {/* Tabs */}
           <Paper sx={{
@@ -605,32 +802,67 @@ function CommunityContent() {
                           Community Feed
                         </Typography>
                       </Box>
-                      <Button
-                        variant="contained"
-                        startIcon={<Plus size={20} />}
-                        onClick={() => setNewPostDialog(true)}
-                        sx={{
-                          background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
-                          color: 'white',
-                          fontWeight: 600,
-                          '&:hover': {
-                            background: 'linear-gradient(135deg, #3bb5b0, #0779a1)',
-                            transform: 'translateY(-2px)',
-                            boxShadow: '0 4px 15px rgba(78, 205, 196, 0.3)'
-                          },
-                          transition: 'all 0.3s ease'
-                        }}
-                      >
-                        Neuer Post
-                      </Button>
+                      <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Button
+                          variant="contained"
+                          startIcon={<Plus size={20} />}
+                          onClick={() => setNewPostDialog(true)}
+                          sx={{
+                            background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                            color: 'white',
+                            fontWeight: 700,
+                            px: 3,
+                            py: 1.5,
+                            borderRadius: 2,
+                            boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
+                            '&:hover': {
+                              background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                              transform: 'translateY(-2px)',
+                              boxShadow: '0 6px 25px rgba(242, 159, 5, 0.5)'
+                            },
+                            transition: 'all 0.3s ease'
+                          }}
+                        >
+                          Neuer Post
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          startIcon={<Key size={20} />}
+                          onClick={handleShareConnectionKey}
+                          sx={{
+                            borderColor: 'rgba(242, 159, 5, 0.5)',
+                            color: '#F29F05',
+                            fontWeight: 600,
+                            px: 3,
+                            py: 1.5,
+                            borderRadius: 2,
+                            '&:hover': {
+                              borderColor: '#F29F05',
+                              background: 'rgba(242, 159, 5, 0.1)',
+                              transform: 'translateY(-2px)'
+                            },
+                            transition: 'all 0.3s ease'
+                          }}
+                        >
+                          Connection Key teilen
+                        </Button>
+                      </Box>
                     </Box>
                     
-                    {recentPosts.map((post, index) => (
-                      <motion.div
+                    {posts.length === 0 ? (
+                      <Box sx={{ textAlign: 'center', py: 8 }}>
+                        <MessageSquare size={64} style={{ color: '#F29F05', opacity: 0.5, marginBottom: 16 }} />
+                        <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                          Noch keine Posts
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                          Erstelle den ersten Post und teile deine Gedanken mit der Community!
+                        </Typography>
+                      </Box>
+                    ) : (
+                      posts.map((post, index) => (
+                      <Box
                         key={post.id}
-                        
-                        
-                        
                       >
                         <Box sx={{ 
                           mb: 3, 
@@ -678,7 +910,7 @@ function CommunityContent() {
                           </Typography>
                           
                           <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-                            {post.tags.map((tag, tagIndex) => (
+                            {post.tags.map((tag: string, tagIndex: number) => (
                               <Chip
                                 key={tagIndex}
                                 label={`#${tag}`}
@@ -693,16 +925,29 @@ function CommunityContent() {
                           </Box>
                           
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                            <IconButton size="small" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                              <ThumbsUp size={16} />
+                            <IconButton 
+                              size="small" 
+                              onClick={() => handleLikePost(post.id)}
+                              sx={{ 
+                                color: likedPosts.has(post.id) ? '#F29F05' : 'rgba(255,255,255,0.7)',
+                                '&:hover': {
+                                  color: '#F29F05'
+                                }
+                              }}
+                            >
+                              <ThumbsUp size={16} fill={likedPosts.has(post.id) ? '#F29F05' : 'none'} />
                               <Typography variant="caption" sx={{ ml: 0.5 }}>
                                 {post.likes}
                               </Typography>
                             </IconButton>
-                            <IconButton size="small" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                            <IconButton 
+                              size="small" 
+                              onClick={() => handleCommentClick(post.id)}
+                              sx={{ color: 'rgba(255,255,255,0.7)', '&:hover': { color: '#F29F05' } }}
+                            >
                               <MessageCircle size={16} />
                               <Typography variant="caption" sx={{ ml: 0.5 }}>
-                                {post.comments}
+                                {post.comments || 0}
                               </Typography>
                             </IconButton>
                             <IconButton size="small" sx={{ color: 'rgba(255,255,255,0.7)' }}>
@@ -713,8 +958,9 @@ function CommunityContent() {
                             </IconButton>
                           </Box>
                         </Box>
-                      </motion.div>
-                    ))}
+                      </Box>
+                    ))
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
@@ -803,10 +1049,7 @@ function CommunityContent() {
             <Grid container spacing={3}>
               {upcomingEvents.map((event, index) => (
                 <Grid item xs={12} md={6} lg={4} key={event.id}>
-                  <motion.div
-                    
-                    
-                    
+                  <Box
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.05)',
@@ -882,22 +1125,26 @@ function CommunityContent() {
                         />
                         
                         <Button 
-                          variant="outlined" 
+                          variant={sharedEvents.has(event.id) ? "contained" : "outlined"}
                           fullWidth
+                          onClick={() => handleJoinEvent(event.id)}
                           sx={{
-                            borderColor: 'rgba(16, 185, 129, 0.3)',
-                            color: '#F29F05',
+                            borderColor: sharedEvents.has(event.id) ? 'transparent' : 'rgba(242, 159, 5, 0.5)',
+                            background: sharedEvents.has(event.id) ? 'linear-gradient(135deg, #F29F05, #8C1D04)' : 'transparent',
+                            color: sharedEvents.has(event.id) ? 'white' : '#F29F05',
+                            fontWeight: 600,
                             '&:hover': {
                               borderColor: '#F29F05',
-                              backgroundColor: 'rgba(16, 185, 129, 0.1)'
-                            }
+                              backgroundColor: sharedEvents.has(event.id) ? 'linear-gradient(135deg, #8C1D04, #F29F05)' : 'rgba(242, 159, 5, 0.1)'
+                            },
+                            transition: 'all 0.3s ease'
                           }}
                         >
-                          Event beitreten
+                          {sharedEvents.has(event.id) ? '✓ Teilnahme bestätigt' : 'Event beitreten'}
                         </Button>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -917,11 +1164,7 @@ function CommunityContent() {
                 <Grid container spacing={2}>
                   {onlineUsers.map((user, index) => (
                     <Grid item xs={6} sm={4} md={3} lg={2} key={user.id}>
-                      <motion.div
-                        
-                        
-                        
-                      >
+                      <Box>
                         <Box sx={{ 
                           textAlign: 'center', 
                           p: 2, 
@@ -957,7 +1200,7 @@ function CommunityContent() {
                             {user.type}
                           </Typography>
                         </Box>
-                      </motion.div>
+                      </Box>
                     </Grid>
                   ))}
                 </Grid>
@@ -1093,10 +1336,7 @@ function CommunityContent() {
             <Grid container spacing={3}>
               {compatibilityMatches.map((match, index) => (
                 <Grid item xs={12} md={6} lg={4} key={index}>
-                  <motion.div
-                    
-                    
-                    
+                  <Box
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.05)',
@@ -1200,7 +1440,7 @@ function CommunityContent() {
                         </Box>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -1211,10 +1451,7 @@ function CommunityContent() {
             <Grid container spacing={3}>
               {mentorMenteeMatches.map((match, index) => (
                 <Grid item xs={12} md={6} key={index}>
-                  <motion.div
-                    
-                    
-                    
+                  <Box
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.05)',
@@ -1320,7 +1557,7 @@ function CommunityContent() {
                         </Button>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -1330,10 +1567,7 @@ function CommunityContent() {
             <Grid container spacing={3}>
               {trendingTopics.map((topic, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
-                  <motion.div
-                    
-                    
-                    
+                  <Box
                   >
                     <Card sx={{
                       background: 'rgba(255, 255, 255, 0.05)',
@@ -1365,7 +1599,7 @@ function CommunityContent() {
                         </Typography>
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -1538,6 +1772,99 @@ function CommunityContent() {
               }}
             >
               Senden
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Comment Dialog */}
+        <Dialog
+          open={commentDialog.open}
+          onClose={() => setCommentDialog({ open: false, postId: null })}
+          maxWidth="sm"
+          fullWidth
+          PaperProps={{
+            sx: {
+              background: 'rgba(15, 15, 35, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(242, 159, 5, 0.20)',
+              borderRadius: 3
+            }
+          }}
+        >
+          <DialogTitle sx={{ color: 'white', fontWeight: 600 }}>
+            Kommentar hinzufügen
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              placeholder="Schreibe einen Kommentar..."
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              sx={{
+                mt: 2,
+                '& .MuiOutlinedInput-root': {
+                  color: 'white',
+                  '& fieldset': {
+                    borderColor: 'rgba(255,255,255,0.3)',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(255,255,255,0.5)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#F29F05',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255,255,255,0.7)',
+                }
+              }}
+            />
+            {commentDialog.postId !== null && postComments[commentDialog.postId] && postComments[commentDialog.postId].length > 0 && (
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
+                  Kommentare ({postComments[commentDialog.postId].length})
+                </Typography>
+                {postComments[commentDialog.postId].map((comment: any) => (
+                  <Box key={comment.id} sx={{ mb: 2, p: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                      <Avatar src={comment.avatar} sx={{ width: 32, height: 32, mr: 1 }} />
+                      <Typography variant="body2" sx={{ color: 'white', fontWeight: 600 }}>
+                        {comment.author}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', ml: 1 }}>
+                        {comment.timestamp}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                      {comment.content}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => setCommentDialog({ open: false, postId: null })}
+              sx={{ color: 'rgba(255,255,255,0.7)' }}
+            >
+              Abbrechen
+            </Button>
+            <Button
+              onClick={handleCommentSubmit}
+              variant="contained"
+              sx={{
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                color: 'white',
+                fontWeight: 600,
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #8C1D04, #F29F05)'
+                }
+              }}
+            >
+              Kommentieren
             </Button>
           </DialogActions>
         </Dialog>

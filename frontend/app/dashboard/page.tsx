@@ -26,7 +26,13 @@ import {
   Target,
   Zap,
   Eye,
-  Activity
+  Activity,
+  Key,
+  Sparkles,
+  ArrowRight,
+  Calendar,
+  FileText,
+  BookOpen
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -42,6 +48,9 @@ interface DashboardStats {
   readings: number;
   matches: number;
   communityActivity: number;
+  connectionKeys: number;
+  bookings: number;
+  resonances: number;
 }
 
 interface ChartData {
@@ -60,7 +69,10 @@ const DashboardPage: React.FC = () => {
     moonEntries: 0,
     readings: 0,
     matches: 0,
-    communityActivity: 0
+    communityActivity: 0,
+    connectionKeys: 0,
+    bookings: 0,
+    resonances: 0
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -188,12 +200,37 @@ const DashboardPage: React.FC = () => {
     try {
       setLoading(true);
       
+      // Lade Connection Key Daten
+      let connectionKeyReadings = [];
+      let bookings = [];
+      
+      try {
+        const readingsData = localStorage.getItem('readings');
+        if (readingsData) {
+          connectionKeyReadings = JSON.parse(readingsData).filter((r: any) => 
+            r.category === 'connection-key' || r.type === 'connectionKey' || (r as any).category === 'connection-key'
+          );
+        }
+        
+        const bookingsData = localStorage.getItem('userBookings');
+        if (bookingsData) {
+          bookings = JSON.parse(bookingsData).filter((b: any) => 
+            b.type === 'connection-key' || b.bookingType === 'connection-key'
+          );
+        }
+      } catch (e) {
+        console.error('Error loading Connection Key data:', e);
+      }
+
       // Simuliere Dashboard-Daten
       const mockStats: DashboardStats = {
         moonEntries: 12,
         readings: 5,
         matches: 3,
-        communityActivity: 8
+        communityActivity: 8,
+        connectionKeys: connectionKeyReadings.length || 0,
+        bookings: bookings.length || 0,
+        resonances: connectionKeyReadings.length || 0
       };
       
       // Mock Chart Data
@@ -487,6 +524,153 @@ const DashboardPage: React.FC = () => {
           </motion.div>
         )}
 
+        {/* ============ CONNECTION KEY HERO ============ */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <Card sx={{ 
+            background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.15) 0%, rgba(140, 29, 4, 0.10) 100%)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(242, 159, 5, 0.30)',
+            borderRadius: 4,
+            mb: 6,
+            overflow: 'hidden',
+            position: 'relative',
+            boxShadow: '0 8px 32px rgba(242, 159, 5, 0.2)',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.30) 0%, transparent 70%)',
+              opacity: 0.6,
+              pointerEvents: 'none'
+            }
+          }}>
+            <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 3, mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                  <Box sx={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 8px 25px rgba(242, 159, 5, 0.4)'
+                  }}>
+                    <Key size={40} color="white" />
+                  </Box>
+                  <Box>
+                    <Typography variant="h3" sx={{ 
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      fontWeight: 800,
+                      mb: 1,
+                      fontSize: { xs: '1.8rem', md: '2.5rem' }
+                    }}>
+                      💫 The Connection Key
+                    </Typography>
+                    <Typography variant="h6" sx={{ 
+                      color: 'rgba(255,255,255,0.9)',
+                      fontWeight: 400,
+                      fontSize: { xs: '1rem', md: '1.2rem' }
+                    }}>
+                      Entdecke die unsichtbaren Goldadern zwischen dir und anderen
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    startIcon={<Sparkles size={20} />}
+                    onClick={() => router.push('/connection-key/create')}
+                    sx={{
+                      background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                      color: 'white',
+                      fontWeight: 700,
+                      py: 1.5,
+                      fontSize: '1rem',
+                      borderRadius: 3,
+                      boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 6px 25px rgba(242, 159, 5, 0.5)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Connection Key erstellen
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    startIcon={<Calendar size={20} />}
+                    onClick={() => router.push('/connection-key/booking')}
+                    sx={{
+                      borderColor: 'rgba(242, 159, 5, 0.5)',
+                      color: '#F29F05',
+                      fontWeight: 600,
+                      py: 1.5,
+                      fontSize: '1rem',
+                      borderRadius: 3,
+                      '&:hover': {
+                        borderColor: '#F29F05',
+                        background: 'rgba(242, 159, 5, 0.1)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 20px rgba(242, 159, 5, 0.2)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Session buchen
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    startIcon={<FileText size={20} />}
+                    endIcon={<ArrowRight size={18} />}
+                    onClick={() => router.push('/connection-key')}
+                    sx={{
+                      borderColor: 'rgba(242, 159, 5, 0.5)',
+                      color: '#F29F05',
+                      fontWeight: 600,
+                      py: 1.5,
+                      fontSize: '1rem',
+                      borderRadius: 3,
+                      '&:hover': {
+                        borderColor: '#F29F05',
+                        background: 'rgba(242, 159, 5, 0.1)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 20px rgba(242, 159, 5, 0.2)'
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Alle Keys ansehen
+                  </Button>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </motion.div>
+
         {/* ============ STATISTIKEN ============ */}
         <Box sx={{ mb: 10 }}>
           <Typography variant="h4" sx={{ 
@@ -504,7 +688,7 @@ const DashboardPage: React.FC = () => {
               borderRadius: 2
             }
           }}>
-            Deine Statistiken
+            Connection Key Statistiken
           </Typography>
 
           <motion.div
@@ -513,196 +697,148 @@ const DashboardPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <Grid container spacing={4} sx={{ mb: 0 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ 
-              background: 'rgba(139, 92, 246, 0.14)',
+              background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.15) 0%, rgba(140, 29, 4, 0.10) 100%)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(139, 92, 246, 0.28)',
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
-              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.35)',
+              boxShadow: '0 6px 24px rgba(242, 159, 5, 0.2)',
               cursor: 'pointer',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 10px 34px rgba(0, 0, 0, 0.45)'
+                boxShadow: '0 10px 34px rgba(242, 159, 5, 0.3)',
+                border: '1px solid rgba(242, 159, 5, 0.45)'
               }
-            }} onClick={() => router.push('/journal')}>
+            }} onClick={() => router.push('/connection-key')}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(242, 159, 5, 0.15)',
-                  border: '2px solid rgba(242, 159, 5, 0.30)',
+                  background: 'rgba(242, 159, 5, 0.20)',
+                  border: '2px solid rgba(242, 159, 5, 0.40)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Moon size={24} color="#F29F05" />
+                  <Key size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
                   color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
-                  {stats.moonEntries}
+                  {stats.connectionKeys}
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.8)',
                   fontWeight: 500
                 }}>
-                  Mond-Einträge
+                  Connection Keys
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ 
-              background: 'rgba(139, 92, 246, 0.12)',
+              background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.15) 0%, rgba(140, 29, 4, 0.10) 100%)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(139, 92, 246, 0.26)',
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
+              boxShadow: '0 6px 24px rgba(242, 159, 5, 0.2)',
+              cursor: 'pointer',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.45)',
-                border: '1px solid rgba(139, 92, 246, 0.32)',
-                background: 'rgba(139, 92, 246, 0.16)'
+                boxShadow: '0 10px 34px rgba(242, 159, 5, 0.3)',
+                border: '1px solid rgba(242, 159, 5, 0.45)'
               }
-            }}>
+            }} onClick={() => router.push('/connection-key/booking')}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(242, 159, 5, 0.15)',
-                  border: '2px solid rgba(242, 159, 5, 0.30)',
+                  background: 'rgba(242, 159, 5, 0.20)',
+                  border: '2px solid rgba(242, 159, 5, 0.40)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Star size={24} color="#F29F05" />
+                  <Calendar size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
                   color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
-                  {stats.readings}
+                  {stats.bookings}
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.8)',
                   fontWeight: 500
                 }}>
-                  Readings
+                  Buchungen
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ 
-              background: 'rgba(139, 92, 246, 0.12)',
+              background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.15) 0%, rgba(140, 29, 4, 0.10) 100%)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(139, 92, 246, 0.26)',
+              border: '1px solid rgba(242, 159, 5, 0.30)',
               borderRadius: 4,
               position: 'relative',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
+              boxShadow: '0 6px 24px rgba(242, 159, 5, 0.2)',
+              cursor: 'pointer',
               '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.45)',
-                border: '1px solid rgba(139, 92, 246, 0.32)',
-                background: 'rgba(139, 92, 246, 0.16)'
+                boxShadow: '0 10px 34px rgba(242, 159, 5, 0.3)',
+                border: '1px solid rgba(242, 159, 5, 0.45)'
               }
-            }}>
+            }} onClick={() => router.push('/resonanzanalyse')}>
               <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
                 <Box sx={{
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'rgba(242, 159, 5, 0.15)',
-                  border: '2px solid rgba(242, 159, 5, 0.30)',
+                  background: 'rgba(242, 159, 5, 0.20)',
+                  border: '2px solid rgba(242, 159, 5, 0.40)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 2
                 }}>
-                  <Heart size={24} color="#F29F05" />
+                  <Sparkles size={24} color="#F29F05" />
                 </Box>
                 <Typography variant="h3" sx={{ 
                   color: '#F29F05', 
                   fontWeight: 'bold',
                   mb: 1
                 }}>
-                  {stats.matches}
+                  {stats.resonances}
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(255,255,255,0.8)',
                   fontWeight: 500
                 }}>
-                  Matches
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ 
-              background: 'rgba(139, 92, 246, 0.12)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(139, 92, 246, 0.26)',
-              borderRadius: 4,
-              position: 'relative',
-              overflow: 'hidden',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.35)',
-              '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.45)',
-                border: '1px solid rgba(139, 92, 246, 0.32)',
-                background: 'rgba(139, 92, 246, 0.16)'
-              }
-            }}>
-              <CardContent sx={{ textAlign: 'center', py: 4, position: 'relative', zIndex: 2 }}>
-                <Box sx={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: '50%',
-                  background: 'rgba(242, 159, 5, 0.15)',
-                  border: '2px solid rgba(242, 159, 5, 0.30)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mx: 'auto',
-                  mb: 2
-                }}>
-                  <Users size={24} color="#F29F05" />
-                </Box>
-                <Typography variant="h3" sx={{ 
-                  color: '#F29F05', 
-                  fontWeight: 'bold',
-                  mb: 1
-                }}>
-                  {stats.communityActivity}
-                </Typography>
-                <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.7)',
-                  fontWeight: 500
-                }}>
-                  Community
+                  Resonanzen
                 </Typography>
               </CardContent>
             </Card>
@@ -801,7 +937,32 @@ const DashboardPage: React.FC = () => {
                 <Button
                   fullWidth
                   variant="contained"
-                  startIcon={<Target size={20} />}
+                  startIcon={<Key size={20} />}
+                  sx={{
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(242, 159, 5, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 600,
+                    boxShadow: '0 4px 15px rgba(242, 159, 5, 0.3)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(242, 159, 5, 0.4)'
+                    }
+                  }}
+                  onClick={() => router.push('/connection-key')}
+                >
+                  Connection Key
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<Sparkles size={20} />}
                   sx={{
                     background: 'rgba(255, 255, 255, 0.15) !important',
                     backdropFilter: 'blur(10px)',
@@ -820,7 +981,33 @@ const DashboardPage: React.FC = () => {
                   }}
                   onClick={() => router.push('/resonanzanalyse')}
                 >
-                  Readings
+                  Resonanzanalyse
+                </Button>
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<BookOpen size={20} />}
+                  sx={{
+                    background: 'rgba(255, 255, 255, 0.15) !important',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3) !important',
+                    color: 'white !important',
+                    py: 1.5,
+                    borderRadius: 2,
+                    fontWeight: 500,
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      background: 'rgba(255, 255, 255, 0.25) !important',
+                      border: '1px solid rgba(255, 255, 255, 0.4) !important',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
+                  onClick={() => router.push('/journal')}
+                >
+                  Journal
                 </Button>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
@@ -961,7 +1148,7 @@ const DashboardPage: React.FC = () => {
           </motion.div>
         </Box>
 
-        {/* ============ COMMUNITY ============ */}
+        {/* ============ COMMUNITY & CONNECTION KEY ============ */}
         <Box sx={{ mb: 10 }}>
           <Typography variant="h4" sx={{ 
             color: 'white',
@@ -978,23 +1165,24 @@ const DashboardPage: React.FC = () => {
               borderRadius: 2
             }
           }}>
-            Community
+            Community & Connection Key
           </Typography>
 
-          {/* Friends Community Widget */}
+          {/* Connection Key in Community Widget */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
           <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.12) 0%, rgba(140, 29, 4, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.18) 0%, rgba(140, 29, 4, 0.12) 100%)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(242, 159, 5, 0.30)',
+          border: '1px solid rgba(242, 159, 5, 0.40)',
           borderRadius: 3,
           mb: 5,
           overflow: 'hidden',
           position: 'relative',
+          boxShadow: '0 8px 32px rgba(242, 159, 5, 0.25)',
           '&::before': {
             content: '""',
             position: 'absolute',
@@ -1002,12 +1190,12 @@ const DashboardPage: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-                background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.30) 0%, transparent 70%)',
-            opacity: 0.6
+                background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.35) 0%, transparent 70%)',
+            opacity: 0.7
           }
         }}>
           <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 3 }}>
               <Box sx={{
                 width: 60,
                 height: 60,
@@ -1016,34 +1204,40 @@ const DashboardPage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mr: 3,
-                boxShadow: '0 8px 25px rgba(255, 215, 0, 0.35)'
+                boxShadow: '0 8px 25px rgba(242, 159, 5, 0.4)',
+                flexShrink: 0
               }}>
-                <Users size={30} color="white" />
+                <Key size={30} color="white" />
               </Box>
-              <Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="h5" sx={{ 
-                  color: '#F29F05', 
-                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
                   mb: 0.5
                 }}>
-                  👥 Friends Community
+                  💫 Connection Key in unserer Community
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.8)'
+                  color: 'rgba(255,255,255,0.9)'
                 }}>
-                  Verbinde dich mit Gleichgesinnten
+                  Teile deine Resonanzen und entdecke die energetischen Verbindungen
                 </Typography>
               </Box>
             </Box>
 
-            <Typography variant="body2" sx={{ 
-              color: 'rgba(255,255,255,0.9)', 
+            <Typography variant="body1" sx={{ 
+              color: 'rgba(255,255,255,0.95)', 
               mb: 3,
-              lineHeight: 1.6
+              lineHeight: 1.7,
+              fontSize: '1.05rem'
             }}>
-              Entdecke eine lebendige Community von Menschen, die Human Design leben und verstehen. 
-              Tausche dich aus, lerne voneinander und finde Menschen, die zu deinem energetischen Design passen.
+              In unserer Community teilst du nicht nur deine Human Design Journey, sondern auch die tiefgreifenden 
+              Resonanzen, die du mit anderen Menschen erlebst. Mit <strong style={{ color: '#F29F05' }}>The Connection Key</strong> kannst du 
+              deine energetischen Verbindungen analysieren, verstehen und in der Community teilen. 
+              Entdecke die unsichtbaren Goldadern zwischen dir und anderen Menschen.
             </Typography>
 
             <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -1052,8 +1246,28 @@ const DashboardPage: React.FC = () => {
                   <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     2,500+
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Mitglieder
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
+                    {stats.connectionKeys}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Connection Keys
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
+                    {stats.resonances}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Geteilte Resonanzen
                   </Typography>
                 </Box>
               </Grid>
@@ -1062,34 +1276,38 @@ const DashboardPage: React.FC = () => {
                   <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     150+
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Posts/Tag
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
-                    25+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Events/Monat
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
-                    500+
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Matches
                   </Typography>
                 </Box>
               </Grid>
             </Grid>
 
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                startIcon={<Key size={18} />}
+                onClick={() => router.push('/connection-key/create')}
+                sx={{
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Connection Key erstellen
+              </Button>
+              
               <Button
                 variant="contained"
                 startIcon={<Users size={18} />}
@@ -1116,8 +1334,8 @@ const DashboardPage: React.FC = () => {
               
               <Button
                 variant="outlined"
-                startIcon={<Heart size={18} />}
-                onClick={() => router.push('/friends')}
+                startIcon={<Sparkles size={18} />}
+                onClick={() => router.push('/connection-key')}
                 sx={{
                   borderColor: '#F29F05',
                   color: '#F29F05',
@@ -1130,12 +1348,13 @@ const DashboardPage: React.FC = () => {
                     borderColor: '#8C1D04',
                     color: '#F29F05',
                     background: 'rgba(242, 159, 5, 0.10)',
-                    transform: 'translateY(-2px)'
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 20px rgba(242, 159, 5, 0.2)'
                   },
                   transition: 'all 0.3s ease'
                 }}
               >
-                Freunde finden
+                Alle Keys ansehen
               </Button>
             </Box>
           </CardContent>
@@ -1143,7 +1362,7 @@ const DashboardPage: React.FC = () => {
         </motion.div>
         </Box>
 
-        {/* ============ DATING ============ */}
+        {/* ============ DATING & CONNECTION KEY ============ */}
         <Box sx={{ mb: 10 }}>
           <Typography variant="h4" sx={{ 
             color: 'white',
@@ -1156,27 +1375,28 @@ const DashboardPage: React.FC = () => {
               content: '""',
               width: 4,
               height: 32,
-              background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+              background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
               borderRadius: 2
             }
           }}>
-            Dating
+            Dating & Connection Key
           </Typography>
 
-        {/* Dating Widget */}
+        {/* Dating & Connection Key Widget */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(255, 107, 157, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.18) 0%, rgba(140, 29, 4, 0.12) 100%)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 107, 157, 0.4)',
+          border: '1px solid rgba(242, 159, 5, 0.40)',
           borderRadius: 3,
           mb: 5,
           overflow: 'hidden',
           position: 'relative',
+          boxShadow: '0 8px 32px rgba(242, 159, 5, 0.25)',
           '&::before': {
             content: '""',
             position: 'absolute',
@@ -1184,88 +1404,94 @@ const DashboardPage: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(255, 107, 157, 0.3) 0%, transparent 70%)',
-            opacity: 0.6
+            background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.35) 0%, transparent 70%)',
+            opacity: 0.7
           }
         }}>
           <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 3 }}>
               <Box sx={{
                 width: 60,
                 height: 60,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mr: 3,
-                boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)'
+                boxShadow: '0 8px 25px rgba(242, 159, 5, 0.4)',
+                flexShrink: 0
               }}>
-                <Heart size={30} color="white" />
+                <Key size={30} color="white" />
               </Box>
-              <Box>
+              <Box sx={{ flex: 1 }}>
                 <Typography variant="h5" sx={{ 
-                  color: '#FFD700', 
-                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 800,
                   mb: 0.5
                 }}>
-                  💕 Dating & Matching
+                  💕 Dating & Connection Key Matching
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: 'rgba(255,255,255,0.8)'
+                  color: 'rgba(255,255,255,0.9)'
                 }}>
-                  Finde die Liebe, die wirklich zu dir passt
+                  Finde Resonanzen statt nur Matches
                 </Typography>
               </Box>
             </Box>
 
-            <Typography variant="body2" sx={{ 
-              color: 'rgba(255,255,255,0.9)', 
+            <Typography variant="body1" sx={{ 
+              color: 'rgba(255,255,255,0.95)', 
               mb: 3,
-              lineHeight: 1.6
+              lineHeight: 1.7,
+              fontSize: '1.05rem'
             }}>
-              Entdecke Menschen, die energetisch zu deinem Human Design passen. 
-              Basierend auf deinem Typ, Strategie und Autorität findest du authentische Verbindungen.
+              Es geht nicht darum, ob ihr <em>passt</em> – sondern was entsteht, wenn ihr euch begegnet. 
+              Mit <strong style={{ color: '#F29F05' }}>The Connection Key</strong> analysierst du die energetische Resonanz zwischen dir und deinen Dating-Partnern. 
+              Entdecke die unsichtbaren Goldadern, die euch verbinden, und verstehe, was wirklich zwischen euch wirkt. 
+              Kein Algorithmus. Kein Match. Nur Wahrheit – in Energie übersetzt.
             </Typography>
 
             <Grid container spacing={2} sx={{ mb: 3 }}>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
                     {stats.matches}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
                     Aktive Matches
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
-                    95%
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
+                    {stats.connectionKeys}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Kompatibilität
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
-                    24h
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Neue Matches
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Dating Keys
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Box sx={{ textAlign: 'center' }}>
-                  <Typography variant="h6" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
-                    12
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
+                    {stats.resonances}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
-                    Likes heute
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Resonanzen
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h6" sx={{ color: '#F29F05', fontWeight: 'bold' }}>
+                    100%
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Energetisch
                   </Typography>
                 </Box>
               </Grid>
@@ -1274,21 +1500,45 @@ const DashboardPage: React.FC = () => {
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               <Button
                 variant="contained"
-                startIcon={<Heart size={18} />}
-                onClick={() => router.push('/swipe')}
+                startIcon={<Key size={18} />}
+                onClick={() => router.push('/connection-key/create')}
                 sx={{
-                  background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   color: 'white',
                   px: 3,
                   py: 1,
                   borderRadius: 2,
                   textTransform: 'none',
                   fontWeight: 'bold',
-                  boxShadow: '0 8px 25px rgba(255, 107, 157, 0.4)',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #FF5a8a, #dc2626)',
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 12px 35px rgba(255, 107, 157, 0.6)'
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Resonanz analysieren
+              </Button>
+              
+              <Button
+                variant="contained"
+                startIcon={<Heart size={18} />}
+                onClick={() => router.push('/dating')}
+                sx={{
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                  color: 'white',
+                  px: 3,
+                  py: 1,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.35)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 12px 35px rgba(242, 159, 5, 0.45)'
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -1298,26 +1548,27 @@ const DashboardPage: React.FC = () => {
               
               <Button
                 variant="outlined"
-                startIcon={<Star size={18} />}
-                onClick={() => router.push('/match')}
+                startIcon={<Sparkles size={18} />}
+                onClick={() => router.push('/connection-key')}
                 sx={{
-                  borderColor: '#FFD700',
-                  color: '#FFD700',
+                  borderColor: '#F29F05',
+                  color: '#F29F05',
                   px: 3,
                   py: 1,
                   borderRadius: 2,
                   textTransform: 'none',
                   fontWeight: 'bold',
                   '&:hover': {
-                    borderColor: '#ef4444',
-                    color: '#ef4444',
-                    background: 'rgba(255, 107, 157, 0.1)',
-                    transform: 'translateY(-2px)'
+                    borderColor: '#8C1D04',
+                    color: '#F29F05',
+                    background: 'rgba(242, 159, 5, 0.10)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 20px rgba(242, 159, 5, 0.2)'
                   },
                   transition: 'all 0.3s ease'
                 }}
               >
-                Matches ansehen
+                Alle Keys
               </Button>
             </Box>
           </CardContent>
@@ -1325,7 +1576,7 @@ const DashboardPage: React.FC = () => {
           </motion.div>
         </Box>
 
-        {/* ============ HUMAN DESIGN ============ */}
+        {/* ============ HUMAN DESIGN & CONNECTION KEY ============ */}
         {chartData && (
           <Box sx={{ mb: 10 }}>
             <Typography variant="h4" sx={{ 
@@ -1339,11 +1590,11 @@ const DashboardPage: React.FC = () => {
                 content: '""',
                 width: 4,
                 height: 32,
-                background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+                background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                 borderRadius: 2
               }
             }}>
-              Dein Human Design
+              Human Design & Connection Key
             </Typography>
 
             <motion.div
@@ -1352,18 +1603,19 @@ const DashboardPage: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
           <Card sx={{ 
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.08) 100%)',
+          background: 'linear-gradient(135deg, rgba(242, 159, 5, 0.18) 0%, rgba(140, 29, 4, 0.12) 100%)',
             backdropFilter: 'blur(25px)',
-          border: '1px solid rgba(139, 92, 246, 0.30)',
+          border: '1px solid rgba(242, 159, 5, 0.40)',
             borderRadius: 4,
             position: 'relative',
             overflow: 'hidden',
             mb: 0,
             transition: 'all 0.3s ease',
+            boxShadow: '0 8px 32px rgba(242, 159, 5, 0.25)',
             '&:hover': {
               transform: 'translateY(-4px)',
-            boxShadow: '0 20px 40px rgba(139, 92, 246, 0.25)',
-            border: '1px solid rgba(139, 92, 246, 0.45)'
+            boxShadow: '0 20px 40px rgba(242, 159, 5, 0.35)',
+            border: '1px solid rgba(242, 159, 5, 0.55)'
             },
             '&::before': {
               content: '""',
@@ -1372,36 +1624,37 @@ const DashboardPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.20) 0%, transparent 70%)',
-              opacity: 0.6
+            background: 'radial-gradient(circle at 50% 0%, rgba(242, 159, 5, 0.30) 0%, transparent 70%)',
+              opacity: 0.7
             }
           }}>
             <CardContent sx={{ p: 4, position: 'relative', zIndex: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, flexWrap: 'wrap', gap: 2 }}>
                 <Box sx={{
                   width: 50,
                   height: 50,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
+                  background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  mr: 2,
-                  boxShadow: '0 8px 25px rgba(139, 92, 246, 0.35)'
+                  boxShadow: '0 8px 25px rgba(242, 159, 5, 0.4)'
                 }}>
                   <Target size={24} color="white" />
                 </Box>
-                <Box>
+                <Box sx={{ flex: 1 }}>
                   <Typography variant="h5" sx={{ 
-                    color: '#F29F05', 
-                    fontWeight: 'bold',
-                    mb: 0.5,
-                    textShadow: '0 0 10px rgba(242, 159, 5, 0.45)'
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 800,
+                    mb: 0.5
                   }}>
                     Dein Human Design Chart
                   </Typography>
                   <Typography variant="body2" sx={{ 
-                    color: 'rgba(255,255,255,0.8)',
+                    color: 'rgba(255,255,255,0.9)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1
@@ -1413,10 +1666,30 @@ const DashboardPage: React.FC = () => {
               </Box>
               
               <Box sx={{ 
-                background: 'rgba(139, 92, 246, 0.06)', 
+                mb: 3,
+                p: 2.5,
+                background: 'rgba(242, 159, 5, 0.08)',
+                borderRadius: 2,
+                border: '1px solid rgba(242, 159, 5, 0.2)'
+              }}>
+                <Typography variant="body2" sx={{ 
+                  color: 'rgba(255,255,255,0.95)',
+                  lineHeight: 1.7,
+                  fontSize: '0.95rem'
+                }}>
+                  <strong style={{ color: '#F29F05' }}>Human Design ist die Landkarte. The Connection Key ist der Raum dazwischen.</strong> 
+                  Während dein Human Design Chart zeigt, wer du bist, zeigt dir <strong style={{ color: '#F29F05' }}>The Connection Key</strong>, 
+                  was entsteht, wenn sich zwei Designs begegnen. Erstelle einen Connection Key, um die energetische Resonanz 
+                  zwischen dir und anderen zu entdecken.
+                </Typography>
+              </Box>
+              
+              <Box sx={{ 
+                background: 'rgba(242, 159, 5, 0.05)', 
                 borderRadius: 3, 
                 p: 3,
-                border: '1px solid rgba(139, 92, 246, 0.18)'
+                border: '1px solid rgba(242, 159, 5, 0.25)',
+                mb: 3
               }}>
                 <EnhancedChartVisuals 
                   chartData={chartData} 
@@ -1425,6 +1698,29 @@ const DashboardPage: React.FC = () => {
               </Box>
               
               <Box sx={{ mt: 3, display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Button
+                  variant="contained"
+                  startIcon={<Key size={18} />}
+                  onClick={() => router.push('/connection-key/create')}
+                  sx={{
+                    background: 'linear-gradient(135deg, #F29F05, #8C1D04)',
+                    color: 'white',
+                    fontWeight: 700,
+                    px: 3,
+                    py: 1,
+                    borderRadius: 2,
+                    boxShadow: '0 4px 20px rgba(242, 159, 5, 0.4)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #8C1D04, #F29F05)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 25px rgba(242, 159, 5, 0.5)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  Connection Key erstellen
+                </Button>
+                
                 {/* Social Share Button */}
                 <SocialShare
                   title={`Mein Human Design: ${chartData.type} ${chartData.profile}`}
