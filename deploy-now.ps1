@@ -8,20 +8,18 @@ Write-Host "  DEPLOYMENT ZU HETZNER SERVER" -ForegroundColor Cyan
 Write-Host "===================================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "Schritt 1/3: Git Pull" -ForegroundColor Yellow
-$gitCmd = "cd $ServerPath; git fetch origin main; git pull origin main; git rev-parse --short HEAD"
-$result1 = ssh root@$ServerIP $gitCmd
+Write-Host "Schritt 1/3: Git Pull (mit Server-Skript)" -ForegroundColor Yellow
+$gitCmd = "cd $ScriptsPath && ./git-pull.sh"
+ssh root@$ServerIP $gitCmd
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Git Pull fehlgeschlagen!" -ForegroundColor Red
+    exit 1
+}
 Write-Host "Git Pull abgeschlossen" -ForegroundColor Green
-Write-Host "Commit: $result1" -ForegroundColor Gray
 Write-Host ""
 
-Write-Host "Schritt 2/3: Docker Build" -ForegroundColor Yellow
-Write-Host "Container werden gestoppt..." -ForegroundColor Gray
-$downCmd = "cd $ServerPath; docker-compose -f docker-compose.supabase.yml down"
-ssh root@$ServerIP $downCmd | Out-Null
-
-Write-Host "Frontend wird neu gebaut (no-cache)..." -ForegroundColor Gray
-$buildCmd = "cd $ServerPath; docker-compose -f docker-compose.supabase.yml build --no-cache frontend"
+Write-Host "Schritt 2/3: Docker Build (mit Server-Skript)" -ForegroundColor Yellow
+$buildCmd = "cd $ScriptsPath && ./docker-build.sh"
 ssh root@$ServerIP $buildCmd
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Docker Build fehlgeschlagen!" -ForegroundColor Red
@@ -30,8 +28,8 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "Docker Build abgeschlossen" -ForegroundColor Green
 Write-Host ""
 
-Write-Host "Schritt 3/3: Docker Start" -ForegroundColor Yellow
-$upCmd = "cd $ServerPath; docker-compose -f docker-compose.supabase.yml up -d"
+Write-Host "Schritt 3/3: Docker Start (mit Server-Skript)" -ForegroundColor Yellow
+$upCmd = "cd $ScriptsPath && ./docker-start.sh"
 ssh root@$ServerIP $upCmd
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Docker Start fehlgeschlagen!" -ForegroundColor Red
