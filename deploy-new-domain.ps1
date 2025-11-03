@@ -10,7 +10,7 @@ $SERVER_IP = "138.199.237.34"
 $NEW_DOMAIN = "www.the-connection-key.de"
 $SSH_USER = "root"
 $SSH_KEY = ".\Domain the connection Key"
-$SERVER_PATH = "/opt/hd-app"
+$SERVER_PATH = "/opt/hd-app/HD_App_chart"
 
 # Funktionen
 function Write-Step {

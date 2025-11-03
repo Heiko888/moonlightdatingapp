@@ -3,7 +3,7 @@
 # ===========================================
 
 $ServerIP = "138.199.237.34"
-$ServerPath = "/tmp/hd-app"
+$ServerPath = "/opt/hd-app/HD_App_chart"
 
 Write-Host "🚀 HD App - Server Update" -ForegroundColor Blue
 Write-Host "Server: $ServerIP" -ForegroundColor Cyan
