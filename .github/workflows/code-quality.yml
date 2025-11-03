@@ -77,7 +77,7 @@ jobs:
           npm audit --json > audit-report.json || true
 
       - name: Upload Security Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: security-report
           path: frontend/audit-report.json
@@ -126,7 +126,7 @@ jobs:
   #       run: npm test -- --coverage || true
 
   #     - name: Upload Coverage Report
-  #       uses: actions/upload-artifact@v4
+  #       uses: actions/upload-artifact@v5
   #       with:
   #         name: coverage-report
   #         path: frontend/coverage
