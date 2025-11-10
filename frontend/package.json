@@ -16,7 +16,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
-    "@mui/system": "^5.18.0",
+    "@mui/system": "^7.3.3",
     "@stripe/stripe-js": "^7.9.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.58.0",
